@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.common.objects
+package com.bselzer.kotlin.extension.common.library.objects
 
 /**
  * @return a user friendly string for enum names

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.bselzer.kotlin.extension"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     google()
@@ -22,7 +22,7 @@ kotlin {
     iosX64("ios") {
         binaries {
             framework {
-                baseName = "ios"
+                baseName = "ios.library"
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.android.ui
+package com.bselzer.kotlin.extension.android.library.ui
 
 import android.graphics.*
 
