@@ -1,7 +1,7 @@
 package com.bselzer.kotlin.extension.common.objects
 
 /**
- * @return a ui friendly string for enum names
+ * @return a user friendly string for enum names
  */
 fun Enum<*>.userFriendly(): String = this.name.userFriendly()
 
