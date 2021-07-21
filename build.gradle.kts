@@ -1,10 +1,11 @@
 plugins {
+    maven
     kotlin("multiplatform") version "1.5.10"
     id("com.android.library")
 }
 
 group = "com.bselzer.kotlin.extension"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     google()
