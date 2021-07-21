@@ -1,4 +1,5 @@
 plugins {
+    maven
     kotlin("multiplatform") version "1.5.10"
     id("com.android.library")
 }
