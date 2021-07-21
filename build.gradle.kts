@@ -1,7 +1,6 @@
 plugins {
-    kotlin("multiplatform") version "1.4.10"
+    kotlin("multiplatform") version "1.5.10"
     id("com.android.library")
-    id("kotlin-android-extensions")
 }
 
 group = "com.bselzer.kotlin.extension"
@@ -13,12 +12,16 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 kotlin {
     android()
     iosX64("ios") {
         binaries {
             framework {
-                baseName = "library"
+                baseName = "ios"
             }
         }
     }
@@ -32,7 +35,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.google.android.material:material:1.4.0")
+                implementation("androidx.core:core-ktx:1.6.0")
             }
         }
         val androidTest by getting {
@@ -50,7 +53,11 @@ android {
     compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(24)
+        minSdkVersion(23)
         targetSdkVersion(30)
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
