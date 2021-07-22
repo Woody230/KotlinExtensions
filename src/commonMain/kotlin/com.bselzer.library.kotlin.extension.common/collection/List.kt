@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.common.library.collection
+package com.bselzer.library.kotlin.extension.common.collection
 
 /**
  * Insert all of the elements starting at index 0, keeping the order intact.

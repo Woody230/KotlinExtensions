@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.common.library.collection
+package com.bselzer.library.kotlin.extension.common.collection
 
 /**
  * @return whether or not the item exists and is one of the items in the collection

@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.common.library.comparator
+package com.bselzer.library.kotlin.extension.common.comparator
 
 /**
  * Compare nullable strings.

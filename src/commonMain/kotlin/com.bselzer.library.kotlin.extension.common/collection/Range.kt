@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.common.library.collection
+package com.bselzer.library.kotlin.extension.common.collection
 
 /**
  * @return a progression from this value to the specified [to] value, inclusive
