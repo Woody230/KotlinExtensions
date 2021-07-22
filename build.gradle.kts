@@ -1,11 +1,10 @@
 plugins {
-    maven
     kotlin("multiplatform") version "1.5.10"
     id("com.android.library")
 }
 
 group = "com.bselzer.kotlin.extension"
-version = "1.0.3"
+version = "1.0.4"
 
 repositories {
     google()
@@ -15,6 +14,10 @@ repositories {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+allprojects {
+    apply(plugin = "maven-publish")
 }
 
 kotlin {
