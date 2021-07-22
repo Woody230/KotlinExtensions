@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.android.library.core
+package com.bselzer.library.kotlin.extension.android.core
 
 import android.app.Application
 import android.net.ConnectivityManager

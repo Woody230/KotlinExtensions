@@ -1,6 +1,4 @@
-package com.bselzer.kotlin.extension.common.library
-
-import com.bselzer.kotlin.extension.common.library.objects.userFriendly
+import com.bselzer.library.kotlin.extension.common.objects.userFriendly
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

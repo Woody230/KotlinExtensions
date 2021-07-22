@@ -1,4 +1,4 @@
-package com.bselzer.kotlin.extension.common.library.collection
+package com.bselzer.library.kotlin.extension.common.collection
 
 /**
  * Adds an element if the condition [block] is true using the passed in [item].
