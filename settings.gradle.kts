@@ -14,5 +14,6 @@ pluginManagement {
         }
     }
 }
-rootProject.name = "function"
-
+rootProject.name = "KotlinExtensions"
+include("comparator")
+include("function")
