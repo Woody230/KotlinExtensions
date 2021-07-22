@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.bselzer.kotlin.extension"
-version = "1.0.6"
+version = "1.0.7"
 
 repositories {
     google()
@@ -21,7 +21,9 @@ allprojects {
 }
 
 kotlin {
-    android()
+    android() {
+        publishLibraryVariants("release", "debug")
+    }
     iosX64("ios") {
         binaries {
             framework {
