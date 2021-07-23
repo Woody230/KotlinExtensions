@@ -1,4 +1,5 @@
 import com.bselzer.library.kotlin.extension.serialization.common.serializer.MapArraySerializer
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -13,6 +14,14 @@ import kotlin.test.assertNotNull
  */
 class MapArraySerializerTests
 {
+    @Serializable
+    class CompilerTest
+    {
+        // Used to make sure that there is no compilation error. https://github.com/Kotlin/kotlinx.serialization/issues/1587
+        @Serializable(with = MapArraySerializer::class)
+        val a: Map<Int, Int> = emptyMap()
+    }
+
     /**
      * Verifies that a json array of json arrays of integers can be deserialized into a map.
      */
@@ -20,7 +29,7 @@ class MapArraySerializerTests
     fun processIntInt_Deserializes()
     {
         // Arrange
-        val serializer = MapArraySerializer(Int.serializer())
+        val serializer = MapArraySerializer(Int.serializer(), Int.serializer())
         val input = "[\n" +
                 "      [\n" +
                 "        1,\n" +
@@ -52,7 +61,7 @@ class MapArraySerializerTests
     fun processIntInt_Serializes()
     {
         // Arrange
-        val serializer = MapArraySerializer(Int.serializer())
+        val serializer = MapArraySerializer(Int.serializer(), Int.serializer())
         val input = mapOf(1 to 3, 5 to 2, 9 to 11)
 
         // Act
