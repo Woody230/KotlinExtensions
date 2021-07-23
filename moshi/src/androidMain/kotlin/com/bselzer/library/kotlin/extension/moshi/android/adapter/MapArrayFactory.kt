@@ -1,4 +1,4 @@
-package com.bselzer.library.kotlin.extension.moshi.android
+package com.bselzer.library.kotlin.extension.moshi.android.adapter
 
 import com.squareup.moshi.*
 import java.lang.reflect.ParameterizedType
