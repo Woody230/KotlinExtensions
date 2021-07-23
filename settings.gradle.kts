@@ -17,3 +17,4 @@ pluginManagement {
 rootProject.name = "KotlinExtensions"
 include("comparator")
 include("function")
+include("moshi")
