@@ -29,3 +29,16 @@ inline fun <reified E : Enum<E>> String.enumValueOrNull(): E? = try
 {
     null
 }
+
+/**
+ * @return the enum values of the collection of strings that can be converted
+ */
+inline fun <reified E : Enum<E>> Collection<String>.validEnumValues(): List<E> =
+    mapNotNull { s -> s.enumValueOrNull<E>() }
+
+/**
+ * @return the enum values of the map of strings that can be converted
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <reified E : Enum<E>, T> Map<String, T>.validEnumValues(): Map<E, T> =
+    mapKeys { e -> e.key.enumValueOrNull<E>() }.minus(null) as Map<E, T>
