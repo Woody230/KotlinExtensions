@@ -22,7 +22,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.compose.runtime:runtime:1.0.0-rc02")
+                implementation("androidx.compose.runtime:runtime:1.0.0")
             }
         }
         val androidTest by getting {

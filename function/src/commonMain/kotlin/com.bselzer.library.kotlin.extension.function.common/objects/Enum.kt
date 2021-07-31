@@ -13,3 +13,19 @@ fun <E : Enum<E>> E?.isOneOf(vararg enums: E): Boolean
     this ?: return false
     return enums.contains(this)
 }
+
+/**
+ * @return the enum value of the string
+ */
+inline fun <reified E : Enum<E>> String.enumValue(): E = enumValueOf(this)
+
+/**
+ * @return the enum value of the string, or null if it is invalid
+ */
+inline fun <reified E : Enum<E>> String.enumValueOrNull(): E? = try
+{
+    enumValueOf<E>(this)
+} catch (e: Exception)
+{
+    null
+}
