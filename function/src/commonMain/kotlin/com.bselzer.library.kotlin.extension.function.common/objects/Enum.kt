@@ -6,7 +6,7 @@ package com.bselzer.library.kotlin.extension.function.common.objects
 fun Enum<*>.userFriendly(): String = this.name.userFriendly()
 
 /**
- * @return whether or not the enum exists and is one of the [enums]
+ * @return whether the enum exists and is one of the [enums]
  */
 fun <E : Enum<E>> E?.isOneOf(vararg enums: E): Boolean
 {
@@ -33,8 +33,8 @@ inline fun <reified E : Enum<E>> String.enumValueOrNull(): E? = try
 /**
  * @return the enum values of the collection of strings that can be converted
  */
-inline fun <reified E : Enum<E>> Collection<String>.validEnumValues(): List<E> =
-    mapNotNull { s -> s.enumValueOrNull<E>() }
+inline fun <reified E : Enum<E>> Collection<String?>.validEnumValues(): List<E> =
+    mapNotNull { s -> s?.enumValueOrNull<E>() }
 
 /**
  * @return the enum values of the map of strings that can be converted
