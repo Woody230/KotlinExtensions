@@ -9,7 +9,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 allprojects {
     group = "com.bselzer.library.kotlin.extension"
-    version = "1.2.8"
+    version = "1.2.9"
 
     apply(plugin = "maven-publish")
 
