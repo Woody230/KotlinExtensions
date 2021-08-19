@@ -19,3 +19,13 @@ fun IntArray.toByteArray(): ByteArray
     forEach { int -> array += int.toByteArray() }
     return array
 }
+
+/**
+ * @return an integer from a byte array in little endian format
+ */
+fun ByteArray.toInt(): Int
+{
+    var int = 0
+    forEachIndexed { index, byte -> int = int or (byte.toUByte().toInt() shl 8 * index) }
+    return int
+}
