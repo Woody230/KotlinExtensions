@@ -8,12 +8,12 @@ import kotlin.reflect.KClass
 fun String.userFriendly(): String
 {
     // Use lowercase characters and replace underscores with spaces.
-    val name = toLowerCase().replace("_", " ")
+    val name = lowercase().replace("_", " ")
     val builder = StringBuilder(name.length)
 
     // Capitalize the first letter of words split by spaces.
     name.split(" ").forEach { string ->
-        builder.append(string.capitalize()).append(" ")
+        builder.append(string.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }).append(" ")
     }
 
     val result = builder.toString()
