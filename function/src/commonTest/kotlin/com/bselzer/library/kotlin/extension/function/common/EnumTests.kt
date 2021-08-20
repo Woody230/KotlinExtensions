@@ -1,3 +1,5 @@
+package com.bselzer.library.kotlin.extension.function.common
+
 import com.bselzer.library.kotlin.extension.function.common.objects.validEnumValues
 import kotlin.test.Test
 import kotlin.test.assertEquals

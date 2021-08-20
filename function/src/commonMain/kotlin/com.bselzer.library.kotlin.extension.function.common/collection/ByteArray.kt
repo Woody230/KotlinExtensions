@@ -29,3 +29,33 @@ fun ByteArray.toInt(): Int
     forEachIndexed { index, byte -> int = int or (byte.toUByte().toInt() shl 8 * index) }
     return int
 }
+
+/**
+ * @return a short as a byte array in little endian format
+ */
+fun Short.toByteArray(): ByteArray = byteArrayOf(
+    this.toByte(),
+    (this.toInt() ushr 8).toByte(),
+)
+
+/**
+ * @return a short from a byte array in little endian format
+ */
+fun ByteArray.toShort(): Short = toInt().toShort()
+
+/**
+ * Take the first [take] number of bytes and fill the byte array to meet the [capacity].
+ * @return an integer as a byte array in little endian format
+ */
+fun Int.toByteArray(take: Int, capacity: Int): ByteArray
+{
+    val bytes = this.toByteArray().take(take).toMutableList()
+
+    // Fill the remaining slots with zero.
+    while (bytes.size < capacity)
+    {
+        bytes.add(0)
+    }
+
+    return bytes.toByteArray()
+}
