@@ -19,6 +19,12 @@ fun Byte.toBits(): List<Boolean>
 
 /**
  * Combine bits into a byte in left to right order.
+ * @return a byte of flags represented by a boolean array
+ */
+fun BooleanArray.toByte(): Byte = toList().toByte()
+
+/**
+ * Combine bits into a byte in left to right order.
  * @return a byte of flags represented by a collection of boolean
  */
 fun Collection<Boolean>.toByte(): Byte
