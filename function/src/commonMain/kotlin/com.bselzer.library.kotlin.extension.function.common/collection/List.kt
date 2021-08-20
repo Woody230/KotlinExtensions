@@ -23,6 +23,6 @@ fun <T> List<T>.exactSize(size: Int, create: () -> T): List<T>
         this.size > size -> this.take(size)
 
         // Too few elements, create new ones.
-        else -> this.plus((0 to size - this.size).map { create() }.toList())
+        else -> this.fill(size, create).toList()
     }
 }
