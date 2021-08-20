@@ -52,10 +52,5 @@ fun Int.toByteArray(take: Int, capacity: Int): ByteArray
     val bytes = this.toByteArray().take(take).toMutableList()
 
     // Fill the remaining slots with zero.
-    while (bytes.size < capacity)
-    {
-        bytes.add(0)
-    }
-
-    return bytes.toByteArray()
+    return bytes.fill(capacity) { 0 }.toByteArray()
 }

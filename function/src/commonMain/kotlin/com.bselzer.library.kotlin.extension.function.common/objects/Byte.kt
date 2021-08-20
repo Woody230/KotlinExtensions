@@ -3,14 +3,14 @@ package com.bselzer.library.kotlin.extension.function.common.objects
 import kotlin.experimental.or
 
 /**
- * Extracts the bits from the byte.
+ * Extracts the bits from the byte in left to right order.
  * @return the bits as a collection of boolean
  */
 fun Byte.toBits(): List<Boolean>
 {
     val flags = mutableListOf<Boolean>()
     (7 downTo 0).forEach { index ->
-        // Mask with 1 to compare against the bit and get a remainder of either 0 or 1.
+        // Mask with 1 to compare against the bit only and get a remainder of either 0 or 1.
         val bit = (this.toInt() shr index) and 1
         flags.add(bit.toBoolean())
     }
@@ -18,7 +18,7 @@ fun Byte.toBits(): List<Boolean>
 }
 
 /**
- * Combine bits into a byte.
+ * Combine bits into a byte in left to right order.
  * @return a byte of flags represented by a collection of boolean
  */
 fun Collection<Boolean>.toByte(): Byte
