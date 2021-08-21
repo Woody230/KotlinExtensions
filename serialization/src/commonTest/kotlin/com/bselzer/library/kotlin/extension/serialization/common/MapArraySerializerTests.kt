@@ -1,3 +1,5 @@
+package com.bselzer.library.kotlin.extension.serialization.common
+
 import com.bselzer.library.kotlin.extension.serialization.common.serializer.MapArraySerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
