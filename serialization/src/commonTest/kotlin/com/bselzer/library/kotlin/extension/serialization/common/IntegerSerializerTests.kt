@@ -1,3 +1,5 @@
+package com.bselzer.library.kotlin.extension.serialization.common
+
 import com.bselzer.library.kotlin.extension.serialization.common.serializer.IntegerSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
