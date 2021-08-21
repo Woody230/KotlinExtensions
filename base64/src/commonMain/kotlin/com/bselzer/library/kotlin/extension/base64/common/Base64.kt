@@ -1,6 +1,8 @@
 package com.bselzer.library.kotlin.extension.base64.common
 
 /**
+ * MIT License
+ *
  * Copyright (c) 2019 jershell
  * Modifications Copyright (c) 2021 Brandon Selzer
  * Permission is hereby granted, free of charge, to any person obtaining a copy
