@@ -1,5 +1,5 @@
 plugins {
-    kotlin("multiplatform") version "1.5.20"
+    kotlin("multiplatform")
     id("com.android.library")
 }
 
@@ -9,7 +9,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 allprojects {
     group = "com.bselzer.library.kotlin.extension"
-    version = "1.2.15"
+    version = "2.0.0"
 
     apply(plugin = "maven-publish")
 
@@ -19,20 +19,5 @@ allprojects {
     }
 }
 
-kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
-    }
-}
-
-android {
-    compileSdkVersion(30)
-    defaultConfig {
-        minSdkVersion(23)
-        targetSdkVersion(30)
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
+android.setup(manifestPath = "buildSrc/src/androidMain/AndroidManifest.xml")
+kotlin.setup()
