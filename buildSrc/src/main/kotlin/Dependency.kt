@@ -11,15 +11,28 @@ private const val MOSHI = "1.11.0"
 private const val LIFECYCLE = "2.3.1"
 private const val COMPOSE = "1.0.1"
 private const val CORE = "1.6.0"
-const val KOTLIN = "1.5.20"
+private const val ANDROID_TEST = "1.1.0"
+private const val ROBOLECTRIC = "4.6.1"
+private const val DATASTORE = "1.0.0"
+const val KOTLIN = "1.5.30"
 
+fun KotlinDependencyHandler.function() = implementation(project(":function"))
 fun KotlinDependencyHandler.ktxDateTime() = implementation("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
 fun KotlinDependencyHandler.ktxSerialization() = implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
 fun KotlinDependencyHandler.moshi() = implementation("com.squareup.moshi:moshi-kotlin:$MOSHI")
 fun KotlinDependencyHandler.livedata() = implementation("androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE")
-fun KotlinDependencyHandler.compose() = implementation("androidx.compose.runtime:runtime:$COMPOSE")
+fun KotlinDependencyHandler.datastore() = implementation("androidx.datastore:datastore-preferences:$DATASTORE")
 fun KotlinDependencyHandler.androidCore() = implementation("androidx.core:core-ktx:$CORE")
-fun KotlinDependencyHandler.function() = implementation(project(":function"))
+fun KotlinDependencyHandler.compose()
+{
+    implementation("androidx.compose.runtime:runtime:$COMPOSE")
+}
+
+fun KotlinDependencyHandler.composeTest()
+{
+    implementation("androidx.compose.ui:ui-test-junit4:$COMPOSE")
+    implementation("androidx.compose.ui:ui-test-manifest:$COMPOSE")
+}
 
 /**
  * Sets up common dependencies.
@@ -93,6 +106,11 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDepende
     getByName("androidTest") {
         dependencies {
             implementation(kotlin("test-junit"))
+            implementation("androidx.test.ext:junit:$ANDROID_TEST")
+            implementation("androidx.test:core:$ANDROID_TEST")
+            implementation("androidx.test:runner:$ANDROID_TEST")
+            implementation("androidx.test:rules:$ANDROID_TEST")
+            implementation("org.robolectric:robolectric:$ROBOLECTRIC")
             block(this)
         }
     }
@@ -108,10 +126,17 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
     defaultConfig {
         minSdkVersion(23)
         targetSdkVersion(30)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = COMPOSE
+    }
+    buildFeatures {
+        compose = true
     }
     block(this)
 }
