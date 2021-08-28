@@ -17,7 +17,6 @@ rootProject.name = "KotlinExtensions"
 include("comparator")
 include("function")
 include("moshi")
-include("compose")
 include("livedata")
 include("serialization")
 include("datetime")
