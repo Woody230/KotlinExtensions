@@ -9,6 +9,7 @@ kotlin.setup {
     commonTest()
     androidMain {
         datastore()
+        androidxPreference()
         compose()
     }
     androidTest {

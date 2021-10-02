@@ -14,6 +14,7 @@ private const val CORE = "1.6.0"
 private const val ANDROID_TEST = "1.1.0"
 private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
+private const val ANDROIDX_PREFERENCE = "1.1.1"
 const val KOTLIN = "1.5.30"
 
 fun KotlinDependencyHandler.function() = implementation(project(":function"))
@@ -22,6 +23,7 @@ fun KotlinDependencyHandler.ktxSerialization() = implementation("org.jetbrains.k
 fun KotlinDependencyHandler.moshi() = implementation("com.squareup.moshi:moshi-kotlin:$MOSHI")
 fun KotlinDependencyHandler.livedata() = implementation("androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE")
 fun KotlinDependencyHandler.datastore() = implementation("androidx.datastore:datastore-preferences:$DATASTORE")
+fun KotlinDependencyHandler.androidxPreference() = implementation("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = implementation("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.compose()
 {

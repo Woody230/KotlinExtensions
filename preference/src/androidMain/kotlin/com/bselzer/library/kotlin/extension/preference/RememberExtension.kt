@@ -2,7 +2,7 @@ package com.bselzer.library.kotlin.extension.preference
 
 import androidx.compose.runtime.*
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.Preferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -31,9 +31,14 @@ import kotlinx.coroutines.flow.onEach
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeInt(key: String, initialValue: Int = 0, defaultValue: Int = 0, scope: CoroutineScope = rememberCoroutineScope()): MutableState<Int>
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<Int>,
+    initialValue: Int = 0,
+    defaultValue: Int = 0,
+    scope: CoroutineScope = rememberCoroutineScope()
+): MutableState<Int>
 {
-    return remember(intPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -41,14 +46,14 @@ fun DataStore<Preferences>.rememberSafeInt(key: String, initialValue: Int = 0, d
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberNullInt(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<Int>,
     initialValue: Int? = null,
     defaultValue: Int? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Int?>
 {
-    return remember(intPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -56,14 +61,14 @@ fun DataStore<Preferences>.rememberNullInt(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeDouble(
-    key: String,
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<Double>,
     initialValue: Double = 0.0,
     defaultValue: Double = 0.0,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Double>
 {
-    return remember(doublePreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -71,14 +76,14 @@ fun DataStore<Preferences>.rememberSafeDouble(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberNullDouble(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<Double>,
     initialValue: Double? = null,
     defaultValue: Double? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Double?>
 {
-    return remember(doublePreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -86,14 +91,14 @@ fun DataStore<Preferences>.rememberNullDouble(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeString(
-    key: String,
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<String>,
     initialValue: String = "",
     defaultValue: String = "",
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<String>
 {
-    return remember(stringPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -101,14 +106,14 @@ fun DataStore<Preferences>.rememberSafeString(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberNullString(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<String>,
     initialValue: String? = null,
     defaultValue: String? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<String?>
 {
-    return remember(stringPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -116,14 +121,14 @@ fun DataStore<Preferences>.rememberNullString(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeBoolean(
-    key: String,
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<Boolean>,
     initialValue: Boolean = false,
     defaultValue: Boolean = false,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Boolean>
 {
-    return remember(booleanPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -131,14 +136,14 @@ fun DataStore<Preferences>.rememberSafeBoolean(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberNullBoolean(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<Boolean>,
     initialValue: Boolean? = null,
     defaultValue: Boolean? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Boolean?>
 {
-    return remember(booleanPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -146,14 +151,14 @@ fun DataStore<Preferences>.rememberNullBoolean(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeFloat(
-    key: String,
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<Float>,
     initialValue: Float = 0.0f,
     defaultValue: Float = 0.0f,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Float>
 {
-    return remember(floatPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -161,14 +166,14 @@ fun DataStore<Preferences>.rememberSafeFloat(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberNullFloat(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<Float>,
     initialValue: Float? = null,
     defaultValue: Float? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Float?>
 {
-    return remember(floatPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -176,14 +181,14 @@ fun DataStore<Preferences>.rememberNullFloat(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeLong(
-    key: String,
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<Long>,
     initialValue: Long = 0L,
     defaultValue: Long = 0L,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Long>
 {
-    return remember(longPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -191,14 +196,14 @@ fun DataStore<Preferences>.rememberSafeLong(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberNullLong(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<Long>,
     initialValue: Long? = null,
     defaultValue: Long? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Long?>
 {
-    return remember(longPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -206,30 +211,29 @@ fun DataStore<Preferences>.rememberNullLong(
  * @return the preference flow as a mutable state
  */
 @Composable
-fun DataStore<Preferences>.rememberSafeStringSet(
-    key: String,
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<Set<String>>,
     initialValue: Set<String> = emptySet(),
     defaultValue: Set<String> = emptySet(),
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Set<String>>
 {
-    return remember(stringSetPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
  * Remembers the preference value for [key] and collects it as a state, starting with the given [initialValue] and defaulting null values to the [defaultValue].
  * @return the preference flow as a mutable state
  */
-@JvmName("rememberStringSetNullable")
 @Composable
-fun DataStore<Preferences>.rememberNullStringSet(
-    key: String,
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<Set<String>>,
     initialValue: Set<String>? = null,
     defaultValue: Set<String>? = null,
     scope: CoroutineScope = rememberCoroutineScope()
 ): MutableState<Set<String>?>
 {
-    return remember(stringSetPreferencesKey(key), initialValue, defaultValue, scope)
+    return remember(key, initialValue, defaultValue, scope)
 }
 
 /**
@@ -266,7 +270,7 @@ private inline fun <reified TNullable, reified TNullSafe : TNullable> DataStore<
                 state.value = PreferenceEntry.fromNullable(value)
 
                 // Need to cast to null-safe version to allow for nullable and null-safe extension methods.
-                update(key, value as TNullSafe, scope)
+                update(key, value, scope)
             }
 
         override fun component1(): TNullable = value
