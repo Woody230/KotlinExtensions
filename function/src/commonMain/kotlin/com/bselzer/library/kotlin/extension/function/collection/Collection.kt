@@ -27,3 +27,8 @@ fun <T> Collection<T>.fill(capacity: Int, create: () -> T): Collection<T> = appl
 
     return collection
 }
+
+/**
+ * Adds [this] to the collection.
+ */
+fun <T> T.addTo(collection: MutableCollection<T>) = collection.add(this)

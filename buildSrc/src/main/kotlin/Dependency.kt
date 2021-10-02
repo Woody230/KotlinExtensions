@@ -15,7 +15,6 @@ private const val ANDROID_TEST = "1.1.0"
 private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
-const val KOTLIN = "1.5.30"
 
 fun KotlinDependencyHandler.function() = implementation(project(":function"))
 fun KotlinDependencyHandler.ktxDateTime() = implementation("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
