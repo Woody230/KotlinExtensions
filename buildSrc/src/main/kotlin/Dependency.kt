@@ -9,7 +9,7 @@ private const val KTX_DATETIME = "0.2.1"
 private const val KTX_SERIALIZATION = "1.2.2"
 private const val MOSHI = "1.11.0"
 private const val LIFECYCLE = "2.3.1"
-private const val COMPOSE = "1.0.1"
+private const val COMPOSE = "1.0.3"
 private const val CORE = "1.6.0"
 private const val ANDROID_TEST = "1.1.0"
 private const val ROBOLECTRIC = "4.6.1"
@@ -133,13 +133,17 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = COMPOSE
-    }
+    block(this)
+}
+
+/**
+ * Sets up Android with Compose.
+ */
+fun LibraryExtension.setupWithCompose(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {}) {
     buildFeatures {
         compose = true
     }
-    block(this)
+    setup(manifestPath, block)
 }
 
 /**

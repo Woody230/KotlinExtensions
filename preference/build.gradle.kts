@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
 }
 
+//android.setupWithCompose()
 android.setup()
 kotlin.setup {
     commonMain()
@@ -10,9 +11,9 @@ kotlin.setup {
     androidMain {
         datastore()
         androidxPreference()
-        compose()
+        //compose()
     }
     androidTest {
-        composeTest()
+        //composeTest()
     }
 }

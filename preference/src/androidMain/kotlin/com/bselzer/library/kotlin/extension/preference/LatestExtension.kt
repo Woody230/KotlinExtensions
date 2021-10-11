@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 /**
  * Gets the latest preference value for [key].
  *
- * The use of this method should be limited because it uses runBlocking.
+ * This method ideally should not be used on the main thread because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
 @OptIn(ExperimentalCoroutinesApi::class)

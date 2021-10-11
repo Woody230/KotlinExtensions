@@ -1,5 +1,7 @@
 package com.bselzer.library.kotlin.extension.preference
 
+// TODO compose causing build issues
+/*
 import androidx.compose.runtime.*
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -289,3 +291,4 @@ private sealed class PreferenceEntry<out T>
         inline fun <reified T> fromNullable(value: T?) = if (value == null) Empty() else NotEmpty(value)
     }
 }
+ */
