@@ -1,6 +1,6 @@
-package com.bselzer.library.kotlin.extension.geometry.serialization
+package com.bselzer.library.kotlin.extension.geometry.dimension.bi.serialization
 
-import com.bselzer.library.kotlin.extension.geometry.dimension.Dimension2D
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
@@ -11,7 +11,7 @@ import kotlinx.serialization.encoding.Encoder
 /**
  * A serializer for converting an array into a two-dimensional size.
  */
-class Dimension2DSerializer : KSerializer<Dimension2D> {
+class DimensionSerializer : KSerializer<Dimension> {
     /**
      * The serializer of the 2D dimension data.
      */
@@ -19,12 +19,12 @@ class Dimension2DSerializer : KSerializer<Dimension2D> {
 
     override val descriptor: SerialDescriptor = serializer.descriptor
 
-    override fun deserialize(decoder: Decoder): Dimension2D {
+    override fun deserialize(decoder: Decoder): Dimension {
         val list = serializer.deserialize(decoder)
-        return Dimension2D(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 })
+        return Dimension(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 })
     }
 
-    override fun serialize(encoder: Encoder, value: Dimension2D) {
+    override fun serialize(encoder: Encoder, value: Dimension) {
         val list = listOf(value.width, value.height)
         serializer.serialize(encoder, list)
     }

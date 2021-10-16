@@ -1,6 +1,6 @@
-package com.bselzer.library.kotlin.extension.geometry.serialization
+package com.bselzer.library.kotlin.extension.geometry.dimension.tri.serialization
 
-import com.bselzer.library.kotlin.extension.geometry.position.Point3D
+import com.bselzer.library.kotlin.extension.geometry.dimension.tri.position.Point
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
@@ -11,7 +11,7 @@ import kotlinx.serialization.encoding.Encoder
 /**
  * A serializer for converting an array into a three-dimensional point.
  */
-class Point3DSerializer : KSerializer<Point3D> {
+class PointSerializer : KSerializer<Point> {
     /**
      * The serializer of the 3D point data.
      */
@@ -19,12 +19,12 @@ class Point3DSerializer : KSerializer<Point3D> {
 
     override val descriptor: SerialDescriptor = serializer.descriptor
 
-    override fun deserialize(decoder: Decoder): Point3D {
+    override fun deserialize(decoder: Decoder): Point {
         val list = serializer.deserialize(decoder)
-        return Point3D(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 }, list.getOrElse(2) { 0.0 })
+        return Point(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 }, list.getOrElse(2) { 0.0 })
     }
 
-    override fun serialize(encoder: Encoder, value: Point3D) {
+    override fun serialize(encoder: Encoder, value: Point) {
         val list = listOf(value.x, value.y, value.z)
         serializer.serialize(encoder, list)
     }

@@ -1,6 +1,6 @@
-package com.bselzer.library.kotlin.extension.geometry.serialization
+package com.bselzer.library.kotlin.extension.geometry.dimension.bi.serialization
 
-import com.bselzer.library.kotlin.extension.geometry.position.Point2D
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
@@ -11,7 +11,7 @@ import kotlinx.serialization.encoding.Encoder
 /**
  * A serializer for converting an array into a two-dimensional point.
  */
-class Point2DSerializer : KSerializer<Point2D> {
+class PointSerializer : KSerializer<Point> {
     /**
      * The serializer of the 2D point data.
      */
@@ -19,12 +19,12 @@ class Point2DSerializer : KSerializer<Point2D> {
 
     override val descriptor: SerialDescriptor = serializer.descriptor
 
-    override fun deserialize(decoder: Decoder): Point2D {
+    override fun deserialize(decoder: Decoder): Point {
         val list = serializer.deserialize(decoder)
-        return Point2D(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 })
+        return Point(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 })
     }
 
-    override fun serialize(encoder: Encoder, value: Point2D) {
+    override fun serialize(encoder: Encoder, value: Point) {
         val list = listOf(value.x, value.y)
         serializer.serialize(encoder, list)
     }
