@@ -1,10 +1,10 @@
 package com.bselzer.library.kotlin.extension.geometry.dimension.bi.position
 
-import com.bselzer.library.kotlin.extension.geometry.dimension.bi.serialization.PointSerializer
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.serialization.Point2DSerializer
 import kotlinx.serialization.Serializable
 
-@Serializable(with = PointSerializer::class)
-data class Point(
+@Serializable(with = Point2DSerializer::class)
+data class Point2D(
     val x: Double = 0.0,
     val y: Double = 0.0
 )
