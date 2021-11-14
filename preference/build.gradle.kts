@@ -11,9 +11,7 @@ kotlin.setup {
     androidMain {
         datastore()
         androidxPreference()
-        //compose()
     }
     androidTest {
-        //composeTest()
     }
 }
