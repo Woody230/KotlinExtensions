@@ -9,37 +9,25 @@ private const val KTX_DATETIME = "0.2.1"
 private const val KTX_SERIALIZATION = "1.2.2"
 private const val MOSHI = "1.11.0"
 private const val LIFECYCLE = "2.3.1"
-private const val COMPOSE = "1.0.3"
 private const val CORE = "1.6.0"
 private const val ANDROID_TEST = "1.1.0"
 private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
 
-fun KotlinDependencyHandler.function() = implementation(project(":function"))
-fun KotlinDependencyHandler.ktxDateTime() = implementation("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
-fun KotlinDependencyHandler.ktxSerialization() = implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
-fun KotlinDependencyHandler.moshi() = implementation("com.squareup.moshi:moshi-kotlin:$MOSHI")
-fun KotlinDependencyHandler.livedata() = implementation("androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE")
-fun KotlinDependencyHandler.datastore() = implementation("androidx.datastore:datastore-preferences:$DATASTORE")
-fun KotlinDependencyHandler.androidxPreference() = implementation("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
-fun KotlinDependencyHandler.androidCore() = implementation("androidx.core:core-ktx:$CORE")
-fun KotlinDependencyHandler.compose()
-{
-    implementation("androidx.compose.runtime:runtime:$COMPOSE")
-}
-
-fun KotlinDependencyHandler.composeTest()
-{
-    implementation("androidx.compose.ui:ui-test-junit4:$COMPOSE")
-    implementation("androidx.compose.ui:ui-test-manifest:$COMPOSE")
-}
+fun KotlinDependencyHandler.function() = api(project(":function"))
+fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
+fun KotlinDependencyHandler.ktxSerialization() = api("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
+fun KotlinDependencyHandler.moshi() = api("com.squareup.moshi:moshi-kotlin:$MOSHI")
+fun KotlinDependencyHandler.livedata() = api("androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE")
+fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-preferences:$DATASTORE")
+fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
+fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 
 /**
  * Sets up common dependencies.
  */
-fun NamedDomainObjectContainer<KotlinSourceSet>.commonMain(block: KotlinDependencyHandler.() -> Unit = {})
-{
+fun NamedDomainObjectContainer<KotlinSourceSet>.commonMain(block: KotlinDependencyHandler.() -> Unit = {}) {
     getByName("commonMain") {
         dependencies {
             implementation(kotlin("stdlib-common"))
