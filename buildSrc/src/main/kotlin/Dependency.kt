@@ -125,16 +125,6 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
 }
 
 /**
- * Sets up Android with Compose.
- */
-fun LibraryExtension.setupWithCompose(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {}) {
-    buildFeatures {
-        compose = true
-    }
-    setup(manifestPath, block)
-}
-
-/**
  * Sets up Kotlin multiplatform targets.
  */
 private fun KotlinMultiplatformExtension.targets()
