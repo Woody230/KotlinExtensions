@@ -14,6 +14,7 @@ private const val ANDROID_TEST = "1.1.0"
 private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
+private const val KODEIN = "0.9.0-beta"
 const val KOTLIN = "1.5.30"
 
 fun KotlinDependencyHandler.function() = api(project(":function"))
@@ -24,6 +25,7 @@ fun KotlinDependencyHandler.livedata() = api("androidx.lifecycle:lifecycle-lived
 fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-preferences:$DATASTORE")
 fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
+fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
 
 /**
  * Sets up common dependencies.
