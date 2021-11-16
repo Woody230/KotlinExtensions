@@ -9,7 +9,7 @@ import org.kodein.db.getById
  * @param requestIds a block for retrieving all of the ids
  * @param requestById a block for mapping ids to their associated models
  */
-inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(requestIds: () -> Collection<Id>, requestById: (Collection<Id>) -> Collection<Model>) {
+inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(requestIds: () -> Collection<Id>, requestById: Collection<Id>.() -> Collection<Model>) {
     val allIds = requestIds()
     val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
     requestById(missingIds).forEach { model -> writer.put(model) }
@@ -26,9 +26,9 @@ inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(requestI
  */
 inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(
     requestIds: () -> Collection<Id>,
-    requestById: (Collection<Id>) -> Collection<Model>,
-    getId: (Model) -> Id,
-    default: (Id) -> Model
+    requestById: Collection<Id>.() -> Collection<Model>,
+    getId: Model.() -> Id,
+    default: Id.() -> Model
 ) {
     val allIds = requestIds().toHashSet()
     val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }

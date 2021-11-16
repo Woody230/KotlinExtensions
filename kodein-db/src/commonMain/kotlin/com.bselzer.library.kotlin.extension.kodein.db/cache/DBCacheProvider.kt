@@ -1,9 +1,8 @@
 package com.bselzer.library.kotlin.extension.kodein.db.cache
 
+import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionManager
 import com.bselzer.library.kotlin.extension.kodein.db.transaction.TransactionFinisher
 import com.bselzer.library.kotlin.extension.kodein.db.transaction.TransactionStarter
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlin.reflect.KClass
 
 /**
@@ -12,39 +11,18 @@ import kotlin.reflect.KClass
  * @param transactionStarter the transaction starter
  * @param transactionFinisher the transaction finisher
  * @param BaseCache the type of cache
+ * @param Instance the subclass type of cache provider
  */
-open class DBCacheProvider<BaseCache : DBCache>(val transactionStarter: TransactionStarter, val transactionFinisher: TransactionFinisher) {
+abstract class DBCacheProvider<BaseCache : DBCache, Instance : DBCacheProvider<BaseCache, Instance>>(
+    transactionStarter: TransactionStarter,
+    transactionFinisher: TransactionFinisher
+) :
+    DBTransactionManager<Instance>(transactionStarter, transactionFinisher) {
     /**
      * The underlying caches.
      */
     @PublishedApi
     internal val caches: MutableMap<KClass<out BaseCache>, BaseCache> = mutableMapOf()
-
-    /**
-     * The lock instance.
-     */
-    private val lock = Mutex()
-
-    /**
-     * Executes the [block] under a lock.
-     */
-    suspend fun withLock(block: suspend DBCacheProvider<BaseCache>.() -> Unit): Unit = lock.withLock { block(this) }
-
-    /**
-     * Executes the [block] within a transaction.
-     */
-    suspend fun transaction(block: suspend DBCacheProvider<BaseCache>.() -> Unit) {
-        transactionStarter.begin()
-        block(this)
-        transactionFinisher.end()
-    }
-
-    /**
-     * Executes the [block] within a transaction with the lock.
-     */
-    suspend fun lockedTransaction(block: suspend DBCacheProvider<BaseCache>.() -> Unit): Unit = withLock {
-        transaction(block)
-    }
 
     /**
      * Gets the cache that is of the same type as [SubCache].
@@ -62,3 +40,4 @@ open class DBCacheProvider<BaseCache : DBCache>(val transactionStarter: Transact
         caches[SubCache::class] = cache
     }
 }
+
