@@ -13,7 +13,7 @@ import org.kodein.db.getById
  * @param postRequestSingle the block for resolving a request being made
  * @return the model with the [id]
  */
-inline fun <reified Model : Any, Id : Any> DBTransaction.getById(id: Id, requestSingle: () -> Model, postRequestSingle: Model.() -> Unit = {}): Model {
+inline fun <reified Model : Any, Id : Any> DBTransaction.getById(id: Id, requestSingle: () -> Model, postRequestSingle: (Model) -> Unit = {}): Model {
     var model = reader.getById<Model>(id)
     if (model == null) {
         model = requestSingle()
