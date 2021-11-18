@@ -2,19 +2,17 @@ package com.bselzer.library.kotlin.extension.kodein.db.cache
 
 import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransaction
 import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionManager
-import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionProvider
+import org.kodein.db.DB
 import kotlin.reflect.KClass
 
 /**
  * The caching abstraction for multiple instances.
  *
- * @param transactionProvider the transaction provider
+ * @param database the database
  * @param BaseCache the type of cache
  * @param Instance the subclass type of cache provider
  */
-abstract class DBCacheProvider<BaseCache : DBCache, Instance : DBCacheProvider<BaseCache, Instance>>(
-    transactionProvider: DBTransactionProvider
-) : DBTransactionManager(transactionProvider) {
+abstract class DBCacheProvider<BaseCache : DBCache, Instance : DBCacheProvider<BaseCache, Instance>>(database: DB) : DBTransactionManager(database) {
     /**
      * The subclass instance.
      */
@@ -32,11 +30,8 @@ abstract class DBCacheProvider<BaseCache : DBCache, Instance : DBCacheProvider<B
      * @param R the type of result
      * @return the result of the [block]
      */
-    suspend fun <R> instance(block: suspend Instance.(DBTransaction) -> R): R {
-        val transaction = begin()
-        val result = block(instance, transaction)
-        end()
-        return result
+    suspend fun <R> instance(block: suspend Instance.(DBTransaction) -> R): R = transaction {
+        block(instance, this)
     }
 
     /**

@@ -23,20 +23,13 @@ data class DBTransaction(
     constructor(database: DB) : this(database, database.newBatch())
 
     /**
-     * Executes the [block] and [commit]s the changes.
+     * Executes the [block], commits the changes, and closes the writer.
      */
     suspend fun <R> use(vararg options: Options.BatchWrite, block: suspend DBTransaction.() -> R): R = writer.use {
         val result = block(this)
-        commit(*options)
+        writer.write(*options)
         result
     }
 
-    /**
-     * Writes the changes using the given [options].
-     */
-    fun commit(vararg options: Options.BatchWrite) = writer.write(*options)
-
-    override fun close() {
-        writer.close()
-    }
+    override fun close() = writer.close()
 }

@@ -1,6 +1,6 @@
 package com.bselzer.library.kotlin.extension.kodein.db.transaction
 
-interface TransactionManager : TransactionStarter, TransactionFinisher {
+interface TransactionManager {
     /**
      * Executes the [block] within a transaction and returns its result.
      *
