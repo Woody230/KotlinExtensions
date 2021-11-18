@@ -6,29 +6,21 @@ import kotlinx.coroutines.sync.withLock
 /**
  * An abstraction over a transaction.
  *
- * @param transactionStarter the transaction starter
- * @param transactionFinisher the transaction finisher
- * @param Instance the subclass type
+ * @param transactionProvider the transaction provider
  */
-abstract class DBTransactionManager<Instance>(
-    private val transactionStarter: TransactionStarter,
-    private val transactionFinisher: TransactionFinisher,
+abstract class DBTransactionManager(
+    private val transactionProvider: DBTransactionProvider,
     private val lock: Mutex = Mutex()
-) {
-    /**
-     * The subclass instance.
-     */
-    protected abstract val instance: Instance
-
+) : TransactionManager {
     /**
      * Starts the transaction.
      */
-    suspend fun beginTransaction() = transactionStarter.begin()
+    override suspend fun begin(): DBTransaction = transactionProvider.begin()
 
     /**
-     * Ends the transaction.
+     * Finishes the transaction.
      */
-    suspend fun endTransaction() = transactionFinisher.end()
+    override suspend fun end(): Unit = transactionProvider.end()
 
     /**
      * Executes the [block] within a transaction and returns its result.
@@ -36,10 +28,10 @@ abstract class DBTransactionManager<Instance>(
      * @param R the type of result
      * @return the result of the [block]
      */
-    suspend fun <R> transaction(block: suspend Instance.() -> R): R {
-        beginTransaction()
-        val result = block(instance)
-        endTransaction()
+    override suspend fun <R> transaction(block: suspend DBTransaction.() -> R): R {
+        val transaction = begin()
+        val result = block(transaction)
+        end()
         return result
     }
 
@@ -49,5 +41,5 @@ abstract class DBTransactionManager<Instance>(
      * @param R the type of result
      * @return the result of the [block]
      */
-    suspend fun <R> lockedTransaction(block: suspend Instance.() -> R): R = lock.withLock { transaction(block) }
+    override suspend fun <R> lockedTransaction(block: suspend DBTransaction.() -> R): R = lock.withLock { transaction(block) }
 }

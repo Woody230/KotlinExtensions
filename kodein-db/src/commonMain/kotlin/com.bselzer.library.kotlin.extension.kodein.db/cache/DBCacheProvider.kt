@@ -1,28 +1,51 @@
 package com.bselzer.library.kotlin.extension.kodein.db.cache
 
+import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransaction
 import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionManager
-import com.bselzer.library.kotlin.extension.kodein.db.transaction.TransactionFinisher
-import com.bselzer.library.kotlin.extension.kodein.db.transaction.TransactionStarter
+import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionProvider
 import kotlin.reflect.KClass
 
 /**
  * The caching abstraction for multiple instances.
  *
- * @param transactionStarter the transaction starter
- * @param transactionFinisher the transaction finisher
+ * @param transactionProvider the transaction provider
  * @param BaseCache the type of cache
  * @param Instance the subclass type of cache provider
  */
 abstract class DBCacheProvider<BaseCache : DBCache, Instance : DBCacheProvider<BaseCache, Instance>>(
-    transactionStarter: TransactionStarter,
-    transactionFinisher: TransactionFinisher
-) :
-    DBTransactionManager<Instance>(transactionStarter, transactionFinisher) {
+    transactionProvider: DBTransactionProvider
+) : DBTransactionManager(transactionProvider) {
+    /**
+     * The subclass instance.
+     */
+    protected abstract val instance: Instance
+
     /**
      * The underlying caches.
      */
     @PublishedApi
     internal val caches: MutableMap<KClass<out BaseCache>, BaseCache> = mutableMapOf()
+
+    /**
+     * Executes the [block] within a transaction and returns its result.
+     *
+     * @param R the type of result
+     * @return the result of the [block]
+     */
+    suspend fun <R> instance(block: suspend Instance.(DBTransaction) -> R): R {
+        val transaction = begin()
+        val result = block(instance, transaction)
+        end()
+        return result
+    }
+
+    /**
+     * Executes the [block] within a transaction with the lock and returns its result.
+     *
+     * @param R the type of result
+     * @return the result of the [block]
+     */
+    suspend fun <R> lockedInstance(block: suspend Instance.(DBTransaction) -> R): R = lockedTransaction { block(instance, this) }
 
     /**
      * Gets the cache that is of the same type as [SubCache].

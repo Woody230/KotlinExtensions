@@ -1,6 +1,6 @@
 package com.bselzer.library.kotlin.extension.kodein.db.operation
 
-import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransaction
+import com.bselzer.library.kotlin.extension.kodein.db.transaction.TransactionManager
 import org.kodein.db.getById
 
 /**
@@ -9,7 +9,10 @@ import org.kodein.db.getById
  * @param requestIds a block for retrieving all of the ids
  * @param requestById a block for mapping ids to their associated models
  */
-inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(requestIds: () -> Collection<Id>, requestById: (Collection<Id>) -> Collection<Model>) {
+suspend inline fun <reified Model : Any, Id : Any> TransactionManager.putMissingById(
+    crossinline requestIds: suspend () -> Collection<Id>,
+    crossinline requestById: suspend (Collection<Id>) -> Collection<Model>
+) = transaction {
     val allIds = requestIds()
     val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
     requestById(missingIds).forEach { model -> writer.put(model) }
@@ -24,12 +27,12 @@ inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(requestI
  * @param getId a block for mapping models to their associated ids
  * @param default a block for mapping ids to their default models
  */
-inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(
-    requestIds: () -> Collection<Id>,
-    requestById: (Collection<Id>) -> Collection<Model>,
-    getId: (Model) -> Id,
-    default: (Id) -> Model
-) {
+suspend inline fun <reified Model : Any, Id : Any> TransactionManager.putMissingById(
+    crossinline requestIds: suspend () -> Collection<Id>,
+    crossinline requestById: suspend (Collection<Id>) -> Collection<Model>,
+    crossinline getId: suspend (Model) -> Id,
+    crossinline default: suspend (Id) -> Model
+) = transaction {
     val allIds = requestIds().toHashSet()
     val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
 
@@ -37,6 +40,6 @@ inline fun <reified Model : Any, Id : Any> DBTransaction.putMissingById(
     newModels.forEach { model -> writer.put(model) }
 
     // Add the models for any ids that are still missing by using the default.
-    val defaultModels = allIds.minus(newModels.map { model -> getId(model) }).map { id -> default(id) }
+    val defaultModels = allIds.minus(newModels.map { model -> getId(model) }.toSet()).map { id -> default(id) }
     defaultModels.forEach { model -> writer.put(model) }
 }
