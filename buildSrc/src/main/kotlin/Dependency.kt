@@ -15,7 +15,7 @@ private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
 private const val KODEIN = "0.9.0-beta"
-const val KOTLIN = "1.5.30"
+const val KOTLIN = "1.5.31"
 
 fun KotlinDependencyHandler.function() = api(project(":function"))
 fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
@@ -113,11 +113,11 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDepende
  */
 fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {})
 {
-    compileSdk = 30
+    compileSdk = 31
     sourceSets.getByName("main").manifest.srcFile(manifestPath)
     defaultConfig {
         minSdk = 23
-        targetSdk = 30
+        targetSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
