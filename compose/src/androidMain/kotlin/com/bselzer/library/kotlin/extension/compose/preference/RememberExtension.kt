@@ -1,11 +1,11 @@
 package com.bselzer.library.kotlin.extension.compose.preference
 
-/* TODO remember { } inline ir issue
 import androidx.compose.runtime.*
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
@@ -58,8 +58,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Double>,
     initialValue: Double = 0.0,
-    defaultValue: Double = 0.0,
-    scope: CoroutineScope = rememberCoroutineScope()
+    defaultValue: Double = 0.0
 ): MutableState<Double> = remember(key, initialValue, defaultValue)
 
 /**
@@ -192,19 +191,18 @@ private inline fun <reified TNullable, reified TNullSafe : TNullable> DataStore<
     key: Preferences.Key<TNullSafe>,
     initialValue: TNullable,
     defaultValue: TNullable
-): MutableState<TNullable>
-{
+): MutableState<TNullable> {
     // Set up the state wrapper with the initial non-loaded state.
-    val state: MutableState<PreferenceEntry<TNullable>> = remember { mutableStateOf(PreferenceEntry.NotLoaded()) }
-    val scope = rememberCoroutineScope()
+    // TODO use remember { } and rememberCoroutineScope when issue is resolved -- couldn't find inline method Landroidx/compose/runtime/EffectsKt;.rememberCoroutineScope$default(Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lkotlinx/coroutines/CoroutineScope;
+    val state: MutableState<PreferenceEntry<TNullable>> = currentComposer.cache(false) { mutableStateOf(PreferenceEntry.NotLoaded()) }
+    val scope = CoroutineScope(Dispatchers.IO)
 
     // Determine an updated state as the value gets updated.
     data.map { pref -> PreferenceEntry.fromNullable(pref[key]) }
         .onEach { value -> if (state.value is PreferenceEntry.NotLoaded) state.value = value }
         .collectAsState(initial = PreferenceEntry.NotLoaded())
 
-    return object : MutableState<TNullable>
-    {
+    return object : MutableState<TNullable> {
         override var value: TNullable
             get() = when (val entry = state.value)
             {
@@ -234,4 +232,3 @@ private sealed class PreferenceEntry<out T>
         fun <T> fromNullable(value: T?) = if (value == null) Empty() else NotEmpty(value)
     }
 }
- */

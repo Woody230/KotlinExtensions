@@ -8,7 +8,7 @@ android.setupWithCompose()
 kotlin.setup {
     commonMain()
     androidMain {
-        //preference()
+        preference()
         androidCompose()
     }
     commonTest()
