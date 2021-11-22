@@ -15,9 +15,9 @@ private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
 private const val KODEIN = "0.9.0-beta"
+private const val COMPOSE = "1.0.5"
 const val KOTLIN = "1.5.31"
 
-fun KotlinDependencyHandler.function() = api(project(":function"))
 fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
 fun KotlinDependencyHandler.ktxSerialization() = api("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
 fun KotlinDependencyHandler.moshi() = api("com.squareup.moshi:moshi-kotlin:$MOSHI")
@@ -26,6 +26,12 @@ fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-pref
 fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
+fun KotlinDependencyHandler.androidCompose() {
+    api("androidx.compose.runtime:runtime:$COMPOSE")
+}
+
+fun KotlinDependencyHandler.function() = api(project(":function"))
+fun KotlinDependencyHandler.preference() = api(project(":preference"))
 
 /**
  * Sets up common dependencies.
@@ -128,10 +134,22 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
 }
 
 /**
+ * Sets up Android with Compose.
+ */
+fun LibraryExtension.setupWithCompose(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {}) {
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = COMPOSE
+    }
+    setup(manifestPath, block)
+}
+
+/**
  * Sets up Kotlin multiplatform targets.
  */
-private fun KotlinMultiplatformExtension.targets()
-{
+private fun KotlinMultiplatformExtension.targets() {
     jvm()
     android {
         publishLibraryVariants("release", "debug")
