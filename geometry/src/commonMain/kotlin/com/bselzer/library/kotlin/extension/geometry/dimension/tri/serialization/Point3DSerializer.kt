@@ -19,10 +19,14 @@ class Point3DSerializer : KSerializer<Point3D> {
 
     override val descriptor: SerialDescriptor = serializer.descriptor
 
-    override fun deserialize(decoder: Decoder): Point3D {
-        val list = serializer.deserialize(decoder)
-        return Point3D(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 }, list.getOrElse(2) { 0.0 })
-    }
+    override fun deserialize(decoder: Decoder): Point3D = deserialize(serializer.deserialize(decoder))
+
+    /**
+     * Converts a list to a [Point3D].
+     *
+     * @param list the three-dimensional components
+     */
+    fun deserialize(list: List<Double>) = Point3D(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 }, list.getOrElse(2) { 0.0 })
 
     override fun serialize(encoder: Encoder, value: Point3D) {
         val list = listOf(value.x, value.y, value.z)

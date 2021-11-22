@@ -19,10 +19,14 @@ class Point2DSerializer : KSerializer<Point2D> {
 
     override val descriptor: SerialDescriptor = serializer.descriptor
 
-    override fun deserialize(decoder: Decoder): Point2D {
-        val list = serializer.deserialize(decoder)
-        return Point2D(list.getOrElse(0) { 0.0 }, list.getOrElse(1) { 0.0 })
-    }
+    override fun deserialize(decoder: Decoder): Point2D = deserialize(serializer.deserialize(decoder))
+
+    /**
+     * Converts a list to a [Point2D].
+     *
+     * @param components the two-dimensional components
+     */
+    fun deserialize(components: List<Double>) = Point2D(components.getOrElse(0) { 0.0 }, components.getOrElse(1) { 0.0 })
 
     override fun serialize(encoder: Encoder, value: Point2D) {
         val list = listOf(value.x, value.y)

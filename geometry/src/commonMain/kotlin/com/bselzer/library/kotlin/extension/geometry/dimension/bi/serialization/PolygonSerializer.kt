@@ -8,6 +8,7 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlin.jvm.JvmName
 
 /**
  * A generic serializer for serializing polygons.
@@ -20,10 +21,7 @@ abstract class PolygonSerializer<TPolygon : Polygon> : KSerializer<TPolygon> {
 
     override val descriptor: SerialDescriptor = serializer.descriptor
 
-    override fun deserialize(decoder: Decoder): TPolygon {
-        val points = serializer.deserialize(decoder).map { components -> Point2D(components.getOrElse(0) { 0.0 }, components.getOrElse(1) { 0.0 }) }
-        return deserialize(points)
-    }
+    override fun deserialize(decoder: Decoder): TPolygon = deserialize(serializer.deserialize(decoder))
 
     /**
      * @return the point at the [index] or a default
@@ -31,6 +29,16 @@ abstract class PolygonSerializer<TPolygon : Polygon> : KSerializer<TPolygon> {
     protected fun List<Point2D>.at(index: Int) = getOrElse(index) { Point2D() }
 
     /**
+     * Converts a list of point components into a polygon.
+     *
+     * @return the polygon constructed by the [points]
+     */
+    @JvmName("deserializeComponents")
+    fun deserialize(points: List<List<Double>>) = deserialize(points.map { components -> Point2D(components.getOrElse(0) { 0.0 }, components.getOrElse(1) { 0.0 }) })
+
+    /**
+     * Converts a list of points into a polygon.
+     *
      * @return the polygon constructed by the [points]
      */
     abstract fun deserialize(points: List<Point2D>): TPolygon

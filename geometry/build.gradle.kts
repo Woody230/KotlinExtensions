@@ -11,4 +11,5 @@ kotlin.setup {
         ktxSerialization()
     }
     commonTest()
+    jvmTest()
 }
