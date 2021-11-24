@@ -181,10 +181,9 @@ private inline fun <reified TNullable, reified TNullSafe : TNullable> DataStore<
     val state: MutableState<PreferenceEntry<TNullable>> = currentComposer.cache(false) { mutableStateOf(PreferenceEntry.NotLoaded()) }
 
     // Determine an updated state as the value gets updated.
-    val immutableEntry by data.map { pref -> PreferenceEntry.fromNullable(pref[key]) }
-        .onEach { value -> if (state.value is PreferenceEntry.NotLoaded) state.value = value }
+    data.map { pref -> PreferenceEntry.fromNullable(pref[key]) }
+        .onEach { value -> state.value = value }
         .collectAsState(initial = PreferenceEntry.NotLoaded())
-    state.value = immutableEntry
 
     return object : MutableState<TNullable> {
         override var value: TNullable
