@@ -3,6 +3,8 @@ package com.bselzer.library.kotlin.extension.compose.preference
 import androidx.compose.runtime.*
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.bselzer.library.kotlin.extension.preference.nullLatest
+import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -27,6 +29,8 @@ import kotlinx.coroutines.runBlocking
  * @see <a href="https://github.com/burnoo/compose-remember-preference">compose-remember-preference by Bruno Wieczorek</a>
  */
 
+// Using null/safeLatest for default values so that the initial value is persisted without having to wait for the state collection to kick in.
+
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
  * @return the preference flow as a mutable state
@@ -35,7 +39,7 @@ import kotlinx.coroutines.runBlocking
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Int>,
     defaultValue: Int = 0
-): MutableState<Int> = remember(key, defaultValue)
+): MutableState<Int> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -45,7 +49,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Int>,
     defaultValue: Int? = null
-): MutableState<Int?> = remember(key, defaultValue)
+): MutableState<Int?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -55,7 +59,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Double>,
     defaultValue: Double = 0.0
-): MutableState<Double> = remember(key, defaultValue)
+): MutableState<Double> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -65,7 +69,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Double>,
     defaultValue: Double? = null
-): MutableState<Double?> = remember(key, defaultValue)
+): MutableState<Double?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -75,7 +79,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<String>,
     defaultValue: String = ""
-): MutableState<String> = remember(key, defaultValue)
+): MutableState<String> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -85,7 +89,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<String>,
     defaultValue: String? = null
-): MutableState<String?> = remember(key, defaultValue)
+): MutableState<String?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -95,7 +99,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Boolean>,
     defaultValue: Boolean = false
-): MutableState<Boolean> = remember(key, defaultValue)
+): MutableState<Boolean> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -105,7 +109,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Boolean>,
     defaultValue: Boolean? = null
-): MutableState<Boolean?> = remember(key, defaultValue)
+): MutableState<Boolean?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -115,7 +119,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Float>,
     defaultValue: Float = 0.0f
-): MutableState<Float> = remember(key, defaultValue)
+): MutableState<Float> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -125,7 +129,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Float>,
     defaultValue: Float? = null
-): MutableState<Float?> = remember(key, defaultValue)
+): MutableState<Float?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -135,7 +139,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Long>,
     defaultValue: Long = 0L
-): MutableState<Long> = remember(key, defaultValue)
+): MutableState<Long> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -145,7 +149,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Long>,
     defaultValue: Long? = null
-): MutableState<Long?> = remember(key, defaultValue)
+): MutableState<Long?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -155,7 +159,7 @@ fun DataStore<Preferences>.nullRemember(
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<Set<String>>,
     defaultValue: Set<String> = emptySet()
-): MutableState<Set<String>> = remember(key, defaultValue)
+): MutableState<Set<String>> = remember(key, safeLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -165,7 +169,7 @@ fun DataStore<Preferences>.safeRemember(
 fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Set<String>>,
     defaultValue: Set<String>? = null
-): MutableState<Set<String>?> = remember(key, defaultValue)
+): MutableState<Set<String>?> = remember(key, nullLatest(key, defaultValue))
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
