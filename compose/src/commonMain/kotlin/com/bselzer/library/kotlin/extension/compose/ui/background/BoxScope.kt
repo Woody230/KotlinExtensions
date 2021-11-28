@@ -15,4 +15,4 @@ import androidx.compose.ui.graphics.painter.Painter
 // Need to use matchParentSize() so that the image does not participate in sizing and can just fill the resulting size.
 @Composable
 fun BoxScope.BackgroundImage(painter: Painter, alignment: Alignment = Alignment.Center) =
-    BackgroundImage(painter = painter, modifier = Modifier.matchParentSize(), alignment = alignment)
+    BackgroundImage(modifier = Modifier.matchParentSize(), painter = painter, alignment = alignment)

@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.ContentScale
  * @param alignment where to focus the cropping
  */
 @Composable
-internal fun BackgroundImage(painter: Painter, modifier: Modifier, alignment: Alignment = Alignment.Center) = Image(
+fun BackgroundImage(modifier: Modifier, painter: Painter, alignment: Alignment = Alignment.Center) = Image(
     painter = painter,
     contentDescription = null,
     modifier = modifier,
@@ -32,4 +32,4 @@ internal fun BackgroundImage(painter: Painter, modifier: Modifier, alignment: Al
  */
 @Composable
 fun BackgroundImage(painter: Painter, alignment: Alignment = Alignment.Center) =
-    BackgroundImage(painter = painter, modifier = Modifier.fillMaxSize(), alignment = alignment)
+    BackgroundImage(modifier = Modifier.fillMaxSize(), painter = painter, alignment = alignment)

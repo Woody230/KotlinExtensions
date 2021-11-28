@@ -9,7 +9,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 
 /**
- * Displays a top app bar.
+ * Displays an app bar.
  *
  * @param title the title
  * @param titleStyle the text style of the title

@@ -16,10 +16,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.library.kotlin.extension.compose.ui.unit.toPx
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -91,7 +91,8 @@ fun DownButton(modifier: Modifier = Modifier, onClick: () -> Unit) = IconButton(
 @Composable
 internal fun PickerColumn(
     modifier: Modifier = Modifier,
-    index: Int, animationOffset: Dp = 18.dp,
+    index: Int,
+    animationOffset: Dp = 18.dp,
     indexRange: IntRange? = null,
     textStyle: TextStyle = LocalTextStyle.current,
     upButton: @Composable (onClick: () -> Unit) -> Unit = { UpButton(onClick = it) },
@@ -101,7 +102,7 @@ internal fun PickerColumn(
 ) {
     val scope = rememberCoroutineScope()
 
-    val animationOffsetPx = LocalDensity.current.run { animationOffset.toPx() }
+    val animationOffsetPx = animationOffset.toPx()
     val animatable = animatedOffset(index = index, offset = animationOffsetPx, range = indexRange)
     fun animatedStateValue(offset: Float): Int = index - (offset / animationOffsetPx).toInt()
 
@@ -137,7 +138,8 @@ internal fun PickerColumn(
     ) {
         upButton { setState(index + 1) }
 
-        PickerBox(index, animationOffset, animatable, textStyle) { selectedIndex -> label(selectedIndex) }
+        // Use the index associated with the animation when displaying the text values instead of the state index.
+        PickerBox(index = animatedStateValue(animatable.value), animationOffset, animatable, textStyle) { selectedIndex -> label(selectedIndex) }
 
         downButton { setState(index - 1) }
     }
@@ -154,7 +156,7 @@ internal fun ColumnScope.PickerBox(
     modifier = Modifier.align(Alignment.CenterHorizontally)
 ) {
     val textModifier = Modifier.align(Alignment.Center)
-    val animationOffsetPx = LocalDensity.current.run { animationOffset.toPx() }
+    val animationOffsetPx = animationOffset.toPx()
     val coercedOffset = animatable.value % animationOffsetPx
     ProvideTextStyle(textStyle) {
         Text(
