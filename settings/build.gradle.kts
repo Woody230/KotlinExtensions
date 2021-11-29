@@ -8,6 +8,7 @@ android.setup()
 kotlin.setup {
     commonMain {
         ktxSerialization()
+        coroutine()
         settings()
     }
     commonTest()

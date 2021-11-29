@@ -17,6 +17,7 @@ private const val ANDROIDX_PREFERENCE = "1.1.1"
 private const val KODEIN = "0.9.0-beta"
 private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
+private const val COROUTINE = "1.5.2"
 const val COMPOSE = "1.0.0-rc3"
 const val KOTLIN = "1.5.31"
 
@@ -29,6 +30,7 @@ fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-pref
 fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
+fun KotlinDependencyHandler.coroutine() = api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE")
 fun KotlinDependencyHandler.settings() = api("com.russhwolf:multiplatform-settings:$SETTINGS")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
