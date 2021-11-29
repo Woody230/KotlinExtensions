@@ -1,5 +1,7 @@
 package com.bselzer.library.kotlin.extension.settings.setting
 
+import com.bselzer.library.kotlin.extension.settings.setting.delegate.NullSetting
+import com.bselzer.library.kotlin.extension.settings.setting.delegate.SafeSetting
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.Settings
@@ -74,4 +76,14 @@ abstract class SettingWrapper<T>(protected val settings: ObservableSettings, val
             listener.deactivate()
         }
     }
+
+    /**
+     * @return this setting as a [SafeSetting]
+     */
+    fun asSafe(): SafeSetting<T> = SafeSetting(this)
+
+    /**
+     * @return this setting as a [NullSetting]
+     */
+    fun asNull(): NullSetting<T> = NullSetting(this)
 }
