@@ -1,4 +1,4 @@
-package com.bselzer.library.kotlin.extension.settings
+package com.bselzer.library.kotlin.extension.settings.model
 
 import com.russhwolf.settings.Settings
 import kotlin.time.Duration
@@ -12,7 +12,7 @@ import kotlin.time.ExperimentalTime
  * @return the duration value stored at the [key], or the [defaultValue] if it does not exist
  */
 @OptIn(ExperimentalTime::class)
-fun Settings.getEnum(key: String, defaultValue: Duration = Duration.ZERO): Duration = getDurationOrNull(key) ?: defaultValue
+fun Settings.getDuration(key: String, defaultValue: Duration = Duration.ZERO): Duration = getDurationOrNull(key) ?: defaultValue
 
 /**
  * Retrieves the [Duration] as a [String] at the [key].
@@ -30,6 +30,7 @@ fun Settings.getDurationOrNull(key: String): Duration? {
  * Stores the [Duration] as a [String] at the [key].
  *
  * @param key the location
+ * @param value the value
  */
 @OptIn(ExperimentalTime::class)
 fun Settings.putDuration(key: String, value: Duration) = putString(key, value.toIsoString())
