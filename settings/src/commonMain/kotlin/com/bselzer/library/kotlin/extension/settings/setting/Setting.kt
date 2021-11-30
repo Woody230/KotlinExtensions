@@ -1,13 +1,5 @@
 package com.bselzer.library.kotlin.extension.settings.setting
 
-import kotlinx.coroutines.flow.Flow
+import com.bselzer.library.kotlin.extension.settings.setting.encapsulation.*
 
-interface Setting<T> {
-    fun get(): T
-    fun getOrNull(): T?
-    fun put(value: T)
-    fun remove()
-    fun exists(): Boolean
-    suspend fun observe(): Flow<T>
-    suspend fun observeOrNull(): Flow<T?>
-}
+interface Setting<T> : Exists, NullGet<T?>, NullObserve<T?>, Put<T>, Remove, SafeGet<T>, SafeObserve<T>

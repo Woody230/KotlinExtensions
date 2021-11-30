@@ -51,7 +51,7 @@ abstract class SettingWrapper<T>(protected val settings: ObservableSettings, val
      *
      * @return the stream
      */
-    override suspend fun observe(): Flow<T> = callbackFlow {
+    override fun observe(): Flow<T> = callbackFlow {
         // Mimicking what the coroutines setting module does. https://github.com/russhwolf/multiplatform-settings/blob/master/multiplatform-settings-coroutines-internal/src/commonMain/kotlin/com/russhwolf/settings/coroutines/CoroutineExtensions.kt
         send(get())
         val listener = settings.addListener(key) {
@@ -67,7 +67,7 @@ abstract class SettingWrapper<T>(protected val settings: ObservableSettings, val
      *
      * @return the stream
      */
-    override suspend fun observeOrNull(): Flow<T?> = callbackFlow {
+    override fun observeOrNull(): Flow<T?> = callbackFlow {
         send(getOrNull())
         val listener = settings.addListener(key) {
             trySend(getOrNull())
@@ -80,10 +80,10 @@ abstract class SettingWrapper<T>(protected val settings: ObservableSettings, val
     /**
      * @return this setting as a [SafeSetting]
      */
-    fun asSafe(): SafeSetting<T> = SafeSetting(this)
+    fun safe(): SafeSetting<T> = SafeSetting(this)
 
     /**
      * @return this setting as a [NullSetting]
      */
-    fun asNull(): NullSetting<T> = NullSetting(this)
+    fun nullable(): NullSetting<T> = NullSetting(this)
 }
