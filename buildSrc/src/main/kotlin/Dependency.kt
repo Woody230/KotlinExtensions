@@ -18,6 +18,7 @@ private const val KODEIN = "0.9.0-beta"
 private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
+private const val LOGGING = "2.2.0"
 const val COMPOSE = "1.0.0-rc3"
 const val KOTLIN = "1.5.31"
 
@@ -32,6 +33,7 @@ fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
 fun KotlinDependencyHandler.coroutine() = api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE")
 fun KotlinDependencyHandler.multiplatformSettings() = api("com.russhwolf:multiplatform-settings:$SETTINGS")
+fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
