@@ -31,7 +31,7 @@ fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:pref
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
 fun KotlinDependencyHandler.coroutine() = api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE")
-fun KotlinDependencyHandler.settings() = api("com.russhwolf:multiplatform-settings:$SETTINGS")
+fun KotlinDependencyHandler.multiplatformSettings() = api("com.russhwolf:multiplatform-settings:$SETTINGS")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
@@ -40,6 +40,7 @@ fun KotlinDependencyHandler.foundation() = api("org.jetbrains.compose.foundation
 fun KotlinDependencyHandler.constraintLayout() = api("androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT")
 
 fun KotlinDependencyHandler.function() = api(project(":function"))
+fun KotlinDependencyHandler.settings() = api(project(":settings"))
 
 /**
  * Sets up common dependencies.

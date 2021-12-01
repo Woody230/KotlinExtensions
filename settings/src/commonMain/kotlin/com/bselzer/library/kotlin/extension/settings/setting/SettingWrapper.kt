@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.callbackFlow
  * A base wrapper for a [Settings] instance.
  */
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalSettingsApi::class)
-abstract class SettingWrapper<T>(protected val settings: ObservableSettings, val key: String, val defaultValue: T) : Setting<T> {
+abstract class SettingWrapper<T>(protected val settings: ObservableSettings, override val key: String, override val defaultValue: T) : Setting<T> {
     /**
      * Retrieves the [T] value at the [key].
      *
@@ -45,6 +45,17 @@ abstract class SettingWrapper<T>(protected val settings: ObservableSettings, val
      * @return whether a value exists for this setting
      */
     override fun exists(): Boolean = settings.hasKey(key)
+
+    /**
+     * Stores the [value] at the [key] if a value does not exist already.
+     *
+     * @return true if the value needed to be initialized
+     */
+    override fun initialize(value: T): Boolean {
+        val initialize = !exists()
+        if (initialize) put(value)
+        return initialize
+    }
 
     /**
      * Streams the value stored at the [key], or the [defaultValue] if it does not exist.

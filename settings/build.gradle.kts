@@ -9,8 +9,7 @@ kotlin.setup {
     commonMain {
         ktxSerialization()
         coroutine()
-        settings()
+        multiplatformSettings()
     }
     commonTest()
-    jvmTest()
 }

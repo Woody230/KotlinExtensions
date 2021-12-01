@@ -1,5 +1,5 @@
 package com.bselzer.library.kotlin.extension.settings.setting.encapsulation
 
-interface Put<T> {
-    fun put(value: T)
+interface Initialize<T> {
+    fun initialize(value: T): Boolean
 }

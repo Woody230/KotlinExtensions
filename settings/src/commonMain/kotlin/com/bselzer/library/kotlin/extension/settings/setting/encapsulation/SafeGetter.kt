@@ -1,5 +1,5 @@
 package com.bselzer.library.kotlin.extension.settings.setting.encapsulation
 
-interface NullGet<T> {
-    fun getOrNull(): T?
+interface SafeGetter<T> {
+    fun get(): T
 }

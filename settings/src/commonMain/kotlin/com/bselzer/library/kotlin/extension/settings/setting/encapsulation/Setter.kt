@@ -1,5 +1,5 @@
 package com.bselzer.library.kotlin.extension.settings.setting.encapsulation
 
-interface SafeGet<T> {
-    fun get(): T
+interface Setter<T> {
+    fun put(value: T)
 }
