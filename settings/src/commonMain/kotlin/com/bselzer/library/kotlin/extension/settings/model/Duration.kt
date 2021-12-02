@@ -1,6 +1,7 @@
 package com.bselzer.library.kotlin.extension.settings.model
 
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -11,8 +12,8 @@ import kotlin.time.ExperimentalTime
  * @param defaultValue the default value
  * @return the duration value stored at the [key], or the [defaultValue] if it does not exist
  */
-@OptIn(ExperimentalTime::class)
-fun Settings.getDuration(key: String, defaultValue: Duration = Duration.ZERO): Duration = getDurationOrNull(key) ?: defaultValue
+@OptIn(ExperimentalTime::class, ExperimentalSettingsApi::class)
+suspend fun SuspendSettings.getDuration(key: String, defaultValue: Duration = Duration.ZERO): Duration = getDurationOrNull(key) ?: defaultValue
 
 /**
  * Retrieves the [Duration] as a [String] at the [key].
@@ -20,8 +21,8 @@ fun Settings.getDuration(key: String, defaultValue: Duration = Duration.ZERO): D
  * @param key the location
  * @return the duration value stored at the [key], or null if it does not exist
  */
-@OptIn(ExperimentalTime::class)
-fun Settings.getDurationOrNull(key: String): Duration? {
+@OptIn(ExperimentalTime::class, ExperimentalSettingsApi::class)
+suspend fun SuspendSettings.getDurationOrNull(key: String): Duration? {
     val value = getStringOrNull(key) ?: return null
     return Duration.parseIsoStringOrNull(value)
 }
@@ -32,5 +33,5 @@ fun Settings.getDurationOrNull(key: String): Duration? {
  * @param key the location
  * @param value the value
  */
-@OptIn(ExperimentalTime::class)
-fun Settings.putDuration(key: String, value: Duration) = putString(key, value.toIsoString())
+@OptIn(ExperimentalTime::class, ExperimentalSettingsApi::class)
+suspend fun SuspendSettings.putDuration(key: String, value: Duration) = putString(key, value.toIsoString())

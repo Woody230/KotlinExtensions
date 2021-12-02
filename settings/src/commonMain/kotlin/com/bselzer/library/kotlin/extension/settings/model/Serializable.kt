@@ -1,6 +1,7 @@
 package com.bselzer.library.kotlin.extension.settings.model
 
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationStrategy
@@ -15,8 +16,8 @@ import kotlinx.serialization.serializer
  * @param T the type of value
  * @return the value stored at the [key], or the [defaultValue] if it does not exist
  */
-@OptIn(ExperimentalSerializationApi::class)
-inline fun <reified T> Settings.getSerializable(key: String, defaultValue: T): T = getSerializableOrNull<T>(key) ?: defaultValue
+@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+suspend inline fun <reified T> SuspendSettings.getSerializable(key: String, defaultValue: T): T = getSerializableOrNull<T>(key) ?: defaultValue
 
 /**
  * Retrieves the value as a [String] at the [key].
@@ -25,8 +26,8 @@ inline fun <reified T> Settings.getSerializable(key: String, defaultValue: T): T
  * @param T the type of value
  * @return the value stored at the [key], or null if it does not exist
  */
-@OptIn(ExperimentalSerializationApi::class)
-inline fun <reified T> Settings.getSerializableOrNull(key: String): T? = getSerializableOrNull<T>(serializer(), key)
+@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+suspend inline fun <reified T> SuspendSettings.getSerializableOrNull(key: String): T? = getSerializableOrNull<T>(serializer(), key)
 
 /**
  * Retrieves the value as a [String] at the [key].
@@ -37,8 +38,9 @@ inline fun <reified T> Settings.getSerializableOrNull(key: String): T? = getSeri
  * @param T the type of value
  * @return the value stored at the [key], or the [defaultValue] if it does not exist
  */
-@OptIn(ExperimentalSerializationApi::class)
-fun <T> Settings.getSerializable(deserializer: DeserializationStrategy<T>, key: String, defaultValue: T): T = getSerializableOrNull(deserializer, key) ?: defaultValue
+@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+suspend fun <T> SuspendSettings.getSerializable(deserializer: DeserializationStrategy<T>, key: String, defaultValue: T): T =
+    getSerializableOrNull(deserializer, key) ?: defaultValue
 
 /**
  * Retrieves the value as a [String] at the [key].
@@ -48,8 +50,8 @@ fun <T> Settings.getSerializable(deserializer: DeserializationStrategy<T>, key: 
  * @param T the type of value
  * @return the value stored at the [key], or null if it does not exist
  */
-@OptIn(ExperimentalSerializationApi::class)
-fun <T> Settings.getSerializableOrNull(deserializer: DeserializationStrategy<T>, key: String): T? {
+@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+suspend fun <T> SuspendSettings.getSerializableOrNull(deserializer: DeserializationStrategy<T>, key: String): T? {
     try {
         val value = getStringOrNull(key) ?: return null
         return Json.decodeFromString(deserializer, value)
@@ -64,8 +66,8 @@ fun <T> Settings.getSerializableOrNull(deserializer: DeserializationStrategy<T>,
  * @param key the location
  * @param T the type of value
  */
-@OptIn(ExperimentalSerializationApi::class)
-inline fun <reified T> Settings.putSerializable(key: String, value: T) = putSerializable(serializer(), key, value)
+@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+suspend inline fun <reified T> SuspendSettings.putSerializable(key: String, value: T) = putSerializable(serializer(), key, value)
 
 /**
  * Stores the [value] as a [String] at the [key].
@@ -74,5 +76,5 @@ inline fun <reified T> Settings.putSerializable(key: String, value: T) = putSeri
  * @param key the location
  * @param T the type of value
  */
-@OptIn(ExperimentalSerializationApi::class)
-fun <T> Settings.putSerializable(serializer: SerializationStrategy<T>, key: String, value: T) = putString(key, Json.encodeToString(serializer, value))
+@OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
+suspend fun <T> SuspendSettings.putSerializable(serializer: SerializationStrategy<T>, key: String, value: T) = putString(key, Json.encodeToString(serializer, value))

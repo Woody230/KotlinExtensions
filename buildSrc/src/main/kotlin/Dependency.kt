@@ -32,7 +32,11 @@ fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:pref
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
 fun KotlinDependencyHandler.coroutine() = api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE")
-fun KotlinDependencyHandler.multiplatformSettings() = api("com.russhwolf:multiplatform-settings:$SETTINGS")
+fun KotlinDependencyHandler.multiplatformSettings() {
+    api("com.russhwolf:multiplatform-settings:$SETTINGS")
+    api("com.russhwolf:multiplatform-settings-coroutines:$SETTINGS")
+}
+
 fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
