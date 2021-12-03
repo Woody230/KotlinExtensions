@@ -19,7 +19,7 @@ private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
 private const val LOGGING = "2.2.0"
-const val COMPOSE = "1.0.0-rc3"
+const val COMPOSE = "1.0.0"
 const val KOTLIN = "1.5.31"
 
 fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
