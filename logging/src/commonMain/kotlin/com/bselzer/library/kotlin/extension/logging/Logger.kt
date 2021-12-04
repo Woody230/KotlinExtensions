@@ -7,7 +7,7 @@ object Logger {
     /**
      * The default message.
      */
-    private val defaultMessage: String = ""
+    private const val defaultMessage: String = ""
 
     /**
      * Creates a verbose log.
