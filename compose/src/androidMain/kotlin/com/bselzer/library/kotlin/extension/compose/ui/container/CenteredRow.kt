@@ -1,4 +1,4 @@
-package com.bselzer.library.kotlin.extension.compose.ui.column
+package com.bselzer.library.kotlin.extension.compose.ui.container
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +16,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 
 /**
- * Displays a row with values aligned from the center with [spacing].
+ * Lays out a row with values aligned from the center with [spacing].
  *
  * @param startValue the introductory value
  * @param endValue the descriptive value
