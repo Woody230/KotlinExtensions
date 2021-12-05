@@ -1,12 +1,14 @@
 package com.bselzer.library.kotlin.extension.compose.ui.preference
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -53,37 +55,18 @@ fun TextFieldDialogPreference(
     subtitle: String,
     subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2,
     dialog: @Composable ((Boolean) -> Unit, (String?) -> Unit) -> Unit
-) {
-    var showDialog by remember { mutableStateOf(false) }
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { showDialog = true }
-            .then(modifier)
-    ) {
-        val (icon, description) = createRefs()
-        PreferenceIcon(
-            ref = icon,
-            contentDescription = title,
-            painter = iconPainter,
-            contentScale = iconScale,
-            contentSize = iconSize,
-        )
-
-        PreferenceDescription(
-            ref = description,
-            startRef = icon,
-            spacing = spacing,
-            title = title,
-            titleStyle = titleStyle,
-            subtitle = subtitle,
-            subtitleStyle = subtitleStyle
-        )
-
-        if (showDialog) {
-            dialog({ showDialog = it }, { onStateChanged(it) })
-        }
-    }
+) = DialogPreference(
+    modifier = modifier,
+    spacing = spacing,
+    iconPainter = iconPainter,
+    iconSize = iconSize,
+    iconScale = iconScale,
+    title = title,
+    titleStyle = titleStyle,
+    subtitle = subtitle,
+    subtitleStyle = subtitleStyle,
+) { setShowDialog ->
+    dialog(setShowDialog) { onStateChanged(it) }
 }
 
 /**
