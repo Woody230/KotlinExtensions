@@ -82,17 +82,21 @@ fun PreferenceDescription(
 /**
  * Lays out a title designed for the name of a preference.
  *
+ * @param modifier the [Text] modifier
  * @param title the name of the preference
  * @param style the style of the text for displaying the [title]
  */
 @Composable
-fun PreferenceTitle(title: String, style: TextStyle = MaterialTheme.typography.subtitle1) = Text(text = title, fontWeight = FontWeight.Bold, style = style)
+fun PreferenceTitle(modifier: Modifier = Modifier, title: String, style: TextStyle = MaterialTheme.typography.subtitle1) =
+    Text(modifier = modifier, text = title, fontWeight = FontWeight.Bold, style = style)
 
 /**
  * Lays out a subtitle designed for the description of a preference.
  *
+ * @param modifier the [Text] modifier
  * @param subtitle the description of the preference
  * @param style the style of the text for displaying the [subtitle]
  */
 @Composable
-fun PreferenceSubtitle(subtitle: String, style: TextStyle = MaterialTheme.typography.subtitle2) = Text(text = subtitle, style = style)
+fun PreferenceSubtitle(modifier: Modifier = Modifier, subtitle: String, style: TextStyle = MaterialTheme.typography.subtitle2) =
+    Text(modifier = modifier, text = subtitle, style = style)

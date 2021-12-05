@@ -22,7 +22,7 @@ fun MaterialAppBarColumn(
     modifier: Modifier = Modifier,
     title: String,
     titleStyle: TextStyle = MaterialTheme.typography.h6,
-    navigationIcon: @Composable () -> Unit = {},
+    navigationIcon: (@Composable () -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
 ) = Column(

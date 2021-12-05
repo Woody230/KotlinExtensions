@@ -1,6 +1,9 @@
 package com.bselzer.library.kotlin.extension.compose.ui.preference
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,9 +35,7 @@ fun PreferenceColumn(
     append: @Composable ColumnScope.() -> Unit = { },
     vararg contents: @Composable ColumnScope.() -> Unit
 ) = DividedColumn(
-    modifier = Modifier
-        .padding(spacing)
-        .then(modifier),
+    modifier = modifier,
     divider = {
         // Divide the components by the spacing split across the divider thickness and then evenly across the remaining space.
         val segment = (spacing - dividerThickness) / 2

@@ -20,14 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 fun MaterialAppBar(
     title: String,
     titleStyle: TextStyle = MaterialTheme.typography.h6,
-    navigationIcon: @Composable () -> Unit = {},
+    navigationIcon: (@Composable () -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {}
-) =
-    TopAppBar(
-        title = { MaterialAppBarTitle(title = title, style = titleStyle) },
-        navigationIcon = navigationIcon,
-        actions = actions
-    )
+) = TopAppBar(
+    title = { MaterialAppBarTitle(title = title, style = titleStyle) },
+    navigationIcon = navigationIcon,
+    actions = actions
+)
 
 /**
  * Lays out the title for a [MaterialAppBar].
