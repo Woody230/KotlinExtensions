@@ -95,37 +95,71 @@ fun MaterialAlertDialog(
 /**
  * Lays out a button for dismissing a dialog.
  *
- * @param textStyle the style of the text on this button
+ * @param modifier the [Button] modifier
+ * @param textStyle the style of the text
+ * @param colors the [Button] colors
  * @param onClick the on-click handler
  */
 @Composable
-fun DismissButton(textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) =
-    MaterialDialogButton(text = stringResource(id = android.R.string.cancel), textStyle = textStyle, onClick = onClick)
+fun DismissButton(
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.button,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    onClick: () -> Unit
+) = MaterialDialogButton(modifier = modifier, text = stringResource(id = android.R.string.cancel), textStyle = textStyle, colors = colors, onClick = onClick)
 
 /**
  * Lays out a button for confirmation a selection.
  *
- * @param textStyle the style of the text on this button
+ * @param modifier the [Button] modifier
+ * @param textStyle the style of the text
+ * @param colors the [Button] colors
  * @param onClick the on-click handler
  */
 @Composable
-fun ConfirmationButton(textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) =
-    MaterialDialogButton(text = stringResource(id = android.R.string.ok), textStyle = textStyle, onClick = onClick)
+fun ConfirmationButton(
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.button,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    onClick: () -> Unit
+) = MaterialDialogButton(modifier = modifier, text = stringResource(id = android.R.string.ok), textStyle = textStyle, colors = colors, onClick = onClick)
 
 /**
  * Lays out a button for deleting a selection.
  *
- * @param textStyle the style of the text on this button
+ * @param modifier the [Button] modifier
+ * @param textStyle the style of the text
+ * @param colors the [Button] colors
  * @param onClick the on-click handler
  */
 @Composable
-fun DeleteButton(textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) =
-    MaterialDialogButton(text = "Delete", textStyle = textStyle, onClick = onClick)
+fun DeleteButton(
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.button,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    onClick: () -> Unit
+) = MaterialDialogButton(modifier = modifier, text = "Delete", textStyle = textStyle, colors = colors, onClick = onClick)
 
 /**
  * Lays out a button for a dialog.
+ *
+ * @param modifier the [Button] modifier
+ * @param text the text
+ * @param textStyle the style of the [text]
+ * @param colors the [Button] colors
+ * @param onClick the on-click handler
  */
 @Composable
-fun MaterialDialogButton(text: String, textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) = Button(onClick = onClick) {
+fun MaterialDialogButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    textStyle: TextStyle = MaterialTheme.typography.button,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    onClick: () -> Unit
+) = Button(
+    modifier = modifier,
+    colors = colors,
+    onClick = onClick
+) {
     Text(text = text, style = textStyle)
 }

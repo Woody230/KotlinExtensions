@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.contentColorFor
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -102,6 +99,7 @@ fun TextFieldDialogPreference(
  * @param subtitle the description of the preference
  * @param subtitleStyle the style of the text for displaying the [subtitle]
  * @param buttonStyle the style of the text for the dialog buttons
+ * @param buttonColors the colors of the dialog buttons
  * @param dialogShape the dialog shape
  * @param dialogBackgroundColor the color of the dialog background
  * @param dialogContentColor the color of the dialog content
@@ -124,6 +122,7 @@ fun TextFieldDialogPreference(
     subtitle: String,
     subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2,
     buttonStyle: TextStyle = MaterialTheme.typography.button,
+    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
     dialogShape: Shape = MaterialTheme.shapes.medium,
     dialogBackgroundColor: Color = MaterialTheme.colors.surface,
     dialogContentColor: Color = contentColorFor(dialogBackgroundColor),
@@ -153,13 +152,13 @@ fun TextFieldDialogPreference(
         properties = dialogProperties,
         title = { PreferenceTitle(title = dialogTitle, style = dialogTitleStyle) },
         negativeButton = {
-            DismissButton(textStyle = buttonStyle) { setShowDialog(false) }
+            DismissButton(textStyle = buttonStyle, colors = buttonColors) { setShowDialog(false) }
         },
         neutralButton = {
-            DeleteButton(textStyle = buttonStyle) { setState(null) }
+            DeleteButton(textStyle = buttonStyle, colors = buttonColors) { setState(null) }
         },
         positiveButton = {
-            ConfirmationButton(textStyle = buttonStyle) { setState(editText.value) }
+            ConfirmationButton(textStyle = buttonStyle, colors = buttonColors) { setState(editText.value) }
         },
     ) {
         dialogContent(editText)
