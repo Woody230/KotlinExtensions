@@ -6,7 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 
 /**
- * Displays a cropped background image across the entirety of the parent.
+ * Lays out a cropped background image across the entirety of the parent.
  *
  * @param drawableId the id of the drawable to paint
  * @param alignment where to focus the cropping

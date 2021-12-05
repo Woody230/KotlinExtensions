@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 
 /**
- * Displays a cropped background image across the entirety of the parent.
+ * Lays out a cropped background image across the entirety of the parent.
  *
  * @param painter the painter
  * @param alignment where to focus the cropping

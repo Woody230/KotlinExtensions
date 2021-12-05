@@ -100,7 +100,7 @@ fun MaterialAlertDialog(
  */
 @Composable
 fun DismissButton(textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) =
-    DialogButton(text = stringResource(id = android.R.string.cancel), textStyle = textStyle, onClick = onClick)
+    MaterialDialogButton(text = stringResource(id = android.R.string.cancel), textStyle = textStyle, onClick = onClick)
 
 /**
  * Lays out a button for confirmation a selection.
@@ -110,7 +110,7 @@ fun DismissButton(textStyle: TextStyle = MaterialTheme.typography.button, onClic
  */
 @Composable
 fun ConfirmationButton(textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) =
-    DialogButton(text = stringResource(id = android.R.string.ok), textStyle = textStyle, onClick = onClick)
+    MaterialDialogButton(text = stringResource(id = android.R.string.ok), textStyle = textStyle, onClick = onClick)
 
 /**
  * Lays out a button for deleting a selection.
@@ -120,12 +120,12 @@ fun ConfirmationButton(textStyle: TextStyle = MaterialTheme.typography.button, o
  */
 @Composable
 fun DeleteButton(textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) =
-    DialogButton(text = "Delete", textStyle = textStyle, onClick = onClick)
+    MaterialDialogButton(text = "Delete", textStyle = textStyle, onClick = onClick)
 
 /**
  * Lays out a button for a dialog.
  */
 @Composable
-fun DialogButton(text: String, textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) = Button(onClick = onClick) {
+fun MaterialDialogButton(text: String, textStyle: TextStyle = MaterialTheme.typography.button, onClick: () -> Unit) = Button(onClick = onClick) {
     Text(text = text, style = textStyle)
 }

@@ -1,11 +1,9 @@
 package com.bselzer.library.kotlin.extension.compose.ui.container
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 /**
  * Wraps a [Column] with the [prepend] block, the [contents] separated by the [divider], and then the [append] block.
@@ -25,7 +23,7 @@ fun DividedColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     prepend: @Composable ColumnScope.() -> Unit = { },
     append: @Composable ColumnScope.() -> Unit = { },
-    divider: @Composable ColumnScope.(Int) -> Unit = { Divider(thickness = 5.dp) },
+    divider: @Composable ColumnScope.(Int) -> Unit,
     vararg contents: @Composable ColumnScope.() -> Unit
 ) = Column(modifier = modifier, verticalArrangement = verticalArrangement, horizontalAlignment = horizontalAlignment) {
     prepend()
@@ -59,7 +57,7 @@ fun DividedRow(
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     prepend: @Composable RowScope.() -> Unit = { },
     append: @Composable RowScope.() -> Unit = { },
-    divider: @Composable RowScope.(Int) -> Unit = { Divider(thickness = 5.dp) },
+    divider: @Composable RowScope.(Int) -> Unit,
     vararg contents: @Composable RowScope.() -> Unit
 ) = Row(modifier = modifier, horizontalArrangement = horizontalArrangement, verticalAlignment = verticalAlignment) {
     prepend()

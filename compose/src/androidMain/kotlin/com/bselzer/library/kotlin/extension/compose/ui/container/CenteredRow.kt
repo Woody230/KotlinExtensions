@@ -18,6 +18,7 @@ import androidx.constraintlayout.compose.Dimension
 /**
  * Lays out a row with values aligned from the center with [spacing].
  *
+ * @param modifier the [ConstraintLayout] modifier
  * @param startValue the introductory value
  * @param endValue the descriptive value
  * @param spacing the size of the spacing in between the [startValue] and [endValue]
@@ -26,6 +27,7 @@ import androidx.constraintlayout.compose.Dimension
  */
 @Composable
 fun CenteredRow(
+    modifier: Modifier = Modifier,
     startValue: String,
     endValue: String,
     spacing: Dp = 5.dp,
@@ -35,6 +37,7 @@ fun CenteredRow(
     modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight()
+        .then(modifier)
 ) {
     val (left, spacer, right) = createRefs()
     Text(text = startValue, textAlign = TextAlign.Right, style = startTextStyle, modifier = Modifier.constrainAs(left) {

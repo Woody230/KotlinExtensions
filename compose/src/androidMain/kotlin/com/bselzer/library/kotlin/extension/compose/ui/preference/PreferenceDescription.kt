@@ -38,16 +38,42 @@ fun ConstraintLayoutScope.PreferenceDescription(
     titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
     subtitle: String,
     subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2
-) = Column(modifier = Modifier
-    .wrapContentSize()
-    .constrainAs(ref = ref) {
-        top.linkTo(parent.top)
-        bottom.linkTo(parent.bottom)
-        start.linkTo(anchor = startRef?.end ?: parent.start, margin = spacing)
-        end.linkTo(anchor = endRef?.start ?: parent.end, margin = spacing)
-        width = Dimension.fillToConstraints
-    }
-    .then(modifier)
+) = com.bselzer.library.kotlin.extension.compose.ui.preference.PreferenceDescription(
+    title = title,
+    titleStyle = titleStyle,
+    subtitle = subtitle,
+    subtitleStyle = subtitleStyle,
+    modifier = Modifier
+        .constrainAs(ref = ref) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(anchor = startRef?.end ?: parent.start, margin = spacing)
+            end.linkTo(anchor = endRef?.start ?: parent.end, margin = spacing)
+            width = Dimension.fillToConstraints
+        }
+        .then(modifier)
+)
+
+/**
+ * Lays out a description of the state of the preference through a [title] and [subtitle].
+ *
+ * @param modifier the [Column] modifier
+ * @param title the name of the preference
+ * @param titleStyle the style of the text for displaying the [title]
+ * @param subtitle the description of the preference
+ * @param subtitleStyle the style of the text for displaying the [subtitle]
+ */
+@Composable
+fun PreferenceDescription(
+    modifier: Modifier = Modifier,
+    title: String,
+    titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
+    subtitle: String,
+    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2
+) = Column(
+    modifier = Modifier
+        .wrapContentSize()
+        .then(modifier)
 ) {
     PreferenceTitle(title = title, style = titleStyle)
     PreferenceSubtitle(subtitle = subtitle, style = subtitleStyle)

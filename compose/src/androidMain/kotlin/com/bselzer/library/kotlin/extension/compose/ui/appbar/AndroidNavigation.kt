@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 /**
- * Displays an icon for navigating up to another activity.
+ * Lays out an icon for navigating up to another activity.
  *
  * @param destination the destination activity
  * @param intent the block for populating an [Intent]
