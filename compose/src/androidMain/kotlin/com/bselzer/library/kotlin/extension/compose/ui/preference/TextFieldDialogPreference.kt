@@ -1,5 +1,6 @@
 package com.bselzer.library.kotlin.extension.compose.ui.preference
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,7 +29,6 @@ import com.bselzer.library.kotlin.extension.compose.ui.dialog.MaterialAlertDialo
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
  * @param modifier the [ConstraintLayout] modifier
- * @param state the preference state
  * @param onStateChanged the block for setting the updated state
  * @param spacing the spacing between components
  * @param iconPainter the painter for displaying the icon image
@@ -43,8 +43,7 @@ import com.bselzer.library.kotlin.extension.compose.ui.dialog.MaterialAlertDialo
 @Composable
 fun TextFieldDialogPreference(
     modifier: Modifier = Modifier,
-    state: MutableState<String?>,
-    onStateChanged: (String?) -> Unit = { state.value = it },
+    onStateChanged: (String?) -> Unit,
     spacing: Dp = 25.dp,
     iconPainter: Painter,
     iconSize: DpSize = DpSize(48.dp, 48.dp),
@@ -54,33 +53,36 @@ fun TextFieldDialogPreference(
     subtitle: String,
     subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2,
     dialog: @Composable ((Boolean) -> Unit, (String?) -> Unit) -> Unit
-) = ConstraintLayout(
-    modifier = Modifier
-        .fillMaxWidth()
-        .then(modifier)
 ) {
-    val (icon, description) = createRefs()
-    PreferenceIcon(
-        ref = icon,
-        contentDescription = title,
-        painter = iconPainter,
-        contentScale = iconScale,
-        contentSize = iconSize,
-    )
-
     var showDialog by remember { mutableStateOf(false) }
-    PreferenceDescription(
-        ref = description,
-        startRef = icon,
-        spacing = spacing,
-        title = title,
-        titleStyle = titleStyle,
-        subtitle = subtitle,
-        subtitleStyle = subtitleStyle
-    )
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { showDialog = true }
+            .then(modifier)
+    ) {
+        val (icon, description) = createRefs()
+        PreferenceIcon(
+            ref = icon,
+            contentDescription = title,
+            painter = iconPainter,
+            contentScale = iconScale,
+            contentSize = iconSize,
+        )
 
-    if (showDialog) {
-        dialog({ showDialog = it }, { onStateChanged(it) })
+        PreferenceDescription(
+            ref = description,
+            startRef = icon,
+            spacing = spacing,
+            title = title,
+            titleStyle = titleStyle,
+            subtitle = subtitle,
+            subtitleStyle = subtitleStyle
+        )
+
+        if (showDialog) {
+            dialog({ showDialog = it }, { onStateChanged(it) })
+        }
     }
 }
 
@@ -88,7 +90,7 @@ fun TextFieldDialogPreference(
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
  * @param modifier the [ConstraintLayout] modifier
- * @param state the preference state
+ * @param initial the initial state of the [TextField]
  * @param onStateChanged the block for setting the updated state
  * @param spacing the spacing between components
  * @param iconPainter the painter for displaying the icon image
@@ -111,8 +113,8 @@ fun TextFieldDialogPreference(
 @Composable
 fun TextFieldDialogPreference(
     modifier: Modifier = Modifier,
-    state: MutableState<String?>,
-    onStateChanged: (String?) -> Unit = { state.value = it },
+    initial: String = "",
+    onStateChanged: (String?) -> Unit,
     spacing: Dp = 25.dp,
     iconPainter: Painter,
     iconSize: DpSize = DpSize(48.dp, 48.dp),
@@ -132,7 +134,6 @@ fun TextFieldDialogPreference(
     dialogContent: @Composable (MutableState<String>) -> Unit,
 ) = TextFieldDialogPreference(
     modifier = modifier,
-    state = state,
     onStateChanged = onStateChanged,
     spacing = spacing,
     iconPainter = iconPainter,
@@ -143,7 +144,7 @@ fun TextFieldDialogPreference(
     subtitle = subtitle,
     subtitleStyle = subtitleStyle,
 ) { setShowDialog, setState ->
-    val editText = remember { mutableStateOf("") }
+    val editText = remember { mutableStateOf(initial) }
     MaterialAlertDialog(
         showDialog = setShowDialog,
         shape = dialogShape,
@@ -155,10 +156,16 @@ fun TextFieldDialogPreference(
             DismissButton(textStyle = buttonStyle, colors = buttonColors) { setShowDialog(false) }
         },
         neutralButton = {
-            DeleteButton(textStyle = buttonStyle, colors = buttonColors) { setState(null) }
+            DeleteButton(textStyle = buttonStyle, colors = buttonColors) {
+                setState(null)
+                setShowDialog(false)
+            }
         },
         positiveButton = {
-            ConfirmationButton(textStyle = buttonStyle, colors = buttonColors) { setState(editText.value) }
+            ConfirmationButton(textStyle = buttonStyle, colors = buttonColors) {
+                setState(editText.value)
+                setShowDialog(false)
+            }
         },
     ) {
         dialogContent(editText)
@@ -169,8 +176,6 @@ fun TextFieldDialogPreference(
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
  * @param modifier the [ConstraintLayout] modifier
- * @param state the preference state
- * @param onStateChanged the block for setting the updated state
  * @param spacing the spacing between components
  * @param iconPainter the painter for displaying the icon image
  * @param iconSize the size of the icon image
@@ -188,13 +193,13 @@ fun TextFieldDialogPreference(
  * @param dialogTitleStyle the style of the text for displaying the [dialogTitle]
  * @param dialogSubtitle the description of the preference for input
  * @param dialogSubtitleStyle the style of the text for displaying the [dialogSubtitle]
- * @param dialogSubtitleOnClick the on-click handler for the annotated [dialogSubtitle]
+ * @param dialogSubtitleOnClick the on-click handler with the clicked character offset and the annotated [dialogSubtitle]
+ * @param initial the initial state of the [TextField]
+ * @param onStateChanged the block for setting the updated state
  */
 @Composable
 fun TextFieldDialogPreference(
     modifier: Modifier = Modifier,
-    state: MutableState<String?>,
-    onStateChanged: (String?) -> Unit = { state.value = it },
     spacing: Dp = 25.dp,
     iconPainter: Painter,
     iconSize: DpSize = DpSize(48.dp, 48.dp),
@@ -213,10 +218,12 @@ fun TextFieldDialogPreference(
     dialogSubtitle: AnnotatedString,
     dialogSubtitleStyle: TextStyle = subtitleStyle,
     dialogSpacing: Dp = spacing,
-    dialogSubtitleOnClick: (Int) -> Unit
+    dialogSubtitleOnClick: (Int, AnnotatedString) -> Unit,
+    initial: String = "",
+    onStateChanged: (String?) -> Unit,
 ) = TextFieldDialogPreference(
     modifier = modifier,
-    state = state,
+    initial = initial,
     onStateChanged = onStateChanged,
     spacing = spacing,
     iconPainter = iconPainter,
@@ -238,7 +245,7 @@ fun TextFieldDialogPreference(
         modifier = Modifier.fillMaxWidth(),
         divider = { Spacer(modifier = Modifier.height(dialogSpacing)) },
         contents = arrayOf(
-            { ClickableText(text = dialogSubtitle, style = dialogSubtitleStyle, onClick = dialogSubtitleOnClick) },
+            { ClickableText(text = dialogSubtitle, style = dialogSubtitleStyle, onClick = { dialogSubtitleOnClick(it, dialogSubtitle) }) },
             { TextField(value = editText.value, onValueChange = { editText.value = it }) }
         )
     )
@@ -248,8 +255,6 @@ fun TextFieldDialogPreference(
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
  * @param modifier the [ConstraintLayout] modifier
- * @param state the preference state
- * @param onStateChanged the block for setting the updated state
  * @param spacing the spacing between components
  * @param iconPainter the painter for displaying the icon image
  * @param iconSize the size of the icon image
@@ -267,12 +272,12 @@ fun TextFieldDialogPreference(
  * @param dialogTitleStyle the style of the text for displaying the [dialogTitle]
  * @param dialogSubtitle the description of the preference for input
  * @param dialogSubtitleStyle the style of the text for displaying the [dialogSubtitle]
+ * @param initial the initial state of the [TextField]
+ * @param onStateChanged the block for setting the updated state
  */
 @Composable
 fun TextFieldDialogPreference(
     modifier: Modifier = Modifier,
-    state: MutableState<String?>,
-    onStateChanged: (String?) -> Unit = { state.value = it },
     spacing: Dp = 25.dp,
     iconPainter: Painter,
     iconSize: DpSize = DpSize(48.dp, 48.dp),
@@ -290,10 +295,12 @@ fun TextFieldDialogPreference(
     dialogTitleStyle: TextStyle = titleStyle,
     dialogSubtitle: String,
     dialogSubtitleStyle: TextStyle = subtitleStyle,
-    dialogSpacing: Dp = spacing
+    dialogSpacing: Dp = spacing,
+    initial: String = "",
+    onStateChanged: (String?) -> Unit,
 ) = TextFieldDialogPreference(
     modifier = modifier,
-    state = state,
+    initial = initial,
     onStateChanged = onStateChanged,
     spacing = spacing,
     iconPainter = iconPainter,

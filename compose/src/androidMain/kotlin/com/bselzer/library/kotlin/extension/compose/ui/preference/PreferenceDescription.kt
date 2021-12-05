@@ -1,7 +1,6 @@
 package com.bselzer.library.kotlin.extension.compose.ui.preference
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -43,7 +42,7 @@ fun ConstraintLayoutScope.PreferenceDescription(
     titleStyle = titleStyle,
     subtitle = subtitle,
     subtitleStyle = subtitleStyle,
-    modifier = Modifier
+    modifier = modifier
         .constrainAs(ref = ref) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
@@ -51,7 +50,6 @@ fun ConstraintLayoutScope.PreferenceDescription(
             end.linkTo(anchor = endRef?.start ?: parent.end, margin = spacing)
             width = Dimension.fillToConstraints
         }
-        .then(modifier)
 )
 
 /**
@@ -71,9 +69,7 @@ fun PreferenceDescription(
     subtitle: String,
     subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2
 ) = Column(
-    modifier = Modifier
-        .wrapContentSize()
-        .then(modifier)
+    modifier = modifier
 ) {
     PreferenceTitle(title = title, style = titleStyle)
     PreferenceSubtitle(subtitle = subtitle, style = subtitleStyle)

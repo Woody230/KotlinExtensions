@@ -1,8 +1,6 @@
 package com.bselzer.library.kotlin.extension.compose.ui.dialog
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -58,7 +57,9 @@ fun MaterialAlertDialog(
     text = content,
     buttons = {
         ConstraintLayout(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, end = 8.dp, top = 8.dp, bottom = 8.dp) // Matching the padding in the specs. https://material.io/components/dialogs#specs
         ) {
             val (neutral, spacer, core) = createRefs()
 
@@ -85,7 +86,11 @@ fun MaterialAlertDialog(
                 start.linkTo(spacer.end)
                 end.linkTo(parent.end)
             }) {
-                negativeButton?.invoke()
+                negativeButton?.let { negativeButton ->
+                    negativeButton()
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+
                 positiveButton?.invoke()
             }
         }
