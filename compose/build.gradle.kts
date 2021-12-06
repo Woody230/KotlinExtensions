@@ -12,6 +12,8 @@ kotlin.setup {
         ui()
         material()
         foundation()
+
+        function()
     }
     androidMain {
         constraintLayout()

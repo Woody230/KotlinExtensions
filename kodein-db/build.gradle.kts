@@ -6,7 +6,7 @@ plugins {
 android.setup()
 kotlin.setup {
     commonMain {
-        kodein()
+        kodeinDb()
     }
     commonTest()
 }

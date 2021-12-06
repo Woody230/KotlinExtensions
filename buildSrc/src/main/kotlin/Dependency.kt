@@ -5,16 +5,16 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
-private const val KTX_DATETIME = "0.2.1"
-private const val KTX_SERIALIZATION = "1.2.2"
+private const val KTX_DATETIME = "0.3.1"
+private const val KTX_SERIALIZATION = "1.3.1"
 private const val MOSHI = "1.11.0"
 private const val LIFECYCLE = "2.3.1"
-private const val CORE = "1.6.0"
+private const val CORE = "1.7.0"
 private const val ANDROID_TEST = "1.1.0"
 private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
-private const val KODEIN = "0.9.0-beta"
+private const val KODEIN_DB = "0.9.0-beta"
 private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
@@ -30,7 +30,7 @@ fun KotlinDependencyHandler.livedata() = api("androidx.lifecycle:lifecycle-lived
 fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-preferences:$DATASTORE")
 fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
-fun KotlinDependencyHandler.kodein() = api("org.kodein.db:kodein-db-api:$KODEIN")
+fun KotlinDependencyHandler.kodeinDb() = api("org.kodein.db:kodein-db-api:$KODEIN_DB")
 fun KotlinDependencyHandler.coroutine() = api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE")
 fun KotlinDependencyHandler.multiplatformSettings() {
     api("com.russhwolf:multiplatform-settings:$SETTINGS")

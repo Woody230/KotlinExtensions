@@ -17,7 +17,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 /**
  * Lays out a switch representing a [Boolean] preference state.
  *
- * @param modifier the [ConstraintLayout] modifier
+ * @param modifier the preference modifier
  * @param spacing the spacing between components
  * @param iconPainter the painter for displaying the icon image
  * @param iconSize the size of the icon image

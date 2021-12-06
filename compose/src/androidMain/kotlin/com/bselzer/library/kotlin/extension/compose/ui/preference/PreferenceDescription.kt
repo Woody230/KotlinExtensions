@@ -16,7 +16,7 @@ import androidx.constraintlayout.compose.Dimension
 /**
  * Lays out a description of the state of the preference through a [title] and [subtitle].
  *
- * @param modifier the [Column] modifier
+ * @param modifier the description modifier
  * @param ref the constraint reference
  * @param startRef the starting constraint reference, or null to use the parent
  * @param endRef the ending constraint reference, or null to use the parent
@@ -55,7 +55,7 @@ fun ConstraintLayoutScope.PreferenceDescription(
 /**
  * Lays out a description of the state of the preference through a [title] and [subtitle].
  *
- * @param modifier the [Column] modifier
+ * @param modifier the description modifier
  * @param title the name of the preference
  * @param titleStyle the style of the text for displaying the [title]
  * @param subtitle the description of the preference

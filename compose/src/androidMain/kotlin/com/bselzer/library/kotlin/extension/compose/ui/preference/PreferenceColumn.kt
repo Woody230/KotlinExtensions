@@ -15,7 +15,7 @@ import com.bselzer.library.kotlin.extension.compose.ui.container.DividedColumn
 /**
  * Lays out a column for preferences.
  *
- * @param modifier the [DividedColumn] modifier
+ * @param modifier the column modifier
  * @param spacing the spacing between components
  * @param dividerThickness the thickness of the divider between [contents]
  * @param verticalArrangement the vertical arrangement of the content

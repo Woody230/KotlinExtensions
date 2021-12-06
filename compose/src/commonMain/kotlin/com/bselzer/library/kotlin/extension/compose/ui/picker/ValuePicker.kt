@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -30,7 +29,7 @@ import kotlin.math.abs
 /**
  * Lays out a value picker.
  *
- * @param state the state of the value
+ * @param value the current value
  * @param values the possible state values
  * @param labels the displayable values for each of the [values]
  * @param modifier the value picker modifier
@@ -38,20 +37,21 @@ import kotlin.math.abs
  * @param animationOffset the offset of the new value within the scrolling animation
  * @param upButton the block for displaying the up button
  * @param downButton the block for displaying the down button
+ * @param onStateChanged the callback for changes in the state
  */
 @Composable
 fun <T> ValuePicker(
     modifier: Modifier = Modifier,
-    state: MutableState<T>,
+    value: T,
     values: List<T>,
     labels: List<String>,
     textStyle: TextStyle = LocalTextStyle.current,
     animationOffset: Dp = 18.dp,
     upButton: @Composable (onClick: () -> Unit) -> Unit = { UpButton(onClick = it) },
-    downButton: @Composable (onClick: () -> Unit) -> Unit = { DownButton(onClick = it) }
+    downButton: @Composable (onClick: () -> Unit) -> Unit = { DownButton(onClick = it) },
+    onStateChanged: (T) -> Unit,
 ) {
-    val currentValue = state.value
-    val currentIndex = values.indexOfFirst { value -> value == currentValue }
+    val currentIndex = values.indexOfFirst { v -> v == value }
 
     PickerColumn(
         modifier = modifier,
@@ -61,7 +61,7 @@ fun <T> ValuePicker(
         textStyle = textStyle,
         upButton = upButton,
         downButton = downButton,
-        setState = { index -> values.getOrNull(index)?.let { value -> state.value = value } },
+        setState = { index -> values.getOrNull(index)?.let { onStateChanged(it) } },
         label = { index -> labels.getOrNull(index) ?: "" }
     )
 }

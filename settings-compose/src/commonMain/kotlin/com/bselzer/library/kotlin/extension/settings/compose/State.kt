@@ -32,7 +32,7 @@ fun <T> DelegateSetting<T>.safeState(coroutineContext: CoroutineContext = EmptyC
 }
 
 /**
- * Remembers the nullable state of the setting.
+ * Remembers the non-null state of the setting as a nullable state.
  */
 @Composable
 fun <T> SafeSetting<T>.nullState(coroutineContext: CoroutineContext = EmptyCoroutineContext): MutableState<T?> =

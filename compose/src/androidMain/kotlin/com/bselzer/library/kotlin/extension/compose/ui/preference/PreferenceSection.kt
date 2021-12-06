@@ -18,7 +18,7 @@ import com.bselzer.library.kotlin.extension.compose.ui.container.DividedRow
 /**
  * Lays out a [title] for a section of preferences.
  *
- * @param modifier the [Column] modifier
+ * @param modifier the title modifier
  * @param spacing the spacing between components
  * @param iconPainter the painter for displaying the icon image
  * @param iconSize the size of the icon image
@@ -61,7 +61,7 @@ fun PreferenceSectionTitle(
 /**
  * Lays out a section of preferences with a [title].
  *
- * @param modifier the [Column] modifier
+ * @param modifier the section modifier
  * @param iconPainter the painter for displaying the icon image
  * @param iconSize the size of the icon image
  * @param iconScale how to scale the icon image content
@@ -107,7 +107,7 @@ fun PreferenceSection(
 /**
  * Lays out a [title] for a section of preferences.
  *
- * @param modifier the [Column] modifier
+ * @param modifier the title modifier
  * @param spacing the spacing between components
  * @param title the name of the preference section
  * @param titleStyle the style of the text for displaying the [title]
@@ -131,7 +131,7 @@ fun PreferenceSectionTitle(
 /**
  * Lays out a section of preferences with a [title].
  *
- * @param modifier the [Column] modifier
+ * @param modifier the section modifier
  * @param title the name of the preference section
  * @param titleStyle the style of the text for displaying the [title]
  * @param titleColor the color of the [title]

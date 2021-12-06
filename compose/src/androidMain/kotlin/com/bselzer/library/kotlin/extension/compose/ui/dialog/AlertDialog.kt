@@ -138,12 +138,12 @@ fun ConfirmationButton(
  * @param onClick the on-click handler
  */
 @Composable
-fun DeleteButton(
+fun ResetButton(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.button,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     onClick: () -> Unit
-) = MaterialDialogButton(modifier = modifier, text = "Delete", textStyle = textStyle, colors = colors, onClick = onClick)
+) = MaterialDialogButton(modifier = modifier, text = "Reset", textStyle = textStyle, colors = colors, onClick = onClick)
 
 /**
  * Lays out a button for a dialog.
