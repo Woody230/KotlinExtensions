@@ -127,7 +127,8 @@ fun <T> DialogPreference(
 /**
  * Lays out a dialog with a [title] and a [subtitle] describing the preference.
  *
- * @param modifier the dialog modifier
+ * @param modifier the preference modifier
+ * @param dialogModifier the dialog modifier
  * @param state the state of the preference
  * @param onStateChanged the block for setting the updated state
  * @param spacing the spacing between components
@@ -151,6 +152,7 @@ fun <T> DialogPreference(
 @Composable
 fun <T> DialogPreference(
     modifier: Modifier = Modifier,
+    dialogModifier: Modifier = Modifier,
     state: MutableState<T?>,
     onStateChanged: (T?) -> Unit,
     spacing: Dp = 25.dp,
@@ -183,6 +185,7 @@ fun <T> DialogPreference(
     subtitleStyle = subtitleStyle,
 ) { setShowDialog, setState ->
     MaterialAlertDialog(
+        modifier = dialogModifier,
         showDialog = setShowDialog,
         shape = dialogShape,
         backgroundColor = dialogBackgroundColor,

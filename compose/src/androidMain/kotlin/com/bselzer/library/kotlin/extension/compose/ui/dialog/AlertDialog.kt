@@ -22,6 +22,7 @@ import androidx.constraintlayout.compose.Dimension
 /**
  * Lays out an alert dialog.
  *
+ * @param modifier the dialog modifier
  * @param showDialog the block for setting whether the dialog should be shown
  * @param onDismissRequest the block for when the user tries to dismiss the dialog by clicking outside or pressing the back button
  * @param shape the dialog shape
@@ -29,13 +30,14 @@ import androidx.constraintlayout.compose.Dimension
  * @param contentColor the color of the dialog content
  * @param properties the properties
  * @param title the title describing the [content]
- * @param negativeButton the negative action button
- * @param neutralButton the neutral action button
- * @param positiveButton the positive action button
+ * @param negativeButton the negative action button layout for dismissal
+ * @param neutralButton the neutral action button layout for an alternative action
+ * @param positiveButton the positive action button layout for confirmation
  * @param content the main content of the dialog
  */
 @Composable
 fun MaterialAlertDialog(
+    modifier: Modifier = Modifier,
     showDialog: (Boolean) -> Unit,
     onDismissRequest: () -> Unit = { showDialog(false) },
     shape: Shape = MaterialTheme.shapes.medium,
@@ -48,6 +50,7 @@ fun MaterialAlertDialog(
     positiveButton: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,
 ) = AlertDialog(
+    modifier = modifier,
     onDismissRequest = onDismissRequest,
     title = title,
     shape = shape,
@@ -55,47 +58,60 @@ fun MaterialAlertDialog(
     contentColor = contentColor,
     properties = properties,
     text = content,
-    buttons = {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 8.dp, top = 8.dp, bottom = 8.dp) // Matching the padding in the specs. https://material.io/components/dialogs#specs
-        ) {
-            val (neutral, spacer, core) = createRefs()
-
-            Row(modifier = Modifier.constrainAs(neutral) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(spacer.start)
-            }) {
-                neutralButton?.invoke()
-            }
-
-            Spacer(modifier = Modifier.constrainAs(spacer) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(neutral.end)
-                end.linkTo(core.start)
-                width = Dimension.fillToConstraints
-            })
-
-            Row(modifier = Modifier.constrainAs(core) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(spacer.end)
-                end.linkTo(parent.end)
-            }) {
-                negativeButton?.let { negativeButton ->
-                    negativeButton()
-                    Spacer(modifier = Modifier.width(8.dp))
-                }
-
-                positiveButton?.invoke()
-            }
-        }
-    }
+    buttons = { MaterialAlertDialogButtons(negativeButton = negativeButton, neutralButton = neutralButton, positiveButton = positiveButton) }
 )
+
+/**
+ * Lays out the alert dialog buttons according to the design specifications.
+ *
+ * @param negativeButton the negative action button layout for dismissal
+ * @param neutralButton the neutral action button layout for an alternative action
+ * @param positiveButton the positive action button layout for confirmation
+ * @see <a href="https://material.io/components/dialogs#specs">material.io</a>
+ */
+@Composable
+fun MaterialAlertDialogButtons(
+    negativeButton: (@Composable () -> Unit)? = null,
+    neutralButton: (@Composable () -> Unit)? = null,
+    positiveButton: (@Composable () -> Unit)? = null,
+) = ConstraintLayout(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 24.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+) {
+    val (neutral, spacer, core) = createRefs()
+
+    Row(modifier = Modifier.constrainAs(neutral) {
+        top.linkTo(parent.top)
+        bottom.linkTo(parent.bottom)
+        start.linkTo(parent.start)
+        end.linkTo(spacer.start)
+    }) {
+        neutralButton?.invoke()
+    }
+
+    Spacer(modifier = Modifier.constrainAs(spacer) {
+        top.linkTo(parent.top)
+        bottom.linkTo(parent.bottom)
+        start.linkTo(neutral.end)
+        end.linkTo(core.start)
+        width = Dimension.fillToConstraints
+    })
+
+    Row(modifier = Modifier.constrainAs(core) {
+        top.linkTo(parent.top)
+        bottom.linkTo(parent.bottom)
+        start.linkTo(spacer.end)
+        end.linkTo(parent.end)
+    }) {
+        negativeButton?.let { negativeButton ->
+            negativeButton()
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+
+        positiveButton?.invoke()
+    }
+}
 
 /**
  * Lays out a button for dismissing a dialog.
@@ -103,6 +119,7 @@ fun MaterialAlertDialog(
  * @param modifier the [Button] modifier
  * @param textStyle the style of the text
  * @param colors the [Button] colors
+ * @param enabled whether the button is clickable
  * @param onClick the on-click handler
  */
 @Composable
@@ -110,8 +127,16 @@ fun DismissButton(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.button,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    enabled: Boolean = true,
     onClick: () -> Unit
-) = MaterialDialogButton(modifier = modifier, text = stringResource(id = android.R.string.cancel), textStyle = textStyle, colors = colors, onClick = onClick)
+) = MaterialDialogButton(
+    modifier = modifier,
+    text = stringResource(id = android.R.string.cancel),
+    textStyle = textStyle,
+    colors = colors,
+    enabled = enabled,
+    onClick = onClick
+)
 
 /**
  * Lays out a button for confirmation a selection.
@@ -119,6 +144,7 @@ fun DismissButton(
  * @param modifier the [Button] modifier
  * @param textStyle the style of the text
  * @param colors the [Button] colors
+ * @param enabled whether the button is clickable
  * @param onClick the on-click handler
  */
 @Composable
@@ -126,8 +152,9 @@ fun ConfirmationButton(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.button,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    enabled: Boolean = true,
     onClick: () -> Unit
-) = MaterialDialogButton(modifier = modifier, text = stringResource(id = android.R.string.ok), textStyle = textStyle, colors = colors, onClick = onClick)
+) = MaterialDialogButton(modifier = modifier, text = stringResource(id = android.R.string.ok), textStyle = textStyle, colors = colors, enabled = enabled, onClick = onClick)
 
 /**
  * Lays out a button for deleting a selection.
@@ -135,6 +162,7 @@ fun ConfirmationButton(
  * @param modifier the [Button] modifier
  * @param textStyle the style of the text
  * @param colors the [Button] colors
+ * @param enabled whether the button is clickable
  * @param onClick the on-click handler
  */
 @Composable
@@ -142,8 +170,9 @@ fun ResetButton(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.button,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    enabled: Boolean = true,
     onClick: () -> Unit
-) = MaterialDialogButton(modifier = modifier, text = "Reset", textStyle = textStyle, colors = colors, onClick = onClick)
+) = MaterialDialogButton(modifier = modifier, text = "Reset", textStyle = textStyle, colors = colors, enabled = enabled, onClick = onClick)
 
 /**
  * Lays out a button for a dialog.
@@ -152,6 +181,7 @@ fun ResetButton(
  * @param text the text
  * @param textStyle the style of the [text]
  * @param colors the [Button] colors
+ * @param enabled whether the button is clickable
  * @param onClick the on-click handler
  */
 @Composable
@@ -160,11 +190,13 @@ fun MaterialDialogButton(
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.button,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) = Button(
     modifier = modifier,
     colors = colors,
-    onClick = onClick
+    onClick = onClick,
+    enabled = enabled
 ) {
     Text(text = text, style = textStyle)
 }
