@@ -3,6 +3,8 @@ plugins {
     kotlin("multiplatform")
 }
 
+publishing.publish(project)
+
 android.setup()
 
 kotlin {

@@ -1,10 +1,16 @@
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
+private const val BASE_PUBLISHING_NAME = "ktx"
 private const val KTX_DATETIME = "0.3.1"
 private const val KTX_SERIALIZATION = "1.3.1"
 private const val MOSHI = "1.11.0"
@@ -171,8 +177,41 @@ private fun KotlinMultiplatformExtension.targets() {
 /**
  * Sets up Kotlin multiplatform.
  */
-fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {})
-{
+fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {}) {
     targets()
     sourceSets(this.sourceSets)
+}
+
+/**
+ * Sets up the pom.xml that gets created using the maven-publish plugin.
+ *
+ * @see <a href="https://docs.gradle.org/current/userguide/publishing_customization.html">gradle</a>
+ * @see <a href="https://maven.apache.org/pom.html">pom.xml</a>
+ */
+fun PublishingExtension.publish(project: Project) = publications.withType<MavenPublication>().configureEach {
+    pom {
+        name.set("${BASE_PUBLISHING_NAME}-${project.name}")
+        licenses()
+        developers()
+    }
+}
+
+/**
+ * Sets up the pom.xml licenses.
+ */
+private fun MavenPom.licenses() = licenses {
+    license {
+        this.name.set("The Apache Software License, Version 2.0")
+        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+        distribution.set("repo")
+    }
+}
+
+/**
+ * Sets up the pom.xml developers.
+ */
+private fun MavenPom.developers() = developers {
+    developer {
+        name.set("Brandon Selzer")
+    }
 }
