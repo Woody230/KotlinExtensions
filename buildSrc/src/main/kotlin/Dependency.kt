@@ -25,6 +25,7 @@ private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
 private const val LOGGING = "2.2.0"
+private const val LICENSING = "10.0.0-b03"
 const val COMPOSE = "1.0.0"
 const val KOTLIN = "1.5.31"
 
@@ -44,6 +45,7 @@ fun KotlinDependencyHandler.multiplatformSettings() {
 }
 
 fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
+fun KotlinDependencyHandler.licensing() = api("com.mikepenz:aboutlibraries-core:${LICENSING}")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
@@ -51,8 +53,9 @@ fun KotlinDependencyHandler.material() = api("org.jetbrains.compose.material:mat
 fun KotlinDependencyHandler.foundation() = api("org.jetbrains.compose.foundation:foundation:$COMPOSE")
 fun KotlinDependencyHandler.constraintLayout() = api("androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT")
 
-fun KotlinDependencyHandler.function() = api(project(":function"))
-fun KotlinDependencyHandler.settings() = api(project(":settings"))
+fun KotlinDependencyHandler.projectFunction() = api(project(":function"))
+fun KotlinDependencyHandler.projectSettings() = api(project(":settings"))
+fun KotlinDependencyHandler.projectCompose() = api(project(":compose"))
 
 /**
  * Sets up common dependencies.

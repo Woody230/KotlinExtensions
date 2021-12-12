@@ -15,10 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarTitle
 
 /**
@@ -55,77 +52,40 @@ fun <T> SingleChoiceDialog(
     selected: MutableState<T?>,
     onStateChanged: (T) -> Unit,
     choices: @Composable () -> Unit
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = properties
-    ) {
-        Surface(
-            modifier = modifier,
-            shape = shape,
-            color = backgroundColor,
-            contentColor = contentColor
-        ) {
-            ConstraintLayout {
-                val (titleBox, topDivider, choiceBox, buttons) = createRefs()
-
-                Box(
-                    contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 64.dp)
-                        .constrainAs(titleBox) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start, 24.dp)
-                            end.linkTo(parent.end)
-                            width = Dimension.fillToConstraints
+) = MaterialAlertDialog(
+    modifier = modifier,
+    showDialog = showDialog,
+    onDismissRequest = onDismissRequest,
+    shape = shape,
+    backgroundColor = backgroundColor,
+    contentColor = contentColor,
+    properties = properties,
+    content = choices,
+    title = {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            MaterialAppBarTitle(title = title, style = titleStyle)
+            Divider(thickness = 1.dp)
+        }
+    },
+    buttons = {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Divider(thickness = 1.dp)
+            MaterialAlertDialogButtons(
+                negativeButton = {
+                    DismissButton(textStyle = buttonStyle, colors = buttonColors) { showDialog(false) }
+                },
+                positiveButton = {
+                    ConfirmationButton(textStyle = buttonStyle, colors = buttonColors, enabled = selected.value != null) {
+                        selected.value?.let { selected ->
+                            onStateChanged(selected)
+                            showDialog(false)
                         }
-                ) {
-                    MaterialAppBarTitle(title = title, style = titleStyle)
-                }
-
-                Divider(thickness = 1.dp, modifier = Modifier.constrainAs(topDivider) {
-                    top.linkTo(titleBox.bottom)
-                    centerHorizontallyTo(parent)
-                })
-
-                Box(
-                    modifier = Modifier.constrainAs(choiceBox) {
-                        top.linkTo(topDivider.bottom)
-                        bottom.linkTo(buttons.top)
-                        start.linkTo(parent.start, 24.dp)
-                        end.linkTo(parent.end)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.preferredWrapContent
                     }
-                ) {
-                    choices()
-                }
-
-                Column(
-                    modifier = Modifier.constrainAs(buttons) {
-                        bottom.linkTo(parent.bottom)
-                        centerHorizontallyTo(parent)
-                    }
-                ) {
-                    Divider(thickness = 1.dp)
-                    MaterialAlertDialogButtons(
-                        negativeButton = {
-                            DismissButton(textStyle = buttonStyle, colors = buttonColors) { showDialog(false) }
-                        },
-                        positiveButton = {
-                            ConfirmationButton(textStyle = buttonStyle, colors = buttonColors, enabled = selected.value != null) {
-                                selected.value?.let { selected ->
-                                    onStateChanged(selected)
-                                    showDialog(false)
-                                }
-                            }
-                        },
-                    )
-                }
-            }
+                },
+            )
         }
     }
-}
+)
 
 /**
  * Lays out a dialog for choosing a single item out of multiple items.

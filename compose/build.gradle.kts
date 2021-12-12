@@ -15,7 +15,7 @@ kotlin.setup {
         material()
         foundation()
 
-        function()
+        projectFunction()
     }
     androidMain {
         constraintLayout()

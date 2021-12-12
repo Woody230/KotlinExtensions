@@ -10,9 +10,8 @@ android.setupWithCompose()
 
 kotlin.setup {
     commonMain {
-        runtime()
-        coroutine()
-        projectSettings()
+        licensing()
+        projectCompose()
     }
     commonTest()
 }
