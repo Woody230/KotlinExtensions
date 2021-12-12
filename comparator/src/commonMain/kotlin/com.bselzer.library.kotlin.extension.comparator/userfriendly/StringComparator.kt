@@ -1,7 +1,7 @@
-package com.bselzer.library.kotlin.extension.comparator.userfriendly
+package com.bselzer.ktx.comparator.userfriendly
 
-import com.bselzer.library.kotlin.extension.comparator.StringComparator
-import com.bselzer.library.kotlin.extension.function.objects.userFriendly
+import com.bselzer.ktx.comparator.StringComparator
+import com.bselzer.ktx.function.objects.userFriendly
 
 /**
  * Compare strings based on their user friendly name.
