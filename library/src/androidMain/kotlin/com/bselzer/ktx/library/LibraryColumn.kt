@@ -202,15 +202,21 @@ fun LicenseCard(
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = library.name, style = titleStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Text(text = library.author, style = subtitleStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
+
+        if (library.author.isNotBlank()) {
+            Text(text = library.author, style = subtitleStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+
         library.artifactVersion?.let { version ->
             Text(text = version, style = subtitleStyle, maxLines = 1, overflow = TextOverflow.Clip)
         }
 
         if (library.licenses.isNotEmpty()) {
-            Row(modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth()
+            ) {
                 library.licenses.forEach { license ->
                     Badge(
                         modifier = Modifier.padding(end = 4.dp),
