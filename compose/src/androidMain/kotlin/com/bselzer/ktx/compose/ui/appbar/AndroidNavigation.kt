@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 @Composable
 fun Activity.UpNavigationIcon(destination: Class<out Activity>, intent: Intent.() -> Unit = {}) {
     val context = LocalContext.current
-    NavigationIcon {
+    UpNavigationIcon {
         val navigate = Intent(context, destination)
         intent(navigate)
         navigateUpTo(navigate)

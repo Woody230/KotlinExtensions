@@ -4,14 +4,25 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 
 /**
- * Displays a navigation icon for an app bar.
+ * Displays a navigation icon for going up the hierarchy.
  *
  * @param onClick the on-click handler
  */
 @Composable
-fun NavigationIcon(onClick: () -> Unit) = IconButton(onClick = onClick) {
+fun UpNavigationIcon(onClick: () -> Unit) = IconButton(onClick = onClick) {
     Icon(Icons.Filled.ArrowBack, contentDescription = "Up")
+}
+
+/**
+ * Displays a navigation icon for showing a drawer.
+ *
+ * @param onClick the on-click handler
+ */
+@Composable
+fun DrawerNavigationIcon(onClick: () -> Unit) = IconButton(onClick = onClick) {
+    Icon(Icons.Filled.Menu, contentDescription = "Menu")
 }
