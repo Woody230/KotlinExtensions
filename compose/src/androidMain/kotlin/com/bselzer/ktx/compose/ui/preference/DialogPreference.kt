@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.bselzer.ktx.compose.ui.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.dialog.ConfirmationButton
 import com.bselzer.ktx.compose.ui.dialog.DismissButton
 import com.bselzer.ktx.compose.ui.dialog.MaterialAlertDialog
@@ -191,7 +192,7 @@ fun <T> DialogPreference(
         backgroundColor = dialogBackgroundColor,
         contentColor = dialogContentColor,
         properties = dialogProperties,
-        title = { PreferenceTitle(title = dialogTitle, style = dialogTitleStyle) },
+        title = { DescriptionTitle(title = dialogTitle, style = dialogTitleStyle) },
         negativeButton = {
             DismissButton(textStyle = buttonStyle, colors = buttonColors) { setShowDialog(false) }
         },

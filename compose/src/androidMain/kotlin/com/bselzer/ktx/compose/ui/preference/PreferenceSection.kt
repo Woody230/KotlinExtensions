@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.container.DividedRow
+import com.bselzer.ktx.compose.ui.description.DescriptionTitle
 
 /**
  * Lays out a [title] for a section of preferences.
@@ -53,7 +54,7 @@ fun PreferenceSectionTitle(
             )
         },
         {
-            PreferenceTitle(title = title, style = titleStyle.copy(color = titleColor))
+            DescriptionTitle(title = title, style = titleStyle.copy(color = titleColor))
         }
     )
 )
@@ -120,7 +121,7 @@ fun PreferenceSectionTitle(
     title: String,
     titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
     titleColor: Color = MaterialTheme.colors.primary,
-) = PreferenceTitle(
+) = DescriptionTitle(
     title = title,
     style = titleStyle.copy(color = titleColor),
     modifier = Modifier
