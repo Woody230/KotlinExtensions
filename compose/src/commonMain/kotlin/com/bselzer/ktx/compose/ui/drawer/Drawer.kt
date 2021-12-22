@@ -85,7 +85,7 @@ fun DrawerSection(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     header: String? = null,
-    headerStyle: TextStyle = MaterialTheme.typography.caption,
+    headerStyle: TextStyle = MaterialTheme.typography.subtitle2,
     headerFontWeight: FontWeight = FontWeight.Bold,
     headerColor: Color = MaterialTheme.colors.primary,
     vararg components: @Composable ColumnScope.() -> Unit
@@ -95,9 +95,19 @@ fun DrawerSection(
     horizontalAlignment = horizontalAlignment
 ) {
     header?.let { header ->
-        Spacer(modifier = Modifier.size(4.dp))
-        Text(text = header, style = headerStyle, fontWeight = headerFontWeight, color = headerColor, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Spacer(modifier = Modifier.size(4.dp))
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            text = header,
+            style = headerStyle,
+            fontWeight = headerFontWeight,
+            color = headerColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(modifier = Modifier.height(4.dp))
     }
 
     DividedColumn(
@@ -105,6 +115,32 @@ fun DrawerSection(
         contents = components,
     )
 }
+
+/**
+ * Lays out the row for a component of a drawer.
+ *
+ * @param modifier the modifier
+ * @param verticalAlignment the vertical alignment of the content
+ * @param horizontalArrangement the horizontal arrangement of the content
+ * @param onClick the on-click handler
+ */
+@Composable
+fun DrawerComponentRow(
+    modifier: Modifier,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit,
+) = Row(
+    verticalAlignment = verticalAlignment,
+    horizontalArrangement = horizontalArrangement,
+    modifier = Modifier
+        .fillMaxWidth()
+        .defaultMinSize(minHeight = 48.dp)
+        .clickable { onClick() }
+        .then(modifier),
+    content = content
+)
 
 /**
  * Lays out a component of a drawer.
@@ -123,23 +159,22 @@ fun DrawerComponent(
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    iconPainter: Painter,
+    iconPainter: Painter?,
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.body2,
     textFontWeight: FontWeight = FontWeight.Bold,
-    onClick: () -> Unit
-) = Row(
+    onClick: () -> Unit,
+) = DrawerComponentRow(
+    modifier = modifier,
     verticalAlignment = verticalAlignment,
     horizontalArrangement = horizontalArrangement,
-    modifier = Modifier
-        .fillMaxWidth()
-        .defaultMinSize(minHeight = 48.dp)
-        .clickable { onClick() }
-        .then(modifier)
+    onClick = onClick
 ) {
     Spacer(modifier = Modifier.width(16.dp))
-    Icon(modifier = Modifier.size(24.dp), painter = iconPainter, contentDescription = text)
-    Spacer(modifier = Modifier.width(32.dp))
+    iconPainter?.let {
+        Icon(modifier = Modifier.size(24.dp), painter = iconPainter, contentDescription = text)
+        Spacer(modifier = Modifier.width(32.dp))
+    }
     Text(text = text, style = textStyle, fontWeight = textFontWeight, maxLines = 1, overflow = TextOverflow.Ellipsis)
     Spacer(modifier = Modifier.width(8.dp))
 }
