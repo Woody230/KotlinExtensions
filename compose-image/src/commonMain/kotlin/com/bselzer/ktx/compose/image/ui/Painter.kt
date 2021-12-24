@@ -27,7 +27,7 @@ val LocalImageDispatcher = staticCompositionLocalOf { Dispatchers.Default }
 /**
  * The cache for retrieving images.
  */
-val LocalImageCache = staticCompositionLocalOf { throw NotImplementedError("The local image cache is not set.") }
+val LocalImageCache: ProvidableCompositionLocal<ImageCache> = staticCompositionLocalOf { throw NotImplementedError("The local image cache is not set.") }
 
 /**
  * Creates a painter with the byte content from the image at the given [url].
