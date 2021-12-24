@@ -26,6 +26,7 @@ private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
 private const val LOGGING = "2.2.0"
 private const val LICENSING = "10.0.0-b03"
+private const val KTOR = "1.6.7"
 const val COMPOSE = "1.0.0"
 const val KOTLIN = "1.5.31"
 
@@ -46,6 +47,7 @@ fun KotlinDependencyHandler.multiplatformSettings() {
 
 fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
 fun KotlinDependencyHandler.licensing() = api("com.mikepenz:aboutlibraries-core:${LICENSING}")
+fun KotlinDependencyHandler.ktorClient() = api("io.ktor:ktor-client-core:$KTOR")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
@@ -56,6 +58,7 @@ fun KotlinDependencyHandler.constraintLayout() = api("androidx.constraintlayout:
 fun KotlinDependencyHandler.projectFunction() = api(project(":function"))
 fun KotlinDependencyHandler.projectSettings() = api(project(":settings"))
 fun KotlinDependencyHandler.projectCompose() = api(project(":compose"))
+fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
 
 /**
  * Sets up common dependencies.

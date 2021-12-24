@@ -9,7 +9,7 @@ import org.kodein.db.DB
  *
  * @param database the database
  */
-abstract class DBTransactionManager(
+open class DBTransactionManager(
     private val database: DB,
     private val lock: Mutex = Mutex()
 ) : TransactionManager {
