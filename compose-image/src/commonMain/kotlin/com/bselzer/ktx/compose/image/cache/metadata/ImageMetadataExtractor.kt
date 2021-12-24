@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.image.db.metadata
+package com.bselzer.ktx.compose.image.cache.metadata
 
 import com.bselzer.ktx.compose.image.model.Image
 import org.kodein.db.Options

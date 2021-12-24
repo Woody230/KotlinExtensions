@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntOffset
-import com.bselzer.ktx.compose.image.db.instance.ImageCache
+import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.model.Image
 import io.ktor.client.*
 import io.ktor.client.request.*

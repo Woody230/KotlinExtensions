@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.image.db.instance
+package com.bselzer.ktx.compose.image.cache.instance
 
 import com.bselzer.ktx.compose.image.model.Image
 import com.bselzer.ktx.kodein.db.cache.DBCache
