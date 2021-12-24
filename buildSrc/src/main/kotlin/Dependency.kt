@@ -24,11 +24,11 @@ private const val KODEIN_DB = "0.9.0-beta"
 private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
-private const val LOGGING = "2.2.0"
+private const val LOGGING = "2.3.0"
 private const val LICENSING = "10.0.0-b03"
 private const val KTOR = "1.6.7"
-const val COMPOSE = "1.0.0"
-const val KOTLIN = "1.5.31"
+const val COMPOSE = "1.0.1"
+const val KOTLIN = "1.6.10"
 
 fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
 fun KotlinDependencyHandler.ktxSerialization() = api("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")

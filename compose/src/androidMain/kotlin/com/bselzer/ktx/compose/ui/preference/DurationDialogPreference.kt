@@ -24,6 +24,7 @@ import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 import kotlin.time.toDuration
@@ -78,8 +79,8 @@ fun DurationDialogPreference(
     dialogTitleStyle: TextStyle = titleStyle,
     initialAmount: Int,
     initialUnit: DurationUnit,
-    minimum: Duration = Duration.days(0),
-    maximum: Duration = Duration.days(Int.MAX_VALUE),
+    minimum: Duration = 0.days,
+    maximum: Duration = Int.MAX_VALUE.days,
     units: List<DurationUnit> = DurationUnit.values().toList()
 ) {
     val state = remember { mutableStateOf<Duration?>(null) }
