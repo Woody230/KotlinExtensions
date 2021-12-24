@@ -25,6 +25,11 @@ internal expect fun ByteArray.asImageBitmap(): ImageBitmap
 val LocalImageDispatcher = staticCompositionLocalOf { Dispatchers.Default }
 
 /**
+ * The cache for retrieving images.
+ */
+val LocalImageCache = staticCompositionLocalOf { throw NotImplementedError("The local image cache is not set.") }
+
+/**
  * Creates a painter with the byte content from the image at the given [url].
  *
  * @param cache the image cache
@@ -34,7 +39,7 @@ val LocalImageDispatcher = staticCompositionLocalOf { Dispatchers.Default }
  */
 @Composable
 fun rememberImagePainter(
-    cache: ImageCache,
+    cache: ImageCache = LocalImageCache.current,
     url: String?,
     offset: IntOffset = IntOffset.Zero,
     filterQuality: FilterQuality = FilterQuality.Low,
