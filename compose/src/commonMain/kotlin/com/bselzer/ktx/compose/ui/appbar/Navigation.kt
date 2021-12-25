@@ -20,9 +20,10 @@ fun UpNavigationIcon(onClick: () -> Unit) = IconButton(onClick = onClick) {
 /**
  * Displays a navigation icon for showing a drawer.
  *
+ * @param enabled whether the icon is clickable
  * @param onClick the on-click handler
  */
 @Composable
-fun DrawerNavigationIcon(onClick: () -> Unit) = IconButton(onClick = onClick) {
+fun DrawerNavigationIcon(enabled: Boolean = true, onClick: () -> Unit) = IconButton(enabled = enabled, onClick = onClick) {
     Icon(Icons.Filled.Menu, contentDescription = "Menu")
 }
