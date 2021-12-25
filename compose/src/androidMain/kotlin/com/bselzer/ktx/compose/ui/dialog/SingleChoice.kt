@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -147,7 +148,10 @@ fun <T> SingleChoiceDialog(
     buttonStyle = buttonStyle,
     buttonColors = buttonColors,
     selected = selected,
-    onStateChanged = onStateChanged,
+    onStateChanged = {
+        selected.value = it
+        onStateChanged(it)
+    },
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -161,7 +165,7 @@ fun <T> SingleChoiceDialog(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = value == selected.value,
+                    selected = value == remember { selected }.value,
                     onClick = { selected.value = value },
                     colors = radioButtonColors,
                 )
