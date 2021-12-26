@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 
 /**
  * Lays out a description of a value through a [title] and [subtitle].
@@ -40,7 +41,7 @@ fun Description(
  */
 @Composable
 fun DescriptionTitle(modifier: Modifier = Modifier, title: String, style: TextStyle = MaterialTheme.typography.subtitle1) =
-    Text(modifier = modifier, text = title, fontWeight = FontWeight.Bold, style = style)
+    Text(modifier = modifier, text = title, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Visible, style = style)
 
 /**
  * Lays out a description subtitle.
@@ -51,4 +52,4 @@ fun DescriptionTitle(modifier: Modifier = Modifier, title: String, style: TextSt
  */
 @Composable
 fun DescriptionSubtitle(modifier: Modifier = Modifier, subtitle: String, style: TextStyle = MaterialTheme.typography.subtitle2) =
-    Text(modifier = modifier, text = subtitle, style = style)
+    Text(modifier = modifier, text = subtitle, maxLines = 1, overflow = TextOverflow.Ellipsis, style = style)
