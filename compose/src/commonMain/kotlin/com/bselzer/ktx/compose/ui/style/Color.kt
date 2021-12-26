@@ -10,7 +10,7 @@ import kotlin.jvm.JvmInline
 value class Hex(val value: String)
 
 /**
- * The [Color] associated with a hexadecimal representation.
+ * The [Color] associated with an ARGB or RGB hexadecimal representation.
  */
 fun Hex.color(): Color {
     var hex = value.removePrefix("#")
