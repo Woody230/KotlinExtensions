@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -41,7 +40,7 @@ fun TextPreference(
     title: String,
     titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
     subtitle: String,
-    subtitleStyle: TextStyle = titleStyle,
+    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle1,
     onClick: () -> Unit
 ) = ConstraintLayout(
     modifier = Modifier
@@ -77,6 +76,6 @@ fun TextPreference(
             width = Dimension.fillToConstraints
         },
         subtitle = subtitle,
-        style = subtitleStyle.copy(textAlign = TextAlign.End)
+        style = subtitleStyle
     )
 }
