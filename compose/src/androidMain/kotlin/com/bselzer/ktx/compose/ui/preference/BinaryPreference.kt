@@ -1,8 +1,5 @@
 package com.bselzer.ktx.compose.ui.preference
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Checkbox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
@@ -14,7 +11,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 
 /**
  * Lays out a selector representing a [Boolean] preference state.
@@ -46,42 +42,19 @@ fun BinaryPreference(
     checked: Boolean,
     onStateChanged: (Boolean) -> Unit,
     selector: @Composable () -> Unit,
-) = ConstraintLayout(
-    modifier = Modifier
-        .fillMaxWidth()
-        .clickable { onStateChanged(!checked) }
-        .then(modifier)
-) {
-    val (icon, description, choice) = createRefs()
-    PreferenceIcon(
-        ref = icon,
-        contentDescription = title,
-        painter = iconPainter,
-        contentScale = iconScale,
-        contentSize = iconSize,
-    )
-
-    PreferenceDescription(
-        ref = description,
-        startRef = icon,
-        endRef = choice,
-        spacing = spacing,
-        title = title,
-        titleStyle = titleStyle,
-        subtitle = subtitle,
-        subtitleStyle = subtitleStyle
-    )
-
-    Box(
-        modifier = Modifier.constrainAs(choice) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            end.linkTo(parent.end)
-        }
-    ) {
-        selector()
-    }
-}
+) = SimplePreference(
+    modifier = modifier,
+    spacing = spacing,
+    iconPainter = iconPainter,
+    iconSize = iconSize,
+    iconScale = iconScale,
+    title = title,
+    titleStyle = titleStyle,
+    subtitle = subtitle,
+    subtitleStyle = subtitleStyle,
+    onClick = { onStateChanged(!checked) },
+    ending = selector
+)
 
 /**
  * Lays out a switch representing a [Boolean] preference state.

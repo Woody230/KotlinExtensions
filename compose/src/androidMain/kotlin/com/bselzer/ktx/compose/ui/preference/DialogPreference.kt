@@ -1,7 +1,5 @@
 package com.bselzer.ktx.compose.ui.preference
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -17,7 +15,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.ktx.compose.ui.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.dialog.ConfirmationButton
 import com.bselzer.ktx.compose.ui.dialog.DismissButton
@@ -52,35 +49,23 @@ fun DialogPreference(
     dialog: @Composable ((Boolean) -> Unit) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { showDialog = true }
-            .then(modifier)
-    ) {
-        val (icon, description) = createRefs()
-        PreferenceIcon(
-            ref = icon,
-            contentDescription = title,
-            painter = iconPainter,
-            contentScale = iconScale,
-            contentSize = iconSize,
-        )
-
-        PreferenceDescription(
-            ref = description,
-            startRef = icon,
-            spacing = spacing,
-            title = title,
-            titleStyle = titleStyle,
-            subtitle = subtitle,
-            subtitleStyle = subtitleStyle
-        )
-
-        if (showDialog) {
-            dialog { showDialog = it }
-        }
+    if (showDialog) {
+        dialog { showDialog = it }
     }
+
+    SimplePreference(
+        modifier = modifier,
+        spacing = spacing,
+        iconPainter = iconPainter,
+        iconSize = iconSize,
+        iconScale = iconScale,
+        title = title,
+        titleStyle = titleStyle,
+        subtitle = subtitle,
+        subtitleStyle = subtitleStyle,
+        onClick = { showDialog = true },
+        ending = null
+    )
 }
 
 /**
