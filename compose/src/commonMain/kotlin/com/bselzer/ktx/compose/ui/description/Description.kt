@@ -40,8 +40,8 @@ fun Description(
  * @param style the style of the text for displaying the [title]
  */
 @Composable
-fun DescriptionTitle(modifier: Modifier = Modifier, title: String, style: TextStyle = MaterialTheme.typography.subtitle1) =
-    Text(modifier = modifier, text = title, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Visible, style = style)
+fun DescriptionTitle(modifier: Modifier = Modifier, title: String, style: TextStyle = MaterialTheme.typography.subtitle1, maxLines: Int = Int.MAX_VALUE) =
+    Text(modifier = modifier, text = title, fontWeight = FontWeight.Bold, maxLines = maxLines, overflow = TextOverflow.Visible, style = style)
 
 /**
  * Lays out a description subtitle.
@@ -51,5 +51,5 @@ fun DescriptionTitle(modifier: Modifier = Modifier, title: String, style: TextSt
  * @param style the style of the text for displaying the [subtitle]
  */
 @Composable
-fun DescriptionSubtitle(modifier: Modifier = Modifier, subtitle: String, style: TextStyle = MaterialTheme.typography.subtitle2) =
-    Text(modifier = modifier, text = subtitle, maxLines = 1, overflow = TextOverflow.Ellipsis, style = style)
+fun DescriptionSubtitle(modifier: Modifier = Modifier, subtitle: String, style: TextStyle = MaterialTheme.typography.subtitle2, maxLines: Int = Int.MAX_VALUE) =
+    Text(modifier = modifier, text = subtitle, maxLines = maxLines, overflow = TextOverflow.Ellipsis, style = style)
