@@ -46,7 +46,7 @@ fun rememberImagePainter(
     context: CoroutineContext = LocalImageDispatcher.current,
 ): Painter? {
     // Attempt to load the image from the cache.
-    val image: Image? by produceState<Image?>(null) {
+    val image: Image? by produceState<Image?>(initialValue = null, key1 = url) {
         value = url?.let {
             withContext(context) {
                 val image = cache.getImage(url = url)
@@ -67,13 +67,11 @@ fun rememberImagePainter(
         }
     }
 
-    return remember(bitmap) {
-        bitmap?.let {
-            BitmapPainter(
-                image = bitmap,
-                srcOffset = offset,
-                filterQuality = filterQuality
-            )
-        }
+    return bitmap?.let {
+        BitmapPainter(
+            image = bitmap,
+            srcOffset = offset,
+            filterQuality = filterQuality
+        )
     }
 }
