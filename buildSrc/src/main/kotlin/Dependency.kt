@@ -4,6 +4,7 @@ import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.publish.maven.MavenPomDeveloperSpec
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -196,11 +197,30 @@ fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<Ko
  */
 fun PublishingExtension.publish(project: Project) = publications.withType<MavenPublication>().configureEach {
     pom {
-        name.set("${BASE_PUBLISHING_NAME}-${project.name}")
+        name(project)
         licenses()
         developers()
     }
 }
+
+/**
+ * Sets up the pom.xml that gets created using the maven-publish plugin.
+ *
+ * @see <a href="https://docs.gradle.org/current/userguide/publishing_customization.html">gradle</a>
+ * @see <a href="https://maven.apache.org/pom.html">pom.xml</a>
+ */
+fun PublishingExtension.publish(project: Project, devs: MavenPomDeveloperSpec.() -> Unit = {}) = publications.withType<MavenPublication>().configureEach {
+    pom {
+        name(project)
+        licenses()
+        developers(devs = devs)
+    }
+}
+
+/**
+ * Sets up the pom.xml name.
+ */
+private fun MavenPom.name(project: Project) = name.set("${BASE_PUBLISHING_NAME}-${project.name}")
 
 /**
  * Sets up the pom.xml licenses.
@@ -216,7 +236,8 @@ private fun MavenPom.licenses() = licenses {
 /**
  * Sets up the pom.xml developers.
  */
-private fun MavenPom.developers() = developers {
+private fun MavenPom.developers(devs: MavenPomDeveloperSpec.() -> Unit = {}) = developers {
+    devs()
     developer {
         name.set("Brandon Selzer")
     }
