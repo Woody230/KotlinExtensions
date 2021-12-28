@@ -21,6 +21,7 @@ kotlin.setup {
     commonMain {
         runtime()
         ui()
+        material()
         foundation()
         logging()
     }
