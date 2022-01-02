@@ -12,7 +12,7 @@ import kotlin.time.ExperimentalTime
 /**
  * A serializer for [Duration] using a string representation.
  */
-@ExperimentalTime
+@OptIn(ExperimentalTime::class)
 class DurationSerializer: KSerializer<Duration> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Duration", PrimitiveKind.STRING)
 

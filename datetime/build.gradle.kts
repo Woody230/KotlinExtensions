@@ -12,6 +12,7 @@ kotlin.setup {
     commonMain {
         ktxDateTime()
         ktxSerialization()
+        coroutine()
     }
     commonTest()
 }

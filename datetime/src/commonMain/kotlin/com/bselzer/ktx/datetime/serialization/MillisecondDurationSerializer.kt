@@ -14,7 +14,7 @@ import kotlin.time.ExperimentalTime
 /**
  * A serializer for milliseconds in the form of a [Duration]
  */
-@ExperimentalTime
+@OptIn(ExperimentalTime::class)
 class MillisecondDurationSerializer : KSerializer<Duration> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Duration", PrimitiveKind.DOUBLE)
 
