@@ -1,7 +1,5 @@
 package com.bselzer.ktx.settings.setting
 
-import com.bselzer.ktx.settings.setting.delegate.NullSetting
-import com.bselzer.ktx.settings.setting.delegate.SafeSetting
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.SuspendSettings
@@ -103,14 +101,4 @@ abstract class SettingWrapper<T>(protected val settings: SuspendSettings, overri
         listeners.add(listener)
         awaitClose { listeners.remove(listener) }
     }
-
-    /**
-     * @return this setting as a [SafeSetting]
-     */
-    fun safe(): SafeSetting<T> = SafeSetting(this)
-
-    /**
-     * @return this setting as a [NullSetting]
-     */
-    fun nullable(): NullSetting<T> = NullSetting(this)
 }
