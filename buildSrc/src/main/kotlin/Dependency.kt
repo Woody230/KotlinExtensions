@@ -150,7 +150,7 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
     compileSdk = 31
     sourceSets.getByName("main").manifest.srcFile(manifestPath)
     defaultConfig {
-        minSdk = 23
+        minSdk = 21
         targetSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
