@@ -26,8 +26,7 @@ This repository is tailored to the needs of multiple personal projects and may n
 | livedata | **LEGACY** General [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) extensions for Android. |
 | logging | Logging wrapper around [Napier](https://github.com/AAkira/Napier). |
 | moshi | **LEGACY** General [Moshi](https://github.com/square/moshi) extensions. |
-| preference | **
-LEGACY** General AndroidX [Preference](https://developer.android.com/jetpack/androidx/releases/preference/) and [DataStore](https://developer.android.com/jetpack/androidx/releases/datastore) extensions. |
+| preference | **LEGACY** General AndroidX [Preference](https://developer.android.com/jetpack/androidx/releases/preference/) and [DataStore](https://developer.android.com/jetpack/androidx/releases/datastore) extensions. |
 | serialization | General [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) extensions. |
 | settings-compose | Setting to [compose-jb](https://github.com/JetBrains/compose-jb) state converters.
 | settings | Async wrapper of primitive and serializable [multiplatform-settings](https://github.com/russhwolf/multiplatform-settings) settings. |
