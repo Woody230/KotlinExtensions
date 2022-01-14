@@ -1,10 +1,13 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version "1.5.20"
+    kotlin("plugin.serialization") version KOTLIN
 }
 
+publishing.publish(project)
+
 android.setup()
+
 kotlin.setup {
     commonMain {
         ktxSerialization()

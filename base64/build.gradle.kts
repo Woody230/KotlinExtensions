@@ -3,11 +3,13 @@ plugins {
     kotlin("multiplatform")
 }
 
+publishing.publish(project)
+
 android.setup()
 
 kotlin.setup {
     commonMain {
-        function()
+        projectFunction()
     }
     commonTest()
     jvmTest()

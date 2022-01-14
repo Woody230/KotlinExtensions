@@ -8,14 +8,15 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 allprojects {
-    group = "com.bselzer.library.kotlin.extension"
-    version = "2.0.1"
+    group = "com.bselzer.ktx"
+    version = "3.0.0"
 
     apply(plugin = "maven-publish")
 
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 

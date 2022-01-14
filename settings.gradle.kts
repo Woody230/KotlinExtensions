@@ -3,14 +3,7 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.namespace == "com.android" || requested.id.name == "kotlin-android-extensions")
-            {
-                useModule("com.android.tools.build:gradle:4.0.1")
-            }
-        }
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 rootProject.name = "KotlinExtensions"
@@ -21,3 +14,14 @@ include("livedata")
 include("serialization")
 include("datetime")
 include("base64")
+include("preference")
+include("geometry")
+include("kodein-db")
+include("compose")
+include("compose-accompanist")
+include("compose-image")
+include("settings")
+include("settings-compose")
+include("logging")
+include("coroutine")
+include("library")
