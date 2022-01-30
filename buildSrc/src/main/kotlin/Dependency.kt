@@ -22,12 +22,12 @@ private const val ROBOLECTRIC = "4.6.1"
 private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
 private const val KODEIN_DB = "0.9.0-beta"
-private const val CONSTRAINT_LAYOUT = "1.0.0-rc02"
 private const val SETTINGS = "0.8.1"
 private const val COROUTINE = "1.5.2"
 private const val LOGGING = "2.3.0"
 private const val LICENSING = "10.0.0-b03"
 private const val KTOR = "1.6.7"
+private const val ANDROID_COMPOSE = "1.1.0-rc03"
 const val COMPOSE = "1.0.1"
 const val KOTLIN = "1.6.10"
 
@@ -54,8 +54,8 @@ fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runti
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
 fun KotlinDependencyHandler.material() = api("org.jetbrains.compose.material:material:$COMPOSE")
 fun KotlinDependencyHandler.foundation() = api("org.jetbrains.compose.foundation:foundation:$COMPOSE")
-fun KotlinDependencyHandler.constraintLayout() = api("androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT")
 
+fun KotlinDependencyHandler.projectConstraintLayout() = api(project(":compose-constraint-layout"))
 fun KotlinDependencyHandler.projectFunction() = api(project(":function"))
 fun KotlinDependencyHandler.projectSettings() = api(project(":settings"))
 fun KotlinDependencyHandler.projectCompose() = api(project(":compose"))
@@ -140,6 +140,15 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDepende
             block(this)
         }
     }
+}
+
+/**
+ * Sets up Android test dependencies with Compose.
+ */
+fun NamedDomainObjectContainer<KotlinSourceSet>.androidTestWithCompose(block: KotlinDependencyHandler.() -> Unit = {}) = androidTest {
+    implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
+    implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
+    block()
 }
 
 /**

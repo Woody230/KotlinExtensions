@@ -15,13 +15,11 @@ kotlin.setup {
         material()
         foundation()
 
+        projectConstraintLayout()
         projectFunction()
-    }
-    androidMain {
-        constraintLayout()
     }
     jvmMain()
     commonTest()
-    androidTest()
+    androidTestWithCompose()
     jvmTest()
 }

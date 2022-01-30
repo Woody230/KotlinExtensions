@@ -11,7 +11,11 @@ publishing.publish(project) {
     }
 }
 
-android.setupWithCompose()
+android.setupWithCompose {
+    packagingOptions {
+        //resources.pickFirsts.add("META-INF/*")
+    }
+}
 
 kotlin.setup {
     commonMain {
@@ -21,4 +25,5 @@ kotlin.setup {
         foundation()
     }
     commonTest()
+    androidTestWithCompose()
 }
