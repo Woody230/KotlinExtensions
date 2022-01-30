@@ -52,6 +52,7 @@ fun KotlinDependencyHandler.ktorClient() = api("io.ktor:ktor-client-core:$KTOR")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
+fun KotlinDependencyHandler.uiUtil() = api("org.jetbrains.compose.ui:ui-util:$COMPOSE")
 fun KotlinDependencyHandler.material() = api("org.jetbrains.compose.material:material:$COMPOSE")
 fun KotlinDependencyHandler.foundation() = api("org.jetbrains.compose.foundation:foundation:$COMPOSE")
 
