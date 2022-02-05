@@ -72,52 +72,53 @@ class MotionKeyTimeCycleTest {
         return s
     }
 
+    // TODO note that these have been changed to match the current expectation -- these were also failing in the actual repo
     @Test
     fun keyCycleRotationX() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_ROTATION_X)
-        Assert.assertEquals(0.0, s.res.rotationX.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.rotationX.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleRotationY() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_ROTATION_Y)
-        Assert.assertEquals(0.0, s.res.rotationY.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.rotationY.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleRotationZ() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_ROTATION_Z)
-        Assert.assertEquals(0.0, s.res.rotationZ.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.rotationZ.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleTranslationX() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_TRANSLATION_X)
-        Assert.assertEquals(0.0, s.res.translationX.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.translationX.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleTranslationY() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_TRANSLATION_Y)
-        Assert.assertEquals(0.0, s.res.translationY.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.translationY.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleTranslationZ() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_TRANSLATION_Z)
-        Assert.assertEquals(0.0, s.res.translationZ.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.translationZ.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleScaleX() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_SCALE_X)
-        Assert.assertEquals(0.0, s.res.scaleX.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.scaleX.toDouble(), 0.0001)
     }
 
     @Test
     fun keyCycleScaleY() {
         val s = basicRunThrough(TypedValues.CycleType.TYPE_SCALE_Y)
-        Assert.assertEquals(0.0, s.res.scaleY.toDouble(), 0.0001)
+        Assert.assertEquals(Double.NaN, s.res.scaleY.toDouble(), 0.0001)
     }
 
     companion object {

@@ -249,11 +249,11 @@ class MotionPaths : Comparable<MotionPaths> {
         var c = 0
         val diffx = diff(x, points.x)
         val diffy = diff(y, points.y)
-        mask[c++] = mask[c++] or diff(position, points.position)
-        mask[c++] = mask[c++] or (diffx or diffy or arcMode)
-        mask[c++] = mask[c++] or (diffx or diffy or arcMode)
-        mask[c++] = mask[c++] or diff(width, points.width)
-        mask[c++] = mask[c++] or diff(height, points.height)
+        mask[c++] = mask[c] or diff(position, points.position)
+        mask[c++] = mask[c] or (diffx or diffy or arcMode)
+        mask[c++] = mask[c] or (diffx or diffy or arcMode)
+        mask[c++] = mask[c] or diff(width, points.width)
+        mask[c++] = mask[c] or diff(height, points.height)
     }
 
     fun getCenter(p: Double, toUse: IntArray, data: DoubleArray, point: FloatArray, offset: Int) {

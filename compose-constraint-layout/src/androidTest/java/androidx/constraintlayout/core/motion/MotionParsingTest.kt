@@ -53,28 +53,27 @@ class MotionParsingTest {
         }
     }
 
-    var str = """
-           {frame:22,
-           target:'widget1',
-           easing:'easeIn',
-           curveFit:'spline',
-           progress:0.3,
-           alpha:0.2,
-           elevation:0.7,
-           rotationZ:23,
-           rotationX:25.0,
-           rotationY:27.0,
-           pivotX:15,
-           pivotY:17,
-           pivotTarget:'32',
-           pathRotate:23,
-           scaleX:0.5,
-           scaleY:0.7,
-           translationX:5,
-           translationY:7,
-           translationZ:11,
-           }
-           """.trimIndent()
+    var str = "{" +
+            "frame:22,\n" +
+            "target:'widget1',\n" +
+            "easing:'easeIn',\n" +
+            "curveFit:'spline',\n" +
+            "progress:0.3,\n" +
+            "alpha:0.2,\n" +
+            "elevation:0.7,\n" +
+            "rotationZ:23,\n" +
+            "rotationX:25.0,\n" +
+            "rotationY:27.0,\n" +
+            "pivotX:15,\n" +
+            "pivotY:17,\n" +
+            "pivotTarget:'32',\n" +
+            "pathRotate:23,\n" +
+            "scaleX:0.5,\n" +
+            "scaleY:0.7,\n" +
+            "translationX:5,\n" +
+            "translationY:7,\n" +
+            "translationZ:11,\n" +
+            "}"
 
     @Test
     fun ParseKeAttributes() {
@@ -83,7 +82,7 @@ class MotionParsingTest {
         assertEquals(22, mka.framePosition)
         val attrs = HashSet<String>()
         mka.getAttributeNames(attrs)
-        val split = str.replace("\n", "").split("[,:\\{\\}]".toRegex()).toTypedArray()
+        val split = str.replace("\n", "").split("[,:\\{\\}]".toRegex()).dropLast(2).toTypedArray()
         val expectlist = ArrayList<String>()
         val exclude = HashSet(Arrays.asList("curveFit", "easing", "frame", "target", "pivotTarget"))
         var i = 1

@@ -74,7 +74,7 @@ class MotionWidget : TypedValues {
     }
 
     override fun toString(): String {
-        return "" //widgetFrame.left ?: "" + ", " + widgetFrame.top + ", " + widgetFrame!!.right + ", " + widgetFrame!!.bottom
+        return widgetFrame?.left.toString() + ", " + widgetFrame?.top + ", " + widgetFrame!!.right + ", " + widgetFrame!!.bottom
     }
 
     fun setBounds(left: Int, top: Int, right: Int, bottom: Int) {

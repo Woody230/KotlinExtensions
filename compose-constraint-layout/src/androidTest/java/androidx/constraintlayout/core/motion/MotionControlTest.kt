@@ -46,10 +46,10 @@ class MotionControlTest {
             p += 0.1f
         }
         motion.interpolate(res, 0.5f, (1000000 + 1000).toLong(), cache)
-        Assert.assertEquals((0.5 + (mw1.left + mw2.left) / 2), res.left.toLong())
-        Assert.assertEquals((0.5 + (mw1.right + mw2.right) / 2), res.right.toLong())
-        Assert.assertEquals((0.5 + (mw1.top + mw2.top) / 2) , res.top.toLong())
-        Assert.assertEquals((0.5 + (mw1.bottom + mw2.bottom) / 2), res.bottom.toLong())
+        Assert.assertEquals((0.5 + (mw1.left + mw2.left) / 2).toInt(), res.left)
+        Assert.assertEquals((0.5 + (mw1.right + mw2.right) / 2).toInt(), res.right)
+        Assert.assertEquals((0.5 + (mw1.top + mw2.top) / 2).toInt() , res.top)
+        Assert.assertEquals((0.5 + (mw1.bottom + mw2.bottom) / 2).toInt(), res.bottom)
     }
 
     @Test
