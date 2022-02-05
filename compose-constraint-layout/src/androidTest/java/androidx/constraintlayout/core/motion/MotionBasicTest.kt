@@ -18,7 +18,7 @@ package androidx.constraintlayout.core.motion
 import androidx.constraintlayout.core.motion.utils.Easing.Companion.getInterpolator
 import androidx.constraintlayout.core.motion.utils.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 import java.lang.Exception
 import java.text.DecimalFormat
 

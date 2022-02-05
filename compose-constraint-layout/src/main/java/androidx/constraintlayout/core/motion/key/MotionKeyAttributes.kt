@@ -42,46 +42,46 @@ class MotionKeyAttributes : MotionKey() {
     private var mTranslationZ = Float.NaN
     private var mProgress = Float.NaN
     override fun getAttributeNames(attributes: HashSet<String>) {
-        if (!java.lang.Float.isNaN(mAlpha)) {
+        if (!mAlpha.isNaN()) {
             attributes.add(AttributesType.S_ALPHA)
         }
-        if (!java.lang.Float.isNaN(mElevation)) {
+        if (!mElevation.isNaN()) {
             attributes.add(AttributesType.S_ELEVATION)
         }
-        if (!java.lang.Float.isNaN(mRotation)) {
+        if (!mRotation.isNaN()) {
             attributes.add(AttributesType.S_ROTATION_Z)
         }
-        if (!java.lang.Float.isNaN(mRotationX)) {
+        if (!mRotationX.isNaN()) {
             attributes.add(AttributesType.S_ROTATION_X)
         }
-        if (!java.lang.Float.isNaN(mRotationY)) {
+        if (!mRotationY.isNaN()) {
             attributes.add(AttributesType.S_ROTATION_Y)
         }
-        if (!java.lang.Float.isNaN(mPivotX)) {
+        if (!mPivotX.isNaN()) {
             attributes.add(AttributesType.S_PIVOT_X)
         }
-        if (!java.lang.Float.isNaN(mPivotY)) {
+        if (!mPivotY.isNaN()) {
             attributes.add(AttributesType.S_PIVOT_Y)
         }
-        if (!java.lang.Float.isNaN(mTranslationX)) {
+        if (!mTranslationX.isNaN()) {
             attributes.add(AttributesType.S_TRANSLATION_X)
         }
-        if (!java.lang.Float.isNaN(mTranslationY)) {
+        if (!mTranslationY.isNaN()) {
             attributes.add(AttributesType.S_TRANSLATION_Y)
         }
-        if (!java.lang.Float.isNaN(mTranslationZ)) {
+        if (!mTranslationZ.isNaN()) {
             attributes.add(AttributesType.S_TRANSLATION_Z)
         }
-        if (!java.lang.Float.isNaN(mTransitionPathRotate)) {
+        if (!mTransitionPathRotate.isNaN()) {
             attributes.add(AttributesType.S_PATH_ROTATE)
         }
-        if (!java.lang.Float.isNaN(mScaleX)) {
+        if (!mScaleX.isNaN()) {
             attributes.add(AttributesType.S_SCALE_X)
         }
-        if (!java.lang.Float.isNaN(mScaleY)) {
+        if (!mScaleY.isNaN()) {
             attributes.add(AttributesType.S_SCALE_Y)
         }
-        if (!java.lang.Float.isNaN(mProgress)) {
+        if (!mProgress.isNaN()) {
             attributes.add(AttributesType.S_PROGRESS)
         }
         if (mCustom!!.size > 0) {
@@ -190,46 +190,46 @@ class MotionKeyAttributes : MotionKey() {
     }
 
     override fun setInterpolation(interpolation: HashMap<String?, Int?>) {
-        if (!java.lang.Float.isNaN(mAlpha)) {
+        if (!mAlpha.isNaN()) {
             interpolation[AttributesType.S_ALPHA] = curveFit
         }
-        if (!java.lang.Float.isNaN(mElevation)) {
+        if (!mElevation.isNaN()) {
             interpolation[AttributesType.S_ELEVATION] = curveFit
         }
-        if (!java.lang.Float.isNaN(mRotation)) {
+        if (!mRotation.isNaN()) {
             interpolation[AttributesType.S_ROTATION_Z] = curveFit
         }
-        if (!java.lang.Float.isNaN(mRotationX)) {
+        if (!mRotationX.isNaN()) {
             interpolation[AttributesType.S_ROTATION_X] = curveFit
         }
-        if (!java.lang.Float.isNaN(mRotationY)) {
+        if (!mRotationY.isNaN()) {
             interpolation[AttributesType.S_ROTATION_Y] = curveFit
         }
-        if (!java.lang.Float.isNaN(mPivotX)) {
+        if (!mPivotX.isNaN()) {
             interpolation[AttributesType.S_PIVOT_X] = curveFit
         }
-        if (!java.lang.Float.isNaN(mPivotY)) {
+        if (!mPivotY.isNaN()) {
             interpolation[AttributesType.S_PIVOT_Y] = curveFit
         }
-        if (!java.lang.Float.isNaN(mTranslationX)) {
+        if (!mTranslationX.isNaN()) {
             interpolation[AttributesType.S_TRANSLATION_X] = curveFit
         }
-        if (!java.lang.Float.isNaN(mTranslationY)) {
+        if (!mTranslationY.isNaN()) {
             interpolation[AttributesType.S_TRANSLATION_Y] = curveFit
         }
-        if (!java.lang.Float.isNaN(mTranslationZ)) {
+        if (!mTranslationZ.isNaN()) {
             interpolation[AttributesType.S_TRANSLATION_Z] = curveFit
         }
-        if (!java.lang.Float.isNaN(mTransitionPathRotate)) {
+        if (!mTransitionPathRotate.isNaN()) {
             interpolation[AttributesType.S_PATH_ROTATE] = curveFit
         }
-        if (!java.lang.Float.isNaN(mScaleX)) {
+        if (!mScaleX.isNaN()) {
             interpolation[AttributesType.S_SCALE_X] = curveFit
         }
-        if (!java.lang.Float.isNaN(mScaleY)) {
+        if (!mScaleY.isNaN()) {
             interpolation[AttributesType.S_SCALE_Y] = curveFit
         }
-        if (!java.lang.Float.isNaN(mProgress)) {
+        if (!mProgress.isNaN()) {
             interpolation[AttributesType.S_PROGRESS] = curveFit
         }
         if (mCustom!!.size > 0) {

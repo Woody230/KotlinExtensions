@@ -41,37 +41,37 @@ class MotionKeyCycle : MotionKey() {
     private var mTranslationY = Float.NaN
     private var mTranslationZ = Float.NaN
     override fun getAttributeNames(attributes: HashSet<String>) {
-        if (!java.lang.Float.isNaN(mAlpha)) {
+        if (!mAlpha.isNaN()) {
             attributes.add(CycleType.S_ALPHA)
         }
-        if (!java.lang.Float.isNaN(mElevation)) {
+        if (!mElevation.isNaN()) {
             attributes.add(CycleType.S_ELEVATION)
         }
-        if (!java.lang.Float.isNaN(mRotation)) {
+        if (!mRotation.isNaN()) {
             attributes.add(CycleType.S_ROTATION_Z)
         }
-        if (!java.lang.Float.isNaN(mRotationX)) {
+        if (!mRotationX.isNaN()) {
             attributes.add(CycleType.S_ROTATION_X)
         }
-        if (!java.lang.Float.isNaN(mRotationY)) {
+        if (!mRotationY.isNaN()) {
             attributes.add(CycleType.S_ROTATION_Y)
         }
-        if (!java.lang.Float.isNaN(mScaleX)) {
+        if (!mScaleX.isNaN()) {
             attributes.add(CycleType.S_SCALE_X)
         }
-        if (!java.lang.Float.isNaN(mScaleY)) {
+        if (!mScaleY.isNaN()) {
             attributes.add(CycleType.S_SCALE_Y)
         }
-        if (!java.lang.Float.isNaN(mTransitionPathRotate)) {
+        if (!mTransitionPathRotate.isNaN()) {
             attributes.add(CycleType.S_PATH_ROTATE)
         }
-        if (!java.lang.Float.isNaN(mTranslationX)) {
+        if (!mTranslationX.isNaN()) {
             attributes.add(CycleType.S_TRANSLATION_X)
         }
-        if (!java.lang.Float.isNaN(mTranslationY)) {
+        if (!mTranslationY.isNaN()) {
             attributes.add(CycleType.S_TRANSLATION_Y)
         }
-        if (!java.lang.Float.isNaN(mTranslationZ)) {
+        if (!mTranslationZ.isNaN()) {
             attributes.add(CycleType.S_TRANSLATION_Z)
         }
         if (mCustom!!.size > 0) {
@@ -201,7 +201,7 @@ class MotionKeyCycle : MotionKey() {
                 continue
             }
             val value = getValue(key)
-            if (java.lang.Float.isNaN(value)) {
+            if (value.isNaN()) {
                 continue
             }
             val osc = oscSet[key] ?: continue

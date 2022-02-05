@@ -18,7 +18,7 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 import java.util.ArrayList
 
 class AdvancedChainTest {

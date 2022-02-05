@@ -121,15 +121,15 @@ get() {
     }
 
     val isDefaultTransform: Boolean
-        get() = (java.lang.Float.isNaN(rotationX)
-                && java.lang.Float.isNaN(rotationY)
-                && java.lang.Float.isNaN(rotationZ)
-                && java.lang.Float.isNaN(translationX)
-                && java.lang.Float.isNaN(translationY)
-                && java.lang.Float.isNaN(translationZ)
-                && java.lang.Float.isNaN(scaleX)
-                && java.lang.Float.isNaN(scaleY)
-                && java.lang.Float.isNaN(alpha))
+        get() = (rotationX.isNaN()
+                && rotationY.isNaN()
+                && rotationZ.isNaN()
+                && translationX.isNaN()
+                && translationY.isNaN()
+                && translationZ.isNaN()
+                && scaleX.isNaN()
+                && scaleY.isNaN()
+                && alpha.isNaN())
 
     fun centerX(): Float {
         return left + (right - left) / 2f
@@ -422,7 +422,7 @@ get() {
                 startY -= (endHeight / 2f).toInt()
                 startWidth = endWidth
                 startHeight = endHeight
-                if (java.lang.Float.isNaN(startAlpha)) {
+                if (startAlpha.isNaN()) {
                     // override only if not defined...
                     startAlpha = 0f
                 }
@@ -433,15 +433,15 @@ get() {
                 endY -= (startHeight / 2f).toInt()
                 endWidth = startWidth
                 endHeight = startHeight
-                if (java.lang.Float.isNaN(endAlpha)) {
+                if (endAlpha.isNaN()) {
                     // override only if not defined...
                     endAlpha = 0f
                 }
             }
-            if (java.lang.Float.isNaN(startAlpha) && !java.lang.Float.isNaN(endAlpha)) {
+            if (startAlpha.isNaN() && !endAlpha.isNaN()) {
                 startAlpha = 1f
             }
-            if (!java.lang.Float.isNaN(startAlpha) && java.lang.Float.isNaN(endAlpha)) {
+            if (!startAlpha.isNaN() && endAlpha.isNaN()) {
                 endAlpha = 1f
             }
             if (start.visibility == ConstraintWidget.INVISIBLE) {
@@ -518,8 +518,8 @@ get() {
         private fun interpolate(start: Float, end: Float, defaultValue: Float, progress: Float): Float {
             var start = start
             var end = end
-            val isStartUnset = java.lang.Float.isNaN(start)
-            val isEndUnset = java.lang.Float.isNaN(end)
+            val isStartUnset = start.isNaN()
+            val isEndUnset = end.isNaN()
             if (isStartUnset && isEndUnset) {
                 return Float.NaN
             }
@@ -540,7 +540,7 @@ get() {
         }
 
         private fun add(s: StringBuilder, title: String, value: Float) {
-            if (java.lang.Float.isNaN(value)) {
+            if (value.isNaN()) {
                 return
             }
             s.append(title)

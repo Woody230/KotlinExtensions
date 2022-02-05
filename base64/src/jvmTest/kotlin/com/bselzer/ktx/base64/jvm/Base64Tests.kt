@@ -3,7 +3,7 @@ package com.bselzer.ktx.base64.jvm
 import com.bselzer.ktx.base64.decodeBase64ToByteArray
 import com.bselzer.ktx.base64.encodeBase64ToString
 import org.junit.Assert.assertArrayEquals
-import org.junit.Test
+import kotlin.test.Test
 import java.util.*
 import kotlin.random.Random
 import kotlin.test.assertEquals

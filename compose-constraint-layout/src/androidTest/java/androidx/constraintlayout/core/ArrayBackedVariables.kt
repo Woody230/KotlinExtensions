@@ -15,8 +15,6 @@
  */
 package androidx.constraintlayout.core
 
-import java.util.*
-
 /**
  * Store a set of variables and their values in an array.
  */
@@ -45,9 +43,9 @@ internal class ArrayBackedVariables(arrayRow: ArrayRow?, cache: Cache?) {
 
     fun increaseSize() {
         maxSize *= 2
-        variables = Arrays.copyOf(variables, maxSize)
-        values = Arrays.copyOf(values, maxSize)
-        indexes = Arrays.copyOf(indexes, maxSize)
+        variables = variables?.copyOf(maxSize)
+        values = values?.copyOf(maxSize)
+        indexes = indexes?.copyOf(maxSize)
     }
 
     fun size(): Int {

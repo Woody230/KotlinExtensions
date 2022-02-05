@@ -15,8 +15,6 @@
  */
 package androidx.constraintlayout.core
 
-import java.util.*
-
 /**
  * LinearEquation is used to represent the linear equations fed into the solver.<br></br>
  * A linear equation can be an equality or an inequation (left term  or  to the right term).<br></br>

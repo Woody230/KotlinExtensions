@@ -86,7 +86,7 @@ abstract class MotionKey : TypedValues {
      * @suppress
      */
     fun toBoolean(value: Any): Boolean {
-        return if (value is Boolean) value else java.lang.Boolean.parseBoolean(value.toString())
+        return if (value is Boolean) value else value.toString().toBoolean()
     }
 
     /**

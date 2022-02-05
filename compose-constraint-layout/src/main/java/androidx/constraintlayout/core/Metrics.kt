@@ -15,8 +15,6 @@
  */
 package androidx.constraintlayout.core
 
-import java.util.ArrayList
-
 /**
  * @suppress
  *

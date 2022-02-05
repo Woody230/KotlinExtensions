@@ -19,7 +19,7 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviou
 
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 /**
  * Tests for Barriers

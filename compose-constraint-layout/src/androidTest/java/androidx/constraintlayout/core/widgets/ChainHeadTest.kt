@@ -17,7 +17,7 @@ package androidx.constraintlayout.core.widgets
 
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 class ChainHeadTest {
     @Test

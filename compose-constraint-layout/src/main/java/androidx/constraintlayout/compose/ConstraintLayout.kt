@@ -1400,7 +1400,7 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
                 str2 = "FF$str2"
             }
             try {
-                return Color(java.lang.Long.parseLong(str2, 16).toInt())
+                return Color(str2.toLong(16).toInt())
             } catch (e: Exception) {
                 return defaultColor
             }

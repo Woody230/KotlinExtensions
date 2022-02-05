@@ -20,7 +20,7 @@ import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 class MotionTransitionTest {
     fun makeLayout1(): ConstraintWidgetContainer {

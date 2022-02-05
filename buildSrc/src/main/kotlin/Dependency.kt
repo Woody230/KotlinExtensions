@@ -146,10 +146,20 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDepende
 /**
  * Sets up Android test dependencies with Compose.
  */
-fun NamedDomainObjectContainer<KotlinSourceSet>.androidTestWithCompose(block: KotlinDependencyHandler.() -> Unit = {}) = androidTest {
-    implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
-    implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
-    block()
+fun NamedDomainObjectContainer<KotlinSourceSet>.androidTestWithCompose(block: KotlinDependencyHandler.() -> Unit = {})
+{
+    getByName("androidTest") {
+        dependencies {
+            implementation(kotlin("test-junit"))
+            implementation("androidx.test.ext:junit:$ANDROID_TEST")
+            implementation("androidx.test:core:$ANDROID_TEST")
+            implementation("androidx.test:runner:$ANDROID_TEST")
+            implementation("androidx.test:rules:$ANDROID_TEST")
+            implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
+            implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
+            block(this)
+        }
+    }
 }
 
 /**

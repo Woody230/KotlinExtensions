@@ -189,7 +189,7 @@ class EquationVariable {
      * @param amount specified amount multiplied
      */
     fun multiply(amount: Amount?) {
-        amount!!.multiply(amount)
+        this.amount!!.multiply(amount)
     }
 
     /**

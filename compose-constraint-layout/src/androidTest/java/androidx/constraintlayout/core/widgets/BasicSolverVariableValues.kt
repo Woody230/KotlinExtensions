@@ -19,7 +19,6 @@ import androidx.constraintlayout.core.ArrayRow
 import androidx.constraintlayout.core.ArrayRow.ArrayRowVariables
 import androidx.constraintlayout.core.Cache
 import androidx.constraintlayout.core.SolverVariable
-import java.util.*
 
 class BasicSolverVariableValues internal constructor(// our owner
     private val mRow: ArrayRow, cache: Cache?
@@ -114,7 +113,7 @@ class BasicSolverVariableValues internal constructor(// our owner
                 list.add(item)
                 variable!!.usageInRowCount++
                 variable.addToRow(mRow)
-                Collections.sort(list, comparator)
+                list.sortWith(comparator)
             }
             //            if (false) {
 //                int previousItem = -1;

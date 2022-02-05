@@ -16,7 +16,6 @@
 
 package androidx.constraintlayout.compose
 
-import android.annotation.SuppressLint
 import android.graphics.Matrix
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -48,8 +47,6 @@ import androidx.constraintlayout.core.state.Transition
 import androidx.constraintlayout.core.state.WidgetFrame
 import androidx.constraintlayout.core.widgets.Optimizer
 import kotlinx.coroutines.channels.Channel
-import org.intellij.lang.annotations.Language
-import java.util.*
 
 /**
  * Layout that interpolate its children layout given two sets of constraint and
@@ -63,7 +60,7 @@ inline fun MotionLayout(
     end: ConstraintSet,
     transition: androidx.constraintlayout.compose.Transition? = null,
     progress: Float,
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     crossinline content: @Composable MotionLayoutScope.() -> Unit
@@ -91,7 +88,7 @@ inline fun MotionLayout(
 inline fun MotionLayout(
     motionScene: MotionScene,
     progress: Float,
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     crossinline content: @Composable (MotionLayoutScope.() -> Unit),
@@ -117,7 +114,7 @@ inline fun MotionLayout(
     motionScene: MotionScene,
     constraintSetName: String? = null,
     animationSpec: AnimationSpec<Float> = tween<Float>(),
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     noinline finishedAnimationListener: (() -> Unit)? = null,
@@ -142,7 +139,7 @@ inline fun MotionLayout(
     end: ConstraintSet,
     transition: androidx.constraintlayout.compose.Transition? = null,
     progress: Float,
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     informationReceiver: LayoutInformationReceiver? = null,
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
@@ -168,7 +165,7 @@ internal inline fun MotionLayoutCore(
     motionScene: MotionScene,
     constraintSetName: String? = null,
     animationSpec: AnimationSpec<Float> = tween<Float>(),
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     noinline finishedAnimationListener: (() -> Unit)? = null,
@@ -181,7 +178,7 @@ internal inline fun MotionLayoutCore(
 
     var usedDebugMode = debug
     if (motionScene.getForcedDrawDebug() != MotionLayoutDebugFlags.UNKNOWN) {
-        usedDebugMode = EnumSet.of(motionScene.getForcedDrawDebug())
+        usedDebugMode = setOf(motionScene.getForcedDrawDebug())
     }
 
     val transitionContent = remember(motionScene, needsUpdate.value) {
@@ -274,7 +271,7 @@ internal inline fun MotionLayoutCore(
 internal inline fun MotionLayoutCore(
     motionScene: MotionScene,
     progress: Float,
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
     crossinline content: @Composable (MotionLayoutScope.() -> Unit),
@@ -286,7 +283,7 @@ internal inline fun MotionLayoutCore(
 
     var usedDebugMode = debug
     if (motionScene.getForcedDrawDebug() != MotionLayoutDebugFlags.UNKNOWN) {
-        usedDebugMode = EnumSet.of(motionScene.getForcedDrawDebug())
+        usedDebugMode = setOf(motionScene.getForcedDrawDebug())
     }
 
     val transitionContent = remember(motionScene, needsUpdate.value) {
@@ -382,7 +379,7 @@ internal inline fun MotionLayoutCore(
     end: ConstraintSet,
     transition: androidx.constraintlayout.compose.Transition? = null,
     progress: Float,
-    debug: EnumSet<MotionLayoutDebugFlags> = EnumSet.of(MotionLayoutDebugFlags.NONE),
+    debug: Set<MotionLayoutDebugFlags> = setOf(MotionLayoutDebugFlags.NONE),
     informationReceiver: LayoutInformationReceiver? = null,
     modifier: Modifier = Modifier,
     optimizationLevel: Int = Optimizer.OPTIMIZATION_STANDARD,
@@ -451,7 +448,7 @@ interface MotionScene {
     fun getForcedDrawDebug(): MotionLayoutDebugFlags
 }
 
-internal class JSONMotionScene(@Language("json5") content: String) : EditableJSONLayout(content),
+internal class JSONMotionScene(content: String) : EditableJSONLayout(content),
     MotionScene {
 
     private val constraintSetsContent = HashMap<String, String>()
@@ -515,9 +512,8 @@ internal class JSONMotionScene(@Language("json5") content: String) : EditableJSO
 
 }
 
-@SuppressLint("ComposableNaming")
 @Composable
-fun MotionScene(@Language("json5") content: String): MotionScene {
+fun MotionScene(content: String): MotionScene {
     return remember(content) {
         JSONMotionScene(content)
     }
@@ -602,9 +598,8 @@ interface Transition {
     fun getEndConstraintSetId(): String
 }
 
-@SuppressLint("ComposableNaming")
 @Composable
-fun Transition(@Language("json5") content: String): androidx.constraintlayout.compose.Transition? {
+fun Transition(content: String): androidx.constraintlayout.compose.Transition? {
     val transition = remember(content) {
         val parsed = try {
             CLParser.parse(content)
@@ -654,7 +649,7 @@ enum class LayoutInfoFlags {
 @PublishedApi
 internal fun rememberMotionLayoutMeasurePolicy(
     optimizationLevel: Int,
-    debug: EnumSet<MotionLayoutDebugFlags>,
+    debug: Set<MotionLayoutDebugFlags>,
     needsUpdate: Long,
     constraintSetStart: ConstraintSet,
     constraintSetEnd: ConstraintSet,

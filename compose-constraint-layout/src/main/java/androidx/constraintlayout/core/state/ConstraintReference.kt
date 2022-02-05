@@ -19,9 +19,6 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.motion.utils.TypedValues
 import androidx.constraintlayout.core.state.helpers.Facade
-import java.lang.Exception
-import java.util.ArrayList
-import java.util.HashMap
 
 open class ConstraintReference(open val mState: State) : Reference {
     override var key: Any? = null

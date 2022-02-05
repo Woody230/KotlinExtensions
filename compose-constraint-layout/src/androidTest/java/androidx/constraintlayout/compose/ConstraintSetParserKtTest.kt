@@ -18,7 +18,7 @@ package androidx.constraintlayout.compose
 
 import androidx.constraintlayout.core.state.Transition
 import org.intellij.lang.annotations.Language
-import org.junit.Test
+import kotlin.test.Test
 
 internal class ConstraintSetParserKtTest {
 

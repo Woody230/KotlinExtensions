@@ -17,7 +17,7 @@ package androidx.constraintlayout.core
 
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
+import kotlin.test.Test
 import java.lang.Exception
 
 class LinearEquationTest {

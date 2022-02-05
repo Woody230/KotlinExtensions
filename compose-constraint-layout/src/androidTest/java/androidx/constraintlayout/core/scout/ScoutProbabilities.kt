@@ -558,7 +558,7 @@ class ScoutProbabilities {
                 }
                 if (!widget.isConnected(directions[j].opposite)) {
                     val dist = widget.connectedDistanceToRoot(list, direction)
-                    if (!java.lang.Float.isNaN(dist)) {
+                    if (!dist.isNaN()) {
                         if (dist > maxDist[j]) {
                             maxDist[j] = dist
                             maxCandidate[j] = widget

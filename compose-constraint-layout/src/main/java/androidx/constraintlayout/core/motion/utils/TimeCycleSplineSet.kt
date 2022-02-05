@@ -129,9 +129,9 @@ abstract class TimeCycleSplineSet constructor() {
             val period: Float = mTempValues.get(mTempValues.size - 2)
             val offset: Float = mTempValues.get(mTempValues.size - 1)
             val delta_time: Long = time - last_time
-            if (java.lang.Float.isNaN(last_cycle)) { // it has not been set
+            if (last_cycle.isNaN()) { // it has not been set
                 last_cycle = cache.getFloatValue(view, mAttributeName, 0) // check the cache
-                if (java.lang.Float.isNaN(last_cycle)) {  // not in cache so set to 0 (start)
+                if (last_cycle.isNaN()) {  // not in cache so set to 0 (start)
                     last_cycle = 0f
                 }
             }
@@ -274,9 +274,9 @@ abstract class TimeCycleSplineSet constructor() {
             val period: Float = mTempValues.get(mTempValues.size - 2)
             val offset: Float = mTempValues.get(mTempValues.size - 1)
             val delta_time: Long = time - last_time
-            if (java.lang.Float.isNaN(last_cycle)) { // it has not been set
+            if (last_cycle.isNaN()) { // it has not been set
                 last_cycle = cache.getFloatValue(view, mAttributeName, 0) // check the cache
-                if (java.lang.Float.isNaN(last_cycle)) {  // not in cache so set to 0 (start)
+                if (last_cycle.isNaN()) {  // not in cache so set to 0 (start)
                     last_cycle = 0f
                 }
             }

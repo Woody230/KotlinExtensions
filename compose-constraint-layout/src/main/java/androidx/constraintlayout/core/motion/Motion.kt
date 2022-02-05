@@ -245,14 +245,14 @@ class Motion(view: MotionWidget?) : TypedValues {
                         easing = frame.mKeyFrameEasing // this is the candidate
                         start = frame.time // this is also the starting time
                     } else { // frame with easing is past the pos
-                        if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                        if (end.isNaN()) { // we never ended the time line
                             end = frame.time
                         }
                     }
                 }
             }
             if (easing != null) {
-                if (java.lang.Float.isNaN(end)) {
+                if (end.isNaN()) {
                     end = 1.0f
                 }
                 var offset = (position - start) / (end - start)
@@ -326,14 +326,14 @@ class Motion(view: MotionWidget?) : TypedValues {
                         easing = frame.mKeyFrameEasing // this is the candidate
                         start = frame.time // this is also the starting time
                     } else { // frame with easing is past the pos
-                        if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                        if (end.isNaN()) { // we never ended the time line
                             end = frame.time
                         }
                     }
                 }
             }
             if (easing != null) {
-                if (java.lang.Float.isNaN(end)) {
+                if (end.isNaN()) {
                     end = 1.0f
                 }
                 var offset = (position - start) / (end - start)
@@ -373,14 +373,14 @@ class Motion(view: MotionWidget?) : TypedValues {
                             easing = frame.mKeyFrameEasing // this is the candidate
                             start = frame.time // this is also the starting time
                         } else { // frame with easing is past the pos
-                            if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                            if (end.isNaN()) { // we never ended the time line
                                 end = frame.time
                             }
                         }
                     }
                 }
                 if (easing != null) {
-                    if (java.lang.Float.isNaN(end)) {
+                    if (end.isNaN()) {
                         end = 1.0f
                     }
                     var offset = (position - start) / (end - start)
@@ -820,7 +820,7 @@ class Motion(view: MotionWidget?) : TypedValues {
             for (attribute in cycleAttributes) {
                 val cycle = makeWidgetCycle(attribute) ?: continue
                 if (cycle.variesByPath()) {
-                    if (java.lang.Float.isNaN(distance)) {
+                    if (distance.isNaN()) {
                         distance = preCycleDistance
                     }
                 }
@@ -1010,14 +1010,14 @@ class Motion(view: MotionWidget?) : TypedValues {
                     easing = frame.mKeyFrameEasing // this is the candidate
                     start = frame.time // this is also the starting time
                 } else { // frame with easing is past the pos
-                    if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                    if (end.isNaN()) { // we never ended the time line
                         end = frame.time
                     }
                 }
             }
         }
         if (easing != null) {
-            if (java.lang.Float.isNaN(end)) {
+            if (end.isNaN()) {
                 end = 1.0f
             }
             val offset = (position - start) / (end - start)
@@ -1062,7 +1062,7 @@ class Motion(view: MotionWidget?) : TypedValues {
             val steps = 1.0f / mQuantizeMotionSteps // the length of a step
             val jump = Math.floor((position / steps).toDouble()).toFloat() * steps // step jumps
             var section = position % steps / steps // float from 0 to 1 in a step
-            if (!java.lang.Float.isNaN(mQuantizeMotionPhase)) {
+            if (!mQuantizeMotionPhase.isNaN()) {
                 section = (section + mQuantizeMotionPhase) % 1
             }
             section = if (mQuantizeMotionInterpolator != null) {
@@ -1362,6 +1362,7 @@ class Motion(view: MotionWidget?) : TypedValues {
         return i
     }
 
+    /*
     /**
      * Get the keyFrames for the view controlled by this MotionController
      * the info data structure is of the the form
@@ -1406,7 +1407,7 @@ class Motion(view: MotionWidget?) : TypedValues {
             count++
         }
         return count
-    }
+    }*/
 
     override fun setValue(id: Int, value: Int): Boolean {
         when (id) {

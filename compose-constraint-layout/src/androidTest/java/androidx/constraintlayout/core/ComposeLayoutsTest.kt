@@ -21,7 +21,7 @@ import androidx.constraintlayout.core.state.Dimension
 import androidx.constraintlayout.core.state.State
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 class ComposeLayoutsTest {
     @Test
@@ -65,7 +65,7 @@ class ComposeLayoutsTest {
         Assert.assertEquals((root.width / 2).toLong(), box.width.toLong())
         Assert.assertEquals((root.width / 2 / 2).toLong(), box.height.toLong())
         Assert.assertEquals(1, divider.width.toLong())
-        Assert.assertEquals((box.height * 0.8), divider.height.toLong())
+        Assert.assertEquals((box.height * 0.8).toLong(), divider.height.toLong())
     }
 
     companion object {

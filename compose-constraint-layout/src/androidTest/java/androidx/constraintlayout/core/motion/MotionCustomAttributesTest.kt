@@ -18,7 +18,7 @@ package androidx.constraintlayout.core.motion
 import androidx.constraintlayout.core.motion.utils.*
 import org.junit.Assert
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
 
 class MotionCustomAttributesTest {
     @Test

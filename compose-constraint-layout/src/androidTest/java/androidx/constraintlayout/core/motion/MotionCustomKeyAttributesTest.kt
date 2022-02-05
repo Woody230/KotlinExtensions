@@ -19,7 +19,7 @@ import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
 import androidx.constraintlayout.core.motion.utils.*
 import org.junit.Assert
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
 import java.text.DecimalFormat
 
 class MotionCustomKeyAttributesTest {

@@ -18,7 +18,7 @@ package androidx.constraintlayout.core.motion
 import androidx.constraintlayout.core.motion.utils.CurveFit.Companion.getArc
 import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 class MotionArcCurveTest {
     @Test

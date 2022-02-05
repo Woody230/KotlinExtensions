@@ -497,7 +497,7 @@ class ConstraintWidgetContainer : WidgetContainer {
             if (LinearSystem.FULL_DEBUG) {
                 println("Direct pass " + myCounter++)
             }
-            solvingPass(this, measurer!!)
+            solvingPass(this, measurer)
             if (LinearSystem.FULL_DEBUG) {
                 println("Direct pass done.")
             }

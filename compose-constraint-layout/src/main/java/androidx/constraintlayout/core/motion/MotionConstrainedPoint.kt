@@ -55,8 +55,8 @@ internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
     var mCustomVariable = LinkedHashMap<String, CustomVariable>()
     var mMode = 0 // how was this point computed 1=perpendicular 2=deltaRelative
     private fun diff(a: Float, b: Float): Boolean {
-        return if (java.lang.Float.isNaN(a) || java.lang.Float.isNaN(b)) {
-            java.lang.Float.isNaN(a) != java.lang.Float.isNaN(b)
+        return if (a.isNaN() || b.isNaN()) {
+            a.isNaN() != b.isNaN()
         } else Math.abs(a - b) > 0.000001f
     }
 
@@ -81,10 +81,10 @@ internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
         if (diff(rotation, points.rotation)) {
             keySet.add(TypedValues.AttributesType.S_ROTATION_Z)
         }
-        if (!(java.lang.Float.isNaN(mPathRotate) && java.lang.Float.isNaN(points.mPathRotate))) {
+        if (!(mPathRotate.isNaN() && points.mPathRotate.isNaN())) {
             keySet.add(TypedValues.AttributesType.S_PATH_ROTATE)
         }
-        if (!(java.lang.Float.isNaN(mProgress) && java.lang.Float.isNaN(points.mProgress))) {
+        if (!(mProgress.isNaN() && points.mProgress.isNaN())) {
             keySet.add(TypedValues.AttributesType.S_PROGRESS)
         }
         if (diff(rotationX, points.rotationX)) {
@@ -176,7 +176,7 @@ internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
     }
 
     override fun compareTo(o: MotionConstrainedPoint): Int {
-        return java.lang.Float.compare(position, o.position)
+        return position.compareTo(o.position)
     }
 
     fun applyParameters(view: MotionWidget) {

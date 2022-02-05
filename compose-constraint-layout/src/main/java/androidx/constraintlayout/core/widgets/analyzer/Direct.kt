@@ -48,7 +48,7 @@ object Direct {
      * @param measurer the measurer used to measure the widget
      */
     @JvmStatic
-    fun solvingPass(layout: ConstraintWidgetContainer, measurer: BasicMeasure.Measurer) {
+    fun solvingPass(layout: ConstraintWidgetContainer, measurer: BasicMeasure.Measurer?) {
         val horizontal = layout.horizontalDimensionBehaviour
         val vertical = layout.verticalDimensionBehaviour
         hcount = 0
@@ -258,7 +258,7 @@ object Direct {
      * @param measurer
      * @param isRtl
      */
-    private fun solveBarrier(level: Int, barrier: Barrier, measurer: BasicMeasure.Measurer, orientation: Int, isRtl: Boolean) {
+    private fun solveBarrier(level: Int, barrier: Barrier, measurer: BasicMeasure.Measurer?, orientation: Int, isRtl: Boolean) {
         if (barrier.allSolved()) {
             if (orientation == ConstraintWidget.HORIZONTAL) {
                 horizontalSolvingPass(level + 1, barrier, measurer, isRtl)
@@ -291,7 +291,7 @@ object Direct {
      * @param measurer the measurer object to measure the widgets.
      * @param isRtl
      */
-    private fun horizontalSolvingPass(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer, isRtl: Boolean) {
+    private fun horizontalSolvingPass(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer?, isRtl: Boolean) {
         if (EARLY_TERMINATION && layout.isHorizontalSolvingPassDone) {
             if (DEBUG) {
                 println(ls(level) + "HORIZONTAL SOLVING PASS ON " + layout.debugName + " ALREADY CALLED")
@@ -415,7 +415,7 @@ object Direct {
      * @param layout the widget we want to solve the dependencies
      * @param measurer the measurer object to measure the widgets.
      */
-    private fun verticalSolvingPass(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer) {
+    private fun verticalSolvingPass(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer?) {
         if (EARLY_TERMINATION && layout.isVerticalSolvingPassDone) {
             if (DEBUG) {
                 println(ls(level) + "VERTICAL SOLVING PASS ON " + layout.debugName + " ALREADY CALLED")
@@ -566,7 +566,7 @@ object Direct {
      * @param widget
      * @param isRtl
      */
-    private fun solveHorizontalCenterConstraints(level: Int, measurer: BasicMeasure.Measurer, widget: ConstraintWidget, isRtl: Boolean) {
+    private fun solveHorizontalCenterConstraints(level: Int, measurer: BasicMeasure.Measurer?, widget: ConstraintWidget, isRtl: Boolean) {
         // TODO: Handle match constraints here or before calling this
         var x1: Int
         var x2: Int
@@ -608,7 +608,7 @@ object Direct {
      * @param measurer
      * @param widget
      */
-    private fun solveVerticalCenterConstraints(level: Int, measurer: BasicMeasure.Measurer, widget: ConstraintWidget) {
+    private fun solveVerticalCenterConstraints(level: Int, measurer: BasicMeasure.Measurer?, widget: ConstraintWidget) {
         // TODO: Handle match constraints here or before calling this
         var y1: Int
         var y2: Int
@@ -651,7 +651,7 @@ object Direct {
      * @param widget
      * @param isRtl
      */
-    private fun solveHorizontalMatchConstraint(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer, widget: ConstraintWidget, isRtl: Boolean) {
+    private fun solveHorizontalMatchConstraint(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer?, widget: ConstraintWidget, isRtl: Boolean) {
         val x1: Int
         val x2: Int
         val bias = widget.horizontalBiasPercent
@@ -688,7 +688,7 @@ object Direct {
      * @param measurer
      * @param widget
      */
-    private fun solveVerticalMatchConstraint(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer, widget: ConstraintWidget) {
+    private fun solveVerticalMatchConstraint(level: Int, layout: ConstraintWidget, measurer: BasicMeasure.Measurer?, widget: ConstraintWidget) {
         val y1: Int
         val y2: Int
         val bias = widget.verticalBiasPercent

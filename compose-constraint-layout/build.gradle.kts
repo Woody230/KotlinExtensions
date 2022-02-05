@@ -13,7 +13,10 @@ publishing.publish(project) {
 
 android.setupWithCompose {
     packagingOptions {
-        //resources.pickFirsts.add("META-INF/*")
+        resources.pickFirsts.apply {
+            add("META-INF/AL2.0")
+            add("META-INF/LGPL2.1")
+        }
     }
 }
 

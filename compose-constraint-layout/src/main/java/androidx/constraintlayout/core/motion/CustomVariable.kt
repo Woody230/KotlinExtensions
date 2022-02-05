@@ -15,10 +15,7 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.CustomVariable
 import androidx.constraintlayout.core.motion.utils.TypedValues
-import androidx.constraintlayout.core.motion.MotionWidget
-import java.lang.RuntimeException
 
 /**
  * Defines non standard Attributes

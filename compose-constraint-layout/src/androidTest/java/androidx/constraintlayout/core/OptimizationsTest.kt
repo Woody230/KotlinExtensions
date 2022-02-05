@@ -19,7 +19,7 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviou
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 class OptimizationsTest {
     @Test
@@ -337,8 +337,8 @@ class OptimizationsTest {
         root.layout()
         println("2) root: $root A: $A")
         println(metrics)
-        Assert.assertEquals(A.left.toLong(), ((root.width - A.width) * 0.3f) )
-        Assert.assertEquals(A.top.toLong(), ((root.height - A.height) * 0.3f))
+        Assert.assertEquals(A.left.toLong(), ((root.width - A.width) * 0.3f).toLong() )
+        Assert.assertEquals(A.top.toLong(), ((root.height - A.height) * 0.3f).toLong())
         A.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT, 10)
         A.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, 30)
         A.connect(ConstraintAnchor.Type.TOP, root, ConstraintAnchor.Type.TOP, 50)

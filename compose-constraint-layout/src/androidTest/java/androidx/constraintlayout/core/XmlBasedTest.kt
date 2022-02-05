@@ -17,7 +17,7 @@ package androidx.constraintlayout.core
 
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.xml.sax.Attributes

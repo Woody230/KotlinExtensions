@@ -53,7 +53,7 @@ class CLNumber : CLElement {
 
     override val int: Int
         get() {
-            if (java.lang.Float.isNaN(value)) {
+            if (value.isNaN()) {
                 value = content().toInt().toFloat()
             }
             return value.toInt()
@@ -61,7 +61,7 @@ class CLNumber : CLElement {
 
     override val float: Float
         get() {
-            if (java.lang.Float.isNaN(value)) {
+            if (value.isNaN()) {
                 value = content().toFloat()
             }
             return value

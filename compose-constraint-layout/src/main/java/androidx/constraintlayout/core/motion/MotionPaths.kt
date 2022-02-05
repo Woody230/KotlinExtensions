@@ -59,8 +59,8 @@ class MotionPaths : Comparable<MotionPaths> {
         val point = this
         point.time = position
         mDrawPath = c.mDrawPath
-        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
-        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleWidth = if (c.mPercentWidth.isNaN()) position else c.mPercentWidth
+        val scaleHeight = if (c.mPercentHeight.isNaN()) position else c.mPercentHeight
         val scaleX = endTimePoint.width - startTimePoint.width
         val scaleY = endTimePoint.height - startTimePoint.height
         point.position = point.time
@@ -75,10 +75,10 @@ class MotionPaths : Comparable<MotionPaths> {
         point.y = (startTimePoint.y + pathVectorY * path - scaleY * scaleHeight / 2)
         point.width = (startTimePoint.width + scaleX * scaleWidth)
         point.height = (startTimePoint.height + scaleY * scaleHeight)
-        val dxdx = if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX
-        val dydx: Float = if (java.lang.Float.isNaN(c.mAltPercentY)) 0f else c.mAltPercentY
-        val dydy = if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY
-        val dxdy: Float = if (java.lang.Float.isNaN(c.mAltPercentX)) 0f else c.mAltPercentX
+        val dxdx = if (c.mPercentX.isNaN()) position else c.mPercentX
+        val dydx: Float = if (c.mAltPercentY.isNaN()) 0f else c.mAltPercentY
+        val dydy = if (c.mPercentY.isNaN()) position else c.mPercentY
+        val dxdy: Float = if (c.mAltPercentX.isNaN()) 0f else c.mAltPercentX
         point.mMode = CARTESIAN
         point.x = (startTimePoint.x + pathVectorX * dxdx + pathVectorY * dxdy - scaleX * scaleWidth / 2)
         point.y = (startTimePoint.y + pathVectorX * dydx + pathVectorY * dydy - scaleY * scaleHeight / 2)
@@ -123,8 +123,8 @@ class MotionPaths : Comparable<MotionPaths> {
         time = position
         mDrawPath = c.mDrawPath
         mMode = c.mPositionType // mode and type have same numbering scheme
-        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
-        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleWidth = if (c.mPercentWidth.isNaN()) position else c.mPercentWidth
+        val scaleHeight = if (c.mPercentHeight.isNaN()) position else c.mPercentHeight
         val scaleX = e.width - s.width
         val scaleY = e.height - s.height
         this.position = time
@@ -134,20 +134,20 @@ class MotionPaths : Comparable<MotionPaths> {
         val endfactor = position
         when (c.mPositionType) {
             MotionKeyPosition.TYPE_SCREEN -> {
-                x = if (java.lang.Float.isNaN(c.mPercentX)) position * (e.x - s.x) + s.x else c.mPercentX * Math.min(scaleHeight, scaleWidth)
-                y = if (java.lang.Float.isNaN(c.mPercentY)) position * (e.y - s.y) + s.y else c.mPercentY
+                x = if (c.mPercentX.isNaN()) position * (e.x - s.x) + s.x else c.mPercentX * Math.min(scaleHeight, scaleWidth)
+                y = if (c.mPercentY.isNaN()) position * (e.y - s.y) + s.y else c.mPercentY
             }
             MotionKeyPosition.TYPE_PATH -> {
-                x = (if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX) * (e.x - s.x) + s.x
-                y = (if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY) * (e.y - s.y) + s.y
+                x = (if (c.mPercentX.isNaN()) position else c.mPercentX) * (e.x - s.x) + s.x
+                y = (if (c.mPercentY.isNaN()) position else c.mPercentY) * (e.y - s.y) + s.y
             }
             MotionKeyPosition.TYPE_CARTESIAN -> {
-                x = (if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX) * (e.x - s.x) + s.x
-                y = (if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY) * (e.y - s.y) + s.y
+                x = (if (c.mPercentX.isNaN()) position else c.mPercentX) * (e.x - s.x) + s.x
+                y = (if (c.mPercentY.isNaN()) position else c.mPercentY) * (e.y - s.y) + s.y
             }
             else -> {
-                x = (if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX) * (e.x - s.x) + s.x
-                y = (if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY) * (e.y - s.y) + s.y
+                x = (if (c.mPercentX.isNaN()) position else c.mPercentX) * (e.x - s.x) + s.x
+                y = (if (c.mPercentY.isNaN()) position else c.mPercentY) * (e.y - s.y) + s.y
             }
         }
         mAnimateRelativeTo = s.mAnimateRelativeTo
@@ -160,7 +160,7 @@ class MotionPaths : Comparable<MotionPaths> {
         val dy = (y + height / 2 - relative.y - relative.height / 2).toDouble()
         mRelativeToController = mc
         x = Math.hypot(dy, dx).toFloat()
-        y = if (java.lang.Float.isNaN(mRelativeAngle)) {
+        y = if (mRelativeAngle.isNaN()) {
             (Math.atan2(dy, dx) + Math.PI / 2).toFloat()
         } else {
             Math.toRadians(mRelativeAngle.toDouble()).toFloat()
@@ -174,8 +174,8 @@ class MotionPaths : Comparable<MotionPaths> {
         val point = this
         point.time = position
         mDrawPath = c.mDrawPath
-        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
-        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleWidth = if (c.mPercentWidth.isNaN()) position else c.mPercentWidth
+        val scaleHeight = if (c.mPercentHeight.isNaN()) position else c.mPercentHeight
         val scaleX = endTimePoint.width - startTimePoint.width
         val scaleY = endTimePoint.height - startTimePoint.height
         point.position = point.time
@@ -191,11 +191,11 @@ class MotionPaths : Comparable<MotionPaths> {
         point.width = (startTimePoint.width + scaleX * scaleWidth)
         point.height = (startTimePoint.height + scaleY * scaleHeight)
         point.mMode = SCREEN
-        if (!java.lang.Float.isNaN(c.mPercentX)) {
+        if (!c.mPercentX.isNaN()) {
             parentWidth -= point.width.toInt()
             point.x = (c.mPercentX * parentWidth)
         }
-        if (!java.lang.Float.isNaN(c.mPercentY)) {
+        if (!c.mPercentY.isNaN()) {
             parentHeight -= point.height.toInt()
             point.y = (c.mPercentY * parentHeight)
         }
@@ -209,12 +209,12 @@ class MotionPaths : Comparable<MotionPaths> {
         val point = this
         point.time = position
         mDrawPath = c.mDrawPath
-        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
-        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleWidth = if (c.mPercentWidth.isNaN()) position else c.mPercentWidth
+        val scaleHeight = if (c.mPercentHeight.isNaN()) position else c.mPercentHeight
         val scaleX = endTimePoint.width - startTimePoint.width
         val scaleY = endTimePoint.height - startTimePoint.height
         point.position = point.time
-        val path = if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX // the position on the path
+        val path = if (c.mPercentX.isNaN()) position else c.mPercentX // the position on the path
         val startCenterX = startTimePoint.x + startTimePoint.width / 2
         val startCenterY = startTimePoint.y + startTimePoint.height / 2
         val endCenterX = endTimePoint.x + endTimePoint.width / 2
@@ -225,7 +225,7 @@ class MotionPaths : Comparable<MotionPaths> {
         point.y = (startTimePoint.y + pathVectorY * path - scaleY * scaleHeight / 2)
         point.width = (startTimePoint.width + scaleX * scaleWidth)
         point.height = (startTimePoint.height + scaleY * scaleHeight)
-        val perpendicular: Float = if (java.lang.Float.isNaN(c.mPercentY)) 0f else c.mPercentY // the position on the path
+        val perpendicular: Float = if (c.mPercentY.isNaN()) 0f else c.mPercentY // the position on the path
         val perpendicularX = -pathVectorY
         val normalX = perpendicularX * perpendicular
         val normalY = pathVectorX * perpendicular
@@ -240,8 +240,8 @@ class MotionPaths : Comparable<MotionPaths> {
     }
 
     private fun diff(a: Float, b: Float): Boolean {
-        return if (java.lang.Float.isNaN(a) || java.lang.Float.isNaN(b)) {
-            java.lang.Float.isNaN(a) != java.lang.Float.isNaN(b)
+        return if (a.isNaN() || b.isNaN()) {
+            a.isNaN() != b.isNaN()
         } else Math.abs(a - b) > 0.000001f
     }
 
@@ -426,11 +426,11 @@ class MotionPaths : Comparable<MotionPaths> {
             mTempDelta[toUse[i]] = slope[i]
         }
         for (i in mTempValue.indices) {
-            if (java.lang.Double.isNaN(mTempValue[i]) && (cycle == null || cycle[i] == 0.0)) {
+            if (mTempValue[i].isNaN() && (cycle == null || cycle[i] == 0.0)) {
                 continue
             }
             val deltaCycle = cycle?.get(i) ?: 0.0
-            val value = (if (java.lang.Double.isNaN(mTempValue[i])) deltaCycle else mTempValue[i] + deltaCycle).toFloat()
+            val value = (if (mTempValue[i].isNaN()) deltaCycle else mTempValue[i] + deltaCycle).toFloat()
             val dvalue = mTempDelta[i].toFloat()
             when (i) {
                 OFF_POSITION -> delta_path = value
@@ -479,12 +479,12 @@ class MotionPaths : Comparable<MotionPaths> {
                 slope[0] = dpos_x.toDouble()
                 slope[1] = dpos_y.toDouble()
             }
-            if (!java.lang.Float.isNaN(path_rotate)) {
+            if (!path_rotate.isNaN()) {
                 val rot = (path_rotate + Math.toDegrees(Math.atan2(dv_y.toDouble(), dv_x.toDouble()))).toFloat()
                 view.rotationZ = rot
             }
         } else {
-            if (!java.lang.Float.isNaN(path_rotate)) {
+            if (!path_rotate.isNaN()) {
                 var rot = 0f
                 val dx = dv_x + dv_width / 2
                 val dy = dv_y + dv_height / 2
@@ -574,10 +574,10 @@ class MotionPaths : Comparable<MotionPaths> {
         var y4 = y3
         var cx = x1 + v_width / 2
         var cy = y1 + v_height / 2
-        if (!java.lang.Float.isNaN(pivotX)) {
+        if (!pivotX.isNaN()) {
             cx = x1 + (x2 - x1) * pivotX
         }
-        if (!java.lang.Float.isNaN(pivotY)) {
+        if (!pivotY.isNaN()) {
             cy = y1 + (y3 - y1) * pivotY
         }
         if (scaleX != 1f) {
@@ -750,7 +750,7 @@ class MotionPaths : Comparable<MotionPaths> {
     }
 
     override fun compareTo(o: MotionPaths): Int {
-        return java.lang.Float.compare(position, o.position)
+        return position.compareTo(o.position)
     }
 
     fun applyParameters(c: MotionWidget) {

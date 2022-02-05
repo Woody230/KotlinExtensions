@@ -18,7 +18,7 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 import java.util.ArrayList
 
 class ChainTest {
@@ -296,7 +296,7 @@ class ChainTest {
         root.layout()
         println("h) A: $A B: $B")
         Assert.assertEquals(A.width.toLong(), 100)
-        Assert.assertEquals(B.width.toLong(), (0.3f * 600))
+        Assert.assertEquals(B.width.toLong(), (0.3f * 600).toLong())
         Assert.assertEquals(A.left.toLong(), (root.width - B.right).toLong())
         Assert.assertEquals(B.left.toLong(), (A.left + A.width).toLong())
         B.setDimensionRatio("16:9")
@@ -410,7 +410,7 @@ class ChainTest {
         root.layout()
         println("h) A: $A B: $B")
         Assert.assertEquals(A.width.toLong(), 100)
-        Assert.assertEquals(B.width.toLong(), (0.3f * 600))
+        Assert.assertEquals(B.width.toLong(), (0.3f * 600).toLong())
         Assert.assertEquals(A.left.toLong(), (root.width - B.right).toLong())
         Assert.assertEquals(B.left.toLong(), (A.left + A.width).toLong())
         B.setDimensionRatio("16:9")

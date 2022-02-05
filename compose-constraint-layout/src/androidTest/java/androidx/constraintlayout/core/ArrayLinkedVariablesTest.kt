@@ -16,7 +16,7 @@
 package androidx.constraintlayout.core
 
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 /**
  * Test nested layout

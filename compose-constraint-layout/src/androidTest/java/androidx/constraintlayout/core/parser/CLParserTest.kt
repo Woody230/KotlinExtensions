@@ -16,7 +16,7 @@
 package androidx.constraintlayout.core.parser
 
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 class CLParserTest {
     private fun testBasicFormat(content: String) {

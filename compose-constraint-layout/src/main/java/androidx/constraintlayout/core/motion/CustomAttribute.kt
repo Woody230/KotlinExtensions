@@ -15,9 +15,6 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.CustomAttribute
-import java.lang.RuntimeException
-
 /*
  * Copyright (C) 2017 The Android Open Source Project
  *

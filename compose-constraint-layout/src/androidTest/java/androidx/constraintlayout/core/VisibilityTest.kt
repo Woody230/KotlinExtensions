@@ -21,7 +21,7 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviou
 import androidx.constraintlayout.core.widgets.Guideline
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 /**
  * Basic visibility behavior test in the solver

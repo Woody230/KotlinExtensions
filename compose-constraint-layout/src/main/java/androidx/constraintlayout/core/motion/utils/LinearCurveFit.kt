@@ -35,7 +35,7 @@ class LinearCurveFit constructor(time: DoubleArray, y: Array<DoubleArray>) : Cur
      * @return
      */
     private fun getLength2D(t: Double): Double {
-        if (java.lang.Double.isNaN(mTotalLength)) {
+        if (mTotalLength.isNaN()) {
             return 0.0
         }
         val n: Int = timePoints.size

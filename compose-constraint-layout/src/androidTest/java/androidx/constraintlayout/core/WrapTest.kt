@@ -18,7 +18,7 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
-import org.junit.Test
+import kotlin.test.Test
 
 /**
  * Basic wrap test
@@ -586,7 +586,7 @@ class WrapTest {
         println("text: $text")
         println("view: $view")
         Assert.assertEquals(view.width.toLong(), view.height.toLong())
-        Assert.assertEquals(view.height.toLong(), (0.2 * root.height))
+        Assert.assertEquals(view.height.toLong(), (0.2 * root.height).toLong())
         Assert.assertEquals(root.width.toLong(), Math.max(text.width, view.width).toLong())
     }
 

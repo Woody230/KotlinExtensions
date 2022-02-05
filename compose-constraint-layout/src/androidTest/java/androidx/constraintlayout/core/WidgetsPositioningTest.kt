@@ -19,7 +19,7 @@ import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviou
 import androidx.constraintlayout.core.widgets.*
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
+import kotlin.test.Test
 import java.lang.Exception
 import java.util.ArrayList
 
@@ -72,16 +72,16 @@ class WidgetsPositioningTest {
         runTestOnWidgets(widgets) {
             println("a) A: $A B: $B")
             Assert.assertEquals(B.width.toLong(), (A.width - 2 * margin).toLong())
-            Assert.assertEquals(B.height.toLong(), (ratio * B.width))
-            Assert.assertEquals((B.top - A.top).toLong(), ((A.height - B.height) / 2))
-            Assert.assertEquals((A.bottom - B.bottom).toLong(), ((A.height - B.height) / 2))
+            Assert.assertEquals(B.height.toLong(), (ratio * B.width).toLong())
+            Assert.assertEquals((B.top - A.top).toLong(), ((A.height - B.height) / 2).toLong())
+            Assert.assertEquals((A.bottom - B.bottom).toLong(), ((A.height - B.height) / 2).toLong())
             Assert.assertEquals((B.top - A.top).toLong(), (A.bottom - B.bottom).toLong())
         }
         B.verticalBiasPercent = 1f
         runTestOnWidgets(widgets) {
             println("b) A: $A B: $B")
             Assert.assertEquals(B.width.toLong(), (A.width - 2 * margin).toLong())
-            Assert.assertEquals(B.height.toLong(), (ratio * B.width))
+            Assert.assertEquals(B.height.toLong(), (ratio * B.width).toLong())
             Assert.assertEquals(B.top.toLong(), (A.height - B.height - margin).toLong())
             Assert.assertEquals(A.bottom.toLong(), (B.bottom + margin).toLong())
         }
@@ -89,7 +89,7 @@ class WidgetsPositioningTest {
         runTestOnWidgets(widgets) {
             println("c) A: $A B: $B")
             Assert.assertEquals(B.width.toLong(), (A.width - 2 * margin).toLong())
-            Assert.assertEquals(B.height.toLong(), (ratio * B.width))
+            Assert.assertEquals(B.height.toLong(), (ratio * B.width).toLong())
             Assert.assertEquals(B.top.toLong(), (A.top + margin).toLong())
             Assert.assertEquals(B.bottom.toLong(), (A.top + B.height + margin).toLong())
         }
@@ -98,15 +98,15 @@ class WidgetsPositioningTest {
         runTestOnWidgets(widgets) {
             println("d) A: $A B: $B")
             Assert.assertEquals(B.height.toLong(), (A.height - 2 * margin).toLong())
-            Assert.assertEquals(B.width.toLong(), (ratio * B.height) )
-            Assert.assertEquals((B.left - A.left).toLong(), ((A.width - B.width) / 2))
-            Assert.assertEquals((A.right - B.right).toLong(), ((A.width - B.width) / 2) )
+            Assert.assertEquals(B.width.toLong(), (ratio * B.height).toLong() )
+            Assert.assertEquals((B.left - A.left).toLong(), ((A.width - B.width) / 2).toLong())
+            Assert.assertEquals((A.right - B.right).toLong(), ((A.width - B.width) / 2).toLong())
         }
         B.horizontalBiasPercent = 1f
         runTestOnWidgets(widgets) {
             println("e) A: $A B: $B")
             Assert.assertEquals(B.height.toLong(), (A.height - 2 * margin).toLong())
-            Assert.assertEquals(B.width.toLong(), (ratio * B.height))
+            Assert.assertEquals(B.width.toLong(), (ratio * B.height).toLong())
             Assert.assertEquals(B.right.toLong(), (A.right - margin).toLong())
             Assert.assertEquals(B.left.toLong(), (A.right - B.width - margin).toLong())
         }
@@ -114,7 +114,7 @@ class WidgetsPositioningTest {
         runTestOnWidgets(widgets) {
             println("f) A: $A B: $B")
             Assert.assertEquals(B.height.toLong(), (A.height - 2 * margin).toLong())
-            Assert.assertEquals(B.width.toLong(), (ratio * B.height))
+            Assert.assertEquals(B.width.toLong(), (ratio * B.height).toLong())
             Assert.assertEquals(B.right.toLong(), (A.left + margin + B.width).toLong())
             Assert.assertEquals(B.left.toLong(), (A.left + margin).toLong())
         }
