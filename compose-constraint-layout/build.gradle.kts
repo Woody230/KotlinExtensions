@@ -27,6 +27,7 @@ kotlin.setup {
         uiUtil()
         material()
         foundation()
+        ktxDateTime()
     }
     commonTest()
     androidTestWithCompose()

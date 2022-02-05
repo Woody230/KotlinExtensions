@@ -105,7 +105,7 @@ class LinearEquationTest {
         try {
             e!!.balance()
         } catch (e: Exception) {
-            System.err.println("Exception raised: $e")
+            println("Exception raised: $e")
         }
         Assert.assertEquals(e.toString(), "A = - 3 + B - 2 C + e1+ - e1- + s1")
     }
@@ -116,7 +116,7 @@ class LinearEquationTest {
         try {
             e!!.balance()
         } catch (e: Exception) {
-            System.err.println("Exception raised: $e")
+            println("Exception raised: $e")
         }
         Assert.assertEquals(e.toString(), "A = 3/2 - 3/2 B - 5/2 C")
     }
@@ -140,7 +140,7 @@ class LinearEquationTest {
         try {
             e!!.balance()
         } catch (e: Exception) {
-            System.err.println("Exception raised: $e")
+            println("Exception raised: $e")
         }
         Assert.assertEquals(e.toString(), "s1 = 36 + e2+ - e2-")
     }
@@ -153,7 +153,7 @@ class LinearEquationTest {
         try {
             e!!.balance()
         } catch (e: Exception) {
-            System.err.println("Exception raised: $e")
+            println("Exception raised: $e")
         }
         // 236 + e1- + e2+ - e2- = e1- - e2+ + e2-
         // 0 = e1- - e2+ + e2- -236 -e1- - e2+ + e2-

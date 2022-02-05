@@ -1072,10 +1072,10 @@ class ConstraintLayoutTest {
         val first = mutableStateOf(true)
         rule.setContent {
             ConstraintLayout(
-                ConstraintSet {
+                constraintSet = ConstraintSet {
                     val box = createRefFor("box")
                     constrain(box) { }
-                }
+                },
             ) {
                 if (first.value) {
                     Box(Modifier.layoutId("box"))
@@ -1290,7 +1290,7 @@ class ConstraintLayoutTest {
 
         var box2Position = IntOffset.Zero
         rule.setContent {
-            ConstraintLayout(if (first) constraintSet1 else constraintSet2) {
+            ConstraintLayout(constraintSet = if (first) constraintSet1 else constraintSet2) {
                 Box(Modifier.size(box1Size.toDp()).layoutId("box1"))
                 Box(
                     Modifier
@@ -1410,7 +1410,7 @@ class ConstraintLayoutTest {
 
         var box2Position = IntOffset.Zero
         rule.setContent {
-            ConstraintLayout(constraintSet) {
+            ConstraintLayout(constraintSet = constraintSet) {
                 Box(Modifier.size(box1Size.toDp()).layoutId("box1"))
                 Box(
                     Modifier

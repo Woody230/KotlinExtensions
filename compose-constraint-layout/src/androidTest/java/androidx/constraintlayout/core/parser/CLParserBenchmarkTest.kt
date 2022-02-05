@@ -51,7 +51,7 @@ class CLParserBenchmarkTest {
                 parseAndeCheck()
             }
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -65,7 +65,7 @@ class CLParserBenchmarkTest {
             }
             parseAndeCheck()
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }

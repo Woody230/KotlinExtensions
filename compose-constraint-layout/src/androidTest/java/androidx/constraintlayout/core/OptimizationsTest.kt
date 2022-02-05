@@ -18,6 +18,7 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.widgets.*
+import kotlinx.datetime.Clock
 import org.junit.Assert
 import kotlin.test.Test
 
@@ -321,12 +322,12 @@ class OptimizationsTest {
         A.connect(ConstraintAnchor.Type.LEFT, root, ConstraintAnchor.Type.LEFT)
         A.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT)
         root.add(A)
-        var time = System.nanoTime()
+        var time = Clock.System.now().epochSeconds
         val metrics = Metrics()
         root.fillMetrics(metrics)
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD
         root.layout()
-        time = System.nanoTime() - time
+        time = Clock.System.now().epochSeconds - time
         println("A) execution time: $time")
         println("1) root: $root A: $A")
         println(metrics)
@@ -367,9 +368,9 @@ class OptimizationsTest {
         root.add(A)
         root.add(B)
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD
-        val time = System.nanoTime()
+        val time = Clock.System.now().epochSeconds
         //        root.layout();
-//        time = System.nanoTime() - time;
+//        time = Clock.System.now().epochSeconds - time;
 //        System.out.println("A) execution time: " + time);
 //        System.out.println("a - root: " + root + " A: " + A + " B: " + B);
 //
@@ -405,9 +406,9 @@ class OptimizationsTest {
         root.add(A)
         root.add(guidelineA)
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD
-        var time = System.nanoTime()
+        var time = Clock.System.now().epochSeconds
         root.layout()
-        time = System.nanoTime() - time
+        time = Clock.System.now().epochSeconds - time
         println("A) execution time: $time")
         println("root: $root A: $A guide: $guidelineA")
         Assert.assertEquals(A.top.toLong(), 266)
@@ -428,9 +429,9 @@ class OptimizationsTest {
         A.connect(ConstraintAnchor.Type.RIGHT, root, ConstraintAnchor.Type.RIGHT, -marginR)
         root.add(A)
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD
-        var time = System.nanoTime()
+        var time = Clock.System.now().epochSeconds
         root.layout()
-        time = System.nanoTime() - time
+        time = Clock.System.now().epochSeconds - time
         println("A) execution time: $time")
         println("root: $root A: $A")
         Assert.assertEquals(A.left.toFloat(), 270f, 1f)
@@ -456,21 +457,21 @@ class OptimizationsTest {
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD
         val metrics = Metrics()
         root.fillMetrics(metrics)
-        var time = System.nanoTime()
+        var time = Clock.System.now().epochSeconds
         root.layout()
         Assert.assertEquals(A.left.toLong(), 102)
         Assert.assertEquals(A.top.toLong(), 32)
         Assert.assertEquals(A.width.toLong(), 491)
         Assert.assertEquals(A.height.toLong(), 20)
         Assert.assertEquals(guidelineA.left.toLong(), 100)
-        time = System.nanoTime() - time
+        time = Clock.System.now().epochSeconds - time
         println("A) execution time: $time")
         println("root: $root A: $A guideline: $guidelineA")
         println(metrics)
         root.width = 700
-        time = System.nanoTime()
+        time = Clock.System.now().epochSeconds
         root.layout()
-        time = System.nanoTime() - time
+        time = Clock.System.now().epochSeconds - time
         println("B) execution time: $time")
         println("root: $root A: $A guideline: $guidelineA")
         println(metrics)
@@ -501,9 +502,9 @@ class OptimizationsTest {
         root.add(B)
         root.add(C)
         root.optimizationLevel = Optimizer.OPTIMIZATION_STANDARD
-        var time = System.nanoTime()
+        var time = Clock.System.now().epochSeconds
         root.layout()
-        time = System.nanoTime() - time
+        time = Clock.System.now().epochSeconds - time
         println("execution time: $time")
         println("root: $root A: $A B: $B C: $C")
         Assert.assertEquals(A.left.toLong(), 10)

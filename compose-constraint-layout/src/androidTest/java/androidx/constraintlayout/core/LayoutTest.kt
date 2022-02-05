@@ -18,6 +18,7 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
+import kotlinx.datetime.Clock
 import kotlin.test.Test
 
 class LayoutTest {
@@ -114,11 +115,11 @@ class LayoutTest {
         root.add(button3)
         root.add(back)
         while (true) {
-            val time = System.nanoTime()
+            val time = Clock.System.now().epochSeconds
             for (i in 0..0) {
                 root.layout()
             }
-            val time2 = System.nanoTime() - time
+            val time2 = Clock.System.now().epochSeconds - time
             println("Time spent: " + time2 / 1E6 + " ms")
             root.system.displaySystemInformation()
             return

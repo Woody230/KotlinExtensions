@@ -24,7 +24,7 @@ class CLParserTest {
             val parsedContent = CLParser.parse(content)
             Assert.assertEquals(parsedContent.toJSON(), content)
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -62,7 +62,7 @@ class CLParserTest {
             Assert.assertEquals(49, parsedContent.getObject("hello").getInt("key").toLong())
             Assert.assertEquals("bonjour", parsedContent.getObject("hello").getString("text"))
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -96,7 +96,7 @@ class CLParserTest {
             Assert.assertEquals("world", parsedContent.getArray("test").getString(1))
             Assert.assertEquals("{ test: ['hello', 'world'] }", parsedContent.toJSON())
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -111,7 +111,7 @@ class CLParserTest {
             Assert.assertEquals("world", parsedContent.getArray("test").getString(1))
             Assert.assertEquals("{ test: ['hello', 'world'] }", parsedContent.toJSON())
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -126,7 +126,7 @@ class CLParserTest {
             Assert.assertEquals("world", parsedContent.getArray("test").getString(1))
             Assert.assertEquals("{ test: ['hello', 'world'] }", parsedContent.toJSON())
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -142,7 +142,7 @@ class CLParserTest {
             Assert.assertEquals("world", parsedContent.getArray("test").getString(1))
             Assert.assertEquals("{ test: ['hello', 'world'] }", parsedContent.toJSON())
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -192,7 +192,7 @@ class CLParserTest {
                 Assert.assertEquals(CLToken.Type.NULL, element.type)
             }
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -241,7 +241,7 @@ class CLParserTest {
                 Assert.assertEquals(CLToken.Type.NULL, element.type)
             }
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -269,7 +269,7 @@ class CLParserTest {
                 parsedContent.toJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -296,7 +296,7 @@ class CLParserTest {
                 parsedContent.toJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -354,7 +354,7 @@ class CLParserTest {
                 parsedContent.toJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -420,7 +420,7 @@ class CLParserTest {
             val keyattributes = keyframes!!.getArrayOrNull("KeyAttributes")
             Assert.assertNotNull(keyattributes)
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
             Assert.assertTrue(false)
         }
@@ -463,7 +463,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -518,7 +518,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -543,7 +543,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -577,7 +577,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -699,7 +699,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -726,7 +726,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -744,7 +744,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }
@@ -762,7 +762,7 @@ class CLParserTest {
 }""", parsedContent.toFormattedJSON()
             )
         } catch (e: CLParsingException) {
-            System.err.println("Exception " + e.reason())
+            println("Exception " + e.reason())
             e.printStackTrace()
         }
     }

@@ -281,7 +281,7 @@ class XmlBasedTest(var file: String) {
      * @param fileName
      */
     private fun parseXML(fileName: String) {
-        System.err.println(fileName)
+        println(fileName)
         container = ConstraintWidgetContainer(0, 0, 1080, 1920)
         container!!.debugName = "parent"
         widgetMap = HashMap()
@@ -544,7 +544,7 @@ class XmlBasedTest(var file: String) {
                 widgetMap!![connection.toName]
             }
             if (toConnect == null) {
-                System.err.println("   " + connection.toName)
+                println("   " + connection.toName)
             } else {
                 connection.fromWidget!!.connect(connection.fromType!!, toConnect, connection.toType!!, connection.margin)
                 connection.fromWidget!!.setGoneMargin(connection.fromType, connection.gonMargin)
