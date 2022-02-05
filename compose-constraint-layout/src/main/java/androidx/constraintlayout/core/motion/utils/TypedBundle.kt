@@ -13,115 +13,113 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-import java.util.Arrays;
-
-public class TypedBundle {
-
-    private static final int INITIAL_BOOLEAN = 4;
-    private static final int INITIAL_INT = 10;
-    private static final int INITIAL_FLOAT = 10;
-    private static final int INITIAL_STRING = 5;
-
-    int[] mTypeInt = new int[INITIAL_INT];
-    int[] mValueInt = new int[INITIAL_INT];
-    int mCountInt = 0;
-    int[] mTypeFloat = new int[INITIAL_FLOAT];
-    float[] mValueFloat = new float[INITIAL_FLOAT];
-    int mCountFloat = 0;
-    int[] mTypeString = new int[INITIAL_STRING];
-    String[] mValueString = new String[INITIAL_STRING];
-    int mCountString = 0;
-    int[] mTypeBoolean = new int[INITIAL_BOOLEAN];
-    boolean[] mValueBoolean = new boolean[INITIAL_BOOLEAN];
-    int mCountBoolean = 0;
-
-    public int getInteger(int type) {
-        for (int i = 0; i < mCountInt; i++) {
-            if (mTypeInt[i] == type) {
-                return mValueInt[i];
+class TypedBundle constructor() {
+    var mTypeInt: IntArray = IntArray(INITIAL_INT)
+    var mValueInt: IntArray = IntArray(INITIAL_INT)
+    var mCountInt: Int = 0
+    var mTypeFloat: IntArray = IntArray(INITIAL_FLOAT)
+    var mValueFloat: FloatArray = FloatArray(INITIAL_FLOAT)
+    var mCountFloat: Int = 0
+    var mTypeString: IntArray = IntArray(INITIAL_STRING)
+    var mValueString: Array<String?> = arrayOfNulls(INITIAL_STRING)
+    var mCountString: Int = 0
+    var mTypeBoolean: IntArray = IntArray(INITIAL_BOOLEAN)
+    var mValueBoolean: BooleanArray = BooleanArray(INITIAL_BOOLEAN)
+    var mCountBoolean: Int = 0
+    fun getInteger(type: Int): Int {
+        for (i in 0 until mCountInt) {
+            if (mTypeInt.get(i) == type) {
+                return mValueInt.get(i)
             }
         }
-        return -1;
+        return -1
     }
 
-    public void add(int type, int value) {
-        if (mCountInt >= mTypeInt.length) {
-            mTypeInt = Arrays.copyOf(mTypeInt, mTypeInt.length * 2);
-            mValueInt = Arrays.copyOf(mValueInt, mValueInt.length * 2);
+    fun add(type: Int, value: Int) {
+        if (mCountInt >= mTypeInt.size) {
+            mTypeInt = mTypeInt.copyOf(mTypeInt.size * 2)
+            mValueInt = mValueInt.copyOf(mValueInt.size * 2)
         }
-        mTypeInt[mCountInt] = type;
-        mValueInt[mCountInt++] = value;
+        mTypeInt[mCountInt] = type
+        mValueInt[mCountInt++] = value
     }
 
-    public void add(int type, float value) {
-        if (mCountFloat >= mTypeFloat.length) {
-            mTypeFloat = Arrays.copyOf(mTypeFloat, mTypeFloat.length * 2);
-            mValueFloat = Arrays.copyOf(mValueFloat, mValueFloat.length * 2);
+    fun add(type: Int, value: Float) {
+        if (mCountFloat >= mTypeFloat.size) {
+            mTypeFloat = mTypeFloat.copyOf(mTypeFloat.size * 2)
+            mValueFloat = mValueFloat.copyOf(mValueFloat.size * 2)
         }
-        mTypeFloat[mCountFloat] = type;
-        mValueFloat[mCountFloat++] = value;
+        mTypeFloat[mCountFloat] = type
+        mValueFloat[mCountFloat++] = value
     }
 
-    public void addIfNotNull(int type, String value) {
+    fun addIfNotNull(type: Int, value: String?) {
         if (value != null) {
-            add(type, value);
+            add(type, value)
         }
     }
 
-    public void add(int type, String value) {
-        if (mCountString >= mTypeString.length) {
-            mTypeString = Arrays.copyOf(mTypeString, mTypeString.length * 2);
-            mValueString = Arrays.copyOf(mValueString, mValueString.length * 2);
+    fun add(type: Int, value: String?) {
+        if (mCountString >= mTypeString.size) {
+            mTypeString = mTypeString.copyOf(mTypeString.size * 2)
+            mValueString = mValueString.copyOf(mValueString.size * 2)
         }
-        mTypeString[mCountString] = type;
-        mValueString[mCountString++] = value;
+        mTypeString[mCountString] = type
+        mValueString[mCountString++] = value
     }
 
-    public void add(int type, boolean value) {
-        if (mCountBoolean >= mTypeBoolean.length) {
-            mTypeBoolean = Arrays.copyOf(mTypeBoolean, mTypeBoolean.length * 2);
-            mValueBoolean = Arrays.copyOf(mValueBoolean, mValueBoolean.length * 2);
+    fun add(type: Int, value: Boolean) {
+        if (mCountBoolean >= mTypeBoolean.size) {
+            mTypeBoolean = mTypeBoolean.copyOf(mTypeBoolean.size * 2)
+            mValueBoolean = mValueBoolean.copyOf(mValueBoolean.size * 2)
         }
-        mTypeBoolean[mCountBoolean] = type;
-        mValueBoolean[mCountBoolean++] = value;
+        mTypeBoolean[mCountBoolean] = type
+        mValueBoolean[mCountBoolean++] = value
     }
 
-    public void applyDelta(TypedValues values) {
-        for (int i = 0; i < mCountInt; i++) {
-            values.setValue(mTypeInt[i], mValueInt[i]);
+    fun applyDelta(values: TypedValues) {
+        for (i in 0 until mCountInt) {
+            values.setValue(mTypeInt.get(i), mValueInt.get(i))
         }
-        for (int i = 0; i < mCountFloat; i++) {
-            values.setValue(mTypeFloat[i], mValueFloat[i]);
+        for (i in 0 until mCountFloat) {
+            values.setValue(mTypeFloat.get(i), mValueFloat.get(i))
         }
-        for (int i = 0; i < mCountString; i++) {
-            values.setValue(mTypeString[i], mValueString[i]);
+        for (i in 0 until mCountString) {
+            values.setValue(mTypeString.get(i), mValueString.get(i))
         }
-        for (int i = 0; i < mCountBoolean; i++) {
-            values.setValue(mTypeBoolean[i], mValueBoolean[i]);
-        }
-    }
-    public void applyDelta(TypedBundle values) {
-        for (int i = 0; i < mCountInt; i++) {
-            values.add(mTypeInt[i], mValueInt[i]);
-        }
-        for (int i = 0; i < mCountFloat; i++) {
-            values.add(mTypeFloat[i], mValueFloat[i]);
-        }
-        for (int i = 0; i < mCountString; i++) {
-            values.add(mTypeString[i], mValueString[i]);
-        }
-        for (int i = 0; i < mCountBoolean; i++) {
-            values.add(mTypeBoolean[i], mValueBoolean[i]);
+        for (i in 0 until mCountBoolean) {
+            values.setValue(mTypeBoolean.get(i), mValueBoolean.get(i))
         }
     }
 
+    fun applyDelta(values: TypedBundle) {
+        for (i in 0 until mCountInt) {
+            values.add(mTypeInt.get(i), mValueInt.get(i))
+        }
+        for (i in 0 until mCountFloat) {
+            values.add(mTypeFloat.get(i), mValueFloat.get(i))
+        }
+        for (i in 0 until mCountString) {
+            values.add(mTypeString.get(i), mValueString.get(i))
+        }
+        for (i in 0 until mCountBoolean) {
+            values.add(mTypeBoolean.get(i), mValueBoolean.get(i))
+        }
+    }
 
-    public void clear() {
-        mCountBoolean = 0;
-        mCountString = 0;
-        mCountFloat = 0;
-        mCountInt = 0;
+    fun clear() {
+        mCountBoolean = 0
+        mCountString = 0
+        mCountFloat = 0
+        mCountInt = 0
+    }
+
+    companion object {
+        private val INITIAL_BOOLEAN: Int = 4
+        private val INITIAL_INT: Int = 10
+        private val INITIAL_FLOAT: Int = 10
+        private val INITIAL_STRING: Int = 5
     }
 }

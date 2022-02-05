@@ -389,7 +389,7 @@ abstract class ConstraintLayoutBaseScope {
             helper.style(chainStyle.style)
             helper.apply()
             if (chainStyle.bias != null) {
-                state.constraints(elements[0].id).horizontalBias(chainStyle.bias)
+                state.constraints(elements[0].id)?.horizontalBias(chainStyle.bias)
             }
         }
         updateHelpersHashCode(16)
@@ -419,7 +419,7 @@ abstract class ConstraintLayoutBaseScope {
             helper.style(chainStyle.style)
             helper.apply()
             if (chainStyle.bias != null) {
-                state.constraints(elements[0].id).verticalBias(chainStyle.bias)
+                state.constraints(elements[0].id)?.verticalBias(chainStyle.bias)
             }
         }
         updateHelpersHashCode(17)

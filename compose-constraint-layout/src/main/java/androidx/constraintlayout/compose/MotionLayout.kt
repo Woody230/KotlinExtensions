@@ -760,12 +760,12 @@ internal class MotionMeasurer : Measurer() {
         if (motionProgress != progress
             || (layoutInformationReceiver?.getForcedWidth() != Int.MIN_VALUE
                     && layoutInformationReceiver?.getForcedHeight() != Int.MIN_VALUE)
-            || this.transition.isEmpty()
+            || this.transition.isEmpty
             || frameCache.isEmpty()
             || layoutSizeChanged
         ) {
             motionProgress = progress
-            if (layoutSizeChanged || this.transition.isEmpty() || frameCache.isEmpty()) {
+            if (layoutSizeChanged || this.transition.isEmpty || frameCache.isEmpty()) {
                 this.transition.clear()
                 resetMeasureState()
                 state.reset()
@@ -891,13 +891,13 @@ internal class MotionMeasurer : Measurer() {
 
             json.append(" ${child.stringId}: {")
             json.append(" interpolated : ")
-            interpolated.serialize(json, true);
+            interpolated?.serialize(json, true);
 
             json.append(", start : ")
-            start.serialize(json);
+            start?.serialize(json);
 
             json.append(", end : ")
-            end.serialize(json);
+            end?.serialize(json);
             encodeKeyFrames(json, key, mode, pos, count)
             json.append(" path : [")
             for (point in path) {
@@ -955,7 +955,7 @@ internal class MotionMeasurer : Measurer() {
         var debugRender = MotionRenderDebug(23f);
 
         debugRender.draw(
-            drawContext.canvas.nativeCanvas, transition.getMotion(startFrame.widget.stringId),
+            drawContext.canvas.nativeCanvas, transition.getMotion(startFrame.widget?.stringId),
             1000, Motion.DRAW_PATH_BASIC,
             parentWidth.toInt(), parentHeight.toInt()
         )
@@ -1083,7 +1083,7 @@ internal class MotionMeasurer : Measurer() {
         transition.interpolate(root.width, root.height, motionProgress)
 
         val interpolatedFrame = transition.getInterpolated(id)
-        val color = interpolatedFrame.getCustomColor(name)
+        val color = interpolatedFrame?.getCustomColor(name) ?: return Color.Black
         return Color(color);
     }
 
@@ -1093,8 +1093,8 @@ internal class MotionMeasurer : Measurer() {
         }
         val startFrame = transition.getStart(id)
         val endFrame = transition.getEnd(id)
-        val startFloat = startFrame.getCustomFloat(name)
-        val endFloat = endFrame.getCustomFloat(name)
+        val startFloat = startFrame?.getCustomFloat(name) ?: 0f
+        val endFloat = endFrame?.getCustomFloat(name) ?: 0f
         return (1f - motionProgress) * startFloat + motionProgress * endFloat
     }
 

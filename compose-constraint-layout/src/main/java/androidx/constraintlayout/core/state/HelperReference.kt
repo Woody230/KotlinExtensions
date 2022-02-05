@@ -13,47 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state
 
-package androidx.constraintlayout.core.state;
+import androidx.constraintlayout.core.widgets.HelperWidget
+import androidx.constraintlayout.core.state.helpers.Facade
+import androidx.constraintlayout.core.widgets.ConstraintWidget
 
-import androidx.constraintlayout.core.state.helpers.Facade;
-import androidx.constraintlayout.core.widgets.ConstraintWidget;
-import androidx.constraintlayout.core.widgets.HelperWidget;
+open class HelperReference(state: State, type: State.Helper) : ConstraintReference(state), Facade {
+    @JvmField
+    protected val mState: State = state
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-public class HelperReference extends ConstraintReference implements Facade {
-    protected final State mState;
-    final State.Helper mType;
-    protected ArrayList<Object> mReferences = new ArrayList<>();
-    private HelperWidget mHelperWidget;
-
-    public HelperReference(State state, State.Helper type) {
-        super(state);
-        mState = state;
-        mType = type;
+    val type: State.Helper
+    @JvmField
+    var mReferences = ArrayList<Any>()
+    open var helperWidget: HelperWidget? = null
+    fun add(vararg objects: Any): HelperReference {
+        mReferences.addAll(objects)
+        return this
     }
 
-    public State.Helper getType() { return mType; }
+    override var constraintWidget: ConstraintWidget? = helperWidget
 
-    public HelperReference add(Object... objects) {
-        Collections.addAll(mReferences, objects);
-        return this;
-    }
-
-    public void setHelperWidget(HelperWidget helperWidget) {
-        mHelperWidget = helperWidget;
-    }
-
-    public HelperWidget getHelperWidget() { return mHelperWidget; }
-
-    @Override
-    public ConstraintWidget getConstraintWidget() {
-        return getHelperWidget();
-    }
-
-    public void apply() {
+    override fun apply() {
         // nothing
+    }
+
+    init {
+        this.type = type
     }
 }

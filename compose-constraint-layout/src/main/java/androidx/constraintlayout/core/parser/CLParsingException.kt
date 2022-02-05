@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLParsingException extends Exception {
-  private final String mReason;
-  private final int mLineNumber;
-  private final String mElementClass;
-
-  public CLParsingException(String reason, CLElement element) {
-    mReason = reason;
-    if (element != null) {
-      mElementClass = element.getStrClass();
-      mLineNumber = element.getLine();
-    } else {
-      mElementClass = "unknown";
-      mLineNumber = 0;
+class CLParsingException(private val mReason: String, element: CLElement?) : Exception() {
+    private var mLineNumber = 0
+    private var mElementClass: String? = null
+    fun reason(): String {
+        return "$mReason ($mElementClass at line $mLineNumber)"
     }
-  }
 
-  public String reason() {
-    return mReason + " (" + mElementClass + " at line " + mLineNumber + ")";
-  }
+    override fun toString(): String {
+        return "CLParsingException (" + this.hashCode() + ") : " + reason()
+    }
 
-  @Override
-  public String toString() {
-    return "CLParsingException (" + this.hashCode() + ") : " + reason();
-  }
+    init {
+        if (element != null) {
+            mElementClass = element.strClass
+            mLineNumber = element.line
+        } else {
+            mElementClass = "unknown"
+            mLineNumber = 0
+        }
+    }
 }

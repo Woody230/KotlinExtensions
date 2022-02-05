@@ -13,99 +13,96 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLToken extends CLElement {
-  int index = 0;
-  Type type = Type.UNKNOWN;
+class CLToken(content: CharArray) : CLElement(content) {
+    var index = 0
+    var type = Type.UNKNOWN
 
-  public boolean getBoolean() throws CLParsingException {
-    if (type == Type.TRUE) {
-      return true;
-    }
-    if (type == Type.FALSE) {
-      return false;
-    }
-    throw new CLParsingException("this token is not a boolean: <" + content() + ">", this);
-  }
-
-  public boolean isNull() throws CLParsingException {
-    if (type == Type.NULL) {
-      return true;
-    }
-    throw new CLParsingException("this token is not a null: <" + content() + ">", this);
-  }
-
-  enum Type { UNKNOWN, TRUE, FALSE, NULL }
-
-  char[] tokenTrue = "true".toCharArray();
-  char[] tokenFalse = "false".toCharArray();
-  char[] tokenNull = "null".toCharArray();
-
-  public CLToken(char[] content) {
-    super(content);
-  }
-
-  public static CLElement allocate(char[] content) {
-    return new CLToken(content);
-  }
-
-  protected String toJSON() {
-    if (CLParser.DEBUG) {
-      return "<" + content() + ">";
-    } else {
-      return content();
-    }
-  }
-
-  protected String toFormattedJSON(int indent, int forceIndent) {
-    StringBuilder json = new StringBuilder();
-    addIndent(json, indent);
-    json.append(content());
-    return json.toString();
-  }
-
-  public Type getType() {
-    return type;
-  }
-
-  public boolean validate(char c, long position) {
-    boolean isValid = false;
-    switch (type) {
-      case TRUE: {
-        isValid = (tokenTrue[index] == c);
-        if (isValid && index + 1 == tokenTrue.length) {
-          setEnd(position);
+    @get:Throws(CLParsingException::class)
+    val boolean: Boolean
+        get() {
+            if (type == Type.TRUE) {
+                return true
+            }
+            if (type == Type.FALSE) {
+                return false
+            }
+            throw CLParsingException("this token is not a boolean: <" + content() + ">", this)
         }
-      } break;
-      case FALSE: {
-        isValid = (tokenFalse[index] == c);
-        if (isValid && index + 1 == tokenFalse.length) {
-          setEnd(position);
+
+    @get:Throws(CLParsingException::class)
+    val isNull: Boolean
+        get() {
+            if (type == Type.NULL) {
+                return true
+            }
+            throw CLParsingException("this token is not a null: <" + content() + ">", this)
         }
-      } break;
-      case NULL: {
-        isValid = (tokenNull[index] == c);
-        if (isValid && index + 1 == tokenNull.length) {
-          setEnd(position);
-        }
-      } break;
-      case UNKNOWN: {
-        if (tokenTrue[index] == c) {
-          type = Type.TRUE;
-          isValid = true;
-        } else if (tokenFalse[index] == c) {
-          type = Type.FALSE;
-          isValid = true;
-        } else if (tokenNull[index] == c) {
-          type = Type.NULL;
-          isValid = true;
-        }
-      }
+
+    enum class Type {
+        UNKNOWN, TRUE, FALSE, NULL
     }
 
-    index ++;
-    return isValid;
-  }
+    var tokenTrue = "true".toCharArray()
+    var tokenFalse = "false".toCharArray()
+    var tokenNull = "null".toCharArray()
+    override fun toJSON(): String {
+        return if (CLParser.DEBUG) {
+            "<" + content() + ">"
+        } else {
+            content()
+        }
+    }
 
+    override fun toFormattedJSON(indent: Int, forceIndent: Int): String {
+        val json = StringBuilder()
+        addIndent(json, indent)
+        json.append(content())
+        return json.toString()
+    }
+
+    fun validate(c: Char, position: Long): Boolean {
+        var isValid = false
+        when (type) {
+            Type.TRUE -> {
+                isValid = tokenTrue[index] == c
+                if (isValid && index + 1 == tokenTrue.size) {
+                    setEnd(position)
+                }
+            }
+            Type.FALSE -> {
+                isValid = tokenFalse[index] == c
+                if (isValid && index + 1 == tokenFalse.size) {
+                    setEnd(position)
+                }
+            }
+            Type.NULL -> {
+                isValid = tokenNull[index] == c
+                if (isValid && index + 1 == tokenNull.size) {
+                    setEnd(position)
+                }
+            }
+            Type.UNKNOWN -> {
+                if (tokenTrue[index] == c) {
+                    type = Type.TRUE
+                    isValid = true
+                } else if (tokenFalse[index] == c) {
+                    type = Type.FALSE
+                    isValid = true
+                } else if (tokenNull[index] == c) {
+                    type = Type.NULL
+                    isValid = true
+                }
+            }
+        }
+        index++
+        return isValid
+    }
+
+    companion object {
+        fun allocate(content: CharArray): CLElement {
+            return CLToken(content)
+        }
+    }
 }

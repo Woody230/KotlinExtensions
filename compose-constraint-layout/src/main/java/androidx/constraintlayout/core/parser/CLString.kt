@@ -13,27 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLString extends CLElement {
+class CLString(content: CharArray) : CLElement(content) {
+    override fun toJSON(): String {
+        return "'" + content() + "'"
+    }
 
-  public CLString(char[] content) {
-    super(content);
-  }
-  public static CLElement allocate(char[] content) {
-    return new CLString(content);
-  }
-  protected String toJSON() {
-    return "'" + content() + "'";
-  }
-  protected String toFormattedJSON(int indent, int forceIndent) {
-    StringBuilder json = new StringBuilder();
-    addIndent(json, indent);
-    json.append("'");
-    json.append(content());
-    json.append("'");
-    return json.toString();
-  }
+    override fun toFormattedJSON(indent: Int, forceIndent: Int): String {
+        val json = StringBuilder()
+        addIndent(json, indent)
+        json.append("'")
+        json.append(content())
+        json.append("'")
+        return json.toString()
+    }
+
+    companion object {
+        fun allocate(content: CharArray): CLElement {
+            return CLString(content)
+        }
+    }
 }
-
-

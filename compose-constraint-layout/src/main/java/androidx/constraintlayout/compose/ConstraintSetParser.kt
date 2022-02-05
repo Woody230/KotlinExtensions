@@ -485,7 +485,7 @@ internal fun parseJSON(content: String, transition: Transition, state: Int) {
                                 state,
                                 elementName,
                                 property,
-                                value.getFloat()
+                                value.float
                             )
                         } else if (value is CLString) {
                             parseColorString(value.content())?.let { color ->
@@ -1066,7 +1066,7 @@ private fun parseCustomProperties(
         val property = properties[i]
         val value = json.get(property)
         if (value is CLNumber) {
-            reference.addCustomFloat(property, value.getFloat())
+            reference.addCustomFloat(property, value.float)
         } else if (value is CLString) {
             parseColorString(value.content())?.let {
                 reference.addCustomColor(property, it)
@@ -1242,7 +1242,7 @@ private fun parseDimension(
         val minEl = dimensionElement.getOrNull("min")
         if (minEl != null) {
             if (minEl is CLNumber) {
-                val min = minEl.getFloat()
+                val min = minEl.float
                 dimension.min(state.convertDimension(Dp(min)))
             } else if (minEl is CLString) {
                 dimension.min(WRAP_DIMENSION)
@@ -1251,7 +1251,7 @@ private fun parseDimension(
         val maxEl = dimensionElement.getOrNull("max")
         if (maxEl != null) {
             if (maxEl is CLNumber) {
-                val max = maxEl.getFloat()
+                val max = maxEl.float
                 dimension.max(state.convertDimension(Dp(max)))
             } else if (maxEl is CLString) {
                 dimension.max(WRAP_DIMENSION)

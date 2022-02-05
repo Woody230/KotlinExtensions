@@ -13,89 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.state;
+package androidx.constraintlayout.core.state
 
-import java.util.HashMap;
-import java.util.Set;
-
-public class Registry {
-
-    private static final Registry sRegistry = new Registry();
-
-    public static Registry getInstance() {
-        return sRegistry;
+class Registry {
+    private val mCallbacks = HashMap<String, RegistryCallback>()
+    fun register(name: String, callback: RegistryCallback) {
+        mCallbacks[name] = callback
     }
 
-    private HashMap<String, RegistryCallback> mCallbacks = new HashMap<>();
-
-    public void register(String name, RegistryCallback callback) {
-        mCallbacks.put(name, callback);
+    fun unregister(name: String, callback: RegistryCallback?) {
+        mCallbacks.remove(name)
     }
 
-    public void unregister(String name, RegistryCallback callback) {
-        mCallbacks.remove(name);
+    fun updateContent(name: String, content: String?) {
+        val callback = mCallbacks[name]
+        callback?.onNewMotionScene(content)
     }
 
-    public void updateContent(String name, String content) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            callback.onNewMotionScene(content);
-        }
+    fun updateProgress(name: String, progress: Float) {
+        val callback = mCallbacks[name]
+        callback?.onProgress(progress)
     }
 
-    public void updateProgress(String name, float progress) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            callback.onProgress(progress);
-        }
+    fun currentContent(name: String): String? {
+        val callback = mCallbacks[name]
+        return callback?.currentMotionScene()
     }
 
-    public String currentContent(String name) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            return callback.currentMotionScene();
-        }
-        return null;
+    fun currentLayoutInformation(name: String): String? {
+        val callback = mCallbacks[name]
+        return callback?.currentLayoutInformation()
     }
 
-    public String currentLayoutInformation(String name) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            return callback.currentLayoutInformation();
-        }
-        return null;
+    fun setDrawDebug(name: String, debugMode: Int) {
+        val callback = mCallbacks[name]
+        callback?.setDrawDebug(debugMode)
     }
 
-    public void setDrawDebug(String name, int debugMode) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            callback.setDrawDebug(debugMode);
-        }
+    fun setLayoutInformationMode(name: String, mode: Int) {
+        val callback = mCallbacks[name]
+        callback?.setLayoutInformationMode(mode)
     }
 
-    public void setLayoutInformationMode(String name, int mode) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            callback.setLayoutInformationMode(mode);
-        }
+    val layoutList: Set<String>
+        get() = mCallbacks.keys
+
+    fun getLastModified(name: String): Long {
+        val callback = mCallbacks[name]
+        return callback?.lastModified ?: Long.MAX_VALUE
     }
 
-    public Set<String> getLayoutList() {
-        return mCallbacks.keySet();
+    fun updateDimensions(name: String, width: Int, height: Int) {
+        val callback = mCallbacks[name]
+        callback?.onDimensions(width, height)
     }
 
-    public long getLastModified(String name) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            return callback.getLastModified();
-        }
-        return Long.MAX_VALUE;
-    }
-
-    public void updateDimensions(String name, int width, int height) {
-        RegistryCallback callback = mCallbacks.get(name);
-        if (callback != null) {
-            callback.onDimensions(width, height);
-        }
+    companion object {
+        val instance = Registry()
     }
 }

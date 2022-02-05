@@ -13,450 +13,262 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state
 
-package androidx.constraintlayout.core.state;
-
-import androidx.constraintlayout.core.motion.CustomAttribute;
-import androidx.constraintlayout.core.motion.CustomVariable;
-import androidx.constraintlayout.core.motion.utils.TypedValues;
-
-import androidx.constraintlayout.core.parser.CLElement;
-import androidx.constraintlayout.core.parser.CLKey;
-import androidx.constraintlayout.core.parser.CLNumber;
-import androidx.constraintlayout.core.parser.CLObject;
-import androidx.constraintlayout.core.parser.CLParsingException;
-import androidx.constraintlayout.core.widgets.ConstraintAnchor;
-import androidx.constraintlayout.core.widgets.ConstraintWidget;
-
-import java.util.HashMap;
-import java.util.Set;
+import androidx.constraintlayout.core.widgets.ConstraintWidget
+import androidx.constraintlayout.core.motion.CustomVariable
+import androidx.constraintlayout.core.motion.utils.TypedValues
+import androidx.constraintlayout.core.parser.CLParsingException
+import androidx.constraintlayout.core.parser.CLElement
+import androidx.constraintlayout.core.parser.CLObject
+import androidx.constraintlayout.core.parser.CLKey
+import androidx.constraintlayout.core.parser.CLNumber
+import androidx.constraintlayout.core.widgets.ConstraintAnchor
+import androidx.constraintlayout.core.motion.CustomAttribute
 
 /**
  * Utility class to encapsulate layout of a widget
  */
-public class WidgetFrame {
-    private final static boolean OLD_SYSTEM = true;
-    public ConstraintWidget widget = null;
-    public int left = 0;
-    public int top = 0;
-    public int right = 0;
-    public int bottom = 0;
+class WidgetFrame {
+    @JvmField
+    var widget: ConstraintWidget? = null
+    var x = 0
+get() {
+        return widget?.left ?: 9
+    }
+    var y = 0
+get() {
+        return widget?.top ?: 0
+    }
+    @JvmField
+    var left = 0
+    @JvmField
+    var top = 0
+    @JvmField
+    var right = 0
+    @JvmField
+    var bottom = 0
 
     // transforms
-
-    public float pivotX = Float.NaN;
-    public float pivotY = Float.NaN;
-
-    public float rotationX = Float.NaN;
-    public float rotationY = Float.NaN;
-    public float rotationZ = Float.NaN;
-
-    public float translationX = Float.NaN;
-    public float translationY = Float.NaN;
-    public float translationZ = Float.NaN;
-    public static float phone_orientation = Float.NaN;
-
-    public float scaleX = Float.NaN;
-    public float scaleY = Float.NaN;
-
-    public float alpha = Float.NaN;
-    public float interpolatedPos = Float.NaN;
-
-    public int visibility = ConstraintWidget.VISIBLE;
-
-    final public HashMap<String, CustomVariable> mCustom = new HashMap<>();
-
-    public String name = null;
-
-    public int width() {
-        return Math.max(0, right - left);
+    @JvmField
+    var pivotX = Float.NaN
+    @JvmField
+    var pivotY = Float.NaN
+    @JvmField
+    var rotationX = Float.NaN
+    @JvmField
+    var rotationY = Float.NaN
+    @JvmField
+    var rotationZ = Float.NaN
+    @JvmField
+    var translationX = Float.NaN
+    @JvmField
+    var translationY = Float.NaN
+    @JvmField
+    var translationZ = Float.NaN
+    @JvmField
+    var scaleX = Float.NaN
+    @JvmField
+    var scaleY = Float.NaN
+    @JvmField
+    var alpha = Float.NaN
+    @JvmField
+    var interpolatedPos = Float.NaN
+    @JvmField
+    var visibility = ConstraintWidget.VISIBLE
+    val mCustom: HashMap<String, CustomVariable>? = HashMap()
+    fun width(): Int {
+        return Math.max(0, right - left)
     }
 
-    public int height() {
-        return Math.max(0, bottom - top);
+    fun height(): Int {
+        return Math.max(0, bottom - top)
     }
 
-    public WidgetFrame() {
+    constructor() {}
+    constructor(widget: ConstraintWidget?) {
+        this.widget = widget
     }
 
-    public WidgetFrame(ConstraintWidget widget) {
-        this.widget = widget;
+    constructor(frame: WidgetFrame) {
+        widget = frame.widget
+        left = frame.left
+        top = frame.top
+        right = frame.right
+        bottom = frame.bottom
+        updateAttributes(frame)
     }
 
-    public WidgetFrame(WidgetFrame frame) {
-        widget = frame.widget;
-        left = frame.left;
-        top = frame.top;
-        right = frame.right;
-        bottom = frame.bottom;
-        updateAttributes(frame);
-    }
-
-    public void updateAttributes(WidgetFrame frame) {
-        pivotX = frame.pivotX;
-        pivotY = frame.pivotY;
-        rotationX = frame.rotationX;
-        rotationY = frame.rotationY;
-        rotationZ = frame.rotationZ;
-        translationX = frame.translationX;
-        translationY = frame.translationY;
-        translationZ = frame.translationZ;
-        scaleX = frame.scaleX;
-        scaleY = frame.scaleY;
-        alpha = frame.alpha;
-        visibility = frame.visibility;
-
-        mCustom.clear();
+    fun updateAttributes(frame: WidgetFrame?) {
+        pivotX = frame!!.pivotX
+        pivotY = frame.pivotY
+        rotationX = frame.rotationX
+        rotationY = frame.rotationY
+        rotationZ = frame.rotationZ
+        translationX = frame.translationX
+        translationY = frame.translationY
+        translationZ = frame.translationZ
+        scaleX = frame.scaleX
+        scaleY = frame.scaleY
+        alpha = frame.alpha
+        visibility = frame.visibility
+        mCustom!!.clear()
         if (frame != null) {
-            for (CustomVariable c : frame.mCustom.values()) {
-                mCustom.put(c.getName(), c.copy());
+            for (c in frame.mCustom!!.values) {
+                mCustom[c.name] = c.copy()
             }
         }
     }
 
-    public boolean isDefaultTransform() {
-        return Float.isNaN(rotationX)
-                && Float.isNaN(rotationY)
-                && Float.isNaN(rotationZ)
-                && Float.isNaN(translationX)
-                && Float.isNaN(translationY)
-                && Float.isNaN(translationZ)
-                && Float.isNaN(scaleX)
-                && Float.isNaN(scaleY)
-                && Float.isNaN(alpha);
+    val isDefaultTransform: Boolean
+        get() = (java.lang.Float.isNaN(rotationX)
+                && java.lang.Float.isNaN(rotationY)
+                && java.lang.Float.isNaN(rotationZ)
+                && java.lang.Float.isNaN(translationX)
+                && java.lang.Float.isNaN(translationY)
+                && java.lang.Float.isNaN(translationZ)
+                && java.lang.Float.isNaN(scaleX)
+                && java.lang.Float.isNaN(scaleY)
+                && java.lang.Float.isNaN(alpha))
+
+    fun centerX(): Float {
+        return left + (right - left) / 2f
     }
 
-    public static void interpolate(int parentWidth, int parentHeight, WidgetFrame frame, WidgetFrame start, WidgetFrame end, Transition transition, float progress) {
-        int frameNumber = (int) (progress * 100);
-        int startX = start.left;
-        int startY = start.top;
-        int endX = end.left;
-        int endY = end.top;
-        int startWidth = start.right - start.left;
-        int startHeight = start.bottom - start.top;
-        int endWidth = end.right - end.left;
-        int endHeight = end.bottom - end.top;
-
-        float progressPosition = progress;
-
-        float startAlpha = start.alpha;
-        float endAlpha = end.alpha;
-
-        if (start.visibility == ConstraintWidget.GONE) {
-            // On visibility gone, keep the same size to do an alpha to zero
-            startX -= endWidth / 2f;
-            startY -= endHeight / 2f;
-            startWidth = endWidth;
-            startHeight = endHeight;
-            if (Float.isNaN(startAlpha)) {
-                // override only if not defined...
-                startAlpha = 0f;
-            }
-        }
-
-        if (end.visibility == ConstraintWidget.GONE) {
-            // On visibility gone, keep the same size to do an alpha to zero
-            endX -= startWidth / 2f;
-            endY -= startHeight / 2f;
-            endWidth = startWidth;
-            endHeight = startHeight;
-            if (Float.isNaN(endAlpha)) {
-                // override only if not defined...
-                endAlpha = 0f;
-            }
-        }
-
-        if (Float.isNaN(startAlpha) && !Float.isNaN(endAlpha)) {
-            startAlpha = 1f;
-        }
-        if (!Float.isNaN(startAlpha) && Float.isNaN(endAlpha)) {
-            endAlpha = 1f;
-        }
-
-        if (start.visibility == ConstraintWidget.INVISIBLE) {
-            startAlpha = 0f;
-        }
-
-        if (end.visibility == ConstraintWidget.INVISIBLE) {
-            endAlpha = 0f;
-        }
-
-        if (frame.widget != null && transition.hasPositionKeyframes()) {
-            Transition.KeyPosition firstPosition = transition.findPreviousPosition(frame.widget.stringId, frameNumber);
-            Transition.KeyPosition lastPosition = transition.findNextPosition(frame.widget.stringId, frameNumber);
-
-            if (firstPosition == lastPosition) {
-                lastPosition = null;
-            }
-            int interpolateStartFrame = 0;
-            int interpolateEndFrame = 100;
-
-            if (firstPosition != null) {
-                startX = (int) (firstPosition.x * parentWidth);
-                startY = (int) (firstPosition.y * parentHeight);
-                interpolateStartFrame = firstPosition.frame;
-            }
-            if (lastPosition != null) {
-                endX = (int) (lastPosition.x * parentWidth);
-                endY = (int) (lastPosition.y * parentHeight);
-                interpolateEndFrame = lastPosition.frame;
-            }
-
-            progressPosition = (progress * 100f - interpolateStartFrame) / (float) (interpolateEndFrame - interpolateStartFrame);
-        }
-
-        frame.widget = start.widget;
-
-        frame.left = (int) (startX + progressPosition * (endX - startX));
-        frame.top = (int) (startY + progressPosition * (endY - startY));
-        int width = (int) ((1 - progress) * startWidth + (progress * endWidth));
-        int height = (int) ((1 - progress) * startHeight + (progress * endHeight));
-        frame.right = frame.left + width;
-        frame.bottom = frame.top + height;
-
-        frame.pivotX = interpolate(start.pivotX, end.pivotX, 0.5f, progress);
-        frame.pivotY = interpolate(start.pivotY, end.pivotY, 0.5f, progress);
-
-        frame.rotationX = interpolate(start.rotationX, end.rotationX, 0f, progress);
-        frame.rotationY = interpolate(start.rotationY, end.rotationY, 0f, progress);
-        frame.rotationZ = interpolate(start.rotationZ, end.rotationZ, 0f, progress);
-
-        frame.scaleX = interpolate(start.scaleX, end.scaleX, 1f, progress);
-        frame.scaleY = interpolate(start.scaleY, end.scaleY, 1f, progress);
-
-        frame.translationX = interpolate(start.translationX, end.translationX, 0f, progress);
-        frame.translationY = interpolate(start.translationY, end.translationY, 0f, progress);
-        frame.translationZ = interpolate(start.translationZ, end.translationZ, 0f, progress);
-
-        frame.alpha = interpolate(startAlpha, endAlpha, 1f, progress);
-
-        Set<String> keys = end.mCustom.keySet();
-        frame.mCustom.clear();
-        for (String key : keys) {
-            if (start.mCustom.containsKey(key)) {
-                CustomVariable startVariable = start.mCustom.get(key);
-                CustomVariable endVariable = end.mCustom.get(key);
-                CustomVariable interpolated = new CustomVariable(startVariable);
-                frame.mCustom.put(key, interpolated);
-                if (startVariable.numberOfInterpolatedValues() == 1) {
-                    interpolated.setValue(interpolate(startVariable.getValueToInterpolate(), endVariable.getValueToInterpolate(), 0f, progress));
-                } else {
-                    int N = startVariable.numberOfInterpolatedValues();
-                    float[] startValues = new float[N];
-                    float[] endValues = new float[N];
-                    startVariable.getValuesToInterpolate(startValues);
-                    endVariable.getValuesToInterpolate(endValues);
-                    for (int i = 0; i < N; i++) {
-                        startValues[i] = interpolate(startValues[i], endValues[i], 0f, progress);
-                        interpolated.setValue(startValues);
-                    }
-                }
-            }
-        }
+    fun centerY(): Float {
+        return top + (bottom - top) / 2f
     }
 
-    private static float interpolate(float start, float end, float defaultValue, float progress) {
-        boolean isStartUnset = Float.isNaN(start);
-        boolean isEndUnset = Float.isNaN(end);
-        if (isStartUnset && isEndUnset) {
-            return Float.NaN;
-        }
-        if (isStartUnset) {
-            start = defaultValue;
-        }
-        if (isEndUnset) {
-            end = defaultValue;
-        }
-        return (start + progress * (end - start));
-    }
-
-    public float centerX() {
-        return left + (right - left) / 2f;
-    }
-
-    public float centerY() {
-        return top + (bottom - top) / 2f;
-    }
-
-    public WidgetFrame update() {
+    fun update(): WidgetFrame {
         if (widget != null) {
-            left = widget.getLeft();
-            top = widget.getTop();
-            right = widget.getRight();
-            bottom = widget.getBottom();
-            WidgetFrame frame = widget.frame;
-            updateAttributes(frame);
+            left = widget!!.left
+            top = widget!!.top
+            right = widget!!.right
+            bottom = widget!!.bottom
+            val frame = widget!!.frame
+            updateAttributes(frame)
         }
-        return this;
+        return this
     }
 
-    public WidgetFrame update(ConstraintWidget widget) {
+    fun update(widget: ConstraintWidget?): WidgetFrame {
         if (widget == null) {
-            return this;
+            return this
         }
-
-        this.widget = widget;
-        update();
-        return this;
+        this.widget = widget
+        update()
+        return this
     }
 
-    public void addCustomColor(String name, int color) {
-        setCustomAttribute(name, TypedValues.Custom.TYPE_COLOR, color);
+    fun addCustomColor(name: String, color: Int) {
+        setCustomAttribute(name, TypedValues.Custom.TYPE_COLOR, color)
     }
 
-    public int getCustomColor(String name) {
-        if (mCustom.containsKey(name)) {
-            return mCustom.get(name).getColorValue();
-        }
-        return 0xFFFFAA88;
+    fun getCustomColor(name: String): Int {
+        return if (mCustom!!.containsKey(name)) {
+            mCustom[name]!!.integerValue
+        } else -0x5578
     }
 
-    public void addCustomFloat(String name, float value) {
-        setCustomAttribute(name, TypedValues.Custom.TYPE_FLOAT, value);
+    fun addCustomFloat(name: String, value: Float) {
+        setCustomAttribute(name, TypedValues.Custom.TYPE_FLOAT, value)
     }
 
-    public float getCustomFloat(String name) {
-        if (mCustom.containsKey(name)) {
-            return mCustom.get(name).getFloatValue();
-        }
-        return Float.NaN;
+    fun getCustomFloat(name: String): Float {
+        return if (mCustom!!.containsKey(name)) {
+            mCustom[name]!!.floatValue
+        } else Float.NaN
     }
 
-    public void setCustomAttribute(String name, int type, float value) {
-        if (mCustom.containsKey(name)) {
-            mCustom.get(name).setFloatValue(value);
+    fun setCustomAttribute(name: String, type: Int, value: Float) {
+        if (mCustom!!.containsKey(name)) {
+            mCustom[name]!!.floatValue = value
         } else {
-            mCustom.put(name, new CustomVariable(name, type, value));
+            mCustom[name] = CustomVariable(name, type, value)
         }
     }
 
-    public void setCustomAttribute(String name, int type, int value) {
-        if (mCustom.containsKey(name)) {
-            mCustom.get(name).setIntValue(value);
+    fun setCustomAttribute(name: String, type: Int, value: Int) {
+        if (mCustom!!.containsKey(name)) {
+            mCustom[name]!!.setIntValue(value)
         } else {
-            mCustom.put(name, new CustomVariable(name, type, value));
+            mCustom[name] = CustomVariable(name, type, value)
         }
     }
 
-    public void setCustomAttribute(String name, int type, boolean value) {
-        if (mCustom.containsKey(name)) {
-            mCustom.get(name).setBooleanValue(value);
+    fun setCustomAttribute(name: String, type: Int, value: Boolean) {
+        if (mCustom!!.containsKey(name)) {
+            mCustom[name]!!.booleanValue = value
         } else {
-            mCustom.put(name, new CustomVariable(name, type, value));
+            mCustom[name] = CustomVariable(name, type, value)
         }
     }
 
-    public void setCustomAttribute(String name, int type, String value) {
-        if (mCustom.containsKey(name)) {
-            mCustom.get(name).setStringValue(value);
+    fun setCustomAttribute(name: String, type: Int, value: String?) {
+        if (mCustom!!.containsKey(name)) {
+            mCustom[name]!!.stringValue = value
         } else {
-            mCustom.put(name, new CustomVariable(name, type, value));
+            mCustom[name] = CustomVariable(name, type, value)
         }
     }
 
-    public CustomVariable getCustomAttribute(String name) {
-        return mCustom.get(name);
+    fun getCustomAttribute(name: String): CustomVariable? {
+        return mCustom!![name]
     }
 
-    public Set<String> getCustomAttributeNames() {
-        return mCustom.keySet();
-    }
+    val customAttributeNames: Set<String>
+        get() = mCustom!!.keys
 
-    public boolean setValue(String key, CLElement value) throws CLParsingException
-    {
-        switch (key) {
-            case "pivotX":
-                pivotX = value.getFloat();
-                break;
-            case "pivotY":
-                pivotY = value.getFloat();
-                break;
-            case "rotationX":
-                rotationX = value.getFloat();
-                break;
-            case "rotationY":
-                rotationY = value.getFloat();
-                break;
-            case "rotationZ":
-                rotationZ = value.getFloat();
-                break;
-            case "translationX":
-                translationX = value.getFloat();
-                break;
-            case "translationY":
-                translationY = value.getFloat();
-                break;
-            case "translationZ":
-                translationZ = value.getFloat();
-                break;
-            case "scaleX":
-                scaleX = value.getFloat();
-                break;
-            case "scaleY":
-                scaleY = value.getFloat();
-                break;
-            case "alpha":
-                alpha = value.getFloat();
-                break;
-            case "interpolatedPos":
-                interpolatedPos = value.getFloat();
-                break;
-            case "phone_orientation":
-                phone_orientation = value.getFloat();
-                break;
-            case "top":
-                top = value.getInt();
-                break;
-            case "left":
-                left = value.getInt();
-                break;
-            case "right":
-                right = value.getInt();
-                break;
-            case "bottom":
-                bottom = value.getInt();
-                break;
-            case "custom":
-                parseCustom(value);
-                break;
-
-            default:
-                return false;
+    @Throws(CLParsingException::class)
+    fun setValue(key: String?, value: CLElement): Boolean {
+        when (key) {
+            "pivotX" -> pivotX = value.float
+            "pivotY" -> pivotY = value.float
+            "rotationX" -> rotationX = value.float
+            "rotationY" -> rotationY = value.float
+            "rotationZ" -> rotationZ = value.float
+            "translationX" -> translationX = value.float
+            "translationY" -> translationY = value.float
+            "translationZ" -> translationZ = value.float
+            "scaleX" -> scaleX = value.float
+            "scaleY" -> scaleY = value.float
+            "alpha" -> alpha = value.float
+            "interpolatedPos" -> interpolatedPos = value.float
+            "phone_orientation" -> phone_orientation = value.float
+            "top" -> top = value.int
+            "left" -> left = value.int
+            "right" -> right = value.int
+            "bottom" -> bottom = value.int
+            "custom" -> parseCustom(value)
+            else -> return false
         }
-        return true;
+        return true
     }
 
-    public String getId() {
-        if (widget == null) {
-            return "unknown";
-        }
-        return widget.stringId;
-    }
+    val name: String?
+        get() = if (widget == null) {
+            "unknown"
+        } else widget!!.stringId
 
-    void parseCustom(CLElement custom) throws CLParsingException {
-        CLObject obj = ((CLObject) custom);
-        int n = obj.size();
-        for (int i = 0; i < n; i++) {
-            CLElement tmp = obj.get(i);
-            CLKey k = ((CLKey) tmp);
-            String name = k.content();
-            CLElement v = k.getValue();
-            String vStr = v.content();
-            if (vStr.matches("#[0-9a-fA-F]+")) {
-                int color = Integer.parseInt(vStr.substring(1), 16);
-                setCustomAttribute(k.content(), TypedValues.Custom.TYPE_COLOR, color);
-            } else if (v instanceof CLNumber) {
-                setCustomAttribute(k.content(), TypedValues.Custom.TYPE_FLOAT, v.getFloat());
+    @Throws(CLParsingException::class)
+    fun parseCustom(custom: CLElement) {
+        val obj = custom as CLObject
+        val n = obj.size()
+        for (i in 0 until n) {
+            val tmp = obj[i]
+            val k = tmp as CLKey
+            val name = k.content()
+            val v = k.value
+            val vStr = v?.content() ?: ""
+            if (vStr.matches(Regex("#[0-9a-fA-F]+"))) {
+                val color = vStr.substring(1).toInt(16)
+                setCustomAttribute(k.content(), TypedValues.Custom.TYPE_COLOR, color)
+            } else if (v is CLNumber) {
+                setCustomAttribute(k.content(), TypedValues.Custom.TYPE_FLOAT, v.float)
             } else {
-                setCustomAttribute(k.content(), TypedValues.Custom.TYPE_STRING, vStr);
-
+                setCustomAttribute(k.content(), TypedValues.Custom.TYPE_STRING, vStr)
             }
         }
-    }
-
-
-    public StringBuilder serialize(StringBuilder ret) {
-        return serialize(ret, false);
     }
 
     /**
@@ -466,148 +278,275 @@ public class WidgetFrame {
      * @param sendPhoneOrientation
      * @return
      */
-    public StringBuilder serialize(StringBuilder ret, boolean sendPhoneOrientation) {
-        WidgetFrame frame = this;
-        ret.append("{\n");
-        add(ret, "left", frame.left);
-        add(ret, "top", frame.top);
-        add(ret, "right", frame.right);
-        add(ret, "bottom", frame.bottom);
-        add(ret, "pivotX", frame.pivotX);
-        add(ret, "pivotY", frame.pivotY);
-        add(ret, "rotationX", frame.rotationX);
-        add(ret, "rotationY", frame.rotationY);
-        add(ret, "rotationZ", frame.rotationZ);
-        add(ret, "translationX", frame.translationX);
-        add(ret, "translationY", frame.translationY);
-        add(ret, "translationZ", frame.translationZ);
-        add(ret, "scaleX", frame.scaleX);
-        add(ret, "scaleY", frame.scaleY);
-        add(ret, "alpha", frame.alpha);
-        add(ret, "visibility", frame.visibility);
-        add(ret, "interpolatedPos", frame.interpolatedPos);
+    @JvmOverloads
+    fun serialize(ret: StringBuilder, sendPhoneOrientation: Boolean = false): StringBuilder {
+        val frame = this
+        ret.append("{\n")
+        add(ret, "left", frame.left)
+        add(ret, "top", frame.top)
+        add(ret, "right", frame.right)
+        add(ret, "bottom", frame.bottom)
+        add(ret, "pivotX", frame.pivotX)
+        add(ret, "pivotY", frame.pivotY)
+        add(ret, "rotationX", frame.rotationX)
+        add(ret, "rotationY", frame.rotationY)
+        add(ret, "rotationZ", frame.rotationZ)
+        add(ret, "translationX", frame.translationX)
+        add(ret, "translationY", frame.translationY)
+        add(ret, "translationZ", frame.translationZ)
+        add(ret, "scaleX", frame.scaleX)
+        add(ret, "scaleY", frame.scaleY)
+        add(ret, "alpha", frame.alpha)
+        add(ret, "visibility", frame.visibility)
+        add(ret, "interpolatedPos", frame.interpolatedPos)
         if (widget != null) {
-            for (ConstraintAnchor.Type side : ConstraintAnchor.Type.values()) {
-                serializeAnchor(ret, side);
+            for (side in ConstraintAnchor.Type.values()) {
+                serializeAnchor(ret, side)
             }
         }
         if (sendPhoneOrientation) {
-            add(ret, "phone_orientation", phone_orientation);
+            add(ret, "phone_orientation", phone_orientation)
         }
         if (sendPhoneOrientation) {
-            add(ret, "phone_orientation", phone_orientation);
+            add(ret, "phone_orientation", phone_orientation)
         }
-
-        if (frame.mCustom.size() != 0) {
-            ret.append("custom : {\n");
-            for (String s : frame.mCustom.keySet()) {
-                CustomVariable value = frame.mCustom.get(s);
-                ret.append(s);
-                ret.append(": ");
-                switch (value.getType()) {
-                    case TypedValues.Custom.TYPE_INT:
-                        ret.append(value.getIntegerValue());
-                        ret.append(",\n");
-                        break;
-                    case TypedValues.Custom.TYPE_FLOAT:
-                    case TypedValues.Custom.TYPE_DIMENSION:
-                        ret.append(value.getFloatValue());
-                        ret.append(",\n");
-                        break;
-                    case TypedValues.Custom.TYPE_COLOR:
-                        ret.append("'");
-                        ret.append(CustomVariable.colorString(value.getIntegerValue()));
-                        ret.append("',\n");
-                        break;
-                    case TypedValues.Custom.TYPE_STRING:
-                        ret.append("'");
-                        ret.append(value.getStringValue());
-                        ret.append("',\n");
-                        break;
-                    case TypedValues.Custom.TYPE_BOOLEAN:
-                        ret.append("'");
-                        ret.append(value.getBooleanValue());
-                        ret.append("',\n");
-                        break;
+        if (frame.mCustom!!.size != 0) {
+            ret.append("custom : {\n")
+            for (s in frame.mCustom.keys) {
+                val value = frame.mCustom[s]
+                ret.append(s)
+                ret.append(": ")
+                when (value!!.type) {
+                    TypedValues.Custom.TYPE_INT -> {
+                        ret.append(value.integerValue)
+                        ret.append(",\n")
+                    }
+                    TypedValues.Custom.TYPE_FLOAT, TypedValues.Custom.TYPE_DIMENSION -> {
+                        ret.append(value.floatValue)
+                        ret.append(",\n")
+                    }
+                    TypedValues.Custom.TYPE_COLOR -> {
+                        ret.append("'")
+                        ret.append(CustomVariable.colorString(value.integerValue))
+                        ret.append("',\n")
+                    }
+                    TypedValues.Custom.TYPE_STRING -> {
+                        ret.append("'")
+                        ret.append(value.stringValue)
+                        ret.append("',\n")
+                    }
+                    TypedValues.Custom.TYPE_BOOLEAN -> {
+                        ret.append("'")
+                        ret.append(value.booleanValue)
+                        ret.append("',\n")
+                    }
                 }
             }
-            ret.append("}\n");
+            ret.append("}\n")
         }
-
-        ret.append("}\n");
-        return ret;
+        ret.append("}\n")
+        return ret
     }
 
-    private void serializeAnchor(StringBuilder ret, ConstraintAnchor.Type type) {
-        ConstraintAnchor anchor = widget.getAnchor(type);
-        if (anchor == null || anchor.mTarget == null) {
-            return;
+    private fun serializeAnchor(ret: StringBuilder, type: ConstraintAnchor.Type) {
+        val anchor = widget!!.getAnchor(type)
+        if (anchor == null || anchor.target == null) {
+            return
         }
-        ret.append("Anchor");
-        ret.append(type.name());
-        ret.append(": ['");
-        String str = anchor.mTarget.getOwner().stringId;
-        ret.append(str == null ? "#PARENT" : str);
-        ret.append("', '");
-        ret.append(anchor.mTarget.getType().name());
-        ret.append("', '");
-        ret.append(anchor.mMargin);
-        ret.append("'],\n");
-
-    }
-
-    private static void add(StringBuilder s, String title, int value) {
-        s.append(title);
-        s.append(": ");
-        s.append(value);
-        s.append(",\n");
-    }
-
-    private static void add(StringBuilder s, String title, float value) {
-        if (Float.isNaN(value)) {
-            return;
-        }
-        s.append(title);
-        s.append(": ");
-        s.append(value);
-        s.append(",\n");
+        ret.append("Anchor")
+        ret.append(type.name)
+        ret.append(": ['")
+        val str = anchor.target!!.owner.stringId
+        ret.append(str ?: "#PARENT")
+        ret.append("', '")
+        ret.append(anchor.target!!.type.name)
+        ret.append("', '")
+        ret.append(anchor.mMargin)
+        ret.append("'],\n")
     }
 
     /**
      * For debugging only
      */
-    void printCustomAttributes() {
-        StackTraceElement s = new Throwable().getStackTrace()[1];
-        String ss = ".(" + s.getFileName() + ":" + s.getLineNumber() + ") " + s.getMethodName();
-        ss += " " + (this.hashCode() % 1000);
-        if (widget != null) {
-            ss += "/" + (widget.hashCode() % 1000) + " ";
+    fun printCustomAttributes() {
+        val s = Throwable().stackTrace[1]
+        var ss = ".(" + s.fileName + ":" + s.lineNumber + ") " + s.methodName
+        ss += " " + this.hashCode() % 1000
+        ss += if (widget != null) {
+            "/" + widget.hashCode() % 1000 + " "
         } else {
-            ss += "/NULL ";
+            "/NULL "
         }
-        if (mCustom != null)
-            for (String key : mCustom.keySet()) {
-                System.out.println(ss + mCustom.get(key).toString());
-            }
+        if (mCustom != null) for (key in mCustom.keys) {
+            println(ss + mCustom[key].toString())
+        }
     }
 
     /**
      * For debugging only
      * @param str
      */
-    void logv(String str) {
-        StackTraceElement s = new Throwable().getStackTrace()[1];
-        String ss = ".(" + s.getFileName() + ":" + s.getLineNumber() + ") " + s.getMethodName();
-        ss += " " + (this.hashCode() % 1000);
-        if (widget != null) {
-            ss += "/" + (widget.hashCode() % 1000);
+    fun logv(str: String) {
+        val s = Throwable().stackTrace[1]
+        var ss = ".(" + s.fileName + ":" + s.lineNumber + ") " + s.methodName
+        ss += " " + this.hashCode() % 1000
+        ss += if (widget != null) {
+            "/" + widget.hashCode() % 1000
         } else {
-            ss += "/NULL";
+            "/NULL"
         }
-
-        System.out.println(ss + " " + str);
+        println("$ss $str")
     }
 
-    public void setCustomValue(CustomAttribute valueAt, float[] mTempValues) {
+    fun setCustomValue(valueAt: CustomAttribute?, mTempValues: FloatArray?) {}
+
+    companion object {
+        private const val OLD_SYSTEM = true
+        var phone_orientation = Float.NaN
+        fun interpolate(parentWidth: Int, parentHeight: Int, frame: WidgetFrame, start: WidgetFrame, end: WidgetFrame, transition: Transition, progress: Float) {
+            val frameNumber = (progress * 100).toInt()
+            var startX = start.left
+            var startY = start.top
+            var endX = end.left
+            var endY = end.top
+            var startWidth = start.right - start.left
+            var startHeight = start.bottom - start.top
+            var endWidth = end.right - end.left
+            var endHeight = end.bottom - end.top
+            var progressPosition = progress
+            var startAlpha = start.alpha
+            var endAlpha = end.alpha
+            if (start.visibility == ConstraintWidget.GONE) {
+                // On visibility gone, keep the same size to do an alpha to zero
+                startX -= (endWidth / 2f).toInt()
+                startY -= (endHeight / 2f).toInt()
+                startWidth = endWidth
+                startHeight = endHeight
+                if (java.lang.Float.isNaN(startAlpha)) {
+                    // override only if not defined...
+                    startAlpha = 0f
+                }
+            }
+            if (end.visibility == ConstraintWidget.GONE) {
+                // On visibility gone, keep the same size to do an alpha to zero
+                endX -= (startWidth / 2f).toInt()
+                endY -= (startHeight / 2f).toInt()
+                endWidth = startWidth
+                endHeight = startHeight
+                if (java.lang.Float.isNaN(endAlpha)) {
+                    // override only if not defined...
+                    endAlpha = 0f
+                }
+            }
+            if (java.lang.Float.isNaN(startAlpha) && !java.lang.Float.isNaN(endAlpha)) {
+                startAlpha = 1f
+            }
+            if (!java.lang.Float.isNaN(startAlpha) && java.lang.Float.isNaN(endAlpha)) {
+                endAlpha = 1f
+            }
+            if (start.visibility == ConstraintWidget.INVISIBLE) {
+                startAlpha = 0f
+            }
+            if (end.visibility == ConstraintWidget.INVISIBLE) {
+                endAlpha = 0f
+            }
+            if (frame.widget != null && transition.hasPositionKeyframes()) {
+                val firstPosition = transition.findPreviousPosition(frame.widget!!.stringId, frameNumber)
+                var lastPosition = transition.findNextPosition(frame.widget!!.stringId, frameNumber)
+                if (firstPosition === lastPosition) {
+                    lastPosition = null
+                }
+                var interpolateStartFrame = 0
+                var interpolateEndFrame = 100
+                if (firstPosition != null) {
+                    startX = (firstPosition.x * parentWidth).toInt()
+                    startY = (firstPosition.y * parentHeight).toInt()
+                    interpolateStartFrame = firstPosition.frame
+                }
+                if (lastPosition != null) {
+                    endX = (lastPosition.x * parentWidth).toInt()
+                    endY = (lastPosition.y * parentHeight).toInt()
+                    interpolateEndFrame = lastPosition.frame
+                }
+                progressPosition = (progress * 100f - interpolateStartFrame) / (interpolateEndFrame - interpolateStartFrame).toFloat()
+            }
+            frame.widget = start.widget
+            frame.left = (startX + progressPosition * (endX - startX)).toInt()
+            frame.top = (startY + progressPosition * (endY - startY)).toInt()
+            val width = ((1 - progress) * startWidth + progress * endWidth).toInt()
+            val height = ((1 - progress) * startHeight + progress * endHeight).toInt()
+            frame.right = frame.left + width
+            frame.bottom = frame.top + height
+            frame.pivotX = interpolate(start.pivotX, end.pivotX, 0.5f, progress)
+            frame.pivotY = interpolate(start.pivotY, end.pivotY, 0.5f, progress)
+            frame.rotationX = interpolate(start.rotationX, end.rotationX, 0f, progress)
+            frame.rotationY = interpolate(start.rotationY, end.rotationY, 0f, progress)
+            frame.rotationZ = interpolate(start.rotationZ, end.rotationZ, 0f, progress)
+            frame.scaleX = interpolate(start.scaleX, end.scaleX, 1f, progress)
+            frame.scaleY = interpolate(start.scaleY, end.scaleY, 1f, progress)
+            frame.translationX = interpolate(start.translationX, end.translationX, 0f, progress)
+            frame.translationY = interpolate(start.translationY, end.translationY, 0f, progress)
+            frame.translationZ = interpolate(start.translationZ, end.translationZ, 0f, progress)
+            frame.alpha = interpolate(startAlpha, endAlpha, 1f, progress)
+            val keys: Set<String> = end.mCustom!!.keys
+            frame.mCustom!!.clear()
+            for (key in keys) {
+                if (start.mCustom!!.containsKey(key)) {
+                    val startVariable = start.mCustom[key]
+                    val endVariable = end.mCustom[key]
+                    startVariable?.let { interpolated ->
+                        CustomVariable(interpolated)
+                        frame.mCustom[key] = interpolated
+                        if (startVariable.numberOfInterpolatedValues() == 1) {
+                            interpolated.setValue(interpolate(startVariable.valueToInterpolate, endVariable!!.valueToInterpolate, 0f, progress))
+                        } else {
+                            val N = startVariable.numberOfInterpolatedValues()
+                            val startValues = FloatArray(N)
+                            val endValues = FloatArray(N)
+                            startVariable.getValuesToInterpolate(startValues)
+                            endVariable!!.getValuesToInterpolate(endValues)
+                            for (i in 0 until N) {
+                                startValues[i] = interpolate(startValues[i], endValues[i], 0f, progress)
+                                interpolated.setValue(startValues)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun interpolate(start: Float, end: Float, defaultValue: Float, progress: Float): Float {
+            var start = start
+            var end = end
+            val isStartUnset = java.lang.Float.isNaN(start)
+            val isEndUnset = java.lang.Float.isNaN(end)
+            if (isStartUnset && isEndUnset) {
+                return Float.NaN
+            }
+            if (isStartUnset) {
+                start = defaultValue
+            }
+            if (isEndUnset) {
+                end = defaultValue
+            }
+            return start + progress * (end - start)
+        }
+
+        private fun add(s: StringBuilder, title: String, value: Int) {
+            s.append(title)
+            s.append(": ")
+            s.append(value)
+            s.append(",\n")
+        }
+
+        private fun add(s: StringBuilder, title: String, value: Float) {
+            if (java.lang.Float.isNaN(value)) {
+                return
+            }
+            s.append(title)
+            s.append(": ")
+            s.append(value)
+            s.append(",\n")
+        }
     }
 }

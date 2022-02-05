@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state.helpers
 
-package androidx.constraintlayout.core.state.helpers;
+import androidx.constraintlayout.core.state.HelperReference
+import androidx.constraintlayout.core.state.State
 
-import androidx.constraintlayout.core.state.HelperReference;
-import androidx.constraintlayout.core.state.State;
+open class ChainReference(state: State?, type: State.Helper?) : HelperReference(state!!, type!!) {
+    var bias = 0.5f
+        protected set
+    @JvmField
+    protected var mStyle = State.Chain.SPREAD
+    val style: State.Chain
+        get() = State.Chain.SPREAD
 
-public class ChainReference extends HelperReference
-{
-
-    protected float mBias = 0.5f;
-    protected State.Chain mStyle = State.Chain.SPREAD;
-
-    public ChainReference(State state, State.Helper type) {
-        super(state, type);
+    fun style(style: State.Chain): ChainReference {
+        mStyle = style
+        return this
     }
 
-    public State.Chain getStyle() { return State.Chain.SPREAD; }
-    public ChainReference style(State.Chain style) {
-        mStyle = style;
-        return this;
+    override fun bias(bias: Float): ChainReference {
+        this.bias = bias
+        return this
     }
-    public float getBias() { return mBias; }
-    public ChainReference bias(float bias) { mBias = bias;
-        return this;
-    }
-
 }

@@ -13,292 +13,276 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.key;
+package androidx.constraintlayout.core.motion.key
 
-import androidx.constraintlayout.core.motion.MotionWidget;
-import androidx.constraintlayout.core.motion.utils.FloatRect;
-import androidx.constraintlayout.core.motion.utils.SplineSet;
-import androidx.constraintlayout.core.motion.utils.TypedValues;
+import androidx.constraintlayout.core.motion.utils.SplineSet
+import androidx.constraintlayout.core.motion.MotionWidget
+import androidx.constraintlayout.core.motion.utils.FloatRect
+import androidx.constraintlayout.core.motion.utils.TypedValues.PositionType
+import androidx.constraintlayout.core.motion.utils.TypedValues.TYPE_FRAME_POSITION
 
-import java.util.HashMap;
-import java.util.HashSet;
-
-public class MotionKeyPosition extends MotionKey {
-    static final String NAME = "KeyPosition";
-    protected static final float SELECTION_SLOPE = 20;
-    public int mCurveFit = UNSET;
-    public String mTransitionEasing = null;
-    public int mPathMotionArc = UNSET; // -1 means not set
-    public int mDrawPath = 0;
-    public float mPercentWidth = Float.NaN;
-    public float mPercentHeight = Float.NaN;
-    public float mPercentX = Float.NaN;
-    public float mPercentY = Float.NaN;
-    public float mAltPercentX = Float.NaN;
-    public float mAltPercentY = Float.NaN;
-    public static final int TYPE_SCREEN = 2;
-    public static final int TYPE_PATH = 1;
-    public static final int TYPE_CARTESIAN = 0;
-    public int mPositionType = TYPE_CARTESIAN;
-
-    private float mCalculatedPositionX = Float.NaN;
-    private float mCalculatedPositionY = Float.NaN;
-    static final int KEY_TYPE = 2;
-
-    {
-        mType = KEY_TYPE;
-    }
+class MotionKeyPosition : MotionKey() {
+    @JvmField
+    var mCurveFit: Int = MotionKey.Companion.UNSET
+    @JvmField
+    var mTransitionEasing: String? = null
+    @JvmField
+    var mPathMotionArc: Int = MotionKey.Companion.UNSET // -1 means not set
+    @JvmField
+    var mDrawPath = 0
+    @JvmField
+    var mPercentWidth = Float.NaN
+    @JvmField
+    var mPercentHeight = Float.NaN
+    @JvmField
+    var mPercentX = Float.NaN
+    @JvmField
+    var mPercentY = Float.NaN
+    @JvmField
+    var mAltPercentX = Float.NaN
+    @JvmField
+    var mAltPercentY = Float.NaN
+    @JvmField
+    var mPositionType = TYPE_CARTESIAN
+    var positionX = Float.NaN
+        private set
+    var positionY = Float.NaN
+        private set
 
     // TODO this needs the views dimensions to be accurate
-    private void calcScreenPosition(int layoutWidth, int layoutHeight) {
-        int viewWidth = 0;
-        int viewHeight = 0;
-        mCalculatedPositionX = (layoutWidth - viewWidth) * mPercentX + viewWidth / 2;
-        mCalculatedPositionY = (layoutHeight - viewHeight) * mPercentX + viewHeight / 2;
+    private fun calcScreenPosition(layoutWidth: Int, layoutHeight: Int) {
+        val viewWidth = 0
+        val viewHeight = 0
+        positionX = (layoutWidth - viewWidth) * mPercentX + viewWidth / 2
+        positionY = (layoutHeight - viewHeight) * mPercentX + viewHeight / 2
     }
 
-    private void calcPathPosition(float start_x, float start_y,
-                                  float end_x, float end_y) {
-        float pathVectorX = end_x - start_x;
-        float pathVectorY = end_y - start_y;
-        float perpendicularX = -pathVectorY;
-        float perpendicularY = pathVectorX;
-        mCalculatedPositionX = start_x + pathVectorX * mPercentX + perpendicularX * mPercentY;
-        mCalculatedPositionY = start_y + pathVectorY * mPercentX + perpendicularY * mPercentY;
+    private fun calcPathPosition(
+        start_x: Float, start_y: Float,
+        end_x: Float, end_y: Float
+    ) {
+        val pathVectorX = end_x - start_x
+        val pathVectorY = end_y - start_y
+        val perpendicularX = -pathVectorY
+        positionX = start_x + pathVectorX * mPercentX + perpendicularX * mPercentY
+        positionY = start_y + pathVectorY * mPercentX + pathVectorX * mPercentY
     }
 
-    private void calcCartesianPosition(float start_x, float start_y,
-                                       float end_x, float end_y) {
-        float pathVectorX = end_x - start_x;
-        float pathVectorY = end_y - start_y;
-        float dxdx = (Float.isNaN(mPercentX)) ? 0 : mPercentX;
-        float dydx = (Float.isNaN(mAltPercentY)) ? 0 : mAltPercentY;
-        float dydy = (Float.isNaN(mPercentY)) ? 0 : mPercentY;
-        float dxdy = (Float.isNaN(mAltPercentX)) ? 0 : mAltPercentX;
-        mCalculatedPositionX = (int) (start_x + pathVectorX * dxdx + pathVectorY * dxdy);
-        mCalculatedPositionY = (int) (start_y + pathVectorX * dydx + pathVectorY * dydy);
+    private fun calcCartesianPosition(
+        start_x: Float, start_y: Float,
+        end_x: Float, end_y: Float
+    ) {
+        val pathVectorX = end_x - start_x
+        val pathVectorY = end_y - start_y
+        val dxdx: Float = if (mPercentX.isNaN()) 0f else mPercentX
+        val dydx: Float = if (mAltPercentY.isNaN()) 0f else mAltPercentY
+        val dydy: Float = if (mPercentY.isNaN()) 0f else mPercentY
+        val dxdy: Float = if (mAltPercentX.isNaN()) 0f else mAltPercentX
+        positionX = (start_x + pathVectorX * dxdx + pathVectorY * dxdy)
+        positionY = (start_y + pathVectorX * dydx + pathVectorY * dydy)
     }
 
-    float getPositionX() {
-        return mCalculatedPositionX;
-    }
-
-    float getPositionY() {
-        return mCalculatedPositionY;
-    }
-
-    public void positionAttributes(MotionWidget view, FloatRect start, FloatRect end, float x, float y, String[] attribute, float[] value) {
-        switch (mPositionType) {
-
-            case TYPE_PATH:
-                positionPathAttributes(start, end, x, y, attribute, value);
-                return;
-            case TYPE_SCREEN:
-                positionScreenAttributes(view, start, end, x, y, attribute, value);
-                return;
-            case TYPE_CARTESIAN:
-            default:
-                positionCartAttributes(start, end, x, y, attribute, value);
-                return;
-
+    fun positionAttributes(view: MotionWidget, start: FloatRect, end: FloatRect, x: Float, y: Float, attribute: Array<String?>, value: FloatArray) {
+        when (mPositionType) {
+            TYPE_PATH -> {
+                positionPathAttributes(start, end, x, y, attribute, value)
+                return
+            }
+            TYPE_SCREEN -> {
+                positionScreenAttributes(view, start, end, x, y, attribute, value)
+                return
+            }
+            TYPE_CARTESIAN -> {
+                positionCartAttributes(start, end, x, y, attribute, value)
+                return
+            }
+            else -> {
+                positionCartAttributes(start, end, x, y, attribute, value)
+                return
+            }
         }
     }
 
-    void positionPathAttributes(FloatRect start, FloatRect end, float x, float y, String[] attribute, float[] value) {
-        float startCenterX = start.centerX();
-        float startCenterY = start.centerY();
-        float endCenterX = end.centerX();
-        float endCenterY = end.centerY();
-        float pathVectorX = endCenterX - startCenterX;
-        float pathVectorY = endCenterY - startCenterY;
-        float distance = (float) Math.hypot(pathVectorX, pathVectorY);
+    fun positionPathAttributes(start: FloatRect, end: FloatRect, x: Float, y: Float, attribute: Array<String?>, value: FloatArray) {
+        val startCenterX = start.centerX()
+        val startCenterY = start.centerY()
+        val endCenterX = end.centerX()
+        val endCenterY = end.centerY()
+        val pathVectorX = endCenterX - startCenterX
+        val pathVectorY = endCenterY - startCenterY
+        val distance = Math.hypot(pathVectorX.toDouble(), pathVectorY.toDouble()).toFloat()
         if (distance < 0.0001) {
-            System.out.println("distance ~ 0");
-            value[0] = 0;
-            value[1] = 0;
-            return;
+            println("distance ~ 0")
+            value[0] = 0f
+            value[1] = 0f
+            return
         }
-
-        float dx = pathVectorX / distance;
-        float dy = pathVectorY / distance;
-        float perpendicular = (dx * (y - startCenterY) - (x - startCenterX) * dy) / distance;
-        float dist = (dx * (x - startCenterX) + dy * (y - startCenterY)) / distance;
+        val dx = pathVectorX / distance
+        val dy = pathVectorY / distance
+        val perpendicular = (dx * (y - startCenterY) - (x - startCenterX) * dy) / distance
+        val dist = (dx * (x - startCenterX) + dy * (y - startCenterY)) / distance
         if (attribute[0] != null) {
-            if (PositionType.S_PERCENT_X.equals(attribute[0])) {
-                value[0] = dist;
-                value[1] = perpendicular;
+            if (PositionType.S_PERCENT_X == attribute[0]) {
+                value[0] = dist
+                value[1] = perpendicular
             }
         } else {
-            attribute[0] = PositionType.S_PERCENT_X;
-            attribute[1] = PositionType.S_PERCENT_Y;
-            value[0] = dist;
-            value[1] = perpendicular;
+            attribute[0] = PositionType.S_PERCENT_X
+            attribute[1] = PositionType.S_PERCENT_Y
+            value[0] = dist
+            value[1] = perpendicular
         }
     }
 
-    void positionScreenAttributes(MotionWidget view, FloatRect start, FloatRect end, float x, float y, String[] attribute, float[] value) {
-        float startCenterX = start.centerX();
-        float startCenterY = start.centerY();
-        float endCenterX = end.centerX();
-        float endCenterY = end.centerY();
-        float pathVectorX = endCenterX - startCenterX;
-        float pathVectorY = endCenterY - startCenterY;
-        MotionWidget viewGroup = ((MotionWidget) view.getParent());
-        int width = viewGroup.getWidth();
-        int height = viewGroup.getHeight();
-
+    fun positionScreenAttributes(view: MotionWidget, start: FloatRect, end: FloatRect, x: Float, y: Float, attribute: Array<String?>, value: FloatArray) {
+        val startCenterX = start.centerX()
+        val startCenterY = start.centerY()
+        val endCenterX = end.centerX()
+        val endCenterY = end.centerY()
+        val pathVectorX = endCenterX - startCenterX
+        val pathVectorY = endCenterY - startCenterY
+        val viewGroup = view.parent as MotionWidget
+        val width = viewGroup.width
+        val height = viewGroup.height
         if (attribute[0] != null) { // they are saying what to use
-            if (PositionType.S_PERCENT_X.equals(attribute[0])) {
-                value[0] = x / width;
-                value[1] = y / height;
+            if (PositionType.S_PERCENT_X == attribute[0]) {
+                value[0] = x / width
+                value[1] = y / height
             } else {
-                value[1] = x / width;
-                value[0] = y / height;
+                value[1] = x / width
+                value[0] = y / height
             }
         } else { // we will use what we want to
-            attribute[0] = PositionType.S_PERCENT_X;
-            value[0] = x / width;
-            attribute[1] = PositionType.S_PERCENT_Y;
-            value[1] = y / height;
+            attribute[0] = PositionType.S_PERCENT_X
+            value[0] = x / width
+            attribute[1] = PositionType.S_PERCENT_Y
+            value[1] = y / height
         }
     }
 
-    void positionCartAttributes(FloatRect start, FloatRect end, float x, float y, String[] attribute, float[] value) {
-        float startCenterX = start.centerX();
-        float startCenterY = start.centerY();
-        float endCenterX = end.centerX();
-        float endCenterY = end.centerY();
-        float pathVectorX = endCenterX - startCenterX;
-        float pathVectorY = endCenterY - startCenterY;
+    fun positionCartAttributes(start: FloatRect, end: FloatRect, x: Float, y: Float, attribute: Array<String?>, value: FloatArray) {
+        val startCenterX = start.centerX()
+        val startCenterY = start.centerY()
+        val endCenterX = end.centerX()
+        val endCenterY = end.centerY()
+        val pathVectorX = endCenterX - startCenterX
+        val pathVectorY = endCenterY - startCenterY
         if (attribute[0] != null) { // they are saying what to use
-            if (PositionType.S_PERCENT_X.equals(attribute[0])) {
-                value[0] = (x - startCenterX) / pathVectorX;
-                value[1] = (y - startCenterY) / pathVectorY;
+            if (PositionType.S_PERCENT_X == attribute[0]) {
+                value[0] = (x - startCenterX) / pathVectorX
+                value[1] = (y - startCenterY) / pathVectorY
             } else {
-                value[1] = (x - startCenterX) / pathVectorX;
-                value[0] = (y - startCenterY) / pathVectorY;
+                value[1] = (x - startCenterX) / pathVectorX
+                value[0] = (y - startCenterY) / pathVectorY
             }
         } else { // we will use what we want to
-            attribute[0] = PositionType.S_PERCENT_X;
-            value[0] = (x - startCenterX) / pathVectorX;
-            attribute[1] = PositionType.S_PERCENT_Y;
-            value[1] = (y - startCenterY) / pathVectorY;
+            attribute[0] = PositionType.S_PERCENT_X
+            value[0] = (x - startCenterX) / pathVectorX
+            attribute[1] = PositionType.S_PERCENT_Y
+            value[1] = (y - startCenterY) / pathVectorY
         }
     }
 
-    public boolean intersects(int layoutWidth, int layoutHeight, FloatRect start, FloatRect end, float x, float y) {
-        calcPosition(layoutWidth, layoutHeight, start.centerX(), start.centerY(), end.centerX(), end.centerY());
-        if ((Math.abs(x - mCalculatedPositionX) < SELECTION_SLOPE)
-                && (Math.abs(y - mCalculatedPositionY) < SELECTION_SLOPE)) {
-            return true;
+    fun intersects(layoutWidth: Int, layoutHeight: Int, start: FloatRect, end: FloatRect, x: Float, y: Float): Boolean {
+        calcPosition(layoutWidth, layoutHeight, start.centerX(), start.centerY(), end.centerX(), end.centerY())
+        return if (Math.abs(x - positionX) < SELECTION_SLOPE
+            && Math.abs(y - positionY) < SELECTION_SLOPE
+        ) {
+            true
+        } else false
+    }
+
+    override fun copy(src: MotionKey): MotionKey {
+        super.copy(src)
+        val k = src as MotionKeyPosition
+        mTransitionEasing = k.mTransitionEasing
+        mPathMotionArc = k.mPathMotionArc
+        mDrawPath = k.mDrawPath
+        mPercentWidth = k.mPercentWidth
+        mPercentHeight = Float.NaN
+        mPercentX = k.mPercentX
+        mPercentY = k.mPercentY
+        mAltPercentX = k.mAltPercentX
+        mAltPercentY = k.mAltPercentY
+        positionX = k.positionX
+        positionY = k.positionY
+        return this
+    }
+
+    override fun clone(): MotionKey? {
+        return MotionKeyPosition().copy(this)
+    }
+
+    fun calcPosition(layoutWidth: Int, layoutHeight: Int, start_x: Float, start_y: Float, end_x: Float, end_y: Float) {
+        when (mPositionType) {
+            TYPE_SCREEN -> {
+                calcScreenPosition(layoutWidth, layoutHeight)
+                return
+            }
+            TYPE_PATH -> {
+                calcPathPosition(start_x, start_y, end_x, end_y)
+                return
+            }
+            TYPE_CARTESIAN -> {
+                calcCartesianPosition(start_x, start_y, end_x, end_y)
+                return
+            }
+            else -> {
+                calcCartesianPosition(start_x, start_y, end_x, end_y)
+                return
+            }
         }
-        return false;
     }
 
-    public MotionKey copy(MotionKey src) {
-        super.copy(src);
-        MotionKeyPosition k = (MotionKeyPosition) src;
-        mTransitionEasing = k.mTransitionEasing;
-        mPathMotionArc = k.mPathMotionArc;
-        mDrawPath = k.mDrawPath;
-        mPercentWidth = k.mPercentWidth;
-        mPercentHeight = Float.NaN;
-        mPercentX = k.mPercentX;
-        mPercentY = k.mPercentY;
-        mAltPercentX = k.mAltPercentX;
-        mAltPercentY = k.mAltPercentY;
-        mCalculatedPositionX = k.mCalculatedPositionX;
-        mCalculatedPositionY = k.mCalculatedPositionY;
-        return this;
-    }
-
-    public MotionKey clone() {
-        return new MotionKeyPosition().copy(this);
-    }
-
-    void calcPosition(int layoutWidth, int layoutHeight, float start_x, float start_y, float end_x, float end_y) {
-        switch (mPositionType) {
-            case TYPE_SCREEN:
-                calcScreenPosition(layoutWidth, layoutHeight);
-                return;
-
-            case TYPE_PATH:
-                calcPathPosition(start_x, start_y, end_x, end_y);
-                return;
-            case TYPE_CARTESIAN:
-            default:
-                calcCartesianPosition(start_x, start_y, end_x, end_y);
-                return;
+    override fun getAttributeNames(attributes: HashSet<String>) {}
+    override fun addValues(splines: HashMap<String, SplineSet?>) {}
+    override fun setValue(type: Int, value: Int): Boolean {
+        when (type) {
+            PositionType.TYPE_POSITION_TYPE -> mPositionType = value
+            TYPE_FRAME_POSITION -> framePosition = value
+            PositionType.TYPE_CURVE_FIT -> mCurveFit = value
+            else -> return super.setValue(type, value)
         }
+        return true
     }
 
-    @Override
-    public void getAttributeNames(HashSet<String> attributes) {
-
-    }
-
-    public void addValues(HashMap<String, SplineSet> splines) {
-    }
-
-    @Override
-    public boolean setValue(int type, int value) {
-        switch (type) {
-            case PositionType.TYPE_POSITION_TYPE:
-                mPositionType = value;
-                break;
-            case TypedValues.TYPE_FRAME_POSITION:
-                mFramePosition = value;
-                break;
-            case PositionType.TYPE_CURVE_FIT:
-                mCurveFit = value;
-                break;
-
-            default:
-                return super.setValue(type, value);
+    override fun setValue(type: Int, value: Float): Boolean {
+        when (type) {
+            PositionType.TYPE_PERCENT_WIDTH -> mPercentWidth = value
+            PositionType.TYPE_PERCENT_HEIGHT -> mPercentHeight = value
+            PositionType.TYPE_SIZE_PERCENT -> {
+                mPercentWidth = value
+                mPercentHeight = mPercentWidth
+            }
+            PositionType.TYPE_PERCENT_X -> mPercentX = value
+            PositionType.TYPE_PERCENT_Y -> mPercentY = value
+            else -> return super.setValue(type, value)
         }
-        return true;
-
+        return true
     }
 
-    @Override
-    public boolean setValue(int type, float value) {
-        switch (type) {
-            case PositionType.TYPE_PERCENT_WIDTH:
-                mPercentWidth = value;
-                break;
-            case PositionType.TYPE_PERCENT_HEIGHT:
-                mPercentHeight = value;
-                break;
-            case PositionType.TYPE_SIZE_PERCENT:
-                mPercentHeight = mPercentWidth = value;
-                break;
-            case PositionType.TYPE_PERCENT_X:
-                mPercentX = value;
-                break;
-            case PositionType.TYPE_PERCENT_Y:
-                mPercentY = value;
-                break;
-            default:
-                return super.setValue(type, value);
+    override fun setValue(type: Int, value: String): Boolean {
+        mTransitionEasing = when (type) {
+            PositionType.TYPE_TRANSITION_EASING -> value
+            else -> return super.setValue(type, value)
         }
-        return true;
+        return true
     }
 
-    @Override
-    public boolean setValue(int type, String value) {
-        switch (type) {
-            case PositionType.TYPE_TRANSITION_EASING:
-                mTransitionEasing = value.toString();
-                break;
-            default:
-                return super.setValue(type, value);
-        }
-        return true;
+    override fun getId(name: String): Int {
+        return PositionType.getId(name)
     }
 
-    @Override
-    public int getId(String name) {
-        return PositionType.getId(name);
+    companion object {
+        const val NAME = "KeyPosition"
+        protected const val SELECTION_SLOPE = 20f
+        const val TYPE_SCREEN = 2
+        const val TYPE_PATH = 1
+        const val TYPE_CARTESIAN = 0
+        const val KEY_TYPE = 2
     }
 
+    init {
+        mType = KEY_TYPE
+    }
 }

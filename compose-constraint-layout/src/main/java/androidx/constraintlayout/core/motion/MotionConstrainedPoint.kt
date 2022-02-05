@@ -13,70 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion;
+package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.utils.Easing;
-import androidx.constraintlayout.core.motion.utils.Rect;
-import androidx.constraintlayout.core.motion.utils.SplineSet;
-import androidx.constraintlayout.core.motion.utils.TypedValues;
-import androidx.constraintlayout.core.motion.utils.Utils;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import androidx.constraintlayout.core.motion.utils.Easing
+import androidx.constraintlayout.core.motion.utils.Rect
+import androidx.constraintlayout.core.motion.utils.TypedValues
+import androidx.constraintlayout.core.motion.utils.SplineSet
+import androidx.constraintlayout.core.motion.utils.SplineSet.CustomSpline
 
 /**
  * All the parameter it extracts from a ConstraintSet/View
  *
  * @suppress
  */
-class MotionConstrainedPoint implements Comparable<MotionConstrainedPoint> {
-    public static final String TAG = "MotionPaths";
-    public static final boolean DEBUG = false;
-
-    private float alpha = 1;
-    int mVisibilityMode = MotionWidget.VISIBILITY_MODE_NORMAL;
-    int visibility;
-    private boolean applyElevation = false;
-    private float elevation = 0;
-    private float rotation = 0;
-    private float rotationX = 0;
-    public float rotationY = 0;
-    private float scaleX = 1;
-    private float scaleY = 1;
-    private float mPivotX = Float.NaN;
-    private float mPivotY = Float.NaN;
-    private float translationX = 0;
-    private float translationY = 0;
-    private float translationZ = 0;
-    private Easing mKeyFrameEasing;
-    private int mDrawPath = 0;
-    private float position;
-    private float x;
-    private float y;
-    private float width;
-    private float height;
-    private float mPathRotate = Float.NaN;
-    private float mProgress = Float.NaN;
-    private int mAnimateRelativeTo = -1;
-
-    static final int PERPENDICULAR = 1;
-    static final int CARTESIAN = 2;
-    static String[] names = {"position", "x", "y", "width", "height", "pathRotate"};
-
-    LinkedHashMap<String, CustomVariable> mCustomVariable = new LinkedHashMap<>();
-    int mMode = 0; // how was this point computed 1=perpendicular 2=deltaRelative
-
-    public MotionConstrainedPoint() {
-
-    }
-
-    private boolean diff(float a, float b) {
-        if (Float.isNaN(a) || Float.isNaN(b)) {
-            return Float.isNaN(a) != Float.isNaN(b);
-        }
-        return Math.abs(a - b) > 0.000001f;
+internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
+    private var alpha = 1f
+    var mVisibilityMode = MotionWidget.VISIBILITY_MODE_NORMAL
+    var visibility = 0
+    private var applyElevation = false
+    private val elevation = 0f
+    private var rotation = 0f
+    private var rotationX = 0f
+    var rotationY = 0f
+    private var scaleX = 1f
+    private var scaleY = 1f
+    private var mPivotX = Float.NaN
+    private var mPivotY = Float.NaN
+    private var translationX = 0f
+    private var translationY = 0f
+    private var translationZ = 0f
+    private val mKeyFrameEasing: Easing? = null
+    private val mDrawPath = 0
+    private val position = 0f
+    private var x = 0f
+    private var y = 0f
+    private var width = 0f
+    private var height = 0f
+    private val mPathRotate = Float.NaN
+    private val mProgress = Float.NaN
+    private val mAnimateRelativeTo = -1
+    var mCustomVariable = LinkedHashMap<String, CustomVariable>()
+    var mMode = 0 // how was this point computed 1=perpendicular 2=deltaRelative
+    private fun diff(a: Float, b: Float): Boolean {
+        return if (java.lang.Float.isNaN(a) || java.lang.Float.isNaN(b)) {
+            java.lang.Float.isNaN(a) != java.lang.Float.isNaN(b)
+        } else Math.abs(a - b) > 0.000001f
     }
 
     /**
@@ -85,218 +66,184 @@ class MotionConstrainedPoint implements Comparable<MotionConstrainedPoint> {
      * @param points
      * @param keySet
      */
-    void different(MotionConstrainedPoint points, HashSet<String> keySet) {
+    fun different(points: MotionConstrainedPoint, keySet: HashSet<String?>) {
         if (diff(alpha, points.alpha)) {
-            keySet.add(TypedValues.AttributesType.S_ALPHA);
+            keySet.add(TypedValues.AttributesType.S_ALPHA)
         }
         if (diff(elevation, points.elevation)) {
-            keySet.add(TypedValues.AttributesType.S_TRANSLATION_Z);
+            keySet.add(TypedValues.AttributesType.S_TRANSLATION_Z)
         }
-        if (visibility != points.visibility
-                && mVisibilityMode == MotionWidget.VISIBILITY_MODE_NORMAL
-                && (visibility == MotionWidget.VISIBLE
-                || points.visibility == MotionWidget.VISIBLE)) {
-            keySet.add(TypedValues.AttributesType.S_ALPHA);
+        if (visibility != points.visibility && mVisibilityMode == MotionWidget.VISIBILITY_MODE_NORMAL && (visibility == MotionWidget.VISIBLE
+                    || points.visibility == MotionWidget.VISIBLE)
+        ) {
+            keySet.add(TypedValues.AttributesType.S_ALPHA)
         }
         if (diff(rotation, points.rotation)) {
-            keySet.add(TypedValues.AttributesType.S_ROTATION_Z);
+            keySet.add(TypedValues.AttributesType.S_ROTATION_Z)
         }
-        if (!(Float.isNaN(mPathRotate) && Float.isNaN(points.mPathRotate))) {
-            keySet.add(TypedValues.AttributesType.S_PATH_ROTATE);
+        if (!(java.lang.Float.isNaN(mPathRotate) && java.lang.Float.isNaN(points.mPathRotate))) {
+            keySet.add(TypedValues.AttributesType.S_PATH_ROTATE)
         }
-        if (!(Float.isNaN(mProgress) && Float.isNaN(points.mProgress))) {
-            keySet.add(TypedValues.AttributesType.S_PROGRESS);
+        if (!(java.lang.Float.isNaN(mProgress) && java.lang.Float.isNaN(points.mProgress))) {
+            keySet.add(TypedValues.AttributesType.S_PROGRESS)
         }
         if (diff(rotationX, points.rotationX)) {
-            keySet.add(TypedValues.AttributesType.S_ROTATION_X);
+            keySet.add(TypedValues.AttributesType.S_ROTATION_X)
         }
         if (diff(rotationY, points.rotationY)) {
-            keySet.add(TypedValues.AttributesType.S_ROTATION_Y);
+            keySet.add(TypedValues.AttributesType.S_ROTATION_Y)
         }
         if (diff(mPivotX, points.mPivotX)) {
-            keySet.add(TypedValues.AttributesType.S_PIVOT_X);
+            keySet.add(TypedValues.AttributesType.S_PIVOT_X)
         }
         if (diff(mPivotY, points.mPivotY)) {
-            keySet.add(TypedValues.AttributesType.S_PIVOT_Y);
+            keySet.add(TypedValues.AttributesType.S_PIVOT_Y)
         }
         if (diff(scaleX, points.scaleX)) {
-            keySet.add(TypedValues.AttributesType.S_SCALE_X);
+            keySet.add(TypedValues.AttributesType.S_SCALE_X)
         }
         if (diff(scaleY, points.scaleY)) {
-            keySet.add(TypedValues.AttributesType.S_SCALE_Y);
+            keySet.add(TypedValues.AttributesType.S_SCALE_Y)
         }
         if (diff(translationX, points.translationX)) {
-            keySet.add(TypedValues.AttributesType.S_TRANSLATION_X);
+            keySet.add(TypedValues.AttributesType.S_TRANSLATION_X)
         }
         if (diff(translationY, points.translationY)) {
-            keySet.add(TypedValues.AttributesType.S_TRANSLATION_Y);
+            keySet.add(TypedValues.AttributesType.S_TRANSLATION_Y)
         }
         if (diff(translationZ, points.translationZ)) {
-            keySet.add(TypedValues.AttributesType.S_TRANSLATION_Z);
+            keySet.add(TypedValues.AttributesType.S_TRANSLATION_Z)
         }
         if (diff(elevation, points.elevation)) {
-            keySet.add(TypedValues.AttributesType.S_ELEVATION);
+            keySet.add(TypedValues.AttributesType.S_ELEVATION)
         }
     }
 
-    void different(MotionConstrainedPoint points, boolean[] mask, String[] custom) {
-        int c = 0;
-        mask[c++] |= diff(position, points.position);
-        mask[c++] |= diff(x, points.x);
-        mask[c++] |= diff(y, points.y);
-        mask[c++] |= diff(width, points.width);
-        mask[c++] |= diff(height, points.height);
+    fun different(points: MotionConstrainedPoint, mask: BooleanArray, custom: Array<String?>?) {
+        var c = 0
+        mask[c++] = mask[c++] or diff(position, points.position)
+        mask[c++] = mask[c++] or diff(x, points.x)
+        mask[c++] = mask[c++] or diff(y, points.y)
+        mask[c++] = mask[c++] or diff(width, points.width)
+        mask[c++] = mask[c++] or diff(height, points.height)
     }
 
-    double[] mTempValue = new double[18];
-    double[] mTempDelta = new double[18];
-
-    void fillStandard(double[] data, int[] toUse) {
-        float[] set = {position, x, y, width, height, alpha, elevation, rotation, rotationX, rotationY,
-                scaleX, scaleY, mPivotX, mPivotY, translationX, translationY, translationZ, mPathRotate};
-        int c = 0;
-        for (int i = 0; i < toUse.length; i++) {
-            if (toUse[i] < set.length) {
-                data[c++] = set[toUse[i]];
+    var mTempValue = DoubleArray(18)
+    var mTempDelta = DoubleArray(18)
+    fun fillStandard(data: DoubleArray, toUse: IntArray) {
+        val set = floatArrayOf(
+            position, x, y, width, height, alpha, elevation, rotation, rotationX, rotationY,
+            scaleX, scaleY, mPivotX, mPivotY, translationX, translationY, translationZ, mPathRotate
+        )
+        var c = 0
+        for (i in toUse.indices) {
+            if (toUse[i] < set.size) {
+                data[c++] = set[toUse[i]].toDouble()
             }
         }
     }
 
-    boolean hasCustomData(String name) {
-        return mCustomVariable.containsKey(name);
+    fun hasCustomData(name: String): Boolean {
+        return mCustomVariable.containsKey(name)
     }
 
-    int getCustomDataCount(String name) {
-        return mCustomVariable.get(name).numberOfInterpolatedValues();
+    fun getCustomDataCount(name: String): Int {
+        return mCustomVariable[name]!!.numberOfInterpolatedValues()
     }
 
-    int getCustomData(String name, double[] value, int offset) {
-        CustomVariable a = mCustomVariable.get(name);
-        if (a.numberOfInterpolatedValues() == 1) {
-            value[offset] = a.getValueToInterpolate();
-            return 1;
+    fun getCustomData(name: String, value: DoubleArray, offset: Int): Int {
+        var offset = offset
+        val a = mCustomVariable[name]
+        return if (a!!.numberOfInterpolatedValues() == 1) {
+            value[offset] = a.valueToInterpolate.toDouble()
+            1
         } else {
-            int N = a.numberOfInterpolatedValues();
-            float[] f = new float[N];
-            a.getValuesToInterpolate(f);
-            for (int i = 0; i < N; i++) {
-                value[offset++] = f[i];
+            val N = a.numberOfInterpolatedValues()
+            val f = FloatArray(N)
+            a.getValuesToInterpolate(f)
+            for (i in 0 until N) {
+                value[offset++] = f[i].toDouble()
             }
-            return N;
+            N
         }
     }
 
-    void setBounds(float x, float y, float w, float h) {
-        this.x = x;
-        this.y = y;
-        width = w;
-        height = h;
+    fun setBounds(x: Float, y: Float, w: Float, h: Float) {
+        this.x = x
+        this.y = y
+        width = w
+        height = h
     }
 
-    @Override
-    public int compareTo(MotionConstrainedPoint o) {
-        return Float.compare(position, o.position);
+    override fun compareTo(o: MotionConstrainedPoint): Int {
+        return java.lang.Float.compare(position, o.position)
     }
 
-    public void applyParameters(MotionWidget view) {
-
-        this.visibility = view.getVisibility();
-        this.alpha = (view.getVisibility() != MotionWidget.VISIBLE) ? 0.0f : view.getAlpha();
-        this.applyElevation = false; // TODO figure a way to cache parameters
-
-        this.rotation = view.getRotationZ();
-        this.rotationX = view.getRotationX();
-        this.rotationY = view.getRotationY();
-        this.scaleX = view.getScaleX();
-        this.scaleY = view.getScaleY();
-        this.mPivotX = view.getPivotX();
-        this.mPivotY = view.getPivotY();
-        this.translationX = view.getTranslationX();
-        this.translationY = view.getTranslationY();
-        this.translationZ = view.getTranslationZ();
-        Set<String> at = view.getCustomAttributeNames();
-        for (String s : at) {
-            CustomVariable attr = view.getCustomAttribute(s);
-            if (attr != null && attr.isContinuous()) {
-                this.mCustomVariable.put(s, attr);
+    fun applyParameters(view: MotionWidget) {
+        visibility = view.visibility
+        alpha = if (view.visibility != MotionWidget.VISIBLE) 0.0f else view.alpha
+        applyElevation = false // TODO figure a way to cache parameters
+        rotation = view.rotationZ
+        rotationX = view.rotationX
+        rotationY = view.rotationY
+        scaleX = view.scaleX
+        scaleY = view.scaleY
+        mPivotX = view.pivotX
+        mPivotY = view.pivotY
+        translationX = view.translationX
+        translationY = view.translationY
+        translationZ = view.translationZ
+        val at = view.customAttributeNames
+        for (s in at) {
+            val attr = view.getCustomAttribute(s)
+            if (attr != null && attr.isContinuous) {
+                mCustomVariable[s] = attr
             }
         }
-
-
     }
 
-    public void addValues(HashMap<String, SplineSet> splines, int mFramePosition) {
-        for (String s : splines.keySet()) {
-            SplineSet ViewSpline = splines.get(s);
+    fun addValues(splines: HashMap<String, SplineSet?>, mFramePosition: Int) {
+        for (s in splines.keys) {
+            val ViewSpline = splines[s]
             if (DEBUG) {
-                Utils.log(TAG, "setPoint" + mFramePosition + "  spline set = " + s);
+                //Utils.log(TAG, "setPoint" + mFramePosition + "  spline set = " + s);
             }
-            switch (s) {
-                case TypedValues.AttributesType.S_ALPHA:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(alpha) ? 1 : alpha);
-                    break;
-                case TypedValues.AttributesType.S_ROTATION_Z:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(rotation) ? 0 : rotation);
-                    break;
-                case TypedValues.AttributesType.S_ROTATION_X:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(rotationX) ? 0 : rotationX);
-                    break;
-                case TypedValues.AttributesType.S_ROTATION_Y:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(rotationY) ? 0 : rotationY);
-                    break;
-                case TypedValues.AttributesType.S_PIVOT_X:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(mPivotX) ? 0 : mPivotX);
-                    break;
-                case TypedValues.AttributesType.S_PIVOT_Y:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(mPivotY) ? 0 : mPivotY);
-                    break;
-                case TypedValues.AttributesType.S_PATH_ROTATE:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(mPathRotate) ? 0 : mPathRotate);
-                    break;
-                case TypedValues.AttributesType.S_PROGRESS:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(mProgress) ? 0 : mProgress);
-                    break;
-                case TypedValues.AttributesType.S_SCALE_X:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(scaleX) ? 1 : scaleX);
-                    break;
-                case TypedValues.AttributesType.S_SCALE_Y:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(scaleY) ? 1 : scaleY);
-                    break;
-                case TypedValues.AttributesType.S_TRANSLATION_X:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(translationX) ? 0 : translationX);
-                    break;
-                case TypedValues.AttributesType.S_TRANSLATION_Y:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(translationY) ? 0 : translationY);
-                    break;
-                case TypedValues.AttributesType.S_TRANSLATION_Z:
-                    ViewSpline.setPoint(mFramePosition, Float.isNaN(translationZ) ? 0 : translationZ);
-                    break;
-                default:
-                    if (s.startsWith("CUSTOM")) {
-                        String customName = s.split(",")[1];
-                        if (mCustomVariable.containsKey(customName)) {
-                            CustomVariable custom = mCustomVariable.get(customName);
-                            if (ViewSpline instanceof SplineSet.CustomSpline) {
-                                ((SplineSet.CustomSpline) ViewSpline).setPoint(mFramePosition, custom);
-                            } else {
-                                Utils.loge(TAG, s + " ViewSpline not a CustomSet frame = " +
+            when (s) {
+                TypedValues.AttributesType.S_ALPHA -> ViewSpline!!.setPoint(mFramePosition, if (alpha.isNaN()) 1f else alpha)
+                TypedValues.AttributesType.S_ROTATION_Z -> ViewSpline!!.setPoint(mFramePosition, if (rotation.isNaN()) 0f else rotation)
+                TypedValues.AttributesType.S_ROTATION_X -> ViewSpline!!.setPoint(mFramePosition, if (rotationX.isNaN()) 0f else rotationX)
+                TypedValues.AttributesType.S_ROTATION_Y -> ViewSpline!!.setPoint(mFramePosition, if (rotationY.isNaN()) 0f else rotationY)
+                TypedValues.AttributesType.S_PIVOT_X -> ViewSpline!!.setPoint(mFramePosition, if (mPivotX.isNaN()) 0f else mPivotX)
+                TypedValues.AttributesType.S_PIVOT_Y -> ViewSpline!!.setPoint(mFramePosition, if (mPivotY.isNaN()) 0f else mPivotY)
+                TypedValues.AttributesType.S_PATH_ROTATE -> ViewSpline!!.setPoint(mFramePosition, if (mPathRotate.isNaN()) 0f else mPathRotate)
+                TypedValues.AttributesType.S_PROGRESS -> ViewSpline!!.setPoint(mFramePosition, if (mProgress.isNaN()) 0f else mProgress)
+                TypedValues.AttributesType.S_SCALE_X -> ViewSpline!!.setPoint(mFramePosition, if (scaleX.isNaN()) 1f else scaleX)
+                TypedValues.AttributesType.S_SCALE_Y -> ViewSpline!!.setPoint(mFramePosition, if (scaleY.isNaN()) 1f else scaleY)
+                TypedValues.AttributesType.S_TRANSLATION_X -> ViewSpline!!.setPoint(mFramePosition, if (translationX.isNaN()) 0f else translationX)
+                TypedValues.AttributesType.S_TRANSLATION_Y -> ViewSpline!!.setPoint(mFramePosition, if (translationY.isNaN()) 0f else translationY)
+                TypedValues.AttributesType.S_TRANSLATION_Z -> ViewSpline!!.setPoint(mFramePosition, if (translationZ.isNaN()) 0f else translationZ)
+                else -> if (s.startsWith("CUSTOM")) {
+                    val customName = s.split(",".toRegex()).toTypedArray()[1]
+                    if (mCustomVariable.containsKey(customName)) {
+                        val custom = mCustomVariable[customName]
+                        if (ViewSpline is CustomSpline) {
+                            ViewSpline.setPoint(mFramePosition, custom)
+                        } else {
+                            /*Utils.loge(TAG, s + " ViewSpline not a CustomSet frame = " +
                                         mFramePosition + ", value" + custom.getValueToInterpolate() +
-                                        ViewSpline);
-
-                            }
-
+                                        ViewSpline);*/
                         }
-                    } else {
-                        Utils.loge(TAG, "UNKNOWN spline " + s);
                     }
+                } else {
+                    //Utils.loge(TAG, "UNKNOWN spline " + s);
+                }
             }
         }
-
     }
 
-    public void setState(MotionWidget view) {
-        setBounds(view.getX(), view.getY(), view.getWidth(), view.getHeight());
-        applyParameters(view);
+    fun setState(view: MotionWidget) {
+        setBounds(view.x.toFloat(), view.y.toFloat(), view.width.toFloat(), view.height.toFloat())
+        applyParameters(view)
     }
 
     /**
@@ -304,44 +251,45 @@ class MotionConstrainedPoint implements Comparable<MotionConstrainedPoint> {
      * @param view
      * @param rotation mode Surface.ROTATION_0,Surface.ROTATION_90...
      */
-    public void setState(Rect rect, MotionWidget view, int rotation, float prevous) {
-        setBounds(rect.left, rect.top, rect.width(), rect.height());
-        applyParameters(view);
-        mPivotX = Float.NaN;
-        mPivotY = Float.NaN;
-
-        switch (rotation) {
-            case MotionWidget.ROTATE_PORTRATE_OF_LEFT:
-                this.rotation = prevous + 90;
-                break;
-            case MotionWidget.ROTATE_PORTRATE_OF_RIGHT:
-                this.rotation = prevous - 90;
-                break;
+    fun setState(rect: Rect, view: MotionWidget, rotation: Int, prevous: Float) {
+        setBounds(rect.left.toFloat(), rect.top.toFloat(), rect.width().toFloat(), rect.height().toFloat())
+        applyParameters(view)
+        mPivotX = Float.NaN
+        mPivotY = Float.NaN
+        when (rotation) {
+            MotionWidget.ROTATE_PORTRATE_OF_LEFT -> this.rotation = prevous + 90
+            MotionWidget.ROTATE_PORTRATE_OF_RIGHT -> this.rotation = prevous - 90
         }
-    }
+    } //   TODO support Screen Rotation
 
-//   TODO support Screen Rotation
-//    /**
-//     * Sets the state of the position given a rect, constraintset, rotation and viewid
-//     *
-//     * @param cw
-//     * @param constraintSet
-//     * @param rotation
-//     * @param viewId
-//     */
-//    public void setState(Rect cw, ConstraintSet constraintSet, int rotation, int viewId) {
-//        setBounds(cw.left, cw.top, cw.width(), cw.height());
-//        applyParameters(constraintSet.getParameters(viewId));
-//        switch (rotation) {
-//            case ConstraintSet.ROTATE_PORTRATE_OF_RIGHT:
-//            case ConstraintSet.ROTATE_RIGHT_OF_PORTRATE:
-//                this.rotation -= 90;
-//                break;
-//            case ConstraintSet.ROTATE_PORTRATE_OF_LEFT:
-//            case ConstraintSet.ROTATE_LEFT_OF_PORTRATE:
-//                this.rotation += 90;
-//                if (this.rotation > 180) this.rotation -= 360;
-//                break;
-//        }
-//    }
+    //    /**
+    //     * Sets the state of the position given a rect, constraintset, rotation and viewid
+    //     *
+    //     * @param cw
+    //     * @param constraintSet
+    //     * @param rotation
+    //     * @param viewId
+    //     */
+    //    public void setState(Rect cw, ConstraintSet constraintSet, int rotation, int viewId) {
+    //        setBounds(cw.left, cw.top, cw.width(), cw.height());
+    //        applyParameters(constraintSet.getParameters(viewId));
+    //        switch (rotation) {
+    //            case ConstraintSet.ROTATE_PORTRATE_OF_RIGHT:
+    //            case ConstraintSet.ROTATE_RIGHT_OF_PORTRATE:
+    //                this.rotation -= 90;
+    //                break;
+    //            case ConstraintSet.ROTATE_PORTRATE_OF_LEFT:
+    //            case ConstraintSet.ROTATE_LEFT_OF_PORTRATE:
+    //                this.rotation += 90;
+    //                if (this.rotation > 180) this.rotation -= 360;
+    //                break;
+    //        }
+    //    }
+    companion object {
+        const val TAG = "MotionPaths"
+        const val DEBUG = false
+        const val PERPENDICULAR = 1
+        const val CARTESIAN = 2
+        var names = arrayOf("position", "x", "y", "width", "height", "pathRotate")
+    }
 }

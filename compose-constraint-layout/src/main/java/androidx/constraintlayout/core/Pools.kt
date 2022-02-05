@@ -13,45 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core;
+package androidx.constraintlayout.core
 
 /**
  * Helper class for crating pools of objects. An example use looks like this:
  * <pre>
  * public class MyPooledClass {
  *
- *     private static final SimplePool<MyPooledClass> sPool =
- *             new SimplePool<MyPooledClass>(10);
+ * private static final SimplePool<MyPooledClass> sPool =
+ * new SimplePool<MyPooledClass>(10);
  *
- *     public static MyPooledClass obtain() {
- *         MyPooledClass instance = sPool.acquire();
- *         return (instance != null) ? instance : new MyPooledClass();
- *     }
- *
- *     public void recycle() {
- *          // Clear state if needed.
- *          sPool.release(this);
- *     }
- *
- *     . . .
+ * public static MyPooledClass obtain() {
+ * MyPooledClass instance = sPool.acquire();
+ * return (instance != null) ? instance : new MyPooledClass();
  * }
- * </pre>
+ *
+ * public void recycle() {
+ * // Clear state if needed.
+ * sPool.release(this);
+ * }
+ *
+ * . . .
+ * }
+</MyPooledClass></MyPooledClass></pre> *
  */
-final class Pools {
-    private static final boolean DEBUG = false;
+object Pools {
+    private const val DEBUG = false
 
     /**
      * Interface for managing a pool of objects.
      *
      * @param <T> The pooled type.
-     */
+    </T> */
     interface Pool<T> {
-
         /**
          * @return An instance from the pool if such, null otherwise.
          */
-        T acquire();
+        fun acquire(): T
 
         /**
          * Release an instance to the pool.
@@ -61,7 +59,7 @@ final class Pools {
          *
          * @throws IllegalStateException If the instance is already in the pool.
          */
-        boolean release(T instance);
+        fun release(instance: T): Boolean
 
         /**
          * Try releasing all instances at the same time
@@ -69,22 +67,65 @@ final class Pools {
          * @param variables the variables to release
          * @param count the number of variables to release
          */
-        void releaseAll(T[] variables, int count);
-    }
-
-    private Pools() {
-        /* do nothing - hiding constructor */
+        fun releaseAll(variables: Array<T>, count: Int)
     }
 
     /**
      * Simple (non-synchronized) pool of objects.
      *
      * @param <T> The pooled type.
-     */
-    static class SimplePool<T> implements Pool<T> {
-        private final Object[] mPool;
+    </T> */
+    class SimplePool<T>(maxPoolSize: Int) : Pool<T?> {
+        private val mPool: Array<Any?>
+        private var mPoolSize = 0
+        override fun acquire(): T? {
+            if (mPoolSize > 0) {
+                val lastPooledIndex = mPoolSize - 1
+                val instance = mPool[lastPooledIndex] as T?
+                mPool[lastPooledIndex] = null
+                mPoolSize--
+                return instance
+            }
+            return null
+        }
 
-        private int mPoolSize;
+        override fun release(instance: T?): Boolean {
+            if (DEBUG) {
+                check(!isInPool(instance)) { "Already in the pool!" }
+            }
+            if (mPoolSize < mPool.size) {
+                mPool[mPoolSize] = instance
+                mPoolSize++
+                return true
+            }
+            return false
+        }
+
+        override fun releaseAll(variables: Array<T?>, count: Int) {
+            var count = count
+            if (count > variables.size) {
+                count = variables.size
+            }
+            for (i in 0 until count) {
+                val instance = variables[i]
+                if (DEBUG) {
+                    check(!isInPool(instance)) { "Already in the pool!" }
+                }
+                if (mPoolSize < mPool.size) {
+                    mPool[mPoolSize] = instance
+                    mPoolSize++
+                }
+            }
+        }
+
+        private fun isInPool(instance: T?): Boolean {
+            for (i in 0 until mPoolSize) {
+                if (mPool[i] === instance) {
+                    return true
+                }
+            }
+            return false
+        }
 
         /**
          * Creates a new instance.
@@ -93,68 +134,9 @@ final class Pools {
          *
          * @throws IllegalArgumentException If the max pool size is less than zero.
          */
-        SimplePool(int maxPoolSize) {
-            if (maxPoolSize <= 0) {
-                throw new IllegalArgumentException("The max pool size must be > 0");
-            }
-            mPool = new Object[maxPoolSize];
-        }
-
-        @Override
-        @SuppressWarnings("unchecked")
-        public T acquire() {
-            if (mPoolSize > 0) {
-                final int lastPooledIndex = mPoolSize - 1;
-                T instance = (T) mPool[lastPooledIndex];
-                mPool[lastPooledIndex] = null;
-                mPoolSize--;
-                return instance;
-            }
-            return null;
-        }
-
-        @Override
-        public boolean release(T instance) {
-            if (DEBUG) {
-                if (isInPool(instance)) {
-                    throw new IllegalStateException("Already in the pool!");
-                }
-            }
-            if (mPoolSize < mPool.length) {
-                mPool[mPoolSize] = instance;
-                mPoolSize++;
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void releaseAll(T[] variables, int count) {
-            if (count > variables.length) {
-                count = variables.length;
-            }
-            for (int i = 0; i < count; i++) {
-                T instance = variables[i];
-                if (DEBUG) {
-                    if (isInPool(instance)) {
-                        throw new IllegalStateException("Already in the pool!");
-                    }
-                }
-                if (mPoolSize < mPool.length) {
-                    mPool[mPoolSize] = instance;
-                    mPoolSize++;
-                }
-            }
-        }
-
-        private boolean isInPool(T instance) {
-            for (int i = 0; i < mPoolSize; i++) {
-                if (mPool[i] == instance) {
-                    return true;
-                }
-            }
-            return false;
+        init {
+            require(maxPoolSize > 0) { "The max pool size must be > 0" }
+            mPool = arrayOfNulls(maxPoolSize)
         }
     }
-
 }

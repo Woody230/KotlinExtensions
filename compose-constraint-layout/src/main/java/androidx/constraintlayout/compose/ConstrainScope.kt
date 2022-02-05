@@ -87,7 +87,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
         set(value) {
             field = value
             tasks.add { state ->
-                state.constraints(id).width(
+                state.constraints(id)?.width(
                     (value as DimensionDescription).toSolverDimension(state)
                 )
             }
@@ -100,7 +100,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
         set(value) {
             field = value
             tasks.add { state ->
-                state.constraints(id).height(
+                state.constraints(id)?.height(
                     (value as DimensionDescription).toSolverDimension(state)
                 )
             }
@@ -116,11 +116,11 @@ class ConstrainScope internal constructor(internal val id: Any) {
             field = value
             tasks.add { state ->
                 with(state.constraints(id)) {
-                    visibility(value.solverValue)
+                    this?.visibility(value.solverValue)
                     if (value == Visibility.Invisible) {
                         // A bit of a hack, this behavior is not defined in :core
                         // Invisible should override alpha
-                        alpha(0f)
+                        this?.alpha(0f)
                     }
                 }
             }
@@ -245,7 +245,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
         set(value) {
             field = value
             tasks.add { state ->
-                state.constraints(id).horizontalChainWeight = value
+                state.constraints(id)?.horizontalChainWeight = value
             }
         }
 
@@ -257,17 +257,17 @@ class ConstrainScope internal constructor(internal val id: Any) {
         set(value) {
             field = value
             tasks.add { state ->
-                state.constraints(id).verticalChainWeight = value
+                state.constraints(id)?.verticalChainWeight = value
             }
         }
 
     private fun addTransform(change: ConstraintReference.() -> Unit) =
-        tasks.add { state -> change(state.constraints(id)) }
+        tasks.add { state -> state.constraints(id)?.let { change(it) } }
 
     private fun addFloatTransformFromDp(dpValue: Dp, change: ConstraintReference.(Float) -> Unit) =
         tasks.add { state ->
             (state as? State)?.also {
-                state.constraints(id).change(state.convertDimension(dpValue).toFloat())
+                state.constraints(id)?.change(state.convertDimension(dpValue).toFloat())
             }
         }
 
@@ -291,7 +291,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
         this@ConstrainScope.end.linkTo(anchor = end, margin = endMargin, goneMargin = endGoneMargin)
         tasks.add { state ->
             val resolvedBias = if (state.layoutDirection == LayoutDirection.Rtl) 1 - bias else bias
-            state.constraints(id).horizontalBias(resolvedBias)
+            state.constraints(id)?.horizontalBias(resolvedBias)
         }
     }
 
@@ -314,7 +314,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
             goneMargin = bottomGoneMargin
         )
         tasks.add { state ->
-            state.constraints(id).verticalBias(bias)
+            state.constraints(id)?.verticalBias(bias)
         }
     }
 
@@ -412,8 +412,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
      */
     fun circular(other: ConstrainedLayoutReference, angle: Float, distance: Dp) {
         tasks.add { state ->
-            state.constraints(id)
-                .circularConstraint(other.id, angle, state.convertDimension(distance).toFloat())
+            state.constraints(id)?.circularConstraint(other.id, angle, state.convertDimension(distance).toFloat())
         }
     }
 
@@ -424,7 +423,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
      */
     fun clearHorizontal() {
         tasks.add { state ->
-            state.constraints(id).clearHorizontal()
+            state.constraints(id)?.clearHorizontal()
         }
     }
 
@@ -435,7 +434,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
      */
     fun clearVertical() {
         tasks.add { state ->
-            state.constraints(id).clearVertical()
+            state.constraints(id)?.clearVertical()
         }
     }
 
@@ -446,7 +445,7 @@ class ConstrainScope internal constructor(internal val id: Any) {
      */
     fun clearConstraints() {
         tasks.add { state ->
-            state.constraints(id).clear()
+            state.constraints(id)?.clear()
         }
     }
 
@@ -460,8 +459,8 @@ class ConstrainScope internal constructor(internal val id: Any) {
             val defaultDimension =
                 (Dimension.wrapContent as DimensionDescription).toSolverDimension(state)
             state.constraints(id)
-                .width(defaultDimension)
-                .height(defaultDimension)
+                ?.width(defaultDimension)
+                ?.height(defaultDimension)
         }
     }
 
@@ -475,21 +474,21 @@ class ConstrainScope internal constructor(internal val id: Any) {
     fun resetTransforms() {
         tasks.add { state ->
             state.constraints(id)
-                .alpha(Float.NaN)
+                ?.alpha(Float.NaN)
 
-                .scaleX(Float.NaN)
-                .scaleY(Float.NaN)
+                ?.scaleX(Float.NaN)
+                ?.scaleY(Float.NaN)
 
-                .rotationX(Float.NaN)
-                .rotationY(Float.NaN)
-                .rotationZ(Float.NaN)
+                ?.rotationX(Float.NaN)
+                ?.rotationY(Float.NaN)
+                ?.rotationZ(Float.NaN)
 
-                .translationX(Float.NaN)
-                .translationY(Float.NaN)
-                .translationZ(Float.NaN)
+                ?.translationX(Float.NaN)
+                ?.translationY(Float.NaN)
+                ?.translationZ(Float.NaN)
 
-                .pivotX(Float.NaN)
-                .pivotY(Float.NaN)
+                ?.pivotX(Float.NaN)
+                ?.pivotY(Float.NaN)
         }
     }
 }
@@ -504,7 +503,7 @@ private class ConstraintVerticalAnchorable constructor(
     tasks: MutableList<(State) -> Unit>
 ) : BaseVerticalAnchorable(tasks, index) {
     override fun getConstraintReference(state: State): ConstraintReference =
-        state.constraints(id)
+        state.constraints(id)!!
 }
 
 /**
@@ -517,7 +516,7 @@ private class ConstraintHorizontalAnchorable constructor(
     tasks: MutableList<(State) -> Unit>
 ) : BaseHorizontalAnchorable(tasks, index) {
     override fun getConstraintReference(state: State): ConstraintReference =
-        state.constraints(id)
+        state.constraints(id)!!
 }
 
 /**
@@ -542,7 +541,7 @@ private class ConstraintBaselineAnchorable constructor(
                 it.baselineNeededFor(anchor.id)
             }
             with(state.constraints(id)) {
-                baselineAnchorFunction.invoke(this, anchor.id).margin(margin).marginGone(goneMargin)
+                this?.let { baselineAnchorFunction.invoke(it, anchor.id).margin(margin)?.marginGone(goneMargin) }
             }
         }
     }

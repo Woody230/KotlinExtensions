@@ -13,68 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
-
-import java.util.Arrays;
-import java.util.HashMap;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * Used by KeyTimeCycles (and any future time dependent behaviour) to cache its current parameters
  * to maintain consistency across requestLayout type rebuilds.
  */
-public class KeyCache {
-
-    HashMap<Object, HashMap<String, float[]>> map = new HashMap<>();
-
-    public void setFloatValue(Object view, String type, int element, float value) {
+class KeyCache {
+    var map = HashMap<Any, HashMap<String, FloatArray?>>()
+    fun setFloatValue(view: Any, type: String, element: Int, value: Float) {
         if (!map.containsKey(view)) {
-            HashMap<String, float[]> array = new HashMap<>();
-            float[] vArray = new float[element + 1];
-            vArray[element] = value;
-            array.put(type, vArray);
-            map.put(view, array);
+            val array = HashMap<String, FloatArray?>()
+            val vArray = FloatArray(element + 1)
+            vArray[element] = value
+            array[type] = vArray
+            map[view] = array
         } else {
-            HashMap<String, float[]> array = map.get(view);
+            var array = map[view]
             if (array == null) {
-                array = new HashMap<>();
+                array = HashMap()
             }
-
             if (!array.containsKey(type)) {
-                float[] vArray = new float[element + 1];
-                vArray[element] = value;
-                array.put(type, vArray);
-                map.put(view, array);
+                val vArray = FloatArray(element + 1)
+                vArray[element] = value
+                array[type] = vArray
+                map[view] = array
             } else {
-                float[] vArray = array.get(type);
+                var vArray = array[type]
                 if (vArray == null) {
-                    vArray = new float[0];
+                    vArray = FloatArray(0)
                 }
-                if (vArray.length <= element) {
-                    vArray = Arrays.copyOf(vArray, element + 1);
+                if (vArray.size <= element) {
+                    vArray = vArray.copyOf(element + 1)
                 }
-                vArray[element] = value;
-                array.put(type, vArray);
+                vArray!![element] = value
+                array[type] = vArray
             }
         }
     }
 
-    public float getFloatValue(Object view, String type, int element) {
-        if (!map.containsKey(view)) {
-            return Float.NaN;
+    fun getFloatValue(view: Any, type: String, element: Int): Float {
+        return if (!map.containsKey(view)) {
+            Float.NaN
         } else {
-            HashMap<String, float[]> array = map.get(view);
+            val array = map[view]
             if (array == null || !array.containsKey(type)) {
-                return Float.NaN;
+                return Float.NaN
             }
-            float[] vArray = array.get(type);
-            if (vArray == null) {
-                return Float.NaN;
-            }
-            if (vArray.length > element) {
-                return vArray[element];
-            }
-            return Float.NaN;
+            val vArray = array[type] ?: return Float.NaN
+            if (vArray.size > element) {
+                vArray[element]
+            } else Float.NaN
         }
     }
 }

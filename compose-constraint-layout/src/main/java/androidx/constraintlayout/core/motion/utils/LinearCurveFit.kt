@@ -13,43 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * This performs a simple linear interpolation in multiple dimensions
  *
  * @suppress
  */
-public class LinearCurveFit extends CurveFit {
-    private static final String TAG = "LinearCurveFit";
-    private double[] mT;
-    private double[][] mY;
-    private double mTotalLength = Double.NaN;
-    private boolean mExtrapolate = true;
-    double[] mSlopeTemp;
-
-    public LinearCurveFit(double[] time, double[][] y) {
-        final int N = time.length;
-        final int dim = y[0].length;
-        mSlopeTemp = new double[dim];
-        mT = time;
-        mY = y;
-        if (dim > 2) {
-            double sum = 0;
-            double lastx = 0, lasty = 0;
-            for (int i = 0; i < time.length; i++) {
-                double px = y[i][0];
-                double py = y[i][0];
-                if (i > 0) {
-                    sum += Math.hypot(px - lastx, py - lasty);
-                }
-                lastx = px;
-                lasty = py;
-            }
-            mTotalLength = 0;
-        }
-    }
+class LinearCurveFit constructor(time: DoubleArray, y: Array<DoubleArray>) : CurveFit() {
+    override val timePoints: DoubleArray
+    private val mY: Array<DoubleArray>
+    private var mTotalLength: Double = Double.NaN
+    private val mExtrapolate: Boolean = true
+    var mSlopeTemp: DoubleArray
 
     /**
      * Calculate the length traveled by the first two parameters assuming they are x and y.
@@ -58,236 +34,249 @@ public class LinearCurveFit extends CurveFit {
      * @param t the point to calculate the length to
      * @return
      */
-    private double getLength2D(double t) {
-        if (Double.isNaN(mTotalLength)) {
-            return 0;
+    private fun getLength2D(t: Double): Double {
+        if (java.lang.Double.isNaN(mTotalLength)) {
+            return 0.0
         }
-        final int n = mT.length;
-        if (t <= mT[0]) {
-            return 0;
+        val n: Int = timePoints.size
+        if (t <= timePoints.get(0)) {
+            return 0.0
         }
-        if (t >= mT[n - 1]) {
-            return mTotalLength;
+        if (t >= timePoints.get(n - 1)) {
+            return mTotalLength
         }
-        double sum = 0;
-        double last_x = 0, last_y = 0;
-
-        for (int i = 0; i < n - 1; i++) {
-            double px = mY[i][0];
-            double py = mY[i][1];
+        var sum: Double = 0.0
+        var last_x: Double = 0.0
+        var last_y: Double = 0.0
+        for (i in 0 until n - 1) {
+            var px: Double = mY.get(i).get(0)
+            var py: Double = mY.get(i).get(1)
             if (i > 0) {
-                sum += Math.hypot(px - last_x, py - last_y);
+                sum += Math.hypot(px - last_x, py - last_y)
             }
-            last_x = px;
-            last_y = py;
-            if (t == mT[i]) {
-                return sum;
+            last_x = px
+            last_y = py
+            if (t == timePoints.get(i)) {
+                return sum
             }
-            if (t < mT[i + 1]) {
-                double h = mT[i + 1] - mT[i];
-                double x = (t - mT[i]) / h;
-                double x1 = mY[i][0];
-                double x2 = mY[i + 1][0];
-                double y1 = mY[i][1];
-                double y2 = mY[i + 1][1];
-
-                py -= y1 * (1 - x) + y2 * x;
-                px -= x1 * (1 - x) + x2 * x;
-                sum += Math.hypot(py, px);
-
-                return sum;
+            if (t < timePoints.get(i + 1)) {
+                val h: Double = timePoints.get(i + 1) - timePoints.get(i)
+                val x: Double = (t - timePoints.get(i)) / h
+                val x1: Double = mY.get(i).get(0)
+                val x2: Double = mY.get(i + 1).get(0)
+                val y1: Double = mY.get(i).get(1)
+                val y2: Double = mY.get(i + 1).get(1)
+                py -= y1 * (1 - x) + y2 * x
+                px -= x1 * (1 - x) + x2 * x
+                sum += Math.hypot(py, px)
+                return sum
             }
         }
-        return 0;
+        return 0.0
     }
 
-    public void getPos(double t, double[] v) {
-        final int n = mT.length;
-        final int dim = mY[0].length;
+    public override fun getPos(t: Double, v: DoubleArray) {
+        val n: Int = timePoints.size
+        val dim: Int = mY.get(0).count()
         if (mExtrapolate) {
-            if (t <= mT[0]) {
-                getSlope(mT[0], mSlopeTemp);
-                for (int j = 0; j < dim; j++) {
-                    v[j] = mY[0][j] + (t - mT[0]) * mSlopeTemp[j];
+            if (t <= timePoints.get(0)) {
+                getSlope(timePoints.get(0), mSlopeTemp)
+                for (j in 0 until dim) {
+                    v[j] = mY.get(0)[j] + (t - timePoints.get(0)) * mSlopeTemp[j]
                 }
-                return;
+                return
             }
-            if (t >= mT[n - 1]) {
-                getSlope(mT[n - 1], mSlopeTemp);
-                for (int j = 0; j < dim; j++) {
-                    v[j] = mY[n - 1][j] + (t - mT[n - 1]) * mSlopeTemp[j];
+            if (t >= timePoints.get(n - 1)) {
+                getSlope(timePoints.get(n - 1), mSlopeTemp)
+                for (j in 0 until dim) {
+                    v[j] = mY.get(n - 1)[j] + (t - timePoints.get(n - 1)) * mSlopeTemp[j]
                 }
-                return;
+                return
             }
         } else {
-            if (t <= mT[0]) {
-                for (int j = 0; j < dim; j++) {
-                    v[j] = mY[0][j];
+            if (t <= timePoints.get(0)) {
+                for (j in 0 until dim) {
+                    v[j] = mY.get(0)[j]
                 }
-                return;
+                return
             }
-            if (t >= mT[n - 1]) {
-                for (int j = 0; j < dim; j++) {
-                    v[j] = mY[n - 1][j];
+            if (t >= timePoints.get(n - 1)) {
+                for (j in 0 until dim) {
+                    v[j] = mY.get(n - 1)[j]
                 }
-                return;
+                return
             }
         }
-
-        for (int i = 0; i < n - 1; i++) {
-            if (t == mT[i]) {
-                for (int j = 0; j < dim; j++) {
-                    v[j] = mY[i][j];
+        for (i in 0 until n - 1) {
+            if (t == timePoints.get(i)) {
+                for (j in 0 until dim) {
+                    v[j] = mY.get(i)[j]
                 }
             }
-            if (t < mT[i + 1]) {
-                double h = mT[i + 1] - mT[i];
-                double x = (t - mT[i]) / h;
-                for (int j = 0; j < dim; j++) {
-                    double y1 = mY[i][j];
-                    double y2 = mY[i + 1][j];
-
-                    v[j] = y1 * (1 - x) + y2 * x;
+            if (t < timePoints.get(i + 1)) {
+                val h: Double = timePoints.get(i + 1) - timePoints.get(i)
+                val x: Double = (t - timePoints.get(i)) / h
+                for (j in 0 until dim) {
+                    val y1: Double = mY.get(i)[j]
+                    val y2: Double = mY.get(i + 1)[j]
+                    v[j] = y1 * (1 - x) + y2 * x
                 }
-                return;
+                return
             }
         }
     }
 
-    public void getPos(double t, float[] v) {
-        final int n = mT.length;
-        final int dim = mY[0].length;
+    public override fun getPos(t: Double, v: FloatArray) {
+        val n: Int = timePoints.size
+        val dim: Int = mY.get(0).count()
         if (mExtrapolate) {
-            if (t <= mT[0]) {
-                getSlope(mT[0], mSlopeTemp);
-                for (int j = 0; j < dim; j++) {
-                    v[j] = (float) (mY[0][j] + (t - mT[0]) * mSlopeTemp[j]);
+            if (t <= timePoints.get(0)) {
+                getSlope(timePoints.get(0), mSlopeTemp)
+                for (j in 0 until dim) {
+                    v[j] = (mY.get(0)[j] + (t - timePoints.get(0)) * mSlopeTemp[j]).toFloat()
                 }
-                return;
+                return
             }
-            if (t >= mT[n - 1]) {
-                getSlope(mT[n - 1], mSlopeTemp);
-                for (int j = 0; j < dim; j++) {
-                    v[j] = (float) (mY[n - 1][j] + (t - mT[n - 1]) * mSlopeTemp[j]);
+            if (t >= timePoints.get(n - 1)) {
+                getSlope(timePoints.get(n - 1), mSlopeTemp)
+                for (j in 0 until dim) {
+                    v[j] = (mY.get(n - 1)[j] + (t - timePoints.get(n - 1)) * mSlopeTemp[j]).toFloat()
                 }
-                return;
+                return
             }
         } else {
-            if (t <= mT[0]) {
-                for (int j = 0; j < dim; j++) {
-                    v[j] = (float) mY[0][j];
+            if (t <= timePoints.get(0)) {
+                for (j in 0 until dim) {
+                    v[j] = mY.get(0)[j].toFloat()
                 }
-                return;
+                return
             }
-            if (t >= mT[n - 1]) {
-                for (int j = 0; j < dim; j++) {
-                    v[j] = (float) mY[n - 1][j];
+            if (t >= timePoints.get(n - 1)) {
+                for (j in 0 until dim) {
+                    v[j] = mY.get(n - 1)[j].toFloat()
                 }
-                return;
+                return
             }
         }
-
-        for (int i = 0; i < n - 1; i++) {
-            if (t == mT[i]) {
-                for (int j = 0; j < dim; j++) {
-                    v[j] = (float) mY[i][j];
+        for (i in 0 until n - 1) {
+            if (t == timePoints.get(i)) {
+                for (j in 0 until dim) {
+                    v[j] = mY.get(i)[j].toFloat()
                 }
             }
-            if (t < mT[i + 1]) {
-                double h = mT[i + 1] - mT[i];
-                double x = (t - mT[i]) / h;
-                for (int j = 0; j < dim; j++) {
-                    double y1 = mY[i][j];
-                    double y2 = mY[i + 1][j];
-
-                    v[j] = (float) (y1 * (1 - x) + y2 * x);
+            if (t < timePoints.get(i + 1)) {
+                val h: Double = timePoints.get(i + 1) - timePoints.get(i)
+                val x: Double = (t - timePoints.get(i)) / h
+                for (j in 0 until dim) {
+                    val y1: Double = mY.get(i)[j]
+                    val y2: Double = mY.get(i + 1)[j]
+                    v[j] = (y1 * (1 - x) + y2 * x).toFloat()
                 }
-                return;
+                return
             }
         }
     }
 
-    public double getPos(double t, int j) {
-        final int n = mT.length;
+    public override fun getPos(t: Double, j: Int): Double {
+        val n: Int = timePoints.size
         if (mExtrapolate) {
-            if (t <= mT[0]) {
-                return mY[0][j] + (t - mT[0]) * getSlope(mT[0], j);
+            if (t <= timePoints.get(0)) {
+                return mY.get(0)[j] + (t - timePoints.get(0)) * getSlope(timePoints.get(0), j)
             }
-            if (t >= mT[n - 1]) {
-                return mY[n - 1][j] + (t - mT[n - 1]) * getSlope(mT[n - 1], j);
+            if (t >= timePoints.get(n - 1)) {
+                return mY.get(n - 1)[j] + (t - timePoints.get(n - 1)) * getSlope(timePoints.get(n - 1), j)
             }
         } else {
-            if (t <= mT[0]) {
-                return mY[0][j];
+            if (t <= timePoints.get(0)) {
+                return mY.get(0)[j]
             }
-            if (t >= mT[n - 1]) {
-                return mY[n - 1][j];
-            }
-        }
-
-        for (int i = 0; i < n - 1; i++) {
-            if (t == mT[i]) {
-                return mY[i][j];
-            }
-            if (t < mT[i + 1]) {
-                double h = mT[i + 1] - mT[i];
-                double x = (t - mT[i]) / h;
-                double y1 = mY[i][j];
-                double y2 = mY[i + 1][j];
-                return (y1 * (1 - x) + y2 * x);
-
+            if (t >= timePoints.get(n - 1)) {
+                return mY.get(n - 1)[j]
             }
         }
-        return 0; // should never reach here
+        for (i in 0 until n - 1) {
+            if (t == timePoints.get(i)) {
+                return mY.get(i)[j]
+            }
+            if (t < timePoints.get(i + 1)) {
+                val h: Double = timePoints.get(i + 1) - timePoints.get(i)
+                val x: Double = (t - timePoints.get(i)) / h
+                val y1: Double = mY.get(i)[j]
+                val y2: Double = mY.get(i + 1)[j]
+                return (y1 * (1 - x) + y2 * x)
+            }
+        }
+        return 0.0 // should never reach here
     }
 
-    public void getSlope(double t, double[] v) {
-        final int n = mT.length;
-        int dim = mY[0].length;
-        if (t <= mT[0]) {
-            t = mT[0];
-        } else if (t >= mT[n - 1]) {
-            t = mT[n - 1];
+    public override fun getSlope(t: Double, v: DoubleArray) {
+        var t: Double = t
+        val n: Int = timePoints.size
+        val dim: Int = mY.get(0).count()
+        if (t <= timePoints.get(0)) {
+            t = timePoints.get(0)
+        } else if (t >= timePoints.get(n - 1)) {
+            t = timePoints.get(n - 1)
         }
-
-        for (int i = 0; i < n - 1; i++) {
-            if (t <= mT[i + 1]) {
-                double h = mT[i + 1] - mT[i];
-                double x = (t - mT[i]) / h;
-                for (int j = 0; j < dim; j++) {
-                    double y1 = mY[i][j];
-                    double y2 = mY[i + 1][j];
-
-                    v[j] = (y2 - y1) / h;
+        for (i in 0 until n - 1) {
+            if (t <= timePoints.get(i + 1)) {
+                val h: Double = timePoints.get(i + 1) - timePoints.get(i)
+                val x: Double = (t - timePoints.get(i)) / h
+                for (j in 0 until dim) {
+                    val y1: Double = mY.get(i)[j]
+                    val y2: Double = mY.get(i + 1)[j]
+                    v[j] = (y2 - y1) / h
                 }
-                break;
+                break
             }
         }
-        return;
+        return
     }
 
-    public double getSlope(double t, int j) {
-        final int n = mT.length;
-
-        if (t < mT[0]) {
-            t = mT[0];
-        } else if (t >= mT[n - 1]) {
-            t = mT[n - 1];
+    public override fun getSlope(t: Double, j: Int): Double {
+        var t: Double = t
+        val n: Int = timePoints.size
+        if (t < timePoints.get(0)) {
+            t = timePoints.get(0)
+        } else if (t >= timePoints.get(n - 1)) {
+            t = timePoints.get(n - 1)
         }
-        for (int i = 0; i < n - 1; i++) {
-            if (t <= mT[i + 1]) {
-                double h = mT[i + 1] - mT[i];
-                double x = (t - mT[i]) / h;
-                double y1 = mY[i][j];
-                double y2 = mY[i + 1][j];
-                return (y2 - y1) / h;
+        for (i in 0 until n - 1) {
+            if (t <= timePoints.get(i + 1)) {
+                val h: Double = timePoints.get(i + 1) - timePoints.get(i)
+                val x: Double = (t - timePoints.get(i)) / h
+                val y1: Double = mY.get(i)[j]
+                val y2: Double = mY.get(i + 1)[j]
+                return (y2 - y1) / h
             }
         }
-        return 0; // should never reach here
+        return 0.0 // should never reach here
     }
 
-    @Override
-    public double[] getTimePoints() {
-        return mT;
+    companion object {
+        private val TAG: String = "LinearCurveFit"
+    }
+
+    init {
+        val N: Int = time.size
+        val dim: Int = y.get(0).count()
+        mSlopeTemp = DoubleArray(dim)
+        timePoints = time
+        mY = y
+        if (dim > 2) {
+            var sum: Double = 0.0
+            var lastx: Double = 0.0
+            var lasty: Double = 0.0
+            for (i in time.indices) {
+                val px: Double = y.get(i).get(0)
+                val py: Double = y.get(i).get(0)
+                if (i > 0) {
+                    sum += Math.hypot(px - lastx, py - lasty)
+                }
+                lastx = px
+                lasty = py
+            }
+            mTotalLength = 0.0
+        }
     }
 }

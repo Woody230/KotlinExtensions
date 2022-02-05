@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.state;
+package androidx.constraintlayout.core.state
 
-public interface RegistryCallback {
-    void onNewMotionScene(String content);
-    void onProgress(float progress);
-    void onDimensions(int width, int height);
-    String currentMotionScene();
-    void setDrawDebug(int debugMode);
-    String currentLayoutInformation();
-    void setLayoutInformationMode(int layoutInformationMode);
-    long getLastModified();
+interface RegistryCallback {
+    fun onNewMotionScene(content: String?)
+    fun onProgress(progress: Float)
+    fun onDimensions(width: Int, height: Int)
+    fun currentMotionScene(): String?
+    fun setDrawDebug(debugMode: Int)
+    fun currentLayoutInformation(): String?
+    fun setLayoutInformationMode(layoutInformationMode: Int)
+    val lastModified: Long
 }

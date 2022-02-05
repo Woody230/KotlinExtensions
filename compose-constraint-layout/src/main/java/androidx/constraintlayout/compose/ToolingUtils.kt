@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.SemanticsPropertyReceiver
-import androidx.constraintlayout.core.state.State.PARENT
+import androidx.constraintlayout.core.state.State.Companion.PARENT
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import androidx.constraintlayout.core.widgets.HelperWidget
@@ -65,20 +65,20 @@ internal fun parseConstraintsToJson(
         val constraintsInfoArray = JSONArray()
         val helperReferences = mutableListOf<String>()
         val isHelper = constraintWidget is HelperWidget
-        val widgetId = constraintWidget.stringId
+        val widgetId = constraintWidget.stringId ?: ""
 
         if (isHelper) {
             addReferencesIds(constraintWidget as HelperWidget, helperReferences, root, rootId)
         }
 
         constraintWidget.anchors.forEach { anchor ->
-            if (anchor.isConnected) {
-                val targetWidget = anchor.target.owner
+            if (anchor?.isConnected == true) {
+                val targetWidget = anchor.target?.owner
                 val targetIsParent = root == targetWidget
                 val targetIsHelper = targetWidget is HelperWidget
                 val targetId = when {
                     targetIsParent -> rootId
-                    targetIsHelper -> targetWidget.getHelperId(state)
+                    targetIsHelper -> targetWidget?.getHelperId(state)
                     else -> targetWidget.getRefId()
                 }
                 constraintsInfoArray.put(

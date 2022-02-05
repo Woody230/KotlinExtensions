@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-public class FloatRect {
-    public float bottom;
-    public float left;
-    public float right;
-    public float top;
-    public final float centerX() {
-        return (left + right) * 0.5f;
-    }
-    public final float centerY() {
-        return (top + bottom) * 0.5f;
+class FloatRect {
+    @kotlin.jvm.JvmField
+    var bottom = 0f
+    @kotlin.jvm.JvmField
+    var left = 0f
+    @kotlin.jvm.JvmField
+    var right = 0f
+    @kotlin.jvm.JvmField
+    var top = 0f
+    fun centerX(): Float {
+        return (left + right) * 0.5f
     }
 
+    fun centerY(): Float {
+        return (top + bottom) * 0.5f
+    }
 }

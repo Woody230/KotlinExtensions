@@ -13,426 +13,408 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
-
-import java.util.Arrays;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * This provides provides a curve fit system that stitches the x,y path together with
  * quarter ellipses
  */
-
-public class ArcCurveFit extends CurveFit {
-    public static final int ARC_START_VERTICAL = 1;
-    public static final int ARC_START_HORIZONTAL = 2;
-    public static final int ARC_START_FLIP = 3;
-    public static final int ARC_START_LINEAR = 0;
-
-    private static final int START_VERTICAL = 1;
-    private static final int START_HORIZONTAL = 2;
-    private static final int START_LINEAR = 3;
-    private final double[] mTime;
-    Arc[] mArcs;
-    private boolean mExtrapolate = true;
-
-    @Override
-    public void getPos(double t, double[] v) {
+class ArcCurveFit(arcModes: IntArray, override val timePoints: DoubleArray, y: Array<DoubleArray>) : CurveFit() {
+    var mArcs: Array<Arc?>
+    private val mExtrapolate = true
+    override fun getPos(t: Double, v: DoubleArray) {
+        var t = t
         if (mExtrapolate) {
-            if (t < mArcs[0].mTime1) {
-                double t0 = mArcs[0].mTime1;
-                double dt = t - mArcs[0].mTime1;
-                int p = 0;
-                if (mArcs[p].linear) {
-                    v[0] = (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0));
-                    v[1] = (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0));
+            if (t < mArcs[0]!!.mTime1) {
+                val t0 = mArcs[0]!!.mTime1
+                val dt = t - mArcs[0]!!.mTime1
+                val p = 0
+                if (mArcs[p]!!.linear) {
+                    v[0] = mArcs[p]!!.getLinearX(t0) + dt * mArcs[p]!!.getLinearDX(t0)
+                    v[1] = mArcs[p]!!.getLinearY(t0) + dt * mArcs[p]!!.getLinearDY(t0)
                 } else {
-                    mArcs[p].setPoint(t0);
-                    v[0] = mArcs[p].getX() + dt * mArcs[p].getDX();
-                    v[1] = mArcs[p].getY() + dt * mArcs[p].getDY();
+                    mArcs[p]!!.setPoint(t0)
+                    v[0] = mArcs[p]!!.x + dt * mArcs[p]!!.dX
+                    v[1] = mArcs[p]!!.y + dt * mArcs[p]!!.dY
                 }
-                return;
+                return
             }
-            if (t > mArcs[mArcs.length - 1].mTime2) {
-                double t0 = mArcs[mArcs.length - 1].mTime2;
-                double dt = t - t0;
-                int p = mArcs.length - 1;
-                if (mArcs[p].linear) {
-                    v[0] = (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0));
-                    v[1] = (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0));
+            if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+                val t0 = mArcs[mArcs.size - 1]!!.mTime2
+                val dt = t - t0
+                val p = mArcs.size - 1
+                if (mArcs[p]!!.linear) {
+                    v[0] = mArcs[p]!!.getLinearX(t0) + dt * mArcs[p]!!.getLinearDX(t0)
+                    v[1] = mArcs[p]!!.getLinearY(t0) + dt * mArcs[p]!!.getLinearDY(t0)
                 } else {
-                    mArcs[p].setPoint(t);
-                    v[0] = mArcs[p].getX() + dt * mArcs[p].getDX();
-                    v[1] = mArcs[p].getY() + dt * mArcs[p].getDY();
+                    mArcs[p]!!.setPoint(t)
+                    v[0] = mArcs[p]!!.x + dt * mArcs[p]!!.dX
+                    v[1] = mArcs[p]!!.y + dt * mArcs[p]!!.dY
                 }
-                return;
+                return
             }
         } else {
-            if (t < mArcs[0].mTime1) {
-                t = mArcs[0].mTime1;
+            if (t < mArcs[0]!!.mTime1) {
+                t = mArcs[0]!!.mTime1
             }
-            if (t > mArcs[mArcs.length - 1].mTime2) {
-                t = mArcs[mArcs.length - 1].mTime2;
+            if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+                t = mArcs[mArcs.size - 1]!!.mTime2
             }
         }
-
-        for (int i = 0; i < mArcs.length; i++) {
-            if (t <= mArcs[i].mTime2) {
-                if (mArcs[i].linear) {
-                    v[0] = mArcs[i].getLinearX(t);
-                    v[1] = mArcs[i].getLinearY(t);
-                    return;
+        for (i in mArcs.indices) {
+            if (t <= mArcs[i]!!.mTime2) {
+                if (mArcs[i]!!.linear) {
+                    v[0] = mArcs[i]!!.getLinearX(t)
+                    v[1] = mArcs[i]!!.getLinearY(t)
+                    return
                 }
-                mArcs[i].setPoint(t);
-                v[0] = mArcs[i].getX();
-                v[1] = mArcs[i].getY();
-                return;
+                mArcs[i]!!.setPoint(t)
+                v[0] = mArcs[i]!!.x
+                v[1] = mArcs[i]!!.y
+                return
             }
         }
     }
 
-    @Override
-    public void getPos(double t, float[] v) {
+    override fun getPos(t: Double, v: FloatArray) {
+        var t = t
         if (mExtrapolate) {
-            if (t < mArcs[0].mTime1) {
-                double t0 = mArcs[0].mTime1;
-                double dt = t - mArcs[0].mTime1;
-                int p = 0;
-                if (mArcs[p].linear) {
-                    v[0] = (float) (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0));
-                    v[1] = (float) (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0));
+            if (t < mArcs[0]!!.mTime1) {
+                val t0 = mArcs[0]!!.mTime1
+                val dt = t - mArcs[0]!!.mTime1
+                val p = 0
+                if (mArcs[p]!!.linear) {
+                    v[0] = (mArcs[p]!!.getLinearX(t0) + dt * mArcs[p]!!.getLinearDX(t0)).toFloat()
+                    v[1] = (mArcs[p]!!.getLinearY(t0) + dt * mArcs[p]!!.getLinearDY(t0)).toFloat()
                 } else {
-                    mArcs[p].setPoint(t0);
-                    v[0] = (float) (mArcs[p].getX() + dt * mArcs[p].getDX());
-                    v[1] = (float) (mArcs[p].getY() + dt * mArcs[p].getDY());
+                    mArcs[p]!!.setPoint(t0)
+                    v[0] = (mArcs[p]!!.x + dt * mArcs[p]!!.dX).toFloat()
+                    v[1] = (mArcs[p]!!.y + dt * mArcs[p]!!.dY).toFloat()
                 }
-                return;
+                return
             }
-            if (t > mArcs[mArcs.length - 1].mTime2) {
-                double t0 = mArcs[mArcs.length - 1].mTime2;
-                double dt = t - t0;
-                int p = mArcs.length - 1;
-                if (mArcs[p].linear) {
-                    v[0] = (float) (mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0));
-                    v[1] = (float) (mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0));
+            if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+                val t0 = mArcs[mArcs.size - 1]!!.mTime2
+                val dt = t - t0
+                val p = mArcs.size - 1
+                if (mArcs[p]!!.linear) {
+                    v[0] = (mArcs[p]!!.getLinearX(t0) + dt * mArcs[p]!!.getLinearDX(t0)).toFloat()
+                    v[1] = (mArcs[p]!!.getLinearY(t0) + dt * mArcs[p]!!.getLinearDY(t0)).toFloat()
                 } else {
-                    mArcs[p].setPoint(t);
-                    v[0] = (float) mArcs[p].getX();
-                    v[1] = (float) mArcs[p].getY();
+                    mArcs[p]!!.setPoint(t)
+                    v[0] = mArcs[p]!!.x.toFloat()
+                    v[1] = mArcs[p]!!.y.toFloat()
                 }
-                return;
+                return
             }
         } else {
-            if (t < mArcs[0].mTime1) {
-                t = mArcs[0].mTime1;
-            } else if (t > mArcs[mArcs.length - 1].mTime2) {
-                t = mArcs[mArcs.length - 1].mTime2;
+            if (t < mArcs[0]!!.mTime1) {
+                t = mArcs[0]!!.mTime1
+            } else if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+                t = mArcs[mArcs.size - 1]!!.mTime2
             }
         }
-        for (int i = 0; i < mArcs.length; i++) {
-            if (t <= mArcs[i].mTime2) {
-                if (mArcs[i].linear) {
-                    v[0] = (float) mArcs[i].getLinearX(t);
-                    v[1] = (float) mArcs[i].getLinearY(t);
-                    return;
+        for (i in mArcs.indices) {
+            if (t <= mArcs[i]!!.mTime2) {
+                if (mArcs[i]!!.linear) {
+                    v[0] = mArcs[i]!!.getLinearX(t).toFloat()
+                    v[1] = mArcs[i]!!.getLinearY(t).toFloat()
+                    return
                 }
-                mArcs[i].setPoint(t);
-                v[0] = (float) mArcs[i].getX();
-                v[1] = (float) mArcs[i].getY();
-                return;
+                mArcs[i]!!.setPoint(t)
+                v[0] = mArcs[i]!!.x.toFloat()
+                v[1] = mArcs[i]!!.y.toFloat()
+                return
             }
         }
     }
 
-    @Override
-    public void getSlope(double t, double[] v) {
-        if (t < mArcs[0].mTime1) {
-            t = mArcs[0].mTime1;
-        } else if (t > mArcs[mArcs.length - 1].mTime2) {
-            t = mArcs[mArcs.length - 1].mTime2;
+    override fun getSlope(t: Double, v: DoubleArray) {
+        var t = t
+        if (t < mArcs[0]!!.mTime1) {
+            t = mArcs[0]!!.mTime1
+        } else if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+            t = mArcs[mArcs.size - 1]!!.mTime2
         }
-
-        for (int i = 0; i < mArcs.length; i++) {
-            if (t <= mArcs[i].mTime2) {
-                if (mArcs[i].linear) {
-                    v[0] = mArcs[i].getLinearDX(t);
-                    v[1] = mArcs[i].getLinearDY(t);
-                    return;
+        for (i in mArcs.indices) {
+            if (t <= mArcs[i]!!.mTime2) {
+                if (mArcs[i]!!.linear) {
+                    v[0] = mArcs[i]!!.getLinearDX(t)
+                    v[1] = mArcs[i]!!.getLinearDY(t)
+                    return
                 }
-                mArcs[i].setPoint(t);
-                v[0] = mArcs[i].getDX();
-                v[1] = mArcs[i].getDY();
-                return;
+                mArcs[i]!!.setPoint(t)
+                v[0] = mArcs[i]!!.dX
+                v[1] = mArcs[i]!!.dY
+                return
             }
         }
     }
 
-    @Override
-    public double getPos(double t, int j) {
+    override fun getPos(t: Double, j: Int): Double {
+        var t = t
         if (mExtrapolate) {
-            if (t < mArcs[0].mTime1) {
-                double t0 = mArcs[0].mTime1;
-                double dt = t - mArcs[0].mTime1;
-                int p = 0;
-                if (mArcs[p].linear) {
+            if (t < mArcs[0]!!.mTime1) {
+                val t0 = mArcs[0]!!.mTime1
+                val dt = t - mArcs[0]!!.mTime1
+                val p = 0
+                return if (mArcs[p]!!.linear) {
                     if (j == 0) {
-                        return mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0);
-                    }
-                    return mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0);
+                        mArcs[p]!!.getLinearX(t0) + dt * mArcs[p]!!.getLinearDX(t0)
+                    } else mArcs[p]!!.getLinearY(t0) + dt * mArcs[p]!!.getLinearDY(t0)
                 } else {
-                    mArcs[p].setPoint(t0);
+                    mArcs[p]!!.setPoint(t0)
                     if (j == 0) {
-                        return mArcs[p].getX() + dt * mArcs[p].getDX();
-                    }
-                    return mArcs[p].getY() + dt * mArcs[p].getDY();
+                        mArcs[p]!!.x + dt * mArcs[p]!!.dX
+                    } else mArcs[p]!!.y + dt * mArcs[p]!!.dY
                 }
             }
-            if (t > mArcs[mArcs.length - 1].mTime2) {
-                double t0 = mArcs[mArcs.length - 1].mTime2;
-                double dt = t - t0;
-                int p = mArcs.length - 1;
-                if (j == 0) {
-                    return mArcs[p].getLinearX(t0) + dt * mArcs[p].getLinearDX(t0);
-                }
-                return mArcs[p].getLinearY(t0) + dt * mArcs[p].getLinearDY(t0);
+            if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+                val t0 = mArcs[mArcs.size - 1]!!.mTime2
+                val dt = t - t0
+                val p = mArcs.size - 1
+                return if (j == 0) {
+                    mArcs[p]!!.getLinearX(t0) + dt * mArcs[p]!!.getLinearDX(t0)
+                } else mArcs[p]!!.getLinearY(t0) + dt * mArcs[p]!!.getLinearDY(t0)
             }
         } else {
-            if (t < mArcs[0].mTime1) {
-                t = mArcs[0].mTime1;
-            } else if (t > mArcs[mArcs.length - 1].mTime2) {
-                t = mArcs[mArcs.length - 1].mTime2;
+            if (t < mArcs[0]!!.mTime1) {
+                t = mArcs[0]!!.mTime1
+            } else if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+                t = mArcs[mArcs.size - 1]!!.mTime2
             }
         }
-
-        for (int i = 0; i < mArcs.length; i++) {
-            if (t <= mArcs[i].mTime2) {
-
-                if (mArcs[i].linear) {
-                    if (j == 0) {
-                        return mArcs[i].getLinearX(t);
-                    }
-                    return mArcs[i].getLinearY(t);
+        for (i in mArcs.indices) {
+            if (t <= mArcs[i]!!.mTime2) {
+                if (mArcs[i]!!.linear) {
+                    return if (j == 0) {
+                        mArcs[i]!!.getLinearX(t)
+                    } else mArcs[i]!!.getLinearY(t)
                 }
-                mArcs[i].setPoint(t);
-
-                if (j == 0) {
-                    return mArcs[i].getX();
-                }
-                return mArcs[i].getY();
+                mArcs[i]!!.setPoint(t)
+                return if (j == 0) {
+                    mArcs[i]!!.x
+                } else mArcs[i]!!.y
             }
         }
-        return Double.NaN;
+        return Double.NaN
     }
 
-    @Override
-    public double getSlope(double t, int j) {
-        if (t < mArcs[0].mTime1) {
-            t = mArcs[0].mTime1;
+    override fun getSlope(t: Double, j: Int): Double {
+        var t = t
+        if (t < mArcs[0]!!.mTime1) {
+            t = mArcs[0]!!.mTime1
         }
-        if (t > mArcs[mArcs.length - 1].mTime2) {
-            t = mArcs[mArcs.length - 1].mTime2;
+        if (t > mArcs[mArcs.size - 1]!!.mTime2) {
+            t = mArcs[mArcs.size - 1]!!.mTime2
         }
-
-        for (int i = 0; i < mArcs.length; i++) {
-            if (t <= mArcs[i].mTime2) {
-                if (mArcs[i].linear) {
-                    if (j == 0) {
-                        return mArcs[i].getLinearDX(t);
-                    }
-                    return mArcs[i].getLinearDY(t);
+        for (i in mArcs.indices) {
+            if (t <= mArcs[i]!!.mTime2) {
+                if (mArcs[i]!!.linear) {
+                    return if (j == 0) {
+                        mArcs[i]!!.getLinearDX(t)
+                    } else mArcs[i]!!.getLinearDY(t)
                 }
-                mArcs[i].setPoint(t);
-                if (j == 0) {
-                    return mArcs[i].getDX();
-                }
-                return mArcs[i].getDY();
+                mArcs[i]!!.setPoint(t)
+                return if (j == 0) {
+                    mArcs[i]!!.dX
+                } else mArcs[i]!!.dY
             }
         }
-        return Double.NaN;
+        return Double.NaN
     }
 
-    @Override
-    public double[] getTimePoints() {
-        return mTime;
-    }
+    class Arc internal constructor(mode: Int, t1: Double, t2: Double, x1: Double, y1: Double, x2: Double, y2: Double) {
+        var mLut: DoubleArray = doubleArrayOf()
+        var mArcDistance = 0.0
+        var mTime1: Double
+        var mTime2: Double
+        var mX1 = 0.0
+        var mX2 = 0.0
+        var mY1 = 0.0
+        var mY2 = 0.0
+        var mOneOverDeltaTime: Double
+        var mEllipseA: Double = 0.0
+        var mEllipseB: Double = 0.0
+        var mEllipseCenterX // also used to cache the slope in the unused center
+                : Double
+        var mEllipseCenterY // also used to cache the slope in the unused center
+                : Double
+        var mArcVelocity: Double
+        var mTmpSinAngle = 0.0
+        var mTmpCosAngle = 0.0
+        var mVertical: Boolean
+        var linear = false
+        fun setPoint(time: Double) {
+            val percent = (if (mVertical) mTime2 - time else time - mTime1) * mOneOverDeltaTime
+            val angle = Math.PI * 0.5 * lookup(percent)
+            mTmpSinAngle = Math.sin(angle)
+            mTmpCosAngle = Math.cos(angle)
+        }
 
-    public ArcCurveFit(int[] arcModes, double[] time, double[][] y) {
-        mTime = time;
-        mArcs = new Arc[time.length - 1];
-        int mode = START_VERTICAL;
-        int last = START_VERTICAL;
-        for (int i = 0; i < mArcs.length; i++) {
-            switch (arcModes[i]) {
-                case ARC_START_VERTICAL:
-                    last = mode = START_VERTICAL;
-                    break;
-                case ARC_START_HORIZONTAL:
-                    last = mode = START_HORIZONTAL;
-                    break;
-                case ARC_START_FLIP:
-                    mode = (last == START_VERTICAL) ? START_HORIZONTAL : START_VERTICAL;
-                    last = mode;
-                    break;
-                case ARC_START_LINEAR:
-                    mode = START_LINEAR;
+        val x: Double
+            get() = mEllipseCenterX + mEllipseA * mTmpSinAngle
+        val y: Double
+            get() = mEllipseCenterY + mEllipseB * mTmpCosAngle
+        val dX: Double
+            get() {
+                val vx = mEllipseA * mTmpCosAngle
+                val vy = -mEllipseB * mTmpSinAngle
+                val norm = mArcVelocity / Math.hypot(vx, vy)
+                return if (mVertical) -vx * norm else vx * norm
             }
-            mArcs[i] = new Arc(mode, time[i], time[i + 1], y[i][0], y[i][1], y[i + 1][0], y[i + 1][1]);
-        }
-    }
-
-    private static class Arc {
-        private static final String TAG = "Arc";
-        private static double[] ourPercent = new double[91];
-        double[] mLut;
-        double mArcDistance;
-        double mTime1;
-        double mTime2;
-        double mX1, mX2, mY1, mY2;
-        double mOneOverDeltaTime;
-        double mEllipseA;
-        double mEllipseB;
-        double mEllipseCenterX; // also used to cache the slope in the unused center
-        double mEllipseCenterY; // also used to cache the slope in the unused center
-        double mArcVelocity;
-        double mTmpSinAngle;
-        double mTmpCosAngle;
-        boolean mVertical;
-        boolean linear = false;
-        private static final double EPSILON = 0.001;
-
-        Arc(int mode, double t1, double t2, double x1, double y1, double x2, double y2) {
-            mVertical = mode == START_VERTICAL;
-            mTime1 = t1;
-            mTime2 = t2;
-            mOneOverDeltaTime = 1 / (mTime2 - mTime1);
-            if (START_LINEAR == mode) {
-                linear = true;
+        val dY: Double
+            get() {
+                val vx = mEllipseA * mTmpCosAngle
+                val vy = -mEllipseB * mTmpSinAngle
+                val norm = mArcVelocity / Math.hypot(vx, vy)
+                return if (mVertical) -vy * norm else vy * norm
             }
-            double dx = x2 - x1;
-            double dy = y2 - y1;
-            if (linear || Math.abs(dx) < EPSILON || Math.abs(dy) < EPSILON) {
-                linear = true;
-                mX1 = x1;
-                mX2 = x2;
-                mY1 = y1;
-                mY2 = y2;
-                mArcDistance = Math.hypot(dy, dx);
-                mArcVelocity = mArcDistance * mOneOverDeltaTime;
-                mEllipseCenterX = dx / (mTime2 - mTime1); // cache the slope in the unused center
-                mEllipseCenterY = dy / (mTime2 - mTime1); // cache the slope in the unused center
-                return;
-            }
-            mLut = new double[101];
-            mEllipseA = (dx) * ((mVertical) ? -1 : 1);
-            mEllipseB = (dy) * ((mVertical) ? 1 : -1);
-            mEllipseCenterX = (mVertical) ? x2 : x1;
-            mEllipseCenterY = (mVertical) ? y1 : y2;
-            buildTable(x1, y1, x2, y2);
-            mArcVelocity = mArcDistance * mOneOverDeltaTime;
+
+        fun getLinearX(t: Double): Double {
+            var t = t
+            t = (t - mTime1) * mOneOverDeltaTime
+            return mX1 + t * (mX2 - mX1)
         }
 
-        void setPoint(double time) {
-            double percent = (mVertical ? (mTime2 - time) : (time - mTime1)) * mOneOverDeltaTime;
-            double angle = Math.PI * 0.5 * lookup(percent);
-
-            mTmpSinAngle = Math.sin(angle);
-            mTmpCosAngle = Math.cos(angle);
+        fun getLinearY(t: Double): Double {
+            var t = t
+            t = (t - mTime1) * mOneOverDeltaTime
+            return mY1 + t * (mY2 - mY1)
         }
 
-        double getX() {
-            return mEllipseCenterX + mEllipseA * mTmpSinAngle;
+        fun getLinearDX(t: Double): Double {
+            return mEllipseCenterX
         }
 
-        double getY() {
-            return mEllipseCenterY + mEllipseB * mTmpCosAngle;
+        fun getLinearDY(t: Double): Double {
+            return mEllipseCenterY
         }
 
-        double getDX() {
-            double vx = mEllipseA * mTmpCosAngle;
-            double vy = -mEllipseB * mTmpSinAngle;
-            double norm = mArcVelocity / Math.hypot(vx, vy);
-            return mVertical ? -vx * norm : vx * norm;
-        }
-
-        double getDY() {
-            double vx = mEllipseA * mTmpCosAngle;
-            double vy = -mEllipseB * mTmpSinAngle;
-            double norm = mArcVelocity / Math.hypot(vx, vy);
-            return mVertical ? -vy * norm : vy * norm;
-        }
-
-        public double getLinearX(double t) {
-            t = (t - mTime1) * mOneOverDeltaTime;
-            return mX1 + t * (mX2 - mX1);
-        }
-
-        public double getLinearY(double t) {
-            t = (t - mTime1) * mOneOverDeltaTime;
-            return mY1 + t * (mY2 - mY1);
-        }
-
-        public double getLinearDX(double t) {
-            return mEllipseCenterX;
-        }
-
-        public double getLinearDY(double t) {
-            return mEllipseCenterY;
-        }
-
-        double lookup(double v) {
+        fun lookup(v: Double): Double {
             if (v <= 0) {
-                return 0;
+                return 0.0
             }
             if (v >= 1) {
-                return 1;
+                return 1.0
             }
-            double pos = v * (mLut.length - 1);
-            int iv = (int) (pos);
-            double off = pos - (int) (pos);
-
-            return mLut[iv] + (off * (mLut[iv + 1] - mLut[iv]));
+            val pos = v * (mLut.size - 1)
+            val iv = pos.toInt()
+            val off = pos - pos.toInt()
+            return mLut[iv] + off * (mLut[iv + 1] - mLut[iv])
         }
 
-        private void buildTable(double x1, double y1, double x2, double y2) {
-            double a = x2 - x1;
-            double b = y1 - y2;
-            double lx = 0, ly = 0;
-            double dist = 0;
-            for (int i = 0; i < ourPercent.length; i++) {
-                double angle = Math.toRadians(90.0 * i / (ourPercent.length - 1));
-                double s = Math.sin(angle);
-                double c = Math.cos(angle);
-                double px = a * s;
-                double py = b * c;
+        private fun buildTable(x1: Double, y1: Double, x2: Double, y2: Double) {
+            val a = x2 - x1
+            val b = y1 - y2
+            var lx = 0.0
+            var ly = 0.0
+            var dist = 0.0
+            for (i in ourPercent.indices) {
+                val angle = Math.toRadians(90.0 * i / (ourPercent.size - 1))
+                val s = Math.sin(angle)
+                val c = Math.cos(angle)
+                val px = a * s
+                val py = b * c
                 if (i > 0) {
-                    dist += Math.hypot(px - lx, py - ly);
-                    ourPercent[i] = dist;
+                    dist += Math.hypot(px - lx, py - ly)
+                    ourPercent[i] = dist
                 }
-                lx = px;
-                ly = py;
+                lx = px
+                ly = py
             }
-
-            mArcDistance = dist;
-
-            for (int i = 0; i < ourPercent.length; i++) {
-                ourPercent[i] /= dist;
+            mArcDistance = dist
+            for (i in ourPercent.indices) {
+                ourPercent[i] /= dist
             }
-            for (int i = 0; i < mLut.length; i++) {
-                double pos = i / (double) (mLut.length - 1);
-                int index = Arrays.binarySearch(ourPercent, pos);
+            for (i in mLut.indices) {
+                val pos = i / (mLut.size - 1).toDouble()
+                val index = ourPercent.binarySearch(pos)
                 if (index >= 0) {
-                    mLut[i] = index /(double) (ourPercent.length - 1);
+                    mLut[i] = index / (ourPercent.size - 1).toDouble()
                 } else if (index == -1) {
-                    mLut[i] = 0;
+                    mLut[i] = 0.0
                 } else {
-                    int p1 = -index - 2;
-                    int p2 = -index - 1;
-
-                    double ans = (p1 + (pos - ourPercent[p1]) / (ourPercent[p2] - ourPercent[p1]))
-                            / (ourPercent.length - 1);
-                    mLut[i] = ans;
+                    val p1 = -index - 2
+                    val p2 = -index - 1
+                    val ans = ((p1 + (pos - ourPercent[p1]) / (ourPercent[p2] - ourPercent[p1]))
+                            / (ourPercent.size - 1))
+                    mLut[i] = ans
                 }
             }
+        }
+
+        companion object {
+            private const val TAG = "Arc"
+            private val ourPercent = DoubleArray(91)
+            private const val EPSILON = 0.001
+        }
+
+        init {
+            kotlin.run {
+                mVertical = mode == START_VERTICAL
+                mTime1 = t1
+                mTime2 = t2
+                mOneOverDeltaTime = 1 / (mTime2 - mTime1)
+                if (START_LINEAR == mode) {
+                    linear = true
+                }
+                val dx = x2 - x1
+                val dy = y2 - y1
+                if (linear || Math.abs(dx) < EPSILON || Math.abs(dy) < EPSILON) {
+                    linear = true
+                    mX1 = x1
+                    mX2 = x2
+                    mY1 = y1
+                    mY2 = y2
+                    mArcDistance = Math.hypot(dy, dx)
+                    mArcVelocity = mArcDistance * mOneOverDeltaTime
+                    mEllipseCenterX = dx / (mTime2 - mTime1) // cache the slope in the unused center
+                    mEllipseCenterY = dy / (mTime2 - mTime1) // cache the slope in the unused center
+                    return@run
+                }
+                mLut = DoubleArray(101)
+                mEllipseA = dx * if (mVertical) -1 else 1
+                mEllipseB = dy * if (mVertical) 1 else -1
+                mEllipseCenterX = if (mVertical) x2 else x1
+                mEllipseCenterY = if (mVertical) y1 else y2
+                buildTable(x1, y1, x2, y2)
+                mArcVelocity = mArcDistance * mOneOverDeltaTime
+            }
+        }
+    }
+
+    companion object {
+        const val ARC_START_VERTICAL = 1
+        const val ARC_START_HORIZONTAL = 2
+        const val ARC_START_FLIP = 3
+        const val ARC_START_LINEAR = 0
+        private const val START_VERTICAL = 1
+        private const val START_HORIZONTAL = 2
+        private const val START_LINEAR = 3
+    }
+
+    init {
+        mArcs = arrayOfNulls(timePoints.size - 1)
+        var mode = START_VERTICAL
+        var last = START_VERTICAL
+        for (i in mArcs.indices) {
+            when (arcModes[i]) {
+                ARC_START_VERTICAL -> {
+                    mode = START_VERTICAL
+                    last = mode
+                }
+                ARC_START_HORIZONTAL -> {
+                    mode = START_HORIZONTAL
+                    last = mode
+                }
+                ARC_START_FLIP -> {
+                    mode = if (last == START_VERTICAL) START_HORIZONTAL else START_VERTICAL
+                    last = mode
+                }
+                ARC_START_LINEAR -> mode = START_LINEAR
+            }
+            mArcs[i] = Arc(mode, timePoints[i], timePoints[i + 1], y[i][0], y[i][1], y[i + 1][0], y[i + 1][1])
         }
     }
 }

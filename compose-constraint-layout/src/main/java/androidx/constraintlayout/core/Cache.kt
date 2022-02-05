@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core;
+package androidx.constraintlayout.core
+
+import androidx.constraintlayout.core.ArrayRow
+import androidx.constraintlayout.core.SolverVariable
 
 /**
  * Cache for common objects
  */
-public class Cache {
-    Pools.Pool<ArrayRow> optimizedArrayRowPool = new Pools.SimplePool<>(256);
-    Pools.Pool<ArrayRow> arrayRowPool = new Pools.SimplePool<>(256);
-    Pools.Pool<SolverVariable> solverVariablePool = new Pools.SimplePool<>(256);
-    SolverVariable[] mIndexedVariables = new SolverVariable[32];
+class Cache {
+    var optimizedArrayRowPool: Pools.SimplePool<ArrayRow> = Pools.SimplePool(256)
+    var arrayRowPool: Pools.SimplePool<ArrayRow> = Pools.SimplePool(256)
+    var solverVariablePool: Pools.SimplePool<SolverVariable> = Pools.SimplePool(256)
+    @JvmField
+    var mIndexedVariables = arrayOfNulls<SolverVariable>(32)
 }

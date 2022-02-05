@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.motion.utils
 
-package androidx.constraintlayout.core.motion.utils;
-
-public interface StopEngine {
-    String debug(String desc, float time);
-
-    float getVelocity(float x);
-
-    float getInterpolation(float v);
-
-    float getVelocity();
-
-    boolean isStopped();
+open interface StopEngine {
+    fun debug(desc: String, time: Float): String?
+    fun getVelocity(x: Float): Float
+    fun getInterpolation(v: Float): Float
+    val velocity: Float
+    val isStopped: Boolean
 }

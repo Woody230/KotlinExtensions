@@ -13,289 +13,293 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-import java.util.ArrayList;
-
-public class CLContainer extends CLElement {
-  ArrayList<CLElement> mElements = new ArrayList<>();
-
-  public CLContainer(char[] content) {
-    super(content);
-  }
-
-  public static CLElement allocate(char[] content) {
-    return new CLContainer(content);
-  }
-
-  public void add(CLElement element) {
-    mElements.add(element);
-    if (CLParser.DEBUG) {
-      System.out.println("added element " + element + " to " + this);
-    }
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder list = new StringBuilder();
-    for (CLElement element : mElements) {
-      if (list.length() > 0) {
-        list.append("; ");
-      }
-      list.append(element);
-    }
-    return super.toString() + " = <" + list + " >";
-  }
-
-  public int size() {
-    return mElements.size();
-  }
-
-  public ArrayList<String> names() {
-    ArrayList<String> names = new ArrayList<>();
-    for (CLElement element : mElements) {
-      if (element instanceof CLKey) {
-        CLKey key = (CLKey) element;
-        names.add(key.content());
-      }
-    }
-    return names;
-  }
-
-  public boolean has(String name) {
-    for (CLElement element : mElements) {
-      if (element instanceof CLKey) {
-        CLKey key = (CLKey) element;
-        if (key.content().equals(name)) {
-          return true;
+open class CLContainer(content: CharArray) : CLElement(content) {
+    @JvmField
+    var mElements = ArrayList<CLElement>()
+    fun add(element: CLElement) {
+        mElements.add(element)
+        if (CLParser.DEBUG) {
+            println("added element $element to $this")
         }
-      }
     }
-    return false;
-  }
 
-  public void put(String name, CLElement value) {
-    for (CLElement element : mElements) {
-      CLKey key = (CLKey) element;
-      if (key.content().equals(name)) {
-        key.set(value);
-        return;
-      }
+    override fun toString(): String {
+        val list = StringBuilder()
+        for (element in mElements) {
+            if (list.length > 0) {
+                list.append("; ")
+            }
+            list.append(element)
+        }
+        return super.toString() + " = <" + list + " >"
     }
-    CLKey key = (CLKey) CLKey.allocate(name, value);
-    mElements.add(key);
-  }
 
-  public void putNumber(String name, float value) {
-    put(name, new CLNumber(value));
-  }
-
-  public void remove(String name) {
-    ArrayList<CLElement> toRemove = new ArrayList<>();
-    for (CLElement element : mElements) {
-      CLKey key = (CLKey) element;
-      if (key.content().equals(name)) {
-        toRemove.add(element);
-      }
+    fun size(): Int {
+        return mElements.size
     }
-    for (CLElement element : toRemove) {
-      mElements.remove(element);
+
+    fun names(): ArrayList<String> {
+        val names = ArrayList<String>()
+        for (element in mElements) {
+            if (element is CLKey) {
+                names.add(element.content())
+            }
+        }
+        return names
     }
-  }
 
-  /////////////////////////////////////////////////////////////////////////
-  // By name
-  /////////////////////////////////////////////////////////////////////////
-
-  public CLElement get(String name) throws CLParsingException {
-    for (CLElement element : mElements) {
-      CLKey key = (CLKey) element;
-      if (key.content().equals(name)) {
-        return key.getValue();
-      }
+    fun has(name: String): Boolean {
+        for (element in mElements) {
+            if (element is CLKey) {
+                if (element.content() == name) {
+                    return true
+                }
+            }
+        }
+        return false
     }
-    throw new CLParsingException("no element for key <" + name + ">", this);
-  }
 
-  public int getInt(String name) throws CLParsingException {
-    CLElement element = get(name);
-    if (element != null) {
-      return element.getInt();
+    fun put(name: String, value: CLElement?) {
+        for (element in mElements) {
+            val key = element as CLKey
+            if (key.content() == name) {
+                key.set(value)
+                return
+            }
+        }
+        val key = CLKey.allocate(name, value) as CLKey
+        mElements.add(key)
     }
-    throw new CLParsingException("no int found for key <" + name + ">," +
-            " found [" + element.getStrClass() + "] : " + element, this);
-  }
 
-  public float getFloat(String name) throws CLParsingException {
-    CLElement element = get(name);
-    if (element != null) {
-      return element.getFloat();
+    fun putNumber(name: String, value: Float) {
+        put(name, CLNumber(value))
     }
-    throw new CLParsingException("no float found for key <" + name + ">," +
-            " found [" + element.getStrClass() + "] : " + element, this);
-  }
 
-  public CLArray getArray(String name) throws CLParsingException {
-    CLElement element = get(name);
-    if (element instanceof CLArray) {
-      return (CLArray) element;
+    fun remove(name: String) {
+        val toRemove = ArrayList<CLElement>()
+        for (element in mElements) {
+            val key = element as CLKey
+            if (key.content() == name) {
+                toRemove.add(element)
+            }
+        }
+        for (element in toRemove) {
+            mElements.remove(element)
+        }
     }
-    throw new CLParsingException("no array found for key <" + name + ">," +
-            " found [" + element.getStrClass() + "] : " + element, this);
-  }
 
-  public CLObject getObject(String name) throws CLParsingException {
-    CLElement element = get(name);
-    if (element instanceof CLObject) {
-      return (CLObject) element;
+    /////////////////////////////////////////////////////////////////////////
+    // By name
+    /////////////////////////////////////////////////////////////////////////
+    @Throws(CLParsingException::class)
+    operator fun get(name: String): CLElement {
+        for (element in mElements) {
+            val key = element as CLKey
+            if (key.content() == name) {
+                return key.value ?: throw CLParsingException("no element for key <$name>", this)
+            }
+        }
+        throw CLParsingException("no element for key <$name>", this)
     }
-    throw new CLParsingException("no object found for key <" + name + ">," +
-            " found [" + element.getStrClass() + "] : " + element, this);
-  }
 
-  public String getString(String name) throws CLParsingException {
-    CLElement element = get(name);
-    if (element instanceof CLString) {
-      return  element.content();
+    @Throws(CLParsingException::class)
+    fun getInt(name: String): Int {
+        val element = get(name)
+        if (element != null) {
+            return element.int
+        }
+        throw CLParsingException(
+            "no int found for key <" + name + ">," +
+                    " found [" + element.strClass + "] : " + element, this
+        )
     }
-    String strClass = null;
-    if (element != null) {
-      strClass = element.getStrClass();
+
+    @Throws(CLParsingException::class)
+    fun getFloat(name: String): Float {
+        val element = get(name)
+        if (element != null) {
+            return element.float
+        }
+        throw CLParsingException(
+            "no float found for key <" + name + ">," +
+                    " found [" + element.strClass + "] : " + element, this
+        )
     }
-    throw new CLParsingException("no string found for key <" + name + ">," +
-            " found [" + strClass + "] : " + element, this);
-  }
 
-  public boolean getBoolean(String name) throws CLParsingException {
-    CLElement element = get(name);
-    if (element instanceof CLToken) {
-      return ((CLToken) element).getBoolean();
+    @Throws(CLParsingException::class)
+    fun getArray(name: String): CLArray {
+        val element = get(name)
+        if (element is CLArray) {
+            return element
+        }
+        throw CLParsingException(
+            "no array found for key <" + name + ">," +
+                    " found [" + element.strClass + "] : " + element, this
+        )
     }
-    throw new CLParsingException("no boolean found for key <" + name + ">," +
-            " found [" + element.getStrClass() + "] : " + element, this);
-  }
 
-  /////////////////////////////////////////////////////////////////////////
-  // Optional
-  /////////////////////////////////////////////////////////////////////////
-
-  public CLElement getOrNull(String name) {
-    for (CLElement element : mElements) {
-      CLKey key = (CLKey) element;
-      if (key.content().equals(name)) {
-        return key.getValue();
-      }
+    @Throws(CLParsingException::class)
+    fun getObject(name: String): CLObject {
+        val element = get(name)
+        if (element is CLObject) {
+            return element
+        }
+        throw CLParsingException(
+            "no object found for key <" + name + ">," +
+                    " found [" + element.strClass + "] : " + element, this
+        )
     }
-    return null;
-  }
 
-  public CLObject getObjectOrNull(String name) {
-    CLElement element = getOrNull(name);
-    if (element instanceof CLObject) {
-      return (CLObject) element;
+    @Throws(CLParsingException::class)
+    fun getString(name: String): String {
+        val element = get(name)
+        if (element is CLString) {
+            return element.content()
+        }
+        var strClass: String? = null
+        if (element != null) {
+            strClass = element.strClass
+        }
+        throw CLParsingException(
+            "no string found for key <" + name + ">," +
+                    " found [" + strClass + "] : " + element, this
+        )
     }
-    return null;
-  }
 
-  public CLArray getArrayOrNull(String name) {
-    CLElement element = getOrNull(name);
-    if (element instanceof CLArray) {
-      return (CLArray) element;
+    @Throws(CLParsingException::class)
+    fun getBoolean(name: String): Boolean {
+        val element = get(name)
+        if (element is CLToken) {
+            return element.boolean
+        }
+        throw CLParsingException(
+            "no boolean found for key <" + name + ">," +
+                    " found [" + element.strClass + "] : " + element, this
+        )
     }
-    return null;
-  }
 
-  public String getStringOrNull(String name) {
-    CLElement element = getOrNull(name);
-    if (element instanceof CLString) {
-      return  element.content();
+    /////////////////////////////////////////////////////////////////////////
+    // Optional
+    /////////////////////////////////////////////////////////////////////////
+    fun getOrNull(name: String): CLElement? {
+        for (element in mElements) {
+            val key = element as CLKey
+            if (key.content() == name) {
+                return key.value
+            }
+        }
+        return null
     }
-    return null;
-  }
 
-  public float getFloatOrNaN(String name) {
-    CLElement element = getOrNull(name);
-    if (element instanceof CLNumber) {
-      return element.getFloat();
+    fun getObjectOrNull(name: String): CLObject? {
+        val element = getOrNull(name)
+        return if (element is CLObject) {
+            element
+        } else null
     }
-    return Float.NaN;
-  }
 
-  /////////////////////////////////////////////////////////////////////////
-  // By index
-  /////////////////////////////////////////////////////////////////////////
-
-  public CLElement get(int index) throws CLParsingException {
-    if (index >= 0 && index < mElements.size()) {
-      return mElements.get(index);
+    fun getArrayOrNull(name: String): CLArray? {
+        val element = getOrNull(name)
+        return if (element is CLArray) {
+            element
+        } else null
     }
-    throw new CLParsingException("no element at index " + index, this);
-  }
 
-  public int getInt(int index) throws CLParsingException {
-    CLElement element = get(index);
-    if (element != null) {
-      return element.getInt();
+    fun getStringOrNull(name: String): String? {
+        val element = getOrNull(name)
+        return (element as? CLString)?.content()
     }
-    throw new CLParsingException("no int at index " + index, this);
-  }
 
-  public float getFloat(int index) throws CLParsingException {
-    CLElement element = get(index);
-    if (element != null) {
-      return element.getFloat();
+    fun getFloatOrNaN(name: String): Float {
+        val element = getOrNull(name)
+        return (element as? CLNumber)?.float ?: Float.NaN
     }
-    throw new CLParsingException("no float at index " + index, this);
-  }
 
-  public CLArray getArray(int index) throws CLParsingException {
-    CLElement element = get(index);
-    if (element instanceof CLArray) {
-      return (CLArray) element;
+    /////////////////////////////////////////////////////////////////////////
+    // By index
+    /////////////////////////////////////////////////////////////////////////
+    @Throws(CLParsingException::class)
+    operator fun get(index: Int): CLElement {
+        if (index >= 0 && index < mElements.size) {
+            return mElements[index]
+        }
+        throw CLParsingException("no element at index $index", this)
     }
-    throw new CLParsingException("no array at index " + index, this);
-  }
 
-  public CLObject getObject(int index) throws CLParsingException {
-    CLElement element = get(index);
-    if (element instanceof CLObject) {
-      return (CLObject) element;
+    @Throws(CLParsingException::class)
+    fun getInt(index: Int): Int {
+        val element = get(index)
+        if (element != null) {
+            return element.int
+        }
+        throw CLParsingException("no int at index $index", this)
     }
-    throw new CLParsingException("no object at index " + index, this);
-  }
 
-  public String getString(int index) throws CLParsingException {
-    CLElement element = get(index);
-    if (element instanceof CLString) {
-      return  element.content();
+    @Throws(CLParsingException::class)
+    fun getFloat(index: Int): Float {
+        val element = get(index)
+        if (element != null) {
+            return element.float
+        }
+        throw CLParsingException("no float at index $index", this)
     }
-    throw new CLParsingException("no string at index " + index, this);
-  }
 
-  public boolean getBoolean(int index) throws CLParsingException {
-    CLElement element = get(index);
-    if (element instanceof CLToken) {
-      return ((CLToken) element).getBoolean();
+    @Throws(CLParsingException::class)
+    fun getArray(index: Int): CLArray {
+        val element = get(index)
+        if (element is CLArray) {
+            return element
+        }
+        throw CLParsingException("no array at index $index", this)
     }
-    throw new CLParsingException("no boolean at index " + index, this);
-  }
 
-  /////////////////////////////////////////////////////////////////////////
-  // Optional
-  /////////////////////////////////////////////////////////////////////////
-
-  public CLElement getOrNull(int index) {
-    if (index >= 0 && index < mElements.size()) {
-      return mElements.get(index);
+    @Throws(CLParsingException::class)
+    fun getObject(index: Int): CLObject {
+        val element = get(index)
+        if (element is CLObject) {
+            return element
+        }
+        throw CLParsingException("no object at index $index", this)
     }
-    return null;
-  }
 
-  public String getStringOrNull(int index) {
-    CLElement element = getOrNull(index);
-    if (element instanceof CLString) {
-      return  element.content();
+    @Throws(CLParsingException::class)
+    fun getString(index: Int): String {
+        val element = get(index)
+        if (element is CLString) {
+            return element.content()
+        }
+        throw CLParsingException("no string at index $index", this)
     }
-    return null;
-  }
+
+    @Throws(CLParsingException::class)
+    fun getBoolean(index: Int): Boolean {
+        val element = get(index)
+        if (element is CLToken) {
+            return element.boolean
+        }
+        throw CLParsingException("no boolean at index $index", this)
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+    // Optional
+    /////////////////////////////////////////////////////////////////////////
+    fun getOrNull(index: Int): CLElement? {
+        return if (index >= 0 && index < mElements.size) {
+            mElements[index]
+        } else null
+    }
+
+    fun getStringOrNull(index: Int): String? {
+        val element = getOrNull(index)
+        return (element as? CLString)?.content()
+    }
+
+    companion object {
+        @JvmStatic
+        fun allocate(content: CharArray): CLElement {
+            return CLContainer(content)
+        }
+    }
 }

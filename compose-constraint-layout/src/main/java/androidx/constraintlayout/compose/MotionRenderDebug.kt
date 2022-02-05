@@ -13,366 +13,365 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.compose;
+package androidx.constraintlayout.compose
 
-import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Rect;
+import android.graphics.*
+import androidx.constraintlayout.core.motion.Motion
+import androidx.constraintlayout.core.motion.MotionPaths
 
-import androidx.constraintlayout.core.motion.Motion;
-import androidx.constraintlayout.core.motion.MotionPaths;
-
-import java.util.HashMap;
-
-class MotionRenderDebug {
-    public static final int DEBUG_SHOW_NONE = 0;
-    public static final int DEBUG_SHOW_PROGRESS = 1;
-    public static final int DEBUG_SHOW_PATH = 2;
-
-    static final int MAX_KEY_FRAMES = 50;
-    private static final int DEBUG_PATH_TICKS_PER_MS = 16;
-    float[] mPoints;
-    int[] mPathMode;
-    float[] mKeyFramePoints;
-    Path mPath;
-    Paint mPaint;
-    Paint mPaintKeyframes;
-    Paint mPaintGraph;
-    Paint mTextPaint;
-    Paint mFillPaint;
-    private float[] mRectangle;
-    final int RED_COLOR = 0xFFFFAA33;
-    final int KEYFRAME_COLOR = 0xffe0759a;
-    final int GRAPH_COLOR = 0xFF33AA00;
-    final int SHADOW_COLOR = 0x77000000;
-    final int DIAMOND_SIZE = 10;
-    DashPathEffect mDashPathEffect;
-    int mKeyFrameCount;
-    Rect mBounds = new Rect();
-    boolean mPresentationMode = false;
-    int mShadowTranslate = 1;
-
-    public MotionRenderDebug(float textSize) {
-
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(RED_COLOR);
-        mPaint.setStrokeWidth(2);
-        mPaint.setStyle(Paint.Style.STROKE);
-
-        mPaintKeyframes = new Paint();
-        mPaintKeyframes.setAntiAlias(true);
-        mPaintKeyframes.setColor(KEYFRAME_COLOR);
-        mPaintKeyframes.setStrokeWidth(2);
-        mPaintKeyframes.setStyle(Paint.Style.STROKE);
-
-        mPaintGraph = new Paint();
-        mPaintGraph.setAntiAlias(true);
-        mPaintGraph.setColor(GRAPH_COLOR);
-        mPaintGraph.setStrokeWidth(2);
-        mPaintGraph.setStyle(Paint.Style.STROKE);
-
-        mTextPaint = new Paint();
-        mTextPaint.setAntiAlias(true);
-        mTextPaint.setColor(GRAPH_COLOR);
-        mTextPaint.setTextSize(textSize);
-        mRectangle = new float[8];
-        mFillPaint = new Paint();
-        mFillPaint.setAntiAlias(true);
-        mDashPathEffect = new DashPathEffect(new float[]{4, 8}, 0);
-        mPaintGraph.setPathEffect(mDashPathEffect);
-        mKeyFramePoints = new float[MAX_KEY_FRAMES * 2];
-        mPathMode = new int[MAX_KEY_FRAMES];
-
-        if (mPresentationMode) {
-            mPaint.setStrokeWidth(8);
-            mFillPaint.setStrokeWidth(8);
-            mPaintKeyframes.setStrokeWidth(8);
-            mShadowTranslate = 4;
+internal class MotionRenderDebug(textSize: Float) {
+    var mPoints: FloatArray? = null
+    var mPathMode: IntArray
+    var mKeyFramePoints: FloatArray
+    var mPath: Path? = null
+    var mPaint: Paint
+    var mPaintKeyframes: Paint
+    var mPaintGraph: Paint
+    var mTextPaint: Paint
+    var mFillPaint: Paint
+    private val mRectangle: FloatArray
+    val RED_COLOR = -0x55cd
+    val KEYFRAME_COLOR = -0x1f8a66
+    val GRAPH_COLOR = -0xcc5600
+    val SHADOW_COLOR = 0x77000000
+    val DIAMOND_SIZE = 10
+    var mDashPathEffect: DashPathEffect
+    var mKeyFrameCount = 0
+    var mBounds = Rect()
+    var mPresentationMode = false
+    var mShadowTranslate = 1
+    fun draw(
+        canvas: Canvas,
+        frameArrayList: HashMap<String?, Motion>?,
+        duration: Int, debugPath: Int,
+        layoutWidth: Int, layoutHeight: Int
+    ) {
+        if (frameArrayList == null || frameArrayList.size == 0) {
+            return
         }
+        canvas.save()
+        for (motionController in frameArrayList.values) {
+            draw(
+                canvas, motionController, duration, debugPath,
+                layoutWidth, layoutHeight
+            )
+        }
+        canvas.restore()
     }
 
-    public void draw(Canvas canvas,
-                     HashMap<String, Motion> frameArrayList,
-                     int duration, int debugPath,
-                     int layoutWidth, int layoutHeight) {
-        if (frameArrayList == null || frameArrayList.size() == 0) {
-            return;
-        }
-        canvas.save();
-
-        for (Motion motionController : frameArrayList.values()) {
-            draw(canvas, motionController, duration, debugPath,
-                    layoutWidth, layoutHeight);
-        }
-        canvas.restore();
-    }
-
-    public void draw(Canvas canvas,
-                     Motion motionController,
-                     int duration, int debugPath,
-                     int layoutWidth, int layoutHeight) {
-        int mode = motionController.getDrawPath();
+    fun draw(
+        canvas: Canvas,
+        motionController: Motion,
+        duration: Int, debugPath: Int,
+        layoutWidth: Int, layoutHeight: Int
+    ) {
+        var mode = motionController.drawPath
         if (debugPath > 0 && mode == Motion.DRAW_PATH_NONE) {
-            mode = Motion.DRAW_PATH_BASIC;
+            mode = Motion.DRAW_PATH_BASIC
         }
         if (mode == Motion.DRAW_PATH_NONE) { // do not draw path
-            return;
+            return
         }
-
-        mKeyFrameCount = motionController.buildKeyFrames(mKeyFramePoints, mPathMode, null);
-
+        mKeyFrameCount = motionController.buildKeyFrames(mKeyFramePoints, mPathMode, null)
         if (mode >= Motion.DRAW_PATH_BASIC) {
-
-            int frames = duration / DEBUG_PATH_TICKS_PER_MS;
-            if (mPoints == null || mPoints.length != frames * 2) {
-                mPoints = new float[frames * 2];
-                mPath = new Path();
+            val frames = duration / DEBUG_PATH_TICKS_PER_MS
+            if (mPoints == null || mPoints!!.size != frames * 2) {
+                mPoints = FloatArray(frames * 2)
+                mPath = Path()
             }
-
-            canvas.translate(mShadowTranslate, mShadowTranslate);
-
-            mPaint.setColor(SHADOW_COLOR);
-            mFillPaint.setColor(SHADOW_COLOR);
-            mPaintKeyframes.setColor(SHADOW_COLOR);
-            mPaintGraph.setColor(SHADOW_COLOR);
-            motionController.buildPath(mPoints, frames);
-            drawAll(canvas, mode, mKeyFrameCount, motionController, layoutWidth, layoutHeight);
-            mPaint.setColor(RED_COLOR);
-            mPaintKeyframes.setColor(KEYFRAME_COLOR);
-            mFillPaint.setColor(KEYFRAME_COLOR);
-            mPaintGraph.setColor(GRAPH_COLOR);
-
-            canvas.translate(-mShadowTranslate, -mShadowTranslate);
-            drawAll(canvas, mode, mKeyFrameCount, motionController, layoutWidth, layoutHeight);
+            canvas.translate(mShadowTranslate.toFloat(), mShadowTranslate.toFloat())
+            mPaint.color = SHADOW_COLOR
+            mFillPaint.color = SHADOW_COLOR
+            mPaintKeyframes.color = SHADOW_COLOR
+            mPaintGraph.color = SHADOW_COLOR
+            motionController.buildPath(mPoints, frames)
+            drawAll(canvas, mode, mKeyFrameCount, motionController, layoutWidth, layoutHeight)
+            mPaint.color = RED_COLOR
+            mPaintKeyframes.color = KEYFRAME_COLOR
+            mFillPaint.color = KEYFRAME_COLOR
+            mPaintGraph.color = GRAPH_COLOR
+            canvas.translate(-mShadowTranslate.toFloat(), -mShadowTranslate.toFloat())
+            drawAll(canvas, mode, mKeyFrameCount, motionController, layoutWidth, layoutHeight)
             if (mode == Motion.DRAW_PATH_RECTANGLE) {
-                drawRectangle(canvas, motionController);
+                drawRectangle(canvas, motionController)
             }
         }
-
     }
 
-
-    public void drawAll(Canvas canvas, int mode, int keyFrames, Motion motionController,
-                        int layoutWidth, int layoutHeight) {
+    fun drawAll(
+        canvas: Canvas, mode: Int, keyFrames: Int, motionController: Motion,
+        layoutWidth: Int, layoutHeight: Int
+    ) {
         if (mode == Motion.DRAW_PATH_AS_CONFIGURED) {
-            drawPathAsConfigured(canvas);
+            drawPathAsConfigured(canvas)
         }
         if (mode == Motion.DRAW_PATH_RELATIVE) {
-            drawPathRelative(canvas);
+            drawPathRelative(canvas)
         }
         if (mode == Motion.DRAW_PATH_CARTESIAN) {
-            drawPathCartesian(canvas);
+            drawPathCartesian(canvas)
         }
-        drawBasicPath(canvas);
-        drawTicks(canvas, mode, keyFrames, motionController, layoutWidth, layoutHeight);
+        drawBasicPath(canvas)
+        drawTicks(canvas, mode, keyFrames, motionController, layoutWidth, layoutHeight)
     }
 
-    private void drawBasicPath(Canvas canvas) {
-        canvas.drawLines(mPoints, mPaint);
+    private fun drawBasicPath(canvas: Canvas) {
+        canvas.drawLines(mPoints!!, mPaint)
     }
 
-    private void drawTicks(Canvas canvas, int mode, int keyFrames, Motion motionController,
-                           int layoutWidth, int layoutHeight) {
-        int viewWidth = 0;
-        int viewHeight = 0;
-        if (motionController.getView() != null) {
-            viewWidth = motionController.getView().getWidth();
-            viewHeight = motionController.getView().getHeight();
+    private fun drawTicks(
+        canvas: Canvas, mode: Int, keyFrames: Int, motionController: Motion,
+        layoutWidth: Int, layoutHeight: Int
+    ) {
+        var viewWidth = 0
+        var viewHeight = 0
+        if (motionController.view != null) {
+            viewWidth = motionController.view.width
+            viewHeight = motionController.view.height
         }
-        for (int i = 1; i < keyFrames - 1; i++) {
+        for (i in 1 until keyFrames - 1) {
             if (mode == Motion.DRAW_PATH_AS_CONFIGURED
-                    && mPathMode[i - 1] == Motion.DRAW_PATH_NONE) {
-                continue;
-
+                && mPathMode[i - 1] == Motion.DRAW_PATH_NONE
+            ) {
+                continue
             }
-            float x = mKeyFramePoints[i * 2];
-            float y = mKeyFramePoints[i * 2 + 1];
-            mPath.reset();
-            mPath.moveTo(x, y + DIAMOND_SIZE);
-            mPath.lineTo(x + DIAMOND_SIZE, y);
-            mPath.lineTo(x, y - DIAMOND_SIZE);
-            mPath.lineTo(x - DIAMOND_SIZE, y);
-            mPath.close();
-
-            MotionPaths framePoint = motionController.getKeyFrame(i - 1);
-            float dx = 0;//framePoint.translationX;
-            float dy = 0;//framePoint.translationY;
+            val x = mKeyFramePoints[i * 2]
+            val y = mKeyFramePoints[i * 2 + 1]
+            mPath!!.reset()
+            mPath!!.moveTo(x, y + DIAMOND_SIZE)
+            mPath!!.lineTo(x + DIAMOND_SIZE, y)
+            mPath!!.lineTo(x, y - DIAMOND_SIZE)
+            mPath!!.lineTo(x - DIAMOND_SIZE, y)
+            mPath!!.close()
+            val framePoint = motionController.getKeyFrame(i - 1)
+            val dx = 0f //framePoint.translationX;
+            val dy = 0f //framePoint.translationY;
             if (mode == Motion.DRAW_PATH_AS_CONFIGURED) {
-
                 if (mPathMode[i - 1] == MotionPaths.PERPENDICULAR) {
-                    drawPathRelativeTicks(canvas, x - dx, y - dy);
+                    drawPathRelativeTicks(canvas, x - dx, y - dy)
                 } else if (mPathMode[i - 1] == MotionPaths.CARTESIAN) {
-                    drawPathCartesianTicks(canvas, x - dx, y - dy);
+                    drawPathCartesianTicks(canvas, x - dx, y - dy)
                 } else if (mPathMode[i - 1] == MotionPaths.SCREEN) {
-                    drawPathScreenTicks(canvas, x - dx, y - dy, viewWidth, viewHeight, layoutWidth, layoutHeight);
+                    drawPathScreenTicks(canvas, x - dx, y - dy, viewWidth, viewHeight, layoutWidth, layoutHeight)
                 }
-
-                canvas.drawPath(mPath, mFillPaint);
+                canvas.drawPath(mPath!!, mFillPaint)
             }
             if (mode == Motion.DRAW_PATH_RELATIVE) {
-                drawPathRelativeTicks(canvas, x - dx, y - dy);
+                drawPathRelativeTicks(canvas, x - dx, y - dy)
             }
             if (mode == Motion.DRAW_PATH_CARTESIAN) {
-                drawPathCartesianTicks(canvas, x - dx, y - dy);
+                drawPathCartesianTicks(canvas, x - dx, y - dy)
             }
             if (mode == Motion.DRAW_PATH_SCREEN) {
-                drawPathScreenTicks(canvas, x - dx, y - dy, viewWidth, viewHeight, layoutWidth, layoutHeight);
+                drawPathScreenTicks(canvas, x - dx, y - dy, viewWidth, viewHeight, layoutWidth, layoutHeight)
             }
-            if (dx != 0 || dy != 0) {
-                drawTranslation(canvas, x - dx, y - dy, x, y);
+            if (dx != 0f || dy != 0f) {
+                drawTranslation(canvas, x - dx, y - dy, x, y)
             } else {
-                canvas.drawPath(mPath, mFillPaint);
+                canvas.drawPath(mPath!!, mFillPaint)
             }
         }
-        if (mPoints.length > 1) {
+        if (mPoints!!.size > 1) {
             // Draw the starting and ending circle
-            canvas.drawCircle(mPoints[0], mPoints[1], 8, mPaintKeyframes);
-            canvas.drawCircle(mPoints[mPoints.length - 2],
-                    mPoints[mPoints.length - 1], 8, mPaintKeyframes);
+            canvas.drawCircle(mPoints!![0], mPoints!![1], 8f, mPaintKeyframes)
+            canvas.drawCircle(
+                mPoints!![mPoints!!.size - 2],
+                mPoints!![mPoints!!.size - 1], 8f, mPaintKeyframes
+            )
         }
     }
 
-    private void drawTranslation(Canvas canvas, float x1, float y1, float x2, float y2) {
-        canvas.drawRect(x1, y1, x2, y2, mPaintGraph);
-        canvas.drawLine(x1, y1, x2, y2, mPaintGraph);
+    private fun drawTranslation(canvas: Canvas, x1: Float, y1: Float, x2: Float, y2: Float) {
+        canvas.drawRect(x1, y1, x2, y2, mPaintGraph)
+        canvas.drawLine(x1, y1, x2, y2, mPaintGraph)
     }
 
-    private void drawPathRelative(Canvas canvas) {
-        canvas.drawLine(mPoints[0], mPoints[1],
-                mPoints[mPoints.length - 2], mPoints[mPoints.length - 1], mPaintGraph);
+    private fun drawPathRelative(canvas: Canvas) {
+        canvas.drawLine(
+            mPoints!![0], mPoints!![1],
+            mPoints!![mPoints!!.size - 2], mPoints!![mPoints!!.size - 1], mPaintGraph
+        )
     }
 
-    private void drawPathAsConfigured(Canvas canvas) {
-        boolean path = false;
-        boolean cart = false;
-        for (int i = 0; i < mKeyFrameCount; i++) {
+    private fun drawPathAsConfigured(canvas: Canvas) {
+        var path = false
+        var cart = false
+        for (i in 0 until mKeyFrameCount) {
             if (mPathMode[i] == MotionPaths.PERPENDICULAR) {
-                path = true;
+                path = true
             }
             if (mPathMode[i] == MotionPaths.CARTESIAN) {
-                cart = true;
+                cart = true
             }
         }
         if (path) {
-            drawPathRelative(canvas);
+            drawPathRelative(canvas)
         }
         if (cart) {
-            drawPathCartesian(canvas);
+            drawPathCartesian(canvas)
         }
     }
 
-    private void drawPathRelativeTicks(Canvas canvas, float x, float y) {
-        float x1 = mPoints[0];
-        float y1 = mPoints[1];
-        float x2 = mPoints[mPoints.length - 2];
-        float y2 = mPoints[mPoints.length - 1];
-        float dist = (float) Math.hypot(x1 - x2, y1 - y2);
-        float t = ((x - x1) * (x2 - x1) + (y - y1) * (y2 - y1)) / (dist * dist);
-        float xp = x1 + t * (x2 - x1);
-        float yp = y1 + t * (y2 - y1);
-
-        Path path = new Path();
-        path.moveTo(x, y);
-        path.lineTo(xp, yp);
-        float len = (float) Math.hypot(xp - x, yp - y);
-        String text = "" + ((int) (100 * len / dist)) / 100.0f;
-        getTextBounds(text, mTextPaint);
-        float off = len / 2 - mBounds.width() / 2;
-        canvas.drawTextOnPath(text, path, off, -20, mTextPaint);
-        canvas.drawLine(x, y, xp, yp, mPaintGraph);
+    private fun drawPathRelativeTicks(canvas: Canvas, x: Float, y: Float) {
+        val x1 = mPoints!![0]
+        val y1 = mPoints!![1]
+        val x2 = mPoints!![mPoints!!.size - 2]
+        val y2 = mPoints!![mPoints!!.size - 1]
+        val dist = Math.hypot((x1 - x2).toDouble(), (y1 - y2).toDouble()).toFloat()
+        val t = ((x - x1) * (x2 - x1) + (y - y1) * (y2 - y1)) / (dist * dist)
+        val xp = x1 + t * (x2 - x1)
+        val yp = y1 + t * (y2 - y1)
+        val path = Path()
+        path.moveTo(x, y)
+        path.lineTo(xp, yp)
+        val len = Math.hypot((xp - x).toDouble(), (yp - y).toDouble()).toFloat()
+        val text = "" + (100 * len / dist).toInt() / 100.0f
+        getTextBounds(text, mTextPaint)
+        val off = len / 2 - mBounds.width() / 2
+        canvas.drawTextOnPath(text, path, off, -20f, mTextPaint)
+        canvas.drawLine(x, y, xp, yp, mPaintGraph)
     }
 
-    void getTextBounds(String text, Paint paint) {
-        paint.getTextBounds(text, 0, text.length(), mBounds);
+    fun getTextBounds(text: String, paint: Paint) {
+        paint.getTextBounds(text, 0, text.length, mBounds)
     }
 
-    private void drawPathCartesian(Canvas canvas) {
-        float x1 = mPoints[0];
-        float y1 = mPoints[1];
-        float x2 = mPoints[mPoints.length - 2];
-        float y2 = mPoints[mPoints.length - 1];
-
-        canvas.drawLine(Math.min(x1, x2), Math.max(y1, y2),
-                Math.max(x1, x2), Math.max(y1, y2), mPaintGraph);
-        canvas.drawLine(Math.min(x1, x2), Math.min(y1, y2),
-                Math.min(x1, x2), Math.max(y1, y2), mPaintGraph);
+    private fun drawPathCartesian(canvas: Canvas) {
+        val x1 = mPoints!![0]
+        val y1 = mPoints!![1]
+        val x2 = mPoints!![mPoints!!.size - 2]
+        val y2 = mPoints!![mPoints!!.size - 1]
+        canvas.drawLine(
+            Math.min(x1, x2), Math.max(y1, y2),
+            Math.max(x1, x2), Math.max(y1, y2), mPaintGraph
+        )
+        canvas.drawLine(
+            Math.min(x1, x2), Math.min(y1, y2),
+            Math.min(x1, x2), Math.max(y1, y2), mPaintGraph
+        )
     }
 
-    private void drawPathCartesianTicks(Canvas canvas, float x, float y) {
-        float x1 = mPoints[0];
-        float y1 = mPoints[1];
-        float x2 = mPoints[mPoints.length - 2];
-        float y2 = mPoints[mPoints.length - 1];
-        float minx = Math.min(x1, x2);
-        float maxy = Math.max(y1, y2);
-        float xgap = x - Math.min(x1, x2);
-        float ygap = Math.max(y1, y2) - y;
+    private fun drawPathCartesianTicks(canvas: Canvas, x: Float, y: Float) {
+        val x1 = mPoints!![0]
+        val y1 = mPoints!![1]
+        val x2 = mPoints!![mPoints!!.size - 2]
+        val y2 = mPoints!![mPoints!!.size - 1]
+        val minx = Math.min(x1, x2)
+        val maxy = Math.max(y1, y2)
+        val xgap = x - Math.min(x1, x2)
+        val ygap = Math.max(y1, y2) - y
         // Horizontal line
-        String text = "" + ((int) (0.5 + 100 * xgap / Math.abs(x2 - x1))) / 100.0f;
-        getTextBounds(text, mTextPaint);
-        float off = xgap / 2 - mBounds.width() / 2;
-        canvas.drawText(text, off + minx, y - 20, mTextPaint);
-        canvas.drawLine(x, y,
-                Math.min(x1, x2), y, mPaintGraph);
+        var text = "" + (0.5 + 100 * xgap / Math.abs(x2 - x1)).toInt() / 100.0f
+        getTextBounds(text, mTextPaint)
+        var off = xgap / 2 - mBounds.width() / 2
+        canvas.drawText(text, off + minx, y - 20, mTextPaint)
+        canvas.drawLine(
+            x, y,
+            Math.min(x1, x2), y, mPaintGraph
+        )
 
         // Vertical line
-        text = "" + ((int) (0.5 + 100 * ygap / Math.abs(y2 - y1))) / 100.0f;
-        getTextBounds(text, mTextPaint);
-        off = ygap / 2 - mBounds.height() / 2;
-        canvas.drawText(text, x + 5, maxy - off, mTextPaint);
-        canvas.drawLine(x, y,
-                x, Math.max(y1, y2), mPaintGraph);
+        text = "" + (0.5 + 100 * ygap / Math.abs(y2 - y1)).toInt() / 100.0f
+        getTextBounds(text, mTextPaint)
+        off = ygap / 2 - mBounds.height() / 2
+        canvas.drawText(text, x + 5, maxy - off, mTextPaint)
+        canvas.drawLine(
+            x, y,
+            x, Math.max(y1, y2), mPaintGraph
+        )
     }
 
-    private void drawPathScreenTicks(Canvas canvas, float x, float y, int viewWidth, int viewHeight,
-                                     int layoutWidth, int layoutHeight) {
-        float x1 = 0;
-        float y1 = 0;
-        float x2 = 1;
-        float y2 = 1;
-        float minx = 0;
-        float maxy = 0;
-        float xgap = x;
-        float ygap = y;
+    private fun drawPathScreenTicks(
+        canvas: Canvas, x: Float, y: Float, viewWidth: Int, viewHeight: Int,
+        layoutWidth: Int, layoutHeight: Int
+    ) {
+        val x1 = 0f
+        val y1 = 0f
+        val x2 = 1f
+        val y2 = 1f
+        val minx = 0f
+        val maxy = 0f
         // Horizontal line
-        String text = "" + ((int) (0.5 + 100 * (xgap - viewWidth / 2) / (layoutWidth - viewWidth))) / 100.0f;
-        getTextBounds(text, mTextPaint);
-        float off = xgap / 2 - mBounds.width() / 2;
-        canvas.drawText(text, off + minx, y - 20, mTextPaint);
-        canvas.drawLine(x, y,
-                Math.min(x1, x2), y, mPaintGraph);
+        var text = "" + (0.5 + 100 * (x - viewWidth / 2) / (layoutWidth - viewWidth)).toInt() / 100.0f
+        getTextBounds(text, mTextPaint)
+        var off = x / 2 - mBounds.width() / 2
+        canvas.drawText(text, off + minx, y - 20, mTextPaint)
+        canvas.drawLine(
+            x, y,
+            Math.min(x1, x2), y, mPaintGraph
+        )
 
         // Vertical line
-        text = "" + ((int) (0.5 + 100 * (ygap - viewHeight / 2) / (layoutHeight - viewHeight))) / 100.0f;
-        getTextBounds(text, mTextPaint);
-        off = ygap / 2 - mBounds.height() / 2;
-        canvas.drawText(text, x + 5, maxy - off, mTextPaint);
-        canvas.drawLine(x, y,
-                x, Math.max(y1, y2), mPaintGraph);
+        text = "" + (0.5 + 100 * (y - viewHeight / 2) / (layoutHeight - viewHeight)).toInt() / 100.0f
+        getTextBounds(text, mTextPaint)
+        off = y / 2 - mBounds.height() / 2
+        canvas.drawText(text, x + 5, maxy - off, mTextPaint)
+        canvas.drawLine(
+            x, y,
+            x, Math.max(y1, y2), mPaintGraph
+        )
     }
 
-    private void drawRectangle(Canvas canvas, Motion motionController) {
-        mPath.reset();
-        int rectFrames = 50;
-        for (int i = 0; i <= rectFrames; i++) {
-            float p = i / (float) rectFrames;
-            motionController.buildRect(p, mRectangle, 0);
-            mPath.moveTo(mRectangle[0], mRectangle[1]);
-            mPath.lineTo(mRectangle[2], mRectangle[3]);
-            mPath.lineTo(mRectangle[4], mRectangle[5]);
-            mPath.lineTo(mRectangle[6], mRectangle[7]);
-            mPath.close();
+    private fun drawRectangle(canvas: Canvas, motionController: Motion) {
+        mPath!!.reset()
+        val rectFrames = 50
+        for (i in 0..rectFrames) {
+            val p = i / rectFrames.toFloat()
+            motionController.buildRect(p, mRectangle, 0)
+            mPath!!.moveTo(mRectangle[0], mRectangle[1])
+            mPath!!.lineTo(mRectangle[2], mRectangle[3])
+            mPath!!.lineTo(mRectangle[4], mRectangle[5])
+            mPath!!.lineTo(mRectangle[6], mRectangle[7])
+            mPath!!.close()
         }
-        mPaint.setColor(0x44000000);
-        canvas.translate(2, 2);
-        canvas.drawPath(mPath, mPaint);
-
-        canvas.translate(-2, -2);
-        mPaint.setColor(0xFFFF0000);
-        canvas.drawPath(mPath, mPaint);
+        mPaint.color = 0x44000000
+        canvas.translate(2f, 2f)
+        canvas.drawPath(mPath!!, mPaint)
+        canvas.translate(-2f, -2f)
+        mPaint.color = -0x10000
+        canvas.drawPath(mPath!!, mPaint)
     }
 
+    companion object {
+        const val DEBUG_SHOW_NONE = 0
+        const val DEBUG_SHOW_PROGRESS = 1
+        const val DEBUG_SHOW_PATH = 2
+        const val MAX_KEY_FRAMES = 50
+        private const val DEBUG_PATH_TICKS_PER_MS = 16
+    }
+
+    init {
+        mPaint = Paint()
+        mPaint.isAntiAlias = true
+        mPaint.color = RED_COLOR
+        mPaint.strokeWidth = 2f
+        mPaint.style = Paint.Style.STROKE
+        mPaintKeyframes = Paint()
+        mPaintKeyframes.isAntiAlias = true
+        mPaintKeyframes.color = KEYFRAME_COLOR
+        mPaintKeyframes.strokeWidth = 2f
+        mPaintKeyframes.style = Paint.Style.STROKE
+        mPaintGraph = Paint()
+        mPaintGraph.isAntiAlias = true
+        mPaintGraph.color = GRAPH_COLOR
+        mPaintGraph.strokeWidth = 2f
+        mPaintGraph.style = Paint.Style.STROKE
+        mTextPaint = Paint()
+        mTextPaint.isAntiAlias = true
+        mTextPaint.color = GRAPH_COLOR
+        mTextPaint.textSize = textSize
+        mRectangle = FloatArray(8)
+        mFillPaint = Paint()
+        mFillPaint.isAntiAlias = true
+        mDashPathEffect = DashPathEffect(floatArrayOf(4f, 8f), 0f)
+        mPaintGraph.pathEffect = mDashPathEffect
+        mKeyFramePoints = FloatArray(MAX_KEY_FRAMES * 2)
+        mPathMode = IntArray(MAX_KEY_FRAMES)
+        if (mPresentationMode) {
+            mPaint.strokeWidth = 8f
+            mFillPaint.strokeWidth = 8f
+            mPaintKeyframes.strokeWidth = 8f
+            mShadowTranslate = 4
+        }
+    }
 }

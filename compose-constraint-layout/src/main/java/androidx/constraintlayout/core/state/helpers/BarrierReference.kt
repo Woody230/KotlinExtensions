@@ -13,70 +13,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state.helpers
 
-package androidx.constraintlayout.core.state.helpers;
+import androidx.constraintlayout.core.state.State.convertDimension
+import androidx.constraintlayout.core.widgets.Barrier.barrierType
+import androidx.constraintlayout.core.widgets.Barrier.margin
+import androidx.constraintlayout.core.state.HelperReference
+import androidx.constraintlayout.core.widgets.Barrier
+import androidx.constraintlayout.core.state.ConstraintReference
+import androidx.constraintlayout.core.state.State
+import androidx.constraintlayout.core.widgets.HelperWidget
 
-import androidx.constraintlayout.core.state.ConstraintReference;
-import androidx.constraintlayout.core.widgets.Barrier;
-import androidx.constraintlayout.core.widgets.HelperWidget;
-import androidx.constraintlayout.core.state.HelperReference;
-import androidx.constraintlayout.core.state.State;
-
-public class BarrierReference extends HelperReference
-{
-
-    private State.Direction mDirection;
-    private int mMargin;
-    private Barrier mBarrierWidget;
-
-    public BarrierReference(State state) {
-        super(state, State.Helper.BARRIER);
+class BarrierReference(state: State?) : HelperReference(state!!, State.Helper.BARRIER) {
+    private var mDirection: State.Direction? = null
+    private var mMargin = 0
+    private var mBarrierWidget: Barrier? = null
+    fun setBarrierDirection(barrierDirection: State.Direction?) {
+        mDirection = barrierDirection
     }
 
-    public void setBarrierDirection(State.Direction barrierDirection) {
-        mDirection = barrierDirection;
+    override fun margin(value: Any): ConstraintReference {
+        margin(mState.convertDimension(value))
+        return this
     }
 
-    @Override
-    public ConstraintReference margin(Object value) {
-        margin(mState.convertDimension(value));
-        return this;
+    override fun margin(value: Int): ConstraintReference {
+        mMargin = value
+        return this
     }
 
-    public ConstraintReference margin(int value) {
-        mMargin = value;
-        return this;
-    }
-
-    @Override
-    public HelperWidget getHelperWidget() {
-        if (mBarrierWidget == null) {
-            mBarrierWidget = new Barrier();
+    override var helperWidget: HelperWidget
+        get() {
+            if (mBarrierWidget == null) {
+                mBarrierWidget = Barrier()
+            }
+            return mBarrierWidget!!
         }
-        return mBarrierWidget;
-    }
+        set(helperWidget) {
+            super.helperWidget = helperWidget
+        }
 
-    public void apply() {
-        getHelperWidget();
-        int direction = Barrier.LEFT;
-        switch (mDirection) {
-            case LEFT:
-            case START: {
+    override fun apply() {
+        helperWidget
+        var direction = Barrier.LEFT
+        when (mDirection) {
+            State.Direction.LEFT, State.Direction.START -> {}
+            State.Direction.RIGHT, State.Direction.END -> {
+
                 // TODO: handle RTL
-            } break;
-            case RIGHT:
-            case END: {
-                // TODO: handle RTL
-                direction = Barrier.RIGHT;
-            } break;
-            case TOP: {
-                direction = Barrier.TOP;
-            } break;
-            case BOTTOM: {
-                direction = Barrier.BOTTOM;
+                direction = Barrier.RIGHT
+            }
+            State.Direction.TOP -> {
+                direction = Barrier.TOP
+            }
+            State.Direction.BOTTOM -> {
+                direction = Barrier.BOTTOM
             }
         }
-        mBarrierWidget.setBarrierType(direction);
-        mBarrierWidget.setMargin(mMargin);
+        mBarrierWidget!!.barrierType = direction
+        mBarrierWidget!!.margin = mMargin
     }
 }

@@ -13,52 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.key;
+package androidx.constraintlayout.core.motion.key
 
-import androidx.constraintlayout.core.motion.CustomVariable;
-import androidx.constraintlayout.core.motion.utils.SplineSet;
-import androidx.constraintlayout.core.motion.utils.TypedValues;
-
-import java.util.HashMap;
-import java.util.HashSet;
+import androidx.constraintlayout.core.motion.utils.TypedValues
+import androidx.constraintlayout.core.motion.CustomVariable
+import androidx.constraintlayout.core.motion.utils.SplineSet
 
 /**
  * Base class in an element in a KeyFrame
  *
  * @suppress
  */
-
-public abstract class MotionKey implements TypedValues
-{
-    public static int UNSET = -1;
-    public int mFramePosition = UNSET;
-    int mTargetId = UNSET;
-    String mTargetString = null;
-    public int mType;
-    public HashMap<String, CustomVariable> mCustom;
-
-    public abstract void getAttributeNames(HashSet<String> attributes);
-
-    public static final String ALPHA = "alpha";
-    public static final String ELEVATION = "elevation";
-    public static final String ROTATION = "rotationZ";
-    public static final String ROTATION_X = "rotationX";
-
-    public static final String TRANSITION_PATH_ROTATE = "transitionPathRotate";
-    public static final String SCALE_X = "scaleX";
-    public static final String SCALE_Y = "scaleY";
-
-
-    public static final String TRANSLATION_X = "translationX";
-    public static final String TRANSLATION_Y = "translationY";
-
-    public static final String CUSTOM = "CUSTOM";
-
-    public static final String VISIBILITY = "visibility";
-
-    boolean matches(String constraintTag) {
-        if (mTargetString == null || constraintTag == null) return false;
-        return constraintTag.matches(mTargetString);
+abstract class MotionKey : TypedValues {
+    /**
+     * Gets the current frame position
+     *
+     * @return
+     */
+    /**
+     * sets the frame position
+     *
+     * @param pos
+     */
+    var framePosition = UNSET
+    var mTargetId = UNSET
+    var mTargetString: String? = null
+    @JvmField
+    var mType = 0
+    @JvmField
+    var mCustom: HashMap<String, CustomVariable>? = null
+    abstract fun getAttributeNames(attributes: HashSet<String>)
+    fun matches(constraintTag: String?): Boolean {
+        return if (mTargetString == null || constraintTag == null) false else constraintTag.matches(Regex(mTargetString ?: ""))
     }
 
     /**
@@ -68,7 +54,7 @@ public abstract class MotionKey implements TypedValues
      * @param splines splines to write values to
      * @suppress
      */
-    public abstract void addValues(HashMap<String, SplineSet> splines);
+    abstract fun addValues(splines: HashMap<String, SplineSet?>)
 
     /**
      * Return the float given a value. If the value is a "Float" object it is casted
@@ -77,8 +63,8 @@ public abstract class MotionKey implements TypedValues
      * @return
      * @suppress
      */
-    float toFloat(Object value) {
-        return (value instanceof Float) ? (Float) value : Float.parseFloat(value.toString());
+    fun toFloat(value: Any): Float {
+        return if (value is Float) value else value.toString().toFloat()
     }
 
     /**
@@ -88,8 +74,8 @@ public abstract class MotionKey implements TypedValues
      * @return
      * @suppress
      */
-    int toInt(Object value) {
-        return (value instanceof Integer) ? (Integer) value : Integer.parseInt(value.toString());
+    fun toInt(value: Any): Int {
+        return if (value is Int) value else value.toString().toInt()
     }
 
     /**
@@ -99,8 +85,8 @@ public abstract class MotionKey implements TypedValues
      * @return
      * @suppress
      */
-    boolean toBoolean(Object value) {
-        return (value instanceof Boolean) ? (Boolean) value : Boolean.parseBoolean(value.toString());
+    fun toBoolean(value: Any): Boolean {
+        return if (value is Boolean) value else java.lang.Boolean.parseBoolean(value.toString())
     }
 
     /**
@@ -109,82 +95,78 @@ public abstract class MotionKey implements TypedValues
      *
      * @param interpolation
      */
-    public void setInterpolation(HashMap<String, Integer> interpolation) {
+    open fun setInterpolation(interpolation: HashMap<String?, Int?>) {}
+    open fun copy(src: MotionKey): MotionKey {
+        framePosition = src.framePosition
+        mTargetId = src.mTargetId
+        mTargetString = src.mTargetString
+        mType = src.mType
+        return this
     }
 
-    public MotionKey copy(MotionKey src) {
-        mFramePosition = src.mFramePosition;
-        mTargetId = src.mTargetId;
-        mTargetString = src.mTargetString;
-        mType = src.mType;
-        return this;
+    abstract fun clone(): MotionKey?
+    fun setViewId(id: Int): MotionKey {
+        mTargetId = id
+        return this
     }
 
-    abstract public MotionKey clone();
-
-    public MotionKey setViewId(int id) {
-        mTargetId = id;
-        return this;
-    }
-
-    /**
-     * sets the frame position
-     *
-     * @param pos
-     */
-    public void setFramePosition(int pos) {
-        mFramePosition = pos;
-    }
-
-    /**
-     * Gets the current frame position
-     *
-     * @return
-     */
-    public int getFramePosition() {
-        return mFramePosition;
-    }
-
-    public boolean setValue(int type, int value) {
-
-        switch (type) {
-            case TypedValues.TYPE_FRAME_POSITION:
-                mFramePosition = value;
-                return true;
+    override fun setValue(type: Int, value: Int): Boolean {
+        when (type) {
+            TypedValues.TYPE_FRAME_POSITION -> {
+                framePosition = value
+                return true
+            }
         }
-        return false;
+        return false
     }
 
-    public boolean setValue(int type, float value) {
-        return false;
+    override fun setValue(type: Int, value: Float): Boolean {
+        return false
     }
 
-    public boolean setValue(int type, String value) {
-        switch (type) {
-            case TypedValues.TYPE_TARGET:
-                mTargetString = value;
-                return true;
+    override fun setValue(type: Int, value: String?): Boolean {
+        when (type) {
+            TypedValues.TYPE_TARGET -> {
+                mTargetString = value
+                return true
+            }
         }
-        return false;
+        return false
     }
 
-    public boolean setValue(int type, boolean value) {
-        return false;
+    override fun setValue(type: Int, value: Boolean): Boolean {
+        return false
     }
 
-    public void setCustomAttribute(String name, int type, float value) {
-        mCustom.put(name, new CustomVariable(name, type, value));
+    fun setCustomAttribute(name: String, type: Int, value: Float) {
+        mCustom!![name] = CustomVariable(name, type, value)
     }
 
-    public void setCustomAttribute(String name, int type, int value) {
-        mCustom.put(name, new CustomVariable(name, type, value));
+    fun setCustomAttribute(name: String, type: Int, value: Int) {
+        mCustom!![name] = CustomVariable(name, type, value)
     }
 
-    public void setCustomAttribute(String name, int type, boolean value) {
-        mCustom.put(name, new CustomVariable(name, type, value));
+    fun setCustomAttribute(name: String, type: Int, value: Boolean) {
+        mCustom!![name] = CustomVariable(name, type, value)
     }
 
-    public void setCustomAttribute(String name, int type, String value) {
-        mCustom.put(name, new CustomVariable(name, type, value));
+    fun setCustomAttribute(name: String, type: Int, value: String?) {
+        mCustom!![name] = CustomVariable(name, type, value)
+    }
+
+    companion object {
+        @JvmField
+        var UNSET = -1
+        const val ALPHA = "alpha"
+        const val ELEVATION = "elevation"
+        const val ROTATION = "rotationZ"
+        const val ROTATION_X = "rotationX"
+        const val TRANSITION_PATH_ROTATE = "transitionPathRotate"
+        const val SCALE_X = "scaleX"
+        const val SCALE_Y = "scaleY"
+        const val TRANSLATION_X = "translationX"
+        const val TRANSLATION_Y = "translationY"
+        const val CUSTOM = "CUSTOM"
+        const val VISIBILITY = "visibility"
     }
 }

@@ -13,179 +13,162 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
-
-import java.util.Arrays;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * This generates variable frequency oscillation curves
  *
  * @suppress
  */
-public class Oscillator {
-    public static String TAG = "Oscillator";
-    float[] mPeriod = {};
-    double[] mPosition = {};
-    double[] mArea;
-    public static final int SIN_WAVE = 0; // theses must line up with attributes
-    public static final int SQUARE_WAVE = 1;
-    public static final int TRIANGLE_WAVE = 2;
-    public static final int SAW_WAVE = 3;
-    public static final int REVERSE_SAW_WAVE = 4;
-    public static final int COS_WAVE = 5;
-    public static final int BOUNCE = 6;
-    public static final int CUSTOM = 7;
-    String mCustomType;
-    MonotonicCurveFit mCustomCurve;
-    int mType;
-    double PI2 = Math.PI * 2;
-    private boolean mNormalized = false;
-
-    public Oscillator() {
+class Oscillator constructor() {
+    var mPeriod: FloatArray = floatArrayOf()
+    var mPosition: DoubleArray = doubleArrayOf()
+    var mArea: DoubleArray = doubleArrayOf()
+    var mCustomType: String? = null
+    var mCustomCurve: MonotonicCurveFit? = null
+    var mType: Int = 0
+    var PI2: Double = Math.PI * 2
+    private var mNormalized: Boolean = false
+    public override fun toString(): String {
+        return ""//"pos =" + Arrays.toString(mPosition) + " period=" + Arrays.toString(mPeriod)
     }
 
-    @Override
-    public String toString() {
-        return "pos =" + Arrays.toString(mPosition) + " period=" + Arrays.toString(mPeriod);
-    }
-
-    public void setType(int type, String customType) {
-        mType = type;
-        mCustomType = customType;
+    fun setType(type: Int, customType: String?) {
+        mType = type
+        mCustomType = customType
         if (mCustomType != null) {
-            mCustomCurve = MonotonicCurveFit.buildWave(customType);
+            mCustomCurve = MonotonicCurveFit.Companion.buildWave(customType)
         }
     }
 
-    public void addPoint(double position, float period) {
-        int len = mPeriod.length + 1;
-        int j = Arrays.binarySearch(mPosition, position);
+    fun addPoint(position: Double, period: Float) {
+        val len: Int = mPeriod.size + 1
+        var j: Int = mPosition.binarySearch(position)
         if (j < 0) {
-            j = -j - 1;
+            j = -j - 1
         }
-        mPosition = Arrays.copyOf(mPosition, len);
-        mPeriod = Arrays.copyOf(mPeriod, len);
-        mArea = new double[len];
-        System.arraycopy(mPosition, j, mPosition, j + 1, len - j - 1);
-        mPosition[j] = position;
-        mPeriod[j] = period;
-        mNormalized = false;
+        mPosition = mPosition.copyOf(len)
+        mPeriod = mPeriod.copyOf(len)
+        mArea = DoubleArray(len)
+        System.arraycopy(mPosition, j, mPosition, j + 1, len - j - 1)
+        mPosition[j] = position
+        mPeriod[j] = period
+        mNormalized = false
     }
 
     /**
      * After adding point every thing must be normalized
      */
-    public void normalize() {
-        double totalArea = 0;
-        double totalCount = 0;
-        for (int i = 0; i < mPeriod.length; i++) {
-            totalCount += mPeriod[i];
+    fun normalize() {
+        var totalArea: Double = 0.0
+        var totalCount: Double = 0.0
+        for (i in mPeriod.indices) {
+            totalCount += mPeriod.get(i)
         }
-        for (int i = 1; i < mPeriod.length; i++) {
-            float h = (mPeriod[i - 1] + mPeriod[i]) / 2;
-            double w = mPosition[i] - mPosition[i - 1];
-            totalArea = totalArea + w * h;
+        for (i in 1 until mPeriod.size) {
+            val h: Float = (mPeriod.get(i - 1) + mPeriod.get(i)) / 2
+            val w: Double = mPosition.get(i) - mPosition.get(i - 1)
+            totalArea = totalArea + w * h
         }
         // scale periods to normalize it
-        for (int i = 0; i < mPeriod.length; i++) {
-            mPeriod[i] *= totalCount / totalArea;
+        for (i in mPeriod.indices) {
+            mPeriod[i] = (mPeriod[i] * totalCount / totalArea).toFloat()
         }
-        mArea[0] = 0;
-        for (int i = 1; i < mPeriod.length; i++) {
-            float h = (mPeriod[i - 1] + mPeriod[i]) / 2;
-            double w = mPosition[i] - mPosition[i - 1];
-            mArea[i] = mArea[i - 1] + w * h;
+        mArea[0] = 0.0
+        for (i in 1 until mPeriod.size) {
+            val h: Float = (mPeriod.get(i - 1) + mPeriod.get(i)) / 2
+            val w: Double = mPosition.get(i) - mPosition.get(i - 1)
+            mArea[i] = mArea.get(i - 1) + w * h
         }
-        mNormalized = true;
+        mNormalized = true
     }
 
-    double getP(double time) {
+    fun getP(time: Double): Double {
+        var time: Double = time
         if (time < 0) {
-            time = 0;
+            time = 0.0
         } else if (time > 1) {
-            time = 1;
+            time = 1.0
         }
-        int index = Arrays.binarySearch(mPosition, time);
-        double p = 0;
+        var index: Int = mPosition.binarySearch(time)
+        var p: Double = 0.0
         if (index > 0) {
-            p = 1;
+            p = 1.0
         } else if (index != 0) {
-            index = -index - 1;
-            double t = time;
-            double m = (mPeriod[index] - mPeriod[index - 1]) / (mPosition[index] - mPosition[index - 1]);
-            p = mArea[index - 1]
-                    + (mPeriod[index - 1] - m * mPosition[index - 1]) * (t - mPosition[index - 1])
-                    + m * (t * t - mPosition[index - 1] * mPosition[index - 1]) / 2;
+            index = -index - 1
+            val t: Double = time
+            val m: Double = (mPeriod.get(index) - mPeriod.get(index - 1)) / (mPosition.get(index) - mPosition.get(index - 1))
+            p = (mArea.get(index - 1)
+                    + ((mPeriod.get(index - 1) - m * mPosition.get(index - 1)) * (t - mPosition.get(index - 1))
+                    ) + (m * (t * t - mPosition.get(index - 1) * mPosition.get(index - 1)) / 2))
         }
-        return p;
+        return p
     }
 
-    public double getValue(double time, double phase) {
-        double angle = phase + getP(time); // angle is / by 360
-        switch (mType) {
-            default:
-            case SIN_WAVE:
-                return Math.sin(PI2 * (angle));
-            case SQUARE_WAVE:
-                return Math.signum(0.5 - angle % 1);
-            case TRIANGLE_WAVE:
-                return 1 - Math.abs(((angle) * 4 + 1) % 4 - 2);
-            case SAW_WAVE:
-                return ((angle * 2 + 1) % 2) - 1;
-            case REVERSE_SAW_WAVE:
-                return (1 - ((angle * 2 + 1) % 2));
-            case COS_WAVE:
-                return Math.cos(PI2 * (phase + angle));
-            case BOUNCE:
-                double x = 1 - Math.abs(((angle) * 4) % 4 - 2);
-                return 1 - x * x;
-            case CUSTOM:
-                return mCustomCurve.getPos(angle % 1, 0);
+    fun getValue(time: Double, phase: Double): Double {
+        val angle: Double = phase + getP(time) // angle is / by 360
+        when (mType) {
+            SIN_WAVE -> return Math.sin(PI2 * (angle))
+            SQUARE_WAVE -> return Math.signum(0.5 - angle % 1)
+            TRIANGLE_WAVE -> return 1 - Math.abs(((angle) * 4 + 1) % 4 - 2)
+            SAW_WAVE -> return ((angle * 2 + 1) % 2) - 1
+            REVERSE_SAW_WAVE -> return (1 - ((angle * 2 + 1) % 2))
+            COS_WAVE -> return Math.cos(PI2 * (phase + angle))
+            BOUNCE -> {
+                val x: Double = 1 - Math.abs(((angle) * 4) % 4 - 2)
+                return 1 - x * x
+            }
+            CUSTOM -> return mCustomCurve!!.getPos(angle % 1, 0)
+            else -> return Math.sin(PI2 * (angle))
         }
     }
 
-    double getDP(double time) {
+    fun getDP(time: Double): Double {
+        var time: Double = time
         if (time <= 0) {
-            time = 0.00001;
+            time = 0.00001
         } else if (time >= 1) {
-            time = .999999;
+            time = .999999
         }
-        int index = Arrays.binarySearch(mPosition, time);
-        double p = 0;
+        var index: Int = mPosition.binarySearch(time)
+        var p: Double = 0.0
         if (index > 0) {
-            return 0;
+            return 0.0
         }
         if (index != 0) {
-            index = -index - 1;
-            double t = time;
-            double m = (mPeriod[index] - mPeriod[index - 1]) / (mPosition[index] - mPosition[index - 1]);
-            p = m * t + (mPeriod[index - 1] - m * mPosition[index - 1]);
+            index = -index - 1
+            val t: Double = time
+            val m: Double = (mPeriod.get(index) - mPeriod.get(index - 1)) / (mPosition.get(index) - mPosition.get(index - 1))
+            p = m * t + (mPeriod.get(index - 1) - m * mPosition.get(index - 1))
         }
-        return p;
+        return p
     }
 
-    public double getSlope(double time, double phase, double dphase) {
-        double angle = phase + getP(time);
-
-        double dangle_dtime = getDP(time) + dphase;
-        switch (mType) {
-            default:
-            case SIN_WAVE:
-                return PI2 * dangle_dtime * Math.cos(PI2 * angle);
-            case SQUARE_WAVE:
-                return 0;
-            case TRIANGLE_WAVE:
-                return 4 * dangle_dtime * Math.signum(((angle) * 4 + 3) % 4 - 2);
-            case SAW_WAVE:
-                return dangle_dtime * 2;
-            case REVERSE_SAW_WAVE:
-                return -dangle_dtime * 2;
-            case COS_WAVE:
-                return -PI2 * dangle_dtime * Math.sin(PI2 * angle);
-            case BOUNCE:
-                return 4 * dangle_dtime * (((angle) * 4 + 2) % 4 - 2);
-            case CUSTOM:
-                return mCustomCurve.getSlope(angle % 1, 0);
+    fun getSlope(time: Double, phase: Double, dphase: Double): Double {
+        val angle: Double = phase + getP(time)
+        val dangle_dtime: Double = getDP(time) + dphase
+        when (mType) {
+            SIN_WAVE -> return PI2 * dangle_dtime * Math.cos(PI2 * angle)
+            SQUARE_WAVE -> return 0.0
+            TRIANGLE_WAVE -> return 4 * dangle_dtime * Math.signum(((angle) * 4 + 3) % 4 - 2)
+            SAW_WAVE -> return dangle_dtime * 2
+            REVERSE_SAW_WAVE -> return -dangle_dtime * 2
+            COS_WAVE -> return -PI2 * dangle_dtime * Math.sin(PI2 * angle)
+            BOUNCE -> return 4 * dangle_dtime * (((angle) * 4 + 2) % 4 - 2)
+            CUSTOM -> return mCustomCurve!!.getSlope(angle % 1, 0)
+            else -> return PI2 * dangle_dtime * Math.cos(PI2 * angle)
         }
+    }
+
+    companion object {
+        var TAG: String = "Oscillator"
+        val SIN_WAVE: Int = 0 // theses must line up with attributes
+        val SQUARE_WAVE: Int = 1
+        val TRIANGLE_WAVE: Int = 2
+        val SAW_WAVE: Int = 3
+        val REVERSE_SAW_WAVE: Int = 4
+        val COS_WAVE: Int = 5
+        val BOUNCE: Int = 6
+        val CUSTOM: Int = 7
     }
 }

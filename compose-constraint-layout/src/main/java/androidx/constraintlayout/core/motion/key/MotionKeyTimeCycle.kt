@@ -13,292 +13,212 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.key;
+package androidx.constraintlayout.core.motion.key
 
-import androidx.constraintlayout.core.motion.CustomVariable;
-import androidx.constraintlayout.core.motion.utils.Oscillator;
-import androidx.constraintlayout.core.motion.utils.SplineSet;
-import androidx.constraintlayout.core.motion.utils.TimeCycleSplineSet;
-import androidx.constraintlayout.core.motion.utils.TypedValues;
-import androidx.constraintlayout.core.motion.utils.Utils;
+import androidx.constraintlayout.core.motion.utils.TimeCycleSplineSet.CustomVarSet
+import androidx.constraintlayout.core.motion.utils.*
+import androidx.constraintlayout.core.motion.utils.TypedValues.*
 
-import java.util.HashMap;
-import java.util.HashSet;
-
-public class MotionKeyTimeCycle extends MotionKey {
-    static final String NAME = "KeyTimeCycle";
-    private static final String TAG = NAME;
-
-    private String mTransitionEasing;
-    private int mCurveFit = -1;
-    private float mAlpha = Float.NaN;
-    private float mElevation = Float.NaN;
-    private float mRotation = Float.NaN;
-    private float mRotationX = Float.NaN;
-    private float mRotationY = Float.NaN;
-    private float mTransitionPathRotate = Float.NaN;
-    private float mScaleX = Float.NaN;
-    private float mScaleY = Float.NaN;
-    private float mTranslationX = Float.NaN;
-    private float mTranslationY = Float.NaN;
-    private float mTranslationZ = Float.NaN;
-    private float mProgress = Float.NaN;
-    private int mWaveShape = 0;
-    private String mCustomWaveShape = null; // TODO add support of custom wave shapes in KeyTimeCycle
-    private float mWavePeriod = Float.NaN;
-    private float mWaveOffset = 0;
-    public static final int KEY_TYPE = 3;
-
-    {
-        mType = KEY_TYPE;
-        mCustom = new HashMap<>();
-    }
-
-    public void addTimeValues(HashMap<String, TimeCycleSplineSet> splines) {
-        for (String s : splines.keySet()) {
-            TimeCycleSplineSet splineSet = splines.get(s);
-            if (splineSet == null) {
-                continue;
-            }
-            if (s.startsWith(CUSTOM)) {
-                String cKey = s.substring(CUSTOM.length() + 1);
-                CustomVariable cValue = mCustom.get(cKey);
+class MotionKeyTimeCycle : MotionKey() {
+    private var mTransitionEasing: String? = null
+    private var mCurveFit = -1
+    private var mAlpha = Float.NaN
+    private var mElevation = Float.NaN
+    private var mRotation = Float.NaN
+    private var mRotationX = Float.NaN
+    private var mRotationY = Float.NaN
+    private var mTransitionPathRotate = Float.NaN
+    private var mScaleX = Float.NaN
+    private var mScaleY = Float.NaN
+    private var mTranslationX = Float.NaN
+    private var mTranslationY = Float.NaN
+    private var mTranslationZ = Float.NaN
+    private var mProgress = Float.NaN
+    private var mWaveShape = 0
+    private var mCustomWaveShape: String? = null // TODO add support of custom wave shapes in KeyTimeCycle
+    private var mWavePeriod = Float.NaN
+    private var mWaveOffset = 0f
+    fun addTimeValues(splines: HashMap<String, TimeCycleSplineSet?>) {
+        for (s in splines.keys) {
+            val splineSet = splines[s] ?: continue
+            if (s.startsWith(MotionKey.Companion.CUSTOM)) {
+                val cKey: String = s.substring(MotionKey.Companion.CUSTOM.length + 1)
+                val cValue = mCustom!![cKey]
                 if (cValue != null) {
-                    ((TimeCycleSplineSet.CustomVarSet) splineSet).setPoint(mFramePosition, cValue, mWavePeriod, mWaveShape, mWaveOffset);
+                    (splineSet as CustomVarSet).setPoint(framePosition, cValue, mWavePeriod, mWaveShape, mWaveOffset)
                 }
-                continue;
+                continue
             }
-            switch (s) {
-                case AttributesType.S_ALPHA:
-                    if (!Float.isNaN(mAlpha)) {
-                        splineSet.setPoint(mFramePosition, mAlpha, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-
-                case AttributesType.S_ROTATION_X:
-                    if (!Float.isNaN(mRotationX)) {
-                        splineSet.setPoint(mFramePosition, mRotationX, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_ROTATION_Y:
-                    if (!Float.isNaN(mRotationY)) {
-                        splineSet.setPoint(mFramePosition, mRotationY, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_ROTATION_Z:
-                    if (!Float.isNaN(mRotation)) {
-                        splineSet.setPoint(mFramePosition, mRotation, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_PATH_ROTATE:
-                    if (!Float.isNaN(mTransitionPathRotate)) {
-                        splineSet.setPoint(mFramePosition, mTransitionPathRotate, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-
-                case AttributesType.S_SCALE_X:
-                    if (!Float.isNaN(mScaleX)) {
-                        splineSet.setPoint(mFramePosition, mScaleX, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_SCALE_Y:
-                    if (!Float.isNaN(mScaleY)) {
-                        splineSet.setPoint(mFramePosition, mScaleY, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_TRANSLATION_X:
-                    if (!Float.isNaN(mTranslationX)) {
-                        splineSet.setPoint(mFramePosition, mTranslationX, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_TRANSLATION_Y:
-                    if (!Float.isNaN(mTranslationY)) {
-                        splineSet.setPoint(mFramePosition, mTranslationY, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_TRANSLATION_Z:
-                    if (!Float.isNaN(mTranslationZ)) {
-                        splineSet.setPoint(mFramePosition, mTranslationZ, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_ELEVATION:
-                    if (!Float.isNaN(mTranslationZ)) {
-                        splineSet.setPoint(mFramePosition, mTranslationZ, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                case AttributesType.S_PROGRESS:
-                    if (!Float.isNaN(mProgress)) {
-                        splineSet.setPoint(mFramePosition, mProgress, mWavePeriod, mWaveShape, mWaveOffset);
-                    }
-                    break;
-                default:
-                    Utils.loge("KeyTimeCycles", "UNKNOWN addValues \"" + s + "\"");
+            when (s) {
+                AttributesType.S_ALPHA -> if (!java.lang.Float.isNaN(mAlpha)) {
+                    splineSet.setPoint(framePosition, mAlpha, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_ROTATION_X -> if (!java.lang.Float.isNaN(mRotationX)) {
+                    splineSet.setPoint(framePosition, mRotationX, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_ROTATION_Y -> if (!java.lang.Float.isNaN(mRotationY)) {
+                    splineSet.setPoint(framePosition, mRotationY, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_ROTATION_Z -> if (!java.lang.Float.isNaN(mRotation)) {
+                    splineSet.setPoint(framePosition, mRotation, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_PATH_ROTATE -> if (!java.lang.Float.isNaN(mTransitionPathRotate)) {
+                    splineSet.setPoint(framePosition, mTransitionPathRotate, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_SCALE_X -> if (!java.lang.Float.isNaN(mScaleX)) {
+                    splineSet.setPoint(framePosition, mScaleX, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_SCALE_Y -> if (!java.lang.Float.isNaN(mScaleY)) {
+                    splineSet.setPoint(framePosition, mScaleY, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_TRANSLATION_X -> if (!java.lang.Float.isNaN(mTranslationX)) {
+                    splineSet.setPoint(framePosition, mTranslationX, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_TRANSLATION_Y -> if (!java.lang.Float.isNaN(mTranslationY)) {
+                    splineSet.setPoint(framePosition, mTranslationY, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_TRANSLATION_Z -> if (!java.lang.Float.isNaN(mTranslationZ)) {
+                    splineSet.setPoint(framePosition, mTranslationZ, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_ELEVATION -> if (!java.lang.Float.isNaN(mTranslationZ)) {
+                    splineSet.setPoint(framePosition, mTranslationZ, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                AttributesType.S_PROGRESS -> if (!java.lang.Float.isNaN(mProgress)) {
+                    splineSet.setPoint(framePosition, mProgress, mWavePeriod, mWaveShape, mWaveOffset)
+                }
+                else -> Utils.loge("KeyTimeCycles", "UNKNOWN addValues \"$s\"")
             }
         }
     }
 
-    @Override
-    public void addValues(HashMap<String, SplineSet> splines) {
+    override fun addValues(splines: HashMap<String, SplineSet?>) {}
+    override fun setValue(type: Int, value: Int): Boolean {
+        when (type) {
+            TYPE_FRAME_POSITION -> framePosition = value
+            CycleType.TYPE_WAVE_SHAPE -> mWaveShape = value
+            else -> return super.setValue(type, value)
+        }
+        return true
     }
 
-    public boolean setValue(int type, int value) {
-
-        switch (type) {
-            case TypedValues.TYPE_FRAME_POSITION:
-                mFramePosition = value;
-                break;
-            case CycleType.TYPE_WAVE_SHAPE:
-                mWaveShape = value;
-                break;
-            default:
-                return super.setValue(type, value);
+    override fun setValue(type: Int, value: Float): Boolean {
+        when (type) {
+            CycleType.TYPE_ALPHA -> mAlpha = value
+            CycleType.TYPE_CURVE_FIT -> mCurveFit = toInt(value)
+            CycleType.TYPE_ELEVATION -> mElevation = toFloat(value)
+            CycleType.TYPE_PROGRESS -> mProgress = toFloat(value)
+            CycleType.TYPE_ROTATION_Z -> mRotation = toFloat(value)
+            CycleType.TYPE_ROTATION_X -> mRotationX = toFloat(value)
+            CycleType.TYPE_ROTATION_Y -> mRotationY = toFloat(value)
+            CycleType.TYPE_SCALE_X -> mScaleX = toFloat(value)
+            CycleType.TYPE_SCALE_Y -> mScaleY = toFloat(value)
+            CycleType.TYPE_PATH_ROTATE -> mTransitionPathRotate = toFloat(value)
+            CycleType.TYPE_TRANSLATION_X -> mTranslationX = toFloat(value)
+            CycleType.TYPE_TRANSLATION_Y -> mTranslationY = toFloat(value)
+            CycleType.TYPE_TRANSLATION_Z -> mTranslationZ = toFloat(value)
+            CycleType.TYPE_WAVE_PERIOD -> mWavePeriod = toFloat(value)
+            CycleType.TYPE_WAVE_OFFSET -> mWaveOffset = toFloat(value)
+            else -> return super.setValue(type, value)
         }
-        return true;
+        return true
     }
 
-    public boolean setValue(int type, float value) {
-        switch (type) {
-            case CycleType.TYPE_ALPHA:
-                mAlpha = value;
-                break;
-            case CycleType.TYPE_CURVE_FIT:
-                mCurveFit = toInt(value);
-                break;
-            case CycleType.TYPE_ELEVATION:
-                mElevation = toFloat(value);
-                break;
-            case CycleType.TYPE_PROGRESS:
-                mProgress = toFloat(value);
-                break;
-            case CycleType.TYPE_ROTATION_Z:
-                mRotation = toFloat(value);
-                break;
-            case CycleType.TYPE_ROTATION_X:
-                mRotationX = toFloat(value);
-                break;
-            case CycleType.TYPE_ROTATION_Y:
-                mRotationY = toFloat(value);
-                break;
-            case CycleType.TYPE_SCALE_X:
-                mScaleX = toFloat(value);
-                break;
-            case CycleType.TYPE_SCALE_Y:
-                mScaleY = toFloat(value);
-                break;
-            case CycleType.TYPE_PATH_ROTATE:
-                mTransitionPathRotate = toFloat(value);
-                break;
-            case CycleType.TYPE_TRANSLATION_X:
-                mTranslationX = toFloat(value);
-                break;
-            case CycleType.TYPE_TRANSLATION_Y:
-                mTranslationY = toFloat(value);
-                break;
-            case CycleType.TYPE_TRANSLATION_Z:
-                mTranslationZ = toFloat(value);
-                break;
-            case CycleType.TYPE_WAVE_PERIOD:
-                mWavePeriod = toFloat(value);
-                break;
-            case CycleType.TYPE_WAVE_OFFSET:
-                mWaveOffset = toFloat(value);
-                break;
-            default:
-                return super.setValue(type, value);
+    override fun setValue(type: Int, value: String): Boolean {
+        when (type) {
+            CycleType.TYPE_WAVE_SHAPE -> {
+                mWaveShape = Oscillator.CUSTOM
+                mCustomWaveShape = value
+            }
+            CycleType.TYPE_EASING -> mTransitionEasing = value
+            else -> return super.setValue(type, value)
         }
-        return true;
+        return true
     }
 
-    public boolean setValue(int type, String value) {
-        switch (type) {
-            case CycleType.TYPE_WAVE_SHAPE:
-                mWaveShape = Oscillator.CUSTOM;
-                mCustomWaveShape = value;
-                break;
-            case CycleType.TYPE_EASING:
-                mTransitionEasing = value;
-                break;
-            default:
-                return super.setValue(type, value);
-        }
-        return true;
+    override fun setValue(type: Int, value: Boolean): Boolean {
+        return super.setValue(type, value)
     }
 
-    public boolean setValue(int type, boolean value) {
-        return super.setValue(type, value);
+    override fun copy(src: MotionKey): MotionKeyTimeCycle {
+        super.copy(src)
+        val k = src as MotionKeyTimeCycle
+        mTransitionEasing = k.mTransitionEasing
+        mCurveFit = k.mCurveFit
+        mWaveShape = k.mWaveShape
+        mWavePeriod = k.mWavePeriod
+        mWaveOffset = k.mWaveOffset
+        mProgress = k.mProgress
+        mAlpha = k.mAlpha
+        mElevation = k.mElevation
+        mRotation = k.mRotation
+        mTransitionPathRotate = k.mTransitionPathRotate
+        mRotationX = k.mRotationX
+        mRotationY = k.mRotationY
+        mScaleX = k.mScaleX
+        mScaleY = k.mScaleY
+        mTranslationX = k.mTranslationX
+        mTranslationY = k.mTranslationY
+        mTranslationZ = k.mTranslationZ
+        return this
     }
 
-    public MotionKeyTimeCycle copy(MotionKey src) {
-        super.copy(src);
-        MotionKeyTimeCycle k = (MotionKeyTimeCycle) src;
-        mTransitionEasing = k.mTransitionEasing;
-        mCurveFit = k.mCurveFit;
-        mWaveShape = k.mWaveShape;
-        mWavePeriod = k.mWavePeriod;
-        mWaveOffset = k.mWaveOffset;
-        mProgress = k.mProgress;
-        mAlpha = k.mAlpha;
-        mElevation = k.mElevation;
-        mRotation = k.mRotation;
-        mTransitionPathRotate = k.mTransitionPathRotate;
-        mRotationX = k.mRotationX;
-        mRotationY = k.mRotationY;
-        mScaleX = k.mScaleX;
-        mScaleY = k.mScaleY;
-        mTranslationX = k.mTranslationX;
-        mTranslationY = k.mTranslationY;
-        mTranslationZ = k.mTranslationZ;
-        return this;
-    }
-
-    @Override
-    public void getAttributeNames(HashSet<String> attributes) {
-        if (!Float.isNaN(mAlpha)) {
-            attributes.add(CycleType.S_ALPHA);
+    override fun getAttributeNames(attributes: HashSet<String>) {
+        if (!java.lang.Float.isNaN(mAlpha)) {
+            attributes.add(CycleType.S_ALPHA)
         }
-        if (!Float.isNaN(mElevation)) {
-            attributes.add(CycleType.S_ELEVATION);
+        if (!java.lang.Float.isNaN(mElevation)) {
+            attributes.add(CycleType.S_ELEVATION)
         }
-        if (!Float.isNaN(mRotation)) {
-            attributes.add(CycleType.S_ROTATION_Z);
+        if (!java.lang.Float.isNaN(mRotation)) {
+            attributes.add(CycleType.S_ROTATION_Z)
         }
-        if (!Float.isNaN(mRotationX)) {
-            attributes.add(CycleType.S_ROTATION_X);
+        if (!java.lang.Float.isNaN(mRotationX)) {
+            attributes.add(CycleType.S_ROTATION_X)
         }
-        if (!Float.isNaN(mRotationY)) {
-            attributes.add(CycleType.S_ROTATION_Y);
+        if (!java.lang.Float.isNaN(mRotationY)) {
+            attributes.add(CycleType.S_ROTATION_Y)
         }
-        if (!Float.isNaN(mScaleX)) {
-            attributes.add(CycleType.S_SCALE_X);
+        if (!java.lang.Float.isNaN(mScaleX)) {
+            attributes.add(CycleType.S_SCALE_X)
         }
-        if (!Float.isNaN(mScaleY)) {
-            attributes.add(CycleType.S_SCALE_Y);
+        if (!java.lang.Float.isNaN(mScaleY)) {
+            attributes.add(CycleType.S_SCALE_Y)
         }
-        if (!Float.isNaN(mTransitionPathRotate)) {
-            attributes.add(CycleType.S_PATH_ROTATE);
+        if (!java.lang.Float.isNaN(mTransitionPathRotate)) {
+            attributes.add(CycleType.S_PATH_ROTATE)
         }
-        if (!Float.isNaN(mTranslationX)) {
-            attributes.add(CycleType.S_TRANSLATION_X);
+        if (!java.lang.Float.isNaN(mTranslationX)) {
+            attributes.add(CycleType.S_TRANSLATION_X)
         }
-        if (!Float.isNaN(mTranslationY)) {
-            attributes.add(CycleType.S_TRANSLATION_Y);
+        if (!java.lang.Float.isNaN(mTranslationY)) {
+            attributes.add(CycleType.S_TRANSLATION_Y)
         }
-        if (!Float.isNaN(mTranslationZ)) {
-            attributes.add(CycleType.S_TRANSLATION_Z);
+        if (!java.lang.Float.isNaN(mTranslationZ)) {
+            attributes.add(CycleType.S_TRANSLATION_Z)
         }
-        if (mCustom.size() > 0) {
-            for (String s : mCustom.keySet()) {
-                attributes.add(TypedValues.S_CUSTOM + "," + s);
+        if (mCustom!!.size > 0) {
+            for (s in mCustom!!.keys) {
+                attributes.add(S_CUSTOM + "," + s)
             }
         }
     }
 
-    public MotionKey clone() {
-        return new MotionKeyTimeCycle().copy(this);
+    override fun clone(): MotionKey? {
+        return MotionKeyTimeCycle().copy(this)
     }
 
-    @Override
-    public int getId(String name) {
-        return CycleType.getId(name);
+    override fun getId(name: String): Int {
+        return CycleType.getId(name)
+    }
+
+    companion object {
+        const val NAME = "KeyTimeCycle"
+        private const val TAG = NAME
+        const val KEY_TYPE = 3
+    }
+
+    init {
+        mType = KEY_TYPE
+        mCustom = HashMap()
     }
 }

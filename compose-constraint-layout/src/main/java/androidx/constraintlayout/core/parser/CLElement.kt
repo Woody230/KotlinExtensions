@@ -13,51 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLElement {
-
-    private final char[] mContent;
-    protected long start = -1;
-    protected long end = Long.MAX_VALUE;
-    protected CLContainer mContainer;
-    private int line;
-
-    protected static int MAX_LINE = 80; // Max number of characters before the formatter indents
-    protected static int BASE_INDENT = 2; // default indentation value
-
-    public CLElement(char[] content) {
-        mContent = content;
-    }
-
-    public boolean notStarted() {
-        return start == -1;
-    }
-
-    public void setLine(int line) {
-        this.line = line;
-    }
+open class CLElement(private val mContent: CharArray) {
+    /**
+     * The character index this element was started on
+     *
+     * @return
+     */
+    @JvmField
+    var start: Long = -1
+    protected var mEnd = Long.MAX_VALUE
+    protected var mContainer: CLContainer? = null
 
     /**
      * get the line Number
      *
      * @return return the line number this element was on
      */
-    public int getLine() {
-        return line;
-    }
-
-    public void setStart(long start) {
-        this.start = start;
-    }
-
-    /**
-     * The character index this element was started on
-     *
-     * @return
-     */
-    public long getStart() {
-        return this.start;
+    var line = 0
+    fun notStarted(): Boolean {
+        return start == -1L
     }
 
     /**
@@ -65,95 +41,88 @@ public class CLElement {
      *
      * @return
      */
-    public long getEnd() {
-        return this.end;
+    fun getEnd(): Long {
+        return mEnd
     }
 
-    public void setEnd(long end) {
-        if (this.end != Long.MAX_VALUE) {
-            return;
+    fun setEnd(end: Long) {
+        if (this.mEnd != Long.MAX_VALUE) {
+            return
         }
-        this.end = end;
+        this.mEnd = end
         if (CLParser.DEBUG) {
-            System.out.println("closing " + this.hashCode() + " -> " + this);
+            println("closing " + this.hashCode() + " -> " + this)
         }
         if (mContainer != null) {
-            mContainer.add(this);
+            mContainer!!.add(this)
         }
     }
 
-    protected void addIndent(StringBuilder builder, int indent) {
-        for (int i = 0; i < indent; i++) {
-            builder.append(' ');
+    protected fun addIndent(builder: StringBuilder, indent: Int) {
+        for (i in 0 until indent) {
+            builder.append(' ')
         }
     }
 
-    @Override
-    public String toString() {
-        if (start > end || end == Long.MAX_VALUE) {
-            return this.getClass() + " (INVALID, " + start + "-" + end + ")";
+    override fun toString(): String {
+        if (start > mEnd || mEnd == Long.MAX_VALUE) {
+            return this.javaClass.toString() + " (INVALID, " + start + "-" + mEnd + ")"
         }
-        String content = new String(mContent);
-        content = content.substring((int) start, (int) end + 1);
-
-        return getStrClass() + " (" + start + " : " + end + ") <<" + content + ">>";
+        var content = String(mContent)
+        content = content.substring(start.toInt(), mEnd.toInt() + 1)
+        return "$strClass ($start : $mEnd) <<$content>>"
     }
 
-    protected String getStrClass() {
-        String myClass = this.getClass().toString();
-        return myClass.substring(myClass.lastIndexOf('.') + 1);
-    }
-
-    protected String getDebugName() {
-        if (CLParser.DEBUG) {
-            return getStrClass() + " -> ";
+    val strClass: String
+        get() {
+            val myClass = this.javaClass.toString()
+            return myClass.substring(myClass.lastIndexOf('.') + 1)
         }
-        return "";
+    protected val debugName: String
+        protected get() = if (CLParser.DEBUG) {
+            "$strClass -> "
+        } else ""
+
+    fun content(): String {
+        val content = String(mContent)
+        return if (mEnd == Long.MAX_VALUE || mEnd < start) {
+            content.substring(start.toInt(), start.toInt() + 1)
+        } else content.substring(start.toInt(), mEnd.toInt() + 1)
     }
 
-    public String content() {
-        String content = new String(mContent);
-        if (end == Long.MAX_VALUE || end < start) {
-            return content.substring((int) start, (int) start + 1);
-        }
-        return content.substring((int) start, (int) end + 1);
+    val isDone: Boolean
+        get() = mEnd != Long.MAX_VALUE
+
+    fun setContainer(element: CLContainer?) {
+        mContainer = element
     }
 
-    public boolean isDone() {
-        return end != Long.MAX_VALUE;
+    val container: CLElement?
+        get() = mContainer
+    val isStarted: Boolean
+        get() = start > -1
+
+    open fun toJSON(): String? {
+        return ""
     }
 
-    public void setContainer(CLContainer element) {
-        mContainer = element;
+    open fun toFormattedJSON(indent: Int, forceIndent: Int): String? {
+        return ""
     }
 
-    public CLElement getContainer() {
-        return mContainer;
-    }
+    open val int: Int
+        get() = if (this is CLNumber) {
+            this.int
+        } else 0
+    open val float: Float
+        get() = if (this is CLNumber) {
+            this.float
+        } else Float.NaN
 
-    public boolean isStarted() {
-        return start > -1;
-    }
-
-    protected String toJSON() {
-        return "";
-    }
-
-    protected String toFormattedJSON(int indent, int forceIndent) {
-        return "";
-    }
-
-    public int getInt() {
-        if (this instanceof CLNumber) {
-            return ((CLNumber) this).getInt();
-        }
-        return 0;
-    }
-
-    public float getFloat() {
-        if (this instanceof CLNumber) {
-            return ((CLNumber) this).getFloat();
-        }
-        return Float.NaN;
+    companion object {
+        @JvmStatic
+        protected val MAX_LINE = 80 // Max number of characters before the formatter indents
+        @JvmStatic
+        protected val BASE_INDENT = 2 // default indentation value
     }
 }

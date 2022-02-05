@@ -13,49 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * Schlick’s bias and gain functions
  * curve for use in an easing function including quantize functions
  *
  */
-public class Schlick extends Easing {
-    private final static boolean DEBUG = false;
-    double mS, mT;
-    double eps;
+class Schlick internal constructor(configString: String) : Easing() {
+    var mS: Double
+    var mT: Double
+    var eps: Double = 0.0
+    private fun func(x: Double): Double {
+        if (x < mT) {
+            return mT * x / (x + mS * (mT - x))
+        }
+        return ((1 - mT) * (x - 1)) / (1 - x - (mS * (mT - x)))
+    }
 
-    Schlick(String configString) {
+    private fun dfunc(x: Double): Double {
+        if (x < mT) {
+            return (mS * mT * mT) / ((mS * (mT - x) + x) * (mS * (mT - x) + x))
+        }
+        return (mS * (mT - 1) * (mT - 1)) / ((-mS * (mT - x) - x + 1) * (-mS * (mT - x) - x + 1))
+    }
+
+    public override fun getDiff(x: Double): Double {
+        return dfunc(x)
+    }
+
+    public override fun get(x: Double): Double {
+        return func(x)
+    }
+
+    companion object {
+        private val DEBUG: Boolean = false
+    }
+
+    init {
         // done this way for efficiency
-
-        str = configString;
-        int start = configString.indexOf('(');
-        int off1 = configString.indexOf(',', start);
-        mS = Double.parseDouble(configString.substring(start + 1, off1).trim());
-        int off2 = configString.indexOf(',', off1 + 1);
-        mT = Double.parseDouble(configString.substring(off1 + 1, off2).trim());
-    }
-
-    private double func(double x) {
-        if (x < mT) {
-            return mT * x / (x + mS * (mT - x));
-        }
-        return ((1 - mT) * (x - 1)) / (1 - x - mS * (mT - x));
-    }
-
-    private double dfunc(double x) {
-        if (x < mT) {
-            return (mS * mT * mT) / ((mS * (mT - x) + x) * (mS * (mT - x) + x));
-        }
-        return (mS * (mT - 1) * (mT - 1)) / ((-mS * (mT - x) - x + 1) * (-mS * (mT - x) - x + 1));
-    }
-
-    public double getDiff(double x) {
-        return dfunc(x);
-    }
-
-    public double get(double x) {
-        return func(x);
+        str = configString
+        val start: Int = configString.indexOf('(')
+        val off1: Int = configString.indexOf(',', start)
+        mS = configString.substring(start + 1, off1).trim({ it <= ' ' }).toDouble()
+        val off2: Int = configString.indexOf(',', off1 + 1)
+        mT = configString.substring(off1 + 1, off2).trim({ it <= ' ' }).toDouble()
     }
 }

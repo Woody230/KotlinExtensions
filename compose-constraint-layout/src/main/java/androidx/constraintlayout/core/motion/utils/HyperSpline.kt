@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * Provides spline interpolation code.
@@ -23,180 +22,172 @@ package androidx.constraintlayout.core.motion.utils;
  *
  * @suppress
  */
-
-public class HyperSpline {
-    int mPoints;
-    Cubic[][] mCurve;
-    int mDimensionality;
-    double[] mCurveLength;
-    double mTotalLength;
-    double[][] mCtl;
+class HyperSpline {
+    var mPoints = 0
+    var mCurve: Array<Array<Cubic?>> = arrayOf()
+    var mDimensionality = 0
+    var mCurveLength: DoubleArray = doubleArrayOf()
+    var mTotalLength = 0.0
+    var mCtl: Array<DoubleArray> = arrayOf()
 
     /**
      * Spline in N dimensions
      *
      * @param points [mPoints][dimensionality]
      */
-    public HyperSpline(double[][] points) {
-        setup(points);
+    constructor(points: Array<DoubleArray>) {
+        setup(points)
     }
 
-    public HyperSpline() {
-    }
+    constructor() {}
 
-    public void setup(double[][] points) {
-        mDimensionality = points[0].length;
-        mPoints = points.length;
-        mCtl = new double[mDimensionality][mPoints];
-        mCurve = new Cubic[mDimensionality][];
-        for (int d = 0; d < mDimensionality; d++) {
-            for (int p = 0; p < mPoints; p++) {
-                mCtl[d][p] = points[p][d];
+    fun setup(points: Array<DoubleArray>) {
+        mDimensionality = points[0].count()
+        mPoints = points.size
+        mCtl = Array(mDimensionality) { DoubleArray(mPoints) }
+        mCurve = Array(mDimensionality) { arrayOf() }
+        for (d in 0 until mDimensionality) {
+            for (p in 0 until mPoints) {
+                mCtl[d][p] = points[p][d]
             }
         }
-
-        for (int d = 0; d < mDimensionality; d++) {
-            mCurve[d] = calcNaturalCubic(mCtl[d].length, mCtl[d]);
+        for (d in 0 until mDimensionality) {
+            mCurve[d] = calcNaturalCubic(mCtl[d].count(), mCtl[d])
         }
-
-        mCurveLength = new double[mPoints - 1];
-        mTotalLength = 0;
-        Cubic[] temp = new Cubic[mDimensionality];
-        for (int p = 0; p < mCurveLength.length; p++) {
-            for (int d = 0; d < mDimensionality; d++) {
-
-                temp[d] = mCurve[d][p];
-
+        mCurveLength = DoubleArray(mPoints - 1)
+        mTotalLength = 0.0
+        val temp = arrayOfNulls<Cubic>(mDimensionality)
+        for (p in mCurveLength.indices) {
+            for (d in 0 until mDimensionality) {
+                temp[d] = mCurve[d][p]
             }
-            mTotalLength += mCurveLength[p] = approxLength(temp);
+            mCurveLength[p] = approxLength(temp)
+            mTotalLength += mCurveLength[p]
         }
     }
 
-    public void getVelocity(double p, double[] v) {
-        double pos = p * mTotalLength;
-        double sum = 0;
-        int k = 0;
-        for (; k < mCurveLength.length - 1 && mCurveLength[k] < pos; k++) {
-            pos -= mCurveLength[k];
+    fun getVelocity(p: Double, v: DoubleArray) {
+        var pos = p * mTotalLength
+        val sum = 0.0
+        var k = 0
+        while (k < mCurveLength.size - 1 && mCurveLength[k] < pos) {
+            pos -= mCurveLength[k]
+            k++
         }
-        for (int i = 0; i < v.length; i++) {
-            v[i] = mCurve[i][k].vel(pos / mCurveLength[k]);
-        }
-    }
-
-    public void getPos(double p, double[] x) {
-        double pos = p * mTotalLength;
-        double sum = 0;
-        int k = 0;
-        for (; k < mCurveLength.length - 1 && mCurveLength[k] < pos; k++) {
-            pos -= mCurveLength[k];
-        }
-        for (int i = 0; i < x.length; i++) {
-            x[i] = mCurve[i][k].eval(pos / mCurveLength[k]);
+        for (i in v.indices) {
+            v[i] = mCurve[i][k]!!.vel(pos / mCurveLength[k])
         }
     }
 
-    public void getPos(double p, float[] x) {
-        double pos = p * mTotalLength;
-        double sum = 0;
-        int k = 0;
-        for (; k < mCurveLength.length - 1 && mCurveLength[k] < pos; k++) {
-            pos -= mCurveLength[k];
+    fun getPos(p: Double, x: DoubleArray) {
+        var pos = p * mTotalLength
+        val sum = 0.0
+        var k = 0
+        while (k < mCurveLength.size - 1 && mCurveLength[k] < pos) {
+            pos -= mCurveLength[k]
+            k++
         }
-        for (int i = 0; i < x.length; i++) {
-            x[i] = (float) mCurve[i][k].eval(pos / mCurveLength[k]);
+        for (i in x.indices) {
+            x[i] = mCurve[i][k]!!.eval(pos / mCurveLength[k])
         }
     }
 
-    public double getPos(double p, int splineNumber) {
-        double pos = p * mTotalLength;
-        double sum = 0;
-        int k = 0;
-        for (; k < mCurveLength.length - 1 && mCurveLength[k] < pos; k++) {
-            pos -= mCurveLength[k];
+    fun getPos(p: Double, x: FloatArray) {
+        var pos = p * mTotalLength
+        val sum = 0.0
+        var k = 0
+        while (k < mCurveLength.size - 1 && mCurveLength[k] < pos) {
+            pos -= mCurveLength[k]
+            k++
         }
-        return mCurve[splineNumber][k].eval(pos / mCurveLength[k]);
+        for (i in x.indices) {
+            x[i] = mCurve[i][k]!!.eval(pos / mCurveLength[k]).toFloat()
+        }
     }
 
-    public double approxLength(Cubic[] curve) {
-        double sum = 0;
+    fun getPos(p: Double, splineNumber: Int): Double {
+        var pos = p * mTotalLength
+        val sum = 0.0
+        var k = 0
+        while (k < mCurveLength.size - 1 && mCurveLength[k] < pos) {
+            pos -= mCurveLength[k]
+            k++
+        }
+        return mCurve[splineNumber][k]!!.eval(pos / mCurveLength[k])
+    }
 
-        int N = curve.length;
-        double[] old = new double[curve.length];
-        for (double i = 0; i < 1; i += .1) {
-            double s = 0;
-            for (int j = 0; j < curve.length; j++) {
-                double tmp = old[j];
-                tmp -= old[j] = curve[j].eval(i);
-                s += tmp * tmp;
+    fun approxLength(curve: Array<Cubic?>): Double {
+        var sum = 0.0
+        val N = curve.size
+        val old = DoubleArray(curve.size)
+        var i = 0.0
+        while (i < 1) {
+            var s = 0.0
+            for (j in curve.indices) {
+                var tmp = old[j]
+                old[j] = curve[j]!!.eval(i)
+                tmp -= old[j]
+                s += tmp * tmp
             }
             if (i > 0) {
-                sum += Math.sqrt(s);
+                sum += Math.sqrt(s)
             }
-
+            i += .1
         }
-        double s = 0;
-        for (int j = 0; j < curve.length; j++) {
-            double tmp = old[j];
-            tmp -= old[j] = curve[j].eval(1);
-            s += tmp * tmp;
+        var s = 0.0
+        for (j in curve.indices) {
+            var tmp = old[j]
+            old[j] = curve[j]!!.eval(1.0)
+            tmp -= old[j]
+            s += tmp * tmp
         }
-        sum += Math.sqrt(s);
-        return sum;
+        sum += Math.sqrt(s)
+        return sum
     }
 
-    static Cubic[] calcNaturalCubic(int n, double[] x) {
-        double[] gamma = new double[n];
-        double[] delta = new double[n];
-        double[] D = new double[n];
-        n -= 1;
-
-        gamma[0] = 1.0f / 2.0f;
-        for (int i = 1; i < n; i++) {
-            gamma[i] = 1 / (4 - gamma[i - 1]);
-        }
-        gamma[n] = 1 / (2 - gamma[n - 1]);
-
-        delta[0] = 3 * (x[1] - x[0]) * gamma[0];
-        for (int i = 1; i < n; i++) {
-            delta[i] = (3 * (x[i + 1] - x[i - 1]) - delta[i - 1]) * gamma[i];
-        }
-        delta[n] = (3 * (x[n] - x[n - 1]) - delta[n - 1]) * gamma[n];
-
-        D[n] = delta[n];
-        for (int i = n - 1; i >= 0; i--) {
-            D[i] = delta[i] - gamma[i] * D[i + 1];
+    class Cubic(var mA: Double, var mB: Double, var mC: Double, var mD: Double) {
+        fun eval(u: Double): Double {
+            return ((mD * u + mC) * u + mB) * u + mA
         }
 
-        Cubic[] C = new Cubic[n];
-        for (int i = 0; i < n; i++) {
-            C[i] = new Cubic((float) x[i], D[i], 3 * (x[i + 1] - x[i]) - 2
-                    * D[i] - D[i + 1], 2 * (x[i] - x[i + 1]) + D[i] + D[i + 1]);
-        }
-        return C;
-    }
-
-    public static class Cubic {
-        double mA, mB, mC, mD;
-
-        public Cubic(double a, double b, double c, double d) {
-            mA = a;
-            mB = b;
-            mC = c;
-            mD = d;
-        }
-
-        public double eval(double u) {
-            return (((mD * u) + mC) * u + mB) * u + mA;
-        }
-
-        public double vel(double v) {
+        fun vel(v: Double): Double {
             //  (((mD * u) + mC) * u + mB) * u + mA
             //  =  "mA + u*mB + u*u*mC+u*u*u*mD" a cubic expression
             // diff with respect to u = mB + u*mC/2+ u*u*mD/3
             // made efficient (mD*u/3+mC/2)*u+mB;
+            return (mD * 3 * v + mC * 2) * v + mB
+        }
+    }
 
-            return (mD * 3 * v + mC * 2) * v + mB;
+    companion object {
+        fun calcNaturalCubic(n: Int, x: DoubleArray): Array<Cubic?> {
+            var n = n
+            val gamma = DoubleArray(n)
+            val delta = DoubleArray(n)
+            val D = DoubleArray(n)
+            n -= 1
+            gamma[0] = (1.0f / 2.0f).toDouble()
+            for (i in 1 until n) {
+                gamma[i] = 1 / (4 - gamma[i - 1])
+            }
+            gamma[n] = 1 / (2 - gamma[n - 1])
+            delta[0] = 3 * (x[1] - x[0]) * gamma[0]
+            for (i in 1 until n) {
+                delta[i] = (3 * (x[i + 1] - x[i - 1]) - delta[i - 1]) * gamma[i]
+            }
+            delta[n] = (3 * (x[n] - x[n - 1]) - delta[n - 1]) * gamma[n]
+            D[n] = delta[n]
+            for (i in n - 1 downTo 0) {
+                D[i] = delta[i] - gamma[i] * D[i + 1]
+            }
+            val C = arrayOfNulls<Cubic>(n)
+            for (i in 0 until n) {
+                C[i] = Cubic(
+                    x[i], D[i], 3 * (x[i + 1] - x[i]) - (2
+                            * D[i]) - D[i + 1], 2 * (x[i] - x[i + 1]) + D[i] + D[i + 1]
+                )
+            }
+            return C
         }
     }
 }

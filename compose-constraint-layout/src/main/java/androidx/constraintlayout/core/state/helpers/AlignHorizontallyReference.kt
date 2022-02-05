@@ -13,43 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state.helpers
 
-package androidx.constraintlayout.core.state.helpers;
+import androidx.constraintlayout.core.state.HelperReference
+import androidx.constraintlayout.core.state.State
 
-import androidx.constraintlayout.core.state.ConstraintReference;
-import androidx.constraintlayout.core.state.HelperReference;
-import androidx.constraintlayout.core.state.State;
-
-public class AlignHorizontallyReference extends HelperReference {
-
-    private float mBias = 0.5f;
-
-    public AlignHorizontallyReference(State state) {
-        super(state, State.Helper.ALIGN_VERTICALLY);
-    }
-
-    public void apply() {
-        for (Object key : mReferences) {
-            ConstraintReference reference = mState.constraints(key);
-            reference.clearHorizontal();
+class AlignHorizontallyReference(state: State?) : HelperReference(state!!, State.Helper.ALIGN_VERTICALLY) {
+    private val mBias = 0.5f
+    override fun apply() {
+        for (key in mReferences) {
+            val reference = mState.constraints(key)
+            reference!!.clearHorizontal()
             if (mStartToStart != null) {
-                reference.startToStart(mStartToStart);
+                reference.startToStart(mStartToStart)
             } else if (mStartToEnd != null) {
-                reference.startToEnd(mStartToEnd);
+                reference.startToEnd(mStartToEnd)
             } else {
-                reference.startToStart(State.PARENT);
+                reference.startToStart(State.PARENT)
             }
             if (mEndToStart != null) {
-                reference.endToStart(mEndToStart);
+                reference.endToStart(mEndToStart)
             } else if (mEndToEnd != null) {
-                reference.endToEnd(mEndToEnd);
+                reference.endToEnd(mEndToEnd)
             } else {
-                reference.endToEnd(State.PARENT);
+                reference.endToEnd(State.PARENT)
             }
             if (mBias != 0.5f) {
-                reference.horizontalBias(mBias);
+                reference.horizontalBias(mBias)
             }
         }
     }
-
 }

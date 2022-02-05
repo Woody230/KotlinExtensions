@@ -13,44 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state.helpers
 
-package androidx.constraintlayout.core.state.helpers;
+import androidx.constraintlayout.core.state.HelperReference
+import androidx.constraintlayout.core.state.State
 
-import androidx.constraintlayout.core.state.ConstraintReference;
-import androidx.constraintlayout.core.state.HelperReference;
-import androidx.constraintlayout.core.state.State;
-
-public class AlignVerticallyReference extends HelperReference
-{
-
-    private float mBias = 0.5f;
-
-    public AlignVerticallyReference(State state) {
-        super(state, State.Helper.ALIGN_VERTICALLY);
-    }
-
-    public void apply() {
-        for (Object key : mReferences) {
-            ConstraintReference reference = mState.constraints(key);
-            reference.clearVertical();
+class AlignVerticallyReference(state: State?) : HelperReference(state!!, State.Helper.ALIGN_VERTICALLY) {
+    private val mBias = 0.5f
+    override fun apply() {
+        for (key in mReferences) {
+            val reference = mState.constraints(key)
+            reference!!.clearVertical()
             if (mTopToTop != null) {
-                reference.topToTop(mTopToTop);
+                reference.topToTop(mTopToTop)
             } else if (mTopToBottom != null) {
-                reference.topToBottom(mTopToBottom);
+                reference.topToBottom(mTopToBottom)
             } else {
-                reference.topToTop(State.PARENT);
+                reference.topToTop(State.PARENT)
             }
             if (mBottomToTop != null) {
-                reference.bottomToTop(mBottomToTop);
+                reference.bottomToTop(mBottomToTop)
             } else if (mBottomToBottom != null) {
-                reference.bottomToBottom(mBottomToBottom);
+                reference.bottomToBottom(mBottomToBottom)
             } else {
-                reference.bottomToBottom(State.PARENT);
+                reference.bottomToBottom(State.PARENT)
             }
             if (mBias != 0.5f) {
-                reference.verticalBias(mBias);
+                reference.verticalBias(mBias)
             }
         }
     }
-
 }

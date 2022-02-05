@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * Provides an interface to values used in KeyFrames and in
  * Starting and Ending Widgets
  */
-public interface TypedValues {
-    public static final String S_CUSTOM = "CUSTOM";
-    public static final int BOOLEAN_MASK = 1;
-    public static final int INT_MASK = 2;
-    public static final int FLOAT_MASK = 4;
-    public static final int STRING_MASK = 8;
-
+open interface TypedValues {
     /**
      * Used to set integer values
      *
@@ -33,7 +27,7 @@ public interface TypedValues {
      * @param value
      * @return true if it accepted the value
      */
-    boolean setValue(int id, int value);
+    fun setValue(id: Int, value: Int): Boolean
 
     /**
      * Used to set float values
@@ -42,7 +36,7 @@ public interface TypedValues {
      * @param value
      * @return true if it accepted the value
      */
-    boolean setValue(int id, float value);
+    fun setValue(id: Int, value: Float): Boolean
 
     /**
      * Used to set String values
@@ -51,7 +45,7 @@ public interface TypedValues {
      * @param value
      * @return true if it accepted the value
      */
-    boolean setValue(int id, String value);
+    fun setValue(id: Int, value: String?): Boolean
 
     /**
      * Used to set boolean values
@@ -60,59 +54,51 @@ public interface TypedValues {
      * @param value
      * @return true if it accepted the value
      */
-    boolean setValue(int id, boolean value);
-
-    int getId(String name);
-
-    public static final int TYPE_FRAME_POSITION = 100;
-    public static final int TYPE_TARGET = 101;
-
-    interface AttributesType {
-        public static final String NAME = "KeyAttributes";
-
-        public static final int TYPE_CURVE_FIT = 301;
-        public static final int TYPE_VISIBILITY = 302;
-        public static final int TYPE_ALPHA = 303;
-        public static final int TYPE_TRANSLATION_X = 304;
-        public static final int TYPE_TRANSLATION_Y = 305;
-        public static final int TYPE_TRANSLATION_Z = 306;
-        public static final int TYPE_ELEVATION = 307;
-        public static final int TYPE_ROTATION_X = 308;
-        public static final int TYPE_ROTATION_Y = 309;
-        public static final int TYPE_ROTATION_Z = 310;
-        public static final int TYPE_SCALE_X = 311;
-        public static final int TYPE_SCALE_Y = 312;
-        public static final int TYPE_PIVOT_X = 313;
-        public static final int TYPE_PIVOT_Y = 314;
-        public static final int TYPE_PROGRESS = 315;
-        public static final int TYPE_PATH_ROTATE = 316;
-        public static final int TYPE_EASING = 317;
-        public static final int TYPE_PIVOT_TARGET = 318;
-
-        public static final String S_CURVE_FIT = "curveFit";
-        public static final String S_VISIBILITY = "visibility";
-        public static final String S_ALPHA = "alpha";
-
-        public static final String S_TRANSLATION_X = "translationX";
-        public static final String S_TRANSLATION_Y = "translationY";
-        public static final String S_TRANSLATION_Z = "translationZ";
-        public static final String S_ELEVATION = "elevation";
-        public static final String S_ROTATION_X = "rotationX";
-        public static final String S_ROTATION_Y = "rotationY";
-        public static final String S_ROTATION_Z = "rotationZ";
-        public static final String S_SCALE_X = "scaleX";
-        public static final String S_SCALE_Y = "scaleY";
-        public static final String S_PIVOT_X = "pivotX";
-        public static final String S_PIVOT_Y = "pivotY";
-        public static final String S_PROGRESS = "progress";
-        public static final String S_PATH_ROTATE = "pathRotate";
-        public static final String S_EASING = "easing";
-        public static final String S_CUSTOM = "CUSTOM";
-        public static final String S_FRAME = "frame";
-        public static final String S_TARGET = "target";
-        public static final String S_PIVOT_TARGET = "pivotTarget";
-
-        public static final String[] KEY_WORDS = {
+    fun setValue(id: Int, value: Boolean): Boolean
+    fun getId(name: String?): Int
+    open interface AttributesType {
+        companion object {
+            val NAME: String = "KeyAttributes"
+            val TYPE_CURVE_FIT: Int = 301
+            val TYPE_VISIBILITY: Int = 302
+            val TYPE_ALPHA: Int = 303
+            val TYPE_TRANSLATION_X: Int = 304
+            val TYPE_TRANSLATION_Y: Int = 305
+            val TYPE_TRANSLATION_Z: Int = 306
+            val TYPE_ELEVATION: Int = 307
+            val TYPE_ROTATION_X: Int = 308
+            val TYPE_ROTATION_Y: Int = 309
+            val TYPE_ROTATION_Z: Int = 310
+            val TYPE_SCALE_X: Int = 311
+            val TYPE_SCALE_Y: Int = 312
+            val TYPE_PIVOT_X: Int = 313
+            val TYPE_PIVOT_Y: Int = 314
+            val TYPE_PROGRESS: Int = 315
+            val TYPE_PATH_ROTATE: Int = 316
+            val TYPE_EASING: Int = 317
+            val TYPE_PIVOT_TARGET: Int = 318
+            val S_CURVE_FIT: String = "curveFit"
+            val S_VISIBILITY: String = "visibility"
+            val S_ALPHA: String = "alpha"
+            val S_TRANSLATION_X: String = "translationX"
+            val S_TRANSLATION_Y: String = "translationY"
+            val S_TRANSLATION_Z: String = "translationZ"
+            val S_ELEVATION: String = "elevation"
+            val S_ROTATION_X: String = "rotationX"
+            val S_ROTATION_Y: String = "rotationY"
+            val S_ROTATION_Z: String = "rotationZ"
+            val S_SCALE_X: String = "scaleX"
+            val S_SCALE_Y: String = "scaleY"
+            val S_PIVOT_X: String = "pivotX"
+            val S_PIVOT_Y: String = "pivotY"
+            val S_PROGRESS: String = "progress"
+            val S_PATH_ROTATE: String = "pathRotate"
+            val S_EASING: String = "easing"
+            val S_CUSTOM: String = "CUSTOM"
+            val S_FRAME: String = "frame"
+            val S_TARGET: String = "target"
+            val S_PIVOT_TARGET: String = "pivotTarget"
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_CURVE_FIT,
                 S_VISIBILITY,
                 S_ALPHA,
@@ -133,142 +119,102 @@ public interface TypedValues {
                 S_CUSTOM,
                 S_FRAME,
                 S_TARGET,
-                S_PIVOT_TARGET,
-        };
+                S_PIVOT_TARGET
+            )
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_CURVE_FIT:
-                    return TYPE_CURVE_FIT;
-                case S_VISIBILITY:
-                    return TYPE_VISIBILITY;
-                case S_ALPHA:
-                    return TYPE_ALPHA;
-                case S_TRANSLATION_X:
-                    return TYPE_TRANSLATION_X;
-                case S_TRANSLATION_Y:
-                    return TYPE_TRANSLATION_Y;
-                case S_TRANSLATION_Z:
-                    return TYPE_TRANSLATION_Z;
-                case S_ELEVATION:
-                    return TYPE_ELEVATION;
-                case S_ROTATION_X:
-                    return TYPE_ROTATION_X;
-                case S_ROTATION_Y:
-                    return TYPE_ROTATION_Y;
-                case S_ROTATION_Z:
-                    return TYPE_ROTATION_Z;
-                case S_SCALE_X:
-                    return TYPE_SCALE_X;
-                case S_SCALE_Y:
-                    return TYPE_SCALE_Y;
-                case S_PIVOT_X:
-                    return TYPE_PIVOT_X;
-                case S_PIVOT_Y:
-                    return TYPE_PIVOT_Y;
-                case S_PROGRESS:
-                    return TYPE_PROGRESS;
-                case S_PATH_ROTATE:
-                    return TYPE_PATH_ROTATE;
-                case S_EASING:
-                    return TYPE_EASING;
-                case S_FRAME:
-                    return TYPE_FRAME_POSITION;
-                case S_TARGET:
-                    return TYPE_TARGET;
-                case S_PIVOT_TARGET:
-                    return TYPE_PIVOT_TARGET;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            @kotlin.jvm.JvmStatic
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_CURVE_FIT -> return TYPE_CURVE_FIT
+                    S_VISIBILITY -> return TYPE_VISIBILITY
+                    S_ALPHA -> return TYPE_ALPHA
+                    S_TRANSLATION_X -> return TYPE_TRANSLATION_X
+                    S_TRANSLATION_Y -> return TYPE_TRANSLATION_Y
+                    S_TRANSLATION_Z -> return TYPE_TRANSLATION_Z
+                    S_ELEVATION -> return TYPE_ELEVATION
+                    S_ROTATION_X -> return TYPE_ROTATION_X
+                    S_ROTATION_Y -> return TYPE_ROTATION_Y
+                    S_ROTATION_Z -> return TYPE_ROTATION_Z
+                    S_SCALE_X -> return TYPE_SCALE_X
+                    S_SCALE_Y -> return TYPE_SCALE_Y
+                    S_PIVOT_X -> return TYPE_PIVOT_X
+                    S_PIVOT_Y -> return TYPE_PIVOT_Y
+                    S_PROGRESS -> return TYPE_PROGRESS
+                    S_PATH_ROTATE -> return TYPE_PATH_ROTATE
+                    S_EASING -> return TYPE_EASING
+                    S_FRAME -> return TYPE_FRAME_POSITION
+                    S_TARGET -> return TYPE_TARGET
+                    S_PIVOT_TARGET -> return TYPE_PIVOT_TARGET
+                }
+                return -1
             }
-            return -1;
-        }
 
-        static int getType(int name) {
-            switch (name) {
-                case TYPE_CURVE_FIT:
-                case TYPE_VISIBILITY:
-                case TYPE_FRAME_POSITION:
-                    return INT_MASK;
-                case TYPE_ALPHA:
-                case TYPE_TRANSLATION_X:
-                case TYPE_TRANSLATION_Y:
-                case TYPE_TRANSLATION_Z:
-                case TYPE_ELEVATION:
-                case TYPE_ROTATION_X:
-                case TYPE_ROTATION_Y:
-                case TYPE_ROTATION_Z:
-                case TYPE_SCALE_X:
-                case TYPE_SCALE_Y:
-                case TYPE_PIVOT_X:
-                case TYPE_PIVOT_Y:
-                case TYPE_PROGRESS:
-                case TYPE_PATH_ROTATE:
-                    return FLOAT_MASK;
-                case TYPE_EASING:
-                case TYPE_TARGET:
-                case TYPE_PIVOT_TARGET:
-                    return STRING_MASK;
+            fun getType(name: Int): Int {
+                when (name) {
+                    TYPE_CURVE_FIT, TYPE_VISIBILITY, TYPE_FRAME_POSITION -> return INT_MASK
+                    TYPE_ALPHA, TYPE_TRANSLATION_X, TYPE_TRANSLATION_Y, TYPE_TRANSLATION_Z, TYPE_ELEVATION, TYPE_ROTATION_X, TYPE_ROTATION_Y, TYPE_ROTATION_Z, TYPE_SCALE_X, TYPE_SCALE_Y, TYPE_PIVOT_X, TYPE_PIVOT_Y, TYPE_PROGRESS, TYPE_PATH_ROTATE -> return FLOAT_MASK
+                    TYPE_EASING, TYPE_TARGET, TYPE_PIVOT_TARGET -> return STRING_MASK
+                }
+                return -1
             }
-            return -1;
         }
     }
 
-    interface CycleType {
-        public static final String NAME = "KeyCycle";
-        public static final int TYPE_CURVE_FIT = 401;
-        public static final int TYPE_VISIBILITY = 402;
-        public static final int TYPE_ALPHA = 403;
-        public static final int TYPE_TRANSLATION_X = AttributesType.TYPE_TRANSLATION_X;
-        public static final int TYPE_TRANSLATION_Y = AttributesType.TYPE_TRANSLATION_Y;
-        public static final int TYPE_TRANSLATION_Z = AttributesType.TYPE_TRANSLATION_Z;
-        public static final int TYPE_ELEVATION = AttributesType.TYPE_ELEVATION;
-
-        public static final int TYPE_ROTATION_X = AttributesType.TYPE_ROTATION_X;
-        public static final int TYPE_ROTATION_Y = AttributesType.TYPE_ROTATION_Y;
-        public static final int TYPE_ROTATION_Z = AttributesType.TYPE_ROTATION_Z;
-        public static final int TYPE_SCALE_X = AttributesType.TYPE_SCALE_X;
-        public static final int TYPE_SCALE_Y = AttributesType.TYPE_SCALE_Y;
-        public static final int TYPE_PIVOT_X = AttributesType.TYPE_PIVOT_X;
-        public static final int TYPE_PIVOT_Y = AttributesType.TYPE_PIVOT_Y;
-        public static final int TYPE_PROGRESS = AttributesType.TYPE_PROGRESS;
-        public static final int TYPE_PATH_ROTATE = 416;
-        public static final int TYPE_EASING = 420;
-        public static final int TYPE_WAVE_SHAPE = 421;
-        public static final int TYPE_CUSTOM_WAVE_SHAPE = 422;
-        public static final int TYPE_WAVE_PERIOD = 423;
-        public static final int TYPE_WAVE_OFFSET = 424;
-        public static final int TYPE_WAVE_PHASE = 425;
-
-        public static final String S_CURVE_FIT = "curveFit";
-        public static final String S_VISIBILITY = "visibility";
-        public static final String S_ALPHA = AttributesType.S_ALPHA;
-        public static final String S_TRANSLATION_X = AttributesType.S_TRANSLATION_X;
-        public static final String S_TRANSLATION_Y = AttributesType.S_TRANSLATION_Y;
-        public static final String S_TRANSLATION_Z = AttributesType.S_TRANSLATION_Z;
-        public static final String S_ELEVATION = AttributesType.S_ELEVATION;
-        public static final String S_ROTATION_X = AttributesType.S_ROTATION_X;
-        public static final String S_ROTATION_Y = AttributesType.S_ROTATION_Y;
-        public static final String S_ROTATION_Z = AttributesType.S_ROTATION_Z;
-        public static final String S_SCALE_X = AttributesType.S_SCALE_X;
-        public static final String S_SCALE_Y = AttributesType.S_SCALE_Y;
-        public static final String S_PIVOT_X = AttributesType.S_PIVOT_X;
-        public static final String S_PIVOT_Y = AttributesType.S_PIVOT_Y;
-        public static final String S_PROGRESS = AttributesType.S_PROGRESS;
-
-        public static final String S_PATH_ROTATE = "pathRotate";
-        public static final String S_EASING = "easing";
-        public static final String S_WAVE_SHAPE = "waveShape";
-        public static final String S_CUSTOM_WAVE_SHAPE = "customWave";
-        public static final String S_WAVE_PERIOD = "period";
-        public static final String S_WAVE_OFFSET = "offset";
-        public static final String S_WAVE_PHASE = "phase";
-        public static final String[] KEY_WORDS = {
+    open interface CycleType {
+        companion object {
+            val NAME: String = "KeyCycle"
+            val TYPE_CURVE_FIT: Int = 401
+            val TYPE_VISIBILITY: Int = 402
+            val TYPE_ALPHA: Int = 403
+            val TYPE_TRANSLATION_X: Int = AttributesType.TYPE_TRANSLATION_X
+            val TYPE_TRANSLATION_Y: Int = AttributesType.TYPE_TRANSLATION_Y
+            val TYPE_TRANSLATION_Z: Int = AttributesType.TYPE_TRANSLATION_Z
+            val TYPE_ELEVATION: Int = AttributesType.TYPE_ELEVATION
+            val TYPE_ROTATION_X: Int = AttributesType.TYPE_ROTATION_X
+            val TYPE_ROTATION_Y: Int = AttributesType.TYPE_ROTATION_Y
+            val TYPE_ROTATION_Z: Int = AttributesType.TYPE_ROTATION_Z
+            val TYPE_SCALE_X: Int = AttributesType.TYPE_SCALE_X
+            val TYPE_SCALE_Y: Int = AttributesType.TYPE_SCALE_Y
+            val TYPE_PIVOT_X: Int = AttributesType.TYPE_PIVOT_X
+            val TYPE_PIVOT_Y: Int = AttributesType.TYPE_PIVOT_Y
+            val TYPE_PROGRESS: Int = AttributesType.TYPE_PROGRESS
+            val TYPE_PATH_ROTATE: Int = 416
+            val TYPE_EASING: Int = 420
+            val TYPE_WAVE_SHAPE: Int = 421
+            val TYPE_CUSTOM_WAVE_SHAPE: Int = 422
+            val TYPE_WAVE_PERIOD: Int = 423
+            val TYPE_WAVE_OFFSET: Int = 424
+            val TYPE_WAVE_PHASE: Int = 425
+            val S_CURVE_FIT: String = "curveFit"
+            val S_VISIBILITY: String = "visibility"
+            val S_ALPHA: String = AttributesType.S_ALPHA
+            val S_TRANSLATION_X: String = AttributesType.S_TRANSLATION_X
+            val S_TRANSLATION_Y: String = AttributesType.S_TRANSLATION_Y
+            val S_TRANSLATION_Z: String = AttributesType.S_TRANSLATION_Z
+            val S_ELEVATION: String = AttributesType.S_ELEVATION
+            val S_ROTATION_X: String = AttributesType.S_ROTATION_X
+            val S_ROTATION_Y: String = AttributesType.S_ROTATION_Y
+            val S_ROTATION_Z: String = AttributesType.S_ROTATION_Z
+            val S_SCALE_X: String = AttributesType.S_SCALE_X
+            val S_SCALE_Y: String = AttributesType.S_SCALE_Y
+            val S_PIVOT_X: String = AttributesType.S_PIVOT_X
+            val S_PIVOT_Y: String = AttributesType.S_PIVOT_Y
+            val S_PROGRESS: String = AttributesType.S_PROGRESS
+            val S_PATH_ROTATE: String = "pathRotate"
+            val S_EASING: String = "easing"
+            val S_WAVE_SHAPE: String = "waveShape"
+            val S_CUSTOM_WAVE_SHAPE: String = "customWave"
+            val S_WAVE_PERIOD: String = "period"
+            val S_WAVE_OFFSET: String = "offset"
+            val S_WAVE_PHASE: String = "phase"
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_CURVE_FIT,
                 S_VISIBILITY,
                 S_ALPHA,
@@ -284,109 +230,71 @@ public interface TypedValues {
                 S_PIVOT_X,
                 S_PIVOT_Y,
                 S_PROGRESS,
-
                 S_PATH_ROTATE,
                 S_EASING,
                 S_WAVE_SHAPE,
                 S_CUSTOM_WAVE_SHAPE,
                 S_WAVE_PERIOD,
                 S_WAVE_OFFSET,
-                S_WAVE_PHASE,
-        };
+                S_WAVE_PHASE
+            )
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_CURVE_FIT:
-                    return TYPE_CURVE_FIT;
-                case S_VISIBILITY:
-                    return TYPE_VISIBILITY;
-                case S_ALPHA:
-                    return TYPE_ALPHA;
-                case S_TRANSLATION_X:
-                    return TYPE_TRANSLATION_X;
-                case S_TRANSLATION_Y:
-                    return TYPE_TRANSLATION_Y;
-                case S_TRANSLATION_Z:
-                    return TYPE_TRANSLATION_Z;
-                case S_ROTATION_X:
-                    return TYPE_ROTATION_X;
-                case S_ROTATION_Y:
-                    return TYPE_ROTATION_Y;
-                case S_ROTATION_Z:
-                    return TYPE_ROTATION_Z;
-                case S_SCALE_X:
-                    return TYPE_SCALE_X;
-                case S_SCALE_Y:
-                    return TYPE_SCALE_Y;
-                case S_PIVOT_X:
-                    return TYPE_PIVOT_X;
-                case S_PIVOT_Y:
-                    return TYPE_PIVOT_Y;
-                case S_PROGRESS:
-                    return TYPE_PROGRESS;
-                case S_PATH_ROTATE:
-                    return TYPE_PATH_ROTATE;
-                case S_EASING:
-                    return TYPE_EASING;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_CURVE_FIT -> return TYPE_CURVE_FIT
+                    S_VISIBILITY -> return TYPE_VISIBILITY
+                    S_ALPHA -> return TYPE_ALPHA
+                    S_TRANSLATION_X -> return TYPE_TRANSLATION_X
+                    S_TRANSLATION_Y -> return TYPE_TRANSLATION_Y
+                    S_TRANSLATION_Z -> return TYPE_TRANSLATION_Z
+                    S_ROTATION_X -> return TYPE_ROTATION_X
+                    S_ROTATION_Y -> return TYPE_ROTATION_Y
+                    S_ROTATION_Z -> return TYPE_ROTATION_Z
+                    S_SCALE_X -> return TYPE_SCALE_X
+                    S_SCALE_Y -> return TYPE_SCALE_Y
+                    S_PIVOT_X -> return TYPE_PIVOT_X
+                    S_PIVOT_Y -> return TYPE_PIVOT_Y
+                    S_PROGRESS -> return TYPE_PROGRESS
+                    S_PATH_ROTATE -> return TYPE_PATH_ROTATE
+                    S_EASING -> return TYPE_EASING
+                }
+                return -1
             }
-            return -1;
-        }
 
-        static int getType(int name) {
-            switch (name) {
-                case TYPE_CURVE_FIT:
-                case TYPE_VISIBILITY:
-                case TYPE_FRAME_POSITION:
-                    return INT_MASK;
-                case TYPE_ALPHA:
-                case TYPE_TRANSLATION_X:
-                case TYPE_TRANSLATION_Y:
-                case TYPE_TRANSLATION_Z:
-                case TYPE_ELEVATION:
-                case TYPE_ROTATION_X:
-                case TYPE_ROTATION_Y:
-                case TYPE_ROTATION_Z:
-                case TYPE_SCALE_X:
-                case TYPE_SCALE_Y:
-                case TYPE_PIVOT_X:
-                case TYPE_PIVOT_Y:
-                case TYPE_PROGRESS:
-                case TYPE_PATH_ROTATE:
-                case TYPE_WAVE_PERIOD:
-                case TYPE_WAVE_OFFSET:
-                case TYPE_WAVE_PHASE:
-                    return FLOAT_MASK;
-                case TYPE_EASING:
-                case TYPE_TARGET:
-                case TYPE_WAVE_SHAPE:
-                    return STRING_MASK;
+            fun getType(name: Int): Int {
+                when (name) {
+                    TYPE_CURVE_FIT, TYPE_VISIBILITY, TYPE_FRAME_POSITION -> return INT_MASK
+                    TYPE_ALPHA, TYPE_TRANSLATION_X, TYPE_TRANSLATION_Y, TYPE_TRANSLATION_Z, TYPE_ELEVATION, TYPE_ROTATION_X, TYPE_ROTATION_Y, TYPE_ROTATION_Z, TYPE_SCALE_X, TYPE_SCALE_Y, TYPE_PIVOT_X, TYPE_PIVOT_Y, TYPE_PROGRESS, TYPE_PATH_ROTATE, TYPE_WAVE_PERIOD, TYPE_WAVE_OFFSET, TYPE_WAVE_PHASE -> return FLOAT_MASK
+                    TYPE_EASING, TYPE_TARGET, TYPE_WAVE_SHAPE -> return STRING_MASK
+                }
+                return -1
             }
-            return -1;
         }
     }
 
-    interface TriggerType {
-        public static final String NAME = "KeyTrigger";
-        public static final String VIEW_TRANSITION_ON_CROSS = "viewTransitionOnCross";
-        public static final String VIEW_TRANSITION_ON_POSITIVE_CROSS = "viewTransitionOnPositiveCross";
-        public static final String VIEW_TRANSITION_ON_NEGATIVE_CROSS = "viewTransitionOnNegativeCross";
-        public static final String POST_LAYOUT = "postLayout";
-        public static final String TRIGGER_SLACK = "triggerSlack";
-        public static final String TRIGGER_COLLISION_VIEW = "triggerCollisionView";
-        public static final String TRIGGER_COLLISION_ID = "triggerCollisionId";
-        public static final String TRIGGER_ID = "triggerID";
-        public static final String POSITIVE_CROSS = "positiveCross";
-        public static final String NEGATIVE_CROSS = "negativeCross";
-        public static final String TRIGGER_RECEIVER = "triggerReceiver";
-        public static final String CROSS = "CROSS";
-        public static final String[] KEY_WORDS = {
+    open interface TriggerType {
+        companion object {
+            val NAME: String = "KeyTrigger"
+            val VIEW_TRANSITION_ON_CROSS: String = "viewTransitionOnCross"
+            val VIEW_TRANSITION_ON_POSITIVE_CROSS: String = "viewTransitionOnPositiveCross"
+            val VIEW_TRANSITION_ON_NEGATIVE_CROSS: String = "viewTransitionOnNegativeCross"
+            val POST_LAYOUT: String = "postLayout"
+            val TRIGGER_SLACK: String = "triggerSlack"
+            val TRIGGER_COLLISION_VIEW: String = "triggerCollisionView"
+            val TRIGGER_COLLISION_ID: String = "triggerCollisionId"
+            val TRIGGER_ID: String = "triggerID"
+            val POSITIVE_CROSS: String = "positiveCross"
+            val NEGATIVE_CROSS: String = "negativeCross"
+            val TRIGGER_RECEIVER: String = "triggerReceiver"
+            val CROSS: String = "CROSS"
+            val KEY_WORDS: Array<String> = arrayOf(
                 VIEW_TRANSITION_ON_CROSS,
                 VIEW_TRANSITION_ON_POSITIVE_CROSS,
                 VIEW_TRANSITION_ON_NEGATIVE_CROSS,
@@ -398,155 +306,126 @@ public interface TypedValues {
                 POSITIVE_CROSS,
                 NEGATIVE_CROSS,
                 TRIGGER_RECEIVER,
-                CROSS,
-        };
-        public static final int TYPE_VIEW_TRANSITION_ON_CROSS = 301;
-        public static final int TYPE_VIEW_TRANSITION_ON_POSITIVE_CROSS = 302;
-        public static final int TYPE_VIEW_TRANSITION_ON_NEGATIVE_CROSS = 303;
-        public static final int TYPE_POST_LAYOUT = 304;
-        public static final int TYPE_TRIGGER_SLACK = 305;
-        public static final int TYPE_TRIGGER_COLLISION_VIEW = 306;
-        public static final int TYPE_TRIGGER_COLLISION_ID = 307;
-        public static final int TYPE_TRIGGER_ID = 308;
-        public static final int TYPE_POSITIVE_CROSS = 309;
-        public static final int TYPE_NEGATIVE_CROSS = 310;
-        public static final int TYPE_TRIGGER_RECEIVER = 311;
-        public static final int TYPE_CROSS = 312;
+                CROSS
+            )
+            val TYPE_VIEW_TRANSITION_ON_CROSS: Int = 301
+            val TYPE_VIEW_TRANSITION_ON_POSITIVE_CROSS: Int = 302
+            val TYPE_VIEW_TRANSITION_ON_NEGATIVE_CROSS: Int = 303
+            val TYPE_POST_LAYOUT: Int = 304
+            val TYPE_TRIGGER_SLACK: Int = 305
+            val TYPE_TRIGGER_COLLISION_VIEW: Int = 306
+            val TYPE_TRIGGER_COLLISION_ID: Int = 307
+            val TYPE_TRIGGER_ID: Int = 308
+            val TYPE_POSITIVE_CROSS: Int = 309
+            val TYPE_NEGATIVE_CROSS: Int = 310
+            val TYPE_TRIGGER_RECEIVER: Int = 311
+            val TYPE_CROSS: Int = 312
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case VIEW_TRANSITION_ON_CROSS:
-                    return TYPE_VIEW_TRANSITION_ON_CROSS;
-                case VIEW_TRANSITION_ON_POSITIVE_CROSS:
-                    return TYPE_VIEW_TRANSITION_ON_POSITIVE_CROSS;
-                case VIEW_TRANSITION_ON_NEGATIVE_CROSS:
-                    return TYPE_VIEW_TRANSITION_ON_NEGATIVE_CROSS;
-                case POST_LAYOUT:
-                    return TYPE_POST_LAYOUT;
-                case TRIGGER_SLACK:
-                    return TYPE_TRIGGER_SLACK;
-                case TRIGGER_COLLISION_VIEW:
-                    return TYPE_TRIGGER_COLLISION_VIEW;
-                case TRIGGER_COLLISION_ID:
-                    return TYPE_TRIGGER_COLLISION_ID;
-                case TRIGGER_ID:
-                    return TYPE_TRIGGER_ID;
-                case POSITIVE_CROSS:
-                    return TYPE_POSITIVE_CROSS;
-                case NEGATIVE_CROSS:
-                    return TYPE_NEGATIVE_CROSS;
-                case TRIGGER_RECEIVER:
-                    return TYPE_TRIGGER_RECEIVER;
-                case CROSS:
-                    return TYPE_CROSS;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            fun getId(name: String?): Int {
+                when (name) {
+                    VIEW_TRANSITION_ON_CROSS -> return TYPE_VIEW_TRANSITION_ON_CROSS
+                    VIEW_TRANSITION_ON_POSITIVE_CROSS -> return TYPE_VIEW_TRANSITION_ON_POSITIVE_CROSS
+                    VIEW_TRANSITION_ON_NEGATIVE_CROSS -> return TYPE_VIEW_TRANSITION_ON_NEGATIVE_CROSS
+                    POST_LAYOUT -> return TYPE_POST_LAYOUT
+                    TRIGGER_SLACK -> return TYPE_TRIGGER_SLACK
+                    TRIGGER_COLLISION_VIEW -> return TYPE_TRIGGER_COLLISION_VIEW
+                    TRIGGER_COLLISION_ID -> return TYPE_TRIGGER_COLLISION_ID
+                    TRIGGER_ID -> return TYPE_TRIGGER_ID
+                    POSITIVE_CROSS -> return TYPE_POSITIVE_CROSS
+                    NEGATIVE_CROSS -> return TYPE_NEGATIVE_CROSS
+                    TRIGGER_RECEIVER -> return TYPE_TRIGGER_RECEIVER
+                    CROSS -> return TYPE_CROSS
+                }
+                return -1
             }
-            return -1;
         }
     }
 
-    interface PositionType {
-        public static final String NAME = "KeyPosition";
-        public static final String S_TRANSITION_EASING = "transitionEasing";
-        public static final String S_DRAWPATH = "drawPath";
-        public static final String S_PERCENT_WIDTH = "percentWidth";
-        public static final String S_PERCENT_HEIGHT = "percentHeight";
-        public static final String S_SIZE_PERCENT = "sizePercent";
-        public static final String S_PERCENT_X = "percentX";
-        public static final String S_PERCENT_Y = "percentY";
-
-        public static final int TYPE_TRANSITION_EASING = 501;
-        public static final int TYPE_DRAWPATH = 502;
-        public static final int TYPE_PERCENT_WIDTH = 503;
-        public static final int TYPE_PERCENT_HEIGHT = 504;
-        public static final int TYPE_SIZE_PERCENT = 505;
-        public static final int TYPE_PERCENT_X = 506;
-        public static final int TYPE_PERCENT_Y = 507;
-        public static final int TYPE_CURVE_FIT = 508;
-        public static final int TYPE_PATH_MOTION_ARC = 509;
-        public static final int TYPE_POSITION_TYPE = 510;
-        public static final String[] KEY_WORDS = {
+    open interface PositionType {
+        companion object {
+            val NAME: String = "KeyPosition"
+            val S_TRANSITION_EASING: String = "transitionEasing"
+            val S_DRAWPATH: String = "drawPath"
+            val S_PERCENT_WIDTH: String = "percentWidth"
+            val S_PERCENT_HEIGHT: String = "percentHeight"
+            val S_SIZE_PERCENT: String = "sizePercent"
+            val S_PERCENT_X: String = "percentX"
+            val S_PERCENT_Y: String = "percentY"
+            val TYPE_TRANSITION_EASING: Int = 501
+            val TYPE_DRAWPATH: Int = 502
+            val TYPE_PERCENT_WIDTH: Int = 503
+            val TYPE_PERCENT_HEIGHT: Int = 504
+            val TYPE_SIZE_PERCENT: Int = 505
+            val TYPE_PERCENT_X: Int = 506
+            val TYPE_PERCENT_Y: Int = 507
+            val TYPE_CURVE_FIT: Int = 508
+            val TYPE_PATH_MOTION_ARC: Int = 509
+            val TYPE_POSITION_TYPE: Int = 510
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_TRANSITION_EASING,
                 S_DRAWPATH,
                 S_PERCENT_WIDTH,
                 S_PERCENT_HEIGHT,
                 S_SIZE_PERCENT,
                 S_PERCENT_X,
-                S_PERCENT_Y,
-        };
+                S_PERCENT_Y
+            )
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_TRANSITION_EASING:
-                    return PositionType.TYPE_TRANSITION_EASING;
-                case S_DRAWPATH:
-                    return PositionType.TYPE_DRAWPATH;
-                case S_PERCENT_WIDTH:
-                    return PositionType.TYPE_PERCENT_WIDTH;
-                case S_PERCENT_HEIGHT:
-                    return PositionType.TYPE_PERCENT_HEIGHT;
-                case S_SIZE_PERCENT:
-                    return PositionType.TYPE_SIZE_PERCENT;
-                case S_PERCENT_X:
-                    return PositionType.TYPE_PERCENT_X;
-                case S_PERCENT_Y:
-                    return PositionType.TYPE_PERCENT_Y;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_TRANSITION_EASING -> return TYPE_TRANSITION_EASING
+                    S_DRAWPATH -> return TYPE_DRAWPATH
+                    S_PERCENT_WIDTH -> return TYPE_PERCENT_WIDTH
+                    S_PERCENT_HEIGHT -> return TYPE_PERCENT_HEIGHT
+                    S_SIZE_PERCENT -> return TYPE_SIZE_PERCENT
+                    S_PERCENT_X -> return TYPE_PERCENT_X
+                    S_PERCENT_Y -> return TYPE_PERCENT_Y
+                }
+                return -1
             }
-            return -1;
-        }
 
-        static int getType(int name) {
-            switch (name) {
-                case TYPE_CURVE_FIT:
-                case TYPE_FRAME_POSITION:
-                    return INT_MASK;
-                case TYPE_PERCENT_WIDTH:
-                case TYPE_PERCENT_HEIGHT:
-                case TYPE_SIZE_PERCENT:
-                case TYPE_PERCENT_X:
-                case TYPE_PERCENT_Y:
-                    return FLOAT_MASK;
-                case TYPE_TRANSITION_EASING:
-                case TYPE_TARGET:
-                case TYPE_DRAWPATH:
-                    return STRING_MASK;
+            fun getType(name: Int): Int {
+                when (name) {
+                    TYPE_CURVE_FIT, TYPE_FRAME_POSITION -> return INT_MASK
+                    TYPE_PERCENT_WIDTH, TYPE_PERCENT_HEIGHT, TYPE_SIZE_PERCENT, TYPE_PERCENT_X, TYPE_PERCENT_Y -> return FLOAT_MASK
+                    TYPE_TRANSITION_EASING, TYPE_TARGET, TYPE_DRAWPATH -> return STRING_MASK
+                }
+                return -1
             }
-            return -1;
         }
-
-
     }
 
-    interface MotionType {
-        public static final String NAME = "Motion";
-
-        public static final String S_STAGGER = "Stagger";
-        public static final String S_PATH_ROTATE = "PathRotate";
-        public static final String S_QUANTIZE_MOTION_PHASE = "QuantizeMotionPhase";
-        public static final String S_EASING = "TransitionEasing";
-        public static final String S_QUANTIZE_INTERPOLATOR = "QuantizeInterpolator";
-        public static final String S_ANIMATE_RELATIVE_TO = "AnimateRelativeTo";
-        public static final String S_ANIMATE_CIRCLEANGLE_TO = "AnimateCircleAngleTo";
-        public static final String S_PATHMOTION_ARC = "PathMotionArc";
-        public static final String S_DRAW_PATH = "DrawPath";
-        public static final String S_POLAR_RELATIVETO = "PolarRelativeTo";
-        public static final String S_QUANTIZE_MOTIONSTEPS = "QuantizeMotionSteps";
-        public static final String S_QUANTIZE_INTERPOLATOR_TYPE = "QuantizeInterpolatorType";
-        public static final String S_QUANTIZE_INTERPOLATOR_ID = "QuantizeInterpolatorID";
-        public static final String[] KEY_WORDS = {
+    open interface MotionType {
+        companion object {
+            val NAME: String = "Motion"
+            val S_STAGGER: String = "Stagger"
+            val S_PATH_ROTATE: String = "PathRotate"
+            val S_QUANTIZE_MOTION_PHASE: String = "QuantizeMotionPhase"
+            val S_EASING: String = "TransitionEasing"
+            val S_QUANTIZE_INTERPOLATOR: String = "QuantizeInterpolator"
+            val S_ANIMATE_RELATIVE_TO: String = "AnimateRelativeTo"
+            val S_ANIMATE_CIRCLEANGLE_TO: String = "AnimateCircleAngleTo"
+            val S_PATHMOTION_ARC: String = "PathMotionArc"
+            val S_DRAW_PATH: String = "DrawPath"
+            val S_POLAR_RELATIVETO: String = "PolarRelativeTo"
+            val S_QUANTIZE_MOTIONSTEPS: String = "QuantizeMotionSteps"
+            val S_QUANTIZE_INTERPOLATOR_TYPE: String = "QuantizeInterpolatorType"
+            val S_QUANTIZE_INTERPOLATOR_ID: String = "QuantizeInterpolatorID"
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_STAGGER,
                 S_PATH_ROTATE,
                 S_QUANTIZE_MOTION_PHASE,
@@ -559,178 +438,156 @@ public interface TypedValues {
                 S_POLAR_RELATIVETO,
                 S_QUANTIZE_MOTIONSTEPS,
                 S_QUANTIZE_INTERPOLATOR_TYPE,
-                S_QUANTIZE_INTERPOLATOR_ID,
-        };
-        public static final int TYPE_STAGGER = 600;
-        public static final int TYPE_PATH_ROTATE = 601;
-        public static final int TYPE_QUANTIZE_MOTION_PHASE = 602;
-        public static final int TYPE_EASING = 603;
-        public static final int TYPE_QUANTIZE_INTERPOLATOR = 604;
-        public static final int TYPE_ANIMATE_RELATIVE_TO = 605;
-        public static final int TYPE_ANIMATE_CIRCLEANGLE_TO = 606;
-        public static final int TYPE_PATHMOTION_ARC = 607;
-        public static final int TYPE_DRAW_PATH = 608;
-        public static final int TYPE_POLAR_RELATIVETO = 609;
-        public static final int TYPE_QUANTIZE_MOTIONSTEPS = 610;
-        public static final int TYPE_QUANTIZE_INTERPOLATOR_TYPE = 611;
-        public static final int TYPE_QUANTIZE_INTERPOLATOR_ID = 612;
+                S_QUANTIZE_INTERPOLATOR_ID
+            )
+            val TYPE_STAGGER: Int = 600
+            val TYPE_PATH_ROTATE: Int = 601
+            val TYPE_QUANTIZE_MOTION_PHASE: Int = 602
+            val TYPE_EASING: Int = 603
+            val TYPE_QUANTIZE_INTERPOLATOR: Int = 604
+            val TYPE_ANIMATE_RELATIVE_TO: Int = 605
+            val TYPE_ANIMATE_CIRCLEANGLE_TO: Int = 606
+            val TYPE_PATHMOTION_ARC: Int = 607
+            val TYPE_DRAW_PATH: Int = 608
+            val TYPE_POLAR_RELATIVETO: Int = 609
+            val TYPE_QUANTIZE_MOTIONSTEPS: Int = 610
+            val TYPE_QUANTIZE_INTERPOLATOR_TYPE: Int = 611
+            val TYPE_QUANTIZE_INTERPOLATOR_ID: Int = 612
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_STAGGER:
-                    return TYPE_STAGGER;
-                case S_PATH_ROTATE:
-                    return TYPE_PATH_ROTATE;
-                case S_QUANTIZE_MOTION_PHASE:
-                    return TYPE_QUANTIZE_MOTION_PHASE;
-                case S_EASING:
-                    return TYPE_EASING;
-                case S_QUANTIZE_INTERPOLATOR:
-                    return TYPE_QUANTIZE_INTERPOLATOR;
-                case S_ANIMATE_RELATIVE_TO:
-                    return TYPE_ANIMATE_RELATIVE_TO;
-                case S_ANIMATE_CIRCLEANGLE_TO:
-                    return TYPE_ANIMATE_CIRCLEANGLE_TO;
-                case S_PATHMOTION_ARC:
-                    return TYPE_PATHMOTION_ARC;
-                case S_DRAW_PATH:
-                    return TYPE_DRAW_PATH;
-                case S_POLAR_RELATIVETO:
-                    return TYPE_POLAR_RELATIVETO;
-                case S_QUANTIZE_MOTIONSTEPS:
-                    return TYPE_QUANTIZE_MOTIONSTEPS;
-                case S_QUANTIZE_INTERPOLATOR_TYPE:
-                    return TYPE_QUANTIZE_INTERPOLATOR_TYPE;
-                case S_QUANTIZE_INTERPOLATOR_ID:
-                    return TYPE_QUANTIZE_INTERPOLATOR_ID;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            @kotlin.jvm.JvmStatic
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_STAGGER -> return TYPE_STAGGER
+                    S_PATH_ROTATE -> return TYPE_PATH_ROTATE
+                    S_QUANTIZE_MOTION_PHASE -> return TYPE_QUANTIZE_MOTION_PHASE
+                    S_EASING -> return TYPE_EASING
+                    S_QUANTIZE_INTERPOLATOR -> return TYPE_QUANTIZE_INTERPOLATOR
+                    S_ANIMATE_RELATIVE_TO -> return TYPE_ANIMATE_RELATIVE_TO
+                    S_ANIMATE_CIRCLEANGLE_TO -> return TYPE_ANIMATE_CIRCLEANGLE_TO
+                    S_PATHMOTION_ARC -> return TYPE_PATHMOTION_ARC
+                    S_DRAW_PATH -> return TYPE_DRAW_PATH
+                    S_POLAR_RELATIVETO -> return TYPE_POLAR_RELATIVETO
+                    S_QUANTIZE_MOTIONSTEPS -> return TYPE_QUANTIZE_MOTIONSTEPS
+                    S_QUANTIZE_INTERPOLATOR_TYPE -> return TYPE_QUANTIZE_INTERPOLATOR_TYPE
+                    S_QUANTIZE_INTERPOLATOR_ID -> return TYPE_QUANTIZE_INTERPOLATOR_ID
+                }
+                return -1
             }
-            return -1;
         }
-
     }
 
-    interface Custom {
-        public static final String NAME = "Custom";
-        public static final String S_INT = "integer";
-        public static final String S_FLOAT = "float";
-        public static final String S_COLOR = "color";
-        public static final String S_STRING = "string";
-        public static final String S_BOOLEAN = "boolean";
-        public static final String S_DIMENSION = "dimension";
-        public static final String S_REFERENCE = "refrence";
-        public static final String[] KEY_WORDS = {
+    open interface Custom {
+        companion object {
+            val NAME: String = "Custom"
+            val S_INT: String = "integer"
+            val S_FLOAT: String = "float"
+            val S_COLOR: String = "color"
+            val S_STRING: String = "string"
+            val S_BOOLEAN: String = "boolean"
+            val S_DIMENSION: String = "dimension"
+            val S_REFERENCE: String = "refrence"
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_FLOAT,
                 S_COLOR,
                 S_STRING,
                 S_BOOLEAN,
                 S_DIMENSION,
-                S_REFERENCE,
-        };
-        public static final int TYPE_INT = 900;
-        public static final int TYPE_FLOAT = 901;
-        public static final int TYPE_COLOR = 902;
-        public static final int TYPE_STRING = 903;
-        public static final int TYPE_BOOLEAN = 904;
-        public static final int TYPE_DIMENSION = 905;
-        public static final int TYPE_REFERENCE = 906;
+                S_REFERENCE
+            )
+            val TYPE_INT: Int = 900
+            val TYPE_FLOAT: Int = 901
+            val TYPE_COLOR: Int = 902
+            val TYPE_STRING: Int = 903
+            val TYPE_BOOLEAN: Int = 904
+            val TYPE_DIMENSION: Int = 905
+            val TYPE_REFERENCE: Int = 906
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_INT:
-                    return TYPE_INT;
-                case S_FLOAT:
-                    return TYPE_FLOAT;
-                case S_COLOR:
-                    return TYPE_COLOR;
-                case S_STRING:
-                    return TYPE_STRING;
-                case S_BOOLEAN:
-                    return TYPE_BOOLEAN;
-                case S_DIMENSION:
-                    return TYPE_DIMENSION;
-                case S_REFERENCE:
-                    return TYPE_REFERENCE;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_INT -> return TYPE_INT
+                    S_FLOAT -> return TYPE_FLOAT
+                    S_COLOR -> return TYPE_COLOR
+                    S_STRING -> return TYPE_STRING
+                    S_BOOLEAN -> return TYPE_BOOLEAN
+                    S_DIMENSION -> return TYPE_DIMENSION
+                    S_REFERENCE -> return TYPE_REFERENCE
+                }
+                return -1
             }
-            return -1;
         }
     }
 
-    interface MotionScene {
-        public static final String NAME = "MotionScene";
-        public static final String S_DEFAULT_DURATION = "defaultDuration";
-        public static final String S_LAYOUT_DURING_TRANSITION = "layoutDuringTransition";
-        public static final int TYPE_DEFAULT_DURATION = 600;
-        public static final int TYPE_LAYOUT_DURING_TRANSITION = 601;
-
-        public static final String[] KEY_WORDS = {
+    open interface MotionScene {
+        companion object {
+            val NAME: String = "MotionScene"
+            val S_DEFAULT_DURATION: String = "defaultDuration"
+            val S_LAYOUT_DURING_TRANSITION: String = "layoutDuringTransition"
+            val TYPE_DEFAULT_DURATION: Int = 600
+            val TYPE_LAYOUT_DURING_TRANSITION: Int = 601
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_DEFAULT_DURATION,
-                S_LAYOUT_DURING_TRANSITION,
-        };
+                S_LAYOUT_DURING_TRANSITION
+            )
 
-        public static int getType(int name) {
-            switch (name) {
-                case TYPE_DEFAULT_DURATION:
-                    return INT_MASK;
-                case TYPE_LAYOUT_DURING_TRANSITION:
-                    return BOOLEAN_MASK;
+            fun getType(name: Int): Int {
+                when (name) {
+                    TYPE_DEFAULT_DURATION -> return INT_MASK
+                    TYPE_LAYOUT_DURING_TRANSITION -> return BOOLEAN_MASK
+                }
+                return -1
             }
-            return -1;
-        }
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_DEFAULT_DURATION:
-                    return TYPE_DEFAULT_DURATION;
-                case S_LAYOUT_DURING_TRANSITION:
-                    return TYPE_LAYOUT_DURING_TRANSITION;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_DEFAULT_DURATION -> return TYPE_DEFAULT_DURATION
+                    S_LAYOUT_DURING_TRANSITION -> return TYPE_LAYOUT_DURING_TRANSITION
+                }
+                return -1
             }
-            return -1;
         }
     }
 
-    interface TransitionType {
-        public static final String NAME = "Transitions";
-        public static final String S_DURATION = "duration";
-        public static final String S_FROM = "from";
-        public static final String S_TO = "to";
-        public static final String S_PATH_MOTION_ARC = "pathMotionArc";
-        public static final String S_AUTO_TRANSITION = "autoTransition";
-        public static final String S_INTERPOLATOR = "motionInterpolator";
-        public static final String S_STAGGERED = "staggered";
-        public static final String S_TRANSITION_FLAGS = "transitionFlags";
-
-        public static final int TYPE_DURATION = 700;
-        public static final int TYPE_FROM = 701;
-        public static final int TYPE_TO = 702;
-        public static final int TYPE_PATH_MOTION_ARC = PositionType.TYPE_PATH_MOTION_ARC;
-        public static final int TYPE_AUTO_TRANSITION = 704;
-        public static final int TYPE_INTERPOLATOR = 705;
-        public static final int TYPE_STAGGERED = 706;
-        public static final int TYPE_TRANSITION_FLAGS = 707;
-
-
-        public static final String[] KEY_WORDS = {
+    open interface TransitionType {
+        companion object {
+            val NAME: String = "Transitions"
+            val S_DURATION: String = "duration"
+            val S_FROM: String = "from"
+            val S_TO: String = "to"
+            val S_PATH_MOTION_ARC: String = "pathMotionArc"
+            val S_AUTO_TRANSITION: String = "autoTransition"
+            val S_INTERPOLATOR: String = "motionInterpolator"
+            val S_STAGGERED: String = "staggered"
+            val S_TRANSITION_FLAGS: String = "transitionFlags"
+            val TYPE_DURATION: Int = 700
+            val TYPE_FROM: Int = 701
+            val TYPE_TO: Int = 702
+            val TYPE_PATH_MOTION_ARC: Int = PositionType.TYPE_PATH_MOTION_ARC
+            val TYPE_AUTO_TRANSITION: Int = 704
+            val TYPE_INTERPOLATOR: Int = 705
+            val TYPE_STAGGERED: Int = 706
+            val TYPE_TRANSITION_FLAGS: Int = 707
+            val KEY_WORDS: Array<String> = arrayOf(
                 S_DURATION,
                 S_FROM,
                 S_TO,
@@ -739,103 +596,98 @@ public interface TypedValues {
                 S_INTERPOLATOR,
                 S_STAGGERED,
                 S_FROM,
-                S_TRANSITION_FLAGS,
-        };
+                S_TRANSITION_FLAGS
+            )
 
-        public static int getType(int name) {
-            switch (name) {
-                case TYPE_DURATION:
-                case TYPE_PATH_MOTION_ARC:
-                    return INT_MASK;
-                case TYPE_FROM:
-                case TYPE_TO:
-                case TYPE_INTERPOLATOR:
-                case TYPE_TRANSITION_FLAGS:
-                    return STRING_MASK;
-
-                case TYPE_STAGGERED:
-                    return FLOAT_MASK;
+            fun getType(name: Int): Int {
+                when (name) {
+                    TYPE_DURATION, TYPE_PATH_MOTION_ARC -> return INT_MASK
+                    TYPE_FROM, TYPE_TO, TYPE_INTERPOLATOR, TYPE_TRANSITION_FLAGS -> return STRING_MASK
+                    TYPE_STAGGERED -> return FLOAT_MASK
+                }
+                return -1
             }
-            return -1;
-        }
 
-        /**
-         * Method to go from String names of values to id of the values
-         * IDs are use for efficiency
-         *
-         * @param name the name of the value
-         * @return the id of the vlalue or -1 if no value exist
-         */
-        public static int getId(String name) {
-            switch (name) {
-                case S_DURATION:
-                    return TYPE_DURATION;
-                case S_FROM:
-                    return TYPE_FROM;
-                case S_TO:
-                    return TYPE_TO;
-                case S_PATH_MOTION_ARC:
-                    return TYPE_PATH_MOTION_ARC;
-                case S_AUTO_TRANSITION:
-                    return TYPE_AUTO_TRANSITION;
-                case S_INTERPOLATOR:
-                    return TYPE_INTERPOLATOR;
-                case S_STAGGERED:
-                    return TYPE_STAGGERED;
-                case S_TRANSITION_FLAGS:
-                    return TYPE_TRANSITION_FLAGS;
+            /**
+             * Method to go from String names of values to id of the values
+             * IDs are use for efficiency
+             *
+             * @param name the name of the value
+             * @return the id of the vlalue or -1 if no value exist
+             */
+            fun getId(name: String?): Int {
+                when (name) {
+                    S_DURATION -> return TYPE_DURATION
+                    S_FROM -> return TYPE_FROM
+                    S_TO -> return TYPE_TO
+                    S_PATH_MOTION_ARC -> return TYPE_PATH_MOTION_ARC
+                    S_AUTO_TRANSITION -> return TYPE_AUTO_TRANSITION
+                    S_INTERPOLATOR -> return TYPE_INTERPOLATOR
+                    S_STAGGERED -> return TYPE_STAGGERED
+                    S_TRANSITION_FLAGS -> return TYPE_TRANSITION_FLAGS
+                }
+                return -1
             }
-            return -1;
         }
     }
 
-    interface OnSwipe {
-        public static final String DRAG_SCALE = "dragscale";
-        public static final String DRAG_THRESHOLD = "dragthreshold";
-
-        public static final String MAX_VELOCITY = "maxvelocity";
-        public static final String MAX_ACCELERATION = "maxacceleration";
-        public static final String SPRING_MASS = "springmass";
-        public static final String SPRING_STIFFNESS = "springstiffness";
-        public static final String SPRING_DAMPING = "springdamping";
-        public static final String SPRINGS_TOP_THRESHOLD = "springstopthreshold";
-
-        public static final String DRAG_DIRECTION = "dragdirection";
-        public static final String TOUCH_ANCHOR_ID = "touchanchorid";
-        public static final String TOUCH_ANCHOR_SIDE = "touchanchorside";
-        public static final String ROTATION_CENTER_ID = "rotationcenterid";
-        public static final String TOUCH_REGION_ID = "touchregionid";
-        public static final String LIMIT_BOUNDS_TO = "limitboundsto";
-
-        public static final String MOVE_WHEN_SCROLLAT_TOP = "movewhenscrollattop";
-        public static final String ON_TOUCH_UP = "ontouchup";
-        public static final String[] ON_TOUCH_UP_ENUM = {"autoComplete",
+    open interface OnSwipe {
+        companion object {
+            val DRAG_SCALE: String = "dragscale"
+            val DRAG_THRESHOLD: String = "dragthreshold"
+            val MAX_VELOCITY: String = "maxvelocity"
+            val MAX_ACCELERATION: String = "maxacceleration"
+            val SPRING_MASS: String = "springmass"
+            val SPRING_STIFFNESS: String = "springstiffness"
+            val SPRING_DAMPING: String = "springdamping"
+            val SPRINGS_TOP_THRESHOLD: String = "springstopthreshold"
+            val DRAG_DIRECTION: String = "dragdirection"
+            val TOUCH_ANCHOR_ID: String = "touchanchorid"
+            val TOUCH_ANCHOR_SIDE: String = "touchanchorside"
+            val ROTATION_CENTER_ID: String = "rotationcenterid"
+            val TOUCH_REGION_ID: String = "touchregionid"
+            val LIMIT_BOUNDS_TO: String = "limitboundsto"
+            val MOVE_WHEN_SCROLLAT_TOP: String = "movewhenscrollattop"
+            val ON_TOUCH_UP: String = "ontouchup"
+            val ON_TOUCH_UP_ENUM: Array<String> = arrayOf(
+                "autoComplete",
                 "autoCompleteToStart",
                 "autoCompleteToEnd",
                 "stop",
                 "decelerate",
                 "decelerateAndComplete",
                 "neverCompleteToStart",
-                "neverCompleteToEnd"};
-
-
-        public static final String SPRING_BOUNDARY = "springboundary";
-        public static final String[] SPRING_BOUNDARY_ENUM = {"overshoot",
+                "neverCompleteToEnd"
+            )
+            val SPRING_BOUNDARY: String = "springboundary"
+            val SPRING_BOUNDARY_ENUM: Array<String> = arrayOf(
+                "overshoot",
                 "bounceStart",
                 "bounceEnd",
-                "bounceBoth"};
-
-        public static final String AUTOCOMPLETE_MODE = "autocompletemode";
-        public static final String[] AUTOCOMPLETE_MODE_ENUM = {
+                "bounceBoth"
+            )
+            val AUTOCOMPLETE_MODE: String = "autocompletemode"
+            val AUTOCOMPLETE_MODE_ENUM: Array<String> = arrayOf(
                 "continuousVelocity",
-                "spring"};
-
-        public static final String NESTED_SCROLL_FLAGS = "nestedscrollflags";
-        public static final String[] NESTED_SCROLL_FLAGS_ENUM = {"none",
+                "spring"
+            )
+            val NESTED_SCROLL_FLAGS: String = "nestedscrollflags"
+            val NESTED_SCROLL_FLAGS_ENUM: Array<String> = arrayOf(
+                "none",
                 "disablePostScroll",
                 "disableScroll",
-                "supportScrollUp"};
-
+                "supportScrollUp"
+            )
+        }
     }
 
+    companion object {
+        val S_CUSTOM: String = "CUSTOM"
+        val BOOLEAN_MASK: Int = 1
+        val INT_MASK: Int = 2
+        val FLOAT_MASK: Int = 4
+        val STRING_MASK: Int = 8
+        val TYPE_FRAME_POSITION: Int = 100
+        val TYPE_TARGET: Int = 101
+    }
 }

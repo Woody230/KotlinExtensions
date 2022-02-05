@@ -13,20 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
+class Utils constructor() {
+    fun getInterpolatedColor(value: FloatArray): Int {
+        val r: Int = clamp(
+            (Math.pow(value.get(0).toDouble(), 1.0 / 2.2).toFloat() * 255.0f).toInt()
+        )
+        val g: Int = clamp(
+            (Math.pow(value.get(1).toDouble(), 1.0 / 2.2).toFloat() * 255.0f).toInt()
+        )
+        val b: Int = clamp(
+            (Math.pow(value.get(2).toDouble(), 1.0 / 2.2).toFloat() * 255.0f).toInt()
+        )
+        val a: Int = clamp((value.get(3) * 255.0f).toInt())
+        val color: Int = (a shl 24) or (r shl 16) or (g shl 8) or b
+        return color
+    }
 
-public class Utils {
+    open interface DebugHandle {
+        fun message(str: String?)
+    }
+
+    companion object {
+        /*
     public static void log(String tag, String value) {
         System.out.println(tag+" : "+value);
     }
     public static void loge(String tag, String value) {
         System.err.println(tag+" : "+value);
-    }
-
+    }*/
+        /*
    public static void socketSend(String str) {
        try {
            Socket socket = new Socket("127.0.0.1", 5327);
@@ -36,41 +53,30 @@ public class Utils {
        } catch (IOException e) {
            e.printStackTrace();
        }
-   }
+   }*/
+        private fun clamp(c: Int): Int {
+            var c: Int = c
+            val N: Int = 255
+            c = c and (c shr 31).inv()
+            c -= N
+            c = c and (c shr 31)
+            c += N
+            return c
+        }
 
-    private static int clamp(int c) {
-        int N = 255;
-        c &= ~(c >> 31);
-        c -= N;
-        c &= (c >> 31);
-        c += N;
-        return c;
-    }
+        fun rgbaTocColor(r: Float, g: Float, b: Float, a: Float): Int {
+            val ir: Int = clamp((r * 255f).toInt())
+            val ig: Int = clamp((g * 255f).toInt())
+            val ib: Int = clamp((b * 255f).toInt())
+            val ia: Int = clamp((a * 255f).toInt())
+            val color: Int = (ia shl 24) or (ir shl 16) or (ig shl 8) or ib
+            return color
+        }
 
-    public int getInterpolatedColor(float[] value) {
-        int r = clamp((int) ((float) Math.pow(value[0], 1.0 / 2.2) * 255.0f));
-        int g = clamp((int) ((float) Math.pow(value[1], 1.0 / 2.2) * 255.0f));
-        int b = clamp((int) ((float) Math.pow(value[2], 1.0 / 2.2) * 255.0f));
-        int a = clamp((int) (value[3] * 255.0f));
-        int color = (a << 24) | (r << 16) | (g << 8) | b;
-        return color;
-    }
-
-    public static int rgbaTocColor(float r, float g, float b, float a) {
-        int ir = clamp((int) (r * 255f));
-        int ig = clamp((int) (g * 255f));
-        int ib = clamp((int) (b * 255f));
-        int ia = clamp((int) (a * 255f));
-        int color = (ia << 24) | (ir << 16) | (ig << 8) | ib;
-        return color;
-    }
-    public interface DebugHandle {
-        void message(String str);
-    }
-    static DebugHandle ourHandle;
-    public static void setDebugHandle(DebugHandle handle) {
-        ourHandle = handle;
-    }
+        var ourHandle: DebugHandle? = null
+        fun setDebugHandle(handle: DebugHandle?) {
+            ourHandle = handle
+        } /*
     public static void logStack(String msg, int n) {
         StackTraceElement[] st = new Throwable().getStackTrace();
         String s = " ";
@@ -81,9 +87,10 @@ public class Utils {
             s += " ";
             System.out.println(msg + s + stack + s);
         }
-    }
-
+    }*/
+        /*
     public static void log(String str) {
+
         StackTraceElement s = new Throwable().getStackTrace()[1];
         String methodName =  s.getMethodName();
         methodName = (methodName+"                  ").substring(0,17);
@@ -94,5 +101,6 @@ public class Utils {
             ourHandle.message(ss + " " + str);
         }
     }
-
+*/
+    }
 }

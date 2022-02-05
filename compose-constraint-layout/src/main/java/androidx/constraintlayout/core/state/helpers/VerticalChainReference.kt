@@ -13,75 +13,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state.helpers
 
-package androidx.constraintlayout.core.state.helpers;
+import androidx.constraintlayout.core.state.ConstraintReference
+import androidx.constraintlayout.core.state.State
+import androidx.constraintlayout.core.widgets.ConstraintWidget
 
-import androidx.constraintlayout.core.widgets.ConstraintWidget;
-import androidx.constraintlayout.core.state.ConstraintReference;
-import androidx.constraintlayout.core.state.State;
-
-public class VerticalChainReference extends ChainReference {
-
-    public VerticalChainReference(State state) {
-        super(state, State.Helper.VERTICAL_CHAIN);
-    }
-
-    public void apply() {
-        ConstraintReference first = null;
-        ConstraintReference previous = null;
-        for (Object key : mReferences) {
-            ConstraintReference reference = mState.constraints(key);
-            reference.clearVertical();
+class VerticalChainReference(state: State?) : ChainReference(state, State.Helper.VERTICAL_CHAIN) {
+    override fun apply() {
+        var first: ConstraintReference? = null
+        var previous: ConstraintReference? = null
+        for (key in mReferences) {
+            val reference = mState.constraints(key)
+            reference!!.clearVertical()
         }
-
-        for (Object key : mReferences) {
-            ConstraintReference reference = mState.constraints(key);
+        for (key in mReferences) {
+            val reference = mState.constraints(key)
             if (first == null) {
-                first = reference;
+                first = reference
                 if (mTopToTop != null) {
-                    first.topToTop(mTopToTop);
+                    first!!.topToTop(mTopToTop)
                 } else if (mTopToBottom != null) {
-                    first.topToBottom(mTopToBottom);
+                    first!!.topToBottom(mTopToBottom)
                 } else {
-                    first.topToTop(State.PARENT);
+                    first!!.topToTop(State.PARENT)
                 }
             }
             if (previous != null) {
-                previous.bottomToTop(reference.getKey());
-                reference.topToBottom(previous.getKey());
+                if (reference != null) {
+                    previous.bottomToTop(reference.key)
+                }
+                reference!!.topToBottom(previous.key)
             }
-            previous = reference;
+            previous = reference
         }
-
         if (previous != null) {
             if (mBottomToTop != null) {
-                previous.bottomToTop(mBottomToTop);
+                previous.bottomToTop(mBottomToTop)
             } else if (mBottomToBottom != null) {
-                previous.bottomToBottom(mBottomToBottom);
+                previous.bottomToBottom(mBottomToBottom)
             } else {
-                previous.bottomToBottom(State.PARENT);
+                previous.bottomToBottom(State.PARENT)
             }
         }
-
         if (first == null) {
-            return;
+            return
         }
-
-        if (mBias != 0.5f) {
-            first.verticalBias(mBias);
+        if (bias != 0.5f) {
+            first.verticalBias(bias)
         }
-
-        switch (mStyle) {
-            case SPREAD: {
-                first.setVerticalChainStyle(ConstraintWidget.CHAIN_SPREAD);
-            } break;
-            case SPREAD_INSIDE: {
-                first.setVerticalChainStyle(ConstraintWidget.CHAIN_SPREAD_INSIDE);
-            } break;
-            case PACKED: {
-                first.setVerticalChainStyle(ConstraintWidget.CHAIN_PACKED);
+        when (mStyle) {
+            State.Chain.SPREAD -> {
+                first.setVerticalChainStyle(ConstraintWidget.CHAIN_SPREAD)
+            }
+            State.Chain.SPREAD_INSIDE -> {
+                first.setVerticalChainStyle(ConstraintWidget.CHAIN_SPREAD_INSIDE)
+            }
+            State.Chain.PACKED -> {
+                first.setVerticalChainStyle(ConstraintWidget.CHAIN_PACKED)
             }
         }
     }
-
 }

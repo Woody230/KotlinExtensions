@@ -13,265 +13,231 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLParser {
+class CLParser(private val mContent: String) {
+    private var hasComment = false
+    private var lineNumber = 0
 
-  static boolean DEBUG = false;
-
-  private String mContent;
-  private boolean hasComment = false;
-  private int lineNumber;
-
-  enum TYPE {UNKNOWN, OBJECT, ARRAY, NUMBER, STRING, KEY, TOKEN}
-
-  public static CLObject parse(String string) throws CLParsingException {
-    return (new CLParser(string)).parse();
-  }
-
-  public CLParser(String content) {
-    mContent = content;
-  }
-
-  public CLObject parse() throws CLParsingException {
-    CLObject root = null;
-
-    char[] content = mContent.toCharArray();
-    CLElement currentElement = null;
-
-    final int length = content.length;
-
-    // First, let's find the root element start
-    lineNumber = 1;
-
-    int startIndex = -1;
-    for (int i = 0; i < length; i++) {
-      char c = content[i];
-      if (c == '{') {
-        startIndex = i;
-        break;
-      }
-      if (c == '\n') {
-        lineNumber++;
-      }
-    }
-    if (startIndex == -1) {
-      throw new CLParsingException("invalid json content", null);
+    internal enum class TYPE {
+        UNKNOWN, OBJECT, ARRAY, NUMBER, STRING, KEY, TOKEN
     }
 
-    // We have a root object, let's start
-    root = CLObject.allocate(content);
-    root.setLine(lineNumber);
-    root.setStart(startIndex);
-    currentElement = root;
+    @Throws(CLParsingException::class)
+    fun parse(): CLObject {
+        var root: CLObject? = null
+        val content = mContent.toCharArray()
+        var currentElement: CLElement? = null
+        val length = content.size
 
-    for (int i = startIndex + 1; i < length; i++) {
-      char c = content[i];
-      if (c == '\n') {
-        lineNumber++;
-      }
-      if (hasComment) {
-        if (c == '\n') {
-          hasComment = false;
-        } else {
-          continue;
-        }
-      }
-      if (false) {
-        System.out.println("Looking at " + i + " : <" + c + ">");
-      }
-      if (currentElement == null) {
-        break;
-      }
-      if (currentElement.isDone()) {
-        currentElement = getNextJsonElement(i, c, currentElement, content);
-      } else if (currentElement instanceof CLObject) {
-        if (c == '}') {
-          currentElement.setEnd(i - 1);
-        } else {
-          currentElement = getNextJsonElement(i, c, currentElement, content);
-        }
-      } else if (currentElement instanceof CLArray) {
-        if (c == ']') {
-          currentElement.setEnd(i - 1);
-        } else {
-          currentElement = getNextJsonElement(i, c, currentElement, content);
-        }
-      } else if (currentElement instanceof CLString) {
-        char ck = content[(int) currentElement.start];
-        if (ck == c) {
-          currentElement.setStart(currentElement.start + 1);
-          currentElement.setEnd(i - 1);
-        }
-      } else {
-        if (currentElement instanceof CLToken) {
-          CLToken token = (CLToken) currentElement;
-          if (!token.validate(c, i)) {
-            throw new CLParsingException("parsing incorrect token " + token.content() +
-                    " at line " + lineNumber, token);
-          }
-        }
-        if (currentElement instanceof CLKey || currentElement instanceof CLString) {
-          char ck = content[(int) currentElement.start];
-          if ((ck == '\'' || ck == '"') && ck == c) {
-            currentElement.setStart(currentElement.start + 1);
-            currentElement.setEnd(i - 1);
-          }
-        }
-        if (!currentElement.isDone()) {
-          if (c == '}' || c == ']' || c == ',' || c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == ':') {
-            currentElement.setEnd(i - 1);
-            if (c == '}' || c == ']') {
-              currentElement = currentElement.getContainer();
-              currentElement.setEnd(i - 1);
-              if (currentElement instanceof CLKey) {
-                currentElement = currentElement.getContainer();
-                currentElement.setEnd(i - 1);
-              }
+        // First, let's find the root element start
+        lineNumber = 1
+        var startIndex = -1
+        for (i in 0 until length) {
+            val c = content[i]
+            if (c == '{') {
+                startIndex = i
+                break
             }
-          }
+            if (c == '\n') {
+                lineNumber++
+            }
         }
-      }
-
-      if (currentElement.isDone() && (!(currentElement instanceof CLKey) || ((CLKey) currentElement).mElements.size() > 0) ) {
-        currentElement = currentElement.getContainer();
-      }
-    }
-
-    // Close all open elements -- allow us to be more resistant to invalid json, useful during editing.
-    while (currentElement != null && !currentElement.isDone()) {
-      if (currentElement instanceof CLString) {
-        currentElement.setStart((int) currentElement.start + 1);
-      }
-      currentElement.setEnd(length - 1);
-      currentElement = currentElement.getContainer();
-    }
-
-    if (DEBUG) {
-      System.out.println("Root: " + root.toJSON());
-    }
-
-    return root;
-  }
-
-  private CLElement getNextJsonElement(int position, char c, CLElement currentElement,
-                                              char[] content) throws CLParsingException {
-    switch (c) {
-      case ' ':
-      case ':':
-      case ',':
-      case '\t':
-      case '\r':
-      case '\n': {
-        // skip space
-      }
-      break;
-      case '{': {
-        currentElement = createElement(currentElement, position, TYPE.OBJECT, true, content);
-      }
-      break;
-      case '[': {
-        currentElement = createElement(currentElement, position, TYPE.ARRAY, true, content);
-      }
-      break;
-      case ']':
-      case '}': {
-        currentElement.setEnd(position-1);
-        currentElement = currentElement.getContainer();
-        currentElement.setEnd(position);
-      } break;
-      case '"':
-      case '\'': {
-        if (currentElement instanceof CLObject) {
-          currentElement = createElement(currentElement, position, TYPE.KEY, true, content);
-        } else {
-          currentElement = createElement(currentElement, position, TYPE.STRING, true, content);
+        if (startIndex == -1) {
+            throw CLParsingException("invalid json content", null)
         }
-      } break;
-      case '/': {
-        if (position + 1 < content.length && content[position + 1] == '/') {
-          hasComment = true;
-        }
-      }
-      break;
-      case '-':
-      case '+':
-      case '.':
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9': {
-        currentElement = createElement(currentElement, position, TYPE.NUMBER, true, content);
-      }
-      break;
-      default: {
-        if (currentElement instanceof CLContainer && !(currentElement instanceof CLObject)) {
-          currentElement = createElement(currentElement, position, TYPE.TOKEN, true, content);
-          CLToken token = (CLToken) currentElement;
-          if (!token.validate(c, position)) {
-            throw new CLParsingException("incorrect token <" + c + "> at line " + lineNumber, token);
-          }
-        } else {
-          currentElement = createElement(currentElement, position, TYPE.KEY, true, content);
-        }
-      }
-    }
-    return currentElement;
-  }
 
-  private CLElement createElement(CLElement currentElement, int position,
-                                         TYPE type, boolean applyStart, char[] content) {
-    CLElement newElement = null;
-    if (DEBUG) {
-      System.out.println("CREATE " + type + " at " + content[position]);
-    }
-    switch (type) {
-      case OBJECT: {
-        newElement = CLObject.allocate(content);
-        position++;
-      }
-      break;
-      case ARRAY: {
-        newElement = CLArray.allocate(content);
-        position++;
-      }
-      break;
-      case STRING: {
-        newElement = CLString.allocate(content);
-      }
-      break;
-      case NUMBER: {
-        newElement = CLNumber.allocate(content);
-      }
-      break;
-      case KEY: {
-        newElement = CLKey.allocate(content);
-      }
-      break;
-      case TOKEN: {
-        newElement = CLToken.allocate(content);
-      }
-      break;
-      default: break;
-    }
-    if (newElement == null) {
-      return null;
-    }
-    newElement.setLine(lineNumber);
-    if (applyStart) {
-      newElement.setStart(position);
-    }
-    if (currentElement instanceof CLContainer) {
-      CLContainer container = (CLContainer) currentElement;
-      newElement.setContainer(container);
-    }
-    return newElement;
-  }
+        // We have a root object, let's start
+        root = CLObject.allocate(content)
+        root.line = lineNumber
+        root.start = startIndex.toLong()
+        currentElement = root
+        for (i in startIndex + 1 until length) {
+            val c = content[i]
+            if (c == '\n') {
+                lineNumber++
+            }
+            if (hasComment) {
+                hasComment = if (c == '\n') {
+                    false
+                } else {
+                    continue
+                }
+            }
+            if (false) {
+                println("Looking at $i : <$c>")
+            }
+            if (currentElement == null) {
+                break
+            }
+            if (currentElement.isDone) {
+                currentElement = getNextJsonElement(i, c, currentElement, content)
+            } else if (currentElement is CLObject) {
+                if (c == '}') {
+                    currentElement.setEnd((i - 1).toLong())
+                } else {
+                    currentElement = getNextJsonElement(i, c, currentElement, content)
+                }
+            } else if (currentElement is CLArray) {
+                if (c == ']') {
+                    currentElement.setEnd((i - 1).toLong())
+                } else {
+                    currentElement = getNextJsonElement(i, c, currentElement, content)
+                }
+            } else if (currentElement is CLString) {
+                val ck = content[currentElement.start.toInt()]
+                if (ck == c) {
+                    currentElement.start = currentElement.start + 1
+                    currentElement.setEnd((i - 1).toLong())
+                }
+            } else {
+                if (currentElement is CLToken) {
+                    val token = currentElement
+                    if (!token.validate(c, i.toLong())) {
+                        throw CLParsingException(
+                            "parsing incorrect token " + token.content() +
+                                    " at line " + lineNumber, token
+                        )
+                    }
+                }
+                if (currentElement is CLKey || currentElement is CLString) {
+                    val ck = content[currentElement.start.toInt()]
+                    if ((ck == '\'' || ck == '"') && ck == c) {
+                        currentElement.start = currentElement.start + 1
+                        currentElement.setEnd((i - 1).toLong())
+                    }
+                }
+                if (!currentElement.isDone) {
+                    if (c == '}' || c == ']' || c == ',' || c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == ':') {
+                        currentElement.setEnd((i - 1).toLong())
+                        if (c == '}' || c == ']') {
+                            currentElement = currentElement.container
+                            currentElement!!.setEnd((i - 1).toLong())
+                            if (currentElement is CLKey) {
+                                currentElement = currentElement.container
+                                currentElement!!.setEnd((i - 1).toLong())
+                            }
+                        }
+                    }
+                }
+            }
+            if (currentElement.isDone && (currentElement !is CLKey || currentElement.mElements.size > 0)) {
+                currentElement = currentElement.container
+            }
+        }
 
+        // Close all open elements -- allow us to be more resistant to invalid json, useful during editing.
+        while (currentElement != null && !currentElement.isDone) {
+            (currentElement as? CLString)?.start = currentElement.start.toInt() + 1L
+            currentElement.setEnd((length - 1).toLong())
+            currentElement = currentElement.container
+        }
+        if (DEBUG) {
+            println("Root: " + root.toJSON())
+        }
+        return root
+    }
+
+    @Throws(CLParsingException::class)
+    private fun getNextJsonElement(
+        position: Int, c: Char, currentElement: CLElement,
+        content: CharArray
+    ): CLElement {
+        var currentElement: CLElement? = currentElement
+        when (c) {
+            ' ', ':', ',', '\t', '\r', '\n' -> {}
+            '{' -> {
+                currentElement = createElement(currentElement, position, TYPE.OBJECT, true, content)
+            }
+            '[' -> {
+                currentElement = createElement(currentElement, position, TYPE.ARRAY, true, content)
+            }
+            ']', '}' -> {
+                currentElement!!.setEnd((position - 1).toLong())
+                currentElement = currentElement.container
+                currentElement!!.setEnd(position.toLong())
+            }
+            '"', '\'' -> {
+                currentElement = if (currentElement is CLObject) {
+                    createElement(currentElement, position, TYPE.KEY, true, content)
+                } else {
+                    createElement(currentElement, position, TYPE.STRING, true, content)
+                }
+            }
+            '/' -> {
+                if (position + 1 < content.size && content[position + 1] == '/') {
+                    hasComment = true
+                }
+            }
+            '-', '+', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
+                currentElement = createElement(currentElement, position, TYPE.NUMBER, true, content)
+            }
+            else -> {
+                if (currentElement is CLContainer && currentElement !is CLObject) {
+                    currentElement = createElement(currentElement, position, TYPE.TOKEN, true, content)
+                    val token = currentElement as CLToken?
+                    if (!token!!.validate(c, position.toLong())) {
+                        throw CLParsingException("incorrect token <$c> at line $lineNumber", token)
+                    }
+                } else {
+                    currentElement = createElement(currentElement, position, TYPE.KEY, true, content)
+                }
+            }
+        }
+        return currentElement!!
+    }
+
+    private fun createElement(
+        currentElement: CLElement?, position: Int,
+        type: TYPE, applyStart: Boolean, content: CharArray
+    ): CLElement? {
+        var position = position
+        var newElement: CLElement? = null
+        if (DEBUG) {
+            println("CREATE " + type + " at " + content[position])
+        }
+        when (type) {
+            TYPE.OBJECT -> {
+                newElement = CLObject.allocate(content)
+                position++
+            }
+            TYPE.ARRAY -> {
+                newElement = CLArray.allocate(content)
+                position++
+            }
+            TYPE.STRING -> {
+                newElement = CLString.allocate(content)
+            }
+            TYPE.NUMBER -> {
+                newElement = CLNumber.allocate(content)
+            }
+            TYPE.KEY -> {
+                newElement = CLKey.allocate(content)
+            }
+            TYPE.TOKEN -> {
+                newElement = CLToken.allocate(content)
+            }
+            else -> {}
+        }
+        if (newElement == null) {
+            return null
+        }
+        newElement.line = lineNumber
+        if (applyStart) {
+            newElement.start = position.toLong()
+        }
+        if (currentElement is CLContainer) {
+            newElement.setContainer(currentElement)
+        }
+        return newElement
+    }
+
+    companion object {
+        @JvmField
+        var DEBUG = false
+        @Throws(CLParsingException::class)
+        fun parse(string: String): CLObject {
+            return CLParser(string).parse()
+        }
+    }
 }

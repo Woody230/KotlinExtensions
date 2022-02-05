@@ -13,79 +13,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-import java.util.Iterator;
-
-public class CLObject extends CLContainer implements Iterable<CLKey>{
-
-  public CLObject(char[] content) {
-    super(content);
-  }
-
-  public static CLObject allocate(char[] content) {
-    return new CLObject(content);
-  }
-
-  public String toJSON() {
-    StringBuilder json = new StringBuilder(getDebugName() + "{ ");
-    boolean first = true;
-    for (CLElement element : mElements) {
-      if (!first) {
-        json.append(", ");
-      } else {
-        first = false;
-      }
-      json.append(element.toJSON());
-    }
-    json.append(" }");
-    return json.toString();
-  }
-
-  public String toFormattedJSON() {
-    return toFormattedJSON(0, 0);
-  }
-
-  public String toFormattedJSON(int indent, int forceIndent) {
-    StringBuilder json = new StringBuilder(getDebugName());
-    json.append("{\n");
-    boolean first = true;
-    for (CLElement element : mElements) {
-      if (!first) {
-        json.append(",\n");
-      } else {
-        first = false;
-      }
-      json.append(element.toFormattedJSON(indent + BASE_INDENT, forceIndent - 1));
-    }
-    json.append("\n");
-    addIndent(json, indent);
-    json.append("}");
-    return json.toString();
-  }
-
-  @Override
-  public Iterator iterator() {
-    return new CLObjectIterator(this);
-  }
-
-  private class CLObjectIterator implements Iterator {
-    CLObject myObject;
-    int index = 0;
-    public CLObjectIterator(CLObject clObject) {
-      myObject = clObject;
+class CLObject(content: CharArray?) : CLContainer(content!!), Iterable<CLKey?> {
+    override fun toJSON(): String {
+        val json = StringBuilder("$debugName{ ")
+        var first = true
+        for (element in mElements) {
+            if (!first) {
+                json.append(", ")
+            } else {
+                first = false
+            }
+            json.append(element.toJSON())
+        }
+        json.append(" }")
+        return json.toString()
     }
 
-    @Override
-    public boolean hasNext() {
-      return index < myObject.size();
+    fun toFormattedJSON(): String? {
+        return toFormattedJSON(0, 0)
     }
 
-    @Override
-    public Object next() {
-      CLKey key = (CLKey) myObject.mElements.get(index);
-      index++;
-      return key;
+    override fun toFormattedJSON(indent: Int, forceIndent: Int): String {
+        val json = StringBuilder(debugName)
+        json.append("{\n")
+        var first = true
+        for (element in mElements) {
+            if (!first) {
+                json.append(",\n")
+            } else {
+                first = false
+            }
+            json.append(element.toFormattedJSON(indent + BASE_INDENT, forceIndent - 1))
+        }
+        json.append("\n")
+        addIndent(json, indent)
+        json.append("}")
+        return json.toString()
     }
-  }
+
+    override fun iterator(): Iterator<CLKey> {
+        return CLObjectIterator(this)
+    }
+
+    private inner class CLObjectIterator(var myObject: CLObject) : Iterator<CLKey> {
+        var index = 0
+        override fun hasNext(): Boolean {
+            return index < myObject.size()
+        }
+
+        override fun next(): CLKey {
+            val key = myObject.mElements[index] as CLKey
+            index++
+            return key
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun allocate(content: CharArray?): CLObject {
+            return CLObject(content)
+        }
+    }
 }

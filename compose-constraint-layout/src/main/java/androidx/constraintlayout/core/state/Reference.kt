@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state
 
-package androidx.constraintlayout.core.state;
+import androidx.constraintlayout.core.state.helpers.Facade
+import androidx.constraintlayout.core.widgets.ConstraintWidget
 
-import androidx.constraintlayout.core.state.helpers.Facade;
-import androidx.constraintlayout.core.widgets.ConstraintWidget;
-
-public interface Reference {
-    ConstraintWidget getConstraintWidget();
-    void setConstraintWidget(ConstraintWidget widget);
-    void setKey(Object key);
-    Object getKey();
-    void apply();
-    Facade getFacade();
+interface Reference {
+    var constraintWidget: ConstraintWidget?
+    var key: Any?
+    fun apply()
+    val facade: Facade?
 }

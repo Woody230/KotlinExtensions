@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-import androidx.constraintlayout.core.motion.MotionWidget;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import androidx.constraintlayout.core.motion.MotionWidget
+import androidx.constraintlayout.core.motion.utils.TypedValues.CycleType
+import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType
 
 /**
  * Provide the engine for executing cycles.
@@ -28,106 +25,70 @@ import java.util.Comparator;
  *
  * @suppress
  */
-public abstract class KeyCycleOscillator {
-    private static final String TAG = "KeyCycleOscillator";
-    private CurveFit mCurveFit;
-    private CycleOscillator mCycleOscillator;
-    private String mType;
-    private int mWaveShape = 0;
-    private String mWaveString = null;
+abstract class KeyCycleOscillator() {
+    var curveFit: CurveFit? = null
+        private set
+    private var mCycleOscillator: CycleOscillator? = null
+    private var mType: String? = null
+    private var mWaveShape = 0
+    private var mWaveString: String? = null
+    var mVariesBy = 0 // 0 = position, 2=path
+    var mWavePoints = ArrayList<WavePoint>()
 
-    public int mVariesBy = 0; // 0 = position, 2=path
-    ArrayList<WavePoint> mWavePoints = new ArrayList<>();
-
-    public static KeyCycleOscillator makeWidgetCycle(String attribute) {
-        if (attribute.equals(TypedValues.AttributesType.S_PATH_ROTATE)) {
-            return new PathRotateSet(attribute);
-        }
-        return new CoreSpline(attribute);
-    }
-
-    private static class CoreSpline extends KeyCycleOscillator {
-        String type;
-        int typeId;
-
-        public CoreSpline(String str) {
-            type = str;
-            typeId = TypedValues.CycleType.getId(type);
+    private class CoreSpline(type: String) : KeyCycleOscillator() {
+        var typeId: Int
+        override fun setProperty(widget: MotionWidget, t: Float) {
+            widget.setValue(typeId, get(t))
         }
 
-        public void setProperty(MotionWidget widget, float t) {
-            widget.setValue(typeId, get(t));
+        init {
+            typeId = CycleType.Companion.getId(type)
         }
     }
 
-    public static class PathRotateSet extends KeyCycleOscillator {
-        String type;
-        int typeId;
-
-        public PathRotateSet(String str) {
-            type = str;
-            typeId = TypedValues.CycleType.getId(type);
+    class PathRotateSet(type: String) : KeyCycleOscillator() {
+        var typeId: Int
+        override fun setProperty(widget: MotionWidget, t: Float) {
+            widget.setValue(typeId, get(t))
         }
 
-        @Override
-        public void setProperty(MotionWidget widget, float t) {
-            widget.setValue(typeId, get(t));
+        fun setPathRotate(view: MotionWidget, t: Float, dx: Double, dy: Double) {
+            view.rotationZ = get(t) + Math.toDegrees(Math.atan2(dy, dx)).toFloat()
         }
 
-        public void setPathRotate(MotionWidget view, float t, double dx, double dy) {
-            view.setRotationZ(get(t) + (float) Math.toDegrees(Math.atan2(dy, dx)));
+        init {
+            typeId = CycleType.Companion.getId(type)
         }
     }
 
-    public boolean variesByPath() {
-        return mVariesBy == 1;
+    fun variesByPath(): Boolean {
+        return mVariesBy == 1
     }
 
-    static class WavePoint {
-        int mPosition;
-        float mValue;
-        float mOffset;
-        float mPeriod;
-        float mPhase;
+    class WavePoint(var mPosition: Int, var mPeriod: Float, var mOffset: Float, var mPhase: Float, var mValue: Float)
 
-        public WavePoint(int position, float period, float offset, float phase, float value) {
-            mPosition = position;
-            mValue = value;
-            mOffset = offset;
-            mPeriod = period;
-            mPhase = phase;
-        }
+    override fun toString(): String {
+        var str = mType
+        /*val df = DecimalFormat("##.##")
+        for (wp: WavePoint in mWavePoints) {
+            str += "[" + wp.mPosition + " , " + df.format(wp.mValue.toDouble()) + "] "
+        }*/
+        return (str) ?: ""
     }
 
-    @Override
-    public String toString() {
-        String str = mType;
-        DecimalFormat df = new DecimalFormat("##.##");
-        for (WavePoint wp : mWavePoints) {
-            str += "[" + wp.mPosition + " , " + df.format(wp.mValue) + "] ";
-        }
-        return str;
+    fun setType(type: String?) {
+        mType = type
     }
 
-    public void setType(String type) {
-        mType = type;
+    operator fun get(t: Float): Float {
+        return mCycleOscillator!!.getValues(t).toFloat()
     }
 
-    public float get(float t) {
-        return (float) mCycleOscillator.getValues(t);
+    fun getSlope(position: Float): Float {
+        return mCycleOscillator!!.getSlope(position).toFloat()
     }
 
-    public float getSlope(float position) {
-        return (float) mCycleOscillator.getSlope(position);
-    }
-
-    public CurveFit getCurveFit() {
-        return mCurveFit;
-    }
-
-    protected void setCustom(Object custom) {
-
-    }
+    protected fun setCustom(custom: Any?) {}
 
     /**
      * sets a oscillator wave point
@@ -139,22 +100,24 @@ public abstract class KeyCycleOscillator {
      * @param value         the adder
      * @param custom        The ConstraintAttribute used to set the value
      */
-    public void setPoint(int framePosition,
-                         int shape,
-                         String waveString,
-                         int variesBy,
-                         float period,
-                         float offset,
-                         float phase,
-                         float value,
-                         Object custom) {
-        mWavePoints.add(new WavePoint(framePosition, period, offset, phase, value));
+    fun setPoint(
+        framePosition: Int,
+        shape: Int,
+        waveString: String?,
+        variesBy: Int,
+        period: Float,
+        offset: Float,
+        phase: Float,
+        value: Float,
+        custom: Any?
+    ) {
+        mWavePoints.add(WavePoint(framePosition, period, offset, phase, value))
         if (variesBy != -1) {
-            mVariesBy = variesBy;
+            mVariesBy = variesBy
         }
-        mWaveShape = shape;
-        setCustom(custom);
-        mWaveString = waveString;
+        mWaveShape = shape
+        setCustom(custom)
+        mWaveString = waveString
     }
 
     /**
@@ -166,200 +129,186 @@ public abstract class KeyCycleOscillator {
      * @param offset        the offset value
      * @param value         the adder
      */
-    public void setPoint(int framePosition,
-                         int shape,
-                         String waveString,
-                         int variesBy,
-                         float period,
-                         float offset,
-                         float phase,
-                         float value) {
-        mWavePoints.add(new WavePoint(framePosition, period, offset, phase, value));
+    fun setPoint(
+        framePosition: Int,
+        shape: Int,
+        waveString: String?,
+        variesBy: Int,
+        period: Float,
+        offset: Float,
+        phase: Float,
+        value: Float
+    ) {
+        mWavePoints.add(WavePoint(framePosition, period, offset, phase, value))
         if (variesBy != -1) {
-            mVariesBy = variesBy;
+            mVariesBy = variesBy
         }
-        mWaveShape = shape;
-        mWaveString = waveString;
+        mWaveShape = shape
+        mWaveString = waveString
     }
 
-    public void setup(float pathLength) {
-        int count = mWavePoints.size();
+    fun setup(pathLength: Float) {
+        val count = mWavePoints.size
         if (count == 0) {
-            return;
+            return
         }
-        Collections.sort(mWavePoints, new Comparator<WavePoint>() {
-            @Override
-            public int compare(WavePoint lhs, WavePoint rhs) {
-                return Integer.compare(lhs.mPosition, rhs.mPosition);
-            }
-        });
-        double[] time = new double[count];
-        double[][] values = new double[count][3];
-        mCycleOscillator = new CycleOscillator(mWaveShape, mWaveString, mVariesBy, count);
-        int i = 0;
-        for (WavePoint wp : mWavePoints) {
-            time[i] = wp.mPeriod * 1E-2;
-            values[i][0] = wp.mValue;
-            values[i][1] = wp.mOffset;
-            values[i][2] = wp.mPhase;
-            mCycleOscillator.setPoint(i, wp.mPosition, wp.mPeriod, wp.mOffset, wp.mPhase, wp.mValue);
-            i++;
+        mWavePoints.sortWith { lhs, rhs -> lhs.mPosition.compareTo(rhs.mPosition) }
+        val time = DoubleArray(count)
+        val values = Array(count) { DoubleArray(3) }
+        mCycleOscillator = CycleOscillator(mWaveShape, mWaveString, mVariesBy, count)
+        var i = 0
+        for (wp: WavePoint in mWavePoints) {
+            time[i] = wp.mPeriod * 1E-2
+            values[i][0] = wp.mValue.toDouble()
+            values[i][1] = wp.mOffset.toDouble()
+            values[i][2] = wp.mPhase.toDouble()
+            mCycleOscillator!!.setPoint(i, wp.mPosition, wp.mPeriod, wp.mOffset, wp.mPhase, wp.mValue)
+            i++
         }
-        mCycleOscillator.setup(pathLength);
-        mCurveFit = CurveFit.get(CurveFit.SPLINE, time, values);
+        mCycleOscillator!!.setup(pathLength)
+        curveFit = CurveFit.Companion.get(CurveFit.Companion.SPLINE, time, values)
     }
 
-    private static class IntDoubleSort {
-        static void sort(int[] key, float[] value, int low, int hi) {
-            int[] stack = new int[key.length + 10];
-            int count = 0;
-            stack[count++] = hi;
-            stack[count++] = low;
+    private object IntDoubleSort {
+        fun sort(key: IntArray, value: FloatArray, low: Int, hi: Int) {
+            var low = low
+            var hi = hi
+            val stack = IntArray(key.size + 10)
+            var count = 0
+            stack[count++] = hi
+            stack[count++] = low
             while (count > 0) {
-                low = stack[--count];
-                hi = stack[--count];
+                low = stack[--count]
+                hi = stack[--count]
                 if (low < hi) {
-                    int p = partition(key, value, low, hi);
-                    stack[count++] = p - 1;
-                    stack[count++] = low;
-                    stack[count++] = hi;
-                    stack[count++] = p + 1;
+                    val p = partition(key, value, low, hi)
+                    stack[count++] = p - 1
+                    stack[count++] = low
+                    stack[count++] = hi
+                    stack[count++] = p + 1
                 }
             }
         }
 
-        private static int partition(int[] array, float[] value, int low, int hi) {
-            int pivot = array[hi];
-            int i = low;
-            for (int j = low; j < hi; j++) {
+        private fun partition(array: IntArray, value: FloatArray, low: Int, hi: Int): Int {
+            val pivot = array[hi]
+            var i = low
+            for (j in low until hi) {
                 if (array[j] <= pivot) {
-                    swap(array, value, i, j);
-                    i++;
+                    swap(array, value, i, j)
+                    i++
                 }
             }
-            swap(array, value, i, hi);
-            return i;
+            swap(array, value, i, hi)
+            return i
         }
 
-        private static void swap(int[] array, float[] value, int a, int b) {
-            int tmp = array[a];
-            array[a] = array[b];
-            array[b] = tmp;
-            float tmpv = value[a];
-            value[a] = value[b];
-            value[b] = tmpv;
+        private fun swap(array: IntArray, value: FloatArray, a: Int, b: Int) {
+            val tmp = array[a]
+            array[a] = array[b]
+            array[b] = tmp
+            val tmpv = value[a]
+            value[a] = value[b]
+            value[b] = tmpv
         }
     }
 
-    private static class IntFloatFloatSort {
-        static void sort(int[] key, float[] value1, float[] value2, int low, int hi) {
-            int[] stack = new int[key.length + 10];
-            int count = 0;
-            stack[count++] = hi;
-            stack[count++] = low;
+    private object IntFloatFloatSort {
+        fun sort(key: IntArray, value1: FloatArray, value2: FloatArray, low: Int, hi: Int) {
+            var low = low
+            var hi = hi
+            val stack = IntArray(key.size + 10)
+            var count = 0
+            stack[count++] = hi
+            stack[count++] = low
             while (count > 0) {
-                low = stack[--count];
-                hi = stack[--count];
+                low = stack[--count]
+                hi = stack[--count]
                 if (low < hi) {
-                    int p = partition(key, value1, value2, low, hi);
-                    stack[count++] = p - 1;
-                    stack[count++] = low;
-                    stack[count++] = hi;
-                    stack[count++] = p + 1;
+                    val p = partition(key, value1, value2, low, hi)
+                    stack[count++] = p - 1
+                    stack[count++] = low
+                    stack[count++] = hi
+                    stack[count++] = p + 1
                 }
             }
         }
 
-        private static int partition(int[] array, float[] value1, float[] value2, int low, int hi) {
-            int pivot = array[hi];
-            int i = low;
-            for (int j = low; j < hi; j++) {
+        private fun partition(array: IntArray, value1: FloatArray, value2: FloatArray, low: Int, hi: Int): Int {
+            val pivot = array[hi]
+            var i = low
+            for (j in low until hi) {
                 if (array[j] <= pivot) {
-                    swap(array, value1, value2, i, j);
-                    i++;
+                    swap(array, value1, value2, i, j)
+                    i++
                 }
             }
-            swap(array, value1, value2, i, hi);
-            return i;
+            swap(array, value1, value2, i, hi)
+            return i
         }
 
-        private static void swap(int[] array, float[] value1, float[] value2, int a, int b) {
-            int tmp = array[a];
-            array[a] = array[b];
-            array[b] = tmp;
-            float tmpFloat = value1[a];
-            value1[a] = value1[b];
-            value1[b] = tmpFloat;
-            tmpFloat = value2[a];
-            value2[a] = value2[b];
-            value2[b] = tmpFloat;
+        private fun swap(array: IntArray, value1: FloatArray, value2: FloatArray, a: Int, b: Int) {
+            val tmp = array[a]
+            array[a] = array[b]
+            array[b] = tmp
+            var tmpFloat = value1[a]
+            value1[a] = value1[b]
+            value1[b] = tmpFloat
+            tmpFloat = value2[a]
+            value2[a] = value2[b]
+            value2[b] = tmpFloat
         }
     }
 
-    static class CycleOscillator {
-        static final int UNSET = -1; // -1 is typically used through out android to the UNSET value
-        private static final String TAG = "CycleOscillator";
-        private final int mVariesBy;
-        Oscillator mOscillator = new Oscillator();
-        private final int OFFST = 0;
-        private final int PHASE = 1;
-        private final int VALUE = 2;
-
-        float[] mValues;
-        double[] mPosition;
-        float[] mPeriod;
-        float[] mOffset; // offsets will be spline interpolated
-        float[] mPhase; // phase will be spline interpolated
-        float[] mScale; // scales will be spline interpolated
-        int mWaveShape;
-        CurveFit mCurveFit;
-        double[] mSplineValueCache; // for the return value of the curve fit
-        double[] mSplineSlopeCache; // for the return value of the curve fit
-        float mPathLength;
-
-        CycleOscillator(int waveShape, String customShape, int variesBy, int steps) {
-            mWaveShape = waveShape;
-            mVariesBy = variesBy;
-            mOscillator.setType(waveShape, customShape);
-            mValues = new float[steps];
-            mPosition = new double[steps];
-            mPeriod = new float[steps];
-            mOffset = new float[steps];
-            mPhase = new float[steps];
-            mScale = new float[steps];
-        }
-
-        public double getValues(float time) {
+    internal class CycleOscillator(var mWaveShape: Int, customShape: String?, private val mVariesBy: Int, steps: Int) {
+        var mOscillator = Oscillator()
+        private val OFFST = 0
+        private val PHASE = 1
+        private val VALUE = 2
+        var mValues: FloatArray
+        var mPosition: DoubleArray
+        var mPeriod: FloatArray
+        var mOffset // offsets will be spline interpolated
+                : FloatArray
+        var mPhase // phase will be spline interpolated
+                : FloatArray
+        var mScale // scales will be spline interpolated
+                : FloatArray
+        var mCurveFit: CurveFit? = null
+        var mSplineValueCache // for the return value of the curve fit
+                : DoubleArray = doubleArrayOf()
+        var mSplineSlopeCache // for the return value of the curve fit
+                : DoubleArray = doubleArrayOf()
+        var mPathLength = 0f
+        fun getValues(time: Float): Double {
             if (mCurveFit != null) {
-                mCurveFit.getPos(time, mSplineValueCache);
+                mCurveFit!!.getPos(time.toDouble(), mSplineValueCache)
             } else { // only one value no need to interpolate
-                mSplineValueCache[OFFST] = mOffset[0];
-                mSplineValueCache[PHASE] = mPhase[0];
-                mSplineValueCache[VALUE] = mValues[0];
-
+                mSplineValueCache[OFFST] = mOffset[0].toDouble()
+                mSplineValueCache[PHASE] = mPhase[0].toDouble()
+                mSplineValueCache[VALUE] = mValues[0].toDouble()
             }
-            double offset = mSplineValueCache[OFFST];
-            double phase = mSplineValueCache[PHASE];
-            double waveValue = mOscillator.getValue(time, phase);
-            return offset + waveValue * mSplineValueCache[VALUE];
+            val offset = mSplineValueCache[OFFST]
+            val phase = mSplineValueCache[PHASE]
+            val waveValue = mOscillator.getValue(time.toDouble(), phase)
+            return offset + waveValue * mSplineValueCache[VALUE]
         }
 
-        public double getLastPhase() {
-            return mSplineValueCache[1];
-        }
+        val lastPhase: Double
+            get() = mSplineValueCache.get(1)
 
-        public double getSlope(float time) {
+        fun getSlope(time: Float): Double {
             if (mCurveFit != null) {
-                mCurveFit.getSlope(time, mSplineSlopeCache);
-                mCurveFit.getPos(time, mSplineValueCache);
+                mCurveFit!!.getSlope(time.toDouble(), mSplineSlopeCache)
+                mCurveFit!!.getPos(time.toDouble(), mSplineValueCache)
             } else { // only one value no need to interpolate
-                mSplineSlopeCache[OFFST] = 0;
-                mSplineSlopeCache[PHASE] = 0;
-                mSplineSlopeCache[VALUE] = 0;
+                mSplineSlopeCache[OFFST] = 0.0
+                mSplineSlopeCache[PHASE] = 0.0
+                mSplineSlopeCache[VALUE] = 0.0
             }
-            double waveValue = mOscillator.getValue(time, mSplineValueCache[PHASE]);
-            double waveSlope = mOscillator.getSlope(time, mSplineValueCache[PHASE], mSplineSlopeCache[PHASE]);
-            return mSplineSlopeCache[OFFST] + waveValue * mSplineSlopeCache[VALUE] + waveSlope * mSplineValueCache[VALUE];
+            val waveValue = mOscillator.getValue(time.toDouble(), mSplineValueCache[PHASE])
+            val waveSlope = mOscillator.getSlope(time.toDouble(), mSplineValueCache[PHASE], mSplineSlopeCache[PHASE])
+            return mSplineSlopeCache[OFFST] + (waveValue * mSplineSlopeCache[VALUE]) + (waveSlope * mSplineValueCache[VALUE])
         }
 
         /**
@@ -369,46 +318,67 @@ public abstract class KeyCycleOscillator {
          * @param offset
          * @param values
          */
-        public void setPoint(int index, int framePosition, float wavePeriod, float offset, float phase, float values) {
-            mPosition[index] = framePosition / 100.0;
-            mPeriod[index] = wavePeriod;
-            mOffset[index] = offset;
-            mPhase[index] = phase;
-            mValues[index] = values;
+        fun setPoint(index: Int, framePosition: Int, wavePeriod: Float, offset: Float, phase: Float, values: Float) {
+            mPosition[index] = framePosition / 100.0
+            mPeriod[index] = wavePeriod
+            mOffset[index] = offset
+            mPhase[index] = phase
+            mValues[index] = values
         }
 
-        public void setup(float pathLength) {
-            mPathLength = pathLength;
-            double[][] splineValues = new double[mPosition.length][3];
-            mSplineValueCache = new double[2 + mValues.length];
-            mSplineSlopeCache = new double[2 + mValues.length];
+        fun setup(pathLength: Float) {
+            mPathLength = pathLength
+            val splineValues = Array(mPosition.size) { DoubleArray(3) }
+            mSplineValueCache = DoubleArray(2 + mValues.size)
+            mSplineSlopeCache = DoubleArray(2 + mValues.size)
             if (mPosition[0] > 0) {
-                mOscillator.addPoint(0, mPeriod[0]);
+                mOscillator.addPoint(0.0, mPeriod[0])
             }
-            int last = mPosition.length - 1;
+            val last = mPosition.size - 1
             if (mPosition[last] < 1.0f) {
-                mOscillator.addPoint(1, mPeriod[last]);
+                mOscillator.addPoint(1.0, mPeriod[last])
             }
-
-            for (int i = 0; i < splineValues.length; i++) {
-                splineValues[i][OFFST] = mOffset[i];
-                splineValues[i][PHASE] = mPhase[i];
-                splineValues[i][VALUE] = mValues[i];
-                mOscillator.addPoint(mPosition[i], mPeriod[i]);
+            for (i in splineValues.indices) {
+                splineValues[i][OFFST] = mOffset[i].toDouble()
+                splineValues[i][PHASE] = mPhase[i].toDouble()
+                splineValues[i][VALUE] = mValues[i].toDouble()
+                mOscillator.addPoint(mPosition[i], mPeriod[i])
             }
 
             // TODO: add mVariesBy and get total time and path length
-            mOscillator.normalize();
-            if (mPosition.length > 1) {
-                mCurveFit = CurveFit.get(CurveFit.SPLINE, mPosition, splineValues);
+            mOscillator.normalize()
+            if (mPosition.size > 1) {
+                mCurveFit = CurveFit.Companion.get(CurveFit.Companion.SPLINE, mPosition, splineValues)
             } else {
-                mCurveFit = null;
+                mCurveFit = null
             }
+        }
+
+        companion object {
+            val UNSET = -1 // -1 is typically used through out android to the UNSET value
+            private val TAG = "CycleOscillator"
+        }
+
+        init {
+            mOscillator.setType(mWaveShape, customShape)
+            mValues = FloatArray(steps)
+            mPosition = DoubleArray(steps)
+            mPeriod = FloatArray(steps)
+            mOffset = FloatArray(steps)
+            mPhase = FloatArray(steps)
+            mScale = FloatArray(steps)
         }
     }
 
-    public void setProperty(MotionWidget widget, float t) {
+    open fun setProperty(widget: MotionWidget, t: Float) {}
 
+    companion object {
+        private val TAG = "KeyCycleOscillator"
+        @kotlin.jvm.JvmStatic
+        fun makeWidgetCycle(attribute: String): KeyCycleOscillator {
+            return if ((attribute == AttributesType.Companion.S_PATH_ROTATE)) {
+                PathRotateSet(attribute)
+            } else CoreSpline(attribute)
+        }
     }
-
-    }
+}

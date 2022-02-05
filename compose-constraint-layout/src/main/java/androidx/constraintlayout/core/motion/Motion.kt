@@ -13,127 +13,99 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion;
+package androidx.constraintlayout.core.motion
 
-import static androidx.constraintlayout.core.motion.MotionWidget.UNSET;
-
-import androidx.constraintlayout.core.motion.key.MotionConstraintSet;
-import androidx.constraintlayout.core.motion.key.MotionKey;
-import androidx.constraintlayout.core.motion.key.MotionKeyAttributes;
-import androidx.constraintlayout.core.motion.key.MotionKeyCycle;
-import androidx.constraintlayout.core.motion.key.MotionKeyPosition;
-import androidx.constraintlayout.core.motion.key.MotionKeyTimeCycle;
-import androidx.constraintlayout.core.motion.key.MotionKeyTrigger;
-import androidx.constraintlayout.core.motion.utils.CurveFit;
-import androidx.constraintlayout.core.motion.utils.DifferentialInterpolator;
-import androidx.constraintlayout.core.motion.utils.Easing;
-import androidx.constraintlayout.core.motion.utils.FloatRect;
-import androidx.constraintlayout.core.motion.utils.KeyCache;
-import androidx.constraintlayout.core.motion.utils.KeyCycleOscillator;
-import androidx.constraintlayout.core.motion.utils.KeyFrameArray;
-import androidx.constraintlayout.core.motion.utils.Rect;
-import androidx.constraintlayout.core.motion.utils.SplineSet;
-import androidx.constraintlayout.core.motion.utils.TimeCycleSplineSet;
-import androidx.constraintlayout.core.motion.utils.TypedValues;
-import androidx.constraintlayout.core.motion.utils.Utils;
-import androidx.constraintlayout.core.motion.utils.VelocityMatrix;
-import androidx.constraintlayout.core.motion.utils.ViewState;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import androidx.constraintlayout.core.motion.utils.SplineSet.Companion.makeCustomSplineSet
+import androidx.constraintlayout.core.motion.utils.SplineSet.Companion.makeSpline
+import androidx.constraintlayout.core.motion.utils.CurveFit.Companion.getArc
+import androidx.constraintlayout.core.motion.utils.KeyCycleOscillator.Companion.makeWidgetCycle
+import androidx.constraintlayout.core.motion.utils.Easing.Companion.getInterpolator
+import androidx.constraintlayout.core.motion.key.MotionKey
+import androidx.constraintlayout.core.motion.key.MotionKeyTrigger
+import androidx.constraintlayout.core.motion.key.MotionKeyPosition
+import androidx.constraintlayout.core.motion.key.MotionKeyCycle
+import androidx.constraintlayout.core.motion.key.MotionKeyTimeCycle
+import androidx.constraintlayout.core.motion.utils.KeyFrameArray.CustomVar
+import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
+import androidx.constraintlayout.core.motion.key.MotionConstraintSet
+import androidx.constraintlayout.core.motion.utils.*
+import androidx.constraintlayout.core.motion.utils.KeyCycleOscillator.PathRotateSet
+import androidx.constraintlayout.core.motion.utils.TypedValues.PositionType
+import androidx.constraintlayout.core.motion.utils.TypedValues.TransitionType
 
 /**
  * This contains the picture of a view through the a transition and is used to interpolate it
  * During an transition every view has a MotionController which drives its position.
- * <p>
+ *
+ *
  * All parameter which affect a views motion are added to MotionController and then setup()
  * builds out the splines that control the view.
  *
  * @suppress
  */
-public class Motion implements TypedValues {
-    public static final int PATH_PERCENT = 0;
-    public static final int PATH_PERPENDICULAR = 1;
-    public static final int HORIZONTAL_PATH_X = 2;
-    public static final int HORIZONTAL_PATH_Y = 3;
-    public static final int VERTICAL_PATH_X = 4;
-    public static final int VERTICAL_PATH_Y = 5;
-    public final static int DRAW_PATH_NONE = 0;
-    public final static int DRAW_PATH_BASIC = 1;
-    public final static int DRAW_PATH_RELATIVE = 2;
-    public final static int DRAW_PATH_CARTESIAN = 3;
-    public final static int DRAW_PATH_AS_CONFIGURED = 4;
-    public final static int DRAW_PATH_RECTANGLE = 5;
-    public final static int DRAW_PATH_SCREEN = 6;
-
-    public static final int ROTATION_RIGHT = 1;
-    public static final int ROTATION_LEFT = 2;
-    Rect mTempRect = new Rect(); // for efficiency
-
-    private static final String TAG = "MotionController";
-    private static final boolean DEBUG = false;
-    private static final boolean FAVOR_FIXED_SIZE_VIEWS = false;
-    MotionWidget mView;
-    int mId;
-    String mConstraintTag;
-    private int mCurveFitType = UNSET;
-    private MotionPaths mStartMotionPath = new MotionPaths();
-    private MotionPaths mEndMotionPath = new MotionPaths();
-
-    private MotionConstrainedPoint mStartPoint = new MotionConstrainedPoint();
-    private MotionConstrainedPoint mEndPoint = new MotionConstrainedPoint();
-
-    private CurveFit[] mSpline; // spline 0 is the generic one that process all the standard attributes
-    private CurveFit mArcSpline;
-    float mMotionStagger = Float.NaN;
-    float mStaggerOffset = 0;
-    float mStaggerScale = 1.0f;
-    float mCurrentCenterX, mCurrentCenterY;
-    private int[] mInterpolateVariables;
-    private double[] mInterpolateData; // scratch data created during setup
-    private double[] mInterpolateVelocity; // scratch data created during setup
-
-    private String[] mAttributeNames;  // the names of the custom attributes
-    private int[] mAttributeInterpolatorCount; // how many interpolators for each custom attribute
-    private int MAX_DIMENSION = 4;
-    private float mValuesBuff[] = new float[MAX_DIMENSION];
-    private ArrayList<MotionPaths> mMotionPaths = new ArrayList<>();
-    private float[] mVelocity = new float[1]; // used as a temp buffer to return values
-
-    private ArrayList<MotionKey> mKeyList = new ArrayList<>(); // List of key frame items
-    private HashMap<String, TimeCycleSplineSet> mTimeCycleAttributesMap; // splines to calculate for use TimeCycles
-    private HashMap<String, SplineSet> mAttributesMap; // splines to calculate values of attributes
-    private HashMap<String, KeyCycleOscillator> mCycleMap; // splines to calculate values of attributes
-    private MotionKeyTrigger[] mKeyTriggers; // splines to calculate values of attributes
-    private int mPathMotionArc = UNSET;
-    private int mTransformPivotTarget = UNSET; // if set, pivot point is maintained as the other object
-    private MotionWidget mTransformPivotView = null; // if set, pivot point is maintained as the other object
-    private int mQuantizeMotionSteps = UNSET;
-    private float mQuantizeMotionPhase = Float.NaN;
-    private DifferentialInterpolator mQuantizeMotionInterpolator = null;
-    private boolean mNoMovement = false;
-
+class Motion(view: MotionWidget?) : TypedValues {
+    var mTempRect = Rect() // for efficiency
+    var view: MotionWidget? = null
+    var mId = 0
+    var mConstraintTag: String? = null
+    private var mCurveFitType = MotionWidget.UNSET
+    private val mStartMotionPath = MotionPaths()
+    private val mEndMotionPath = MotionPaths()
+    private val mStartPoint = MotionConstrainedPoint()
+    private val mEndPoint = MotionConstrainedPoint()
+    private var mSpline // spline 0 is the generic one that process all the standard attributes
+            : Array<CurveFit?>? = null
+    private var mArcSpline: CurveFit? = null
+    var mMotionStagger = Float.NaN
+    var mStaggerOffset = 0f
+    var mStaggerScale = 1.0f
+    var centerX = 0f
+    var centerY = 0f
+    private var mInterpolateVariables: IntArray = intArrayOf()
+    private var mInterpolateData // scratch data created during setup
+            : DoubleArray = doubleArrayOf()
+    private var mInterpolateVelocity // scratch data created during setup
+            : DoubleArray = doubleArrayOf()
+    private var mAttributeNames // the names of the custom attributes
+            : Array<String> = arrayOf()
+    private var mAttributeInterpolatorCount // how many interpolators for each custom attribute
+            : IntArray = intArrayOf()
+    private val MAX_DIMENSION = 4
+    private val mValuesBuff = FloatArray(MAX_DIMENSION)
+    private val mMotionPaths = ArrayList<MotionPaths>()
+    private val mVelocity = FloatArray(1) // used as a temp buffer to return values
+    private val mKeyList: ArrayList<MotionKey>? = ArrayList() // List of key frame items
+    private var mTimeCycleAttributesMap // splines to calculate for use TimeCycles
+            : HashMap<String, TimeCycleSplineSet?>? = null
+    private var mAttributesMap // splines to calculate values of attributes
+            : HashMap<String, SplineSet?>? = null
+    private var mCycleMap // splines to calculate values of attributes
+            : HashMap<String, KeyCycleOscillator?>? = null
+    private var mKeyTriggers // splines to calculate values of attributes
+            : Array<MotionKeyTrigger>? = null
+    private var mPathMotionArc = MotionWidget.UNSET
+    private var mTransformPivotTarget = MotionWidget.UNSET // if set, pivot point is maintained as the other object
+    private var mTransformPivotView: MotionWidget? = null // if set, pivot point is maintained as the other object
+    private val mQuantizeMotionSteps = MotionWidget.UNSET
+    private val mQuantizeMotionPhase = Float.NaN
+    private var mQuantizeMotionInterpolator: DifferentialInterpolator? = null
+    private var mNoMovement = false
     /**
      * Get the view to pivot around
      *
      * @return id of view or UNSET if not set
      */
-    public int getTransformPivotTarget() {
-        return mTransformPivotTarget;
-    }
-
     /**
      * Set a view to pivot around
      *
      * @param transformPivotTarget id of view
      */
-    public void setTransformPivotTarget(int transformPivotTarget) {
-        mTransformPivotTarget = transformPivotTarget;
-        mTransformPivotView = null;
-    }
+    var transformPivotTarget: Int
+        get() = mTransformPivotTarget
+        set(transformPivotTarget) {
+            mTransformPivotTarget = transformPivotTarget
+            mTransformPivotView = null
+        }
 
     /**
      * provides acces to MotionPath objects
@@ -141,12 +113,8 @@ public class Motion implements TypedValues {
      * @param i
      * @return
      */
-    public MotionPaths getKeyFrame(int i) {
-        return mMotionPaths.get(i);
-    }
-
-    public Motion(MotionWidget view) {
-        setView(view);
+    fun getKeyFrame(i: Int): MotionPaths {
+        return mMotionPaths[i]
     }
 
     /**
@@ -154,9 +122,8 @@ public class Motion implements TypedValues {
      *
      * @return the left most position
      */
-    public float getStartX() {
-        return mStartMotionPath.x;
-    }
+    val startX: Float
+        get() = mStartMotionPath.x
 
     /**
      * get the top most position of the widget at the start of the movement.
@@ -164,18 +131,16 @@ public class Motion implements TypedValues {
      *
      * @return the top most position
      */
-    public float getStartY() {
-        return mStartMotionPath.y;
-    }
+    val startY: Float
+        get() = mStartMotionPath.y
 
     /**
      * get the left most position of the widget at the end of the movement.
      *
      * @return the left most position
      */
-    public float getFinalX() {
-        return mEndMotionPath.x;
-    }
+    val finalX: Float
+        get() = mEndMotionPath.x
 
     /**
      * get the top most position of the widget at the end of the movement.
@@ -183,45 +148,40 @@ public class Motion implements TypedValues {
      *
      * @return the top most position
      */
-    public float getFinalY() {
-        return mEndMotionPath.y;
-    }
+    val finalY: Float
+        get() = mEndMotionPath.y
 
     /**
      * get the width of the widget at the start of the movement.
      *
      * @return the width at the start
      */
-    public float getStartWidth() {
-        return mStartMotionPath.width;
-    }
+    val startWidth: Float
+        get() = mStartMotionPath.width
 
     /**
      * get the width of the widget at the start of the movement.
      *
      * @return the height at the start
      */
-    public float getStartHeight() {
-        return mStartMotionPath.height;
-    }
+    val startHeight: Float
+        get() = mStartMotionPath.height
 
     /**
      * get the width of the widget at the end of the movement.
      *
      * @return the width at the end
      */
-    public float getFinalWidth() {
-        return mEndMotionPath.width;
-    }
+    val finalWidth: Float
+        get() = mEndMotionPath.width
 
     /**
      * get the width of the widget at the end of the movement.
      *
      * @return the height at the end
      */
-    public float getFinalHeight() {
-        return mEndMotionPath.height;
-    }
+    val finalHeight: Float
+        get() = mEndMotionPath.height
 
     /**
      * Will return the id of the view to move relative to
@@ -230,31 +190,22 @@ public class Motion implements TypedValues {
      *
      * @return the view id of the view this is in polar mode to or -1 if not in polar
      */
-    public int getAnimateRelativeTo() {
-        return mStartMotionPath.mAnimateRelativeTo;
+    val animateRelativeTo: Int
+        get() = mStartMotionPath.mAnimateRelativeTo
+
+    fun setupRelative(motionController: Motion) {
+        mStartMotionPath.setupRelative(motionController, motionController.mStartMotionPath)
+        mEndMotionPath.setupRelative(motionController, motionController.mEndMotionPath)
     }
 
-    public void setupRelative(Motion motionController) {
-        mStartMotionPath.setupRelative(motionController, motionController.mStartMotionPath);
-        mEndMotionPath.setupRelative(motionController, motionController.mEndMotionPath);
-    }
-
-    public float getCenterX() {
-        return mCurrentCenterX;
-    }
-
-    public float getCenterY() {
-        return mCurrentCenterY;
-    }
-
-    public void getCenter(double p, float[] pos, float[] vel) {
-        double[] position = new double[4];
-        double[] velocity = new double[4];
-        int[] temp = new int[4];
-        mSpline[0].getPos(p, position);
-        mSpline[0].getSlope(p, velocity);
-        Arrays.fill(vel, 0);
-        mStartMotionPath.getCenter(p, mInterpolateVariables, position, pos, velocity, vel);
+    fun getCenter(p: Double, pos: FloatArray?, vel: FloatArray?) {
+        val position = DoubleArray(4)
+        val velocity = DoubleArray(4)
+        val temp = IntArray(4)
+        mSpline!![0]!!.getPos(p, position)
+        mSpline!![0]!!.getSlope(p, velocity)
+        vel?.fill(0f)
+        mStartMotionPath.getCenter(p, mInterpolateVariables, position, pos, velocity, vel)
     }
 
     /**
@@ -266,82 +217,76 @@ public class Motion implements TypedValues {
      * @param pointCount
      * @return number of key frames
      */
-    public void buildPath(float[] points, int pointCount) {
-        float mils = 1.0f / (pointCount - 1);
-        SplineSet trans_x = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.TRANSLATION_X);
-        SplineSet trans_y = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.TRANSLATION_Y);
-        KeyCycleOscillator osc_x = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.TRANSLATION_X);
-        KeyCycleOscillator osc_y = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.TRANSLATION_Y);
-
-        for (int i = 0; i < pointCount; i++) {
-            float position = (i) * mils;
+    fun buildPath(points: FloatArray, pointCount: Int) {
+        val mils = 1.0f / (pointCount - 1)
+        val trans_x = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.TRANSLATION_X]
+        val trans_y = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.TRANSLATION_Y]
+        val osc_x = if (mCycleMap == null) null else mCycleMap!![MotionKey.TRANSLATION_X]
+        val osc_y = if (mCycleMap == null) null else mCycleMap!![MotionKey.TRANSLATION_Y]
+        for (i in 0 until pointCount) {
+            var position = i * mils
             if (mStaggerScale != 1.0f) {
                 if (position < mStaggerOffset) {
-                    position = 0;
+                    position = 0f
                 }
                 if (position > mStaggerOffset && position < 1.0) {
-                    position -= mStaggerOffset;
-                    position *= mStaggerScale;
-                    position = Math.min(position, 1.0f);
+                    position -= mStaggerOffset
+                    position *= mStaggerScale
+                    position = Math.min(position, 1.0f)
                 }
             }
-            double p = position;
-
-            Easing easing = mStartMotionPath.mKeyFrameEasing;
-            float start = 0;
-            float end = Float.NaN;
-            for (MotionPaths frame : mMotionPaths) {
+            var p = position.toDouble()
+            var easing = mStartMotionPath.mKeyFrameEasing
+            var start = 0f
+            var end = Float.NaN
+            for (frame in mMotionPaths) {
                 if (frame.mKeyFrameEasing != null) { // this frame has an easing
                     if (frame.time < position) {  // frame with easing is before the current pos
-                        easing = frame.mKeyFrameEasing; // this is the candidate
-                        start = frame.time; // this is also the starting time
+                        easing = frame.mKeyFrameEasing // this is the candidate
+                        start = frame.time // this is also the starting time
                     } else { // frame with easing is past the pos
-                        if (Float.isNaN(end)) { // we never ended the time line
-                            end = frame.time;
+                        if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                            end = frame.time
                         }
                     }
                 }
             }
-
             if (easing != null) {
-                if (Float.isNaN(end)) {
-                    end = 1.0f;
+                if (java.lang.Float.isNaN(end)) {
+                    end = 1.0f
                 }
-                float offset = (position - start) / (end - start);
-                offset = (float) easing.get(offset);
-                p = offset * (end - start) + start;
-
+                var offset = (position - start) / (end - start)
+                offset = easing[offset.toDouble()].toFloat()
+                p = (offset * (end - start) + start).toDouble()
             }
-
-            mSpline[0].getPos(p, mInterpolateData);
+            mSpline!![0]!!.getPos(p, mInterpolateData)
             if (mArcSpline != null) {
-                if (mInterpolateData.length > 0) {
-                    mArcSpline.getPos(p, mInterpolateData);
+                if (mInterpolateData.size > 0) {
+                    mArcSpline!!.getPos(p, mInterpolateData)
                 }
             }
-            mStartMotionPath.getCenter(p, mInterpolateVariables, mInterpolateData, points, i * 2);
-
+            mStartMotionPath.getCenter(p, mInterpolateVariables, mInterpolateData, points, i * 2)
             if (osc_x != null) {
-                points[i * 2] += osc_x.get(position);
+                points[i * 2] += osc_x[position]
             } else if (trans_x != null) {
-                points[i * 2] += trans_x.get(position);
+                points[i * 2] += trans_x[position]
             }
             if (osc_y != null) {
-                points[i * 2 + 1] += osc_y.get(position);
+                points[i * 2 + 1] += osc_y[position]
             } else if (trans_y != null) {
-                points[i * 2 + 1] += trans_y.get(position);
+                points[i * 2 + 1] += trans_y[position]
             }
         }
     }
 
-    double[] getPos(double position) {
-        mSpline[0].getPos(position, mInterpolateData);
+    fun getPos(position: Double): DoubleArray {
+        mSpline!![0]!!.getPos(position, mInterpolateData)
         if (mArcSpline != null) {
-            if (mInterpolateData.length > 0) {
-                mArcSpline.getPos(position, mInterpolateData);
+            if (mInterpolateData.size > 0) {
+                mArcSpline!!.getPos(position, mInterpolateData)
             }
         }
-        return mInterpolateData;
+        return mInterpolateData
     }
 
     /**
@@ -353,594 +298,546 @@ public class Motion implements TypedValues {
      * @param pointCount
      * @return number of key frames
      */
-    void buildBounds(float[] bounds, int pointCount) {
-        float mils = 1.0f / (pointCount - 1);
-        SplineSet trans_x = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.TRANSLATION_X);
-        SplineSet trans_y = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.TRANSLATION_Y);
-        KeyCycleOscillator osc_x = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.TRANSLATION_X);
-        KeyCycleOscillator osc_y = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.TRANSLATION_Y);
-
-        for (int i = 0; i < pointCount; i++) {
-            float position = (i) * mils;
+    fun buildBounds(bounds: FloatArray?, pointCount: Int) {
+        val mils = 1.0f / (pointCount - 1)
+        val trans_x = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.TRANSLATION_X]
+        val trans_y = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.TRANSLATION_Y]
+        val osc_x = if (mCycleMap == null) null else mCycleMap!![MotionKey.TRANSLATION_X]
+        val osc_y = if (mCycleMap == null) null else mCycleMap!![MotionKey.TRANSLATION_Y]
+        for (i in 0 until pointCount) {
+            var position = i * mils
             if (mStaggerScale != 1.0f) {
                 if (position < mStaggerOffset) {
-                    position = 0;
+                    position = 0f
                 }
                 if (position > mStaggerOffset && position < 1.0) {
-                    position -= mStaggerOffset;
-                    position *= mStaggerScale;
-                    position = Math.min(position, 1.0f);
+                    position -= mStaggerOffset
+                    position *= mStaggerScale
+                    position = Math.min(position, 1.0f)
                 }
             }
-            double p = position;
-
-            Easing easing = mStartMotionPath.mKeyFrameEasing;
-            float start = 0;
-            float end = Float.NaN;
-            for (MotionPaths frame : mMotionPaths) {
+            var p = position.toDouble()
+            var easing = mStartMotionPath.mKeyFrameEasing
+            var start = 0f
+            var end = Float.NaN
+            for (frame in mMotionPaths) {
                 if (frame.mKeyFrameEasing != null) { // this frame has an easing
                     if (frame.time < position) {  // frame with easing is before the current pos
-                        easing = frame.mKeyFrameEasing; // this is the candidate
-                        start = frame.time; // this is also the starting time
+                        easing = frame.mKeyFrameEasing // this is the candidate
+                        start = frame.time // this is also the starting time
                     } else { // frame with easing is past the pos
-                        if (Float.isNaN(end)) { // we never ended the time line
-                            end = frame.time;
+                        if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                            end = frame.time
                         }
                     }
                 }
             }
-
             if (easing != null) {
-                if (Float.isNaN(end)) {
-                    end = 1.0f;
+                if (java.lang.Float.isNaN(end)) {
+                    end = 1.0f
                 }
-                float offset = (position - start) / (end - start);
-                offset = (float) easing.get(offset);
-                p = offset * (end - start) + start;
-
+                var offset = (position - start) / (end - start)
+                offset = easing[offset.toDouble()].toFloat()
+                p = (offset * (end - start) + start).toDouble()
             }
-
-            mSpline[0].getPos(p, mInterpolateData);
+            mSpline!![0]!!.getPos(p, mInterpolateData)
             if (mArcSpline != null) {
-                if (mInterpolateData.length > 0) {
-                    mArcSpline.getPos(p, mInterpolateData);
+                if (mInterpolateData.size > 0) {
+                    mArcSpline!!.getPos(p, mInterpolateData)
                 }
             }
-            mStartMotionPath.getBounds(mInterpolateVariables, mInterpolateData, bounds, i * 2);
+            mStartMotionPath.getBounds(mInterpolateVariables, mInterpolateData, bounds, i * 2)
         }
-    }
+    }// we never ended the time line// frame with easing is past the pos// frame with easing is before the current pos
 
-    private float getPreCycleDistance() {
-        int pointCount = 100;
-        float[] points = new float[2];
-        float sum = 0;
-        float mils = 1.0f / (pointCount - 1);
-        double x = 0, y = 0;
-        for (int i = 0; i < pointCount; i++) {
-            float position = (i) * mils;
-
-            double p = position;
-
-            Easing easing = mStartMotionPath.mKeyFrameEasing;
-            float start = 0;
-            float end = Float.NaN;
-            for (MotionPaths frame : mMotionPaths) {
-                if (frame.mKeyFrameEasing != null) { // this frame has an easing
-                    if (frame.time < position) {  // frame with easing is before the current pos
-                        easing = frame.mKeyFrameEasing; // this is the candidate
-                        start = frame.time; // this is also the starting time
-                    } else { // frame with easing is past the pos
-                        if (Float.isNaN(end)) { // we never ended the time line
-                            end = frame.time;
+    // this is the candidate
+    // this is also the starting time
+    // this frame has an easing
+    private val preCycleDistance: Float
+        private get() {
+            val pointCount = 100
+            val points = FloatArray(2)
+            var sum = 0f
+            val mils = 1.0f / (pointCount - 1)
+            var x = 0.0
+            var y = 0.0
+            for (i in 0 until pointCount) {
+                val position = i * mils
+                var p = position.toDouble()
+                var easing = mStartMotionPath.mKeyFrameEasing
+                var start = 0f
+                var end = Float.NaN
+                for (frame in mMotionPaths) {
+                    if (frame.mKeyFrameEasing != null) { // this frame has an easing
+                        if (frame.time < position) {  // frame with easing is before the current pos
+                            easing = frame.mKeyFrameEasing // this is the candidate
+                            start = frame.time // this is also the starting time
+                        } else { // frame with easing is past the pos
+                            if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                                end = frame.time
+                            }
                         }
                     }
                 }
-            }
-
-            if (easing != null) {
-                if (Float.isNaN(end)) {
-                    end = 1.0f;
+                if (easing != null) {
+                    if (java.lang.Float.isNaN(end)) {
+                        end = 1.0f
+                    }
+                    var offset = (position - start) / (end - start)
+                    offset = easing[offset.toDouble()].toFloat()
+                    p = (offset * (end - start) + start).toDouble()
                 }
-                float offset = (position - start) / (end - start);
-                offset = (float) easing.get(offset);
-                p = offset * (end - start) + start;
-
+                mSpline!![0]!!.getPos(p, mInterpolateData)
+                mStartMotionPath.getCenter(p, mInterpolateVariables, mInterpolateData, points, 0)
+                if (i > 0) {
+                    sum += Math.hypot(y - points[1], x - points[0]).toFloat()
+                }
+                x = points[0].toDouble()
+                y = points[1].toDouble()
             }
-
-            mSpline[0].getPos(p, mInterpolateData);
-            mStartMotionPath.getCenter(p, mInterpolateVariables, mInterpolateData, points, 0);
-            if (i > 0) {
-                sum += Math.hypot(y - points[1], x - points[0]);
-            }
-            x = points[0];
-            y = points[1];
+            return sum
         }
-        return sum;
-    }
 
-    MotionKeyPosition getPositionKeyframe(int layoutWidth, int layoutHeight, float x, float y) {
-        FloatRect start = new FloatRect();
-        start.left = mStartMotionPath.x;
-        start.top = mStartMotionPath.y;
-        start.right = start.left + mStartMotionPath.width;
-        start.bottom = start.top + mStartMotionPath.height;
-        FloatRect end = new FloatRect();
-        end.left = mEndMotionPath.x;
-        end.top = mEndMotionPath.y;
-        end.right = end.left + mEndMotionPath.width;
-        end.bottom = end.top + mEndMotionPath.height;
-        for (MotionKey key : mKeyList) {
-            if (key instanceof MotionKeyPosition) {
-                if (((MotionKeyPosition) key).intersects(layoutWidth, layoutHeight, start, end, x, y)) {
-                    return (MotionKeyPosition) key;
+    fun getPositionKeyframe(layoutWidth: Int, layoutHeight: Int, x: Float, y: Float): MotionKeyPosition? {
+        val start = FloatRect()
+        start.left = mStartMotionPath.x
+        start.top = mStartMotionPath.y
+        start.right = start.left + mStartMotionPath.width
+        start.bottom = start.top + mStartMotionPath.height
+        val end = FloatRect()
+        end.left = mEndMotionPath.x
+        end.top = mEndMotionPath.y
+        end.right = end.left + mEndMotionPath.width
+        end.bottom = end.top + mEndMotionPath.height
+        for (key in mKeyList!!) {
+            if (key is MotionKeyPosition) {
+                if (key.intersects(layoutWidth, layoutHeight, start, end, x, y)) {
+                    return key
                 }
             }
         }
-        return null;
+        return null
     }
 
-    public int buildKeyFrames(float[] keyFrames, int[] mode, int[] pos) {
+    fun buildKeyFrames(keyFrames: FloatArray?, mode: IntArray?, pos: IntArray?): Int {
         if (keyFrames != null) {
-            int count = 0;
-            double[] time = mSpline[0].getTimePoints();
+            var count = 0
+            val time = mSpline!![0]!!.timePoints
             if (mode != null) {
-                for (MotionPaths keyFrame : mMotionPaths) {
-                    mode[count++] = keyFrame.mMode;
+                for (keyFrame in mMotionPaths) {
+                    mode[count++] = keyFrame.mMode
                 }
-                count = 0;
+                count = 0
             }
             if (pos != null) {
-                for (MotionPaths keyFrame : mMotionPaths) {
-                    pos[count++] = (int) (100 * keyFrame.position);
+                for (keyFrame in mMotionPaths) {
+                    pos[count++] = (100 * keyFrame.position).toInt()
                 }
-                count = 0;
+                count = 0
             }
-            for (int i = 0; i < time.length; i++) {
-                mSpline[0].getPos(time[i], mInterpolateData);
-                mStartMotionPath.getCenter(time[i], mInterpolateVariables, mInterpolateData, keyFrames, count);
-                count += 2;
+            for (i in time.indices) {
+                mSpline!![0]!!.getPos(time[i], mInterpolateData)
+                mStartMotionPath.getCenter(time[i], mInterpolateVariables, mInterpolateData, keyFrames, count)
+                count += 2
             }
-            return count / 2;
+            return count / 2
         }
-        return 0;
+        return 0
     }
 
-    int buildKeyBounds(float[] keyBounds, int[] mode) {
+    fun buildKeyBounds(keyBounds: FloatArray?, mode: IntArray?): Int {
         if (keyBounds != null) {
-            int count = 0;
-            double[] time = mSpline[0].getTimePoints();
+            var count = 0
+            val time = mSpline!![0]!!.timePoints
             if (mode != null) {
-                for (MotionPaths keyFrame : mMotionPaths) {
-                    mode[count++] = keyFrame.mMode;
+                for (keyFrame in mMotionPaths) {
+                    mode[count++] = keyFrame.mMode
                 }
-                count = 0;
+                count = 0
             }
-
-            for (int i = 0; i < time.length; i++) {
-                mSpline[0].getPos(time[i], mInterpolateData);
-                mStartMotionPath.getBounds(mInterpolateVariables, mInterpolateData, keyBounds, count);
-                count += 2;
+            for (i in time.indices) {
+                mSpline!![0]!!.getPos(time[i], mInterpolateData)
+                mStartMotionPath.getBounds(mInterpolateVariables, mInterpolateData, keyBounds, count)
+                count += 2
             }
-            return count / 2;
+            return count / 2
         }
-        return 0;
+        return 0
     }
 
-    String[] attributeTable;
-
-    int getAttributeValues(String attributeType, float[] points, int pointCount) {
-        float mils = 1.0f / (pointCount - 1);
-        SplineSet spline = mAttributesMap.get(attributeType);
-        if (spline == null) {
-            return -1;
+    var attributeTable: Array<String> = arrayOf()
+    fun getAttributeValues(attributeType: String, points: FloatArray, pointCount: Int): Int {
+        val mils = 1.0f / (pointCount - 1)
+        val spline = mAttributesMap!![attributeType] ?: return -1
+        for (j in points.indices) {
+            points[j] = spline[(j / (points.size - 1)).toFloat()]
         }
-        for (int j = 0; j < points.length; j++) {
-            points[j] = spline.get(j / (points.length - 1));
-        }
-        return points.length;
+        return points.size
     }
 
-    public void buildRect(float p, float[] path, int offset) {
-        p = getAdjustedPosition(p, null);
-        mSpline[0].getPos(p, mInterpolateData);
-        mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path, offset);
+    fun buildRect(p: Float, path: FloatArray?, offset: Int) {
+        var p = p
+        p = getAdjustedPosition(p, null)
+        mSpline!![0]!!.getPos(p.toDouble(), mInterpolateData)
+        mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path, offset)
     }
 
-    void buildRectangles(float[] path, int pointCount) {
-        float mils = 1.0f / (pointCount - 1);
-        for (int i = 0; i < pointCount; i++) {
-            float position = (i) * mils;
-            position = getAdjustedPosition(position, null);
-            mSpline[0].getPos(position, mInterpolateData);
-            mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path, i * 8);
+    fun buildRectangles(path: FloatArray?, pointCount: Int) {
+        val mils = 1.0f / (pointCount - 1)
+        for (i in 0 until pointCount) {
+            var position = i * mils
+            position = getAdjustedPosition(position, null)
+            mSpline!![0]!!.getPos(position.toDouble(), mInterpolateData)
+            mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path, i * 8)
         }
     }
 
-    float getKeyFrameParameter(int type, float x, float y) {
-
-        float dx = mEndMotionPath.x - mStartMotionPath.x;
-        float dy = mEndMotionPath.y - mStartMotionPath.y;
-        float startCenterX = mStartMotionPath.x + mStartMotionPath.width / 2;
-        float startCenterY = mStartMotionPath.y + mStartMotionPath.height / 2;
-        float hypotenuse = (float) Math.hypot(dx, dy);
+    fun getKeyFrameParameter(type: Int, x: Float, y: Float): Float {
+        val dx = mEndMotionPath.x - mStartMotionPath.x
+        val dy = mEndMotionPath.y - mStartMotionPath.y
+        val startCenterX = mStartMotionPath.x + mStartMotionPath.width / 2
+        val startCenterY = mStartMotionPath.y + mStartMotionPath.height / 2
+        val hypotenuse = Math.hypot(dx.toDouble(), dy.toDouble()).toFloat()
         if (hypotenuse < 0.0000001) {
-            return Float.NaN;
+            return Float.NaN
         }
-
-        float vx = x - startCenterX;
-        float vy = y - startCenterY;
-        float distFromStart = (float) Math.hypot(vx, vy);
-        if (distFromStart == 0) {
-            return 0;
+        val vx = x - startCenterX
+        val vy = y - startCenterY
+        val distFromStart = Math.hypot(vx.toDouble(), vy.toDouble()).toFloat()
+        if (distFromStart == 0f) {
+            return 0f
         }
-        float pathDistance = (vx * dx + vy * dy);
-
-        switch (type) {
-            case PATH_PERCENT:
-                return pathDistance / hypotenuse;
-            case PATH_PERPENDICULAR:
-                return (float) Math.sqrt(hypotenuse * hypotenuse - pathDistance * pathDistance);
-            case HORIZONTAL_PATH_X:
-                return vx / dx;
-            case HORIZONTAL_PATH_Y:
-                return vy / dx;
-            case VERTICAL_PATH_X:
-                return vx / dy;
-            case VERTICAL_PATH_Y:
-                return vy / dy;
+        val pathDistance = vx * dx + vy * dy
+        when (type) {
+            PATH_PERCENT -> return pathDistance / hypotenuse
+            PATH_PERPENDICULAR -> return Math.sqrt((hypotenuse * hypotenuse - pathDistance * pathDistance).toDouble())
+                .toFloat()
+            HORIZONTAL_PATH_X -> return vx / dx
+            HORIZONTAL_PATH_Y -> return vy / dx
+            VERTICAL_PATH_X -> return vx / dy
+            VERTICAL_PATH_Y -> return vy / dy
         }
-        return 0;
+        return 0f
     }
 
-    private void insertKey(MotionPaths point) {
-        MotionPaths redundant = null;
-        for (MotionPaths p : mMotionPaths) {
+    private fun insertKey(point: MotionPaths) {
+        var redundant: MotionPaths? = null
+        for (p in mMotionPaths) {
             if (point.position == p.position) {
-                redundant = p;
+                redundant = p
             }
         }
         if (redundant != null) {
-            mMotionPaths.remove(redundant);
+            mMotionPaths.remove(redundant)
         }
-        int pos = Collections.binarySearch(mMotionPaths, point);
-        if (pos == 0) {
+        val pos = mMotionPaths.binarySearch(point)
+        /*if (pos == 0) {
             Utils.loge(TAG, " KeyPath position \"" + point.position + "\" outside of range");
-        }
-        mMotionPaths.add(-pos - 1, point);
+        }*/mMotionPaths.add(-pos - 1, point)
     }
 
-    void addKeys(ArrayList<MotionKey> list) {
-        mKeyList.addAll(list);
+    fun addKeys(list: ArrayList<MotionKey>?) {
+        mKeyList!!.addAll(list!!)
+        /*
         if (DEBUG) {
             for (MotionKey key : mKeyList) {
                 Utils.log(TAG, " ################ set = " + key.getClass().getSimpleName());
             }
-        }
+        }*/
     }
 
-    public void addKey(MotionKey key) {
-        mKeyList.add(key);
+    fun addKey(key: MotionKey) {
+        mKeyList!!.add(key)
+        /*
         if (DEBUG) {
             Utils.log(TAG, " ################ addKey = " + key.getClass().getSimpleName());
-        }
+        }*/
     }
 
-    public void setPathMotionArc(int arc) {
-        mPathMotionArc = arc;
+    fun setPathMotionArc(arc: Int) {
+        mPathMotionArc = arc
     }
 
     /**
      * Called after all TimePoints & Cycles have been added;
      * Spines are evaluated
      */
-    public void setup(int parentWidth, int parentHeight, float transitionDuration, long currentTime) {
-        HashSet<String> springAttributes = new HashSet<>(); // attributes we need to interpolate
-        HashSet<String> timeCycleAttributes = new HashSet<>(); // attributes we need to interpolate
-        HashSet<String> splineAttributes = new HashSet<>(); // attributes we need to interpolate
-        HashSet<String> cycleAttributes = new HashSet<>(); // attributes we need to oscillate
-        HashMap<String, Integer> interpolation = new HashMap<>();
-        ArrayList<MotionKeyTrigger> triggerList = null;
+    fun setup(parentWidth: Int, parentHeight: Int, transitionDuration: Float, currentTime: Long) {
+        val springAttributes = HashSet<String>() // attributes we need to interpolate
+        val timeCycleAttributes = HashSet<String>() // attributes we need to interpolate
+        val splineAttributes = HashSet<String>() // attributes we need to interpolate
+        val cycleAttributes = HashSet<String>() // attributes we need to oscillate
+        val interpolation = HashMap<String?, Int?>()
+        var triggerList: ArrayList<MotionKeyTrigger>? = null
         if (DEBUG) {
             if (mKeyList == null) {
-                Utils.log(TAG, ">>>>>>>>>>>>>>> mKeyList==null");
-
+                //Utils.log(TAG, ">>>>>>>>>>>>>>> mKeyList==null");
             } else {
-                Utils.log(TAG, ">>>>>>>>>>>>>>> mKeyList for " + mView.getName());
-
+                //Utils.log(TAG, ">>>>>>>>>>>>>>> mKeyList for " + mView.getName());
             }
         }
-
-        if (mPathMotionArc != UNSET) {
-            mStartMotionPath.mPathMotionArc = mPathMotionArc;
+        if (mPathMotionArc != MotionWidget.UNSET) {
+            mStartMotionPath.mPathMotionArc = mPathMotionArc
         }
-
-        mStartPoint.different(mEndPoint, splineAttributes);
+        mStartPoint.different(mEndPoint, splineAttributes)
         if (DEBUG) {
-            HashSet<String> attr = new HashSet<>();
-            mStartPoint.different(mEndPoint, attr);
-            Utils.log(TAG, ">>>>>>>>>>>>>>> MotionConstrainedPoint found " + Arrays.toString(attr.toArray()));
+            val attr = HashSet<String>()
+            mStartPoint.different(mEndPoint, attr)
+            //Utils.log(TAG, ">>>>>>>>>>>>>>> MotionConstrainedPoint found " + Arrays.toString(attr.toArray()));
         }
         if (mKeyList != null) {
-            for (MotionKey key : mKeyList) {
-                if (key instanceof MotionKeyPosition) {
-                    MotionKeyPosition keyPath = (MotionKeyPosition) key;
-                    insertKey(new MotionPaths(parentWidth, parentHeight, keyPath, mStartMotionPath, mEndMotionPath));
-                    if (keyPath.mCurveFit != UNSET) {
-                        mCurveFitType = keyPath.mCurveFit;
+            for (key in mKeyList) {
+                if (key is MotionKeyPosition) {
+                    val keyPath = key
+                    insertKey(MotionPaths(parentWidth, parentHeight, keyPath, mStartMotionPath, mEndMotionPath))
+                    if (keyPath.mCurveFit != MotionWidget.UNSET) {
+                        mCurveFitType = keyPath.mCurveFit
                     }
-                } else if (key instanceof MotionKeyCycle) {
-                    key.getAttributeNames(cycleAttributes);
-                } else if (key instanceof MotionKeyTimeCycle) {
-                    key.getAttributeNames(timeCycleAttributes);
-                } else if (key instanceof MotionKeyTrigger) {
-                    if (triggerList == null) {
-                        triggerList = new ArrayList<>();
-                    }
-                    triggerList.add((MotionKeyTrigger) key);
-                } else {
-                    key.setInterpolation(interpolation);
-                    key.getAttributeNames(splineAttributes);
-                }
+                } else (key as? MotionKeyCycle)?.getAttributeNames(cycleAttributes)
+                    ?: ((key as? MotionKeyTimeCycle)?.getAttributeNames(timeCycleAttributes)
+                        ?: if (key is MotionKeyTrigger) {
+                            if (triggerList == null) {
+                                triggerList = ArrayList()
+                            }
+                            triggerList.add(key)
+                        } else {
+                            key.setInterpolation(interpolation)
+                            key.getAttributeNames(splineAttributes)
+                        })
             }
         }
 
         //--------------------------- trigger support --------------------
-
         if (triggerList != null) {
-            mKeyTriggers = triggerList.toArray(new MotionKeyTrigger[0]);
+            mKeyTriggers = triggerList.toTypedArray()
         }
 
         //--------------------------- splines support --------------------
         if (!splineAttributes.isEmpty()) {
-            mAttributesMap = new HashMap<>();
-            for (String attribute : splineAttributes) {
-                SplineSet splineSets;
-                if (attribute.startsWith("CUSTOM,")) {
-                    KeyFrameArray.CustomVar attrList = new  KeyFrameArray.CustomVar();
-                    String customAttributeName = attribute.split(",")[1];
-                    for (MotionKey key : mKeyList) {
+            mAttributesMap = HashMap()
+            for (attribute in splineAttributes) {
+                var splineSets: SplineSet
+                splineSets = if (attribute.startsWith("CUSTOM,")) {
+                    val attrList = CustomVar()
+                    val customAttributeName = attribute.split(",".toRegex()).toTypedArray()[1]
+                    for (key in mKeyList!!) {
                         if (key.mCustom == null) {
-                            continue;
+                            continue
                         }
-                        CustomVariable customAttribute = key.mCustom.get(customAttributeName);
+                        val customAttribute = key.mCustom!![customAttributeName]
                         if (customAttribute != null) {
-                            attrList.append(key.mFramePosition, customAttribute);
+                            attrList.append(key.framePosition, customAttribute)
                         }
                     }
-                    splineSets = SplineSet.makeCustomSplineSet(attribute, attrList);
+                    makeCustomSplineSet(attribute, attrList)
                 } else {
-                    splineSets = SplineSet.makeSpline(attribute, currentTime);
+                    makeSpline(attribute, currentTime)
                 }
                 if (splineSets == null) {
-                    continue;
+                    continue
                 }
-                splineSets.setType(attribute);
-                mAttributesMap.put(attribute, splineSets);
+                splineSets.setType(attribute)
+                mAttributesMap!![attribute] = splineSets
             }
             if (mKeyList != null) {
-                for (MotionKey key : mKeyList) {
-                    if ((key instanceof MotionKeyAttributes)) {
-                        key.addValues(mAttributesMap);
-                    }
+                for (key in mKeyList) {
+                    (key as? MotionKeyAttributes)?.addValues(mAttributesMap!!)
                 }
             }
-            mStartPoint.addValues(mAttributesMap, 0);
-            mEndPoint.addValues(mAttributesMap, 100);
-
-            for (String spline : mAttributesMap.keySet()) {
-                int curve = CurveFit.SPLINE; // default is SPLINE
+            mStartPoint.addValues(mAttributesMap, 0)
+            mEndPoint.addValues(mAttributesMap, 100)
+            for (spline in mAttributesMap!!.keys) {
+                var curve = CurveFit.SPLINE // default is SPLINE
                 if (interpolation.containsKey(spline)) {
-                    Integer boxedCurve = interpolation.get(spline);
+                    val boxedCurve = interpolation[spline]
                     if (boxedCurve != null) {
-                        curve = boxedCurve;
+                        curve = boxedCurve
                     }
                 }
-                SplineSet splineSet = mAttributesMap.get(spline);
-                if (splineSet != null) {
-                    splineSet.setup(curve);
-                }
+                val splineSet = mAttributesMap!![spline]
+                splineSet?.setup(curve)
             }
         }
 
         //--------------------------- timeCycle support --------------------
         if (!timeCycleAttributes.isEmpty()) {
             if (mTimeCycleAttributesMap == null) {
-                mTimeCycleAttributesMap = new HashMap<>();
+                mTimeCycleAttributesMap = HashMap()
             }
-            for (String attribute : timeCycleAttributes) {
-                if (mTimeCycleAttributesMap.containsKey(attribute)) {
-                    continue;
+            for (attribute in timeCycleAttributes) {
+                if (mTimeCycleAttributesMap!!.containsKey(attribute)) {
+                    continue
                 }
-
-                SplineSet splineSets = null;
-                if (attribute.startsWith("CUSTOM,")) {
-                    KeyFrameArray.CustomVar attrList = new  KeyFrameArray.CustomVar();
-                    String customAttributeName = attribute.split(",")[1];
-                    for (MotionKey key : mKeyList) {
+                var splineSets: SplineSet? = null
+                splineSets = if (attribute.startsWith("CUSTOM,")) {
+                    val attrList = CustomVar()
+                    val customAttributeName = attribute.split(",".toRegex()).toTypedArray()[1]
+                    for (key in mKeyList!!) {
                         if (key.mCustom == null) {
-                            continue;
+                            continue
                         }
-                        CustomVariable customAttribute = key.mCustom.get(customAttributeName);
+                        val customAttribute = key.mCustom!![customAttributeName]
                         if (customAttribute != null) {
-                            attrList.append(key.mFramePosition, customAttribute);
+                            attrList.append(key.framePosition, customAttribute)
                         }
                     }
-                    splineSets = SplineSet.makeCustomSplineSet(attribute, attrList);
+                    makeCustomSplineSet(attribute, attrList)
                 } else {
-                    splineSets = SplineSet.makeSpline(attribute, currentTime);
+                    makeSpline(attribute, currentTime)
                 }
                 if (splineSets == null) {
-                    continue;
+                    continue
                 }
-                splineSets.setType(attribute);
-//                mTimeCycleAttributesMap.put(attribute, splineSets);
+                splineSets.setType(attribute)
+                //                mTimeCycleAttributesMap.put(attribute, splineSets);
             }
-
             if (mKeyList != null) {
-                for (MotionKey key : mKeyList) {
-                    if (key instanceof MotionKeyTimeCycle) {
-                        ((MotionKeyTimeCycle) key).addTimeValues(mTimeCycleAttributesMap);
+                for (key in mKeyList) {
+                    if (key is MotionKeyTimeCycle) {
+                        key.addTimeValues(mTimeCycleAttributesMap!!)
                     }
                 }
             }
-
-            for (String spline : mTimeCycleAttributesMap.keySet()) {
-                int curve = CurveFit.SPLINE; // default is SPLINE
+            for (spline in mTimeCycleAttributesMap!!.keys) {
+                var curve = CurveFit.SPLINE // default is SPLINE
                 if (interpolation.containsKey(spline)) {
-                    curve = interpolation.get(spline);
+                    curve = interpolation[spline]!!
                 }
-                mTimeCycleAttributesMap.get(spline).setup(curve);
+                mTimeCycleAttributesMap!![spline]!!.setup(curve)
             }
         }
 
         //--------------------------------- end new key frame 2
-
-        MotionPaths[] points = new MotionPaths[2 + mMotionPaths.size()];
-        int count = 1;
-        points[0] = mStartMotionPath;
-        points[points.length - 1] = mEndMotionPath;
-        if (mMotionPaths.size() > 0 && mCurveFitType == MotionKey.UNSET) {
-            mCurveFitType = CurveFit.SPLINE;
+        val points = arrayOfNulls<MotionPaths>(2 + mMotionPaths.size)
+        var count = 1
+        points[0] = mStartMotionPath
+        points[points.size - 1] = mEndMotionPath
+        if (mMotionPaths.size > 0 && mCurveFitType == MotionKey.UNSET) {
+            mCurveFitType = CurveFit.SPLINE
         }
-        for (MotionPaths point : mMotionPaths) {
-            points[count++] = point;
+        for (point in mMotionPaths) {
+            points[count++] = point
         }
 
         // -----  setup custom attributes which must be in the start and end constraint sets
-        int variables = 18;
-        HashSet<String> attributeNameSet = new HashSet<>();
-        for (String s : mEndMotionPath.customAttributes.keySet()) {
+        val variables = 18
+        val attributeNameSet = HashSet<String>()
+        for (s in mEndMotionPath.customAttributes.keys) {
             if (mStartMotionPath.customAttributes.containsKey(s)) {
-                if (!splineAttributes.contains("CUSTOM," + s))
-                    attributeNameSet.add(s);
+                if (!splineAttributes.contains("CUSTOM,$s")) attributeNameSet.add(s)
             }
         }
-
-        mAttributeNames = attributeNameSet.toArray(new String[0]);
-        mAttributeInterpolatorCount = new int[mAttributeNames.length];
-        for (int i = 0; i < mAttributeNames.length; i++) {
-            String attributeName = mAttributeNames[i];
-            mAttributeInterpolatorCount[i] = 0;
-            for (int j = 0; j < points.length; j++) {
-                if (points[j].customAttributes.containsKey(attributeName)) {
-                    CustomVariable attribute = points[j].customAttributes.get(attributeName);
+        mAttributeNames = attributeNameSet.toTypedArray()
+        mAttributeInterpolatorCount = IntArray(mAttributeNames.size)
+        for (i in mAttributeNames.indices) {
+            val attributeName = mAttributeNames[i]
+            mAttributeInterpolatorCount[i] = 0
+            for (j in points.indices) {
+                if (points[j]!!.customAttributes.containsKey(attributeName)) {
+                    val attribute = points[j]!!.customAttributes[attributeName]
                     if (attribute != null) {
-                        mAttributeInterpolatorCount[i] += attribute.numberOfInterpolatedValues();
-                        break;
+                        mAttributeInterpolatorCount[i] += attribute.numberOfInterpolatedValues()
+                        break
                     }
                 }
             }
         }
-        boolean arcMode = points[0].mPathMotionArc != UNSET;
-        boolean[] mask = new boolean[variables + mAttributeNames.length]; // defaults to false
-        for (int i = 1; i < points.length; i++) {
-            points[i].different(points[i - 1], mask, mAttributeNames, arcMode);
+        val arcMode = points[0]!!.mPathMotionArc != MotionWidget.UNSET
+        val mask = BooleanArray(variables + mAttributeNames.size) // defaults to false
+        for (i in 1 until points.size) {
+            points[i]!!.different(points[i - 1], mask, mAttributeNames, arcMode)
         }
-
-        count = 0;
-        for (int i = 1; i < mask.length; i++) {
+        count = 0
+        for (i in 1 until mask.size) {
             if (mask[i]) {
-                count++;
+                count++
             }
         }
-
-        mInterpolateVariables = new int[count];
-        int varLen = Math.max(2, count);
-        mInterpolateData = new double[varLen];
-        mInterpolateVelocity = new double[varLen];
-
-        count = 0;
-        for (int i = 1; i < mask.length; i++) {
-            if (mask[i])
-                mInterpolateVariables[count++] = i;
+        mInterpolateVariables = IntArray(count)
+        val varLen = Math.max(2, count)
+        mInterpolateData = DoubleArray(varLen)
+        mInterpolateVelocity = DoubleArray(varLen)
+        count = 0
+        for (i in 1 until mask.size) {
+            if (mask[i]) mInterpolateVariables[count++] = i
         }
-
-        double[][] splineData = new double[points.length][mInterpolateVariables.length];
-        double[] timePoint = new double[points.length];
-
-        for (int i = 0; i < points.length; i++) {
-            points[i].fillStandard(splineData[i], mInterpolateVariables);
-            timePoint[i] = points[i].time;
+        val splineData = Array(points.size) { DoubleArray(mInterpolateVariables.size) }
+        val timePoint = DoubleArray(points.size)
+        for (i in points.indices) {
+            points[i]!!.fillStandard(splineData[i], mInterpolateVariables)
+            timePoint[i] = points[i]!!.time.toDouble()
         }
-
-        for (int j = 0; j < mInterpolateVariables.length; j++) {
-            int interpolateVariable = mInterpolateVariables[j];
-            if (interpolateVariable < MotionPaths.names.length) {
-                String s = MotionPaths.names[mInterpolateVariables[j]] + " [";
-                for (int i = 0; i < points.length; i++) {
-                    s += splineData[i][j];
+        for (j in mInterpolateVariables.indices) {
+            val interpolateVariable = mInterpolateVariables[j]
+            if (interpolateVariable < MotionPaths.names.size) {
+                var s = MotionPaths.names[mInterpolateVariables[j]].toString() + " ["
+                for (i in points.indices) {
+                    s += splineData[i][j]
                 }
             }
         }
-        mSpline = new CurveFit[1 + mAttributeNames.length];
-
-        for (int i = 0; i < mAttributeNames.length; i++) {
-            int pointCount = 0;
-            double[][] splinePoints = null;
-            double[] timePoints = null;
-            String name = mAttributeNames[i];
-
-            for (int j = 0; j < points.length; j++) {
-                if (points[j].hasCustomData(name)) {
+        mSpline = arrayOfNulls(1 + mAttributeNames.size)
+        for (i in mAttributeNames.indices) {
+            var pointCount = 0
+            var splinePoints: Array<DoubleArray>? = null
+            var timePoints: DoubleArray? = null
+            val name = mAttributeNames[i]
+            for (j in points.indices) {
+                if (points[j]!!.hasCustomData(name)) {
                     if (splinePoints == null) {
-                        timePoints = new double[points.length];
-                        splinePoints = new double[points.length][points[j].getCustomDataCount(name)];
+                        timePoints = DoubleArray(points.size)
+                        splinePoints = Array(points.size) { DoubleArray(points[j]!!.getCustomDataCount(name)) }
                     }
-                    timePoints[pointCount] = points[j].time;
-                    points[j].getCustomData(name, splinePoints[pointCount], 0);
-                    pointCount++;
+                    timePoints!![pointCount] = points[j]!!.time.toDouble()
+                    points[j]!!.getCustomData(name, splinePoints[pointCount], 0)
+                    pointCount++
                 }
             }
-            timePoints = Arrays.copyOf(timePoints, pointCount);
-            splinePoints = Arrays.copyOf(splinePoints, pointCount);
-            mSpline[i + 1] = CurveFit.get(mCurveFitType, timePoints, splinePoints);
+            timePoints = timePoints?.copyOf(pointCount) ?: doubleArrayOf()
+            splinePoints = splinePoints?.copyOf(pointCount)?.filterNotNull()?.toTypedArray() ?: emptyArray()
+            mSpline!![i + 1] = CurveFit[mCurveFitType, timePoints, splinePoints]
         }
-
-        mSpline[0] = CurveFit.get(mCurveFitType, timePoint, splineData);
+        mSpline!![0] = CurveFit[mCurveFitType, timePoint, splineData]
         // --------------------------- SUPPORT ARC MODE --------------
-        if (points[0].mPathMotionArc != UNSET) {
-            int size = points.length;
-            int[] mode = new int[size];
-            double[] time = new double[size];
-            double[][] values = new double[size][2];
-            for (int i = 0; i < size; i++) {
-                mode[i] = points[i].mPathMotionArc;
-                time[i] = points[i].time;
-                values[i][0] = points[i].x;
-                values[i][1] = points[i].y;
+        if (points[0]!!.mPathMotionArc != MotionWidget.UNSET) {
+            val size = points.size
+            val mode = IntArray(size)
+            val time = DoubleArray(size)
+            val values = Array(size) { DoubleArray(2) }
+            for (i in 0 until size) {
+                mode[i] = points[i]!!.mPathMotionArc
+                time[i] = points[i]!!.time.toDouble()
+                values[i][0] = points[i]!!.x.toDouble()
+                values[i][1] = points[i]!!.y.toDouble()
             }
-
-            mArcSpline = CurveFit.getArc(mode, time, values);
+            mArcSpline = getArc(mode, time, values)
         }
 
         //--------------------------- Cycle support --------------------
-        float distance = Float.NaN;
-        mCycleMap = new HashMap<>();
+        var distance = Float.NaN
+        mCycleMap = HashMap()
         if (mKeyList != null) {
-            for (String attribute : cycleAttributes) {
-                KeyCycleOscillator cycle = KeyCycleOscillator.makeWidgetCycle(attribute);
-                if (cycle == null) {
-                    continue;
-                }
-
+            for (attribute in cycleAttributes) {
+                val cycle = makeWidgetCycle(attribute) ?: continue
                 if (cycle.variesByPath()) {
-                    if (Float.isNaN(distance)) {
-                        distance = getPreCycleDistance();
+                    if (java.lang.Float.isNaN(distance)) {
+                        distance = preCycleDistance
                     }
                 }
-                cycle.setType(attribute);
-                mCycleMap.put(attribute, cycle);
+                cycle.setType(attribute)
+                mCycleMap!![attribute] = cycle
             }
-            for (MotionKey key : mKeyList) {
-                if (key instanceof MotionKeyCycle) {
-                    ((MotionKeyCycle) key).addCycleValues(mCycleMap);
+            for (key in mKeyList) {
+                if (key is MotionKeyCycle) {
+                    key.addCycleValues(mCycleMap!!)
                 }
             }
-            for (KeyCycleOscillator cycle : mCycleMap.values()) {
-                cycle.setup(distance);
+            for (cycle in mCycleMap!!.values) {
+                cycle!!.setup(distance)
             }
         }
 
+        /*
         if (DEBUG) {
             Utils.log(TAG, "Animation of splineAttributes " + Arrays.toString(splineAttributes.toArray()));
             Utils.log(TAG, "Animation of cycle " + Arrays.toString(mCycleMap.keySet().toArray()));
@@ -951,7 +848,7 @@ public class Motion implements TypedValues {
                 }
             }
             Utils.log(TAG, " ---------------------------------------- ");
-        }
+        }*/
 
         //--------------------------- end cycle support ----------------
     }
@@ -961,185 +858,120 @@ public class Motion implements TypedValues {
      *
      * @return
      */
-    public String toString() {
-        return " start: x: " + mStartMotionPath.x + " y: " + mStartMotionPath.y
-                + " end: x: " + mEndMotionPath.x + " y: " + mEndMotionPath.y;
+    override fun toString(): String {
+        return (" start: x: " + mStartMotionPath.x + " y: " + mStartMotionPath.y
+                + " end: x: " + mEndMotionPath.x + " y: " + mEndMotionPath.y)
     }
 
-    private void readView(MotionPaths motionPaths) {
-        motionPaths.setBounds((int) mView.getX(), (int) mView.getY(), mView.getWidth(), mView.getHeight());
+    private fun readView(motionPaths: MotionPaths) {
+        motionPaths.setBounds(view!!.x.toFloat(), view!!.y.toFloat(), view!!.width.toFloat(), view!!.height.toFloat())
     }
 
-    public void setView(MotionWidget view) {
-        mView = view;
+    fun setStart(mw: MotionWidget) {
+        mStartMotionPath.time = 0f
+        mStartMotionPath.position = 0f
+        mStartMotionPath.setBounds(mw.x.toFloat(), mw.y.toFloat(), mw.width.toFloat(), mw.height.toFloat())
+        mStartMotionPath.applyParameters(mw)
+        mStartPoint.setState(mw)
     }
 
-    public MotionWidget getView() {
-        return mView;
+    fun setEnd(mw: MotionWidget) {
+        mEndMotionPath.time = 1f
+        mEndMotionPath.position = 1f
+        readView(mEndMotionPath)
+        mEndMotionPath.setBounds(mw.left.toFloat(), mw.top.toFloat(), mw.width.toFloat(), mw.height.toFloat())
+        mEndMotionPath.applyParameters(mw)
+        mEndPoint.setState(mw)
     }
 
-    public void setStart(MotionWidget mw) {
-        mStartMotionPath.time = 0;
-        mStartMotionPath.position = 0;
-        mStartMotionPath.setBounds(mw.getX(), mw.getY(), mw.getWidth(), mw.getHeight());
-        mStartMotionPath.applyParameters(mw);
-        mStartPoint.setState(mw);
-    }
-
-    public void setEnd(MotionWidget mw) {
-        mEndMotionPath.time = 1;
-        mEndMotionPath.position = 1;
-        readView(mEndMotionPath);
-        mEndMotionPath.setBounds(mw.getLeft(), mw.getTop(), mw.getWidth(), mw.getHeight());
-        mEndMotionPath.applyParameters(mw);
-        mEndPoint.setState(mw);
-    }
-
-    public void setStartState(ViewState rect, MotionWidget v, int rotation, int preWidth, int preHeight) {
-        mStartMotionPath.time = 0;
-        mStartMotionPath.position = 0;
-        int cx, cy;
-        Rect r = new Rect();
-        switch (rotation) {
-            case 2:
-                cx = rect.left + rect.right;
-                cy = rect.top + rect.bottom;
-                r.left = preHeight - (cy + rect.width()) / 2;
-                r.top = (cx - rect.height()) / 2;
-                r.right = r.left + rect.width();
-                r.bottom = r.top + rect.height();
-                break;
-            case 1:
-                cx = rect.left + rect.right;
-                cy = rect.top + rect.bottom;
-                r.left = (cy - rect.width()) / 2;
-                r.top = preWidth - (cx + rect.height()) / 2;
-                r.right = r.left + rect.width();
-                r.bottom = r.top + rect.height();
-                break;
+    fun setStartState(rect: ViewState, v: MotionWidget?, rotation: Int, preWidth: Int, preHeight: Int) {
+        mStartMotionPath.time = 0f
+        mStartMotionPath.position = 0f
+        val cx: Int
+        val cy: Int
+        val r = Rect()
+        when (rotation) {
+            2 -> {
+                cx = rect.left + rect.right
+                cy = rect.top + rect.bottom
+                r.left = preHeight - (cy + rect.width()) / 2
+                r.top = (cx - rect.height()) / 2
+                r.right = r.left + rect.width()
+                r.bottom = r.top + rect.height()
+            }
+            1 -> {
+                cx = rect.left + rect.right
+                cy = rect.top + rect.bottom
+                r.left = (cy - rect.width()) / 2
+                r.top = preWidth - (cx + rect.height()) / 2
+                r.right = r.left + rect.width()
+                r.bottom = r.top + rect.height()
+            }
         }
-        mStartMotionPath.setBounds(r.left, r.top, r.width(), r.height());
-        mStartPoint.setState(r, v, rotation, rect.rotation);
+        mStartMotionPath.setBounds(r.left.toFloat(), r.top.toFloat(), r.width().toFloat(), r.height().toFloat())
+        mStartPoint.setState(r, v, rotation, rect.rotation)
     }
 
-    void rotate(Rect rect, Rect out, int rotation, int preHeight, int preWidth) {
-        int cx, cy;
-        switch (rotation) {
-
-            case MotionConstraintSet.ROTATE_PORTRATE_OF_LEFT:
-                cx = rect.left + rect.right;
-                cy = rect.top + rect.bottom;
-                out.left = preHeight - (cy + rect.width()) / 2;
-                out.top = (cx - rect.height()) / 2;
-                out.right = out.left + rect.width();
-                out.bottom = out.top + rect.height();
-                break;
-            case MotionConstraintSet.ROTATE_PORTRATE_OF_RIGHT:
-                cx = rect.left + rect.right;
-                cy = rect.top + rect.bottom;
-                out.left = (cy - rect.width()) / 2;
-                out.top = preWidth - (cx + rect.height()) / 2;
-                out.right = out.left + rect.width();
-                out.bottom = out.top + rect.height();
-                break;
-            case MotionConstraintSet.ROTATE_LEFT_OF_PORTRATE:
-                cx = rect.left + rect.right;
-                cy = rect.bottom + rect.top;
-                out.left = preHeight - (cy + rect.width()) / 2;
-                out.top = (cx - rect.height()) / 2;
-                out.right = out.left + rect.width();
-                out.bottom = out.top + rect.height();
-                break;
-            case MotionConstraintSet.ROTATE_RIGHT_OF_PORTRATE:
-                cx = rect.left + rect.right;
-                cy = rect.top + rect.bottom;
-                out.left = rect.height() / 2 + rect.top - cx / 2;
-                out.top = preWidth - (cx + rect.height()) / 2;
-                out.right = out.left + rect.width();
-                out.bottom = out.top + rect.height();
-                break;
+    fun rotate(rect: Rect, out: Rect, rotation: Int, preHeight: Int, preWidth: Int) {
+        val cx: Int
+        val cy: Int
+        when (rotation) {
+            MotionConstraintSet.ROTATE_PORTRATE_OF_LEFT -> {
+                cx = rect.left + rect.right
+                cy = rect.top + rect.bottom
+                out.left = preHeight - (cy + rect.width()) / 2
+                out.top = (cx - rect.height()) / 2
+                out.right = out.left + rect.width()
+                out.bottom = out.top + rect.height()
+            }
+            MotionConstraintSet.ROTATE_PORTRATE_OF_RIGHT -> {
+                cx = rect.left + rect.right
+                cy = rect.top + rect.bottom
+                out.left = (cy - rect.width()) / 2
+                out.top = preWidth - (cx + rect.height()) / 2
+                out.right = out.left + rect.width()
+                out.bottom = out.top + rect.height()
+            }
+            MotionConstraintSet.ROTATE_LEFT_OF_PORTRATE -> {
+                cx = rect.left + rect.right
+                cy = rect.bottom + rect.top
+                out.left = preHeight - (cy + rect.width()) / 2
+                out.top = (cx - rect.height()) / 2
+                out.right = out.left + rect.width()
+                out.bottom = out.top + rect.height()
+            }
+            MotionConstraintSet.ROTATE_RIGHT_OF_PORTRATE -> {
+                cx = rect.left + rect.right
+                cy = rect.top + rect.bottom
+                out.left = rect.height() / 2 + rect.top - cx / 2
+                out.top = preWidth - (cx + rect.height()) / 2
+                out.right = out.left + rect.width()
+                out.bottom = out.top + rect.height()
+            }
         }
     }
 
-    // Todo : Implement  QuantizeMotion scene rotate
-    //    void setStartState(Rect cw, ConstraintSet constraintSet, int parentWidth, int parentHeight) {
+    //    void setEndState(Rect cw, ConstraintSet constraintSet, int parentWidth, int parentHeight) {
     //        int rotate = constraintSet.mRotate; // for rotated frames
     //        if (rotate != 0) {
     //            rotate(cw, mTempRect, rotate, parentWidth, parentHeight);
+    //            cw = mTempRect;
     //        }
-    //        mStartMotionPath.time = 0;
-    //        mStartMotionPath.position = 0;
-    //        readView(mStartMotionPath);
-    //        mStartMotionPath.setBounds(cw.left, cw.top, cw.width(), cw.height());
-    //        ConstraintSet.Constraint constraint = constraintSet.getParameters(mId);
-    //        mStartMotionPath.applyParameters(constraint);
-    //        mMotionStagger = constraint.motion.mMotionStagger;
-    //        mStartPoint.setState(cw, constraintSet, rotate, mId);
-    //        mTransformPivotTarget = constraint.transform.transformPivotTarget;
-    //        mQuantizeMotionSteps = constraint.motion.mQuantizeMotionSteps;
-    //        mQuantizeMotionPhase = constraint.motion.mQuantizeMotionPhase;
-    //        mQuantizeMotionInterpolator = getInterpolator(mView.getContext(),
-    //                constraint.motion.mQuantizeInterpolatorType,
-    //                constraint.motion.mQuantizeInterpolatorString,
-    //                constraint.motion.mQuantizeInterpolatorID
-    //        );
+    //        mEndMotionPath.time = 1;
+    //        mEndMotionPath.position = 1;
+    //        readView(mEndMotionPath);
+    //        mEndMotionPath.setBounds(cw.left, cw.top, cw.width(), cw.height());
+    //        mEndMotionPath.applyParameters(constraintSet.getParameters(mId));
+    //        mEndPoint.setState(cw, constraintSet, rotate, mId);
     //    }
-
-    static final int EASE_IN_OUT = 0;
-    static final int EASE_IN = 1;
-    static final int EASE_OUT = 2;
-    static final int LINEAR = 3;
-    static final int BOUNCE = 4;
-    static final int OVERSHOOT = 5;
-    private static final int SPLINE_STRING = -1;
-    private static final int INTERPOLATOR_REFERENCE_ID = -2;
-    private static final int INTERPOLATOR_UNDEFINED = -3;
-
-    private static DifferentialInterpolator getInterpolator(int type, String interpolatorString, int id) {
-        switch (type) {
-            case SPLINE_STRING:
-                final Easing easing = Easing.getInterpolator(interpolatorString);
-                return new DifferentialInterpolator() {
-                    float mX;
-
-                    @Override
-                    public float getInterpolation(float x) {
-                        mX = x;
-                        return (float) easing.get(x);
-                    }
-
-                    @Override
-                    public float getVelocity() {
-                        return (float) easing.getDiff(mX);
-                    }
-                };
-
-        }
-        return null;
-    }
-
-//    void setEndState(Rect cw, ConstraintSet constraintSet, int parentWidth, int parentHeight) {
-//        int rotate = constraintSet.mRotate; // for rotated frames
-//        if (rotate != 0) {
-//            rotate(cw, mTempRect, rotate, parentWidth, parentHeight);
-//            cw = mTempRect;
-//        }
-//        mEndMotionPath.time = 1;
-//        mEndMotionPath.position = 1;
-//        readView(mEndMotionPath);
-//        mEndMotionPath.setBounds(cw.left, cw.top, cw.width(), cw.height());
-//        mEndMotionPath.applyParameters(constraintSet.getParameters(mId));
-//        mEndPoint.setState(cw, constraintSet, rotate, mId);
-//    }
-
-    void setBothStates(MotionWidget v) {
-        mStartMotionPath.time = 0;
-        mStartMotionPath.position = 0;
-        mNoMovement = true;
-        mStartMotionPath.setBounds(v.getX(), v.getY(), v.getWidth(), v.getHeight());
-        mEndMotionPath.setBounds(v.getX(), v.getY(), v.getWidth(), v.getHeight());
-        mStartPoint.setState(v);
-        mEndPoint.setState(v);
+    fun setBothStates(v: MotionWidget) {
+        mStartMotionPath.time = 0f
+        mStartMotionPath.position = 0f
+        mNoMovement = true
+        mStartMotionPath.setBounds(v.x.toFloat(), v.y.toFloat(), v.width.toFloat(), v.height.toFloat())
+        mEndMotionPath.setBounds(v.x.toFloat(), v.y.toFloat(), v.width.toFloat(), v.height.toFloat())
+        mStartPoint.setState(v)
+        mEndPoint.setState(v)
     }
 
     /**
@@ -1150,53 +982,53 @@ public class Motion implements TypedValues {
      * @param velocity return velocity
      * @return actual position accounting for easing and staggering
      */
-    private float getAdjustedPosition(float position, float[] velocity) {
+    private fun getAdjustedPosition(position: Float, velocity: FloatArray?): Float {
+        var position = position
         if (velocity != null) {
-            velocity[0] = 1;
-        } else if (mStaggerScale != 1.0) {
+            velocity[0] = 1f
+        } else if (mStaggerScale.toDouble() != 1.0) {
             if (position < mStaggerOffset) {
-                position = 0;
+                position = 0f
             }
             if (position > mStaggerOffset && position < 1.0) {
-                position -= mStaggerOffset;
-                position *= mStaggerScale;
-                position = Math.min(position, 1.0f);
+                position -= mStaggerOffset
+                position *= mStaggerScale
+                position = Math.min(position, 1.0f)
             }
         }
 
         // adjust the position based on the easing curve
-        float adjusted = position;
-        Easing easing = mStartMotionPath.mKeyFrameEasing;
-        float start = 0;
-        float end = Float.NaN;
-        for (MotionPaths frame : mMotionPaths) {
+        var adjusted = position
+        var easing = mStartMotionPath.mKeyFrameEasing
+        var start = 0f
+        var end = Float.NaN
+        for (frame in mMotionPaths) {
             if (frame.mKeyFrameEasing != null) { // this frame has an easing
                 if (frame.time < position) {  // frame with easing is before the current pos
-                    easing = frame.mKeyFrameEasing; // this is the candidate
-                    start = frame.time; // this is also the starting time
+                    easing = frame.mKeyFrameEasing // this is the candidate
+                    start = frame.time // this is also the starting time
                 } else { // frame with easing is past the pos
-                    if (Float.isNaN(end)) { // we never ended the time line
-                        end = frame.time;
+                    if (java.lang.Float.isNaN(end)) { // we never ended the time line
+                        end = frame.time
                     }
                 }
             }
         }
-
         if (easing != null) {
-            if (Float.isNaN(end)) {
-                end = 1.0f;
+            if (java.lang.Float.isNaN(end)) {
+                end = 1.0f
             }
-            float offset = (position - start) / (end - start);
-            float new_offset = (float) easing.get(offset);
-            adjusted = new_offset * (end - start) + start;
+            val offset = (position - start) / (end - start)
+            val new_offset = easing[offset.toDouble()].toFloat()
+            adjusted = new_offset * (end - start) + start
             if (velocity != null) {
-                velocity[0] = (float) easing.getDiff(offset);
+                velocity[0] = easing.getDiff(offset.toDouble()).toFloat()
             }
         }
-        return adjusted;
+        return adjusted
     }
 
-    void endTrigger(boolean start) {
+    fun endTrigger(start: Boolean) {
 //        if ("button".equals(Debug.getName(mView)))
 //            if (mKeyTriggers != null) {
 //                for (int i = 0; i < mKeyTriggers.length; i++) {
@@ -1210,7 +1042,6 @@ public class Motion implements TypedValues {
     //$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%
     //$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%
     //##############################################################################################
-
     /**
      * The main driver of interpolation
      *
@@ -1220,30 +1051,29 @@ public class Motion implements TypedValues {
      * @param keyCache
      * @return do you need to keep animating
      */
-    public boolean interpolate(MotionWidget child, float global_position, long time, KeyCache keyCache) {
-        boolean timeAnimation = false;
-        float position = getAdjustedPosition(global_position, null);
+    fun interpolate(child: MotionWidget, global_position: Float, time: Long, keyCache: KeyCache?): Boolean {
+        val timeAnimation = false
+        var position = getAdjustedPosition(global_position, null)
         // This quantize the position into steps e.g 4 steps = 0-0.25,0.25-0.50 etc
-        if (mQuantizeMotionSteps != UNSET) {
-            float pin = position;
-            float steps = 1.0f / mQuantizeMotionSteps; // the length of a step
-            float jump = (float) Math.floor(position / steps) * steps; // step jumps
-            float section = (position % steps) / steps; // float from 0 to 1 in a step
-
-            if (!Float.isNaN(mQuantizeMotionPhase)) {
-                section = (section + mQuantizeMotionPhase) % 1;
+        if (mQuantizeMotionSteps != MotionWidget.UNSET) {
+            val pin = position
+            val steps = 1.0f / mQuantizeMotionSteps // the length of a step
+            val jump = Math.floor((position / steps).toDouble()).toFloat() * steps // step jumps
+            var section = position % steps / steps // float from 0 to 1 in a step
+            if (!java.lang.Float.isNaN(mQuantizeMotionPhase)) {
+                section = (section + mQuantizeMotionPhase) % 1
             }
-            if (mQuantizeMotionInterpolator != null) {
-                section = mQuantizeMotionInterpolator.getInterpolation(section);
+            section = if (mQuantizeMotionInterpolator != null) {
+                mQuantizeMotionInterpolator!!.getInterpolation(section)
             } else {
-                section = section > 0.5 ? 1 : 0;
+                if (section > 0.5) 1f else 0.toFloat()
             }
-            position = section * steps + jump;
+            position = section * steps + jump
         }
         // MotionKeyTimeCycle.PathRotate timePathRotate = null;
         if (mAttributesMap != null) {
-            for (SplineSet aSpline : mAttributesMap.values()) {
-                aSpline.setProperty(child, position);
+            for (aSpline in mAttributesMap!!.values) {
+                aSpline!!.setProperty(child, position)
             }
         }
 
@@ -1257,33 +1087,31 @@ public class Motion implements TypedValues {
         //                timeAnimation |= aSpline.setProperty(child, position, time, keyCache);
         //            }
         //        }
-
         if (mSpline != null) {
-            mSpline[0].getPos(position, mInterpolateData);
-            mSpline[0].getSlope(position, mInterpolateVelocity);
+            mSpline!![0]!!.getPos(position.toDouble(), mInterpolateData)
+            mSpline!![0]!!.getSlope(position.toDouble(), mInterpolateVelocity)
             if (mArcSpline != null) {
-                if (mInterpolateData.length > 0) {
-                    mArcSpline.getPos(position, mInterpolateData);
-                    mArcSpline.getSlope(position, mInterpolateVelocity);
+                if (mInterpolateData.size > 0) {
+                    mArcSpline!!.getPos(position.toDouble(), mInterpolateData)
+                    mArcSpline!!.getSlope(position.toDouble(), mInterpolateVelocity)
                 }
             }
-
             if (!mNoMovement) {
-                mStartMotionPath.setView(position, child, mInterpolateVariables, mInterpolateData, mInterpolateVelocity, null);
+                mStartMotionPath.setView(position, child, mInterpolateVariables, mInterpolateData, mInterpolateVelocity, null)
             }
-            if (mTransformPivotTarget != UNSET) {
+            if (mTransformPivotTarget != MotionWidget.UNSET) {
                 if (mTransformPivotView == null) {
-                    MotionWidget layout = (MotionWidget) child.getParent();
-                    mTransformPivotView = layout.findViewById(mTransformPivotTarget);
+                    val layout = child.parent as MotionWidget
+                    mTransformPivotView = layout.findViewById(mTransformPivotTarget)
                 }
                 if (mTransformPivotView != null) {
-                    float cy = (mTransformPivotView.getTop() + mTransformPivotView.getBottom()) / 2.0f;
-                    float cx = (mTransformPivotView.getLeft() + mTransformPivotView.getRight()) / 2.0f;
-                    if (child.getRight() - child.getLeft() > 0 && child.getBottom() - child.getTop() > 0) {
-                        float px = (cx - child.getLeft());
-                        float py = (cy - child.getTop());
-                        child.setPivotX(px);
-                        child.setPivotY(py);
+                    val cy = (mTransformPivotView!!.top + mTransformPivotView!!.bottom) / 2.0f
+                    val cx = (mTransformPivotView!!.left + mTransformPivotView!!.right) / 2.0f
+                    if (child.right - child.left > 0 && child.bottom - child.top > 0) {
+                        val px = cx - child.left
+                        val py = cy - child.top
+                        child.pivotX = px
+                        child.pivotY = py
                     }
                 }
             }
@@ -1301,68 +1129,66 @@ public class Motion implements TypedValues {
             //                timeAnimation |= timePathRotate.setPathRotate(child, keyCache, position, time,
             //                        mInterpolateVelocity[0], mInterpolateVelocity[1]);
             //            }
-
-            for (int i = 1; i < mSpline.length; i++) {
-                CurveFit spline = mSpline[i];
-                spline.getPos(position, mValuesBuff);
+            for (i in 1 until mSpline!!.size) {
+                val spline = mSpline!![i]
+                spline!!.getPos(position.toDouble(), mValuesBuff)
                 //interpolated here
-                mStartMotionPath.customAttributes.get(mAttributeNames[i - 1]).setInterpolatedValue(child, mValuesBuff);
+                mStartMotionPath.customAttributes[mAttributeNames[i - 1]]!!.setInterpolatedValue(child, mValuesBuff)
             }
             if (mStartPoint.mVisibilityMode == MotionWidget.VISIBILITY_MODE_NORMAL) {
                 if (position <= 0.0f) {
-                    child.setVisibility(mStartPoint.visibility);
+                    child.visibility = mStartPoint.visibility
                 } else if (position >= 1.0f) {
-                    child.setVisibility(mEndPoint.visibility);
+                    child.visibility = mEndPoint.visibility
                 } else if (mEndPoint.visibility != mStartPoint.visibility) {
-                    child.setVisibility(MotionWidget.VISIBLE);
+                    child.visibility = MotionWidget.VISIBLE
                 }
             }
-
             if (mKeyTriggers != null) {
-                for (int i = 0; i < mKeyTriggers.length; i++) {
-                    mKeyTriggers[i].conditionallyFire(position, child);
+                for (i in mKeyTriggers!!.indices) {
+                    mKeyTriggers!![i].conditionallyFire(position, child)
                 }
             }
         } else {
             // do the interpolation
-
-            float float_l = (mStartMotionPath.x + (mEndMotionPath.x - mStartMotionPath.x) * position);
-            float float_t = (mStartMotionPath.y + (mEndMotionPath.y - mStartMotionPath.y) * position);
-            float float_width = (mStartMotionPath.width + (mEndMotionPath.width - mStartMotionPath.width) * position);
-            float float_height = (mStartMotionPath.height + (mEndMotionPath.height - mStartMotionPath.height) * position);
-            int l = (int) (0.5f + float_l);
-            int t = (int) (0.5f + float_t);
-            int r = (int) (0.5f + float_l + float_width);
-            int b = (int) (0.5f + float_t + float_height);
-            int width = r - l;
-            int height = b - t;
-
+            val float_l = mStartMotionPath.x + (mEndMotionPath.x - mStartMotionPath.x) * position
+            val float_t = mStartMotionPath.y + (mEndMotionPath.y - mStartMotionPath.y) * position
+            val float_width = mStartMotionPath.width + (mEndMotionPath.width - mStartMotionPath.width) * position
+            val float_height = mStartMotionPath.height + (mEndMotionPath.height - mStartMotionPath.height) * position
+            var l = (0.5f + float_l).toInt()
+            var t = (0.5f + float_t).toInt()
+            var r = (0.5f + float_l + float_width).toInt()
+            var b = (0.5f + float_t + float_height).toInt()
+            var width = r - l
+            var height = b - t
             if (FAVOR_FIXED_SIZE_VIEWS) {
-                l = (int) (mStartMotionPath.x + (mEndMotionPath.x - mStartMotionPath.x) * position);
-                t = (int) (mStartMotionPath.y + (mEndMotionPath.y - mStartMotionPath.y) * position);
-                width = (int) (mStartMotionPath.width + (mEndMotionPath.width - mStartMotionPath.width) * position);
-                height = (int) (mStartMotionPath.height + (mEndMotionPath.height - mStartMotionPath.height) * position);
-                r = l + width;
-                b = t + height;
+                l = (mStartMotionPath.x + (mEndMotionPath.x - mStartMotionPath.x) * position).toInt()
+                t = (mStartMotionPath.y + (mEndMotionPath.y - mStartMotionPath.y) * position).toInt()
+                width = (mStartMotionPath.width + (mEndMotionPath.width - mStartMotionPath.width) * position).toInt()
+                height = (mStartMotionPath.height + (mEndMotionPath.height - mStartMotionPath.height) * position).toInt()
+                r = l + width
+                b = t + height
             }
             // widget is responsible to call measure
-            child.layout(l, t, r, b);
+            child.layout(l, t, r, b)
         }
 
         // TODO add pathRotate KeyCycles
         if (mCycleMap != null) {
-            for (KeyCycleOscillator osc : mCycleMap.values()) {
-                if (osc instanceof KeyCycleOscillator.PathRotateSet) {
-                    ((KeyCycleOscillator.PathRotateSet) osc).setPathRotate(child, position,
-                            mInterpolateVelocity[0], mInterpolateVelocity[1]);
+            for (osc in mCycleMap!!.values) {
+                if (osc is PathRotateSet) {
+                    osc.setPathRotate(
+                        child, position,
+                        mInterpolateVelocity[0], mInterpolateVelocity[1]
+                    )
                 } else {
-                    osc.setProperty(child, position);
+                    osc!!.setProperty(child, position)
                 }
             }
         }
         //   When we support TimeCycle return true if repaint is needed
         //        return timeAnimation;
-        return false;
+        return false
     }
 
     /**
@@ -1374,37 +1200,36 @@ public class Motion implements TypedValues {
      * @param locationY   the y location on the view (0 = top, 1 = bottom)
      * @param mAnchorDpDt returns the differential of the motion with respect to the position
      */
-    void getDpDt(float position, float locationX, float locationY, float[] mAnchorDpDt) {
-        position = getAdjustedPosition(position, mVelocity);
-
+    fun getDpDt(position: Float, locationX: Float, locationY: Float, mAnchorDpDt: FloatArray) {
+        var position = position
+        position = getAdjustedPosition(position, mVelocity)
         if (mSpline != null) {
-            mSpline[0].getSlope(position, mInterpolateVelocity);
-            mSpline[0].getPos(position, mInterpolateData);
-            float v = mVelocity[0];
-            for (int i = 0; i < mInterpolateVelocity.length; i++) {
-                mInterpolateVelocity[i] *= v;
+            mSpline!![0]!!.getSlope(position.toDouble(), mInterpolateVelocity)
+            mSpline!![0]!!.getPos(position.toDouble(), mInterpolateData)
+            val v = mVelocity[0]
+            for (i in mInterpolateVelocity.indices) {
+                mInterpolateVelocity[i] = v * mInterpolateVelocity[i]
             }
-
             if (mArcSpline != null) {
-                if (mInterpolateData.length > 0) {
-                    mArcSpline.getPos(position, mInterpolateData);
-                    mArcSpline.getSlope(position, mInterpolateVelocity);
-                    mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData);
+                if (mInterpolateData.size > 0) {
+                    mArcSpline!!.getPos(position.toDouble(), mInterpolateData)
+                    mArcSpline!!.getSlope(position.toDouble(), mInterpolateVelocity)
+                    mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData)
                 }
-                return;
+                return
             }
-            mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData);
-            return;
+            mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData)
+            return
         }
         // do the interpolation
-        float dleft = (mEndMotionPath.x - mStartMotionPath.x);
-        float dTop = (mEndMotionPath.y - mStartMotionPath.y);
-        float dWidth = (mEndMotionPath.width - mStartMotionPath.width);
-        float dHeight = (mEndMotionPath.height - mStartMotionPath.height);
-        float dRight = dleft + dWidth;
-        float dBottom = dTop + dHeight;
-        mAnchorDpDt[0] = dleft * (1 - locationX) + dRight * (locationX);
-        mAnchorDpDt[1] = dTop * (1 - locationY) + dBottom * (locationY);
+        val dleft = mEndMotionPath.x - mStartMotionPath.x
+        val dTop = mEndMotionPath.y - mStartMotionPath.y
+        val dWidth = mEndMotionPath.width - mStartMotionPath.width
+        val dHeight = mEndMotionPath.height - mStartMotionPath.height
+        val dRight = dleft + dWidth
+        val dBottom = dTop + dHeight
+        mAnchorDpDt[0] = dleft * (1 - locationX) + dRight * locationX
+        mAnchorDpDt[1] = dTop * (1 - locationY) + dBottom * locationY
     }
 
     /**
@@ -1418,105 +1243,101 @@ public class Motion implements TypedValues {
      * @param locationY   the y location on the view (0 = top, 1 = bottom)
      * @param mAnchorDpDt returns the differential of the motion with respect to the position
      */
-    void getPostLayoutDvDp(float position, int width, int height, float locationX, float locationY, float[] mAnchorDpDt) {
+    fun getPostLayoutDvDp(position: Float, width: Int, height: Int, locationX: Float, locationY: Float, mAnchorDpDt: FloatArray) {
+        var position = position
         if (DEBUG) {
-            Utils.log(TAG, " position= " + position + " location= " + locationX + " , " + locationY);
+            //Utils.log(TAG, " position= " + position + " location= " + locationX + " , " + locationY);
         }
-        position = getAdjustedPosition(position, mVelocity);
-
-        SplineSet trans_x = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.TRANSLATION_X);
-        SplineSet trans_y = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.TRANSLATION_Y);
-        SplineSet rotation = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.ROTATION);
-        SplineSet scale_x = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.SCALE_X);
-        SplineSet scale_y = (mAttributesMap == null) ? null : mAttributesMap.get(MotionKey.SCALE_Y);
-
-        KeyCycleOscillator osc_x = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.TRANSLATION_X);
-        KeyCycleOscillator osc_y = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.TRANSLATION_Y);
-        KeyCycleOscillator osc_r = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.ROTATION);
-        KeyCycleOscillator osc_sx = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.SCALE_X);
-        KeyCycleOscillator osc_sy = (mCycleMap == null) ? null : mCycleMap.get(MotionKey.SCALE_Y);
-
-        VelocityMatrix vmat = new VelocityMatrix();
-        vmat.clear();
-        vmat.setRotationVelocity(rotation, position);
-        vmat.setTranslationVelocity(trans_x, trans_y, position);
-        vmat.setScaleVelocity(scale_x, scale_y, position);
-        vmat.setRotationVelocity(osc_r, position);
-        vmat.setTranslationVelocity(osc_x, osc_y, position);
-        vmat.setScaleVelocity(osc_sx, osc_sy, position);
+        position = getAdjustedPosition(position, mVelocity)
+        val trans_x = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.TRANSLATION_X]
+        val trans_y = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.TRANSLATION_Y]
+        val rotation = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.ROTATION]
+        val scale_x = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.SCALE_X]
+        val scale_y = if (mAttributesMap == null) null else mAttributesMap!![MotionKey.SCALE_Y]
+        val osc_x = if (mCycleMap == null) null else mCycleMap!![MotionKey.TRANSLATION_X]
+        val osc_y = if (mCycleMap == null) null else mCycleMap!![MotionKey.TRANSLATION_Y]
+        val osc_r = if (mCycleMap == null) null else mCycleMap!![MotionKey.ROTATION]
+        val osc_sx = if (mCycleMap == null) null else mCycleMap!![MotionKey.SCALE_X]
+        val osc_sy = if (mCycleMap == null) null else mCycleMap!![MotionKey.SCALE_Y]
+        val vmat = VelocityMatrix()
+        vmat.clear()
+        vmat.setRotationVelocity(rotation, position)
+        vmat.setTranslationVelocity(trans_x, trans_y, position)
+        vmat.setScaleVelocity(scale_x, scale_y, position)
+        vmat.setRotationVelocity(osc_r, position)
+        vmat.setTranslationVelocity(osc_x, osc_y, position)
+        vmat.setScaleVelocity(osc_sx, osc_sy, position)
         if (mArcSpline != null) {
-            if (mInterpolateData.length > 0) {
-                mArcSpline.getPos(position, mInterpolateData);
-                mArcSpline.getSlope(position, mInterpolateVelocity);
-                mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData);
+            if (mInterpolateData.size > 0) {
+                mArcSpline!!.getPos(position.toDouble(), mInterpolateData)
+                mArcSpline!!.getSlope(position.toDouble(), mInterpolateVelocity)
+                mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData)
             }
-            vmat.applyTransform(locationX, locationY, width, height, mAnchorDpDt);
-            return;
+            vmat.applyTransform(locationX, locationY, width, height, mAnchorDpDt)
+            return
         }
         if (mSpline != null) {
-            position = getAdjustedPosition(position, mVelocity);
-            mSpline[0].getSlope(position, mInterpolateVelocity);
-            mSpline[0].getPos(position, mInterpolateData);
-            float v = mVelocity[0];
-            for (int i = 0; i < mInterpolateVelocity.length; i++) {
-                mInterpolateVelocity[i] *= v;
+            position = getAdjustedPosition(position, mVelocity)
+            mSpline!![0]!!.getSlope(position.toDouble(), mInterpolateVelocity)
+            mSpline!![0]!!.getPos(position.toDouble(), mInterpolateData)
+            val v = mVelocity[0]
+            for (i in mInterpolateVelocity.indices) {
+                mInterpolateVelocity[i] = v * mInterpolateVelocity[i]
             }
-            mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData);
-            vmat.applyTransform(locationX, locationY, width, height, mAnchorDpDt);
-            return;
+            mStartMotionPath.setDpDt(locationX, locationY, mAnchorDpDt, mInterpolateVariables, mInterpolateVelocity, mInterpolateData)
+            vmat.applyTransform(locationX, locationY, width, height, mAnchorDpDt)
+            return
         }
 
         // do the interpolation
-        float dleft = (mEndMotionPath.x - mStartMotionPath.x);
-        float dTop = (mEndMotionPath.y - mStartMotionPath.y);
-        float dWidth = (mEndMotionPath.width - mStartMotionPath.width);
-        float dHeight = (mEndMotionPath.height - mStartMotionPath.height);
-        float dRight = dleft + dWidth;
-        float dBottom = dTop + dHeight;
-        mAnchorDpDt[0] = dleft * (1 - locationX) + dRight * (locationX);
-        mAnchorDpDt[1] = dTop * (1 - locationY) + dBottom * (locationY);
-
-        vmat.clear();
-        vmat.setRotationVelocity(rotation, position);
-        vmat.setTranslationVelocity(trans_x, trans_y, position);
-        vmat.setScaleVelocity(scale_x, scale_y, position);
-        vmat.setRotationVelocity(osc_r, position);
-        vmat.setTranslationVelocity(osc_x, osc_y, position);
-        vmat.setScaleVelocity(osc_sx, osc_sy, position);
-        vmat.applyTransform(locationX, locationY, width, height, mAnchorDpDt);
-        return;
+        val dleft = mEndMotionPath.x - mStartMotionPath.x
+        val dTop = mEndMotionPath.y - mStartMotionPath.y
+        val dWidth = mEndMotionPath.width - mStartMotionPath.width
+        val dHeight = mEndMotionPath.height - mStartMotionPath.height
+        val dRight = dleft + dWidth
+        val dBottom = dTop + dHeight
+        mAnchorDpDt[0] = dleft * (1 - locationX) + dRight * locationX
+        mAnchorDpDt[1] = dTop * (1 - locationY) + dBottom * locationY
+        vmat.clear()
+        vmat.setRotationVelocity(rotation, position)
+        vmat.setTranslationVelocity(trans_x, trans_y, position)
+        vmat.setScaleVelocity(scale_x, scale_y, position)
+        vmat.setRotationVelocity(osc_r, position)
+        vmat.setTranslationVelocity(osc_x, osc_y, position)
+        vmat.setScaleVelocity(osc_sx, osc_sy, position)
+        vmat.applyTransform(locationX, locationY, width, height, mAnchorDpDt)
+        return
     }
 
-    public int getDrawPath() {
-        int mode = mStartMotionPath.mDrawPath;
-        for (MotionPaths keyFrame : mMotionPaths) {
-            mode = Math.max(mode, keyFrame.mDrawPath);
+    var drawPath: Int
+        get() {
+            var mode = mStartMotionPath.mDrawPath
+            for (keyFrame in mMotionPaths) {
+                mode = Math.max(mode, keyFrame.mDrawPath)
+            }
+            mode = Math.max(mode, mEndMotionPath.mDrawPath)
+            return mode
         }
-        mode = Math.max(mode, mEndMotionPath.mDrawPath);
-        return mode;
+        set(debugMode) {
+            mStartMotionPath.mDrawPath = debugMode
+        }
+
+    fun name(): String {
+        return view!!.name
     }
 
-    public void setDrawPath(int debugMode) {
-        mStartMotionPath.mDrawPath = debugMode;
-    }
-
-    String name() {
-
-        return mView.getName();
-    }
-
-    void positionKeyframe(MotionWidget view, MotionKeyPosition key, float x, float y, String[] attribute, float[] value) {
-        FloatRect start = new FloatRect();
-        start.left = mStartMotionPath.x;
-        start.top = mStartMotionPath.y;
-        start.right = start.left + mStartMotionPath.width;
-        start.bottom = start.top + mStartMotionPath.height;
-        FloatRect end = new FloatRect();
-        end.left = mEndMotionPath.x;
-        end.top = mEndMotionPath.y;
-        end.right = end.left + mEndMotionPath.width;
-        end.bottom = end.top + mEndMotionPath.height;
-        key.positionAttributes(view, start, end, x, y, attribute, value);
+    fun positionKeyframe(view: MotionWidget?, key: MotionKeyPosition, x: Float, y: Float, attribute: Array<String?>?, value: FloatArray?) {
+        val start = FloatRect()
+        start.left = mStartMotionPath.x
+        start.top = mStartMotionPath.y
+        start.right = start.left + mStartMotionPath.width
+        start.bottom = start.top + mStartMotionPath.height
+        val end = FloatRect()
+        end.left = mEndMotionPath.x
+        end.top = mEndMotionPath.y
+        end.right = end.left + mEndMotionPath.width
+        end.bottom = end.top + mEndMotionPath.height
+        key.positionAttributes(view!!, start, end, x, y, attribute!!, value!!)
     }
 
     /**
@@ -1526,18 +1347,17 @@ public class Motion implements TypedValues {
      * @param pos  the x&y position of the keyFrame along the path
      * @return Number of keyFrames found
      */
-    public int getKeyFramePositions(int[] type, float[] pos) {
-        int i = 0;
-        int count = 0;
-        for (MotionKey key : mKeyList) {
-            type[i++] = key.mFramePosition + 1000 * key.mType;
-            float time = key.mFramePosition / 100.0f;
-            mSpline[0].getPos(time, mInterpolateData);
-            mStartMotionPath.getCenter(time, mInterpolateVariables, mInterpolateData, pos, count);
-            count += 2;
+    fun getKeyFramePositions(type: IntArray, pos: FloatArray?): Int {
+        var i = 0
+        var count = 0
+        for (key in mKeyList!!) {
+            type[i++] = key.framePosition + 1000 * key.mType
+            val time = key.framePosition / 100.0f
+            mSpline!![0]!!.getPos(time.toDouble(), mInterpolateData)
+            mStartMotionPath.getCenter(time.toDouble(), mInterpolateVariables, mInterpolateData, pos, count)
+            count += 2
         }
-
-        return i;
+        return i
     }
 
     /**
@@ -1555,75 +1375,142 @@ public class Motion implements TypedValues {
      * @param info is a data structure array of int that holds info on each keyframe
      * @return Number of keyFrames found
      */
-    public int getKeyFrameInfo(int type, int[] info) {
-        int count = 0;
-        int cursor = 0;
-        float[] pos = new float[2];
-        int len;
-        for (MotionKey key : mKeyList) {
+    fun getKeyFrameInfo(type: Int, info: IntArray): Int {
+        var count = 0
+        var cursor = 0
+        val pos = FloatArray(2)
+        var len: Int
+        for (key in mKeyList!!) {
             if (key.mType != type && type == -1) {
-                continue;
+                continue
             }
-            len = cursor;
-            info[cursor] = 0;
-
-            info[++cursor] = key.mType;
-            info[++cursor] = key.mFramePosition;
-
-            float time = key.mFramePosition / 100.0f;
-            mSpline[0].getPos(time, mInterpolateData);
-            mStartMotionPath.getCenter(time, mInterpolateVariables, mInterpolateData, pos, 0);
-            info[++cursor] = Float.floatToIntBits(pos[0]);
-            info[++cursor] = Float.floatToIntBits(pos[1]);
-            if (key instanceof MotionKeyPosition) {
-                MotionKeyPosition kp = (MotionKeyPosition) key;
-                info[++cursor] = kp.mPositionType;
-
-                info[++cursor] = Float.floatToIntBits(kp.mPercentX);
-                info[++cursor] = Float.floatToIntBits(kp.mPercentY);
+            len = cursor
+            info[cursor] = 0
+            info[++cursor] = key.mType
+            info[++cursor] = key.framePosition
+            val time = key.framePosition / 100.0f
+            mSpline!![0]!!.getPos(time.toDouble(), mInterpolateData)
+            mStartMotionPath.getCenter(time.toDouble(), mInterpolateVariables, mInterpolateData, pos, 0)
+            info[++cursor] = java.lang.Float.floatToIntBits(pos[0])
+            info[++cursor] = java.lang.Float.floatToIntBits(pos[1])
+            if (key is MotionKeyPosition) {
+                val kp = key
+                info[++cursor] = kp.mPositionType
+                info[++cursor] = java.lang.Float.floatToIntBits(kp.mPercentX)
+                info[++cursor] = java.lang.Float.floatToIntBits(kp.mPercentY)
             }
-            cursor++;
-            info[len] = cursor - len;
-            count++;
+            cursor++
+            info[len] = cursor - len
+            count++
         }
-
-        return count;
+        return count
     }
 
-    @Override
-    public boolean setValue(int id, int value) {
-        switch (id) {
-            case PositionType.TYPE_PATH_MOTION_ARC:
-                setPathMotionArc(value);
-                return true;
-            case TransitionType.TYPE_AUTO_TRANSITION:
-               // TODO add support for auto transitions mAutoTransition = value;
-                return true;
+    override fun setValue(id: Int, value: Int): Boolean {
+        when (id) {
+            PositionType.TYPE_PATH_MOTION_ARC -> {
+                setPathMotionArc(value)
+                return true
+            }
+            TransitionType.TYPE_AUTO_TRANSITION ->                // TODO add support for auto transitions mAutoTransition = value;
+                return true
         }
-        return false;
+        return false
     }
 
-    @Override
-    public boolean setValue(int id, float value) {
-        return false;
+    override fun setValue(id: Int, value: Float): Boolean {
+        return false
     }
 
-    @Override
-    public boolean setValue(int id, String value) {
-        if (TransitionType.TYPE_INTERPOLATOR == id) {
-            System.out.println("TYPE_INTERPOLATOR  "+value);
-           mQuantizeMotionInterpolator = getInterpolator(SPLINE_STRING, value,0);
+    override fun setValue(id: Int, value: String?): Boolean {
+        if (TransitionType.TYPE_INTERPOLATOR === id) {
+            println("TYPE_INTERPOLATOR  $value")
+            mQuantizeMotionInterpolator = getInterpolator(SPLINE_STRING, value, 0)
         }
-        return false;
+        return false
     }
 
-    @Override
-    public boolean setValue(int id, boolean value) {
-        return false;
+    override fun setValue(id: Int, value: Boolean): Boolean {
+        return false
     }
 
-    @Override
-    public int getId(String name) {
-        return 0;
+    override fun getId(name: String?): Int {
+        return 0
+    }
+
+    companion object {
+        const val PATH_PERCENT = 0
+        const val PATH_PERPENDICULAR = 1
+        const val HORIZONTAL_PATH_X = 2
+        const val HORIZONTAL_PATH_Y = 3
+        const val VERTICAL_PATH_X = 4
+        const val VERTICAL_PATH_Y = 5
+        const val DRAW_PATH_NONE = 0
+        const val DRAW_PATH_BASIC = 1
+        const val DRAW_PATH_RELATIVE = 2
+        const val DRAW_PATH_CARTESIAN = 3
+        const val DRAW_PATH_AS_CONFIGURED = 4
+        const val DRAW_PATH_RECTANGLE = 5
+        const val DRAW_PATH_SCREEN = 6
+        const val ROTATION_RIGHT = 1
+        const val ROTATION_LEFT = 2
+        private const val TAG = "MotionController"
+        private const val DEBUG = false
+        private const val FAVOR_FIXED_SIZE_VIEWS = false
+
+        // Todo : Implement  QuantizeMotion scene rotate
+        //    void setStartState(Rect cw, ConstraintSet constraintSet, int parentWidth, int parentHeight) {
+        //        int rotate = constraintSet.mRotate; // for rotated frames
+        //        if (rotate != 0) {
+        //            rotate(cw, mTempRect, rotate, parentWidth, parentHeight);
+        //        }
+        //        mStartMotionPath.time = 0;
+        //        mStartMotionPath.position = 0;
+        //        readView(mStartMotionPath);
+        //        mStartMotionPath.setBounds(cw.left, cw.top, cw.width(), cw.height());
+        //        ConstraintSet.Constraint constraint = constraintSet.getParameters(mId);
+        //        mStartMotionPath.applyParameters(constraint);
+        //        mMotionStagger = constraint.motion.mMotionStagger;
+        //        mStartPoint.setState(cw, constraintSet, rotate, mId);
+        //        mTransformPivotTarget = constraint.transform.transformPivotTarget;
+        //        mQuantizeMotionSteps = constraint.motion.mQuantizeMotionSteps;
+        //        mQuantizeMotionPhase = constraint.motion.mQuantizeMotionPhase;
+        //        mQuantizeMotionInterpolator = getInterpolator(mView.getContext(),
+        //                constraint.motion.mQuantizeInterpolatorType,
+        //                constraint.motion.mQuantizeInterpolatorString,
+        //                constraint.motion.mQuantizeInterpolatorID
+        //        );
+        //    }
+        const val EASE_IN_OUT = 0
+        const val EASE_IN = 1
+        const val EASE_OUT = 2
+        const val LINEAR = 3
+        const val BOUNCE = 4
+        const val OVERSHOOT = 5
+        private const val SPLINE_STRING = -1
+        private const val INTERPOLATOR_REFERENCE_ID = -2
+        private const val INTERPOLATOR_UNDEFINED = -3
+        private fun getInterpolator(type: Int, interpolatorString: String?, id: Int): DifferentialInterpolator? {
+            when (type) {
+                SPLINE_STRING -> {
+                    val easing = getInterpolator(interpolatorString)
+                    return object : DifferentialInterpolator {
+                        var mX = 0f
+                        override fun getInterpolation(x: Float): Float {
+                            mX = x
+                            return easing!![x.toDouble()].toFloat()
+                        }
+
+                        override val velocity: Float
+                            get() = easing!!.getDiff(mX.toDouble()).toFloat()
+                    }
+                }
+            }
+            return null
+        }
+    }
+
+    init {
+        this.view = view
     }
 }

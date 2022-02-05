@@ -13,52 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLArray extends CLContainer {
-  public CLArray(char[] content) {
-    super(content);
-  }
-
-  public static CLElement allocate(char[] content) {
-    return new CLArray(content);
-  }
-
-  protected String toJSON() {
-    StringBuilder content = new StringBuilder(getDebugName() + "[");
-    boolean first = true;
-    for (int i = 0; i < mElements.size(); i++) {
-      if (!first) {
-        content.append(", ");
-      } else {
-        first = false;
-      }
-      content.append(mElements.get(i).toJSON());
-    }
-    return content + "]";
-  }
-
-  protected String toFormattedJSON(int indent, int forceIndent) {
-    StringBuilder json = new StringBuilder();
-    String val = toJSON();
-    if (forceIndent <= 0 && val.length() + indent < MAX_LINE) {
-      json.append(val);
-    } else {
-      json.append("[\n");
-      boolean first = true;
-      for (CLElement element : mElements) {
-        if (!first) {
-          json.append(",\n");
-        } else {
-          first = false;
+class CLArray(content: CharArray) : CLContainer(content) {
+    override fun toJSON(): String {
+        val content = StringBuilder("$debugName[")
+        var first = true
+        for (i in mElements.indices) {
+            if (!first) {
+                content.append(", ")
+            } else {
+                first = false
+            }
+            content.append(mElements[i].toJSON())
         }
-        addIndent(json, indent + BASE_INDENT);
-        json.append(element.toFormattedJSON(indent + BASE_INDENT, forceIndent - 1));
-      }
-      json.append("\n");
-      addIndent(json, indent);
-      json.append("]");
+        return "$content]"
     }
-    return json.toString();
-  }
+
+    override fun toFormattedJSON(indent: Int, forceIndent: Int): String {
+        val json = StringBuilder()
+        val `val` = toJSON()
+        if (forceIndent <= 0 && `val`.length + indent < MAX_LINE) {
+            json.append(`val`)
+        } else {
+            json.append("[\n")
+            var first = true
+            for (element in mElements) {
+                if (!first) {
+                    json.append(",\n")
+                } else {
+                    first = false
+                }
+                addIndent(json, indent + BASE_INDENT)
+                json.append(element.toFormattedJSON(indent + BASE_INDENT, forceIndent - 1))
+            }
+            json.append("\n")
+            addIndent(json, indent)
+            json.append("]")
+        }
+        return json.toString()
+    }
+
+    companion object {
+        fun allocate(content: CharArray): CLElement {
+            return CLArray(content)
+        }
+    }
 }

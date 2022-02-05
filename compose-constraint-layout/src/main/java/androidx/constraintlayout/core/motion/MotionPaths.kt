@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion;
+package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.key.MotionKeyPosition;
-import androidx.constraintlayout.core.motion.utils.Easing;
-import androidx.constraintlayout.core.motion.utils.Utils;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Set;
+import androidx.constraintlayout.core.motion.utils.Easing.Companion.getInterpolator
+import androidx.constraintlayout.core.motion.key.MotionKeyPosition
+import androidx.constraintlayout.core.motion.utils.Easing
 
 /**
  * This is used to capture and play back path of the layout.
@@ -29,44 +25,27 @@ import java.util.Set;
  *
  * @suppress
  */
-public class MotionPaths implements Comparable<MotionPaths> {
-    public static final String TAG = "MotionPaths";
-    public static final boolean DEBUG = false;
-    public static final boolean OLD_WAY = false; // the computes the positions the old way
-    static final int OFF_POSITION = 0;
-    static final int OFF_X = 1;
-    static final int OFF_Y = 2;
-    static final int OFF_WIDTH = 3;
-    static final int OFF_HEIGHT = 4;
-    static final int OFF_PATH_ROTATE = 5;
+class MotionPaths : Comparable<MotionPaths> {
+    var mKeyFrameEasing: Easing? = null
+    var mDrawPath = 0
+    var time = 0f
+    var position = 0f
+    var x = 0f
+    var y = 0f
+    var width = 0f
+    var height = 0f
+    var mPathRotate = Float.NaN
+    var mProgress = Float.NaN
+    var mPathMotionArc = MotionWidget.UNSET
+    var mAnimateRelativeTo = MotionWidget.UNSET
+    var mRelativeAngle = Float.NaN
+    var mRelativeToController: Motion? = null
+    var customAttributes = HashMap<String, CustomVariable>()
+    var mMode = 0 // how was this point computed 1=perpendicular 2=deltaRelative
+    var mAnimateCircleAngleTo // since angles loop there are 4 ways we can pic direction
+            = 0
 
-    // mode and type have same numbering scheme
-    public static final int PERPENDICULAR = MotionKeyPosition.TYPE_PATH;
-    public static final int CARTESIAN = MotionKeyPosition.TYPE_CARTESIAN;
-    public static final int SCREEN = MotionKeyPosition.TYPE_SCREEN;
-    static String[] names = {"position", "x", "y", "width", "height", "pathRotate"};
-    Easing mKeyFrameEasing;
-    int mDrawPath = 0;
-    float time;
-    float position;
-    float x;
-    float y;
-    float width;
-    float height;
-    float mPathRotate = Float.NaN;
-    float mProgress = Float.NaN;
-    int mPathMotionArc = MotionWidget.UNSET;
-    int mAnimateRelativeTo = MotionWidget.UNSET;
-    float mRelativeAngle = Float.NaN;
-    Motion mRelativeToController = null;
-
-    HashMap<String, CustomVariable> customAttributes = new HashMap<>();
-    int mMode = 0; // how was this point computed 1=perpendicular 2=deltaRelative
-    int mAnimateCircleAngleTo; // since angles loop there are 4 ways we can pic direction
-
-    public MotionPaths() {
-
-    }
+    constructor() {}
 
     /**
      * set up with Cartesian
@@ -75,42 +54,36 @@ public class MotionPaths implements Comparable<MotionPaths> {
      * @param startTimePoint
      * @param endTimePoint
      */
-    void initCartesian(MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
-        float position = c.mFramePosition / 100f;
-        MotionPaths point = this;
-        point.time = position;
-
-        mDrawPath = c.mDrawPath;
-        float scaleWidth = Float.isNaN(c.mPercentWidth) ? position : c.mPercentWidth;
-        float scaleHeight = Float.isNaN(c.mPercentHeight) ? position : c.mPercentHeight;
-        float scaleX = endTimePoint.width - startTimePoint.width;
-        float scaleY = endTimePoint.height - startTimePoint.height;
-
-        point.position = point.time;
-
-        float path = position;// the position on the path
-
-        float startCenterX = startTimePoint.x + startTimePoint.width / 2;
-        float startCenterY = startTimePoint.y + startTimePoint.height / 2;
-        float endCenterX = endTimePoint.x + endTimePoint.width / 2;
-        float endCenterY = endTimePoint.y + endTimePoint.height / 2;
-        float pathVectorX = endCenterX - startCenterX;
-        float pathVectorY = endCenterY - startCenterY;
-        point.x = (int) (startTimePoint.x + (pathVectorX) * path - scaleX * scaleWidth / 2);
-        point.y = (int) (startTimePoint.y + (pathVectorY) * path - scaleY * scaleHeight / 2);
-        point.width = (int) (startTimePoint.width + scaleX * scaleWidth);
-        point.height = (int) (startTimePoint.height + scaleY * scaleHeight);
-
-        float dxdx = (Float.isNaN(c.mPercentX)) ? position : c.mPercentX;
-        float dydx = (Float.isNaN(c.mAltPercentY)) ? 0 : c.mAltPercentY;
-        float dydy = (Float.isNaN(c.mPercentY)) ? position : c.mPercentY;
-        float dxdy = (Float.isNaN(c.mAltPercentX)) ? 0 : c.mAltPercentX;
-        point.mMode = MotionPaths.CARTESIAN;
-        point.x = (int) (startTimePoint.x + pathVectorX * dxdx + pathVectorY * dxdy - scaleX * scaleWidth / 2);
-        point.y = (int) (startTimePoint.y + pathVectorX * dydx + pathVectorY * dydy - scaleY * scaleHeight / 2);
-
-        point.mKeyFrameEasing = Easing.getInterpolator(c.mTransitionEasing);
-        point.mPathMotionArc = c.mPathMotionArc;
+    fun initCartesian(c: MotionKeyPosition, startTimePoint: MotionPaths, endTimePoint: MotionPaths) {
+        val position = c.framePosition / 100f
+        val point = this
+        point.time = position
+        mDrawPath = c.mDrawPath
+        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
+        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleX = endTimePoint.width - startTimePoint.width
+        val scaleY = endTimePoint.height - startTimePoint.height
+        point.position = point.time
+        val path = position // the position on the path
+        val startCenterX = startTimePoint.x + startTimePoint.width / 2
+        val startCenterY = startTimePoint.y + startTimePoint.height / 2
+        val endCenterX = endTimePoint.x + endTimePoint.width / 2
+        val endCenterY = endTimePoint.y + endTimePoint.height / 2
+        val pathVectorX = endCenterX - startCenterX
+        val pathVectorY = endCenterY - startCenterY
+        point.x = (startTimePoint.x + pathVectorX * path - scaleX * scaleWidth / 2)
+        point.y = (startTimePoint.y + pathVectorY * path - scaleY * scaleHeight / 2)
+        point.width = (startTimePoint.width + scaleX * scaleWidth)
+        point.height = (startTimePoint.height + scaleY * scaleHeight)
+        val dxdx = if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX
+        val dydx: Float = if (java.lang.Float.isNaN(c.mAltPercentY)) 0f else c.mAltPercentY
+        val dydy = if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY
+        val dxdy: Float = if (java.lang.Float.isNaN(c.mAltPercentX)) 0f else c.mAltPercentX
+        point.mMode = CARTESIAN
+        point.x = (startTimePoint.x + pathVectorX * dxdx + pathVectorY * dxdy - scaleX * scaleWidth / 2)
+        point.y = (startTimePoint.y + pathVectorX * dydx + pathVectorY * dydy - scaleY * scaleHeight / 2)
+        point.mKeyFrameEasing = getInterpolator(c.mTransitionEasing)
+        point.mPathMotionArc = c.mPathMotionArc
     }
 
     /**
@@ -120,630 +93,543 @@ public class MotionPaths implements Comparable<MotionPaths> {
      * @param startTimePoint
      * @param endTimePoint
      */
-    public MotionPaths(int parentWidth, int parentHeight, MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
+    constructor(parentWidth: Int, parentHeight: Int, c: MotionKeyPosition, startTimePoint: MotionPaths, endTimePoint: MotionPaths) {
         if (startTimePoint.mAnimateRelativeTo != MotionWidget.UNSET) {
-            initPolar(parentWidth, parentHeight, c, startTimePoint, endTimePoint);
-            return;
+            initPolar(parentWidth, parentHeight, c, startTimePoint, endTimePoint)
+            return
         }
-        switch (c.mPositionType) {
-            case MotionKeyPosition.TYPE_SCREEN:
-                initScreen(parentWidth, parentHeight, c, startTimePoint, endTimePoint);
-                return;
-            case MotionKeyPosition.TYPE_PATH:
-                initPath(c, startTimePoint, endTimePoint);
-                return;
-            default:
-            case MotionKeyPosition.TYPE_CARTESIAN:
-                initCartesian(c, startTimePoint, endTimePoint);
-                return;
+        when (c.mPositionType) {
+            MotionKeyPosition.TYPE_SCREEN -> {
+                initScreen(parentWidth, parentHeight, c, startTimePoint, endTimePoint)
+                return
+            }
+            MotionKeyPosition.TYPE_PATH -> {
+                initPath(c, startTimePoint, endTimePoint)
+                return
+            }
+            MotionKeyPosition.TYPE_CARTESIAN -> {
+                initCartesian(c, startTimePoint, endTimePoint)
+                return
+            }
+            else -> {
+                initCartesian(c, startTimePoint, endTimePoint)
+                return
+            }
         }
     }
 
-    void initPolar(int parentWidth, int parentHeight, MotionKeyPosition c, MotionPaths s, MotionPaths e) {
-        float position = c.mFramePosition / 100f;
-        this.time = position;
-        mDrawPath = c.mDrawPath;
-        this.mMode = c.mPositionType; // mode and type have same numbering scheme
-        float scaleWidth = Float.isNaN(c.mPercentWidth) ? position : c.mPercentWidth;
-        float scaleHeight = Float.isNaN(c.mPercentHeight) ? position : c.mPercentHeight;
-        float scaleX = e.width - s.width;
-        float scaleY = e.height - s.height;
-        this.position = this.time;
-        width = (int) (s.width + scaleX * scaleWidth);
-        height = (int) (s.height + scaleY * scaleHeight);
-        float startfactor = 1 - position;
-        float endfactor = position;
-        switch (c.mPositionType) {
-            case MotionKeyPosition.TYPE_SCREEN:
-                this.x = Float.isNaN(c.mPercentX) ? (position * (e.x - s.x) + s.x) : c.mPercentX * Math.min(scaleHeight, scaleWidth);
-                this.y = Float.isNaN(c.mPercentY) ? (position * (e.y - s.y) + s.y) : c.mPercentY;
-                break;
-
-            case MotionKeyPosition.TYPE_PATH:
-                this.x = (Float.isNaN(c.mPercentX) ? position : c.mPercentX) * (e.x - s.x) + s.x;
-                this.y = (Float.isNaN(c.mPercentY) ? position : c.mPercentY) * (e.y - s.y) + s.y;
-                break;
-            default:
-            case MotionKeyPosition.TYPE_CARTESIAN:
-                this.x = (Float.isNaN(c.mPercentX) ? position : c.mPercentX) * (e.x - s.x) + s.x;
-                this.y = (Float.isNaN(c.mPercentY) ? position : c.mPercentY) * (e.y - s.y) + s.y;
-                break;
+    fun initPolar(parentWidth: Int, parentHeight: Int, c: MotionKeyPosition, s: MotionPaths, e: MotionPaths) {
+        val position = c.framePosition / 100f
+        time = position
+        mDrawPath = c.mDrawPath
+        mMode = c.mPositionType // mode and type have same numbering scheme
+        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
+        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleX = e.width - s.width
+        val scaleY = e.height - s.height
+        this.position = time
+        width = (s.width + scaleX * scaleWidth)
+        height = (s.height + scaleY * scaleHeight)
+        val startfactor = 1 - position
+        val endfactor = position
+        when (c.mPositionType) {
+            MotionKeyPosition.TYPE_SCREEN -> {
+                x = if (java.lang.Float.isNaN(c.mPercentX)) position * (e.x - s.x) + s.x else c.mPercentX * Math.min(scaleHeight, scaleWidth)
+                y = if (java.lang.Float.isNaN(c.mPercentY)) position * (e.y - s.y) + s.y else c.mPercentY
+            }
+            MotionKeyPosition.TYPE_PATH -> {
+                x = (if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX) * (e.x - s.x) + s.x
+                y = (if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY) * (e.y - s.y) + s.y
+            }
+            MotionKeyPosition.TYPE_CARTESIAN -> {
+                x = (if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX) * (e.x - s.x) + s.x
+                y = (if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY) * (e.y - s.y) + s.y
+            }
+            else -> {
+                x = (if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX) * (e.x - s.x) + s.x
+                y = (if (java.lang.Float.isNaN(c.mPercentY)) position else c.mPercentY) * (e.y - s.y) + s.y
+            }
         }
-
-        this.mAnimateRelativeTo = s.mAnimateRelativeTo;
-        this.mKeyFrameEasing = Easing.getInterpolator(c.mTransitionEasing);
-        this.mPathMotionArc = c.mPathMotionArc;
+        mAnimateRelativeTo = s.mAnimateRelativeTo
+        mKeyFrameEasing = getInterpolator(c.mTransitionEasing)
+        mPathMotionArc = c.mPathMotionArc
     }
 
-    public void setupRelative(Motion mc, MotionPaths relative) {
-        double dx = x + width / 2 - relative.x - relative.width / 2;
-        double dy = y + height / 2 - relative.y - relative.height / 2;
-        mRelativeToController = mc;
-
-        x = (float) Math.hypot(dy, dx);
-        if (Float.isNaN(mRelativeAngle)) {
-            y = (float) (Math.atan2(dy, dx) + Math.PI / 2);
+    fun setupRelative(mc: Motion?, relative: MotionPaths) {
+        val dx = (x + width / 2 - relative.x - relative.width / 2).toDouble()
+        val dy = (y + height / 2 - relative.y - relative.height / 2).toDouble()
+        mRelativeToController = mc
+        x = Math.hypot(dy, dx).toFloat()
+        y = if (java.lang.Float.isNaN(mRelativeAngle)) {
+            (Math.atan2(dy, dx) + Math.PI / 2).toFloat()
         } else {
-            y = (float) Math.toRadians(mRelativeAngle);
-
+            Math.toRadians(mRelativeAngle.toDouble()).toFloat()
         }
     }
 
-    void initScreen(int parentWidth, int parentHeight, MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
-        float position = c.mFramePosition / 100f;
-        MotionPaths point = this;
-        point.time = position;
-
-        mDrawPath = c.mDrawPath;
-        float scaleWidth = Float.isNaN(c.mPercentWidth) ? position : c.mPercentWidth;
-        float scaleHeight = Float.isNaN(c.mPercentHeight) ? position : c.mPercentHeight;
-
-        float scaleX = endTimePoint.width - startTimePoint.width;
-        float scaleY = endTimePoint.height - startTimePoint.height;
-
-        point.position = point.time;
-
-        float path = position;// the position on the path
-
-        float startCenterX = startTimePoint.x + startTimePoint.width / 2;
-        float startCenterY = startTimePoint.y + startTimePoint.height / 2;
-        float endCenterX = endTimePoint.x + endTimePoint.width / 2;
-        float endCenterY = endTimePoint.y + endTimePoint.height / 2;
-        float pathVectorX = endCenterX - startCenterX;
-        float pathVectorY = endCenterY - startCenterY;
-        point.x = (int) (startTimePoint.x + (pathVectorX) * path - scaleX * scaleWidth / 2);
-        point.y = (int) (startTimePoint.y + (pathVectorY) * path - scaleY * scaleHeight / 2);
-        point.width = (int) (startTimePoint.width + scaleX * scaleWidth);
-        point.height = (int) (startTimePoint.height + scaleY * scaleHeight);
-
-        point.mMode = MotionPaths.SCREEN;
-        if (!Float.isNaN(c.mPercentX)) {
-            parentWidth -= point.width;
-            point.x = (int) (c.mPercentX * parentWidth);
+    fun initScreen(parentWidth: Int, parentHeight: Int, c: MotionKeyPosition, startTimePoint: MotionPaths, endTimePoint: MotionPaths) {
+        var parentWidth = parentWidth
+        var parentHeight = parentHeight
+        val position = c.framePosition / 100f
+        val point = this
+        point.time = position
+        mDrawPath = c.mDrawPath
+        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
+        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleX = endTimePoint.width - startTimePoint.width
+        val scaleY = endTimePoint.height - startTimePoint.height
+        point.position = point.time
+        val path = position // the position on the path
+        val startCenterX = startTimePoint.x + startTimePoint.width / 2
+        val startCenterY = startTimePoint.y + startTimePoint.height / 2
+        val endCenterX = endTimePoint.x + endTimePoint.width / 2
+        val endCenterY = endTimePoint.y + endTimePoint.height / 2
+        val pathVectorX = endCenterX - startCenterX
+        val pathVectorY = endCenterY - startCenterY
+        point.x = (startTimePoint.x + pathVectorX * path - scaleX * scaleWidth / 2)
+        point.y = (startTimePoint.y + pathVectorY * path - scaleY * scaleHeight / 2)
+        point.width = (startTimePoint.width + scaleX * scaleWidth)
+        point.height = (startTimePoint.height + scaleY * scaleHeight)
+        point.mMode = SCREEN
+        if (!java.lang.Float.isNaN(c.mPercentX)) {
+            parentWidth -= point.width.toInt()
+            point.x = (c.mPercentX * parentWidth)
         }
-        if (!Float.isNaN(c.mPercentY)) {
-            parentHeight -= point.height;
-            point.y = (int) (c.mPercentY * parentHeight);
+        if (!java.lang.Float.isNaN(c.mPercentY)) {
+            parentHeight -= point.height.toInt()
+            point.y = (c.mPercentY * parentHeight)
         }
-
-        point.mAnimateRelativeTo = mAnimateRelativeTo;
-        point.mKeyFrameEasing = Easing.getInterpolator(c.mTransitionEasing);
-        point.mPathMotionArc = c.mPathMotionArc;
+        point.mAnimateRelativeTo = mAnimateRelativeTo
+        point.mKeyFrameEasing = getInterpolator(c.mTransitionEasing)
+        point.mPathMotionArc = c.mPathMotionArc
     }
 
-    void initPath(MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
-
-        float position = c.mFramePosition / 100f;
-        MotionPaths point = this;
-        point.time = position;
-
-        mDrawPath = c.mDrawPath;
-        float scaleWidth = Float.isNaN(c.mPercentWidth) ? position : c.mPercentWidth;
-        float scaleHeight = Float.isNaN(c.mPercentHeight) ? position : c.mPercentHeight;
-
-        float scaleX = endTimePoint.width - startTimePoint.width;
-        float scaleY = endTimePoint.height - startTimePoint.height;
-
-        point.position = point.time;
-
-        float path = Float.isNaN(c.mPercentX) ? position : c.mPercentX; // the position on the path
-
-        float startCenterX = startTimePoint.x + startTimePoint.width / 2;
-        float startCenterY = startTimePoint.y + startTimePoint.height / 2;
-        float endCenterX = endTimePoint.x + endTimePoint.width / 2;
-        float endCenterY = endTimePoint.y + endTimePoint.height / 2;
-        float pathVectorX = endCenterX - startCenterX;
-        float pathVectorY = endCenterY - startCenterY;
-        point.x = (int) (startTimePoint.x + (pathVectorX) * path - scaleX * scaleWidth / 2);
-        point.y = (int) (startTimePoint.y + (pathVectorY) * path - scaleY * scaleHeight / 2);
-        point.width = (int) (startTimePoint.width + scaleX * scaleWidth);
-        point.height = (int) (startTimePoint.height + scaleY * scaleHeight);
-        float perpendicular = Float.isNaN(c.mPercentY) ? 0 : c.mPercentY;// the position on the path
-        float perpendicularX = -pathVectorY;
-        float perpendicularY = pathVectorX;
-
-        float normalX = perpendicularX * perpendicular;
-        float normalY = perpendicularY * perpendicular;
-        point.mMode = MotionPaths.PERPENDICULAR;
-        point.x = (int) (startTimePoint.x + (pathVectorX) * path - scaleX * scaleWidth / 2);
-        point.y = (int) (startTimePoint.y + (pathVectorY) * path - scaleY * scaleHeight / 2);
-        point.x += normalX;
-        point.y += normalY;
-
-        point.mAnimateRelativeTo = mAnimateRelativeTo;
-        point.mKeyFrameEasing = Easing.getInterpolator(c.mTransitionEasing);
-        point.mPathMotionArc = c.mPathMotionArc;
+    fun initPath(c: MotionKeyPosition, startTimePoint: MotionPaths, endTimePoint: MotionPaths) {
+        val position = c.framePosition / 100f
+        val point = this
+        point.time = position
+        mDrawPath = c.mDrawPath
+        val scaleWidth = if (java.lang.Float.isNaN(c.mPercentWidth)) position else c.mPercentWidth
+        val scaleHeight = if (java.lang.Float.isNaN(c.mPercentHeight)) position else c.mPercentHeight
+        val scaleX = endTimePoint.width - startTimePoint.width
+        val scaleY = endTimePoint.height - startTimePoint.height
+        point.position = point.time
+        val path = if (java.lang.Float.isNaN(c.mPercentX)) position else c.mPercentX // the position on the path
+        val startCenterX = startTimePoint.x + startTimePoint.width / 2
+        val startCenterY = startTimePoint.y + startTimePoint.height / 2
+        val endCenterX = endTimePoint.x + endTimePoint.width / 2
+        val endCenterY = endTimePoint.y + endTimePoint.height / 2
+        val pathVectorX = endCenterX - startCenterX
+        val pathVectorY = endCenterY - startCenterY
+        point.x = (startTimePoint.x + pathVectorX * path - scaleX * scaleWidth / 2)
+        point.y = (startTimePoint.y + pathVectorY * path - scaleY * scaleHeight / 2)
+        point.width = (startTimePoint.width + scaleX * scaleWidth)
+        point.height = (startTimePoint.height + scaleY * scaleHeight)
+        val perpendicular: Float = if (java.lang.Float.isNaN(c.mPercentY)) 0f else c.mPercentY // the position on the path
+        val perpendicularX = -pathVectorY
+        val normalX = perpendicularX * perpendicular
+        val normalY = pathVectorX * perpendicular
+        point.mMode = PERPENDICULAR
+        point.x = (startTimePoint.x + pathVectorX * path - scaleX * scaleWidth / 2)
+        point.y = (startTimePoint.y + pathVectorY * path - scaleY * scaleHeight / 2)
+        point.x += normalX
+        point.y += normalY
+        point.mAnimateRelativeTo = mAnimateRelativeTo
+        point.mKeyFrameEasing = getInterpolator(c.mTransitionEasing)
+        point.mPathMotionArc = c.mPathMotionArc
     }
 
-    private static final float xRotate(float sin, float cos, float cx, float cy, float x, float y) {
-        x = x - cx;
-        y = y - cy;
-        return x * cos - y * sin + cx;
+    private fun diff(a: Float, b: Float): Boolean {
+        return if (java.lang.Float.isNaN(a) || java.lang.Float.isNaN(b)) {
+            java.lang.Float.isNaN(a) != java.lang.Float.isNaN(b)
+        } else Math.abs(a - b) > 0.000001f
     }
 
-    private static final float yRotate(float sin, float cos, float cx, float cy, float x, float y) {
-        x = x - cx;
-        y = y - cy;
-        return x * sin + y * cos + cy;
+    fun different(points: MotionPaths, mask: BooleanArray, custom: Array<String?>?, arcMode: Boolean) {
+        var c = 0
+        val diffx = diff(x, points.x)
+        val diffy = diff(y, points.y)
+        mask[c++] = mask[c++] or diff(position, points.position)
+        mask[c++] = mask[c++] or (diffx or diffy or arcMode)
+        mask[c++] = mask[c++] or (diffx or diffy or arcMode)
+        mask[c++] = mask[c++] or diff(width, points.width)
+        mask[c++] = mask[c++] or diff(height, points.height)
     }
 
-    private boolean diff(float a, float b) {
-        if (Float.isNaN(a) || Float.isNaN(b)) {
-            return Float.isNaN(a) != Float.isNaN(b);
-        }
-        return Math.abs(a - b) > 0.000001f;
-    }
-
-    void different(MotionPaths points, boolean[] mask, String[] custom, boolean arcMode) {
-        int c = 0;
-        boolean diffx = diff(x, points.x);
-        boolean diffy = diff(y, points.y);
-        mask[c++] |= diff(position, points.position);
-        mask[c++] |= diffx | diffy | arcMode;
-        mask[c++] |= diffx | diffy | arcMode;
-        mask[c++] |= diff(width, points.width);
-        mask[c++] |= diff(height, points.height);
-
-    }
-
-    void getCenter(double p, int[] toUse, double[] data, float[] point, int offset) {
-        float v_x = x;
-        float v_y = y;
-        float v_width = width;
-        float v_height = height;
-        float translationX = 0, translationY = 0;
-        for (int i = 0; i < toUse.length; i++) {
-            float value = (float) data[i];
-
-            switch (toUse[i]) {
-                case OFF_X:
-                    v_x = value;
-                    break;
-                case OFF_Y:
-                    v_y = value;
-                    break;
-                case OFF_WIDTH:
-                    v_width = value;
-                    break;
-                case OFF_HEIGHT:
-                    v_height = value;
-                    break;
+    fun getCenter(p: Double, toUse: IntArray, data: DoubleArray, point: FloatArray, offset: Int) {
+        var v_x = x
+        var v_y = y
+        var v_width = width
+        var v_height = height
+        val translationX = 0f
+        val translationY = 0f
+        for (i in toUse.indices) {
+            val value = data[i].toFloat()
+            when (toUse[i]) {
+                OFF_X -> v_x = value
+                OFF_Y -> v_y = value
+                OFF_WIDTH -> v_width = value
+                OFF_HEIGHT -> v_height = value
             }
         }
         if (mRelativeToController != null) {
-            float[] pos = new float[2];
-            float[] vel = new float[2];
-
-            mRelativeToController.getCenter(p, pos, vel);
-            float rx = pos[0];
-            float ry = pos[1];
-            float radius = v_x;
-            float angle = v_y;
+            val pos = FloatArray(2)
+            val vel = FloatArray(2)
+            mRelativeToController!!.getCenter(p, pos, vel)
+            val rx = pos[0]
+            val ry = pos[1]
+            val radius = v_x
+            val angle = v_y
             // TODO Debug angle
-            v_x = (float) (rx + radius * Math.sin(angle) - v_width / 2);
-            v_y = (float) (ry - radius * Math.cos(angle) - v_height / 2);
+            v_x = (rx + radius * Math.sin(angle.toDouble()) - v_width / 2).toFloat()
+            v_y = (ry - radius * Math.cos(angle.toDouble()) - v_height / 2).toFloat()
         }
-
-        point[offset] = v_x + v_width / 2 + translationX;
-        point[offset + 1] = v_y + v_height / 2 + translationY;
+        point[offset] = v_x + v_width / 2 + translationX
+        point[offset + 1] = v_y + v_height / 2 + translationY
     }
 
-    void getCenter(double p, int[] toUse, double[] data, float[] point, double[] vdata, float[] velocity) {
-        float v_x = x;
-        float v_y = y;
-        float v_width = width;
-        float v_height = height;
-        float dv_x = 0;
-        float dv_y = 0;
-        float dv_width = 0;
-        float dv_height = 0;
-
-        float translationX = 0, translationY = 0;
-        for (int i = 0; i < toUse.length; i++) {
-            float value = (float) data[i];
-            float dvalue = (float) vdata[i];
-
-            switch (toUse[i]) {
-                case OFF_X:
-                    v_x = value;
-                    dv_x = dvalue;
-                    break;
-                case OFF_Y:
-                    v_y = value;
-                    dv_y = dvalue;
-                    break;
-                case OFF_WIDTH:
-                    v_width = value;
-                    dv_width = dvalue;
-                    break;
-                case OFF_HEIGHT:
-                    v_height = value;
-                    dv_height = dvalue;
-                    break;
+    fun getCenter(p: Double, toUse: IntArray, data: DoubleArray, point: FloatArray, vdata: DoubleArray, velocity: FloatArray) {
+        var v_x = x
+        var v_y = y
+        var v_width = width
+        var v_height = height
+        var dv_x = 0f
+        var dv_y = 0f
+        var dv_width = 0f
+        var dv_height = 0f
+        val translationX = 0f
+        val translationY = 0f
+        for (i in toUse.indices) {
+            val value = data[i].toFloat()
+            val dvalue = vdata[i].toFloat()
+            when (toUse[i]) {
+                OFF_X -> {
+                    v_x = value
+                    dv_x = dvalue
+                }
+                OFF_Y -> {
+                    v_y = value
+                    dv_y = dvalue
+                }
+                OFF_WIDTH -> {
+                    v_width = value
+                    dv_width = dvalue
+                }
+                OFF_HEIGHT -> {
+                    v_height = value
+                    dv_height = dvalue
+                }
             }
         }
-        float dpos_x = dv_x + dv_width / 2;
-        float dpos_y = dv_y + dv_height / 2;
-
+        var dpos_x = dv_x + dv_width / 2
+        var dpos_y = dv_y + dv_height / 2
         if (mRelativeToController != null) {
-            float[] pos = new float[2];
-            float[] vel = new float[2];
-            mRelativeToController.getCenter(p, pos, vel);
-            float rx = pos[0];
-            float ry = pos[1];
-            float radius = v_x;
-            float angle = v_y;
-            float dradius = dv_x;
-            float dangle = dv_y;
-            float drx = vel[0];
-            float dry = vel[1];
+            val pos = FloatArray(2)
+            val vel = FloatArray(2)
+            mRelativeToController!!.getCenter(p, pos, vel)
+            val rx = pos[0]
+            val ry = pos[1]
+            val radius = v_x
+            val angle = v_y
+            val dradius = dv_x
+            val dangle = dv_y
+            val drx = vel[0]
+            val dry = vel[1]
             // TODO Debug angle
-            v_x = (float) (rx + radius * Math.sin(angle) - v_width / 2);
-            v_y = (float) (ry - radius * Math.cos(angle) - v_height / 2);
-            dpos_x = (float) (drx + dradius * Math.sin(angle) + Math.cos(angle) * dangle);
-            dpos_y = (float) (dry - dradius * Math.cos(angle) + Math.sin(angle) * dangle);
+            v_x = (rx + radius * Math.sin(angle.toDouble()) - v_width / 2).toFloat()
+            v_y = (ry - radius * Math.cos(angle.toDouble()) - v_height / 2).toFloat()
+            dpos_x = (drx + dradius * Math.sin(angle.toDouble()) + Math.cos(angle.toDouble()) * dangle).toFloat()
+            dpos_y = (dry - dradius * Math.cos(angle.toDouble()) + Math.sin(angle.toDouble()) * dangle).toFloat()
         }
-
-        point[0] = v_x + v_width / 2 + translationX;
-        point[1] = v_y + v_height / 2 + translationY;
-        velocity[0] = dpos_x;
-        velocity[1] = dpos_y;
+        point[0] = v_x + v_width / 2 + translationX
+        point[1] = v_y + v_height / 2 + translationY
+        velocity[0] = dpos_x
+        velocity[1] = dpos_y
     }
 
-    void getCenterVelocity(double p, int[] toUse, double[] data, float[] point, int offset) {
-        float v_x = x;
-        float v_y = y;
-        float v_width = width;
-        float v_height = height;
-        float translationX = 0, translationY = 0;
-        for (int i = 0; i < toUse.length; i++) {
-            float value = (float) data[i];
-
-            switch (toUse[i]) {
-                case OFF_X:
-                    v_x = value;
-                    break;
-                case OFF_Y:
-                    v_y = value;
-                    break;
-                case OFF_WIDTH:
-                    v_width = value;
-                    break;
-                case OFF_HEIGHT:
-                    v_height = value;
-                    break;
+    fun getCenterVelocity(p: Double, toUse: IntArray, data: DoubleArray, point: FloatArray, offset: Int) {
+        var v_x = x
+        var v_y = y
+        var v_width = width
+        var v_height = height
+        val translationX = 0f
+        val translationY = 0f
+        for (i in toUse.indices) {
+            val value = data[i].toFloat()
+            when (toUse[i]) {
+                OFF_X -> v_x = value
+                OFF_Y -> v_y = value
+                OFF_WIDTH -> v_width = value
+                OFF_HEIGHT -> v_height = value
             }
         }
         if (mRelativeToController != null) {
-            float[] pos = new float[2];
-            float[] vel = new float[2];
-            mRelativeToController.getCenter(p, pos, vel);
-            float rx = pos[0];
-            float ry = pos[1];
-            float radius = v_x;
-            float angle = v_y;
+            val pos = FloatArray(2)
+            val vel = FloatArray(2)
+            mRelativeToController!!.getCenter(p, pos, vel)
+            val rx = pos[0]
+            val ry = pos[1]
+            val radius = v_x
+            val angle = v_y
             // TODO Debug angle
-            v_x = (float) (rx + radius * Math.sin(angle) - v_width / 2);
-            v_y = (float) (ry - radius * Math.cos(angle) - v_height / 2);
+            v_x = (rx + radius * Math.sin(angle.toDouble()) - v_width / 2).toFloat()
+            v_y = (ry - radius * Math.cos(angle.toDouble()) - v_height / 2).toFloat()
         }
-
-        point[offset] = v_x + v_width / 2 + translationX;
-        point[offset + 1] = v_y + v_height / 2 + translationY;
+        point[offset] = v_x + v_width / 2 + translationX
+        point[offset + 1] = v_y + v_height / 2 + translationY
     }
 
-    void getBounds(int[] toUse, double[] data, float[] point, int offset) {
-        float v_x = x;
-        float v_y = y;
-        float v_width = width;
-        float v_height = height;
-        float translationX = 0, translationY = 0;
-        for (int i = 0; i < toUse.length; i++) {
-            float value = (float) data[i];
-
-            switch (toUse[i]) {
-                case OFF_X:
-                    v_x = value;
-                    break;
-                case OFF_Y:
-                    v_y = value;
-                    break;
-                case OFF_WIDTH:
-                    v_width = value;
-                    break;
-                case OFF_HEIGHT:
-                    v_height = value;
-                    break;
+    fun getBounds(toUse: IntArray, data: DoubleArray, point: FloatArray, offset: Int) {
+        var v_x = x
+        var v_y = y
+        var v_width = width
+        var v_height = height
+        val translationX = 0f
+        val translationY = 0f
+        for (i in toUse.indices) {
+            val value = data[i].toFloat()
+            when (toUse[i]) {
+                OFF_X -> v_x = value
+                OFF_Y -> v_y = value
+                OFF_WIDTH -> v_width = value
+                OFF_HEIGHT -> v_height = value
             }
         }
-        point[offset] = v_width;
-        point[offset + 1] = v_height;
+        point[offset] = v_width
+        point[offset + 1] = v_height
     }
 
-    double[] mTempValue = new double[18];
-    double[] mTempDelta = new double[18];
+    var mTempValue = DoubleArray(18)
+    var mTempDelta = DoubleArray(18)
 
     // Called on the start Time Point
-    void setView(float position, MotionWidget view, int[] toUse, double[] data, double[] slope, double[] cycle) {
-        float v_x = x;
-        float v_y = y;
-        float v_width = width;
-        float v_height = height;
-        float dv_x = 0;
-        float dv_y = 0;
-        float dv_width = 0;
-        float dv_height = 0;
-        float delta_path = 0;
-        float path_rotate = Float.NaN;
-        String mod;
-
-        if (toUse.length != 0 && mTempValue.length <= toUse[toUse.length - 1]) {
-            int scratch_data_length = toUse[toUse.length - 1] + 1;
-            mTempValue = new double[scratch_data_length];
-            mTempDelta = new double[scratch_data_length];
+    fun setView(position: Float, view: MotionWidget, toUse: IntArray, data: DoubleArray, slope: DoubleArray, cycle: DoubleArray?) {
+        var v_x = x
+        var v_y = y
+        var v_width = width
+        var v_height = height
+        var dv_x = 0f
+        var dv_y = 0f
+        var dv_width = 0f
+        var dv_height = 0f
+        var delta_path = 0f
+        var path_rotate = Float.NaN
+        var mod: String
+        if (toUse.size != 0 && mTempValue.size <= toUse[toUse.size - 1]) {
+            val scratch_data_length = toUse[toUse.size - 1] + 1
+            mTempValue = DoubleArray(scratch_data_length)
+            mTempDelta = DoubleArray(scratch_data_length)
         }
-        Arrays.fill(mTempValue, Double.NaN);
-        for (int i = 0; i < toUse.length; i++) {
-            mTempValue[toUse[i]] = data[i];
-            mTempDelta[toUse[i]] = slope[i];
+        mTempValue.fill(Double.NaN)
+        for (i in toUse.indices) {
+            mTempValue[toUse[i]] = data[i]
+            mTempDelta[toUse[i]] = slope[i]
         }
-
-        for (int i = 0; i < mTempValue.length; i++) {
-            if (Double.isNaN(mTempValue[i]) && (cycle == null || cycle[i] == 0.0)) {
-                continue;
+        for (i in mTempValue.indices) {
+            if (java.lang.Double.isNaN(mTempValue[i]) && (cycle == null || cycle[i] == 0.0)) {
+                continue
             }
-            double deltaCycle = (cycle != null) ? cycle[i] : 0.0;
-            float value = (float) (Double.isNaN(mTempValue[i]) ? deltaCycle : mTempValue[i] + deltaCycle);
-            float dvalue = (float) mTempDelta[i];
-
-            switch (i) {
-                case OFF_POSITION:
-                    delta_path = value;
-                    break;
-                case OFF_X:
-                    v_x = value;
-                    dv_x = dvalue;
-
-                    break;
-                case OFF_Y:
-                    v_y = value;
-                    dv_y = dvalue;
-                    break;
-                case OFF_WIDTH:
-                    v_width = value;
-                    dv_width = dvalue;
-                    break;
-                case OFF_HEIGHT:
-                    v_height = value;
-                    dv_height = dvalue;
-                    break;
-                case OFF_PATH_ROTATE:
-                    path_rotate = value;
-                    break;
+            val deltaCycle = cycle?.get(i) ?: 0.0
+            val value = (if (java.lang.Double.isNaN(mTempValue[i])) deltaCycle else mTempValue[i] + deltaCycle).toFloat()
+            val dvalue = mTempDelta[i].toFloat()
+            when (i) {
+                OFF_POSITION -> delta_path = value
+                OFF_X -> {
+                    v_x = value
+                    dv_x = dvalue
+                }
+                OFF_Y -> {
+                    v_y = value
+                    dv_y = dvalue
+                }
+                OFF_WIDTH -> {
+                    v_width = value
+                    dv_width = dvalue
+                }
+                OFF_HEIGHT -> {
+                    v_height = value
+                    dv_height = dvalue
+                }
+                OFF_PATH_ROTATE -> path_rotate = value
             }
         }
-
         if (mRelativeToController != null) {
-            float[] pos = new float[2];
-            float[] vel = new float[2];
-
-            mRelativeToController.getCenter(position, pos, vel);
-            float rx = pos[0];
-            float ry = pos[1];
-            float radius = v_x;
-            float angle = v_y;
-            float dradius = dv_x;
-            float dangle = dv_y;
-            float drx = vel[0];
-            float dry = vel[1];
+            val pos = FloatArray(2)
+            val vel = FloatArray(2)
+            mRelativeToController!!.getCenter(position.toDouble(), pos, vel)
+            val rx = pos[0]
+            val ry = pos[1]
+            val radius = v_x
+            val angle = v_y
+            val dradius = dv_x
+            val dangle = dv_y
+            val drx = vel[0]
+            val dry = vel[1]
 
             // TODO Debug angle
-            float pos_x = (float) (rx + radius * Math.sin(angle) - v_width / 2);
-            float pos_y = (float) (ry - radius * Math.cos(angle) - v_height / 2);
-            float dpos_x = (float) (drx + dradius * Math.sin(angle) + radius * Math.cos(angle) * dangle);
-            float dpos_y = (float) (dry - dradius * Math.cos(angle) + radius * Math.sin(angle) * dangle);
-            dv_x = dpos_x;
-            dv_y = dpos_y;
-            v_x = pos_x;
-            v_y = pos_y;
-            if (slope.length >= 2) {
-                slope[0] = dpos_x;
-                slope[1] = dpos_y;
+            val pos_x = (rx + radius * Math.sin(angle.toDouble()) - v_width / 2).toFloat()
+            val pos_y = (ry - radius * Math.cos(angle.toDouble()) - v_height / 2).toFloat()
+            val dpos_x = (drx + dradius * Math.sin(angle.toDouble()) + radius * Math.cos(angle.toDouble()) * dangle).toFloat()
+            val dpos_y = (dry - dradius * Math.cos(angle.toDouble()) + radius * Math.sin(angle.toDouble()) * dangle).toFloat()
+            dv_x = dpos_x
+            dv_y = dpos_y
+            v_x = pos_x
+            v_y = pos_y
+            if (slope.size >= 2) {
+                slope[0] = dpos_x.toDouble()
+                slope[1] = dpos_y.toDouble()
             }
-            if (!Float.isNaN(path_rotate)) {
-                float rot = (float) (path_rotate + Math.toDegrees(Math.atan2(dv_y, dv_x)));
-                view.setRotationZ(rot);
+            if (!java.lang.Float.isNaN(path_rotate)) {
+                val rot = (path_rotate + Math.toDegrees(Math.atan2(dv_y.toDouble(), dv_x.toDouble()))).toFloat()
+                view.rotationZ = rot
             }
-
         } else {
-
-            if (!Float.isNaN(path_rotate)) {
-                float rot = 0;
-                float dx = dv_x + dv_width / 2;
-                float dy = dv_y + dv_height / 2;
+            if (!java.lang.Float.isNaN(path_rotate)) {
+                var rot = 0f
+                val dx = dv_x + dv_width / 2
+                val dy = dv_y + dv_height / 2
                 if (DEBUG) {
-                    Utils.log(TAG, "dv_x       =" + dv_x);
-                    Utils.log(TAG, "dv_y       =" + dv_y);
-                    Utils.log(TAG, "dv_width   =" + dv_width);
-                    Utils.log(TAG, "dv_height  =" + dv_height);
+                    //Utils.log(TAG, "dv_x       =" + dv_x);
+                    //Utils.log(TAG, "dv_y       =" + dv_y);
+                    //Utils.log(TAG, "dv_width   =" + dv_width);
+                    //Utils.log(TAG, "dv_height  =" + dv_height);
                 }
-                rot += path_rotate + Math.toDegrees(Math.atan2(dy, dx));
-                view.setRotationZ(rot);
+                rot += (path_rotate + Math.toDegrees(Math.atan2(dy.toDouble(), dx.toDouble()))).toFloat()
+                view.rotationZ = rot
                 if (DEBUG) {
-                    Utils.log(TAG, "Rotated " + rot + "  = " + dx + "," + dy);
+                    //Utils.log(TAG, "Rotated " + rot + "  = " + dx + "," + dy);
                 }
             }
         }
 
-       // Todo: develop a concept of Float layout in MotionWidget widget.layout(float ...)
-        int l = (int) (0.5f + v_x);
-        int t = (int) (0.5f + v_y);
-        int r = (int) (0.5f + v_x + v_width);
-        int b = (int) (0.5f + v_y + v_height);
-        int i_width = r - l;
-        int i_height = b - t;
+        // Todo: develop a concept of Float layout in MotionWidget widget.layout(float ...)
+        var l = (0.5f + v_x).toInt()
+        var t = (0.5f + v_y).toInt()
+        var r = (0.5f + v_x + v_width).toInt()
+        var b = (0.5f + v_y + v_height).toInt()
+        var i_width = r - l
+        var i_height = b - t
         if (OLD_WAY) { // This way may produce more stable with and height but risk gaps
-            l = (int) (v_x);
-            t = (int) (v_y);
-            i_width = (int) (v_width);
-            i_height = (int) (v_height);
-            r = l + i_width;
-            b = t + i_height;
+            l = v_x.toInt()
+            t = v_y.toInt()
+            i_width = v_width.toInt()
+            i_height = v_height.toInt()
+            r = l + i_width
+            b = t + i_height
         }
 
         // MotionWidget must do Android View measure if layout changes
-        view.layout(l, t, r, b);
+        view.layout(l, t, r, b)
         if (DEBUG) {
-            if (toUse.length > 0) {
-                Utils.log(TAG, "setView " + mod);
+            if (toUse.size > 0) {
+                //Utils.log(TAG, "setView " + mod);
             }
         }
     }
 
-    void getRect(int[] toUse, double[] data, float[] path, int offset) {
-        float v_x = x;
-        float v_y = y;
-        float v_width = width;
-        float v_height = height;
-        float delta_path = 0;
-        float rotation = 0;
-        float alpha = 0;
-        float rotationX = 0;
-        float rotationY = 0;
-        float scaleX = 1;
-        float scaleY = 1;
-        float pivotX = Float.NaN;
-        float pivotY = Float.NaN;
-        float translationX = 0;
-        float translationY = 0;
-
-        String mod;
-
-        for (int i = 0; i < toUse.length; i++) {
-            float value = (float) data[i];
-
-            switch (toUse[i]) {
-                case OFF_POSITION:
-                    delta_path = value;
-                    break;
-                case OFF_X:
-                    v_x = value;
-                    break;
-                case OFF_Y:
-                    v_y = value;
-                    break;
-                case OFF_WIDTH:
-                    v_width = value;
-                    break;
-                case OFF_HEIGHT:
-                    v_height = value;
-                    break;
+    fun getRect(toUse: IntArray, data: DoubleArray, path: FloatArray, offset: Int) {
+        var offset = offset
+        var v_x = x
+        var v_y = y
+        var v_width = width
+        var v_height = height
+        var delta_path = 0f
+        val rotation = 0f
+        val alpha = 0f
+        val rotationX = 0f
+        val rotationY = 0f
+        val scaleX = 1f
+        val scaleY = 1f
+        val pivotX = Float.NaN
+        val pivotY = Float.NaN
+        val translationX = 0f
+        val translationY = 0f
+        var mod: String
+        for (i in toUse.indices) {
+            val value = data[i].toFloat()
+            when (toUse[i]) {
+                OFF_POSITION -> delta_path = value
+                OFF_X -> v_x = value
+                OFF_Y -> v_y = value
+                OFF_WIDTH -> v_width = value
+                OFF_HEIGHT -> v_height = value
             }
         }
-
         if (mRelativeToController != null) {
-            float rx = mRelativeToController.getCenterX();
-            float ry = mRelativeToController.getCenterY();
-            float radius = v_x;
-            float angle = v_y;
+            val rx = mRelativeToController!!.centerX
+            val ry = mRelativeToController!!.centerY
+            val radius = v_x
+            val angle = v_y
             // TODO Debug angle
-            v_x = (float) (rx + radius * Math.sin(angle) - v_width / 2);
-            v_y = (float) (ry - radius * Math.cos(angle) - v_height / 2);
+            v_x = (rx + radius * Math.sin(angle.toDouble()) - v_width / 2).toFloat()
+            v_y = (ry - radius * Math.cos(angle.toDouble()) - v_height / 2).toFloat()
         }
-
-        float x1 = v_x;
-        float y1 = v_y;
-
-        float x2 = v_x + v_width;
-        float y2 = y1;
-
-        float x3 = x2;
-        float y3 = v_y + v_height;
-
-        float x4 = x1;
-        float y4 = y3;
-
-        float cx = x1 + v_width / 2;
-        float cy = y1 + v_height / 2;
-
-        if (!Float.isNaN(pivotX)) {
-            cx = x1 + (x2 - x1) * pivotX;
+        var x1 = v_x
+        var y1 = v_y
+        var x2 = v_x + v_width
+        var y2 = y1
+        var x3 = x2
+        var y3 = v_y + v_height
+        var x4 = x1
+        var y4 = y3
+        var cx = x1 + v_width / 2
+        var cy = y1 + v_height / 2
+        if (!java.lang.Float.isNaN(pivotX)) {
+            cx = x1 + (x2 - x1) * pivotX
         }
-        if (!Float.isNaN(pivotY)) {
-
-            cy = y1 + (y3 - y1) * pivotY;
+        if (!java.lang.Float.isNaN(pivotY)) {
+            cy = y1 + (y3 - y1) * pivotY
         }
-        if (scaleX != 1) {
-            float midx = (x1 + x2) / 2;
-            x1 = (x1 - midx) * scaleX + midx;
-            x2 = (x2 - midx) * scaleX + midx;
-            x3 = (x3 - midx) * scaleX + midx;
-            x4 = (x4 - midx) * scaleX + midx;
+        if (scaleX != 1f) {
+            val midx = (x1 + x2) / 2
+            x1 = (x1 - midx) * scaleX + midx
+            x2 = (x2 - midx) * scaleX + midx
+            x3 = (x3 - midx) * scaleX + midx
+            x4 = (x4 - midx) * scaleX + midx
         }
-        if (scaleY != 1) {
-            float midy = (y1 + y3) / 2;
-            y1 = (y1 - midy) * scaleY + midy;
-            y2 = (y2 - midy) * scaleY + midy;
-            y3 = (y3 - midy) * scaleY + midy;
-            y4 = (y4 - midy) * scaleY + midy;
+        if (scaleY != 1f) {
+            val midy = (y1 + y3) / 2
+            y1 = (y1 - midy) * scaleY + midy
+            y2 = (y2 - midy) * scaleY + midy
+            y3 = (y3 - midy) * scaleY + midy
+            y4 = (y4 - midy) * scaleY + midy
         }
-        if (rotation != 0) {
-            float sin = (float) Math.sin(Math.toRadians(rotation));
-            float cos = (float) Math.cos(Math.toRadians(rotation));
-            float tx1 = xRotate(sin, cos, cx, cy, x1, y1);
-            float ty1 = yRotate(sin, cos, cx, cy, x1, y1);
-            float tx2 = xRotate(sin, cos, cx, cy, x2, y2);
-            float ty2 = yRotate(sin, cos, cx, cy, x2, y2);
-            float tx3 = xRotate(sin, cos, cx, cy, x3, y3);
-            float ty3 = yRotate(sin, cos, cx, cy, x3, y3);
-            float tx4 = xRotate(sin, cos, cx, cy, x4, y4);
-            float ty4 = yRotate(sin, cos, cx, cy, x4, y4);
-            x1 = tx1;
-            y1 = ty1;
-            x2 = tx2;
-            y2 = ty2;
-            x3 = tx3;
-            y3 = ty3;
-            x4 = tx4;
-            y4 = ty4;
+        if (rotation != 0f) {
+            val sin = Math.sin(Math.toRadians(rotation.toDouble())).toFloat()
+            val cos = Math.cos(Math.toRadians(rotation.toDouble())).toFloat()
+            val tx1 = xRotate(sin, cos, cx, cy, x1, y1)
+            val ty1 = yRotate(sin, cos, cx, cy, x1, y1)
+            val tx2 = xRotate(sin, cos, cx, cy, x2, y2)
+            val ty2 = yRotate(sin, cos, cx, cy, x2, y2)
+            val tx3 = xRotate(sin, cos, cx, cy, x3, y3)
+            val ty3 = yRotate(sin, cos, cx, cy, x3, y3)
+            val tx4 = xRotate(sin, cos, cx, cy, x4, y4)
+            val ty4 = yRotate(sin, cos, cx, cy, x4, y4)
+            x1 = tx1
+            y1 = ty1
+            x2 = tx2
+            y2 = ty2
+            x3 = tx3
+            y3 = ty3
+            x4 = tx4
+            y4 = ty4
         }
-
-        x1 += translationX;
-        y1 += translationY;
-        x2 += translationX;
-        y2 += translationY;
-        x3 += translationX;
-        y3 += translationY;
-        x4 += translationX;
-        y4 += translationY;
-
-        path[offset++] = x1;
-        path[offset++] = y1;
-        path[offset++] = x2;
-        path[offset++] = y2;
-        path[offset++] = x3;
-        path[offset++] = y3;
-        path[offset++] = x4;
-        path[offset++] = y4;
+        x1 += translationX
+        y1 += translationY
+        x2 += translationX
+        y2 += translationY
+        x3 += translationX
+        y3 += translationY
+        x4 += translationX
+        y4 += translationY
+        path[offset++] = x1
+        path[offset++] = y1
+        path[offset++] = x2
+        path[offset++] = y2
+        path[offset++] = x3
+        path[offset++] = y3
+        path[offset++] = x4
+        path[offset++] = y4
     }
 
     /**
@@ -756,60 +642,46 @@ public class MotionPaths implements Comparable<MotionPaths> {
      * @param deltaData
      * @param data
      */
-    void setDpDt(float locationX, float locationY, float[] mAnchorDpDt, int[] toUse, double[] deltaData, double[] data) {
-
-        float d_x = 0;
-        float d_y = 0;
-        float d_width = 0;
-        float d_height = 0;
-
-        float deltaScaleX = 0;
-        float deltaScaleY = 0;
-
-        float mPathRotate = Float.NaN;
-        float deltaTranslationX = 0;
-        float deltaTranslationY = 0;
-
-        String mod = " dd = ";
-        for (int i = 0; i < toUse.length; i++) {
-            float deltaV = (float) deltaData[i];
-            float value = (float) data[i];
+    fun setDpDt(locationX: Float, locationY: Float, mAnchorDpDt: FloatArray, toUse: IntArray, deltaData: DoubleArray, data: DoubleArray) {
+        var d_x = 0f
+        var d_y = 0f
+        var d_width = 0f
+        var d_height = 0f
+        val deltaScaleX = 0f
+        val deltaScaleY = 0f
+        val mPathRotate = Float.NaN
+        val deltaTranslationX = 0f
+        val deltaTranslationY = 0f
+        var mod = " dd = "
+        for (i in toUse.indices) {
+            val deltaV = deltaData[i].toFloat()
+            val value = data[i].toFloat()
             if (DEBUG) {
-                mod += " , D" + names[toUse[i]] + "/Dt= " + deltaV;
+                mod += " , D" + names[toUse[i]] + "/Dt= " + deltaV
             }
-            switch (toUse[i]) {
-                case OFF_POSITION:
-                    break;
-                case OFF_X:
-                    d_x = deltaV;
-                    break;
-                case OFF_Y:
-                    d_y = deltaV;
-                    break;
-                case OFF_WIDTH:
-                    d_width = deltaV;
-                    break;
-                case OFF_HEIGHT:
-                    d_height = deltaV;
-                    break;
-
+            when (toUse[i]) {
+                OFF_POSITION -> {}
+                OFF_X -> d_x = deltaV
+                OFF_Y -> d_y = deltaV
+                OFF_WIDTH -> d_width = deltaV
+                OFF_HEIGHT -> d_height = deltaV
             }
         }
         if (DEBUG) {
-            if (toUse.length > 0) {
-                Utils.log(TAG, "setDpDt " + mod);
+            if (toUse.size > 0) {
+                //Utils.log(TAG, "setDpDt " + mod);
             }
         }
-
-        float deltaX = d_x - deltaScaleX * d_width / 2;
-        float deltaY = d_y - deltaScaleY * d_height / 2;
-        float deltaWidth = d_width * (1 + deltaScaleX);
-        float deltaHeight = d_height * (1 + deltaScaleY);
-        float deltaRight = deltaX + deltaWidth;
-        float deltaBottom = deltaY + deltaHeight;
+        val deltaX = d_x - deltaScaleX * d_width / 2
+        val deltaY = d_y - deltaScaleY * d_height / 2
+        val deltaWidth = d_width * (1 + deltaScaleX)
+        val deltaHeight = d_height * (1 + deltaScaleY)
+        val deltaRight = deltaX + deltaWidth
+        val deltaBottom = deltaY + deltaHeight
         if (DEBUG) {
-            if (toUse.length > 0) {
+            if (toUse.size > 0) {
 
+                /*
                 Utils.log(TAG, "D x /dt           =" + d_x);
                 Utils.log(TAG, "D y /dt           =" + d_y);
                 Utils.log(TAG, "D width /dt       =" + d_width);
@@ -825,86 +697,115 @@ public class MotionPaths implements Comparable<MotionPaths> {
                 Utils.log(TAG, "locationX         =" + locationX);
                 Utils.log(TAG, "locationY         =" + locationY);
                 Utils.log(TAG, "deltaTranslationX =" + deltaTranslationX);
-                Utils.log(TAG, "deltaTranslationX =" + deltaTranslationX);
+                Utils.log(TAG, "deltaTranslationX =" + deltaTranslationX);*/
             }
         }
-
-        mAnchorDpDt[0] = deltaX * (1 - locationX) + deltaRight * (locationX) + deltaTranslationX;
-        mAnchorDpDt[1] = deltaY * (1 - locationY) + deltaBottom * (locationY) + deltaTranslationY;
+        mAnchorDpDt[0] = deltaX * (1 - locationX) + deltaRight * locationX + deltaTranslationX
+        mAnchorDpDt[1] = deltaY * (1 - locationY) + deltaBottom * locationY + deltaTranslationY
     }
 
-    void fillStandard(double[] data, int[] toUse) {
-        float[] set = {position, x, y, width, height, mPathRotate};
-        int c = 0;
-        for (int i = 0; i < toUse.length; i++) {
-            if (toUse[i] < set.length) {
-                data[c++] = set[toUse[i]];
+    fun fillStandard(data: DoubleArray, toUse: IntArray) {
+        val set = floatArrayOf(position, x, y, width, height, mPathRotate)
+        var c = 0
+        for (i in toUse.indices) {
+            if (toUse[i] < set.size) {
+                data[c++] = set[toUse[i]].toDouble()
             }
         }
     }
 
-    boolean hasCustomData(String name) {
-        return customAttributes.containsKey(name);
+    fun hasCustomData(name: String): Boolean {
+        return customAttributes.containsKey(name)
     }
 
-    int getCustomDataCount(String name) {
-        CustomVariable a = customAttributes.get(name);
-        if (a == null) {
-            return 0;
-        }
-        return a.numberOfInterpolatedValues();
+    fun getCustomDataCount(name: String): Int {
+        val a = customAttributes[name] ?: return 0
+        return a.numberOfInterpolatedValues()
     }
 
-    int getCustomData(String name, double[] value, int offset) {
-        CustomVariable a = customAttributes.get(name);
-        if (a == null) {
-            return 0;
+    fun getCustomData(name: String, value: DoubleArray, offset: Int): Int {
+        var offset = offset
+        val a = customAttributes[name]
+        return if (a == null) {
+            0
         } else if (a.numberOfInterpolatedValues() == 1) {
-            value[offset] = a.getValueToInterpolate();
-            return 1;
+            value[offset] = a.valueToInterpolate.toDouble()
+            1
         } else {
-            int N = a.numberOfInterpolatedValues();
-            float[] f = new float[N];
-            a.getValuesToInterpolate(f);
-            for (int i = 0; i < N; i++) {
-                value[offset++] = f[i];
+            val N = a.numberOfInterpolatedValues()
+            val f = FloatArray(N)
+            a.getValuesToInterpolate(f)
+            for (i in 0 until N) {
+                value[offset++] = f[i].toDouble()
             }
-            return N;
+            N
         }
     }
 
-    void setBounds(float x, float y, float w, float h) {
-        this.x = x;
-        this.y = y;
-        width = w;
-        height = h;
+    fun setBounds(x: Float, y: Float, w: Float, h: Float) {
+        this.x = x
+        this.y = y
+        width = w
+        height = h
     }
 
-    @Override
-    public int compareTo(MotionPaths o) {
-        return Float.compare(position, o.position);
+    override fun compareTo(o: MotionPaths): Int {
+        return java.lang.Float.compare(position, o.position)
     }
 
-    public void applyParameters(MotionWidget c) {
-        MotionPaths point = this;
-        point.mKeyFrameEasing = Easing.getInterpolator(c.motion.mTransitionEasing);
-        point.mPathMotionArc = c.motion.mPathMotionArc;
-        point.mAnimateRelativeTo = c.motion.mAnimateRelativeTo;
-        point.mPathRotate = c.motion.mPathRotate;
-        point.mDrawPath = c.motion.mDrawPath;
-        point.mAnimateCircleAngleTo = c.motion.mAnimateCircleAngleTo;
-        point.mProgress = c.propertySet.mProgress;
-        point.mRelativeAngle = 0; // c.layout.circleAngle;
-        Set<String> at = c.getCustomAttributeNames();
-        for (String s : at) {
-            CustomVariable attr = c.getCustomAttribute(s);
-            if (attr != null && attr.isContinuous()) {
-                this.customAttributes.put(s, attr);
+    fun applyParameters(c: MotionWidget) {
+        val point = this
+        point.mKeyFrameEasing = getInterpolator(c.motion.mTransitionEasing)
+        point.mPathMotionArc = c.motion.mPathMotionArc
+        point.mAnimateRelativeTo = c.motion.mAnimateRelativeTo
+        point.mPathRotate = c.motion.mPathRotate
+        point.mDrawPath = c.motion.mDrawPath
+        point.mAnimateCircleAngleTo = c.motion.mAnimateCircleAngleTo
+        point.mProgress = c.propertySet.mProgress
+        point.mRelativeAngle = 0f // c.layout.circleAngle;
+        val at = c.customAttributeNames
+        for (s in at) {
+            val attr = c.getCustomAttribute(s)
+            if (attr != null && attr.isContinuous) {
+                customAttributes[s] = attr
             }
         }
     }
 
-    public void configureRelativeTo(Motion toOrbit) {
-        double[] p = toOrbit.getPos(mProgress); // get the position in the orbit
+    fun configureRelativeTo(toOrbit: Motion) {
+        val p = toOrbit.getPos(mProgress.toDouble()) // get the position in the orbit
+    }
+
+    companion object {
+        const val TAG = "MotionPaths"
+        const val DEBUG = false
+        const val OLD_WAY = false // the computes the positions the old way
+        const val OFF_POSITION = 0
+        const val OFF_X = 1
+        const val OFF_Y = 2
+        const val OFF_WIDTH = 3
+        const val OFF_HEIGHT = 4
+        const val OFF_PATH_ROTATE = 5
+
+        // mode and type have same numbering scheme
+        const val PERPENDICULAR = MotionKeyPosition.TYPE_PATH
+        const val CARTESIAN = MotionKeyPosition.TYPE_CARTESIAN
+        const val SCREEN = MotionKeyPosition.TYPE_SCREEN
+        var names = arrayOf("position", "x", "y", "width", "height", "pathRotate")
+        private fun xRotate(sin: Float, cos: Float, cx: Float, cy: Float, x: Float, y: Float): Float {
+            var x = x
+            var y = y
+            x = x - cx
+            y = y - cy
+            return x * cos - y * sin + cx
+        }
+
+        private fun yRotate(sin: Float, cos: Float, cx: Float, cy: Float, x: Float, y: Float): Float {
+            var x = x
+            var y = y
+            x = x - cx
+            y = y - cy
+            return x * sin + y * cos + cy
+        }
     }
 }

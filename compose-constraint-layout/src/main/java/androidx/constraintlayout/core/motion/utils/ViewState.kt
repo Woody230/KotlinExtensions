@@ -13,27 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-import androidx.constraintlayout.core.motion.MotionWidget;
+import androidx.constraintlayout.core.motion.MotionWidget
 
-public class ViewState {
-    public float rotation;
-    public int left, top, right, bottom;
-
-    public void getState(MotionWidget v) {
-        left = (int) v.getLeft();
-        top = (int) v.getTop();
-        right = (int) v.getRight();
-        bottom = (int) v.getBottom();
-        rotation = (int) v.getRotationZ();
+class ViewState constructor() {
+    @kotlin.jvm.JvmField
+    var rotation: Float = 0f
+    @kotlin.jvm.JvmField
+    var left: Int = 0
+    @kotlin.jvm.JvmField
+    var top: Int = 0
+    @kotlin.jvm.JvmField
+    var right: Int = 0
+    @kotlin.jvm.JvmField
+    var bottom: Int = 0
+    fun getState(v: MotionWidget) {
+        left = v.left
+        top = v.top
+        right = v.right
+        bottom = v.bottom
+        rotation = v.rotationZ
     }
 
-    public int width() {
-        return right - left;
+    fun width(): Int {
+        return right - left
     }
 
-    public int height() {
-        return bottom - top;
+    fun height(): Int {
+        return bottom - top
     }
 }

@@ -13,73 +13,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * This is used to calculate the related velocity matrix for a post layout matrix
  *
  * @suppress
  */
-public class VelocityMatrix {
-    float mDScaleX, mDScaleY, mDTranslateX, mDTranslateY, mDRotate;
-    float mRotate;
-    private static String TAG = "VelocityMatrix";
-
-    public void clear() {
-        mDScaleX = mDScaleY = mDTranslateX = mDTranslateY = mDRotate = 0;
+class VelocityMatrix constructor() {
+    var mDScaleX: Float = 0f
+    var mDScaleY: Float = 0f
+    var mDTranslateX: Float = 0f
+    var mDTranslateY: Float = 0f
+    var mDRotate: Float = 0f
+    var mRotate: Float = 0f
+    fun clear() {
+        mDRotate = 0f
+        mDTranslateY = mDRotate
+        mDTranslateX = mDTranslateY
+        mDScaleY = mDTranslateX
+        mDScaleX = mDScaleY
     }
 
-    public void setRotationVelocity(SplineSet rot, float position) {
+    fun setRotationVelocity(rot: SplineSet?, position: Float) {
         if (rot != null) {
-            mDRotate = rot.getSlope(position);
-            mRotate = rot.get(position);
+            mDRotate = rot.getSlope(position)
+            mRotate = rot.get(position)
         }
     }
 
-    public void setTranslationVelocity(SplineSet trans_x, SplineSet trans_y, float position) {
-
+    fun setTranslationVelocity(trans_x: SplineSet?, trans_y: SplineSet?, position: Float) {
         if (trans_x != null) {
-            mDTranslateX = trans_x.getSlope(position);
+            mDTranslateX = trans_x.getSlope(position)
         }
         if (trans_y != null) {
-            mDTranslateY = trans_y.getSlope(position);
+            mDTranslateY = trans_y.getSlope(position)
         }
     }
 
-    public void setScaleVelocity(SplineSet scale_x, SplineSet scale_y, float position) {
-
+    fun setScaleVelocity(scale_x: SplineSet?, scale_y: SplineSet?, position: Float) {
         if (scale_x != null) {
-            mDScaleX = scale_x.getSlope(position);
+            mDScaleX = scale_x.getSlope(position)
         }
         if (scale_y != null) {
-            mDScaleY = scale_y.getSlope(position);
+            mDScaleY = scale_y.getSlope(position)
         }
     }
 
-    public void setRotationVelocity(KeyCycleOscillator osc_r, float position) {
+    fun setRotationVelocity(osc_r: KeyCycleOscillator?, position: Float) {
         if (osc_r != null) {
-            mDRotate = osc_r.getSlope(position);
+            mDRotate = osc_r.getSlope(position)
         }
     }
 
-    public void setTranslationVelocity(KeyCycleOscillator osc_x, KeyCycleOscillator osc_y, float position) {
-
+    fun setTranslationVelocity(osc_x: KeyCycleOscillator?, osc_y: KeyCycleOscillator?, position: Float) {
         if (osc_x != null) {
-            mDTranslateX = osc_x.getSlope(position);
+            mDTranslateX = osc_x.getSlope(position)
         }
-
         if (osc_y != null) {
-            mDTranslateY = osc_y.getSlope(position);
+            mDTranslateY = osc_y.getSlope(position)
         }
     }
 
-    public void setScaleVelocity(KeyCycleOscillator osc_sx, KeyCycleOscillator osc_sy, float position) {
+    fun setScaleVelocity(osc_sx: KeyCycleOscillator?, osc_sy: KeyCycleOscillator?, position: Float) {
         if (osc_sx != null) {
-            mDScaleX = osc_sx.getSlope(position);
+            mDScaleX = osc_sx.getSlope(position)
         }
         if (osc_sy != null) {
-            mDScaleY = osc_sy.getSlope(position);
+            mDScaleY = osc_sy.getSlope(position)
         }
     }
 
@@ -93,20 +94,24 @@ public class VelocityMatrix {
      * @param mAnchorDpDt
      * @suppress
      */
-    public void applyTransform(float locationX, float locationY, int width, int height, float[] mAnchorDpDt) {
-        float dx = mAnchorDpDt[0];
-        float dy = mAnchorDpDt[1];
-        float offx = 2 * (locationX - 0.5f);
-        float offy = 2 * (locationY - 0.5f);
-        dx += mDTranslateX;
-        dy += mDTranslateY;
-        dx += offx * mDScaleX;
-        dy += offy * mDScaleY;
-        float r = (float) Math.toRadians(mRotate);
-        float dr = (float) Math.toRadians(mDRotate);
-        dx += dr * (float) (-width * offx * Math.sin(r) - height * offy * Math.cos(r));
-        dy += dr * (float) (width * offx * Math.cos(r) - height * offy * Math.sin(r));
-        mAnchorDpDt[0] = dx;
-        mAnchorDpDt[1] = dy;
+    fun applyTransform(locationX: Float, locationY: Float, width: Int, height: Int, mAnchorDpDt: FloatArray) {
+        var dx: Float = mAnchorDpDt.get(0)
+        var dy: Float = mAnchorDpDt.get(1)
+        val offx: Float = 2 * (locationX - 0.5f)
+        val offy: Float = 2 * (locationY - 0.5f)
+        dx += mDTranslateX
+        dy += mDTranslateY
+        dx += offx * mDScaleX
+        dy += offy * mDScaleY
+        val r: Float = Math.toRadians(mRotate.toDouble()).toFloat()
+        val dr: Float = Math.toRadians(mDRotate.toDouble()).toFloat()
+        dx += dr * (-width * offx * Math.sin(r.toDouble()) - height * offy * Math.cos(r.toDouble())).toFloat()
+        dy += dr * (width * offx * Math.cos(r.toDouble()) - height * offy * Math.sin(r.toDouble())).toFloat()
+        mAnchorDpDt[0] = dx
+        mAnchorDpDt[1] = dy
+    }
+
+    companion object {
+        private val TAG: String = "VelocityMatrix"
     }
 }

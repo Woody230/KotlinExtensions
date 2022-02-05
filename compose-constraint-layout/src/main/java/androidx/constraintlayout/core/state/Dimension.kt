@@ -13,34 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state
 
-package androidx.constraintlayout.core.state;
-
-import androidx.constraintlayout.core.widgets.ConstraintWidget;
-
-import static androidx.constraintlayout.core.widgets.ConstraintWidget.*;
+import androidx.constraintlayout.core.widgets.ConstraintWidget
+import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 
 /**
  * Represents a dimension (width or height) of a constrained widget
  */
-public class Dimension {
-
-    public static final Object FIXED_DIMENSION = new Object();
-    public static final Object WRAP_DIMENSION = new Object();
-    public static final Object SPREAD_DIMENSION = new Object();
-    public static final Object PARENT_DIMENSION = new Object();
-    public static final Object PERCENT_DIMENSION = new Object();
-    public static final Object RATIO_DIMENSION = new Object();
-
-    private final int WRAP_CONTENT = -2;
-
-    int mMin = 0;
-    int mMax = Integer.MAX_VALUE;
-    float mPercent = 1f;
-    int mValue = 0;
-    String mRatioString = null;
-    Object mInitialValue = WRAP_DIMENSION;
-    boolean mIsSuggested = false;
+class Dimension {
+    private val WRAP_CONTENT = -2
+    var mMin = 0
+    var mMax = Int.MAX_VALUE
+    var mPercent = 1f
+    var mValue = 0
+    var mRatioString: String? = null
+    var mInitialValue: Any? = WRAP_DIMENSION
+    var mIsSuggested = false
 
     /**
      * Returns true if the dimension is a fixed dimension of
@@ -49,210 +38,217 @@ public class Dimension {
      * @param value
      * @return
      */
-    public boolean equalsFixedValue(int value) {
-        if (mInitialValue == null
-            && mValue == value) {
-            return true;
-        }
-        return false;
+    fun equalsFixedValue(value: Int): Boolean {
+        return if (mInitialValue == null
+            && mValue == value
+        ) {
+            true
+        } else false
     }
 
-    public enum Type {
-        FIXED,
-        WRAP,
-        MATCH_PARENT,
-        MATCH_CONSTRAINT
+    enum class Type {
+        FIXED, WRAP, MATCH_PARENT, MATCH_CONSTRAINT
     }
 
-    private Dimension() {}
-    private Dimension(Object type) { mInitialValue = type; }
-
-    public static Dimension Suggested(int value) {
-        Dimension dimension = new Dimension();
-        dimension.suggested(value);
-        return dimension;
+    private constructor() {}
+    private constructor(type: Any) {
+        mInitialValue = type
     }
 
-    public static Dimension Suggested(Object startValue) {
-        Dimension dimension = new Dimension();
-        dimension.suggested(startValue);
-        return dimension;
+    fun percent(key: Any?, value: Float): Dimension {
+        mPercent = value
+        return this
     }
 
-    public static Dimension Fixed(int value) {
-        Dimension dimension = new Dimension(FIXED_DIMENSION);
-        dimension.fixed(value);
-        return dimension;
-    }
-
-    public static Dimension Fixed(Object value) {
-        Dimension dimension = new Dimension(FIXED_DIMENSION);
-        dimension.fixed(value);
-        return dimension;
-    }
-
-    public static Dimension Percent(Object key, float value) {
-        Dimension dimension = new Dimension(PERCENT_DIMENSION);
-        dimension.percent(key, value);
-        return dimension;
-    }
-
-    public static Dimension Parent() {
-        return new Dimension(PARENT_DIMENSION);
-    }
-
-    public static Dimension Wrap() {
-        return new Dimension(WRAP_DIMENSION);
-    }
-
-    public static Dimension Spread() {
-        return new Dimension(SPREAD_DIMENSION);
-    }
-
-    public static Dimension Ratio(String ratio) {
-        Dimension dimension = new Dimension(RATIO_DIMENSION);
-        dimension.ratio(ratio);
-        return dimension;
-    }
-
-    public Dimension percent(Object key, float value) {
-        mPercent = value;
-        return this;
-    }
-
-    public Dimension min(int value) {
+    fun min(value: Int): Dimension {
         if (value >= 0) {
-            mMin = value;
+            mMin = value
         }
-        return this;
+        return this
     }
 
-    public Dimension min(Object value) {
-        if (value == WRAP_DIMENSION) {
-            mMin = WRAP_CONTENT;
+    fun min(value: Any): Dimension {
+        if (value === WRAP_DIMENSION) {
+            mMin = WRAP_CONTENT
         }
-        return this;
+        return this
     }
 
-    public Dimension max(int value) {
+    fun max(value: Int): Dimension {
         if (mMax >= 0) {
-            mMax = value;
+            mMax = value
         }
-        return this;
+        return this
     }
 
-    public Dimension max(Object value) {
-        if (value == WRAP_DIMENSION && mIsSuggested) {
-            mInitialValue = WRAP_DIMENSION;
-            mMax = Integer.MAX_VALUE;
+    fun max(value: Any): Dimension {
+        if (value === WRAP_DIMENSION && mIsSuggested) {
+            mInitialValue = WRAP_DIMENSION
+            mMax = Int.MAX_VALUE
         }
-        return this;
+        return this
     }
 
-    public Dimension suggested(int value) {
-        mIsSuggested = true;
+    fun suggested(value: Int): Dimension {
+        mIsSuggested = true
         if (value >= 0) {
-            mMax = value;
+            mMax = value
         }
-        return this;
+        return this
     }
 
-    public Dimension suggested(Object value) {
-        mInitialValue = value;
-        mIsSuggested = true;
-        return this;
+    fun suggested(value: Any?): Dimension {
+        mInitialValue = value
+        mIsSuggested = true
+        return this
     }
 
-    public Dimension fixed(Object value) {
-        mInitialValue = value;
-        if (value instanceof Integer) {
-            mValue = (Integer) value;
-            mInitialValue = null;
+    fun fixed(value: Any?): Dimension {
+        mInitialValue = value
+        if (value is Int) {
+            mValue = value
+            mInitialValue = null
         }
-        return this;
+        return this
     }
 
-    public Dimension fixed(int value) {
-        mInitialValue = null;
-        mValue = value;
-        return this;
+    fun fixed(value: Int): Dimension {
+        mInitialValue = null
+        mValue = value
+        return this
     }
 
-    public Dimension ratio(String ratio) { // WxH ratio
-        mRatioString = ratio;
-        return this;
+    fun ratio(ratio: String?): Dimension { // WxH ratio
+        mRatioString = ratio
+        return this
     }
 
-    void setValue(int value) {
-        mIsSuggested = false; // fixed value
-        mInitialValue = null;
-        mValue = value;
-    }
-
-    int getValue() { return mValue; }
+    // fixed value
+    var value: Int
+        get() = mValue
+        set(value) {
+            mIsSuggested = false // fixed value
+            mInitialValue = null
+            mValue = value
+        }
 
     /**
      * Apply the dimension to the given constraint widget
      * @param constraintWidget
      * @param orientation
      */
-    public void apply(State state, ConstraintWidget constraintWidget, int orientation) {
+    fun apply(state: State?, constraintWidget: ConstraintWidget, orientation: Int) {
         if (mRatioString != null) {
-            constraintWidget.setDimensionRatio(mRatioString);
+            constraintWidget.setDimensionRatio(mRatioString)
         }
         if (orientation == ConstraintWidget.HORIZONTAL) {
             if (mIsSuggested) {
-                constraintWidget.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT);
-                int type = MATCH_CONSTRAINT_SPREAD;
-                if (mInitialValue == WRAP_DIMENSION) {
-                    type = MATCH_CONSTRAINT_WRAP;
-                } else if (mInitialValue == PERCENT_DIMENSION) {
-                    type = MATCH_CONSTRAINT_PERCENT;
+                constraintWidget.horizontalDimensionBehaviour = DimensionBehaviour.MATCH_CONSTRAINT
+                var type = ConstraintWidget.MATCH_CONSTRAINT_SPREAD
+                if (mInitialValue === WRAP_DIMENSION) {
+                    type = ConstraintWidget.MATCH_CONSTRAINT_WRAP
+                } else if (mInitialValue === PERCENT_DIMENSION) {
+                    type = ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                 }
-                constraintWidget.setHorizontalMatchStyle(type, mMin, mMax, mPercent);
+                constraintWidget.setHorizontalMatchStyle(type, mMin, mMax, mPercent)
             } else { // fixed
                 if (mMin > 0) {
-                    constraintWidget.setMinWidth(mMin);
+                    constraintWidget.minWidth = mMin
                 }
-                if (mMax < Integer.MAX_VALUE) {
-                    constraintWidget.setMaxWidth(mMax);
+                if (mMax < Int.MAX_VALUE) {
+                    constraintWidget.maxWidth = mMax
                 }
-                if (mInitialValue == WRAP_DIMENSION) {
-                    constraintWidget.setHorizontalDimensionBehaviour(DimensionBehaviour.WRAP_CONTENT);
-                } else if (mInitialValue == PARENT_DIMENSION) {
-                    constraintWidget.setHorizontalDimensionBehaviour(DimensionBehaviour.MATCH_PARENT);
+                if (mInitialValue === WRAP_DIMENSION) {
+                    constraintWidget.horizontalDimensionBehaviour = DimensionBehaviour.WRAP_CONTENT
+                } else if (mInitialValue === PARENT_DIMENSION) {
+                    constraintWidget.horizontalDimensionBehaviour = DimensionBehaviour.MATCH_PARENT
                 } else if (mInitialValue == null) {
-                    constraintWidget.setHorizontalDimensionBehaviour(DimensionBehaviour.FIXED);
-                    constraintWidget.setWidth(mValue);
+                    constraintWidget.horizontalDimensionBehaviour = DimensionBehaviour.FIXED
+                    constraintWidget.width = mValue
                 }
             }
         } else {
             if (mIsSuggested) {
-                constraintWidget.setVerticalDimensionBehaviour(DimensionBehaviour.MATCH_CONSTRAINT);
-                int type = MATCH_CONSTRAINT_SPREAD;
-                if (mInitialValue == WRAP_DIMENSION) {
-                    type = MATCH_CONSTRAINT_WRAP;
-                } else if (mInitialValue == PERCENT_DIMENSION) {
-                    type = MATCH_CONSTRAINT_PERCENT;
+                constraintWidget.verticalDimensionBehaviour = DimensionBehaviour.MATCH_CONSTRAINT
+                var type = ConstraintWidget.MATCH_CONSTRAINT_SPREAD
+                if (mInitialValue === WRAP_DIMENSION) {
+                    type = ConstraintWidget.MATCH_CONSTRAINT_WRAP
+                } else if (mInitialValue === PERCENT_DIMENSION) {
+                    type = ConstraintWidget.MATCH_CONSTRAINT_PERCENT
                 }
-                constraintWidget.setVerticalMatchStyle(type, mMin, mMax, mPercent);
+                constraintWidget.setVerticalMatchStyle(type, mMin, mMax, mPercent)
             } else { // fixed
                 if (mMin > 0) {
-                    constraintWidget.setMinHeight(mMin);
+                    constraintWidget.minHeight = mMin
                 }
-                if (mMax < Integer.MAX_VALUE) {
-                    constraintWidget.setMaxHeight(mMax);
+                if (mMax < Int.MAX_VALUE) {
+                    constraintWidget.maxHeight = mMax
                 }
-                if (mInitialValue == WRAP_DIMENSION) {
-                    constraintWidget.setVerticalDimensionBehaviour(DimensionBehaviour.WRAP_CONTENT);
-                } else if (mInitialValue == PARENT_DIMENSION) {
-                    constraintWidget.setVerticalDimensionBehaviour(DimensionBehaviour.MATCH_PARENT);
+                if (mInitialValue === WRAP_DIMENSION) {
+                    constraintWidget.verticalDimensionBehaviour = DimensionBehaviour.WRAP_CONTENT
+                } else if (mInitialValue === PARENT_DIMENSION) {
+                    constraintWidget.verticalDimensionBehaviour = DimensionBehaviour.MATCH_PARENT
                 } else if (mInitialValue == null) {
-                    constraintWidget.setVerticalDimensionBehaviour(DimensionBehaviour.FIXED);
-                    constraintWidget.setHeight(mValue);
+                    constraintWidget.verticalDimensionBehaviour = DimensionBehaviour.FIXED
+                    constraintWidget.height = mValue
                 }
             }
         }
     }
 
+    companion object {
+        val FIXED_DIMENSION = Any()
+        val WRAP_DIMENSION = Any()
+        val SPREAD_DIMENSION = Any()
+        val PARENT_DIMENSION = Any()
+        val PERCENT_DIMENSION = Any()
+        val RATIO_DIMENSION = Any()
+        fun Suggested(value: Int): Dimension {
+            val dimension = Dimension()
+            dimension.suggested(value)
+            return dimension
+        }
+
+        fun Suggested(startValue: Any?): Dimension {
+            val dimension = Dimension()
+            dimension.suggested(startValue)
+            return dimension
+        }
+
+        fun Fixed(value: Int): Dimension {
+            val dimension = Dimension(FIXED_DIMENSION)
+            dimension.fixed(value)
+            return dimension
+        }
+
+        fun Fixed(value: Any?): Dimension {
+            val dimension = Dimension(FIXED_DIMENSION)
+            dimension.fixed(value)
+            return dimension
+        }
+
+        fun Percent(key: Any?, value: Float): Dimension {
+            val dimension = Dimension(PERCENT_DIMENSION)
+            dimension.percent(key, value)
+            return dimension
+        }
+
+        fun Parent(): Dimension {
+            return Dimension(PARENT_DIMENSION)
+        }
+
+        fun Wrap(): Dimension {
+            return Dimension(WRAP_DIMENSION)
+        }
+
+        fun Spread(): Dimension {
+            return Dimension(SPREAD_DIMENSION)
+        }
+
+        fun Ratio(ratio: String?): Dimension {
+            val dimension = Dimension(RATIO_DIMENSION)
+            dimension.ratio(ratio)
+            return dimension
+        }
+    }
 }

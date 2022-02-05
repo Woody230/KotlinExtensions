@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * This contains the class to provide the logic for an animation to come to a stop using a spring
@@ -22,111 +21,108 @@ package androidx.constraintlayout.core.motion.utils;
  *
  * @suppress
  */
-public class SpringStopEngine implements StopEngine {
-    double mDamping = 0.5f;
-    private static final double UNSET = Double.MAX_VALUE;
-    private boolean mInitialized = false;
-    private double mStiffness;
-    private double mTargetPos;
-    private double mLastVelocity;
-    private float mLastTime;
-    private float mPos;
-    private float mV;
-    private float mMass;
-    private float mStopThreshold;
-    private int mBoundaryMode = 0;
-
-    @Override
-    public String debug(String desc, float time) {
-        return null;
+class SpringStopEngine constructor() : StopEngine {
+    var mDamping: Double = 0.5
+    private var mInitialized: Boolean = false
+    private var mStiffness: Double = 0.0
+    private var mTargetPos: Double = 0.0
+    private var mLastVelocity: Double = 0.0
+    private var mLastTime: Float = 0f
+    private var mPos: Float = 0f
+    private var mV: Float = 0f
+    private var mMass: Float = 0f
+    private var mStopThreshold: Float = 0f
+    private var mBoundaryMode: Int = 0
+    public override fun debug(desc: String, time: Float): String? {
+        return null
     }
 
-    void log(String str) {
-        StackTraceElement s = new Throwable().getStackTrace()[1];
-        String line = ".(" + s.getFileName() + ":" + s.getLineNumber() + ") " + s.getMethodName() + "() ";
-        System.out.println(line + str);
+    fun log(str: String) {
+        val s: StackTraceElement = Throwable().getStackTrace().get(1)
+        val line: String = ".(" + s.getFileName() + ":" + s.getLineNumber() + ") " + s.getMethodName() + "() "
+        println(line + str)
     }
 
-    public void springConfig(float currentPos, float target, float currentVelocity, float mass,
-                             float stiffness, float damping, float stopThreshold, int boundaryMode) {
-        mTargetPos = target;
-        mDamping = damping;
-        mInitialized = false;
-        mPos = currentPos;
-        mLastVelocity = currentVelocity;
-        mStiffness = stiffness;
-        mMass = mass;
-        mStopThreshold = stopThreshold;
-        mBoundaryMode = boundaryMode;
-        mLastTime = 0;
+    fun springConfig(
+        currentPos: Float, target: Float, currentVelocity: Float, mass: Float,
+        stiffness: Float, damping: Float, stopThreshold: Float, boundaryMode: Int
+    ) {
+        mTargetPos = target.toDouble()
+        mDamping = damping.toDouble()
+        mInitialized = false
+        mPos = currentPos
+        mLastVelocity = currentVelocity.toDouble()
+        mStiffness = stiffness.toDouble()
+        mMass = mass
+        mStopThreshold = stopThreshold
+        mBoundaryMode = boundaryMode
+        mLastTime = 0f
     }
 
-    @Override
-    public float getVelocity(float t) {
-        return (float) mV;
+    public override fun getVelocity(t: Float): Float {
+        return mV
     }
 
-    @Override
-    public float getInterpolation(float time) {
-        compute(time - mLastTime);
-        mLastTime = time;
-        return (float) (mPos);
+    public override fun getInterpolation(time: Float): Float {
+        compute((time - mLastTime).toDouble())
+        mLastTime = time
+        return (mPos)
     }
 
-    public float getAcceleration() {
-        double k = mStiffness;
-        double c = mDamping;
-        double x = (mPos - mTargetPos);
-        return (float) (-k * x - c * mV) / mMass;
-    }
+    val acceleration: Float
+        get() {
+            val k: Double = mStiffness
+            val c: Double = mDamping
+            val x: Double = (mPos - mTargetPos)
+            return (-k * x - c * mV).toFloat() / mMass
+        }
+    override val velocity: Float
+        get() {
+            return 0f
+        }
+    override val isStopped: Boolean
+        get() {
+            val x: Double = (mPos - mTargetPos)
+            val k: Double = mStiffness
+            val v: Double = mV.toDouble()
+            val m: Double = mMass.toDouble()
+            val energy: Double = v * v * m + k * x * x
+            val max_def: Double = Math.sqrt(energy / k)
+            return max_def <= mStopThreshold
+        }
 
-    @Override
-    public float getVelocity() {
-        return 0;
-    }
-
-    @Override
-    public boolean isStopped() {
-        double x = (mPos - mTargetPos);
-        double k = mStiffness;
-        double v = mV;
-        double m = mMass;
-        double energy = v * v * m + k * x * x;
-        double max_def = Math.sqrt(energy / k);
-        return max_def <= mStopThreshold;
-    }
-
-    private void compute(double dt) {
-
-        double k = mStiffness;
-        double c = mDamping;
+    private fun compute(dt: Double) {
+        var dt: Double = dt
+        val k: Double = mStiffness
+        val c: Double = mDamping
         // Estimate how many time we should over sample based on the frequency and current sampling
-        int overSample = (int) (1 + 9 / (Math.sqrt(mStiffness / mMass) * dt * 4));
-        dt /= overSample;
-
-        for (int i = 0; i < overSample; i++) {
-            double x = (mPos - mTargetPos);
-            double a = (-k * x - c * mV) / mMass;
+        val overSample: Int = (1 + 9 / (Math.sqrt(mStiffness / mMass) * dt * 4)).toInt()
+        dt /= overSample.toDouble()
+        for (i in 0 until overSample) {
+            val x: Double = (mPos - mTargetPos)
+            var a: Double = (-k * x - c * mV) / mMass
             // This refinement of a simple coding of the acceleration increases accuracy
-            double avgV = mV + a * dt / 2; // pass 1 calculate the average velocity
-            double avgX = mPos + dt * (avgV) / 2 - mTargetPos;// pass 1 calculate the average pos
-            a = (-avgX * k - avgV * c) / mMass; //  calculate acceleration over that average pos
-
-            double dv = a * dt; //  calculate change in velocity
-            avgV = mV + dv / 2; //  average  velocity is current + half change
-            mV += dv;
-            mPos += avgV * dt;
+            var avgV: Double = mV + a * dt / 2 // pass 1 calculate the average velocity
+            val avgX: Double = mPos + dt * (avgV) / 2 - mTargetPos // pass 1 calculate the average pos
+            a = (-avgX * k - avgV * c) / mMass //  calculate acceleration over that average pos
+            val dv: Double = a * dt //  calculate change in velocity
+            avgV = mV + dv / 2 //  average  velocity is current + half change
+            mV += dv.toFloat()
+            mPos += (avgV * dt).toFloat()
             if (mBoundaryMode > 0) {
-                if (mPos < 0 && ((mBoundaryMode & 1) == 1)) {
-                    mPos = -mPos;
-                    mV = -mV;
+                if (mPos < 0 && ((mBoundaryMode and 1) == 1)) {
+                    mPos = -mPos
+                    mV = -mV
                 }
-                if (mPos > 1 && ((mBoundaryMode & 2) == 2)) {
-                    mPos = 2 - mPos;
-                    mV = -mV;
+                if (mPos > 1 && ((mBoundaryMode and 2) == 2)) {
+                    mPos = 2 - mPos
+                    mV = -mV
                 }
             }
         }
     }
-    
+
+    companion object {
+        private val UNSET: Double = Double.MAX_VALUE
+    }
 }

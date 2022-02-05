@@ -13,202 +13,216 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-import androidx.constraintlayout.core.motion.CustomAttribute;
-import androidx.constraintlayout.core.motion.CustomVariable;
+import androidx.constraintlayout.core.motion.CustomAttribute
+import androidx.constraintlayout.core.motion.CustomVariable
 
-import java.util.Arrays;
-
-public class KeyFrameArray {
-
+class KeyFrameArray constructor() {
     // =================================== CustomAttribute =================================
-    public static class CustomArray {
-        int[] keys = new int[101];
-        CustomAttribute[] values = new CustomAttribute[101];
-        int count;
-        private static final int EMPTY = 999;
-
-        public CustomArray() {
-            clear();
+    class CustomArray constructor() {
+        var keys: IntArray = IntArray(101)
+        var values: Array<CustomAttribute?> = arrayOfNulls(101)
+        var count: Int = 0
+        fun clear() {
+            keys.fill(EMPTY)
+            values.fill(null)
+            count = 0
         }
 
-        public void clear() {
-            Arrays.fill(keys, EMPTY);
-            Arrays.fill(values, null);
-            count = 0;
-        }
-
-        public void dump() {
-            System.out.println("V: " + Arrays.toString(Arrays.copyOf(keys, count)));
-            System.out.print("K: [");
-            for (int i = 0; i < count; i++) {
-                System.out.print(((i == 0 ? "" : ", ")) + valueAt(i));
+        /*
+        fun dump() {
+            println("V: " + Arrays.toString(Arrays.copyOf(keys, count)))
+            print("K: [")
+            for (i in 0 until count) {
+                print(((if (i == 0) "" else ", ")) + valueAt(i))
             }
-            System.out.println("]");
+            println("]")
+        }*/
+
+        fun size(): Int {
+            return count
         }
 
-        public int size() {
-            return count;
+        fun valueAt(i: Int): CustomAttribute? {
+            return values.get(keys.get(i))
         }
 
-        public CustomAttribute valueAt(int i) {
-            return values[keys[i]];
+        fun keyAt(i: Int): Int {
+            return keys.get(i)
         }
 
-        public int keyAt(int i) {
-            return keys[i];
-        }
-
-        public void append(int position, CustomAttribute value) {
-            if (values[position] != null) {
-                remove(position);
+        fun append(position: Int, value: CustomAttribute?) {
+            if (values.get(position) != null) {
+                remove(position)
             }
-            values[position] = value;
-            keys[count++] = position;
-            Arrays.sort(keys);
+            values[position] = value
+            keys[count++] = position
+            keys.sort()
         }
 
-        public void remove(int position) {
-            values[position] = null;
-            for (int j = 0, i = 0; i < count; i++) {
-                if (position == keys[i]) {
-                    keys[i] = EMPTY;
-                    j++;
+        fun remove(position: Int) {
+            values[position] = null
+            var j: Int = 0
+            var i: Int = 0
+            while (i < count) {
+                if (position == keys.get(i)) {
+                    keys[i] = EMPTY
+                    j++
                 }
                 if (i != j) {
-                    keys[i] = keys[j];
+                    keys[i] = keys.get(j)
                 }
-                j++;
-
+                j++
+                i++
             }
-            count--;
+            count--
+        }
+
+        companion object {
+            private val EMPTY: Int = 999
+        }
+
+        init {
+            clear()
         }
     }
+
     // =================================== CustomVar =================================
-    public static class CustomVar {
-        int[] keys = new int[101];
-        CustomVariable[] values = new CustomVariable[101];
-        int count;
-        private static final int EMPTY = 999;
-
-        public CustomVar() {
-            clear();
+    class CustomVar constructor() {
+        var keys: IntArray = IntArray(101)
+        var values: Array<CustomVariable?> = arrayOfNulls(101)
+        var count: Int = 0
+        fun clear() {
+            keys.fill(EMPTY)
+            values.fill(null)
+            count = 0
         }
 
-        public void clear() {
-            Arrays.fill(keys, EMPTY);
-            Arrays.fill(values, null);
-            count = 0;
-        }
-
-        public void dump() {
-            System.out.println("V: " + Arrays.toString(Arrays.copyOf(keys, count)));
-            System.out.print("K: [");
-            for (int i = 0; i < count; i++) {
-                System.out.print(((i == 0 ? "" : ", ")) + valueAt(i));
+        /*
+        fun dump() {
+            println("V: " + Arrays.toString(Arrays.copyOf(keys, count)))
+            print("K: [")
+            for (i in 0 until count) {
+                print(((if (i == 0) "" else ", ")) + valueAt(i))
             }
-            System.out.println("]");
+            println("]")
+        }*/
+
+        fun size(): Int {
+            return count
         }
 
-        public int size() {
-            return count;
+        fun valueAt(i: Int): CustomVariable? {
+            return values.get(keys.get(i))
         }
 
-        public CustomVariable valueAt(int i) {
-            return values[keys[i]];
+        fun keyAt(i: Int): Int {
+            return keys.get(i)
         }
 
-        public int keyAt(int i) {
-            return keys[i];
-        }
-
-        public void append(int position, CustomVariable value) {
-            if (values[position] != null) {
-                remove(position);
+        fun append(position: Int, value: CustomVariable?) {
+            if (values.get(position) != null) {
+                remove(position)
             }
-            values[position] = value;
-            keys[count++] = position;
-            Arrays.sort(keys);
+            values[position] = value
+            keys[count++] = position
+            keys.sort()
         }
 
-        public void remove(int position) {
-            values[position] = null;
-            for (int j = 0, i = 0; i < count; i++) {
-                if (position == keys[i]) {
-                    keys[i] = EMPTY;
-                    j++;
+        fun remove(position: Int) {
+            values[position] = null
+            var j: Int = 0
+            var i: Int = 0
+            while (i < count) {
+                if (position == keys.get(i)) {
+                    keys[i] = EMPTY
+                    j++
                 }
                 if (i != j) {
-                    keys[i] = keys[j];
+                    keys[i] = keys.get(j)
                 }
-                j++;
-
+                j++
+                i++
             }
-            count--;
+            count--
+        }
+
+        companion object {
+            private val EMPTY: Int = 999
+        }
+
+        init {
+            clear()
         }
     }
+
     // =================================== FloatArray ======================================
-   static class FloatArray {
-        int[] keys = new int[101];
-        float[][] values = new float[101][];
-        int count;
-        private static final int EMPTY = 999;
-
-        public FloatArray() {
-            clear();
+    class FloatArray constructor() {
+        var keys: IntArray = IntArray(101)
+        var values: Array<kotlin.FloatArray?> = arrayOfNulls(101)
+        var count: Int = 0
+        fun clear() {
+            keys.fill(EMPTY)
+            values.fill(null)
+            count = 0
         }
 
-        public void clear() {
-            Arrays.fill(keys, EMPTY);
-            Arrays.fill(values, null);
-            count = 0;
-        }
-
-        public void dump() {
-            System.out.println("V: " + Arrays.toString(Arrays.copyOf(keys, count)));
-            System.out.print("K: [");
-            for (int i = 0; i < count; i++) {
-                System.out.print(((i == 0 ? "" : ", ")) + Arrays.toString(valueAt(i)));
+        /*
+        fun dump() {
+            println("V: " + Arrays.toString(Arrays.copyOf(keys, count)))
+            print("K: [")
+            for (i in 0 until count) {
+                print(((if (i == 0) "" else ", ")) + Arrays.toString(valueAt(i)))
             }
-            System.out.println("]");
+            println("]")
+        }*/
+
+        fun size(): Int {
+            return count
         }
 
-        public int size() {
-            return count;
+        fun valueAt(i: Int): kotlin.FloatArray? {
+            return values.get(keys.get(i))
         }
 
-        public float[] valueAt(int i) {
-            return values[keys[i]];
+        fun keyAt(i: Int): Int {
+            return keys.get(i)
         }
 
-        public int keyAt(int i) {
-            return keys[i];
-        }
-
-        public void append(int position, float[] value) {
-            if (values[position] != null) {
-                remove(position);
+        fun append(position: Int, value: kotlin.FloatArray?) {
+            if (values.get(position) != null) {
+                remove(position)
             }
-            values[position] = value;
-            keys[count++] = position;
-            Arrays.sort(keys);
+            values[position] = value
+            keys[count++] = position
+            keys.sort()
         }
 
-        public void remove(int position) {
-            values[position] = null;
-            for (int j = 0, i = 0; i < count; i++) {
-                if (position == keys[i]) {
-                    keys[i] = EMPTY;
-                    j++;
+        fun remove(position: Int) {
+            values[position] = null
+            var j: Int = 0
+            var i: Int = 0
+            while (i < count) {
+                if (position == keys.get(i)) {
+                    keys[i] = EMPTY
+                    j++
                 }
                 if (i != j) {
-                    keys[i] = keys[j];
+                    keys[i] = keys.get(j)
                 }
-                j++;
-
+                j++
+                i++
             }
-            count--;
+            count--
+        }
+
+        companion object {
+            private val EMPTY: Int = 999
+        }
+
+        init {
+            clear()
         }
     }
 }

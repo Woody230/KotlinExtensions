@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
-public interface DifferentialInterpolator {
-    float getInterpolation(float v);
-    float getVelocity();
+interface DifferentialInterpolator {
+    fun getInterpolation(v: Float): Float
+    val velocity: Float
 }

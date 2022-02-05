@@ -13,96 +13,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state.helpers
 
-package androidx.constraintlayout.core.state.helpers;
+import androidx.constraintlayout.core.state.Reference
+import androidx.constraintlayout.core.state.State
+import androidx.constraintlayout.core.widgets.Guideline
+import androidx.constraintlayout.core.widgets.ConstraintWidget
 
-import androidx.constraintlayout.core.widgets.ConstraintWidget;
-import androidx.constraintlayout.core.widgets.Guideline;
-import androidx.constraintlayout.core.state.Reference;
-import androidx.constraintlayout.core.state.State;
-
-public class GuidelineReference implements Facade, Reference
-{
-
-    final State mState;
-    private int mOrientation;
-    private Guideline mGuidelineWidget;
-    private int mStart = -1;
-    private int mEnd = -1;
-    private float mPercent = 0;
-
-    private Object key;
-
-    public void setKey(Object key) {
-        this.key = key;
-    }
-    public Object getKey() {
-        return key;
+class GuidelineReference(val mState: State) : Facade, Reference {
+    var orientation = 0
+    private var mGuidelineWidget: Guideline? = null
+    private var mStart = -1
+    private var mEnd = -1
+    private var mPercent = 0f
+    override var key: Any? = null
+    fun start(margin: Any?): GuidelineReference {
+        mStart = mState.convertDimension(margin)
+        mEnd = -1
+        mPercent = 0f
+        return this
     }
 
-    public GuidelineReference(State state) {
-        mState = state;
+    fun end(margin: Any?): GuidelineReference {
+        mStart = -1
+        mEnd = mState.convertDimension(margin)
+        mPercent = 0f
+        return this
     }
 
-    public GuidelineReference start(Object margin) {
-        mStart = mState.convertDimension(margin);
-        mEnd = -1;
-        mPercent = 0;
-        return this;
+    fun percent(percent: Float): GuidelineReference {
+        mStart = -1
+        mEnd = -1
+        mPercent = percent
+        return this
     }
 
-    public GuidelineReference end(Object margin) {
-        mStart = -1;
-        mEnd = mState.convertDimension(margin);
-        mPercent = 0;
-        return this;
-    }
-
-    public GuidelineReference percent(float percent) {
-        mStart = -1;
-        mEnd = -1;
-        mPercent = percent;
-        return this;
-    }
-
-    public void setOrientation(int orientation) {
-        mOrientation = orientation;
-    }
-
-    public int getOrientation() {
-        return mOrientation;
-    }
-
-    public void apply() {
-        mGuidelineWidget.setOrientation(mOrientation);
+    override fun apply() {
+        mGuidelineWidget!!.orientation = orientation
         if (mStart != -1) {
-            mGuidelineWidget.setGuideBegin(mStart);
+            mGuidelineWidget!!.setGuideBegin(mStart)
         } else if (mEnd != -1) {
-            mGuidelineWidget.setGuideEnd(mEnd);
+            mGuidelineWidget!!.setGuideEnd(mEnd)
         } else {
-            mGuidelineWidget.setGuidePercent(mPercent);
+            mGuidelineWidget!!.setGuidePercent(mPercent)
         }
     }
 
-    @Override
-    public Facade getFacade() {
-        return null;
-    }
-
-    @Override
-    public ConstraintWidget getConstraintWidget() {
-        if (mGuidelineWidget == null) {
-            mGuidelineWidget = new Guideline();
+    override val facade: Facade?
+        get() = null
+    override var constraintWidget: ConstraintWidget?
+        get() {
+            if (mGuidelineWidget == null) {
+                mGuidelineWidget = Guideline()
+            }
+            return mGuidelineWidget
         }
-        return mGuidelineWidget;
-    }
-
-    @Override
-    public void setConstraintWidget(ConstraintWidget widget) {
-        if (widget instanceof Guideline) {
-            mGuidelineWidget = (Guideline) widget;
-        } else {
-            mGuidelineWidget = null;
+        set(widget) {
+            mGuidelineWidget = if (widget is Guideline) {
+                widget
+            } else {
+                null
+            }
         }
-    }
 }

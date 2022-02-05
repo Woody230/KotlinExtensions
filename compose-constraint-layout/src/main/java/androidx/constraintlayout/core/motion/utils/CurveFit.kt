@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core.motion.utils;
+package androidx.constraintlayout.core.motion.utils
 
 /**
  * Base class for curve fitting / interpolation
@@ -22,83 +21,62 @@ package androidx.constraintlayout.core.motion.utils;
  *
  * @suppress
  */
+abstract class CurveFit {
+    abstract fun getPos(t: Double, v: DoubleArray)
+    abstract fun getPos(t: Double, v: FloatArray)
+    abstract fun getPos(t: Double, j: Int): Double
+    abstract fun getSlope(t: Double, v: DoubleArray)
+    abstract fun getSlope(t: Double, j: Int): Double
+    abstract val timePoints: DoubleArray
 
-public abstract class CurveFit {
-    public static final int SPLINE = 0;
-    public static final int LINEAR = 1;
-    public static final int CONSTANT = 2;
-
-    public static CurveFit get(int type, double[] time, double[][] y) {
-        if (time.length == 1) {
-            type = CONSTANT;
-        }
-        switch (type) {
-            case SPLINE:
-                return new MonotonicCurveFit(time, y);
-            case CONSTANT:
-                return new Constant(time[0], y[0]);
-            default:
-                return new LinearCurveFit(time, y);
-        }
-    }
-
-    public static CurveFit getArc(int[] arcModes, double[] time, double[][] y) {
-        return new ArcCurveFit(arcModes, time, y);
-    }
-
-    public abstract void getPos(double t, double[] v);
-
-    public abstract void getPos(double t, float[] v);
-
-    public abstract double getPos(double t, int j);
-
-    public abstract void getSlope(double t, double[] v);
-
-    public abstract double getSlope(double t, int j);
-
-    public abstract double[] getTimePoints();
-
-    static class Constant extends CurveFit {
-        double mTime;
-        double[] mValue;
-
-        Constant(double time, double[] value) {
-            mTime = time;
-            mValue = value;
+    internal class Constant(var mTime: Double, var mValue: DoubleArray) : CurveFit() {
+        override fun getPos(t: Double, v: DoubleArray) {
+            System.arraycopy(mValue, 0, v, 0, mValue.size)
         }
 
-        @Override
-        public void getPos(double t, double[] v) {
-            System.arraycopy(mValue, 0, v, 0, mValue.length);
-        }
-
-        @Override
-        public void getPos(double t, float[] v) {
-            for (int i = 0; i < mValue.length; i++) {
-                v[i] = (float) mValue[i];
+        override fun getPos(t: Double, v: FloatArray) {
+            for (i in mValue.indices) {
+                v[i] = mValue[i].toFloat()
             }
         }
 
-        @Override
-        public double getPos(double t, int j) {
-            return mValue[j];
+        override fun getPos(t: Double, j: Int): Double {
+            return mValue[j]
         }
 
-        @Override
-        public void getSlope(double t, double[] v) {
-            for (int i = 0; i < mValue.length; i++) {
-                v[i] = 0;
+        override fun getSlope(t: Double, v: DoubleArray) {
+            for (i in mValue.indices) {
+                v[i] = 0.0
             }
         }
 
-        @Override
-        public double getSlope(double t, int j) {
-            return 0;
+        override fun getSlope(t: Double, j: Int): Double {
+            return 0.0
         }
 
-        @Override
-        public double[] getTimePoints() {
-            return new double[]{mTime};
+        override val timePoints: DoubleArray = doubleArrayOf(mTime)
+    }
+
+    companion object {
+        const val SPLINE = 0
+        const val LINEAR = 1
+        const val CONSTANT = 2
+        @kotlin.jvm.JvmStatic
+        operator fun get(type: Int, time: DoubleArray, y: Array<DoubleArray>): CurveFit {
+            var type = type
+            if (time.size == 1) {
+                type = CONSTANT
+            }
+            return when (type) {
+                SPLINE -> MonotonicCurveFit(time, y)
+                CONSTANT -> Constant(time[0], y[0])
+                else -> LinearCurveFit(time, y)
+            }
+        }
+
+        @kotlin.jvm.JvmStatic
+        fun getArc(arcModes: IntArray, time: DoubleArray, y: Array<DoubleArray>): CurveFit {
+            return ArcCurveFit(arcModes, time, y)
         }
     }
 }

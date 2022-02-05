@@ -13,480 +13,451 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core;
+package androidx.constraintlayout.core
 
-import java.util.Arrays;
+import androidx.constraintlayout.core.ArrayRow.ArrayRowVariables
 
 /**
  * Store a set of variables and their values in an array-based linked list coupled
  * with a custom hashmap.
  */
-public class SolverVariableValues implements ArrayRow.ArrayRowVariables {
-
-    private static final boolean DEBUG = false;
-    private static final boolean HASH = true;
-    private static float epsilon = 0.001f;
-    private final int NONE = -1;
-    private int SIZE = 16;
-    private int HASH_SIZE = 16;
-
-    int[] keys = new int[SIZE];
-    int[] nextKeys = new int[SIZE];
-
-    int[] variables = new int[SIZE];
-    float[] values = new float[SIZE];
-    int[] previous = new int[SIZE];
-    int[] next = new int[SIZE];
-    int mCount = 0;
-    int head = -1;
-
-    private final ArrayRow mRow; // our owner
-    protected final Cache mCache; // pointer to the system-wide cache, allowing access to SolverVariables
-
-    SolverVariableValues(ArrayRow row, Cache cache) {
-        mRow = row;
-        mCache = cache;
-        clear();
-    }
-
-    @Override
-    public int getCurrentSize() {
-        return mCount;
-    }
-
-    @Override
-    public SolverVariable getVariable(int index) {
-        final int count = mCount;
+class SolverVariableValues internal constructor(// our owner
+    private val mRow: ArrayRow, // pointer to the system-wide cache, allowing access to SolverVariables
+    protected val mCache: Cache
+) : ArrayRowVariables {
+    private val NONE = -1
+    private var SIZE = 16
+    private val HASH_SIZE = 16
+    var keys = IntArray(SIZE)
+    var nextKeys = IntArray(SIZE)
+    var variables = IntArray(SIZE)
+    var values = FloatArray(SIZE)
+    var previous = IntArray(SIZE)
+    var next = IntArray(SIZE)
+    override var currentSize = 0
+    var head = -1
+    override fun getVariable(index: Int): SolverVariable? {
+        val count = currentSize
         if (count == 0) {
-            return null;
+            return null
         }
-        int j = head;
-        for (int i = 0; i < count; i++) {
+        var j = head
+        for (i in 0 until count) {
             if (i == index && j != NONE) {
-                return mCache.mIndexedVariables[variables[j]];
+                return mCache.mIndexedVariables[variables[j]]!!
             }
-            j = next[j];
+            j = next[j]
             if (j == NONE) {
-                break;
+                break
             }
         }
-        return null;
+        return null
     }
 
-    @Override
-    public float getVariableValue(int index) {
-        final int count = mCount;
-        int j = head;
-        for (int i = 0; i < count; i++) {
+    override fun getVariableValue(index: Int): Float {
+        val count = currentSize
+        var j = head
+        for (i in 0 until count) {
             if (i == index) {
-                return values[j];
+                return values[j]
             }
-            j = next[j];
+            j = next[j]
             if (j == NONE) {
-                break;
+                break
             }
         }
-        return 0;
+        return 0f
     }
 
-    @Override
-    public boolean contains(SolverVariable variable) {
-        return indexOf(variable) != NONE;
+    override fun contains(variable: SolverVariable?): Boolean {
+        return indexOf(variable) != NONE
     }
 
-    @Override
-    public int indexOf(SolverVariable variable) {
-        if (mCount == 0 || variable == null) {
-            return NONE;
+    override fun indexOf(variable: SolverVariable?): Int {
+        if (currentSize == 0 || variable == null) {
+            return NONE
         }
-        int id = variable.id;
-        int key = id % HASH_SIZE;
-        key = keys[key];
+        val id = variable.id
+        var key = id % HASH_SIZE
+        key = keys[key]
         if (key == NONE) {
-            return NONE;
+            return NONE
         }
         if (variables[key] == id) {
-            return key;
+            return key
         }
         while (nextKeys[key] != NONE && variables[nextKeys[key]] != id) {
-            key = nextKeys[key];
+            key = nextKeys[key]
         }
         if (nextKeys[key] == NONE) {
-            return NONE;
+            return NONE
         }
-        if (variables[nextKeys[key]] == id) {
-            return nextKeys[key];
-        }
-        return NONE;
+        return if (variables[nextKeys[key]] == id) {
+            nextKeys[key]
+        } else NONE
     }
 
-    @Override
-    public float get(SolverVariable variable) {
-        final int index = indexOf(variable);
-        if (index != NONE) {
-            return values[index];
-        }
-        return 0;
+    override fun get(variable: SolverVariable?): Float {
+        val index = indexOf(variable)
+        return if (index != NONE) {
+            values[index]
+        } else 0f
     }
 
-    @Override
-    public void display() {
-        final int count = mCount;
-        System.out.print("{ ");
-        for (int i = 0; i < count; i++) {
-            SolverVariable v = getVariable(i);
-            if (v == null) {
-                continue;
-            }
-            System.out.print(v + " = " + getVariableValue(i) + " ");
+    override fun display() {
+        val count = currentSize
+        print("{ ")
+        for (i in 0 until count) {
+            val v = getVariable(i) ?: continue
+            print(v.toString() + " = " + getVariableValue(i) + " ")
         }
-        System.out.println(" }");
+        println(" }")
     }
 
-    @Override
-    public String toString() {
-        String str = hashCode() + " { ";
-        final int count = mCount;
-        for (int i = 0; i < count; i++) {
-            SolverVariable v = getVariable(i);
-            if (v == null) {
-                continue;
-            }
-            str += v + " = " + getVariableValue(i) + " ";
-            int index = indexOf(v);
-            str += "[p: ";
+    override fun toString(): String {
+        var str = hashCode().toString() + " { "
+        val count = currentSize
+        for (i in 0 until count) {
+            val v = getVariable(i) ?: continue
+            str += v.toString() + " = " + getVariableValue(i) + " "
+            val index = indexOf(v)
+            str += "[p: "
             if (previous[index] != NONE) {
-                str += mCache.mIndexedVariables[variables[previous[index]]];
+                str += mCache.mIndexedVariables[variables[previous[index]]]
             } else {
-                str += "none";
+                str += "none"
             }
-            str += ", n: ";
+            str += ", n: "
             if (next[index] != NONE) {
-                str += mCache.mIndexedVariables[variables[next[index]]];
+                str += mCache.mIndexedVariables[variables[next[index]]]
             } else {
-                str += "none";
+                str += "none"
             }
-            str += "]";
+            str += "]"
         }
-        str += " }";
-        return str;
+        str += " }"
+        return str
     }
 
-    @Override
-    public void clear() {
+    override fun clear() {
         if (DEBUG) {
-            System.out.println(this + " <clear>");
+            println("$this <clear>")
         }
-        final int count = mCount;
-        for (int i = 0; i < count; i++) {
-            SolverVariable v = getVariable(i);
+        val count = currentSize
+        for (i in 0 until count) {
+            val v = getVariable(i)
             if (v != null) {
-                v.removeFromRow(mRow);
+                v.removeFromRow(mRow)
             }
         }
-        for (int i = 0; i < SIZE; i++) {
-            variables[i] = NONE;
-            nextKeys[i] = NONE;
+        for (i in 0 until SIZE) {
+            variables[i] = NONE
+            nextKeys[i] = NONE
         }
-        for (int i = 0; i < HASH_SIZE; i++) {
-            keys[i] = NONE;
+        for (i in 0 until HASH_SIZE) {
+            keys[i] = NONE
         }
-        mCount = 0;
-        head = -1;
+        currentSize = 0
+        head = -1
     }
 
-    private void increaseSize() {
-        int size = SIZE * 2;
-        variables = Arrays.copyOf(variables, size);
-        values = Arrays.copyOf(values, size);
-        previous = Arrays.copyOf(previous, size);
-        next = Arrays.copyOf(next, size);
-        nextKeys = Arrays.copyOf(nextKeys, size);
-        for (int i = SIZE; i < size; i++) {
-            variables[i] = NONE;
-            nextKeys[i] = NONE;
+    private fun increaseSize() {
+        val size = SIZE * 2
+        variables = variables.copyOf(size)
+        values = values.copyOf(size)
+        previous = previous.copyOf(size)
+        next = next.copyOf(size)
+        nextKeys = nextKeys.copyOf(size)
+        for (i in SIZE until size) {
+            variables[i] = NONE
+            nextKeys[i] = NONE
         }
-        SIZE = size;
+        SIZE = size
     }
 
-    private void addToHashMap(SolverVariable variable, int index) {
+    private fun addToHashMap(variable: SolverVariable?, index: Int) {
         if (DEBUG) {
-            System.out.println(this.hashCode() + " hash add " + variable.id + " @ " + index);
+            println(this.hashCode().toString() + " hash add " + variable!!.id + " @ " + index)
         }
-        int hash = variable.id % HASH_SIZE;
-        int key = keys[hash];
+        val hash = variable!!.id % HASH_SIZE
+        var key = keys[hash]
         if (key == NONE) {
-            keys[hash] = index;
+            keys[hash] = index
             if (DEBUG) {
-                System.out.println(this.hashCode() + " hash add " + variable.id + " @ " + index + " directly on keys " + hash);
+                println(this.hashCode().toString() + " hash add " + variable.id + " @ " + index + " directly on keys " + hash)
             }
         } else {
             while (nextKeys[key] != NONE) {
-                key = nextKeys[key];
+                key = nextKeys[key]
             }
-            nextKeys[key] = index;
+            nextKeys[key] = index
             if (DEBUG) {
-                System.out.println(this.hashCode() + " hash add " + variable.id + " @ " + index + " as nextkey of " + key);
+                println(this.hashCode().toString() + " hash add " + variable.id + " @ " + index + " as nextkey of " + key)
             }
         }
-        nextKeys[index] = NONE;
+        nextKeys[index] = NONE
         if (DEBUG) {
-            displayHash();
+            displayHash()
         }
     }
 
-    private void displayHash() {
-        for (int i = 0; i < HASH_SIZE; i++) {
+    private fun displayHash() {
+        for (i in 0 until HASH_SIZE) {
             if (keys[i] != NONE) {
-                String str = this.hashCode() + " hash [" + i + "] => ";
-                int key = keys[i];
-                boolean done = false;
+                var str = this.hashCode().toString() + " hash [" + i + "] => "
+                var key = keys[i]
+                var done = false
                 while (!done) {
-                    str += " " + variables[key];
+                    str += " " + variables[key]
                     if (nextKeys[key] != NONE) {
-                        key = nextKeys[key];
+                        key = nextKeys[key]
                     } else {
-                        done = true;
+                        done = true
                     }
                 }
-                System.out.println(str);
+                println(str)
             }
         }
     }
-    private void removeFromHashMap(SolverVariable variable) {
+
+    private fun removeFromHashMap(variable: SolverVariable?) {
         if (DEBUG) {
-            System.out.println(this.hashCode() + " hash remove " + variable.id);
+            println(this.hashCode().toString() + " hash remove " + variable!!.id)
         }
-        int hash = variable.id % HASH_SIZE;
-        int key = keys[hash];
+        val hash = variable!!.id % HASH_SIZE
+        var key = keys[hash]
         if (key == NONE) {
             if (DEBUG) {
-                displayHash();
+                displayHash()
             }
-            return;
+            return
         }
-        int id = variable.id;
+        val id = variable.id
         // let's first find it
         if (variables[key] == id) {
-            keys[hash] = nextKeys[key];
-            nextKeys[key] = NONE;
+            keys[hash] = nextKeys[key]
+            nextKeys[key] = NONE
         } else {
-            while (nextKeys[key] != NONE && variables[nextKeys[key]] != id)  {
-                key = nextKeys[key];
+            while (nextKeys[key] != NONE && variables[nextKeys[key]] != id) {
+                key = nextKeys[key]
             }
-            int currentKey = nextKeys[key];
+            val currentKey = nextKeys[key]
             if (currentKey != NONE && variables[currentKey] == id) {
-                nextKeys[key] = nextKeys[currentKey];
-                nextKeys[currentKey] = NONE;
+                nextKeys[key] = nextKeys[currentKey]
+                nextKeys[currentKey] = NONE
             }
         }
         if (DEBUG) {
-            displayHash();
+            displayHash()
         }
     }
 
-    private void addVariable(int index, SolverVariable variable, float value) {
-        variables[index] = variable.id;
-        values[index] = value;
-        previous[index] = NONE;
-        next[index] = NONE;
-        variable.addToRow(mRow);
-        variable.usageInRowCount++;
-        mCount++;
+    private fun addVariable(index: Int, variable: SolverVariable?, value: Float) {
+        variables[index] = variable!!.id
+        values[index] = value
+        previous[index] = NONE
+        next[index] = NONE
+        variable.addToRow(mRow)
+        variable.usageInRowCount++
+        currentSize++
     }
 
-    private int findEmptySlot() {
-        for (int i = 0; i < SIZE; i++) {
+    private fun findEmptySlot(): Int {
+        for (i in 0 until SIZE) {
             if (variables[i] == NONE) {
-                return i;
+                return i
             }
         }
-        return -1;
+        return -1
     }
 
-    private void insertVariable(int index, SolverVariable variable, float value) {
-        int availableSlot = findEmptySlot();
-        addVariable(availableSlot, variable, value);
+    private fun insertVariable(index: Int, variable: SolverVariable?, value: Float) {
+        val availableSlot = findEmptySlot()
+        addVariable(availableSlot, variable, value)
         if (index != NONE) {
-            previous[availableSlot] = index;
-            next[availableSlot] = next[index];
-            next[index] = availableSlot;
+            previous[availableSlot] = index
+            next[availableSlot] = next[index]
+            next[index] = availableSlot
         } else {
-            previous[availableSlot] = NONE;
-            if (mCount > 0) {
-                next[availableSlot] = head;
-                head = availableSlot;
+            previous[availableSlot] = NONE
+            if (currentSize > 0) {
+                next[availableSlot] = head
+                head = availableSlot
             } else {
-                next[availableSlot] = NONE;
+                next[availableSlot] = NONE
             }
         }
         if (next[availableSlot] != NONE) {
-            previous[next[availableSlot]] = availableSlot;
+            previous[next[availableSlot]] = availableSlot
         }
-        addToHashMap(variable, availableSlot);
+        addToHashMap(variable, availableSlot)
     }
 
-    @Override
-    public void put(SolverVariable variable, float value) {
+    override fun put(variable: SolverVariable?, value: Float) {
         if (DEBUG) {
-            System.out.println(this + " <put> " + variable.id + " = " + value);
+            println(this.toString() + " <put> " + variable!!.id + " = " + value)
         }
         if (value > -epsilon && value < epsilon) {
-            remove(variable, true);
-            return;
+            remove(variable, true)
+            return
         }
-        if (mCount == 0) {
-            addVariable(0, variable, value);
-            addToHashMap(variable, 0);
-            head = 0;
+        if (currentSize == 0) {
+            addVariable(0, variable, value)
+            addToHashMap(variable, 0)
+            head = 0
         } else {
-            final int index = indexOf(variable);
+            val index = indexOf(variable)
             if (index != NONE) {
-                values[index] = value;
+                values[index] = value
             } else {
-                if (mCount + 1 >= SIZE) {
-                    increaseSize();
+                if (currentSize + 1 >= SIZE) {
+                    increaseSize()
                 }
-                final int count = mCount;
-                int previousItem = -1;
-                int j = head;
-                for (int i = 0; i < count; i++) {
-                    if (variables[j] == variable.id) {
-                        values[j] = value;
-                        return;
+                val count = currentSize
+                var previousItem = -1
+                var j = head
+                for (i in 0 until count) {
+                    if (variables[j] == variable!!.id) {
+                        values[j] = value
+                        return
                     }
                     if (variables[j] < variable.id) {
-                        previousItem = j;
+                        previousItem = j
                     }
-                    j = next[j];
+                    j = next[j]
                     if (j == NONE) {
-                        break;
+                        break
                     }
                 }
-                insertVariable(previousItem, variable, value);
+                insertVariable(previousItem, variable, value)
             }
         }
     }
 
-    @Override
-    public int sizeInBytes() {
-        return 0;
+    override fun sizeInBytes(): Int {
+        return 0
     }
 
-    @Override
-    public float remove(SolverVariable v, boolean removeFromDefinition) {
+    override fun remove(v: SolverVariable?, removeFromDefinition: Boolean): Float {
         if (DEBUG) {
-            System.out.println(this + " <remove> " + v.id);
+            println(this.toString() + " <remove> " + v!!.id)
         }
-        int index = indexOf(v);
+        val index = indexOf(v)
         if (index == NONE) {
-            return 0;
+            return 0f
         }
-        removeFromHashMap(v);
-        float value = values[index];
+        removeFromHashMap(v)
+        val value = values[index]
         if (head == index) {
-            head = next[index];
+            head = next[index]
         }
-        variables[index] = NONE;
+        variables[index] = NONE
         if (previous[index] != NONE) {
-            next[previous[index]] = next[index];
+            next[previous[index]] = next[index]
         }
         if (next[index] != NONE) {
-            previous[next[index]] = previous[index];
+            previous[next[index]] = previous[index]
         }
-        mCount--;
-        v.usageInRowCount--;
+        currentSize--
+        v!!.usageInRowCount--
         if (removeFromDefinition) {
-            v.removeFromRow(mRow);
+            v.removeFromRow(mRow)
         }
-        return value;
+        return value
     }
 
-    @Override
-    public void add(SolverVariable v, float value, boolean removeFromDefinition) {
+    override fun add(v: SolverVariable?, value: Float, removeFromDefinition: Boolean) {
         if (DEBUG) {
-            System.out.println(this + " <add> " + v.id + " = " + value);
+            println(this.toString() + " <add> " + v!!.id + " = " + value)
         }
         if (value > -epsilon && value < epsilon) {
-            return;
+            return
         }
-        final int index = indexOf(v);
+        val index = indexOf(v)
         if (index == NONE) {
-            put(v, value);
+            put(v, value)
         } else {
-            values[index] += value;
+            values[index] += value
             if (values[index] > -epsilon && values[index] < epsilon) {
-                values[index] = 0;
-                remove(v, removeFromDefinition);
+                values[index] = 0f
+                remove(v, removeFromDefinition)
             }
         }
     }
 
-    @Override
-    public float use(ArrayRow def, boolean removeFromDefinition) {
-        float value = get(def.variable);
-        remove(def.variable, removeFromDefinition);
+    override fun use(def: ArrayRow?, removeFromDefinition: Boolean): Float {
+        val value = get(def!!.key)
+        remove(def.key, removeFromDefinition)
         if (false) {
-            ArrayRow.ArrayRowVariables definitionVariables = def.variables;
-            int definitionSize = definitionVariables.getCurrentSize();
-            for (int i = 0; i < definitionSize; i++) {
-                SolverVariable definitionVariable = definitionVariables.getVariable(i);
-                float definitionValue = definitionVariables.get(definitionVariable);
-                this.add(definitionVariable, definitionValue * value, removeFromDefinition);
+            val definitionVariables = def.variables
+            val definitionSize = definitionVariables!!.currentSize
+            for (i in 0 until definitionSize) {
+                val definitionVariable = definitionVariables.getVariable(i)
+                val definitionValue = definitionVariables[definitionVariable]
+                add(definitionVariable, definitionValue * value, removeFromDefinition)
             }
-            return value;
+            return value
         }
-        SolverVariableValues definition = (SolverVariableValues) def.variables;
-        final int definitionSize = definition.getCurrentSize();
-        int j = definition.head;
+        val definition = def.variables as SolverVariableValues?
+        val definitionSize = definition!!.currentSize
+        var j = definition.head
         if (false) {
-            for (int i = 0; i < definitionSize; i++) {
-                float definitionValue = definition.values[j];
-                SolverVariable definitionVariable = mCache.mIndexedVariables[definition.variables[j]];
-                add(definitionVariable, definitionValue * value, removeFromDefinition);
-                j = definition.next[j];
+            for (i in 0 until definitionSize) {
+                val definitionValue = definition.values[j]
+                val definitionVariable = mCache.mIndexedVariables[definition.variables[j]]!!
+                add(definitionVariable, definitionValue * value, removeFromDefinition)
+                j = definition.next[j]
                 if (j == NONE) {
-                    break;
+                    break
                 }
             }
         } else {
-            j = 0;
-            for (int i = 0; j < definitionSize; i++) {
+            j = 0
+            var i = 0
+            while (j < definitionSize) {
                 if (definition.variables[i] != NONE) {
-                    float definitionValue = definition.values[i];
-                    SolverVariable definitionVariable = mCache.mIndexedVariables[definition.variables[i]];
-                    add(definitionVariable, definitionValue * value, removeFromDefinition);
-                    j++;
+                    val definitionValue = definition.values[i]
+                    val definitionVariable = mCache.mIndexedVariables[definition.variables[i]]!!
+                    add(definitionVariable, definitionValue * value, removeFromDefinition)
+                    j++
                 }
+                i++
             }
         }
-        return value;
+        return value
     }
 
-    @Override
-    public void invert() {
-        final int count = mCount;
-        int j = head;
-        for (int i = 0; i < count; i++) {
-            values[j] *= -1;
-            j = next[j];
+    override fun invert() {
+        val count = currentSize
+        var j = head
+        for (i in 0 until count) {
+            values[j] = values[j] * -1
+            j = next[j]
             if (j == NONE) {
-                break;
+                break
             }
         }
     }
 
-    @Override
-    public void divideByAmount(float amount) {
-        final int count = mCount;
-        int j = head;
-        for (int i = 0; i < count; i++) {
-            values[j] /= amount;
-            j = next[j];
+    override fun divideByAmount(amount: Float) {
+        val count = currentSize
+        var j = head
+        for (i in 0 until count) {
+            values[j] /= amount
+            j = next[j]
             if (j == NONE) {
-                break;
+                break
             }
         }
     }
 
+    companion object {
+        private const val DEBUG = false
+        private const val HASH = true
+        private const val epsilon = 0.001f
+    }
+
+    init {
+        clear()
+    }
 }

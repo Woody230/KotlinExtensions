@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core.state
 
-package androidx.constraintlayout.core.state;
-
-public interface Interpolator {
-    float getInterpolation(float input);
+interface Interpolator {
+    fun getInterpolation(input: Float): Float
 }

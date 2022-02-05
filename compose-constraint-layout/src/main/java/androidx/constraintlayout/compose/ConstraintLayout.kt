@@ -16,10 +16,6 @@
 
 package androidx.constraintlayout.compose
 
-import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween
@@ -54,15 +50,17 @@ import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.state.*
 import androidx.constraintlayout.core.state.Dimension.*
+import androidx.constraintlayout.core.state.Dimension.Companion.SPREAD_DIMENSION
+import androidx.constraintlayout.core.state.Dimension.Companion.WRAP_DIMENSION
 import androidx.constraintlayout.core.widgets.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget.*
+import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_SPREAD
+import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_WRAP
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.*
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
-import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.TRY_GIVEN_DIMENSIONS
-import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.USE_GIVEN_DIMENSIONS
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
 import kotlinx.coroutines.channels.Channel
-import org.intellij.lang.annotations.Language
-import java.util.*
 
 /**
  * Layout that positions its children according to the constraints between them.
@@ -141,6 +139,7 @@ internal fun rememberConstraintLayoutMeasurePolicy(
 private class ConstraintSetForInlineDsl(
     val scope: ConstraintLayoutScope
 ) : ConstraintSet, RememberObserver {
+    /* TODO handler
     private var handler: Handler? = null
     private val observer = SnapshotStateObserver {
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -149,7 +148,11 @@ private class ConstraintSetForInlineDsl(
             val h = handler ?: Handler(Looper.getMainLooper()).also { h -> handler = h }
             h.post(it)
         }
+    }*/
+    private val observer = SnapshotStateObserver {
+        it()
     }
+
 
     override fun applyTo(state: State, measurables: List<Measurable>) {
         scope.applyTo(state)
@@ -630,22 +633,21 @@ internal class DimensionDescription internal constructor(
     var maxSymbol: Any? = null
     internal fun toSolverDimension(state: State) = baseDimension(state).also {
         if (minSymbol != null) {
-            it.min(minSymbol)
+            it.min(minSymbol!!)
         } else if (min != null) {
             it.min(state.convertDimension(min!!))
         }
         if (maxSymbol != null) {
-            it.max(maxSymbol)
+            it.max(maxSymbol!!)
         } else if (max != null) {
             it.max(state.convertDimension(max!!))
         }
     }
 }
 
-@SuppressLint("ComposableNaming")
 @Composable
-fun ConstraintSet(@Language("json5") content : String,
-                  @Language("json5") overrideVariables: String? = null) : ConstraintSet {
+fun ConstraintSet(content : String,
+                  overrideVariables: String? = null) : ConstraintSet {
     val constraintset = remember(content, overrideVariables) {
         JSONConstraintSet(content, overrideVariables)
     }
@@ -656,7 +658,7 @@ fun ConstraintSet(@Language("json5") content : String,
  * Handles update back to the composable
  */
 @PublishedApi
-internal abstract class EditableJSONLayout(@Language("json5") content: String) :
+internal abstract class EditableJSONLayout(content: String) :
     LayoutInformationReceiver {
     private var forcedWidth: Int = Int.MIN_VALUE
     private var forcedHeight: Int = Int.MIN_VALUE
@@ -701,16 +703,14 @@ internal abstract class EditableJSONLayout(@Language("json5") content: String) :
                         onLayoutInformation(mode)
                     }
 
-                    override fun getLastModified(): Long {
-                         return last;
-                    }
+                    override val lastModified: Long = last
 
                     override fun setDrawDebug(debugMode: Int) {
                         onDrawDebug(debugMode)
                     }
                 }
-                val registry = Registry.getInstance()
-                registry.register(debugName, callback)
+                val registry = Registry.instance
+                registry.register(debugName ?: "", callback)
             }
         } catch (e : CLParsingException) {
 
@@ -833,7 +833,7 @@ internal data class DesignElement(var id: String, var type: String, var params: 
 /**
  * Creates a [ConstraintSet] from a [jsonContent] string.
  */
-fun ConstraintSet(@Language(value = "json5") jsonContent: String): ConstraintSet =
+fun ConstraintSet(jsonContent: String): ConstraintSet =
     JSONConstraintSet(content = jsonContent)
 
 /**
@@ -842,7 +842,7 @@ fun ConstraintSet(@Language(value = "json5") jsonContent: String): ConstraintSet
  */
 fun ConstraintSet(
     extendConstraintSet: ConstraintSet,
-    @Language(value = "json5") jsonContent: String
+    jsonContent: String
 ): ConstraintSet =
     JSONConstraintSet(content = jsonContent, extendFrom = extendConstraintSet)
 
@@ -951,37 +951,42 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
         val measurable = constraintWidget.companionWidget
         if (measurable !is Measurable) return
 
+        /*
         if (DEBUG) {
             Log.d(
                 "CCL",
                 "Measuring ${measurable.layoutId} with: " +
                     constraintWidget.toDebugString() + "\n" + measure.toDebugString()
             )
-        }
+        }*/
 
         var constraints: Constraints
         run {
             val measurableLastMeasures = lastMeasures[measurable]
-            obtainConstraints(
-                measure.horizontalBehavior,
-                measure.horizontalDimension,
-                constraintWidget.mMatchConstraintDefaultWidth,
-                measure.measureStrategy,
-                (measurableLastMeasures?.get(1) ?: 0) == constraintWidget.height,
-                constraintWidget.isResolvedHorizontally,
-                state.rootIncomingConstraints.maxWidth,
-                widthConstraintsHolder
-            )
-            obtainConstraints(
-                measure.verticalBehavior,
-                measure.verticalDimension,
-                constraintWidget.mMatchConstraintDefaultHeight,
-                measure.measureStrategy,
-                (measurableLastMeasures?.get(0) ?: 0) == constraintWidget.width,
-                constraintWidget.isResolvedVertically,
-                state.rootIncomingConstraints.maxHeight,
-                heightConstraintsHolder
-            )
+            measure.horizontalBehavior?.let {
+                obtainConstraints(
+                    it,
+                    measure.horizontalDimension,
+                    constraintWidget.mMatchConstraintDefaultWidth,
+                    measure.measureStrategy,
+                    (measurableLastMeasures?.get(1) ?: 0) == constraintWidget.height,
+                    constraintWidget.isResolvedHorizontally,
+                    state.rootIncomingConstraints.maxWidth,
+                    widthConstraintsHolder
+                )
+            }
+            measure.verticalBehavior?.let {
+                obtainConstraints(
+                    it,
+                    measure.verticalDimension,
+                    constraintWidget.mMatchConstraintDefaultHeight,
+                    measure.measureStrategy,
+                    (measurableLastMeasures?.get(0) ?: 0) == constraintWidget.width,
+                    constraintWidget.isResolvedVertically,
+                    state.rootIncomingConstraints.maxHeight,
+                    heightConstraintsHolder
+                )
+            }
 
             constraints = Constraints(
                 widthConstraintsHolder[0],
@@ -998,17 +1003,20 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
             measure.verticalBehavior == MATCH_CONSTRAINT &&
             constraintWidget.mMatchConstraintDefaultHeight == MATCH_CONSTRAINT_SPREAD)
         ) {
+            /*
             if (DEBUG) {
                 Log.d("CCL", "Measuring ${measurable.layoutId} with $constraints")
             }
+             */
             val placeable = measurable.measure(constraints).also { placeables[measurable] = it }
             constraintWidget.isMeasureRequested = false
+            /*
             if (DEBUG) {
                 Log.d(
                     "CCL",
                     "${measurable.layoutId} is size ${placeable.width} ${placeable.height}"
                 )
-            }
+            }*/
 
             val coercedWidth = placeable.width.coerceIn(
                 constraintWidget.mMatchConstraintMinWidth.takeIf { it > 0 },
@@ -1039,9 +1047,10 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
                 remeasure = true
             }
             if (remeasure) {
+                /*
                 if (DEBUG) {
                     Log.d("CCL", "Remeasuring coerced ${measurable.layoutId} with $constraints")
-                }
+                }*/
                 measurable.measure(constraints).also { placeables[measurable] = it }
                 constraintWidget.isMeasureRequested = false
             }
@@ -1143,10 +1152,10 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
         }
         MATCH_CONSTRAINT -> {
             if (DEBUG) {
-                Log.d("CCL", "Measure strategy ${measureStrategy}")
+                /*Log.d("CCL", "Measure strategy ${measureStrategy}")
                 Log.d("CCL", "DW ${matchConstraintDefaultDimension}")
                 Log.d("CCL", "ODR ${otherDimensionResolved}")
-                Log.d("CCL", "IRH ${currentDimensionResolved}")
+                Log.d("CCL", "IRH ${currentDimensionResolved}")*/
             }
             val useDimension = currentDimensionResolved ||
                 (measureStrategy == TRY_GIVEN_DIMENSIONS ||
@@ -1154,9 +1163,9 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
                 (measureStrategy == USE_GIVEN_DIMENSIONS ||
                     matchConstraintDefaultDimension != MATCH_CONSTRAINT_WRAP ||
                     otherDimensionResolved)
-            if (DEBUG) {
+            /*if (DEBUG) {
                 Log.d("CCL", "UD $useDimension")
-            }
+            }*/
             outConstraints[0] = if (useDimension) dimension else 0
             outConstraints[1] = if (useDimension) dimension else rootMaxConstraint
             !useDimension
@@ -1223,11 +1232,12 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
                 child.debugName =
                     (child.companionWidget as? Measurable)?.layoutId?.toString() ?: "NOTAG"
             }
+            /*
             Log.d("CCL", "ConstraintLayout is asked to measure with $constraints")
             Log.d("CCL", root.toDebugString())
             for (child in root.children) {
                 Log.d("CCL", child.toDebugString())
-            }
+            }*/
         }
 
         // No need to set sizes and size modes as we passed them to the state above.
@@ -1241,20 +1251,21 @@ internal open class Measurer : BasicMeasure.Measurer, DesignInfoProvider {
             val currentWidth = placeable?.width
             val currentHeight = placeable?.height
             if (child.width != currentWidth || child.height != currentHeight) {
-                if (DEBUG) {
+                /*if (DEBUG) {
                     Log.d(
                         "CCL",
                         "Final measurement for ${measurable.layoutId} " +
                             "to confirm size ${child.width} ${child.height}"
                     )
-                }
+                }*/
                 measurable.measure(Constraints.fixed(child.width, child.height))
                     .also { placeables[measurable] = it }
             }
         }
+        /*
         if (DEBUG) {
             Log.d("CCL", "ConstraintLayout is at the end ${root.width} ${root.height}")
-        }
+        }*/
         return IntSize(root.width, root.height)
     }
 

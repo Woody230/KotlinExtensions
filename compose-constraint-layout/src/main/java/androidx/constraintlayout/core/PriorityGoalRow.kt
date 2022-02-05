@@ -13,256 +13,222 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core;
-
-import java.util.Arrays;
-import java.util.Comparator;
+package androidx.constraintlayout.core
 
 /**
  * Implements a row containing goals taking in account priorities.
  */
-public class PriorityGoalRow extends ArrayRow {
-    private static final float epsilon = 0.0001f;
-    private static final boolean DEBUG = false;
+class PriorityGoalRow(var mCache: Cache) : ArrayRow(mCache) {
+    private val TABLE_SIZE = 128
+    private var arrayGoals = arrayOfNulls<SolverVariable>(TABLE_SIZE)
+    private var sortArray = arrayOfNulls<SolverVariable>(TABLE_SIZE)
+    private var numGoals = 0
+    var accessor = GoalVariableAccessor(this)
 
-    private int TABLE_SIZE = 128;
-    private SolverVariable[] arrayGoals = new SolverVariable[TABLE_SIZE];
-    private SolverVariable[] sortArray = new SolverVariable[TABLE_SIZE];
-    private int numGoals = 0;
-    GoalVariableAccessor accessor = new GoalVariableAccessor(this);
-
-    class GoalVariableAccessor {
-        SolverVariable variable;
-        PriorityGoalRow row;
-
-        public GoalVariableAccessor(PriorityGoalRow row) {
-            this.row = row;
+    inner class GoalVariableAccessor(var row: PriorityGoalRow) {
+        var variable: SolverVariable? = null
+        fun init(variable: SolverVariable?) {
+            this.variable = variable
         }
 
-        public void init(SolverVariable variable) {
-            this.variable = variable;
-        }
-
-        public boolean addToGoal(SolverVariable other, float value) {
-            if (variable.inGoal) {
-                boolean empty = true;
-                for (int i = 0; i < SolverVariable.MAX_STRENGTH; i++) {
-                    variable.goalStrengthVector[i] += other.goalStrengthVector[i] * value;
-                    float v = variable.goalStrengthVector[i];
+        fun addToGoal(other: SolverVariable, value: Float): Boolean {
+            if (variable!!.inGoal) {
+                var empty = true
+                for (i in 0 until SolverVariable.MAX_STRENGTH) {
+                    variable!!.goalStrengthVector[i] += other.goalStrengthVector[i] * value
+                    val v = variable!!.goalStrengthVector[i]
                     if (Math.abs(v) < epsilon) {
-                        variable.goalStrengthVector[i] = 0;
+                        variable!!.goalStrengthVector[i] = 0f
                     } else {
-                        empty = false;
+                        empty = false
                     }
                 }
                 if (empty) {
-                    removeGoal(variable);
+                    removeGoal(variable)
                 }
             } else {
-                for (int i = 0; i < SolverVariable.MAX_STRENGTH; i++) {
-                    float strength = other.goalStrengthVector[i];
-                    if (strength != 0) {
-                        float v = value * strength;
+                for (i in 0 until SolverVariable.MAX_STRENGTH) {
+                    val strength = other.goalStrengthVector[i]
+                    if (strength != 0f) {
+                        var v = value * strength
                         if (Math.abs(v) < epsilon) {
-                            v = 0;
+                            v = 0f
                         }
-                        variable.goalStrengthVector[i] = v;
+                        variable!!.goalStrengthVector[i] = v
                     } else {
-                        variable.goalStrengthVector[i] = 0;
+                        variable!!.goalStrengthVector[i] = 0f
                     }
                 }
-                return true;
+                return true
             }
-            return false;
+            return false
         }
 
-        public void add(SolverVariable other) {
-            for (int i = 0; i < SolverVariable.MAX_STRENGTH; i++) {
-                variable.goalStrengthVector[i] += other.goalStrengthVector[i];
-                float value = variable.goalStrengthVector[i];
+        fun add(other: SolverVariable) {
+            for (i in 0 until SolverVariable.MAX_STRENGTH) {
+                variable!!.goalStrengthVector[i] += other.goalStrengthVector[i]
+                val value = variable!!.goalStrengthVector[i]
                 if (Math.abs(value) < epsilon) {
-                    variable.goalStrengthVector[i] = 0;
+                    variable!!.goalStrengthVector[i] = 0f
                 }
             }
         }
 
-        public final boolean isNegative() {
-            for (int i = SolverVariable.MAX_STRENGTH - 1; i >= 0; i--) {
-                float value = variable.goalStrengthVector[i];
-                if (value > 0) {
-                    return false;
+        val isNegative: Boolean
+            get() {
+                for (i in SolverVariable.MAX_STRENGTH - 1 downTo 0) {
+                    val value = variable!!.goalStrengthVector[i]
+                    if (value > 0) {
+                        return false
+                    }
+                    if (value < 0) {
+                        return true
+                    }
                 }
-                if (value < 0) {
-                    return true;
-                }
+                return false
             }
-            return false;
-        }
 
-        public final boolean isSmallerThan(SolverVariable other) {
-            for (int i = SolverVariable.MAX_STRENGTH - 1; i >= 0 ; i--) {
-                float comparedValue = other.goalStrengthVector[i];
-                float value = variable.goalStrengthVector[i];
+        fun isSmallerThan(other: SolverVariable?): Boolean {
+            for (i in SolverVariable.MAX_STRENGTH - 1 downTo 0) {
+                val comparedValue = other!!.goalStrengthVector[i]
+                val value = variable!!.goalStrengthVector[i]
                 if (value == comparedValue) {
-                    continue;
+                    continue
                 }
-                if (value < comparedValue) {
-                    return true;
+                return if (value < comparedValue) {
+                    true
                 } else {
-                    return false;
+                    false
                 }
             }
-            return false;
+            return false
         }
 
-        public final boolean isNull() {
-            for (int i = 0; i < SolverVariable.MAX_STRENGTH; i++) {
-                if (variable.goalStrengthVector[i] != 0) {
-                    return false;
+        val isNull: Boolean
+            get() {
+                for (i in 0 until SolverVariable.MAX_STRENGTH) {
+                    if (variable!!.goalStrengthVector[i] != 0f) {
+                        return false
+                    }
                 }
+                return true
             }
-            return true;
+
+        fun reset() {
+            variable?.goalStrengthVector?.fill(0f)
         }
 
-        public void reset() {
-            Arrays.fill(variable.goalStrengthVector, 0);
-        }
-
-        public String toString() {
-            String result = "[ ";
+        override fun toString(): String {
+            var result = "[ "
             if (variable != null) {
-                for (int i = 0; i < SolverVariable.MAX_STRENGTH; i++) {
-                    result += variable.goalStrengthVector[i] + " ";
+                for (i in 0 until SolverVariable.MAX_STRENGTH) {
+                    result += variable!!.goalStrengthVector[i].toString() + " "
                 }
             }
-            result += "] " + variable;
-            return result;
+            result += "] $variable"
+            return result
         }
-
     }
 
-    @Override
-    public void clear() {
-        numGoals = 0;
-        constantValue = 0;
+    override fun clear() {
+        numGoals = 0
+        constantValue = 0f
     }
 
-    Cache mCache;
+    override val isEmpty: Boolean
+        get() = numGoals == 0
 
-    public PriorityGoalRow(Cache cache) {
-        super(cache);
-        mCache = cache;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return numGoals == 0;
-    }
-
-    final static int NOT_FOUND = -1;
-
-    @Override
-    public SolverVariable getPivotCandidate(LinearSystem system, boolean[] avoid) {
-        int pivot = NOT_FOUND;
-        for (int i = 0; i < numGoals; i++) {
-            SolverVariable variable = arrayGoals[i];
-            if (avoid[variable.id]) {
-                continue;
+    override fun getPivotCandidate(system: LinearSystem?, avoid: BooleanArray?): SolverVariable? {
+        var pivot = NOT_FOUND
+        for (i in 0 until numGoals) {
+            val variable = arrayGoals[i]
+            if (avoid!![variable!!.id]) {
+                continue
             }
-            accessor.init(variable);
+            accessor.init(variable)
             if (pivot == NOT_FOUND) {
-                if (accessor.isNegative())  {
-                    pivot = i;
+                if (accessor.isNegative) {
+                    pivot = i
                 }
             } else if (accessor.isSmallerThan(arrayGoals[pivot])) {
-                pivot = i;
+                pivot = i
             }
         }
-        if (pivot == NOT_FOUND) {
-            return null;
-        }
-        return arrayGoals[pivot];
+        return if (pivot == NOT_FOUND) {
+            null
+        } else arrayGoals[pivot]
     }
 
-    @Override
-    public void addError(SolverVariable error) {
-        accessor.init(error);
-        accessor.reset();
-        error.goalStrengthVector[error.strength] = 1;
-        addToGoal(error);
+    override fun addError(error: SolverVariable?) {
+        accessor.init(error)
+        accessor.reset()
+        error!!.goalStrengthVector[error.strength] = 1f
+        addToGoal(error)
     }
 
-    private final void addToGoal(SolverVariable variable) {
-        if (numGoals + 1> arrayGoals.length) {
-            arrayGoals = Arrays.copyOf(arrayGoals, arrayGoals.length * 2);
-            sortArray = Arrays.copyOf(arrayGoals, arrayGoals.length * 2);
+    private fun addToGoal(variable: SolverVariable?) {
+        if (numGoals + 1 > arrayGoals.size) {
+            arrayGoals = arrayGoals.copyOf(arrayGoals.size * 2)
+            sortArray = arrayGoals.copyOf(arrayGoals.size * 2)
         }
-        arrayGoals[numGoals] = variable;
-        numGoals++;
-
-        if (numGoals > 1 && arrayGoals[numGoals - 1].id > variable.id) {
-            for (int i = 0; i < numGoals; i++) {
-                sortArray[i] = arrayGoals[i];
+        arrayGoals[numGoals] = variable
+        numGoals++
+        if (numGoals > 1 && arrayGoals[numGoals - 1]!!.id > variable!!.id) {
+            for (i in 0 until numGoals) {
+                sortArray[i] = arrayGoals[i]
             }
-            Arrays.sort(sortArray, 0, numGoals, new Comparator<SolverVariable>() {
-                @Override
-                public int compare(SolverVariable variable1, SolverVariable variable2) {
-                    return variable1.id - variable2.id;
+            sortArray.sort(fromIndex = 0, toIndex = numGoals)
+            for (i in 0 until numGoals) {
+                arrayGoals[i] = sortArray[i]
+            }
+        }
+        variable!!.inGoal = true
+        variable.addToRow(this)
+    }
+
+    private fun removeGoal(variable: SolverVariable?) {
+        for (i in 0 until numGoals) {
+            if (arrayGoals[i] === variable) {
+                for (j in i until numGoals - 1) {
+                    arrayGoals[j] = arrayGoals[j + 1]
                 }
-            });
-            for (int i = 0; i < numGoals; i++) {
-                arrayGoals[i] = sortArray[i];
-            }
-        }
-
-        variable.inGoal = true;
-        variable.addToRow(this);
-    }
-
-    private final void removeGoal(SolverVariable variable) {
-        for (int i = 0; i < numGoals; i++) {
-            if (arrayGoals[i] == variable) {
-                for (int j = i; j < numGoals - 1; j++) {
-                    arrayGoals[j] = arrayGoals[j + 1];
-                }
-                numGoals--;
-                variable.inGoal = false;
-                return;
+                numGoals--
+                variable!!.inGoal = false
+                return
             }
         }
     }
 
-    @Override
-    public void updateFromRow(LinearSystem system, ArrayRow definition, boolean removeFromDefinition) {
-        SolverVariable goalVariable = definition.variable;
-        if (goalVariable == null) {
-            return;
-        }
-
-        ArrayRowVariables rowVariables = definition.variables;
-        int currentSize = rowVariables.getCurrentSize();
-        for (int i = 0; i < currentSize; i++) {
-            SolverVariable solverVariable = rowVariables.getVariable(i);
-            float value = rowVariables.getVariableValue(i);
-            accessor.init(solverVariable);
+    override fun updateFromRow(system: LinearSystem?, definition: ArrayRow?, removeFromDefinition: Boolean) {
+        val goalVariable = definition!!.key ?: return
+        val rowVariables = definition.variables
+        val currentSize = rowVariables!!.currentSize
+        for (i in 0 until currentSize) {
+            val solverVariable = rowVariables.getVariable(i)
+            val value = rowVariables.getVariableValue(i)
+            accessor.init(solverVariable)
             if (accessor.addToGoal(goalVariable, value)) {
-                addToGoal(solverVariable);
+                addToGoal(solverVariable)
             }
-            constantValue += definition.constantValue * value;
+            constantValue += definition.constantValue * value
         }
-        removeGoal(goalVariable);
+        removeGoal(goalVariable)
     }
 
-    @Override
-    public String toString() {
-        String result = "";
-        result += " goal -> (" + constantValue + ") : ";
-        for (int i = 0; i < numGoals; i++) {
-            SolverVariable v = arrayGoals[i];
-            accessor.init(v);
-            result += accessor + " ";
+    override fun toString(): String {
+        var result = ""
+        result += " goal -> ($constantValue) : "
+        for (i in 0 until numGoals) {
+            val v = arrayGoals[i]
+            accessor.init(v)
+            result += "$accessor "
         }
-        return result;
+        return result
+    }
+
+    companion object {
+        private const val epsilon = 0.0001f
+        private const val DEBUG = false
+        const val NOT_FOUND = -1
     }
 }

@@ -13,20 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package androidx.constraintlayout.core
 
-package androidx.constraintlayout.core;
-
-public class GoalRow extends ArrayRow {
-
-    public GoalRow(Cache cache) {
-        super(cache);
-    }
-
-    @Override
-    public void addError(SolverVariable error) {
-        super.addError(error);
+class GoalRow(cache: Cache) : ArrayRow(cache) {
+    override fun addError(error: SolverVariable?) {
+        super.addError(error)
         // error variables in the goal shouldn't be tracked (we only care if they are
         // in the system rows)
-        error.usageInRowCount--;
+        error!!.usageInRowCount--
     }
 }

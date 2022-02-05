@@ -92,7 +92,7 @@ internal abstract class BaseVerticalAnchorable(
                 verticalAnchorFunctions[index1][index2]
                     .invoke(this, anchor.id, state.layoutDirection)
                     .margin(margin)
-                    .marginGone(goneMargin)
+                    ?.marginGone(goneMargin)
             }
         }
     }
@@ -114,7 +114,7 @@ internal abstract class BaseHorizontalAnchorable(
                 AnchorFunctions.horizontalAnchorFunctions[index][anchor.index]
                     .invoke(this, anchor.id)
                     .margin(margin)
-                    .marginGone(goneMargin)
+                    ?.marginGone(goneMargin)
             }
         }
     }

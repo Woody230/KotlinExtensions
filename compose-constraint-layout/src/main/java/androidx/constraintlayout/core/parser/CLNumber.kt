@@ -13,70 +13,68 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package androidx.constraintlayout.core.parser;
+package androidx.constraintlayout.core.parser
 
-public class CLNumber extends CLElement {
+class CLNumber : CLElement {
+    var value = Float.NaN
 
-  float value = Float.NaN;
-  public CLNumber(char[] content) {
-    super(content);
-  }
-
-  public CLNumber(float value) {
-    super(null);
-    this.value = value;
-  }
-
-  public static CLElement allocate(char[] content) {
-    return new CLNumber(content);
-  }
-
-  protected String toJSON() {
-    float value = getFloat();
-    int intValue = (int) value;
-    if ((float) intValue == value) {
-      return "" + intValue;
+    constructor(content: CharArray) : super(content) {}
+    constructor(value: Float) : super(charArrayOf()) {
+        this.value = value
     }
-    return "" + value;
-  }
 
-  protected String toFormattedJSON(int indent, int forceIndent) {
-    StringBuilder json = new StringBuilder();
-    addIndent(json, indent);
-    float value = getFloat();
-    int intValue = (int) value;
-    if ((float) intValue == value) {
-      json.append(intValue);
-    } else {
-      json.append(value);
+    override fun toJSON(): String {
+        val value = float
+        val intValue = value.toInt()
+        return if (intValue.toFloat() == value) {
+            "" + intValue
+        } else "" + value
     }
-    return json.toString();
-  }
 
-  public boolean isInt() {
-    float value = getFloat();
-    int intValue = (int) value;
-    return ((float) intValue == value);
-  }
-
-  @Override
-  public int getInt() {
-    if (Float.isNaN(value)) {
-      value = Integer.parseInt(content());
+    override fun toFormattedJSON(indent: Int, forceIndent: Int): String {
+        val json = StringBuilder()
+        addIndent(json, indent)
+        val value = float
+        val intValue = value.toInt()
+        if (intValue.toFloat() == value) {
+            json.append(intValue)
+        } else {
+            json.append(value)
+        }
+        return json.toString()
     }
-    return (int) value;
-  }
 
-  @Override
-  public float getFloat() {
-    if (Float.isNaN(value)) {
-      value = Float.parseFloat(content());
+    val isInt: Boolean
+        get() {
+            val value = float
+            val intValue = value.toInt()
+            return intValue.toFloat() == value
+        }
+
+    override val int: Int
+        get() {
+            if (java.lang.Float.isNaN(value)) {
+                value = content().toInt().toFloat()
+            }
+            return value.toInt()
+        }
+
+    override val float: Float
+        get() {
+            if (java.lang.Float.isNaN(value)) {
+                value = content().toFloat()
+            }
+            return value
+        }
+
+    fun putValue(value: Float) {
+        this.value = value
     }
-    return value;
-  }
 
-  public void putValue(float value) {
-    this.value = value;
-  }
-
+    companion object {
+        @JvmStatic
+        fun allocate(content: CharArray): CLElement {
+            return CLNumber(content)
+        }
+    }
 }

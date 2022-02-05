@@ -13,315 +13,297 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package androidx.constraintlayout.core;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
-import static androidx.constraintlayout.core.LinearSystem.FULL_DEBUG;
+package androidx.constraintlayout.core
 
 /**
- * Represents a given variable used in the {@link LinearSystem linear expression solver}.
+ * Represents a given variable used in the [linear expression solver][LinearSystem].
  */
-public class SolverVariable implements Comparable<SolverVariable> {
-
-    private static final boolean INTERNAL_DEBUG = FULL_DEBUG;
-    private static final boolean VAR_USE_HASH = false;
-
-    @SuppressWarnings("WeakerAccess")
-    public static final int STRENGTH_NONE = 0;
-    public static final int STRENGTH_LOW = 1;
-    public static final int STRENGTH_MEDIUM = 2;
-    public static final int STRENGTH_HIGH = 3;
-    @SuppressWarnings("WeakerAccess")
-    public static final int STRENGTH_HIGHEST = 4;
-    public static final int STRENGTH_EQUALITY = 5;
-    public static final int STRENGTH_BARRIER = 6;
-    public static final int STRENGTH_CENTERING = 7;
-    public static final int STRENGTH_FIXED = 8;
-
-    private static int uniqueSlackId = 1;
-    private static int uniqueErrorId = 1;
-    private static int uniqueUnrestrictedId = 1;
-    private static int uniqueConstantId = 1;
-    private static int uniqueId = 1;
-    public boolean inGoal;
-
-    private String mName;
-
-    public int id = -1;
-    int definitionId = -1;
-    public int strength = 0;
-    public float computedValue;
-    public boolean isFinalValue = false;
-
-    final static int MAX_STRENGTH = 9;
-    float[] strengthVector = new float[MAX_STRENGTH];
-    float[] goalStrengthVector = new float[MAX_STRENGTH];
-
-    Type mType;
-
-    ArrayRow[] mClientEquations = new ArrayRow[16];
-    int mClientEquationsCount = 0;
-    public int usageInRowCount = 0;
-    boolean isSynonym = false;
-    int synonym = -1;
-    float synonymDelta = 0;
-
-    /**
-     * Type of variables
-     */
-    public enum Type {
-        /**
-         * The variable can take negative or positive values
-         */
-        UNRESTRICTED,
-        /**
-         * The variable is actually not a variable :) , but a constant number
-         */
-        CONSTANT,
-        /**
-         * The variable is restricted to positive values and represents a slack
-         */
-        SLACK,
-        /**
-         * The variable is restricted to positive values and represents an error
-         */
-        ERROR,
-        /**
-         * Unknown (invalid) type.
-         */
-        UNKNOWN
-    }
-
-    static void increaseErrorId() {
-        uniqueErrorId++;
-    }
-
-    private static String getUniqueName(Type type, String prefix) {
-        if (prefix != null) {
-            return prefix + uniqueErrorId;
-        }
-        switch (type) {
-            case UNRESTRICTED: return "U" + ++uniqueUnrestrictedId;
-            case CONSTANT: return "C" + ++uniqueConstantId;
-            case SLACK: return "S" + ++uniqueSlackId;
-            case ERROR: {
-                return "e" + ++uniqueErrorId;
-            }
-            case UNKNOWN:
-                return "V" + ++uniqueId;
-        }
-        throw new AssertionError(type.name());
-    }
-
-    /**
-     * Base constructor
-     *  @param name the variable name
-     * @param type the type of the variable
-     */
-    public SolverVariable(String name, Type type) {
-        mName = name;
-        mType = type;
-    }
-
-    public SolverVariable(Type type, String prefix) {
-        mType = type;
-        if (INTERNAL_DEBUG) {
-            //mName = getUniqueName(type, prefix);
-        }
-    }
-
-    void clearStrengths() {
-        for (int i = 0; i < MAX_STRENGTH; i++) {
-            strengthVector[i] = 0;
-        }
-    }
-
-    String strengthsToString() {
-        String representation = this + "[";
-        boolean negative = false;
-        boolean empty = true;
-        for (int j = 0; j < strengthVector.length; j++) {
-            representation += strengthVector[j];
-            if (strengthVector[j] > 0) {
-                negative = false;
-            } else if (strengthVector[j] < 0) {
-                negative = true;
-            }
-            if (strengthVector[j] != 0) {
-                empty = false;
-            }
-            if (j < strengthVector.length - 1) {
-                representation += ", ";
-            } else {
-                representation += "] ";
-            }
-        }
-        if (negative) {
-            representation += " (-)";
-        }
-        if (empty) {
-            representation += " (*)";
-        }
-        // representation += " {id: " + id + "}";
-        return representation;
-    }
-
-    HashSet<ArrayRow> inRows = VAR_USE_HASH ? new HashSet<ArrayRow>() : null;
-
-    public final void addToRow(ArrayRow row) {
-        if (VAR_USE_HASH) {
-            inRows.add(row);
-        } else {
-            for (int i = 0; i < mClientEquationsCount; i++) {
-                if (mClientEquations[i] == row) {
-                    return;
-                }
-            }
-            if (mClientEquationsCount >= mClientEquations.length) {
-                mClientEquations = Arrays.copyOf(mClientEquations, mClientEquations.length * 2);
-            }
-            mClientEquations[mClientEquationsCount] = row;
-            mClientEquationsCount++;
-        }
-    }
-
-    public final void removeFromRow(ArrayRow row) {
-        if (VAR_USE_HASH) {
-            inRows.remove(row);
-        } else {
-            final int count = mClientEquationsCount;
-            for (int i = 0; i < count; i++) {
-                if (mClientEquations[i] == row) {
-                    for (int j = i; j < count - 1; j++) {
-                        mClientEquations[j] = mClientEquations[j + 1];
-                    }
-                    mClientEquationsCount--;
-                    return;
-                }
-            }
-        }
-    }
-
-    public final void updateReferencesWithNewDefinition(LinearSystem system, ArrayRow definition) {
-        if (VAR_USE_HASH) {
-            for (ArrayRow row : inRows) {
-                row.updateFromRow(system, definition, false);
-            }
-            inRows.clear();
-        } else {
-            final int count = mClientEquationsCount;
-            for (int i = 0; i < count; i++) {
-                mClientEquations[i].updateFromRow(system, definition, false);
-            }
-            mClientEquationsCount = 0;
-        }
-    }
-
-    public void setFinalValue(LinearSystem system, float value) {
-        if (false && INTERNAL_DEBUG) {
-            System.out.println("Set final value for " + this + " of "+ value);
-        }
-        computedValue = value;
-        isFinalValue = true;
-        isSynonym = false;
-        synonym = -1;
-        synonymDelta = 0;
-        final int count = mClientEquationsCount;
-        definitionId = -1;
-        for (int i = 0; i < count; i++) {
-            mClientEquations[i].updateFromFinalVariable(system,this, false);
-        }
-        mClientEquationsCount = 0;
-    }
-
-    public void setSynonym(LinearSystem system, SolverVariable synonymVariable, float value) {
-        if (INTERNAL_DEBUG) {
-            System.out.println("Set synonym for " + this + " = " + synonymVariable + " + " + value);
-        }
-        isSynonym = true;
-        synonym = synonymVariable.id;
-        synonymDelta = value;
-        final int count = mClientEquationsCount;
-        definitionId = -1;
-        for (int i = 0; i < count; i++) {
-            mClientEquations[i].updateFromSynonymVariable(system,this, false);
-        }
-        mClientEquationsCount = 0;
-        system.displayReadableRows();
-    }
-
-    public void reset() {
-        mName = null;
-        mType = Type.UNKNOWN;
-        strength = SolverVariable.STRENGTH_NONE;
-        id = -1;
-        definitionId = -1;
-        computedValue = 0;
-        isFinalValue = false;
-        isSynonym = false;
-        synonym = -1;
-        synonymDelta = 0;
-        if (VAR_USE_HASH) {
-            inRows.clear();
-        } else {
-            final int count = mClientEquationsCount;
-            for (int i = 0; i < count; i++) {
-                mClientEquations[i] = null;
-            }
-            mClientEquationsCount = 0;
-        }
-        usageInRowCount = 0;
-        inGoal = false;
-        Arrays.fill(goalStrengthVector, 0);
-    }
+class SolverVariable : Comparable<SolverVariable> {
+    var inGoal = false
 
     /**
      * Accessor for the name
      *
      * @return the name of the variable
      */
-    public String getName() {
-        return mName;
+    var name: String? = null
+    @JvmField
+    var id = -1
+    var definitionId = -1
+    var strength = 0
+    var computedValue = 0f
+    var isFinalValue = false
+    var strengthVector = FloatArray(MAX_STRENGTH)
+    var goalStrengthVector = FloatArray(MAX_STRENGTH)
+    var mType: Type
+    var mClientEquations = arrayOfNulls<ArrayRow>(16)
+    var mClientEquationsCount = 0
+    @JvmField
+    var usageInRowCount = 0
+    var isSynonym = false
+    var synonym = -1
+    var synonymDelta = 0f
+
+    /**
+     * Type of variables
+     */
+    enum class Type {
+        /**
+         * The variable can take negative or positive values
+         */
+        UNRESTRICTED,
+
+        /**
+         * The variable is actually not a variable :) , but a constant number
+         */
+        CONSTANT,
+
+        /**
+         * The variable is restricted to positive values and represents a slack
+         */
+        SLACK,
+
+        /**
+         * The variable is restricted to positive values and represents an error
+         */
+        ERROR,
+
+        /**
+         * Unknown (invalid) type.
+         */
+        UNKNOWN
     }
 
-    public void setName(String name) { mName = name; }
-    public void setType(Type type, String prefix) {
-        mType = type;
-        if (INTERNAL_DEBUG && mName == null) {
-            mName = getUniqueName(type, prefix);
+    /**
+     * Base constructor
+     * @param name the variable name
+     * @param type the type of the variable
+     */
+    constructor(name: String?, type: Type) {
+        this.name = name
+        mType = type
+    }
+
+    constructor(type: Type, prefix: String?) {
+        mType = type
+        if (INTERNAL_DEBUG) {
+            //mName = getUniqueName(type, prefix);
         }
     }
 
-    @Override
-    public int compareTo(SolverVariable v) {
-        return this.id - v.id;
+    fun clearStrengths() {
+        for (i in 0 until MAX_STRENGTH) {
+            strengthVector[i] = 0f
+        }
+    }
+
+    fun strengthsToString(): String {
+        var representation = "$this["
+        var negative = false
+        var empty = true
+        for (j in strengthVector.indices) {
+            representation += strengthVector[j]
+            if (strengthVector[j] > 0) {
+                negative = false
+            } else if (strengthVector[j] < 0) {
+                negative = true
+            }
+            if (strengthVector[j] != 0f) {
+                empty = false
+            }
+            representation += if (j < strengthVector.size - 1) {
+                ", "
+            } else {
+                "] "
+            }
+        }
+        if (negative) {
+            representation += " (-)"
+        }
+        if (empty) {
+            representation += " (*)"
+        }
+        // representation += " {id: " + id + "}";
+        return representation
+    }
+
+    var inRows = if (VAR_USE_HASH) HashSet<ArrayRow>() else null
+    fun addToRow(row: ArrayRow) {
+        if (VAR_USE_HASH) {
+            inRows!!.add(row)
+        } else {
+            for (i in 0 until mClientEquationsCount) {
+                if (mClientEquations[i] === row) {
+                    return
+                }
+            }
+            if (mClientEquationsCount >= mClientEquations.size) {
+                mClientEquations = mClientEquations.copyOf(mClientEquations.size * 2)
+            }
+            mClientEquations[mClientEquationsCount] = row
+            mClientEquationsCount++
+        }
+    }
+
+    fun removeFromRow(row: ArrayRow) {
+        if (VAR_USE_HASH) {
+            inRows!!.remove(row)
+        } else {
+            val count = mClientEquationsCount
+            for (i in 0 until count) {
+                if (mClientEquations[i] === row) {
+                    for (j in i until count - 1) {
+                        mClientEquations[j] = mClientEquations[j + 1]
+                    }
+                    mClientEquationsCount--
+                    return
+                }
+            }
+        }
+    }
+
+    fun updateReferencesWithNewDefinition(system: LinearSystem?, definition: ArrayRow?) {
+        if (VAR_USE_HASH) {
+            for (row in inRows!!) {
+                row.updateFromRow(system, definition, false)
+            }
+            inRows!!.clear()
+        } else {
+            val count = mClientEquationsCount
+            for (i in 0 until count) {
+                mClientEquations[i]!!.updateFromRow(system, definition, false)
+            }
+            mClientEquationsCount = 0
+        }
+    }
+
+    fun setFinalValue(system: LinearSystem?, value: Float) {
+        if (false && INTERNAL_DEBUG) {
+            println("Set final value for $this of $value")
+        }
+        computedValue = value
+        isFinalValue = true
+        isSynonym = false
+        synonym = -1
+        synonymDelta = 0f
+        val count = mClientEquationsCount
+        definitionId = -1
+        for (i in 0 until count) {
+            mClientEquations[i]!!.updateFromFinalVariable(system, this, false)
+        }
+        mClientEquationsCount = 0
+    }
+
+    fun setSynonym(system: LinearSystem, synonymVariable: SolverVariable, value: Float) {
+        if (INTERNAL_DEBUG) {
+            println("Set synonym for $this = $synonymVariable + $value")
+        }
+        isSynonym = true
+        synonym = synonymVariable.id
+        synonymDelta = value
+        val count = mClientEquationsCount
+        definitionId = -1
+        for (i in 0 until count) {
+            mClientEquations[i]!!.updateFromSynonymVariable(system, this, false)
+        }
+        mClientEquationsCount = 0
+        system.displayReadableRows()
+    }
+
+    fun reset() {
+        name = null
+        mType = Type.UNKNOWN
+        strength = STRENGTH_NONE
+        id = -1
+        definitionId = -1
+        computedValue = 0f
+        isFinalValue = false
+        isSynonym = false
+        synonym = -1
+        synonymDelta = 0f
+        if (VAR_USE_HASH) {
+            inRows!!.clear()
+        } else {
+            val count = mClientEquationsCount
+            for (i in 0 until count) {
+                mClientEquations[i] = null
+            }
+            mClientEquationsCount = 0
+        }
+        usageInRowCount = 0
+        inGoal = false
+        goalStrengthVector.fill(0f)
+    }
+
+    fun setType(type: Type, prefix: String?) {
+        mType = type
+        if (INTERNAL_DEBUG && name == null) {
+            name = getUniqueName(type, prefix)
+        }
+    }
+
+    override fun compareTo(v: SolverVariable): Int {
+        return id - v.id
     }
 
     /**
      * Override the toString() method to display the variable
      */
-    @Override
-    public String toString() {
-        String result = "";
+    override fun toString(): String {
+        var result = ""
         if (INTERNAL_DEBUG) {
-            result += mName + "(" + id + "):" + strength;
+            result += name + "(" + id + "):" + strength
             if (isSynonym) {
-                result += ":S(" + synonym + ")";
+                result += ":S($synonym)"
             }
             if (isFinalValue) {
-                result += ":F(" + computedValue + ")";
+                result += ":F($computedValue)"
             }
         } else {
-            if (mName != null) {
-                result += mName;
+            if (name != null) {
+                result += name
             } else {
-                result += id;
+                result += id
             }
         }
-        return result;
+        return result
     }
 
+    companion object {
+        private const val INTERNAL_DEBUG = LinearSystem.FULL_DEBUG
+        private const val VAR_USE_HASH = false
+        const val STRENGTH_NONE = 0
+        const val STRENGTH_LOW = 1
+        const val STRENGTH_MEDIUM = 2
+        const val STRENGTH_HIGH = 3
+        const val STRENGTH_HIGHEST = 4
+        const val STRENGTH_EQUALITY = 5
+        const val STRENGTH_BARRIER = 6
+        const val STRENGTH_CENTERING = 7
+        const val STRENGTH_FIXED = 8
+        private var uniqueSlackId = 1
+        private var uniqueErrorId = 1
+        private var uniqueUnrestrictedId = 1
+        private var uniqueConstantId = 1
+        private var uniqueId = 1
+        const val MAX_STRENGTH = 9
+        fun increaseErrorId() {
+            uniqueErrorId++
+        }
+
+        private fun getUniqueName(type: Type, prefix: String?): String {
+            return if (prefix != null) {
+                prefix + uniqueErrorId
+            } else when (type) {
+                Type.UNRESTRICTED -> "U" + ++uniqueUnrestrictedId
+                Type.CONSTANT -> "C" + ++uniqueConstantId
+                Type.SLACK -> "S" + ++uniqueSlackId
+                Type.ERROR -> {
+                    "e" + ++uniqueErrorId
+                }
+                Type.UNKNOWN -> "V" + ++uniqueId
+            }
+            throw AssertionError(type.name)
+        }
+    }
 }

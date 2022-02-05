@@ -82,9 +82,11 @@ internal class JSONConstraintSet(
                 val variables = CLParser.parse(overrideVariables)
                 for (i in 0..variables.size() - 1) {
                     val key = variables[i] as CLKey
-                    val variable = key.value.float
-                    // TODO: allow arbitrary override, not just float values
-                    layoutVariables.putOverride(key.content(), variable)
+                    key.value?.float?.let { variable ->
+
+                        // TODO: allow arbitrary override, not just float values
+                        layoutVariables.putOverride(key.content(), variable)
+                    }
                 }
             } catch (e: CLParsingException) {
                 System.err.println("exception: " + e)
