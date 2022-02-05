@@ -143,7 +143,7 @@ abstract class TimeCycleSplineSet constructor() {
                 mContinue = mContinue or (mTempValues.get(i) != 0f)
                 mCache[i] = mTempValues.get(i) * wave + offset
             }
-            view.setInterpolatedValue(mConstraintAttributeList.valueAt(0), mCache)
+            mConstraintAttributeList.valueAt(0)?.let { view.setInterpolatedValue(it, mCache) }
             if (period != 0.0f) {
                 mContinue = true
             }

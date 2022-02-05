@@ -18,7 +18,9 @@ package androidx.constraintlayout.core.motion.key
 import androidx.constraintlayout.core.motion.utils.SplineSet
 import androidx.constraintlayout.core.motion.utils.SplineSet.CustomSpline
 import androidx.constraintlayout.core.motion.utils.TypedValues.*
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.S_CUSTOM
+import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.S_CUSTOM
+import androidx.constraintlayout.core.motion.utils.TypedValues.Companion.TYPE_FRAME_POSITION
+import androidx.constraintlayout.core.motion.utils.TypedValues.Companion.TYPE_TARGET
 
 class MotionKeyAttributes : MotionKey() {
     private var mTransitionEasing: String? = null
@@ -89,7 +91,7 @@ class MotionKeyAttributes : MotionKey() {
         }
     }
 
-    override fun addValues(splines: HashMap<String, SplineSet?>) {
+    override fun addValues(splines: HashMap<String, SplineSet>) {
         for (s in splines.keys) {
             val splineSet = splines[s] ?: continue
             // TODO support custom
@@ -237,7 +239,7 @@ class MotionKeyAttributes : MotionKey() {
         }
     }
 
-    override fun setValue(type: Int, value: String): Boolean {
+    override fun setValue(type: Int, value: String?): Boolean {
         when (type) {
             AttributesType.TYPE_EASING -> mTransitionEasing = value
             TYPE_TARGET -> mTargetString = value
@@ -246,7 +248,7 @@ class MotionKeyAttributes : MotionKey() {
         return true
     }
 
-    override fun getId(name: String): Int {
+    override fun getId(name: String?): Int {
         return AttributesType.getId(name)
     }
 

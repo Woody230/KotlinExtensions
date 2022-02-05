@@ -23,7 +23,7 @@ import java.lang.Exception
 import java.util.ArrayList
 import java.util.HashMap
 
-open class ConstraintReference(val mState: State) : Reference {
+open class ConstraintReference(open val mState: State) : Reference {
     override var key: Any? = null
 
     interface ConstraintReferenceFactory {
@@ -786,8 +786,8 @@ open class ConstraintReference(val mState: State) : Reference {
         if (mFacade != null) {
             mFacade!!.apply()
         }
-        width.apply(mState, mConstraintWidget, ConstraintWidget.HORIZONTAL)
-        height.apply(mState, mConstraintWidget, ConstraintWidget.VERTICAL)
+        width.apply(mState, mConstraintWidget!!, ConstraintWidget.HORIZONTAL)
+        height.apply(mState, mConstraintWidget!!, ConstraintWidget.VERTICAL)
         dereference()
         applyConnection(mConstraintWidget!!, mLeftToLeft, State.Constraint.LEFT_TO_LEFT)
         applyConnection(mConstraintWidget!!, mLeftToRight, State.Constraint.LEFT_TO_RIGHT)

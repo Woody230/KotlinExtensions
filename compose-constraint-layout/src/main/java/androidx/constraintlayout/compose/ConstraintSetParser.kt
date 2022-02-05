@@ -27,12 +27,15 @@ import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.parser.CLString
 import androidx.constraintlayout.core.state.ConstraintReference
 import androidx.constraintlayout.core.state.Dimension
-import androidx.constraintlayout.core.state.Dimension.*
+import androidx.constraintlayout.core.state.Dimension.Companion.Fixed
+import androidx.constraintlayout.core.state.Dimension.Companion.SPREAD_DIMENSION
+import androidx.constraintlayout.core.state.Dimension.Companion.WRAP_DIMENSION
+import androidx.constraintlayout.core.state.Dimension.Companion.Wrap
+import androidx.constraintlayout.core.state.HelperReference
 import androidx.constraintlayout.core.state.State.Chain.*
 import androidx.constraintlayout.core.state.Transition
 import androidx.constraintlayout.core.state.helpers.GuidelineReference
 import androidx.constraintlayout.core.widgets.ConstraintWidget
-import java.lang.Long.parseLong
 
 internal const val PARSER_DEBUG = false
 
@@ -706,7 +709,7 @@ internal fun parseVariables(state: State, layoutVariables: LayoutVariables, json
                 layoutVariables.put(elementName, arrayIds)
             } else if (element.has("tag")) {
                 val arrayIds = state.getIdsForTag(element.getString("tag"))
-                layoutVariables.put(elementName, arrayIds)
+                layoutVariables.put(elementName, arrayIds ?: ArrayList())
             }
         }
     }
@@ -853,7 +856,7 @@ private fun parseGuidelineParams(
     } else {
         state.verticalGuideline(guidelineId)
     }
-    val guidelineReference = reference.facade as GuidelineReference
+    val guidelineReference = reference?.facade as? GuidelineReference
     (0 until constraints.size).forEach { i ->
         when (val constraintName = constraints[i]) {
             "start" -> {
@@ -862,7 +865,7 @@ private fun parseGuidelineParams(
                         params.getFloat(constraintName)
                     )
                 )
-                guidelineReference.start(margin)
+                guidelineReference?.start(margin)
             }
             "end" -> {
                 val margin = state.convertDimension(
@@ -870,10 +873,10 @@ private fun parseGuidelineParams(
                         params.getFloat(constraintName)
                     )
                 )
-                guidelineReference.end(margin)
+                guidelineReference?.end(margin)
             }
             "percent" -> {
-                guidelineReference.percent(
+                guidelineReference?.percent(
                     params.getFloat(constraintName)
                 )
             }
@@ -914,7 +917,7 @@ internal fun parseBarrier(
                         if (PARSER_DEBUG) {
                             println("Add REFERENCE ($elementNameReference = $elementReference) TO BARRIER ")
                         }
-                        reference.add(elementReference)
+                        reference.add(elementReference as HelperReference)
                     }
                 }
             }
@@ -929,22 +932,22 @@ internal fun parseWidget(
     element: CLObject
 ) {
     val reference = state.constraints(elementName)
-    if (reference.width == null) {
+    if (reference?.width == null) {
         // Default to Wrap when the Dimension has not been assigned
-        reference.width = Wrap()
+        reference?.width = Wrap()
     }
-    if (reference.height == null) {
+    if (reference?.height == null) {
         // Default to Wrap when the Dimension has not been assigned
-        reference.height = Wrap()
+        reference?.height = Wrap()
     }
     val constraints = element.names() ?: return
     (0 until constraints.size).forEach { i ->
         when (val constraintName = constraints[i]) {
             "width" -> {
-                reference.width = parseDimension(element, constraintName, state)
+                reference?.width = parseDimension(element, constraintName, state)
             }
             "height" -> {
-                reference.height = parseDimension(element, constraintName, state)
+                reference?.height = parseDimension(element, constraintName, state)
             }
             "center" -> {
                 val target = element.getString(constraintName)
@@ -953,10 +956,10 @@ internal fun parseWidget(
                 } else {
                     state.constraints(target)
                 }
-                reference.startToStart(targetReference)
-                reference.endToEnd(targetReference)
-                reference.topToTop(targetReference)
-                reference.bottomToBottom(targetReference)
+                reference?.startToStart(targetReference)
+                reference?.endToEnd(targetReference)
+                reference?.topToTop(targetReference)
+                reference?.bottomToBottom(targetReference)
             }
             "centerHorizontally" -> {
                 val target = element.getString(constraintName)
@@ -965,8 +968,8 @@ internal fun parseWidget(
                 } else {
                     state.constraints(target)
                 }
-                reference.startToStart(targetReference)
-                reference.endToEnd(targetReference)
+                reference?.startToStart(targetReference)
+                reference?.endToEnd(targetReference)
             }
             "centerVertically" -> {
                 val target = element.getString(constraintName)
@@ -975,81 +978,85 @@ internal fun parseWidget(
                 } else {
                     state.constraints(target)
                 }
-                reference.topToTop(targetReference)
-                reference.bottomToBottom(targetReference)
+                reference?.topToTop(targetReference)
+                reference?.bottomToBottom(targetReference)
             }
             "alpha" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.alpha(value)
+                reference?.alpha(value)
             }
             "scaleX" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.scaleX(value)
+                reference?.scaleX(value)
             }
             "scaleY" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.scaleY(value)
+                reference?.scaleY(value)
             }
             "translationX" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.translationX(value)
+                reference?.translationX(value)
             }
             "translationY" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.translationY(value)
+                reference?.translationY(value)
             }
             "translationZ" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.translationZ(value)
+                reference?.translationZ(value)
             }
             "pivotX" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.pivotX(value)
+                reference?.pivotX(value)
             }
             "pivotY" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.pivotY(value)
+                reference?.pivotY(value)
             }
             "rotationX" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.rotationX(value)
+                reference?.rotationX(value)
             }
             "rotationY" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.rotationY(value)
+                reference?.rotationY(value)
             }
             "rotationZ" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.rotationZ(value)
+                reference?.rotationZ(value)
             }
             "visibility" -> {
                 when (element.getString(constraintName)) {
-                    "visible" -> reference.visibility(ConstraintWidget.VISIBLE)
-                    "invisible" -> reference.visibility(ConstraintWidget.INVISIBLE)
-                    "gone" -> reference.visibility(ConstraintWidget.GONE)
+                    "visible" -> reference?.visibility(ConstraintWidget.VISIBLE)
+                    "invisible" -> reference?.visibility(ConstraintWidget.INVISIBLE)
+                    "gone" -> reference?.visibility(ConstraintWidget.GONE)
                 }
             }
             "vBias" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.verticalBias(value)
+                reference?.verticalBias(value)
             }
             "hBias" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.horizontalBias(value)
+                reference?.horizontalBias(value)
             }
             "vWeight" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.verticalChainWeight = value
+                reference?.verticalChainWeight = value
             }
             "hWeight" -> {
                 val value = layoutVariables.get(element[constraintName])
-                reference.horizontalChainWeight = value
+                reference?.horizontalChainWeight = value
             }
             "custom" -> {
-                parseCustomProperties(element, reference, constraintName)
+                if (reference != null) {
+                    parseCustomProperties(element, reference, constraintName)
+                }
             }
             else -> {
-                parseConstraint(state, layoutVariables, element, reference, constraintName)
+                if (reference != null) {
+                    parseConstraint(state, layoutVariables, element, reference, constraintName)
+                }
             }
         }
     }
@@ -1154,24 +1161,24 @@ private fun parseConstraint(
             "baseline" -> {
                 when (anchor) {
                     "baseline" -> {
-                        state.baselineNeededFor(reference.key)
-                        state.baselineNeededFor(targetReference.key)
+                        reference.key?.let { state.baselineNeededFor(it) }
+                        targetReference?.key?.let { state.baselineNeededFor(it) }
                         reference.baselineToBaseline(targetReference)
                     }
                     "top" -> {
-                        state.baselineNeededFor(reference.key)
-                        state.baselineNeededFor(targetReference.key)
+                        reference.key?.let { state.baselineNeededFor(it) }
+                        targetReference?.key?.let { state.baselineNeededFor(it) }
                         reference.baselineToTop(targetReference)
                     }
                     "bottom" -> {
-                        state.baselineNeededFor(reference.key)
-                        state.baselineNeededFor(targetReference.key)
+                        reference.key?.let { state.baselineNeededFor(it) }
+                        targetReference?.key?.let { state.baselineNeededFor(it) }
                         reference.baselineToBottom(targetReference)
                     }
                 }
             }
         }
-        reference.margin(margin).marginGone(marginGone.toInt())
+        reference.margin(margin)?.marginGone(marginGone.toInt())
     } else {
         val target = element.getStringOrNull(constraintName)
         if (target != null) {
@@ -1186,8 +1193,8 @@ private fun parseConstraint(
                 "top" -> reference.topToTop(targetReference)
                 "bottom" -> reference.bottomToBottom(targetReference)
                 "baseline" -> {
-                    state.baselineNeededFor(reference.key)
-                    state.baselineNeededFor(targetReference.key)
+                    reference.key?.let { state.baselineNeededFor(it) }
+                    targetReference?.key?.let { state.baselineNeededFor(it) }
                     reference.baselineToBaseline(targetReference)
                 }
             }
@@ -1268,7 +1275,7 @@ private fun parseColorString(value: String): Int? {
         if (str.length == 6) {
             str = "FF$str"
         }
-        return parseLong(str, 16).toInt()
+        return  str.toLong(16).toInt()
     } else {
         return null
     }

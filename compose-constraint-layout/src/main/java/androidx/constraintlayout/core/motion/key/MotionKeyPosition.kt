@@ -18,8 +18,8 @@ package androidx.constraintlayout.core.motion.key
 import androidx.constraintlayout.core.motion.utils.SplineSet
 import androidx.constraintlayout.core.motion.MotionWidget
 import androidx.constraintlayout.core.motion.utils.FloatRect
+import androidx.constraintlayout.core.motion.utils.TypedValues.Companion.TYPE_FRAME_POSITION
 import androidx.constraintlayout.core.motion.utils.TypedValues.PositionType
-import androidx.constraintlayout.core.motion.utils.TypedValues.TYPE_FRAME_POSITION
 
 class MotionKeyPosition : MotionKey() {
     @JvmField
@@ -235,7 +235,7 @@ class MotionKeyPosition : MotionKey() {
     }
 
     override fun getAttributeNames(attributes: HashSet<String>) {}
-    override fun addValues(splines: HashMap<String, SplineSet?>) {}
+    override fun addValues(splines: HashMap<String, SplineSet>) {}
     override fun setValue(type: Int, value: Int): Boolean {
         when (type) {
             PositionType.TYPE_POSITION_TYPE -> mPositionType = value
@@ -261,7 +261,7 @@ class MotionKeyPosition : MotionKey() {
         return true
     }
 
-    override fun setValue(type: Int, value: String): Boolean {
+    override fun setValue(type: Int, value: String?): Boolean {
         mTransitionEasing = when (type) {
             PositionType.TYPE_TRANSITION_EASING -> value
             else -> return super.setValue(type, value)
@@ -269,7 +269,7 @@ class MotionKeyPosition : MotionKey() {
         return true
     }
 
-    override fun getId(name: String): Int {
+    override fun getId(name: String?): Int {
         return PositionType.getId(name)
     }
 

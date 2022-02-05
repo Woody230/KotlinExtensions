@@ -43,8 +43,8 @@ class MotionKeyTrigger : MotionKey() {
     var mCollisionRect = FloatRect()
     var mTargetRect = FloatRect()
     override fun getAttributeNames(attributes: HashSet<String>) {}
-    override fun addValues(splines: HashMap<String, SplineSet?>) {}
-    override fun getId(name: String): Int {
+    override fun addValues(splines: HashMap<String, SplineSet>) {}
+    override fun getId(name: String?): Int {
         when (name) {
             VIEW_TRANSITION_ON_CROSS -> return TYPE_VIEW_TRANSITION_ON_CROSS
             VIEW_TRANSITION_ON_POSITIVE_CROSS -> return TYPE_VIEW_TRANSITION_ON_POSITIVE_CROSS
@@ -126,7 +126,7 @@ class MotionKeyTrigger : MotionKey() {
         return true
     }
 
-    override fun setValue(type: Int, value: String): Boolean {
+    override fun setValue(type: Int, value: String?): Boolean {
         when (type) {
             TriggerType.TYPE_CROSS -> mCross = value
             TriggerType.TYPE_NEGATIVE_CROSS -> mNegativeCross = value

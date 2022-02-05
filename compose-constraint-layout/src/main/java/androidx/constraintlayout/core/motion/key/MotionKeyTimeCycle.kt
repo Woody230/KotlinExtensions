@@ -18,6 +18,8 @@ package androidx.constraintlayout.core.motion.key
 import androidx.constraintlayout.core.motion.utils.TimeCycleSplineSet.CustomVarSet
 import androidx.constraintlayout.core.motion.utils.*
 import androidx.constraintlayout.core.motion.utils.TypedValues.*
+import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.S_CUSTOM
+import androidx.constraintlayout.core.motion.utils.TypedValues.Companion.TYPE_FRAME_POSITION
 
 class MotionKeyTimeCycle : MotionKey() {
     private var mTransitionEasing: String? = null
@@ -86,12 +88,12 @@ class MotionKeyTimeCycle : MotionKey() {
                 AttributesType.S_PROGRESS -> if (!java.lang.Float.isNaN(mProgress)) {
                     splineSet.setPoint(framePosition, mProgress, mWavePeriod, mWaveShape, mWaveOffset)
                 }
-                else -> Utils.loge("KeyTimeCycles", "UNKNOWN addValues \"$s\"")
+                else -> {}//Utils.loge("KeyTimeCycles", "UNKNOWN addValues \"$s\"")
             }
         }
     }
 
-    override fun addValues(splines: HashMap<String, SplineSet?>) {}
+    override fun addValues(splines: HashMap<String, SplineSet>) {}
     override fun setValue(type: Int, value: Int): Boolean {
         when (type) {
             TYPE_FRAME_POSITION -> framePosition = value
@@ -123,7 +125,7 @@ class MotionKeyTimeCycle : MotionKey() {
         return true
     }
 
-    override fun setValue(type: Int, value: String): Boolean {
+    override fun setValue(type: Int, value: String?): Boolean {
         when (type) {
             CycleType.TYPE_WAVE_SHAPE -> {
                 mWaveShape = Oscillator.CUSTOM
@@ -207,7 +209,7 @@ class MotionKeyTimeCycle : MotionKey() {
         return MotionKeyTimeCycle().copy(this)
     }
 
-    override fun getId(name: String): Int {
+    override fun getId(name: String?): Int {
         return CycleType.getId(name)
     }
 

@@ -224,7 +224,9 @@ abstract class SplineSet constructor() {
 
         fun setProperty(view: MotionWidget?, t: Float) {
             curveFit!!.getPos(t.toDouble(), mTempValues)
-            mConstraintAttributeList.valueAt(0)!!.setInterpolatedValue(view, mTempValues)
+            if (view != null) {
+                mConstraintAttributeList.valueAt(0)!!.setInterpolatedValue(view, mTempValues)
+            }
         }
 
         init {

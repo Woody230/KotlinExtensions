@@ -66,7 +66,7 @@ internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
      * @param points
      * @param keySet
      */
-    fun different(points: MotionConstrainedPoint, keySet: HashSet<String?>) {
+    fun different(points: MotionConstrainedPoint, keySet: HashSet<String>) {
         if (diff(alpha, points.alpha)) {
             keySet.add(TypedValues.AttributesType.S_ALPHA)
         }
@@ -202,7 +202,7 @@ internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
         }
     }
 
-    fun addValues(splines: HashMap<String, SplineSet?>, mFramePosition: Int) {
+    fun addValues(splines: HashMap<String, SplineSet>, mFramePosition: Int) {
         for (s in splines.keys) {
             val ViewSpline = splines[s]
             if (DEBUG) {
@@ -242,7 +242,7 @@ internal class MotionConstrainedPoint : Comparable<MotionConstrainedPoint> {
     }
 
     fun setState(view: MotionWidget) {
-        setBounds(view.x.toFloat(), view.y.toFloat(), view.width.toFloat(), view.height.toFloat())
+        setBounds(view.left.toFloat(), view.top.toFloat(), view.width.toFloat(), view.height.toFloat())
         applyParameters(view)
     }
 

@@ -84,7 +84,7 @@ internal class MotionRenderDebug(textSize: Float) {
             mFillPaint.color = SHADOW_COLOR
             mPaintKeyframes.color = SHADOW_COLOR
             mPaintGraph.color = SHADOW_COLOR
-            motionController.buildPath(mPoints, frames)
+            motionController.buildPath(mPoints!!, frames)
             drawAll(canvas, mode, mKeyFrameCount, motionController, layoutWidth, layoutHeight)
             mPaint.color = RED_COLOR
             mPaintKeyframes.color = KEYFRAME_COLOR
@@ -126,8 +126,8 @@ internal class MotionRenderDebug(textSize: Float) {
         var viewWidth = 0
         var viewHeight = 0
         if (motionController.view != null) {
-            viewWidth = motionController.view.width
-            viewHeight = motionController.view.height
+            viewWidth = motionController.view!!.width
+            viewHeight = motionController.view!!.height
         }
         for (i in 1 until keyFrames - 1) {
             if (mode == Motion.DRAW_PATH_AS_CONFIGURED

@@ -78,7 +78,7 @@ class Motion(view: MotionWidget?) : TypedValues {
     private var mTimeCycleAttributesMap // splines to calculate for use TimeCycles
             : HashMap<String, TimeCycleSplineSet?>? = null
     private var mAttributesMap // splines to calculate values of attributes
-            : HashMap<String, SplineSet?>? = null
+            : HashMap<String, SplineSet>? = null
     private var mCycleMap // splines to calculate values of attributes
             : HashMap<String, KeyCycleOscillator?>? = null
     private var mKeyTriggers // splines to calculate values of attributes
@@ -205,7 +205,7 @@ class Motion(view: MotionWidget?) : TypedValues {
         mSpline!![0]!!.getPos(p, position)
         mSpline!![0]!!.getSlope(p, velocity)
         vel?.fill(0f)
-        mStartMotionPath.getCenter(p, mInterpolateVariables, position, pos, velocity, vel)
+        mStartMotionPath.getCenter(p, mInterpolateVariables, position, pos ?: floatArrayOf(), velocity, vel ?: floatArrayOf())
     }
 
     /**
@@ -346,7 +346,7 @@ class Motion(view: MotionWidget?) : TypedValues {
                     mArcSpline!!.getPos(p, mInterpolateData)
                 }
             }
-            mStartMotionPath.getBounds(mInterpolateVariables, mInterpolateData, bounds, i * 2)
+            mStartMotionPath.getBounds(mInterpolateVariables, mInterpolateData, bounds ?: floatArrayOf(), i * 2)
         }
     }// we never ended the time line// frame with easing is past the pos// frame with easing is before the current pos
 
@@ -479,7 +479,7 @@ class Motion(view: MotionWidget?) : TypedValues {
         var p = p
         p = getAdjustedPosition(p, null)
         mSpline!![0]!!.getPos(p.toDouble(), mInterpolateData)
-        mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path, offset)
+        mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path ?: floatArrayOf(), offset)
     }
 
     fun buildRectangles(path: FloatArray?, pointCount: Int) {
@@ -488,7 +488,7 @@ class Motion(view: MotionWidget?) : TypedValues {
             var position = i * mils
             position = getAdjustedPosition(position, null)
             mSpline!![0]!!.getPos(position.toDouble(), mInterpolateData)
-            mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path, i * 8)
+            mStartMotionPath.getRect(mInterpolateVariables, mInterpolateData, path ?: floatArrayOf(), i * 8)
         }
     }
 
@@ -644,8 +644,8 @@ class Motion(view: MotionWidget?) : TypedValues {
                     (key as? MotionKeyAttributes)?.addValues(mAttributesMap!!)
                 }
             }
-            mStartPoint.addValues(mAttributesMap, 0)
-            mEndPoint.addValues(mAttributesMap, 100)
+            mStartPoint.addValues(mAttributesMap!!, 0)
+            mEndPoint.addValues(mAttributesMap!!, 100)
             for (spline in mAttributesMap!!.keys) {
                 var curve = CurveFit.SPLINE // default is SPLINE
                 if (interpolation.containsKey(spline)) {
@@ -745,7 +745,7 @@ class Motion(view: MotionWidget?) : TypedValues {
         val arcMode = points[0]!!.mPathMotionArc != MotionWidget.UNSET
         val mask = BooleanArray(variables + mAttributeNames.size) // defaults to false
         for (i in 1 until points.size) {
-            points[i]!!.different(points[i - 1], mask, mAttributeNames, arcMode)
+            points[i - 1]?.let { points[i]!!.different(it, mask, mAttributeNames, arcMode) }
         }
         count = 0
         for (i in 1 until mask.size) {
@@ -864,13 +864,13 @@ class Motion(view: MotionWidget?) : TypedValues {
     }
 
     private fun readView(motionPaths: MotionPaths) {
-        motionPaths.setBounds(view!!.x.toFloat(), view!!.y.toFloat(), view!!.width.toFloat(), view!!.height.toFloat())
+        motionPaths.setBounds(view!!.left.toFloat(), view!!.top.toFloat(), view!!.width.toFloat(), view!!.height.toFloat())
     }
 
     fun setStart(mw: MotionWidget) {
         mStartMotionPath.time = 0f
         mStartMotionPath.position = 0f
-        mStartMotionPath.setBounds(mw.x.toFloat(), mw.y.toFloat(), mw.width.toFloat(), mw.height.toFloat())
+        mStartMotionPath.setBounds(mw.left.toFloat(), mw.top.toFloat(), mw.width.toFloat(), mw.height.toFloat())
         mStartMotionPath.applyParameters(mw)
         mStartPoint.setState(mw)
     }
@@ -909,7 +909,9 @@ class Motion(view: MotionWidget?) : TypedValues {
             }
         }
         mStartMotionPath.setBounds(r.left.toFloat(), r.top.toFloat(), r.width().toFloat(), r.height().toFloat())
-        mStartPoint.setState(r, v, rotation, rect.rotation)
+        if (v != null) {
+            mStartPoint.setState(r, v, rotation, rect.rotation)
+        }
     }
 
     fun rotate(rect: Rect, out: Rect, rotation: Int, preHeight: Int, preWidth: Int) {
@@ -968,8 +970,8 @@ class Motion(view: MotionWidget?) : TypedValues {
         mStartMotionPath.time = 0f
         mStartMotionPath.position = 0f
         mNoMovement = true
-        mStartMotionPath.setBounds(v.x.toFloat(), v.y.toFloat(), v.width.toFloat(), v.height.toFloat())
-        mEndMotionPath.setBounds(v.x.toFloat(), v.y.toFloat(), v.width.toFloat(), v.height.toFloat())
+        mStartMotionPath.setBounds(v.left.toFloat(), v.top.toFloat(), v.width.toFloat(), v.height.toFloat())
+        mEndMotionPath.setBounds(v.left.toFloat(), v.top.toFloat(), v.width.toFloat(), v.height.toFloat())
         mStartPoint.setState(v)
         mEndPoint.setState(v)
     }
@@ -1323,7 +1325,7 @@ class Motion(view: MotionWidget?) : TypedValues {
         }
 
     fun name(): String {
-        return view!!.name
+        return view?.widgetFrame?.name ?: ""
     }
 
     fun positionKeyframe(view: MotionWidget?, key: MotionKeyPosition, x: Float, y: Float, attribute: Array<String?>?, value: FloatArray?) {
@@ -1354,7 +1356,7 @@ class Motion(view: MotionWidget?) : TypedValues {
             type[i++] = key.framePosition + 1000 * key.mType
             val time = key.framePosition / 100.0f
             mSpline!![0]!!.getPos(time.toDouble(), mInterpolateData)
-            mStartMotionPath.getCenter(time.toDouble(), mInterpolateVariables, mInterpolateData, pos, count)
+            mStartMotionPath.getCenter(time.toDouble(), mInterpolateVariables, mInterpolateData, pos ?: floatArrayOf(), count)
             count += 2
         }
         return i

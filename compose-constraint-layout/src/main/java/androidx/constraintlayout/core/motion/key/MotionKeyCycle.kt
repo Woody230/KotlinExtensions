@@ -18,7 +18,7 @@ package androidx.constraintlayout.core.motion.key
 import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType
 import androidx.constraintlayout.core.motion.utils.TypedValues.CycleType
 import androidx.constraintlayout.core.motion.utils.*
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.S_CUSTOM
+import androidx.constraintlayout.core.motion.utils.TypedValues.Companion.S_CUSTOM
 
 class MotionKeyCycle : MotionKey() {
     private var mTransitionEasing: String? = null
@@ -81,7 +81,7 @@ class MotionKeyCycle : MotionKey() {
         }
     }
 
-    override fun addValues(splines: HashMap<String, SplineSet?>) {}
+    override fun addValues(splines: HashMap<String, SplineSet>) {}
     override fun setValue(type: Int, value: Int): Boolean {
         return when (type) {
             CycleType.TYPE_CURVE_FIT -> {
@@ -101,7 +101,7 @@ class MotionKeyCycle : MotionKey() {
         }
     }
 
-    override fun setValue(type: Int, value: String): Boolean {
+    override fun setValue(type: Int, value: String?): Boolean {
         return when (type) {
             CycleType.TYPE_EASING -> {
                 mTransitionEasing = value
@@ -161,7 +161,7 @@ class MotionKeyCycle : MotionKey() {
         return null
     }
 
-    override fun getId(name: String): Int {
+    override fun getId(name: String?): Int {
         when (name) {
             CycleType.S_CURVE_FIT -> return CycleType.TYPE_CURVE_FIT
             CycleType.S_VISIBILITY -> return CycleType.TYPE_VISIBILITY
@@ -221,6 +221,7 @@ class MotionKeyCycle : MotionKey() {
         )
     }
 
+    /*
     fun printAttributes() {
         val nameSet = HashSet<String>()
         getAttributeNames(nameSet)
@@ -238,7 +239,7 @@ class MotionKeyCycle : MotionKey() {
             val id = AttributesType.getId(names[i])
             Utils.log(names[i] + ":" + getValue(names[i]))
         }
-    }
+    }*/
 
     companion object {
         private const val TAG = "KeyCycle"
@@ -247,13 +248,13 @@ class MotionKeyCycle : MotionKey() {
         const val WAVE_OFFSET = "waveOffset"
         const val WAVE_PHASE = "wavePhase"
         const val WAVE_SHAPE = "waveShape"
-        const val SHAPE_SIN_WAVE = Oscillator.SIN_WAVE
-        const val SHAPE_SQUARE_WAVE = Oscillator.SQUARE_WAVE
-        const val SHAPE_TRIANGLE_WAVE = Oscillator.TRIANGLE_WAVE
-        const val SHAPE_SAW_WAVE = Oscillator.SAW_WAVE
-        const val SHAPE_REVERSE_SAW_WAVE = Oscillator.REVERSE_SAW_WAVE
-        const val SHAPE_COS_WAVE = Oscillator.COS_WAVE
-        const val SHAPE_BOUNCE = Oscillator.BOUNCE
+        val SHAPE_SIN_WAVE = Oscillator.SIN_WAVE
+        val SHAPE_SQUARE_WAVE = Oscillator.SQUARE_WAVE
+        val SHAPE_TRIANGLE_WAVE = Oscillator.TRIANGLE_WAVE
+        val SHAPE_SAW_WAVE = Oscillator.SAW_WAVE
+        val SHAPE_REVERSE_SAW_WAVE = Oscillator.REVERSE_SAW_WAVE
+        val SHAPE_COS_WAVE = Oscillator.COS_WAVE
+        val SHAPE_BOUNCE = Oscillator.BOUNCE
         const val KEY_TYPE = 4
     }
 

@@ -245,7 +245,7 @@ class MotionPaths : Comparable<MotionPaths> {
         } else Math.abs(a - b) > 0.000001f
     }
 
-    fun different(points: MotionPaths, mask: BooleanArray, custom: Array<String?>?, arcMode: Boolean) {
+    fun different(points: MotionPaths, mask: BooleanArray, custom: Array<String>?, arcMode: Boolean) {
         var c = 0
         val diffx = diff(x, points.x)
         val diffy = diff(y, points.y)

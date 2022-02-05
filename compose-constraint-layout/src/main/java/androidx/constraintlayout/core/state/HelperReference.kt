@@ -20,8 +20,7 @@ import androidx.constraintlayout.core.state.helpers.Facade
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 
 open class HelperReference(state: State, type: State.Helper) : ConstraintReference(state), Facade {
-    @JvmField
-    protected val mState: State = state
+    override val mState: State = state
 
     val type: State.Helper
     @JvmField

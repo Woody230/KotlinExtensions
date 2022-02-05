@@ -54,7 +54,7 @@ abstract class MotionKey : TypedValues {
      * @param splines splines to write values to
      * @suppress
      */
-    abstract fun addValues(splines: HashMap<String, SplineSet?>)
+    abstract fun addValues(splines: HashMap<String, SplineSet>)
 
     /**
      * Return the float given a value. If the value is a "Float" object it is casted

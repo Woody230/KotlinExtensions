@@ -15,9 +15,6 @@
  */
 package androidx.constraintlayout.core.state.helpers
 
-import androidx.constraintlayout.core.state.State.convertDimension
-import androidx.constraintlayout.core.widgets.Barrier.barrierType
-import androidx.constraintlayout.core.widgets.Barrier.margin
 import androidx.constraintlayout.core.state.HelperReference
 import androidx.constraintlayout.core.widgets.Barrier
 import androidx.constraintlayout.core.state.ConstraintReference
@@ -32,7 +29,7 @@ class BarrierReference(state: State?) : HelperReference(state!!, State.Helper.BA
         mDirection = barrierDirection
     }
 
-    override fun margin(value: Any): ConstraintReference {
+    override fun margin(value: Any?): ConstraintReference {
         margin(mState.convertDimension(value))
         return this
     }
@@ -42,7 +39,7 @@ class BarrierReference(state: State?) : HelperReference(state!!, State.Helper.BA
         return this
     }
 
-    override var helperWidget: HelperWidget
+    override var helperWidget: HelperWidget?
         get() {
             if (mBarrierWidget == null) {
                 mBarrierWidget = Barrier()
