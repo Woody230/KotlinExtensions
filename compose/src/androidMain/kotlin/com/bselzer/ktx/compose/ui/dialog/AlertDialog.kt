@@ -102,7 +102,10 @@ fun MaterialAlertDialog(
         border = null,
         elevation = 0.dp
     ) {
-        ConstraintLayout {
+        ConstraintLayout(
+            // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
+            modifier = Modifier.fillMaxHeight()
+        ) {
             val (titleBox, contentBox, buttonBox) = createRefs()
 
             Box(
