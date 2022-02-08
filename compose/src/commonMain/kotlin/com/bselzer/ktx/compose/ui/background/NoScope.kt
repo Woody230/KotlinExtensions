@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 
 /**
- * Lays out  a cropped background image.
+ * Lays out a cropped background image.
  *
  * @param painter the painter
  * @param modifier the modifier for handling size

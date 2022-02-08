@@ -5,10 +5,9 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -18,6 +17,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.style.IconButton
 import com.bselzer.ktx.compose.ui.unit.toPx
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -35,8 +35,8 @@ import kotlin.math.abs
  * @param modifier the value picker modifier
  * @param textStyle the style of the text for displaying the value
  * @param animationOffset the offset of the new value within the scrolling animation
- * @param upButton the block for displaying the up button
- * @param downButton the block for displaying the down button
+ * @param upIcon the block for displaying the up icon
+ * @param downIcon the block for displaying the down icon
  * @param onStateChanged the callback for changes in the state
  */
 @Composable
@@ -47,8 +47,8 @@ fun <T> ValuePicker(
     labels: List<String>,
     textStyle: TextStyle = LocalTextStyle.current,
     animationOffset: Dp = 18.dp,
-    upButton: @Composable (onClick: () -> Unit) -> Unit = { UpButton(onClick = it) },
-    downButton: @Composable (onClick: () -> Unit) -> Unit = { DownButton(onClick = it) },
+    upIcon: @Composable () -> Unit,
+    downIcon: @Composable () -> Unit,
     onStateChanged: (T) -> Unit,
 ) {
     val currentIndex = values.indexOfFirst { v -> v == value }
@@ -59,44 +59,22 @@ fun <T> ValuePicker(
         indexRange = values.indices,
         animationOffset = animationOffset,
         textStyle = textStyle,
-        upButton = upButton,
-        downButton = downButton,
+        upIcon = upIcon,
+        downIcon = downIcon,
         setState = { index -> values.getOrNull(index)?.let { onStateChanged(it) } },
         label = { index -> labels.getOrNull(index) ?: "" }
     )
 }
 
-/**
- * Displays an up icon button.
- *
- * @param modifier the button modifier
- * @param onClick the on-click handler
- */
-@Composable
-fun UpButton(modifier: Modifier = Modifier, onClick: () -> Unit) = IconButton(modifier = modifier, onClick = onClick) {
-    Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "Up")
-}
-
-/**
- * Displays a down icon button.
- *
- * @param modifier the button modifier
- * @param onClick the on-click handler
- */
-@Composable
-fun DownButton(modifier: Modifier = Modifier, onClick: () -> Unit) = IconButton(modifier = modifier, onClick = onClick) {
-    Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "Down")
-}
-
 @Composable
 internal fun PickerColumn(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     index: Int,
-    animationOffset: Dp = 18.dp,
-    indexRange: IntRange? = null,
-    textStyle: TextStyle = LocalTextStyle.current,
-    upButton: @Composable (onClick: () -> Unit) -> Unit = { UpButton(onClick = it) },
-    downButton: @Composable (onClick: () -> Unit) -> Unit = { DownButton(onClick = it) },
+    animationOffset: Dp,
+    indexRange: IntRange?,
+    textStyle: TextStyle,
+    upIcon: @Composable () -> Unit,
+    downIcon: @Composable () -> Unit,
     setState: (Int) -> Unit,
     label: (Int) -> String,
 ) {
@@ -136,12 +114,16 @@ internal fun PickerColumn(
                 }
             )
     ) {
-        upButton { setState(index + 1) }
+        IconButton(onClick = { setState(index + 1) }) {
+            upIcon()
+        }
 
         // Use the index associated with the animation when displaying the text values instead of the state index.
         PickerBox(index = animatedStateValue(animatable.value), animationOffset, animatable, textStyle) { selectedIndex -> label(selectedIndex) }
 
-        downButton { setState(index - 1) }
+        IconButton(onClick = { setState(index - 1) }) {
+            downIcon()
+        }
     }
 }
 

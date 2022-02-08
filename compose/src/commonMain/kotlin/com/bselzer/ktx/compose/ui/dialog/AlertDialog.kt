@@ -1,36 +1,23 @@
 package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-
-/* TODO common dialog
-*   https://github.com/JetBrains/compose-jb/issues/758
-*   https://issuetracker.google.com/issues/194625542
-*   https://github.com/atsushieno/compose-mpp/
-*/
+import com.bselzer.ktx.compose.ui.container.Spacer
+import com.bselzer.ktx.compose.ui.style.*
 
 /**
  * Lays out an alert dialog.
  *
- * @param modifier the dialog modifier
- * @param showDialog the block for setting whether the dialog should be shown
  * @param onDismissRequest the block for when the user tries to dismiss the dialog by clicking outside or pressing the back button
- * @param shape the dialog shape
- * @param backgroundColor the color of the dialog background
- * @param contentColor the color of the dialog content
- * @param properties the properties
+ * @param style how to display the dialog
  * @param title the title describing the [content]
  * @param negativeButton the negative action button layout for dismissal
  * @param neutralButton the neutral action button layout for an alternative action
@@ -39,26 +26,16 @@ import androidx.constraintlayout.compose.Dimension
  */
 @Composable
 fun MaterialAlertDialog(
-    modifier: Modifier = Modifier,
-    showDialog: (Boolean) -> Unit,
-    onDismissRequest: () -> Unit = { showDialog(false) },
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    properties: DialogProperties = DialogProperties(),
+    onDismissRequest: () -> Unit,
+    style: AlertDialogStyle = LocalAlertDialogStyle.current,
     title: (@Composable () -> Unit)? = null,
     negativeButton: (@Composable () -> Unit)? = null,
     neutralButton: (@Composable () -> Unit)? = null,
     positiveButton: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,
 ) = MaterialAlertDialog(
-    modifier = modifier,
-    showDialog = showDialog,
     onDismissRequest = onDismissRequest,
-    shape = shape,
-    backgroundColor = backgroundColor,
-    contentColor = contentColor,
-    properties = properties,
+    style = style,
     title = title,
     content = content,
     buttons = { MaterialAlertDialogButtons(negativeButton = negativeButton, neutralButton = neutralButton, positiveButton = positiveButton) }
@@ -67,40 +44,29 @@ fun MaterialAlertDialog(
 /**
  * Lays out an alert dialog.
  *
- * @param modifier the dialog modifier
- * @param showDialog the block for setting whether the dialog should be shown
  * @param onDismissRequest the block for when the user tries to dismiss the dialog by clicking outside or pressing the back button
- * @param shape the dialog shape
- * @param backgroundColor the color of the dialog background
- * @param contentColor the color of the dialog content
- * @param properties the properties
+ * @param style how to display the dialog
  * @param title the title describing the [content]
  * @param buttons the supplementary action buttons
  * @param content the main content of the dialog
  */
 @Composable
 fun MaterialAlertDialog(
-    modifier: Modifier = Modifier,
-    showDialog: (Boolean) -> Unit,
-    onDismissRequest: () -> Unit = { showDialog(false) },
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    properties: DialogProperties = DialogProperties(),
+    onDismissRequest: () -> Unit,
+    style: AlertDialogStyle = LocalAlertDialogStyle.current,
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,
 ) = Dialog(
     onDismissRequest = onDismissRequest,
-    properties = properties
+    properties = style.properties
 ) {
+    val backgroundColor = style.backgroundColor ?: MaterialTheme.colors.surface
     Surface(
-        modifier = modifier,
-        shape = shape,
+        modifier = style.modifier,
+        shape = style.shape ?: MaterialTheme.shapes.medium,
         color = backgroundColor,
-        contentColor = contentColor,
-        border = null,
-        elevation = 0.dp
+        contentColor = style.contentColor ?: contentColorFor(backgroundColor),
     ) {
         ConstraintLayout(
             // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
@@ -192,7 +158,7 @@ fun MaterialAlertDialogButtons(
     }) {
         negativeButton?.let { negativeButton ->
             negativeButton()
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(width = 8.dp)
         }
 
         positiveButton?.invoke()
@@ -200,89 +166,22 @@ fun MaterialAlertDialogButtons(
 }
 
 /**
- * Lays out a button for dismissing a dialog.
- *
- * @param modifier the [Button] modifier
- * @param textStyle the style of the text
- * @param colors the [Button] colors
- * @param enabled whether the button is clickable
- * @param onClick the on-click handler
- */
-@Composable
-fun DismissButton(
-    modifier: Modifier = Modifier,
-    textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) = MaterialDialogButton(
-    modifier = modifier,
-    text = stringResource(id = android.R.string.cancel),
-    textStyle = textStyle,
-    colors = colors,
-    enabled = enabled,
-    onClick = onClick
-)
-
-/**
- * Lays out a button for confirmation a selection.
- *
- * @param modifier the [Button] modifier
- * @param textStyle the style of the text
- * @param colors the [Button] colors
- * @param enabled whether the button is clickable
- * @param onClick the on-click handler
- */
-@Composable
-fun ConfirmationButton(
-    modifier: Modifier = Modifier,
-    textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) = MaterialDialogButton(modifier = modifier, text = stringResource(id = android.R.string.ok), textStyle = textStyle, colors = colors, enabled = enabled, onClick = onClick)
-
-/**
- * Lays out a button for deleting a selection.
- *
- * @param modifier the [Button] modifier
- * @param textStyle the style of the text
- * @param colors the [Button] colors
- * @param enabled whether the button is clickable
- * @param onClick the on-click handler
- */
-@Composable
-fun ResetButton(
-    modifier: Modifier = Modifier,
-    textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
-    enabled: Boolean = true,
-    onClick: () -> Unit
-) = MaterialDialogButton(modifier = modifier, text = "Reset", textStyle = textStyle, colors = colors, enabled = enabled, onClick = onClick)
-
-/**
  * Lays out a button for a dialog.
  *
- * @param modifier the [Button] modifier
  * @param text the text
  * @param textStyle the style of the [text]
- * @param colors the [Button] colors
- * @param enabled whether the button is clickable
+ * @param style the style of the [Button]
  * @param onClick the on-click handler
  */
 @Composable
 fun MaterialDialogButton(
-    modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
-    enabled: Boolean = true,
+    textStyle: WordStyle = LocalWordStyle.current,
+    style: ButtonStyle = textButtonStyle(),
     onClick: () -> Unit
 ) = Button(
-    modifier = modifier,
-    colors = colors,
-    onClick = onClick,
-    enabled = enabled
+    style = style,
+    onClick = onClick
 ) {
-    Text(text = text, style = textStyle)
+    Text(text = text, style = WordStyle(textStyle = MaterialTheme.typography.button).merge(textStyle))
 }

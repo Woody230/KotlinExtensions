@@ -5,17 +5,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.container.DividedColumn
+import com.bselzer.ktx.compose.ui.container.Spacer
+import com.bselzer.ktx.compose.ui.style.Text
+import com.bselzer.ktx.compose.ui.style.WordStyle
 
 /**
  * Lays out the drawer content with a [header] and divided [sections].
@@ -75,8 +75,6 @@ fun DrawerSection(
  * @param horizontalAlignment the horizontal alignment of the content
  * @param header the header describing the content of this section
  * @param headerStyle the style of the text of the [header]
- * @param headerFontWeight the weight of the font of the [header]
- * @param headerColor the color of the text of the [header]
  * @param components the main content of this section
  */
 @Composable
@@ -85,9 +83,7 @@ fun DrawerSection(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     header: String? = null,
-    headerStyle: TextStyle = MaterialTheme.typography.subtitle2,
-    headerFontWeight: FontWeight = FontWeight.Bold,
-    headerColor: Color = MaterialTheme.colors.primary,
+    headerStyle: WordStyle = WordStyle(),
     vararg components: @Composable ColumnScope.() -> Unit
 ) = DrawerSection(
     modifier = modifier,
@@ -95,23 +91,29 @@ fun DrawerSection(
     horizontalAlignment = horizontalAlignment
 ) {
     header?.let { header ->
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
+        Spacer(height = 4.dp)
+
+        val defaultText = WordStyle(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            text = header,
-            style = headerStyle,
-            fontWeight = headerFontWeight,
-            color = headerColor,
+            textStyle = MaterialTheme.typography.subtitle2,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.primary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = header,
+            style = defaultText.merge(headerStyle)
+        )
+
+        Spacer(height = 4.dp)
     }
 
     DividedColumn(
-        divider = { Spacer(modifier = Modifier.height(4.dp)) },
+        divider = { Spacer(height = 4.dp) },
         contents = components,
     )
 }
@@ -151,7 +153,6 @@ fun DrawerComponentRow(
  * @param iconPainter the painter for displaying the icon image
  * @param text the title of the component
  * @param textStyle the style of the [text]
- * @param textFontWeight the weight of the font of the [text]
  * @param onClick the on-click handler
  */
 @Composable
@@ -161,8 +162,7 @@ fun DrawerComponent(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     iconPainter: Painter?,
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.body2,
-    textFontWeight: FontWeight = FontWeight.Bold,
+    textStyle: WordStyle = WordStyle(),
     onClick: () -> Unit,
 ) = DrawerComponentRow(
     modifier = modifier,
@@ -170,11 +170,18 @@ fun DrawerComponent(
     horizontalArrangement = horizontalArrangement,
     onClick = onClick
 ) {
-    Spacer(modifier = Modifier.width(16.dp))
+    Spacer(width = 16.dp)
     iconPainter?.let {
         Icon(modifier = Modifier.size(24.dp), painter = iconPainter, contentDescription = text)
-        Spacer(modifier = Modifier.width(32.dp))
+        Spacer(width = 32.dp)
     }
-    Text(text = text, style = textStyle, fontWeight = textFontWeight, maxLines = 1, overflow = TextOverflow.Ellipsis)
-    Spacer(modifier = Modifier.width(8.dp))
+
+    val defaultText = WordStyle(
+        textStyle = MaterialTheme.typography.body2,
+        fontWeight = FontWeight.Bold,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+    Text(text = text, style = defaultText.merge(textStyle))
+    Spacer(width = 8.dp)
 }

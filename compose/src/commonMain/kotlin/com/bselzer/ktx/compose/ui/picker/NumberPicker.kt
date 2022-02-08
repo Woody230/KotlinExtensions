@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
  * @param modifier the modifier applying to the number picker
  * @param textStyle the style of the text for displaying the number
  * @param animationOffset the offset of the new value within the scrolling animation
- * @param upButton the block for displaying the up button
- * @param downButton the block for displaying the down button
+ * @param upIcon the block for displaying the up icon
+ * @param downIcon the block for displaying the down icon
  * @param value the current number
  * @param range the range of the number
  * @param onStateChanged the callback for changes in the state
@@ -28,8 +28,8 @@ fun NumberPicker(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     animationOffset: Dp = 18.dp,
-    upButton: @Composable (onClick: () -> Unit) -> Unit = { UpButton(onClick = it) },
-    downButton: @Composable (onClick: () -> Unit) -> Unit = { DownButton(onClick = it) },
+    upIcon: @Composable () -> Unit,
+    downIcon: @Composable () -> Unit,
     value: Int,
     range: IntRange? = null,
     onStateChanged: (Int) -> Unit,
@@ -39,8 +39,8 @@ fun NumberPicker(
     indexRange = range,
     animationOffset = animationOffset,
     textStyle = textStyle,
-    upButton = upButton,
-    downButton = downButton,
+    upIcon = upIcon,
+    downIcon = downIcon,
     setState = onStateChanged,
     label = { index -> index.toString() }
 )

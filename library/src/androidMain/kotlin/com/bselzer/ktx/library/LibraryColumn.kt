@@ -1,113 +1,53 @@
 package com.bselzer.ktx.library
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarTitle
 import com.bselzer.ktx.compose.ui.dialog.ConfirmationButton
 import com.bselzer.ktx.compose.ui.dialog.MaterialAlertDialog
+import com.bselzer.ktx.compose.ui.style.*
+import com.bselzer.ktx.resource.Resources
 import com.mikepenz.aboutlibraries.entity.Library
+import dev.icerock.moko.resources.compose.stringResource
 
 /**
  * Lays out cards for each of the [libraries].
  *
- * @param modifier the column modifier
- * @param contentPadding the column padding
- * @param titleStyle the style of the text for the name of the library, and the name of the license on the dialog
- * @param subtitleStyle the style of the text for the name of the author and artifact version of the library
- * @param dialogStyle the style of the text for the license in the dialog
- * @param buttonStyle the style of the text for the dialog buttons
- * @param buttonColors the colors of the dialog buttons
- * @param shape the dialog shape
- * @param backgroundColor the color of the dialog background
- * @param contentColor the color of the dialog content
- * @param itemBorder the border of each individual card
- * @param itemElevation the elevation of each individual card
+ * @param style how to display the column
  * @param divider the divider between each individual card
- * @param licenseBackgroundColor the color of the background behind the name of the license
- * @param licenseContentColor the color of the text for the name of the license
- * @param licenseStyle the style of the text for the name of the license
- * @param dialogShape the shape of the dialog
- * @param dialogBackgroundColor the color of the background of the dialog
- * @param dialogContentColor the color of the text for the dialog
- * @param dialogProperties the dialog properties
  * @param libraries the libraries to create cards for
  */
 @Composable
 fun LibraryColumn(
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(all = 0.dp),
-    titleStyle: TextStyle = MaterialTheme.typography.h6,
-    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle1,
-    dialogStyle: TextStyle = MaterialTheme.typography.body1,
-    buttonStyle: TextStyle = MaterialTheme.typography.button,
-    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    itemBorder: BorderStroke? = null,
-    itemElevation: Dp = 1.dp,
-    divider: @Composable () -> Unit = { Spacer(modifier = Modifier.height(16.dp)) },
-    licenseBackgroundColor: Color = MaterialTheme.colors.primary,
-    licenseContentColor: Color = contentColorFor(licenseBackgroundColor),
-    licenseStyle: TextStyle = MaterialTheme.typography.subtitle2,
-    dialogShape: Shape = MaterialTheme.shapes.medium,
-    dialogBackgroundColor: Color = MaterialTheme.colors.surface,
-    dialogContentColor: Color = contentColorFor(dialogBackgroundColor),
-    dialogProperties: DialogProperties = DialogProperties(),
+    style: LazyColumnStyle = LocalLazyColumnStyle.current,
+    divider: @Composable LazyListScope.(Int, Library) -> Unit = { _, _ -> Spacer(modifier = Modifier.height(16.dp)) },
     libraries: List<Library>
 ) {
     var selected by remember { mutableStateOf<Library?>(null) }
     selected?.let { value ->
         LicenseDialog(
             showDialog = { if (!it) selected = null },
-            shape = dialogShape,
-            backgroundColor = dialogBackgroundColor,
-            contentColor = dialogContentColor,
-            properties = dialogProperties,
-            buttonStyle = buttonStyle,
-            buttonColors = buttonColors,
-            titleStyle = titleStyle,
-            contentStyle = dialogStyle,
             library = value
         )
     }
 
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = contentPadding
-    ) {
+    LazyColumn(style = style) {
         itemsIndexed(libraries) { index, library ->
             LicenseCard(
-                shape = shape,
-                backgroundColor = backgroundColor,
-                contentColor = contentColor,
-                border = itemBorder,
-                elevation = itemElevation,
-                titleStyle = titleStyle,
-                subtitleStyle = subtitleStyle,
-                licenseBackgroundColor = licenseBackgroundColor,
-                licenseContentColor = licenseContentColor,
-                licenseStyle = licenseStyle,
                 onClick = { selected = library },
                 library = library,
             )
 
             if (index != libraries.count() - 1) {
-                divider()
+                this@LazyColumn.divider(index, library)
             }
         }
     }
@@ -117,98 +57,98 @@ fun LibraryColumn(
  * Lays out the dialog for the first license of the selected [library].
  *
  * @param showDialog the block for setting whether the dialog should be shown
- * @param shape the dialog shape
- * @param backgroundColor the color of the dialog background
- * @param contentColor the color of the dialog content
- * @param properties the properties
+ * @param dialogStyle the style of the dialog for the license content
  * @param titleStyle the style of the text for the name of the license
  * @param contentStyle the style of the text for the license content
- * @param buttonStyle the style of the text for the dialog buttons
- * @param buttonColors the colors of the dialog buttons
+ * @param buttonStyle the style of the dialog buttons
+ * @param buttonTextStyle the style of the text on the dialog buttons
  * @param library the library to display the first license for
  */
 @Composable
 fun LicenseDialog(
     showDialog: (Boolean) -> Unit,
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    properties: DialogProperties = DialogProperties(),
-    titleStyle: TextStyle = MaterialTheme.typography.h6,
-    contentStyle: TextStyle = MaterialTheme.typography.body1,
-    buttonStyle: TextStyle = MaterialTheme.typography.button,
-    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
+    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.current,
+    contentStyle: WordStyle = LocalWordStyle.current,
+    buttonStyle: ButtonStyle = LocalButtonStyle.current,
+    buttonTextStyle: WordStyle = LocalWordStyle.current,
     library: Library,
 ) {
     val license = library.licenses.firstOrNull()
     MaterialAlertDialog(
-        modifier = Modifier.fillMaxSize(),
-        showDialog = showDialog,
-        shape = shape,
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        properties = properties,
-        title = { MaterialAppBarTitle(title = license?.name ?: "No License", style = titleStyle) },
+        style = AlertDialogStyle(modifier = Modifier.fillMaxSize()).merge(dialogStyle),
+        onDismissRequest = { showDialog(false) },
+        title = { MaterialAppBarTitle(title = license?.name ?: stringResource(Resources.strings.no_license), style = titleStyle) },
         positiveButton = {
-            ConfirmationButton(colors = buttonColors, textStyle = buttonStyle) {
+            ConfirmationButton(style = buttonStyle, textStyle = buttonTextStyle) {
                 showDialog(false)
             }
         }
     ) {
-        val text = if (license == null) "No license found." else license.licenseContent ?: ""
-        Text(modifier = Modifier.verticalScroll(rememberScrollState()), text = text, style = contentStyle)
+        val text = if (license == null) stringResource(Resources.strings.no_license_found) else license.licenseContent ?: ""
+        Text(
+            text = text,
+            style = WordStyle(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                textStyle = MaterialTheme.typography.body1
+            ).merge(contentStyle)
+        )
     }
 }
 
 /**
- * Lays out a card for displaying the name, author, arifact version, and name of the licenses for the [library].
+ * Lays out a card for displaying the name, author, artifact version, and name of the licenses for the [library].
  *
- * @param shape the dialog shape
- * @param backgroundColor the color of the dialog background
- * @param contentColor the color of the dialog content
- * @param border the border
- * @param elevation the elevation
+ * @param cardStyle the style of the card
  * @param titleStyle the style of the text for the name of the library
  * @param subtitleStyle the style of the text for the name of the author and artifact version of the library
- * @param licenseBackgroundColor the color of the background behind the name of the license
- * @param licenseContentColor the color of the text for the name of the license
- * @param licenseStyle the style of the text for the name of the license
+ * @param badgeStyle the style of the badge displaying the license name
+ * @param badgeTextStyle the style of the text on the badge displaying the license name
  * @param onClick the on-click handler
  * @param library the library to display information for
  */
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LicenseCard(
-    shape: Shape = MaterialTheme.shapes.medium,
-    backgroundColor: Color = MaterialTheme.colors.surface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    border: BorderStroke? = null,
-    elevation: Dp = 1.dp,
-    titleStyle: TextStyle = MaterialTheme.typography.h6,
-    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle1,
-    licenseBackgroundColor: Color = MaterialTheme.colors.primary,
-    licenseContentColor: Color = contentColorFor(licenseBackgroundColor),
-    licenseStyle: TextStyle = MaterialTheme.typography.subtitle2,
+    cardStyle: ClickableCardStyle = LocalClickableCardStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.current,
+    subtitleStyle: WordStyle = LocalWordStyle.current,
+    badgeStyle: BadgeStyle = LocalBadgeStyle.current,
+    badgeTextStyle: WordStyle = LocalWordStyle.current,
     onClick: () -> Unit,
     library: Library
 ) = Card(
-    modifier = Modifier.fillMaxWidth(),
-    shape = shape,
-    backgroundColor = backgroundColor,
-    contentColor = contentColor,
-    border = border,
-    elevation = elevation,
+    style = ClickableCardStyle(modifier = Modifier.fillMaxWidth()).merge(cardStyle),
     onClick = onClick,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = library.name, style = titleStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(
+            text = library.name,
+            style = WordStyle(
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textStyle = MaterialTheme.typography.h6
+            ).merge(titleStyle)
+        )
 
         if (library.author.isNotBlank()) {
-            Text(text = library.author, style = subtitleStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = library.author,
+                style = WordStyle(
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    textStyle = MaterialTheme.typography.subtitle1,
+                ).merge(subtitleStyle)
+            )
         }
 
         library.artifactVersion?.let { version ->
-            Text(text = version, style = subtitleStyle, maxLines = 1, overflow = TextOverflow.Clip)
+            Text(
+                text = version,
+                style = WordStyle(
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip,
+                    textStyle = MaterialTheme.typography.subtitle1,
+                )
+            )
         }
 
         if (library.licenses.isNotEmpty()) {
@@ -219,12 +159,13 @@ fun LicenseCard(
             ) {
                 library.licenses.forEach { license ->
                     Badge(
-                        modifier = Modifier.padding(end = 4.dp),
-                        contentColor = licenseContentColor,
-                        backgroundColor = licenseBackgroundColor
-                    ) {
-                        Text(text = license.name, style = licenseStyle)
-                    }
+                        style = BadgeStyle(
+                            modifier = Modifier.padding(end = 4.dp),
+                            backgroundColor = MaterialTheme.colors.primary
+                        ).merge(badgeStyle),
+                        text = license.name,
+                        textStyle = WordStyle(textStyle = MaterialTheme.typography.subtitle2).merge(badgeTextStyle)
+                    )
                 }
             }
         }

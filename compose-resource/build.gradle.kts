@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform")
     id("com.android.library")
+    kotlin("multiplatform")
     id("org.jetbrains.compose") version COMPOSE
 }
 
@@ -10,8 +10,12 @@ android.setupWithCompose()
 
 kotlin.setup {
     commonMain {
-        licensing()
-        projectComposeResource()
+        projectCompose()
+
+        resourcesCompose()
+        projectResource()
     }
     commonTest()
+    androidTestWithCompose()
+    jvmTest()
 }

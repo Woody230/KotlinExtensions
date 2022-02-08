@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Paramètres</string>
+    <string name="cache">Cache</string>
+    <string name="licenses">Licences</string>
+    <string name="about_app">À propos de l’Application</string>
+    <string name="ok">D'accord</string>
+    <string name="cancel">Annuler</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="refresh">Actualiser</string>
+    <string name="delete">Supprimer</string>
+    <string name="more_options">Plus d'options</string>
+    <string name="contract">Abréger</string>
+    <string name="expand">Agrandir</string>
+    <string name="menu">Menu</string>
+
+    <!-- Directions -->
+    <string name="up">En haut</string>
+    <string name="down">Vers le bas</string>
+    <string name="left">Gauche</string>
+    <string name="right">Droite</string>
+
+    <!-- Library Module -->
+    <string name="no_license">Pas de Licence</string>
+    <string name="no_license_found">Aucune licence n'a été trouvée.</string>
+</resources>

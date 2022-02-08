@@ -2,11 +2,12 @@ package com.bselzer.ktx.compose.ui.appbar
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import com.bselzer.ktx.compose.ui.style.LocalWordStyle
+import com.bselzer.ktx.compose.ui.style.Text
+import com.bselzer.ktx.compose.ui.style.WordStyle
 
 /**
  * Lays out an app bar.
@@ -19,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 @Composable
 fun MaterialAppBar(
     title: String,
-    titleStyle: TextStyle = MaterialTheme.typography.h6,
+    titleStyle: WordStyle = LocalWordStyle.current,
     navigationIcon: (@Composable () -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) = TopAppBar(
@@ -32,9 +33,15 @@ fun MaterialAppBar(
  * Lays out the title for a [MaterialAppBar].
  *
  * @param title the title
- * @param fontWeight the font weight
  * @param style the text style
  */
 @Composable
-fun MaterialAppBarTitle(title: String, style: TextStyle = MaterialTheme.typography.h6, fontWeight: FontWeight = FontWeight.Bold) =
-    Text(text = title, fontWeight = fontWeight, style = style, maxLines = 1)
+fun MaterialAppBarTitle(title: String, style: WordStyle = LocalWordStyle.current) =
+    Text(
+        text = title,
+        style = WordStyle(
+            textStyle = MaterialTheme.typography.h6,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1
+        ).merge(style)
+    )

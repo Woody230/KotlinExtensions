@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import com.bselzer.ktx.compose.ui.style.LocalWordStyle
+import com.bselzer.ktx.compose.ui.style.WordStyle
 
 /**
  * Wraps a [MaterialAppBar] and the [content] in a [Column].
@@ -21,7 +21,7 @@ import androidx.compose.ui.text.TextStyle
 fun MaterialAppBarColumn(
     modifier: Modifier = Modifier,
     title: String,
-    titleStyle: TextStyle = MaterialTheme.typography.h6,
+    titleStyle: WordStyle = LocalWordStyle.current,
     navigationIcon: (@Composable () -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,

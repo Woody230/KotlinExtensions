@@ -2,12 +2,13 @@ package com.bselzer.ktx.compose.ui.description
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import com.bselzer.ktx.compose.ui.style.Text
+import com.bselzer.ktx.compose.ui.style.WordStyle
 
 /**
  * Lays out a description of a value through a [title] and [subtitle].
@@ -22,9 +23,9 @@ import androidx.compose.ui.text.style.TextOverflow
 fun Description(
     modifier: Modifier = Modifier,
     title: String,
-    titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
+    titleStyle: WordStyle = WordStyle(),
     subtitle: String,
-    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2
+    subtitleStyle: WordStyle = WordStyle()
 ) = Column(
     modifier = modifier
 ) {
@@ -40,16 +41,27 @@ fun Description(
  * @param style the style of the text for displaying the [title]
  */
 @Composable
-fun DescriptionTitle(modifier: Modifier = Modifier, title: String, style: TextStyle = MaterialTheme.typography.subtitle1, maxLines: Int = Int.MAX_VALUE) =
-    Text(modifier = modifier, text = title, fontWeight = FontWeight.Bold, maxLines = maxLines, overflow = TextOverflow.Visible, style = style)
+fun DescriptionTitle(title: String, style: WordStyle = WordStyle(), onTextLayout: (TextLayoutResult) -> Unit = {}) {
+    val default = WordStyle(
+        fontWeight = FontWeight.Bold,
+        overflow = TextOverflow.Visible,
+        textStyle = MaterialTheme.typography.subtitle1
+    )
+    Text(text = title, style = default.merge(style), onTextLayout = onTextLayout)
+}
+
 
 /**
  * Lays out a description subtitle.
  *
- * @param modifier the [Text] modifier
  * @param subtitle the value
  * @param style the style of the text for displaying the [subtitle]
  */
 @Composable
-fun DescriptionSubtitle(modifier: Modifier = Modifier, subtitle: String, style: TextStyle = MaterialTheme.typography.subtitle2, maxLines: Int = Int.MAX_VALUE) =
-    Text(modifier = modifier, text = subtitle, maxLines = maxLines, overflow = TextOverflow.Ellipsis, style = style)
+fun DescriptionSubtitle(subtitle: String, style: WordStyle = WordStyle(), onTextLayout: (TextLayoutResult) -> Unit = {}) {
+    val default = WordStyle(
+        overflow = TextOverflow.Ellipsis,
+        textStyle = MaterialTheme.typography.subtitle2
+    )
+    Text(text = subtitle, style = default.merge(style), onTextLayout = onTextLayout)
+}

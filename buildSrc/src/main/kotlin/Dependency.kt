@@ -28,6 +28,7 @@ private const val LOGGING = "2.3.0"
 private const val LICENSING = "10.0.0-b03"
 private const val KTOR = "1.6.7"
 private const val ANDROID_COMPOSE = "1.1.0-rc03"
+const val RESOURCE = "0.18.0"
 const val COMPOSE = "1.0.1"
 const val KOTLIN = "1.6.10"
 
@@ -45,6 +46,8 @@ fun KotlinDependencyHandler.multiplatformSettings() {
     api("com.russhwolf:multiplatform-settings:$SETTINGS")
     api("com.russhwolf:multiplatform-settings-coroutines:$SETTINGS")
 }
+fun KotlinDependencyHandler.resources() = api("dev.icerock.moko:resources:$RESOURCE")
+fun KotlinDependencyHandler.resourcesCompose() = api("dev.icerock.moko:resources-compose:$RESOURCE")
 
 fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
 fun KotlinDependencyHandler.licensing() = api("com.mikepenz:aboutlibraries-core:${LICENSING}")
@@ -60,7 +63,9 @@ fun KotlinDependencyHandler.projectConstraintLayout() = api(project(":compose-co
 fun KotlinDependencyHandler.projectFunction() = api(project(":function"))
 fun KotlinDependencyHandler.projectSettings() = api(project(":settings"))
 fun KotlinDependencyHandler.projectCompose() = api(project(":compose"))
+fun KotlinDependencyHandler.projectComposeResource() = api(project(":compose-resource"))
 fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
+fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
 
 /**
  * Sets up common dependencies.
