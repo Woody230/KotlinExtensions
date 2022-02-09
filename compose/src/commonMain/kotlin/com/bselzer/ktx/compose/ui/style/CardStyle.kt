@@ -20,12 +20,12 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred CardStyle that will be used by Card components by default.
  */
-val LocalCardStyle: ProvidableCompositionLocal<CardStyle> = compositionLocalOf(structuralEqualityPolicy()) { CardStyle.Default }
+val LocalCardStyle: ProvidableCompositionLocal<CardStyle> = compositionLocalOf { CardStyle.Default }
 
 /**
  * CompositionLocal containing the preferred ClickableCardStyle that will be used by clickable Card components by default.
  */
-val LocalClickableCardStyle: ProvidableCompositionLocal<ClickableCardStyle> = compositionLocalOf(structuralEqualityPolicy()) { ClickableCardStyle.Default }
+val LocalClickableCardStyle: ProvidableCompositionLocal<ClickableCardStyle> = compositionLocalOf { ClickableCardStyle.Default }
 
 /**
  * A wrapper around the standard [Card] composable.

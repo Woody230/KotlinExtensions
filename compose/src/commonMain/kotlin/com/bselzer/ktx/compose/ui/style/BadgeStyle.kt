@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Badge
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.bselzer.ktx.function.objects.merge
@@ -12,7 +15,7 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred BadgeStyle that will be used by Badge components by default.
  */
-val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf(structuralEqualityPolicy()) { BadgeStyle.Default }
+val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf { BadgeStyle.Default }
 
 /**
  * A wrapper around the standard [Badge] composable.

@@ -1,16 +1,14 @@
 package com.bselzer.ktx.compose.ui.container
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.style.*
 
 /**
  * Wraps a [Column] with the [prepend] block, the [contents] separated by the [divider], and then the [append] block.
  *
- * @param modifier the [Column] modifier
- * @param verticalArrangement the vertical arrangement of the content
- * @param horizontalAlignment the horizontal alignment of the content
+ * @param style the style describing how to lay out the column
  * @param prepend the start block before the main [contents] is displayed
  * @param append the end block after the main [contents] is displayed
  * @param divider the divider between the [contents] for a given index, except for between the column and the first and last items which should use the [prepend] and [append] blocks respectively instead
@@ -18,14 +16,12 @@ import androidx.compose.ui.Modifier
  */
 @Composable
 fun DividedColumn(
-    modifier: Modifier = Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    style: ColumnStyle = LocalColumnStyle.current,
     prepend: @Composable ColumnScope.() -> Unit,
     append: @Composable ColumnScope.() -> Unit,
     divider: @Composable ColumnScope.(Int) -> Unit,
     vararg contents: @Composable ColumnScope.() -> Unit
-) = Column(modifier = modifier, verticalArrangement = verticalArrangement, horizontalAlignment = horizontalAlignment) {
+) = Column(style = style) {
     prepend()
 
     contents.forEachIndexed { index, content ->
@@ -42,9 +38,7 @@ fun DividedColumn(
 /**
  * Wraps a [Column] with the [divider] if [prepend] is true, the [contents] separated by the [divider], and then the [divider] if [append] is true.
  *
- * @param modifier the [Column] modifier
- * @param verticalArrangement the vertical arrangement of the content
- * @param horizontalAlignment the horizontal alignment of the content
+ * @param style the style describing how to lay out the column
  * @param prepend whether to lay out the [divider] before the main [contents] is displayed
  * @param append whether to lay out the [divider] after the main [contents] is displayed
  * @param divider the divider between the [contents], except for between the column and the first and last items which should be indicated by [prepend] and [append] respectively instead
@@ -52,17 +46,13 @@ fun DividedColumn(
  */
 @Composable
 fun DividedColumn(
-    modifier: Modifier = Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    style: ColumnStyle = LocalColumnStyle.current,
     prepend: Boolean = false,
     append: Boolean = false,
     divider: @Composable ColumnScope.() -> Unit,
     vararg contents: @Composable ColumnScope.() -> Unit
 ) = DividedColumn(
-    modifier = modifier,
-    verticalArrangement = verticalArrangement,
-    horizontalAlignment = horizontalAlignment,
+    style= style,
     prepend = { if (prepend) divider() },
     append = { if (append) divider() },
     divider = { divider() },
@@ -72,9 +62,7 @@ fun DividedColumn(
 /**
  * Wraps a [Row] with the [prepend] block, the [contents] separated by the [divider], and then the [append] block.
  *
- * @param modifier the [Row] modifier
- * @param horizontalArrangement the horizontal arrangement of the content
- * @param verticalAlignment the vertical alignment of the content
+ * @param style the style describing how to lay out the row
  * @param prepend the start block before the main [contents] is displayed
  * @param append the end block after the main [contents] is displayed
  * @param divider the divider between the [contents] for a given index, except for between the column and the first and last items which should use the [prepend] and [append] blocks respectively instead
@@ -82,14 +70,12 @@ fun DividedColumn(
  */
 @Composable
 fun DividedRow(
-    modifier: Modifier = Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    verticalAlignment: Alignment.Vertical = Alignment.Top,
+    style: RowStyle = LocalRowStyle.current,
     prepend: @Composable RowScope.() -> Unit,
     append: @Composable RowScope.() -> Unit,
     divider: @Composable RowScope.(Int) -> Unit,
     vararg contents: @Composable RowScope.() -> Unit
-) = Row(modifier = modifier, horizontalArrangement = horizontalArrangement, verticalAlignment = verticalAlignment) {
+) = Row(style = style) {
     prepend()
 
     contents.forEachIndexed { index, content ->
@@ -107,9 +93,7 @@ fun DividedRow(
 /**
  * Wraps a [Row] with the [divider] if [prepend] is true, the [contents] separated by the [divider], and then the [divider] if [append] is true.
  *
- * @param modifier the [Row] modifier
- * @param horizontalArrangement the horizontal arrangement of the content
- * @param verticalAlignment the vertical alignment of the content
+ * @param style the style describing how to lay out the row
  * @param prepend whether to lay out the [divider] before the main [contents] is displayed
  * @param append whether to lay out the [divider] after the main [contents] is displayed
  * @param divider the divider between the [contents], except for between the column and the first and last items which should be indicated by [prepend] and [append] respectively instead
@@ -117,17 +101,13 @@ fun DividedRow(
  */
 @Composable
 fun DividedRow(
-    modifier: Modifier = Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    verticalAlignment: Alignment.Vertical = Alignment.Top,
+    style: RowStyle = LocalRowStyle.current,
     prepend: Boolean = false,
     append: Boolean = false,
     divider: @Composable RowScope.() -> Unit,
     vararg contents: @Composable RowScope.() -> Unit
 ) = DividedRow(
-    modifier = modifier,
-    horizontalArrangement = horizontalArrangement,
-    verticalAlignment = verticalAlignment,
+    style = style,
     prepend = { if (prepend) divider() },
     append = { if (append) divider() },
     divider = { divider() },

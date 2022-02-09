@@ -12,7 +12,7 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred IconButtonStyle that will be used by IconButton components by default.
  */
-val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = compositionLocalOf(structuralEqualityPolicy()) { IconButtonStyle.Default }
+val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = compositionLocalOf { IconButtonStyle.Default }
 
 /**
  * A wrapper around the standard [IconButton] composable.

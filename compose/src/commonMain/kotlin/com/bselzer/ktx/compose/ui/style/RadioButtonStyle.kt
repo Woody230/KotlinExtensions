@@ -12,7 +12,7 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred RadioButtonStyle that will be used by RadioButton components by default.
  */
-val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compositionLocalOf(structuralEqualityPolicy()) { RadioButtonStyle.Default }
+val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compositionLocalOf { RadioButtonStyle.Default }
 
 /**
  * A wrapper around the standard [RadioButton] composable.

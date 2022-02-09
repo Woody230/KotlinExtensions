@@ -1,35 +1,41 @@
 package com.bselzer.ktx.compose.ui.background
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import com.bselzer.ktx.compose.ui.style.Image
+import com.bselzer.ktx.compose.ui.style.ImageStyle
 
 /**
- * Lays out a cropped background image.
+ * CompositionLocal containing the preferred BackgroundStyle that will be used by BackgroundImage components by default.
+ */
+val LocalBackgroundStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf {
+    ImageStyle.Default.copy(
+        // Fill the entirety of the parent.
+        modifier = Modifier.fillMaxSize(),
+
+        alignment = Alignment.Center,
+        contentScale = ContentScale.Crop
+    )
+}
+
+/**
+ * Lays out a background image.
  *
  * @param painter the painter
- * @param modifier the modifier for handling size
- * @param alignment where to focus the cropping
+ * @param style the style describing how to lay out the background
  */
 @Composable
-fun BackgroundImage(modifier: Modifier, painter: Painter, alignment: Alignment = Alignment.Center) = Image(
+fun BackgroundImage(
+    painter: Painter,
+    style: ImageStyle = LocalBackgroundStyle.current
+) = Image(
     painter = painter,
     contentDescription = null,
-    modifier = modifier,
-    contentScale = ContentScale.Crop,
-    alignment = alignment
+    style = style
 )
-
-/**
- * Lays out a cropped background image across the entirety of the parent.
- *
- * @param painter the painter
- * @param alignment where to focus the cropping
- */
-@Composable
-fun BackgroundImage(painter: Painter, alignment: Alignment = Alignment.Center) =
-    BackgroundImage(modifier = Modifier.fillMaxSize(), painter = painter, alignment = alignment)

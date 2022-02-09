@@ -2,7 +2,10 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.function.objects.merge
@@ -10,7 +13,7 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred ColumnStyle that will be used by Column components by default.
  */
-val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocalOf(structuralEqualityPolicy()) { ColumnStyle.Default }
+val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocalOf { ColumnStyle.Default }
 
 /**
  * A wrapper around the standard [Column] composable.

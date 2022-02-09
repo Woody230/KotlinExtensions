@@ -21,12 +21,12 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred SurfaceStyle that will be used by Surface components by default.
  */
-val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf(structuralEqualityPolicy()) { SurfaceStyle.Default }
+val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf { SurfaceStyle.Default }
 
 /**
  * CompositionLocal containing the preferred ClickableSurfaceStyle that will be used by clickable Surface components by default.
  */
-val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf(structuralEqualityPolicy()) { ClickableSurfaceStyle.Default }
+val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf { ClickableSurfaceStyle.Default }
 
 /**
  * A wrapper around the standard [Surface] composable.

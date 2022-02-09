@@ -14,7 +14,7 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred ButtonStyle that will be used by Button components by default.
  */
-val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocalOf(structuralEqualityPolicy()) { ButtonStyle.Default }
+val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocalOf { ButtonStyle.Default }
 
 /**
  * A wrapper around the standard [Button] composable.

@@ -6,6 +6,8 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -14,8 +16,43 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.container.Spacer
-import com.bselzer.ktx.compose.ui.style.Text
-import com.bselzer.ktx.compose.ui.style.WordStyle
+import com.bselzer.ktx.compose.ui.style.*
+
+/**
+ * CompositionLocal containing the preferred WordStyle that will be used by Header components by default.
+ */
+val LocalHeaderStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
+    WordStyle.Default.copy(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        fontWeight = FontWeight.Bold,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+/**
+ * CompositionLocal containing the preferred WordStyle that will be used by Text components by default.
+ */
+val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
+    WordStyle.Default.copy(
+        fontWeight = FontWeight.Bold,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+/**
+ * CompositionLocal containing the preferred RowStyle that will be used by Row components by default.
+ */
+val LocalRowStyle: ProvidableCompositionLocal<RowStyle> = compositionLocalOf {
+    RowStyle.Default.copy(
+        modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 48.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    )
+}
 
 /**
  * Lays out the drawer content with a [header] and divided [sections].
@@ -32,13 +69,13 @@ fun ColumnScope.MaterialDrawerContent(
         header()
     }
 
-    Spacer(modifier = Modifier.height(if (header == null) 16.dp else 8.dp))
+    Spacer(height = if (header == null) 16.dp else 8.dp)
 
     DividedColumn(
         divider = {
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(height= 4.dp)
             Divider(thickness = 1.dp)
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(height = 4.dp)
         },
         contents = sections,
     )
@@ -47,66 +84,44 @@ fun ColumnScope.MaterialDrawerContent(
 /**
  * Lays out a section of a drawer.
  *
- * @param modifier the modifier
- * @param verticalArrangement the vertical arrangement of the [content]
- * @param horizontalAlignment the horizontal alignment of the [content]
+ * @param style the style describing how to lay out the column
  * @param content the [content] to lay out
  */
 @Composable
 fun DrawerSection(
-    modifier: Modifier = Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    style: ColumnStyle = LocalColumnStyle.current,
     content: @Composable ColumnScope.() -> Unit,
 ) = Column(
-    modifier = Modifier
-        .fillMaxWidth()
-        .then(modifier),
-    verticalArrangement = verticalArrangement,
-    horizontalAlignment = horizontalAlignment,
+    style = ColumnStyle(modifier = Modifier.fillMaxWidth()).merge(style),
     content = content
 )
 
 /**
  * Lays out a section of a drawer.
  *
- * @param modifier the modifier
- * @param verticalArrangement the vertical arrangement of the content
- * @param horizontalAlignment the horizontal alignment of the content
+ * @param style the style describing how to lay out the column
  * @param header the header describing the content of this section
  * @param headerStyle the style of the text of the [header]
  * @param components the main content of this section
  */
 @Composable
 fun DrawerSection(
-    modifier: Modifier = Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    style: ColumnStyle = LocalColumnStyle.current,
     header: String? = null,
-    headerStyle: WordStyle = WordStyle(),
+    headerStyle: WordStyle = LocalHeaderStyle.current,
     vararg components: @Composable ColumnScope.() -> Unit
 ) = DrawerSection(
-    modifier = modifier,
-    verticalArrangement = verticalArrangement,
-    horizontalAlignment = horizontalAlignment
+    style = style
 ) {
     header?.let { header ->
         Spacer(height = 4.dp)
 
-        val defaultText = WordStyle(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            textStyle = MaterialTheme.typography.subtitle2,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.primary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-
         Text(
             text = header,
-            style = defaultText.merge(headerStyle)
+            style = WordStyle(
+                textStyle = MaterialTheme.typography.subtitle2,
+                color = MaterialTheme.colors.primary,
+            ).merge(headerStyle)
         )
 
         Spacer(height = 4.dp)
@@ -121,67 +136,52 @@ fun DrawerSection(
 /**
  * Lays out the row for a component of a drawer.
  *
- * @param modifier the modifier
- * @param verticalAlignment the vertical alignment of the content
- * @param horizontalArrangement the horizontal arrangement of the content
+ * @param style the style describing how to lay out the row
  * @param onClick the on-click handler
  */
 @Composable
 fun DrawerComponentRow(
-    modifier: Modifier,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    style: RowStyle = LocalRowStyle.current,
     onClick: () -> Unit,
     content: @Composable RowScope.() -> Unit,
 ) = Row(
-    verticalAlignment = verticalAlignment,
-    horizontalArrangement = horizontalArrangement,
-    modifier = Modifier
-        .fillMaxWidth()
-        .defaultMinSize(minHeight = 48.dp)
-        .clickable { onClick() }
-        .then(modifier),
+    style = RowStyle(modifier = Modifier.clickable { onClick() }).merge(style),
     content = content
 )
 
 /**
  * Lays out a component of a drawer.
  *
- * @param modifier the modifier
- * @param verticalAlignment the vertical alignment of the content
- * @param horizontalArrangement the horizontal arrangement of the content
- * @param iconPainter the painter for displaying the icon image
+ * @param style the style describing how to lay out the row
+ * @param icon the painter for displaying the icon image
  * @param text the title of the component
  * @param textStyle the style of the [text]
  * @param onClick the on-click handler
  */
 @Composable
 fun DrawerComponent(
-    modifier: Modifier = Modifier,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    iconPainter: Painter?,
+    style: RowStyle = LocalRowStyle.current,
+    icon: Painter?,
     text: String,
-    textStyle: WordStyle = WordStyle(),
+    textStyle: WordStyle = LocalWordStyle.current,
     onClick: () -> Unit,
 ) = DrawerComponentRow(
-    modifier = modifier,
-    verticalAlignment = verticalAlignment,
-    horizontalArrangement = horizontalArrangement,
+    style = style,
     onClick = onClick
 ) {
     Spacer(width = 16.dp)
-    iconPainter?.let {
-        Icon(modifier = Modifier.size(24.dp), painter = iconPainter, contentDescription = text)
+
+    icon?.let {
+        Icon(modifier = Modifier.size(24.dp), painter = icon, contentDescription = text)
         Spacer(width = 32.dp)
     }
 
-    val defaultText = WordStyle(
-        textStyle = MaterialTheme.typography.body2,
-        fontWeight = FontWeight.Bold,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
+    Text(
+        text = text,
+        style = WordStyle(
+            textStyle = MaterialTheme.typography.body2,
+        ).merge(textStyle)
     )
-    Text(text = text, style = defaultText.merge(textStyle))
+
     Spacer(width = 8.dp)
 }

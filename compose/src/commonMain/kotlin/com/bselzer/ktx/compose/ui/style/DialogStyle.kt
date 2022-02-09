@@ -3,7 +3,6 @@ package com.bselzer.ktx.compose.ui.style
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -17,7 +16,7 @@ expect class DialogProperties(): Style<DialogProperties>
 /**
  * CompositionLocal containing the preferred AlertDialogStyle that will be used by AlertDialog components by default.
  */
-val LocalAlertDialogStyle: ProvidableCompositionLocal<AlertDialogStyle> = compositionLocalOf(structuralEqualityPolicy()) { AlertDialogStyle.Default }
+val LocalAlertDialogStyle: ProvidableCompositionLocal<AlertDialogStyle> = compositionLocalOf { AlertDialogStyle.Default }
 
 /**
  * The style arguments associated with an AlertDialog composable.

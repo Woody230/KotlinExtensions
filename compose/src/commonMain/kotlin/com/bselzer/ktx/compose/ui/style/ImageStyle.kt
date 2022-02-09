@@ -1,6 +1,9 @@
 package com.bselzer.ktx.compose.ui.style
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -12,7 +15,7 @@ import com.bselzer.ktx.function.objects.merge
 /**
  * CompositionLocal containing the preferred ImageStyle that will be used by Image components by default.
  */
-val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf(structuralEqualityPolicy()) { ImageStyle.Default }
+val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf { ImageStyle.Default }
 
 /**
  * A wrapper around the standard [Image] composable.
