@@ -45,7 +45,7 @@ fun Card(
         backgroundColor = backgroundColor,
         contentColor = style.contentColor ?: contentColorFor(backgroundColor = backgroundColor),
         border = style.border,
-        elevation = style.elevation,
+        elevation = style.elevation ?: 1.dp,
         content = content
     )
 }
@@ -72,10 +72,10 @@ fun Card(
         backgroundColor = backgroundColor,
         contentColor = style.contentColor ?: contentColorFor(backgroundColor = backgroundColor),
         border = style.border,
-        elevation = style.elevation,
+        elevation = style.elevation ?: 1.dp,
         interactionSource = style.interactionSource ?: remember { MutableInteractionSource() },
         indication = style.indication ?: LocalIndication.current,
-        enabled = style.enabled,
+        enabled = style.enabled ?: true,
         onClickLabel = onClickLabel,
         role = style.role,
         content = content
@@ -111,7 +111,7 @@ data class CardStyle(
     /**
      * The z-coordinate at which to place this card. This controls the size of the shadow below the card.
      */
-    val elevation: Dp = 1.dp,
+    val elevation: Dp? = null,
 ) : ModifiableStyle<CardStyle> {
     companion object {
         @Stable
@@ -124,7 +124,7 @@ data class CardStyle(
         backgroundColor = backgroundColor.merge(other.backgroundColor),
         contentColor = contentColor.merge(other.contentColor),
         border = border.merge(other.border),
-        elevation = elevation.merge(other.elevation, 1.dp),
+        elevation = elevation.merge(other.elevation),
     )
 }
 
@@ -157,7 +157,7 @@ data class ClickableCardStyle(
     /**
      * The z-coordinate at which to place this card. This controls the size of the shadow below the card.
      */
-    val elevation: Dp = 1.dp,
+    val elevation: Dp? = null,
 
     /**
      * the MutableInteractionSource representing the stream of Interactions for this Card. You can create and pass in your own remembered MutableInteractionSource if you want to observe Interactions and customize the appearance / behavior of this card in different Interactions.
@@ -174,7 +174,7 @@ data class ClickableCardStyle(
     /**
      * Controls the enabled state of the card. When false, this card will not be clickable
      */
-    val enabled: Boolean = true,
+    val enabled: Boolean? = null,
 
     /**
      *  The type of user interface element.
@@ -194,10 +194,10 @@ data class ClickableCardStyle(
         backgroundColor = backgroundColor.merge(other.backgroundColor),
         contentColor = contentColor.merge(other.contentColor),
         border = border.merge(other.border),
-        elevation = elevation.merge(other.elevation, 1.dp),
+        elevation = elevation.merge(other.elevation),
         interactionSource = interactionSource.merge(other.interactionSource),
         indication = indication.merge(other.indication),
-        enabled = enabled.merge(other.enabled, true),
+        enabled = enabled.merge(other.enabled),
         role = role.merge(other.role)
     )
 }

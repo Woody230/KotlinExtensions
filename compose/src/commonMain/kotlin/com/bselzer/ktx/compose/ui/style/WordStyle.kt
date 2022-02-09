@@ -35,17 +35,18 @@ fun Text(
 ) = androidx.compose.material.Text(
     text = text,
     modifier = style.modifier,
-    color = style.color,
-    fontSize = style.fontSize,
+    color = style.color ?: Color.Unspecified,
+    fontSize = style.fontSize ?: TextUnit.Unspecified,
     fontStyle = style.fontStyle,
     fontWeight = style.fontWeight,
     fontFamily = style.fontFamily,
-    letterSpacing = style.letterSpacing,
+    letterSpacing = style.letterSpacing ?: TextUnit.Unspecified,
     textDecoration = style.textDecoration,
     textAlign = style.textAlign,
-    lineHeight = style.lineHeight,
-    overflow = style.overflow,
-    maxLines = style.maxLines,
+    lineHeight = style.lineHeight ?: TextUnit.Unspecified,
+    overflow = style.overflow ?: TextOverflow.Clip,
+    softWrap = style.softWrap ?: true,
+    maxLines = style.maxLines ?: Int.MAX_VALUE,
     onTextLayout = onTextLayout,
     style = style.textStyle ?: LocalTextStyle.current
 )
@@ -59,12 +60,12 @@ data class WordStyle(
     /**
      * Color to apply to the text. If [Color.Unspecified], and style has no color set, this will be LocalContentColor.
      */
-    val color: Color = Color.Unspecified,
+    val color: Color? = null,
 
     /**
      * The size of glyphs to use when painting the text. See [TextStyle.fontSize].
      */
-    val fontSize: TextUnit = TextUnit.Unspecified,
+    val fontSize: TextUnit? = null,
 
     /**
      * The typeface variant to use when drawing the letters (e.g., italic). See [TextStyle.fontStyle].
@@ -84,7 +85,7 @@ data class WordStyle(
     /**
      * The amount of space to add between each letter. See [TextStyle.letterSpacing].
      */
-    val letterSpacing: TextUnit = TextUnit.Unspecified,
+    val letterSpacing: TextUnit? = null,
 
     /**
      * The decorations to paint on the text (e.g., an underline). See [TextStyle.textDecoration].
@@ -99,22 +100,22 @@ data class WordStyle(
     /**
      * Line height for the Paragraph in TextUnit unit, e.g. SP or EM. See [TextStyle.lineHeight].
      */
-    val lineHeight: TextUnit = TextUnit.Unspecified,
+    val lineHeight: TextUnit? = null,
 
     /**
      * How visual overflow should be handled.
      */
-    val overflow: TextOverflow = TextOverflow.Clip,
+    val overflow: TextOverflow? = null,
 
     /**
      * Whether the text should break at soft line breaks. If false, the glyphs in the text will be positioned as if there was unlimited horizontal space. If [softWrap] is false, [overflow] and TextAlign may have unexpected effects.
      */
-    val softWrap: Boolean = true,
+    val softWrap: Boolean? = null,
 
     /**
      * The maximum number of lines for the text to span, wrapping if necessary. If the text exceeds the given number of lines, it will be truncated according to [overflow] and [softWrap]. If it is not null, then it must be greater than zero.
      */
-    val maxLines: Int = Int.MAX_VALUE,
+    val maxLines: Int? = null,
 
     /**
      * Style configuration for the text such as color, font, line height etc.
@@ -128,18 +129,18 @@ data class WordStyle(
 
     override fun merge(other: WordStyle?): WordStyle = if (other == null) this else WordStyle(
         modifier = modifier.then(other.modifier),
-        color = color.merge(other.color, Color.Unspecified),
-        fontSize = fontSize.merge(other.fontSize, TextUnit.Unspecified),
+        color = color.merge(other.color),
+        fontSize = fontSize.merge(other.fontSize),
         fontStyle = fontStyle.merge(other.fontStyle),
         fontWeight = fontWeight.merge(other.fontWeight),
         fontFamily = fontFamily.merge(other.fontFamily),
-        letterSpacing = letterSpacing.merge(other.letterSpacing, TextUnit.Unspecified),
+        letterSpacing = letterSpacing.merge(other.letterSpacing),
         textDecoration = textDecoration.merge(other.textDecoration),
         textAlign = textAlign.merge(other.textAlign),
-        lineHeight = lineHeight.merge(other.lineHeight, TextUnit.Unspecified),
-        overflow = overflow.merge(other.overflow, TextOverflow.Clip),
-        softWrap = softWrap.merge(other.softWrap, true),
-        maxLines = maxLines.merge(other.maxLines, Int.MAX_VALUE),
+        lineHeight = lineHeight.merge(other.lineHeight),
+        overflow = overflow.merge(other.overflow),
+        softWrap = softWrap.merge(other.softWrap),
+        maxLines = maxLines.merge(other.maxLines),
 
         // Use the merge method on the object instead of the extension.
         textStyle = textStyle?.merge(other.textStyle) ?: other.textStyle,

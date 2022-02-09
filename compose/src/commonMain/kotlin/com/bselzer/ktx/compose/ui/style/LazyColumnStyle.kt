@@ -28,16 +28,19 @@ val LocalLazyColumnStyle: ProvidableCompositionLocal<LazyColumnStyle> = composit
 fun LazyColumn(
     style: LazyColumnStyle = LocalLazyColumnStyle.current,
     content: LazyListScope.() -> Unit
-) = androidx.compose.foundation.lazy.LazyColumn(
-    modifier = style.modifier,
-    state = style.state ?: rememberLazyListState(),
-    contentPadding = style.contentPadding,
-    reverseLayout = style.reverseLayout,
-    verticalArrangement = style.verticalArrangement,
-    horizontalAlignment = style.horizontalAlignment,
-    flingBehavior = style.flingBehavior ?: ScrollableDefaults.flingBehavior(),
-    content = content
-)
+)  {
+    val reverseLayout = style.reverseLayout ?: false
+    androidx.compose.foundation.lazy.LazyColumn(
+        modifier = style.modifier,
+        state = style.state ?: rememberLazyListState(),
+        contentPadding = style.contentPadding ?: PaddingValues(all = 0.dp),
+        reverseLayout = reverseLayout,
+        verticalArrangement = style.verticalArrangement ?: if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+        horizontalAlignment = style.horizontalAlignment ?: Alignment.Start,
+        flingBehavior = style.flingBehavior ?: ScrollableDefaults.flingBehavior(),
+        content = content
+    )
+}
 
 /**
  * The style arguments associated with the [LazyColumn] composable.
@@ -54,22 +57,22 @@ data class LazyColumnStyle(
      * A padding around the whole content. This will add padding for the. content after it has been clipped, which is not possible via modifier param.
      * You can use it to add a padding before the first item or after the last one. If you want to add a spacing between each item use verticalArrangement.
      */
-    val contentPadding: PaddingValues = PaddingValues(all = 0.dp),
+    val contentPadding: PaddingValues? = null,
 
     /**
      * Reverse the direction of scrolling and layout, when true items will be composed from the bottom to the top and LazyListState.firstVisibleItemIndex == 0 will mean we scrolled to the bottom.
      */
-    val reverseLayout: Boolean = false,
+    val reverseLayout: Boolean? = null,
 
     /**
      * The vertical arrangement of the layout's children.
      */
-    val verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    val verticalArrangement: Arrangement.Vertical? = null,
 
     /**
      * The horizontal alignment of the layout's children.
      */
-    val horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    val horizontalAlignment: Alignment.Horizontal? = null,
 
     /**
      * Logic describing fling behavior.
@@ -84,9 +87,9 @@ data class LazyColumnStyle(
     override fun merge(other: LazyColumnStyle?): LazyColumnStyle = if (other == null) this else LazyColumnStyle(
         modifier = modifier.then(other.modifier),
         state = state.merge(other.state),
-        contentPadding = contentPadding.merge(other.contentPadding, PaddingValues(all = 0.dp)),
-        reverseLayout = reverseLayout.merge(other.reverseLayout, false),
-        verticalArrangement = verticalArrangement.merge(other.verticalArrangement, if (!other.reverseLayout) Arrangement.Top else Arrangement.Bottom),
-        horizontalAlignment = horizontalAlignment.merge(other.horizontalAlignment, Alignment.Start),
+        contentPadding = contentPadding.merge(other.contentPadding),
+        reverseLayout = reverseLayout.merge(other.reverseLayout),
+        verticalArrangement = verticalArrangement.merge(other.verticalArrangement),
+        horizontalAlignment = horizontalAlignment.merge(other.horizontalAlignment),
     )
 }

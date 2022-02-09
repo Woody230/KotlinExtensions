@@ -31,13 +31,13 @@ fun Button(
 ) = Button(
     onClick = onClick,
     modifier = style.modifier,
-    enabled = style.enabled,
+    enabled = style.enabled ?: true,
     interactionSource = style.interactionSource ?: remember { MutableInteractionSource() },
     elevation = style.elevation ?: ButtonDefaults.elevation(),
     shape = style.shape ?: MaterialTheme.shapes.small,
     border = style.border,
     colors = style.colors ?: ButtonDefaults.buttonColors(),
-    contentPadding = style.contentPadding,
+    contentPadding = style.contentPadding ?: ButtonDefaults.ContentPadding,
     content = content
 )
 
@@ -68,7 +68,7 @@ data class ButtonStyle(
     /**
      * Controls the enabled state of the button. When false, this button will not be clickable
      */
-    val enabled: Boolean = true,
+    val enabled: Boolean? = null,
 
     /**
      * The [MutableInteractionSource] representing the stream of [Interaction]s for this Button. You can create and pass in your own remembered [MutableInteractionSource] if you want to observe [Interaction]s and customize the appearance / behavior of this Button in different [Interaction]s.
@@ -98,7 +98,7 @@ data class ButtonStyle(
     /**
      * The spacing values to apply internally between the container and the content
      */
-    val contentPadding: PaddingValues = ButtonDefaults.ContentPadding
+    val contentPadding: PaddingValues? = null
 ) : ModifiableStyle<ButtonStyle> {
     companion object {
         @Stable
@@ -107,12 +107,12 @@ data class ButtonStyle(
 
     override fun merge(other: ButtonStyle?): ButtonStyle = if (other == null) this else ButtonStyle(
         modifier = modifier.then(other.modifier),
-        enabled = enabled.merge(other.enabled, true),
+        enabled = enabled.merge(other.enabled),
         interactionSource = interactionSource.merge(other.interactionSource),
         elevation = elevation.merge(other.elevation),
         shape = shape.merge(other.shape),
         border = border.merge(other.border),
         colors = colors.merge(other.colors),
-        contentPadding = contentPadding.merge(other.contentPadding, ButtonDefaults.ContentPadding)
+        contentPadding = contentPadding.merge(other.contentPadding)
     )
 }

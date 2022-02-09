@@ -24,8 +24,8 @@ fun Row(
     content: @Composable RowScope.() -> Unit
 ) = androidx.compose.foundation.layout.Row(
     modifier = style.modifier,
-    horizontalArrangement = style.horizontalArrangement,
-    verticalAlignment = style.verticalAlignment,
+    horizontalArrangement = style.horizontalArrangement ?: Arrangement.Start,
+    verticalAlignment = style.verticalAlignment ?: Alignment.Top,
     content = content
 )
 
@@ -38,12 +38,12 @@ data class RowStyle(
     /**
      * The horizontal arrangement of the layout's children.
      */
-    val horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    val horizontalArrangement: Arrangement.Horizontal? = null,
 
     /**
      * The vertical alignment of the layout's children.
      */
-    val verticalAlignment: Alignment.Vertical = Alignment.Top,
+    val verticalAlignment: Alignment.Vertical? = null,
 
 ): ModifiableStyle<RowStyle> {
     companion object {
@@ -53,7 +53,7 @@ data class RowStyle(
 
     override fun merge(other: RowStyle?): RowStyle = if (other == null) this else RowStyle(
         modifier = modifier.then(other.modifier),
-        horizontalArrangement = horizontalArrangement.merge(other.horizontalArrangement, Arrangement.Start),
-        verticalAlignment = verticalAlignment.merge(other.verticalAlignment, Alignment.Top)
+        horizontalArrangement = horizontalArrangement.merge(other.horizontalArrangement),
+        verticalAlignment = verticalAlignment.merge(other.verticalAlignment)
     )
 }

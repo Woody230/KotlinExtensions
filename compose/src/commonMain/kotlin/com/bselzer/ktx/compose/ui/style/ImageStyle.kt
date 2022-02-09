@@ -30,9 +30,9 @@ fun Image(
     painter = painter,
     contentDescription = contentDescription,
     modifier = style.modifier,
-    alignment = style.alignment,
-    contentScale = style.contentScale,
-    alpha = style.alpha,
+    alignment = style.alignment ?: Alignment.Center,
+    contentScale = style.contentScale ?: ContentScale.Fit,
+    alpha = style.alpha ?: DefaultAlpha,
     colorFilter = style.colorFilter
 )
 
@@ -45,17 +45,17 @@ data class ImageStyle(
     /**
      * Alignment parameter used to place the Painter in the given bounds defined by the width and height.
      */
-    val alignment: Alignment = Alignment.Center,
+    val alignment: Alignment? = null,
 
     /**
      * Scale parameter used to determine the aspect ratio scaling to be used if the bounds are a different size from the intrinsic size of the Painter
      */
-    val contentScale: ContentScale = ContentScale.Fit,
+    val contentScale: ContentScale? = null,
 
     /**
      * Opacity to be applied to the Painter when it is rendered onscreen the default renders the Painter completely opaque
      */
-    val alpha: Float = DefaultAlpha,
+    val alpha: Float? = null,
 
     /**
      * ColorFilter to apply for the Painter when it is rendered onscreen
@@ -69,9 +69,9 @@ data class ImageStyle(
 
     override fun merge(other: ImageStyle?): ImageStyle = if (other == null) this else ImageStyle(
         modifier = modifier.then(other.modifier),
-        alignment = alignment.merge(other.alignment, Alignment.Center),
-        contentScale = contentScale.merge(other.contentScale, ContentScale.Fit),
-        alpha = alpha.merge(other.alpha, DefaultAlpha),
+        alignment = alignment.merge(other.alignment),
+        contentScale = contentScale.merge(other.contentScale),
+        alpha = alpha.merge(other.alpha),
         colorFilter = colorFilter.merge(other.colorFilter)
     )
 }

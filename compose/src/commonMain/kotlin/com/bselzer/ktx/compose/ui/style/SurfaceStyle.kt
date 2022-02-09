@@ -46,7 +46,7 @@ fun Surface(
         color = backgroundColor,
         contentColor = style.contentColor ?: contentColorFor(backgroundColor = backgroundColor),
         border = style.border,
-        elevation = style.elevation,
+        elevation = style.elevation ?: 0.dp,
         content = content
     )
 }
@@ -69,14 +69,14 @@ fun Surface(
     Surface(
         onClick = onClick,
         modifier = style.modifier,
-        shape = style.shape ?: MaterialTheme.shapes.medium,
+        shape = style.shape ?: RectangleShape,
         color = backgroundColor,
         contentColor = style.contentColor ?: contentColorFor(backgroundColor = backgroundColor),
         border = style.border,
-        elevation = style.elevation,
+        elevation = style.elevation ?: 0.dp,
         interactionSource = style.interactionSource ?: remember { MutableInteractionSource() },
         indication = style.indication ?: LocalIndication.current,
-        enabled = style.enabled,
+        enabled = style.enabled ?: true,
         onClickLabel = onClickLabel,
         role = style.role,
         content = content
@@ -92,7 +92,7 @@ data class SurfaceStyle(
     /**
      * Defines the Surface's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
      */
-    val shape: Shape = RectangleShape,
+    val shape: Shape? = null,
 
     /**
      * The background color. Use Color.Transparent to have no color.
@@ -112,7 +112,7 @@ data class SurfaceStyle(
     /**
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
-    val elevation: Dp = 0.dp,
+    val elevation: Dp? = null,
 ) : ModifiableStyle<SurfaceStyle> {
     companion object {
         @Stable
@@ -121,11 +121,11 @@ data class SurfaceStyle(
 
     override fun merge(other: SurfaceStyle?): SurfaceStyle = if (other == null) this else SurfaceStyle(
         modifier = modifier.then(other.modifier),
-        shape = shape.merge(other.shape, RectangleShape),
+        shape = shape.merge(other.shape),
         color = color.merge(other.color),
         contentColor = contentColor.merge(other.contentColor),
         border = border.merge(other.border),
-        elevation = elevation.merge(other.elevation, 1.dp),
+        elevation = elevation.merge(other.elevation),
     )
 }
 
@@ -138,7 +138,7 @@ data class ClickableSurfaceStyle(
     /**
      * Defines the Surface's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
      */
-    val shape: Shape = RectangleShape,
+    val shape: Shape? = null,
 
     /**
      * The background color. Use Color.Transparent to have no color.
@@ -158,7 +158,7 @@ data class ClickableSurfaceStyle(
     /**
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
-    val elevation: Dp = 0.dp,
+    val elevation: Dp? = null,
 
     /**
      * the MutableInteractionSource representing the stream of Interactions for this Surface. You can create and pass in your own remembered MutableInteractionSource if you want to observe Interactions and customize the appearance / behavior of this Surface in different Interactions.
@@ -175,7 +175,7 @@ data class ClickableSurfaceStyle(
     /**
      * Controls the enabled state of the Surface. When false, this Surface will not be clickable
      */
-    val enabled: Boolean = true,
+    val enabled: Boolean? = null,
 
     /**
      *  The type of user interface element.
@@ -191,14 +191,14 @@ data class ClickableSurfaceStyle(
 
     override fun merge(other: ClickableSurfaceStyle?): ClickableSurfaceStyle = if (other == null) this else ClickableSurfaceStyle(
         modifier = modifier.then(other.modifier),
-        shape = shape.merge(other.shape, RectangleShape),
+        shape = shape.merge(other.shape),
         color = color.merge(other.color),
         contentColor = contentColor.merge(other.contentColor),
         border = border.merge(other.border),
-        elevation = elevation.merge(other.elevation, 1.dp),
+        elevation = elevation.merge(other.elevation),
         interactionSource = interactionSource.merge(other.interactionSource),
         indication = indication.merge(other.indication),
-        enabled = enabled.merge(other.enabled, true),
+        enabled = enabled.merge(other.enabled),
         role = role.merge(other.role)
     )
 }

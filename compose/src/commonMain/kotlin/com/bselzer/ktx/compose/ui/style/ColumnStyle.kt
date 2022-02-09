@@ -24,8 +24,8 @@ fun Column(
     content: @Composable ColumnScope.() -> Unit
 ) = androidx.compose.foundation.layout.Column(
     modifier = style.modifier,
-    verticalArrangement = style.verticalArrangement,
-    horizontalAlignment = style.horizontalAlignment,
+    verticalArrangement = style.verticalArrangement ?: Arrangement.Top,
+    horizontalAlignment = style.horizontalAlignment ?: Alignment.Start,
     content = content
 )
 
@@ -38,12 +38,12 @@ data class ColumnStyle(
     /**
      * The vertical arrangement of the layout's children.
      */
-    val verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    val verticalArrangement: Arrangement.Vertical? = null,
 
     /**
      * The horizontal alignment of the layout's children.
      */
-    val horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    val horizontalAlignment: Alignment.Horizontal? = null,
 ): ModifiableStyle<ColumnStyle> {
     companion object {
         @Stable
@@ -52,7 +52,7 @@ data class ColumnStyle(
 
     override fun merge(other: ColumnStyle?): ColumnStyle = if (other == null) this else ColumnStyle(
         modifier = modifier.then(other.modifier),
-        verticalArrangement = verticalArrangement.merge(other.verticalArrangement, Arrangement.Top),
-        horizontalAlignment = horizontalAlignment.merge(other.horizontalAlignment, Alignment.Start)
+        verticalArrangement = verticalArrangement.merge(other.verticalArrangement),
+        horizontalAlignment = horizontalAlignment.merge(other.horizontalAlignment)
     )
 }

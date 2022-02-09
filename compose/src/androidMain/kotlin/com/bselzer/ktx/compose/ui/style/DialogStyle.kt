@@ -7,29 +7,29 @@ actual class DialogProperties(
     /**
      * Whether the dialog can be dismissed by pressing the back button. If true, pressing the back button will call onDismissRequest.
      */
-    val dismissOnBackPress: Boolean = true,
+    val dismissOnBackPress: Boolean? = null,
 
     /**
      * Whether the dialog can be dismissed by clicking outside the dialog's bounds. If true, clicking outside the dialog will call onDismissRequest.
      */
-    val dismissOnClickOutside: Boolean = true,
+    val dismissOnClickOutside: Boolean? = null,
 
     /**
      * Policy for setting WindowManager.LayoutParams.FLAG_SECURE on the dialog's window.
      */
-    val securePolicy: SecureFlagPolicy = SecureFlagPolicy.Inherit,
+    val securePolicy: SecureFlagPolicy? = null,
 
     /**
      * Whether the width of the dialog's content should be limited to the platform default, which is smaller than the screen width.
      */
-    val usePlatformDefaultWidth: Boolean = true,
+    val usePlatformDefaultWidth: Boolean? = null,
 ): Style<DialogProperties> {
-    actual constructor() : this(dismissOnBackPress = true)
+    actual constructor() : this(dismissOnBackPress = null)
 
     override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
-        dismissOnBackPress = dismissOnBackPress.merge(other.dismissOnBackPress, true),
-        dismissOnClickOutside = dismissOnClickOutside.merge(other.dismissOnClickOutside, true),
-        securePolicy = securePolicy.merge(other.securePolicy, SecureFlagPolicy.Inherit),
-        usePlatformDefaultWidth = usePlatformDefaultWidth.merge(other.usePlatformDefaultWidth, true)
+        dismissOnBackPress = dismissOnBackPress.merge(other.dismissOnBackPress),
+        dismissOnClickOutside = dismissOnClickOutside.merge(other.dismissOnClickOutside),
+        securePolicy = securePolicy.merge(other.securePolicy),
+        usePlatformDefaultWidth = usePlatformDefaultWidth.merge(other.usePlatformDefaultWidth)
     )
 }

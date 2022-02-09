@@ -29,7 +29,7 @@ fun IconButton(
 ) = IconButton(
     onClick = onClick,
     modifier = style.modifier,
-    enabled = style.enabled,
+    enabled = style.enabled ?: true,
     interactionSource = style.interactionSource ?: remember { MutableInteractionSource() },
     content = content
 )
@@ -62,7 +62,7 @@ data class IconButtonStyle(
     /**
      * Whether or not this IconButton will handle input events and appear enabled for semantics purposes
      */
-    val enabled: Boolean = true,
+    val enabled: Boolean? = null,
 
     /**
      * The [MutableInteractionSource] representing the stream of [Interaction]s for this Button. You can create and pass in your own remembered [MutableInteractionSource] if you want to observe [Interaction]s and customize the appearance / behavior of this IconButton in different [Interaction]s.
@@ -76,7 +76,7 @@ data class IconButtonStyle(
 
     override fun merge(other: IconButtonStyle?): IconButtonStyle = if (other == null) this else IconButtonStyle(
         modifier = modifier.then(other.modifier),
-        enabled = enabled.merge(other.enabled, true),
+        enabled = enabled.merge(other.enabled),
         interactionSource = interactionSource.merge(other.interactionSource),
     )
 }

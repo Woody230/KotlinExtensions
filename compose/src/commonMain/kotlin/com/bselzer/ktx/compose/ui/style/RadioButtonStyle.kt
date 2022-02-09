@@ -29,7 +29,7 @@ fun RadioButton(
     selected = selected,
     onClick = onClick,
     modifier = style.modifier,
-    enabled = style.enabled,
+    enabled = style.enabled ?: true,
     interactionSource = style.interactionSource ?: remember { MutableInteractionSource() },
     colors = style.colors ?: RadioButtonDefaults.colors(),
 )
@@ -43,7 +43,7 @@ data class RadioButtonStyle(
     /**
      * Controls the enabled state of the RadioButton. When false, this button will not be selectable and appears in the disabled ui state
      */
-    val enabled: Boolean = true,
+    val enabled: Boolean? = null,
 
     /**
      * The [MutableInteractionSource] representing the stream of [Interaction]s for this Button. You can create and pass in your own remembered [MutableInteractionSource] if you want to observe [Interaction]s and customize the appearance / behavior of this RadioButton in different [Interaction]s.
@@ -62,7 +62,7 @@ data class RadioButtonStyle(
 
     override fun merge(other: RadioButtonStyle?): RadioButtonStyle = if (other == null) this else RadioButtonStyle(
         modifier = modifier.then(other.modifier),
-        enabled = enabled.merge(other.enabled, true),
+        enabled = enabled.merge(other.enabled),
         interactionSource = interactionSource.merge(other.interactionSource),
         colors = colors.merge(other.colors),
     )
