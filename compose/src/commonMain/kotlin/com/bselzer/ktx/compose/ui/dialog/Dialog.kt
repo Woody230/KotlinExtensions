@@ -1,7 +1,6 @@
 package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.runtime.Composable
-import com.bselzer.ktx.compose.ui.style.DialogProperties
 
 /**
  * Opens a dialog with the given [content].

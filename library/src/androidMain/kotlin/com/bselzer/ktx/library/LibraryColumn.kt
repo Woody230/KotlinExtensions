@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarTitle
+import com.bselzer.ktx.compose.ui.dialog.AlertDialogStyle
 import com.bselzer.ktx.compose.ui.dialog.ConfirmationButton
+import com.bselzer.ktx.compose.ui.dialog.LocalAlertDialogStyle
 import com.bselzer.ktx.compose.ui.dialog.MaterialAlertDialog
 import com.bselzer.ktx.compose.ui.style.*
 import com.bselzer.ktx.resource.Resources

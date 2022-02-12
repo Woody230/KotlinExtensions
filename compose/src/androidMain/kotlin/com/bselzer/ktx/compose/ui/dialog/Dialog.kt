@@ -3,7 +3,6 @@ package com.bselzer.ktx.compose.ui.dialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.SecureFlagPolicy
-import com.bselzer.ktx.compose.ui.style.DialogProperties
 
 /**
  * Opens a dialog with the given [content].

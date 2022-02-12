@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.style
+package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
@@ -6,6 +6,8 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import com.bselzer.ktx.compose.ui.style.ModifiableStyle
+import com.bselzer.ktx.compose.ui.style.Style
 import com.bselzer.ktx.function.objects.merge
 
 /**

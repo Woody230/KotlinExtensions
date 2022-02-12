@@ -1,7 +1,8 @@
-package com.bselzer.ktx.compose.ui.style
+package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.window.DialogState
+import com.bselzer.ktx.compose.ui.style.Style
 import com.bselzer.ktx.function.objects.merge
 
 actual class DialogProperties(

@@ -5,7 +5,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.window.DialogWindowScope
 import androidx.compose.ui.window.rememberDialogState
-import com.bselzer.ktx.compose.ui.style.DialogProperties
 
 /**
  * Opens a dialog with the given [content].

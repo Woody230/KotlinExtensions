@@ -1,6 +1,7 @@
-package com.bselzer.ktx.compose.ui.style
+package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.ui.window.SecureFlagPolicy
+import com.bselzer.ktx.compose.ui.style.Style
 import com.bselzer.ktx.function.objects.merge
 
 actual class DialogProperties(
