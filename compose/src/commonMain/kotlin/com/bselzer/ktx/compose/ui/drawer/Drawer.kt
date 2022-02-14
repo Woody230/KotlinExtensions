@@ -6,8 +6,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -17,42 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.container.Spacer
 import com.bselzer.ktx.compose.ui.style.*
-
-/**
- * CompositionLocal containing the preferred WordStyle that will be used by Header components by default.
- */
-val LocalHeaderStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
-    WordStyle.Default.copy(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        fontWeight = FontWeight.Bold,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
-}
-
-/**
- * CompositionLocal containing the preferred WordStyle that will be used by Text components by default.
- */
-val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
-    WordStyle.Default.copy(
-        fontWeight = FontWeight.Bold,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-    )
-}
-
-/**
- * CompositionLocal containing the preferred RowStyle that will be used by Row components by default.
- */
-val LocalRowStyle: ProvidableCompositionLocal<RowStyle> = compositionLocalOf {
-    RowStyle.Default.copy(
-        modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 48.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    )
-}
 
 /**
  * Lays out the drawer content with a [header] and divided [sections].
@@ -108,7 +70,7 @@ fun DrawerSection(
 fun DrawerSection(
     style: ColumnStyle = LocalColumnStyle.current,
     header: String? = null,
-    headerStyle: WordStyle = LocalHeaderStyle.current,
+    headerStyle: WordStyle = LocalWordStyle.current,
     vararg components: @Composable ColumnScope.() -> Unit
 ) = DrawerSection(
     style = style
@@ -121,6 +83,9 @@ fun DrawerSection(
             style = WordStyle(
                 textStyle = MaterialTheme.typography.subtitle2,
                 color = MaterialTheme.colors.primary,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             ).merge(headerStyle)
         )
 
@@ -145,7 +110,11 @@ fun DrawerComponentRow(
     onClick: () -> Unit,
     content: @Composable RowScope.() -> Unit,
 ) = Row(
-    style = RowStyle(modifier = Modifier.clickable { onClick() }).merge(style),
+    style = RowStyle(
+        modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 48.dp).clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ).merge(style),
     content = content
 )
 
@@ -180,6 +149,9 @@ fun DrawerComponent(
         text = text,
         style = WordStyle(
             textStyle = MaterialTheme.typography.body2,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         ).merge(textStyle)
     )
 

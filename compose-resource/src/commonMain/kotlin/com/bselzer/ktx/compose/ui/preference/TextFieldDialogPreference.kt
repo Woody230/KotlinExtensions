@@ -1,100 +1,64 @@
 package com.bselzer.ktx.compose.ui.preference
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.*
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
-import com.bselzer.ktx.compose.ui.container.DividedColumn
+import com.bselzer.ktx.compose.ui.dialog.AlertDialogStyle
+import com.bselzer.ktx.compose.ui.dialog.LocalAlertDialogStyle
+import com.bselzer.ktx.compose.ui.style.ButtonStyle
+import com.bselzer.ktx.compose.ui.style.LocalButtonStyle
+import com.bselzer.ktx.compose.ui.style.LocalWordStyle
+import com.bselzer.ktx.compose.ui.style.WordStyle
 
 /**
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
- * @param modifier the dialog modifier
  * @param initial the initial state of the [TextField]
- * @param onStateChanged the block for setting the updated state
- * @param spacing the spacing between components
- * @param iconPainter the painter for displaying the icon image
- * @param iconSize the size of the icon image
- * @param iconScale how to scale the icon image content
  * @param title the name of the preference
- * @param titleStyle the style of the text for displaying the [title]
  * @param subtitle the description of the preference
- * @param subtitleStyle the style of the text for displaying the [subtitle]
  * @param buttonStyle the style of the text for the dialog buttons
- * @param buttonColors the colors of the dialog buttons
- * @param dialogShape the dialog shape
- * @param dialogBackgroundColor the color of the dialog background
- * @param dialogContentColor the color of the dialog content
- * @param dialogProperties the dialog properties
  * @param dialogTitle the name of the preference
  * @param dialogTitleStyle the style of the text for displaying the [dialogTitle]
  * @param dialogContent the block for displaying the main dialog content
  */
 @Composable
 fun TextFieldDialogPreference(
-    modifier: Modifier = Modifier,
     initial: String = "",
     onStateChanged: (String?) -> Unit,
-    spacing: Dp = 25.dp,
-    iconPainter: Painter,
-    iconSize: DpSize = DpSize(48.dp, 48.dp),
-    iconScale: ContentScale = ContentScale.FillBounds,
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
+    painter: Painter,
     title: String,
-    titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
     subtitle: String,
-    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2,
-    buttonStyle: TextStyle = MaterialTheme.typography.button,
-    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
-    dialogShape: Shape = MaterialTheme.shapes.medium,
-    dialogBackgroundColor: Color = MaterialTheme.colors.surface,
-    dialogContentColor: Color = contentColorFor(dialogBackgroundColor),
-    dialogProperties: DialogProperties = DialogProperties(),
+    buttonStyle: ButtonStyle = LocalButtonStyle.current,
+    buttonTextStyle: WordStyle = LocalWordStyle.current,
+    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.current,
     dialogTitle: String = title,
-    dialogTitleStyle: TextStyle = titleStyle,
+    dialogTitleStyle: WordStyle = LocalWordStyle.current,
     dialogContent: @Composable (MutableState<String?>) -> Unit,
 ) {
     val editText = remember { mutableStateOf<String?>(initial) }
     DialogPreference(
-        modifier = modifier,
+        style = style,
+        painter = painter,
+        title = title,
+        subtitle = subtitle,
+        buttonStyle = buttonStyle,
+        buttonTextStyle = buttonTextStyle,
+        dialogStyle = dialogStyle,
+        dialogTitle = dialogTitle,
+        dialogTitleStyle = dialogTitleStyle,
         state = editText,
         onStateChanged = onStateChanged,
-        spacing = spacing,
-        iconPainter = iconPainter,
-        iconSize = iconSize,
-        iconScale = iconScale,
-        title = title,
-        titleStyle = titleStyle,
-        subtitle = subtitle,
-        subtitleStyle = subtitleStyle,
-        buttonStyle = buttonStyle,
-        buttonColors = buttonColors,
-        dialogShape = dialogShape,
-        dialogBackgroundColor = dialogBackgroundColor,
-        dialogContentColor = dialogContentColor,
-        dialogProperties = dialogProperties,
-        dialogTitle = dialogTitle,
-        dialogTitleStyle = dialogTitleStyle
     ) {
         dialogContent(editText)
     }
 }
 
+/* TODO text field
 /**
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
@@ -256,3 +220,4 @@ fun TextFieldDialogPreference(
         )
     )
 }
+*/

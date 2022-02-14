@@ -52,7 +52,7 @@ fun DividedColumn(
     divider: @Composable ColumnScope.() -> Unit,
     vararg contents: @Composable ColumnScope.() -> Unit
 ) = DividedColumn(
-    style= style,
+    style = style,
     prepend = { if (prepend) divider() },
     append = { if (append) divider() },
     divider = { divider() },

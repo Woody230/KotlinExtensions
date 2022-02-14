@@ -14,7 +14,7 @@ import com.bselzer.ktx.compose.ui.style.*
 /**
  * Lays out a dialog for choosing a single item out of multiple items.
  *
- * @param showDialog the block for setting whether the dialog should be shown
+ * @param setShowDialog the block for setting whether the dialog should be shown
  * @param onDismissRequest the block for when the user tries to dismiss the dialog by clicking outside or pressing the back button
  * @param title the title describing the choices
  * @param titleStyle the style of the text for displaying the [title]
@@ -26,8 +26,8 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun <T> SingleChoiceDialog(
-    showDialog: (Boolean) -> Unit,
-    onDismissRequest: () -> Unit = { showDialog(false) },
+    setShowDialog: (Boolean) -> Unit,
+    onDismissRequest: () -> Unit = { setShowDialog(false) },
     style: AlertDialogStyle = AlertDialogStyle(),
     title: String,
     titleStyle: WordStyle = LocalWordStyle.current,
@@ -53,13 +53,13 @@ fun <T> SingleChoiceDialog(
             Divider(thickness = 1.dp)
             MaterialAlertDialogButtons(
                 negativeButton = {
-                    DismissButton(style = buttonStyle, textStyle = textStyle) { showDialog(false) }
+                    DismissButton(style = buttonStyle, textStyle = textStyle) { setShowDialog(false) }
                 },
                 positiveButton = {
                     ConfirmationButton(style = buttonStyle.copy(enabled = selected != null), textStyle = textStyle) {
                         selected?.let { selected ->
                             onStateChanged(selected)
-                            showDialog(false)
+                            setShowDialog(false)
                         }
                     }
                 },
@@ -101,7 +101,7 @@ fun <T> SingleChoiceDialog(
     selected: T?,
     onStateChanged: (T) -> Unit,
 ) = SingleChoiceDialog(
-    showDialog = showDialog,
+    setShowDialog = showDialog,
     onDismissRequest = onDismissRequest,
     title = title,
     titleStyle = titleStyle,

@@ -1,39 +1,15 @@
 package com.bselzer.ktx.compose.ui.description
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import com.bselzer.ktx.compose.ui.style.Text
-import com.bselzer.ktx.compose.ui.style.WordStyle
-
-/**
- * CompositionLocal containing the preferred TitleStyle that will be used by DescriptionTitle components by default.
- */
-val LocalTitleStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
-    WordStyle.Default.copy(
-        fontWeight = FontWeight.Bold,
-        overflow = TextOverflow.Visible,
-    )
-}
-
-/**
- * CompositionLocal containing the preferred SubtitleStyle that will be used by DescriptionSubtitle components by default.
- */
-val LocalSubtitleStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
-    WordStyle.Default.copy(
-        overflow = TextOverflow.Ellipsis,
-    )
-}
+import com.bselzer.ktx.compose.ui.style.*
 
 /**
  * Lays out a description of a value through a [title] and [subtitle].
  *
- * @param modifier the description modifier
+ * @param style the style describing how to lay out the column
  * @param title the description of a value
  * @param titleStyle the style of the text for displaying the [title]
  * @param subtitle the value
@@ -41,17 +17,36 @@ val LocalSubtitleStyle: ProvidableCompositionLocal<WordStyle> = compositionLocal
  */
 @Composable
 fun Description(
-    modifier: Modifier = Modifier,
+    style: ColumnStyle = LocalColumnStyle.current,
     title: String,
-    titleStyle: WordStyle = LocalTitleStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.current,
     subtitle: String,
-    subtitleStyle: WordStyle = LocalSubtitleStyle.current
+    subtitleStyle: WordStyle = LocalWordStyle.current
 ) = Column(
-    modifier = modifier
+    style = style
 ) {
     DescriptionTitle(title = title, style = titleStyle)
     DescriptionSubtitle(subtitle = subtitle, style = subtitleStyle)
 }
+
+/**
+ * The default [WordStyle] for a [DescriptionTitle].
+ */
+@Composable
+fun descriptionTitleStyle(): WordStyle = WordStyle.Default.copy(
+    fontWeight = FontWeight.Bold,
+    overflow = TextOverflow.Visible,
+    textStyle = MaterialTheme.typography.subtitle1
+)
+
+/**
+ * The default [WordStyle] for a [DescriptionSubtitle].
+ */
+@Composable
+fun descriptionSubtitleStyle(): WordStyle = WordStyle.Default.copy(
+    overflow = TextOverflow.Ellipsis,
+    textStyle = MaterialTheme.typography.subtitle2
+)
 
 /**
  * Lays out a description title.
@@ -62,12 +57,10 @@ fun Description(
 @Composable
 fun DescriptionTitle(
     title: String,
-    style: WordStyle = LocalTitleStyle.current
+    style: WordStyle = LocalWordStyle.current
 ) = Text(
     text = title,
-    style = WordStyle(
-        textStyle = MaterialTheme.typography.subtitle1
-    ).merge(style)
+    style = descriptionTitleStyle().merge(style)
 )
 
 /**
@@ -79,10 +72,8 @@ fun DescriptionTitle(
 @Composable
 fun DescriptionSubtitle(
     subtitle: String,
-    style: WordStyle = LocalSubtitleStyle.current
+    style: WordStyle = LocalWordStyle.current
 ) = Text(
     text = subtitle,
-    style = WordStyle(
-        textStyle = MaterialTheme.typography.subtitle2
-    ).merge(style)
+    style = descriptionSubtitleStyle().merge(style)
 )

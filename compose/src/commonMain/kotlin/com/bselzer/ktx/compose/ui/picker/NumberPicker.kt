@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 /**
  * @see <a href="https://gist.github.com/vganin/a9a84653a9f48a2d669910fbd48e32d5">gist by vganin for original logic</a>
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.dp
 fun NumberPicker(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
-    animationOffset: Dp = 18.dp,
+    animationOffset: Dp = DefaultAnimationOffset,
     upIcon: @Composable () -> Unit,
     downIcon: @Composable () -> Unit,
     value: Int,

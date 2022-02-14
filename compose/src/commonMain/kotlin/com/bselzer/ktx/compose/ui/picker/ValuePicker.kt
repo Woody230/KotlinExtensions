@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Text
@@ -17,7 +18,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.bselzer.ktx.compose.ui.style.IconButton
 import com.bselzer.ktx.compose.ui.unit.toPx
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -25,6 +25,11 @@ import kotlin.math.abs
 /**
  * @see <a href="https://gist.github.com/vganin/a9a84653a9f48a2d669910fbd48e32d5">gist by vganin for original logic</a>
  */
+
+/**
+ * The default picker animation offset.
+ */
+val DefaultAnimationOffset = 18.dp
 
 /**
  * Lays out a value picker.
@@ -46,7 +51,7 @@ fun <T> ValuePicker(
     values: List<T>,
     labels: List<String>,
     textStyle: TextStyle = LocalTextStyle.current,
-    animationOffset: Dp = 18.dp,
+    animationOffset: Dp = DefaultAnimationOffset,
     upIcon: @Composable () -> Unit,
     downIcon: @Composable () -> Unit,
     onStateChanged: (T) -> Unit,

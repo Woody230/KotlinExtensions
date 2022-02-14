@@ -28,7 +28,7 @@ val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf
 fun Image(
     painter: Painter,
     contentDescription: String?,
-    style: ImageStyle = ImageStyle()
+    style: ImageStyle = LocalImageStyle.current
 ) = androidx.compose.foundation.Image(
     painter = painter,
     contentDescription = contentDescription,

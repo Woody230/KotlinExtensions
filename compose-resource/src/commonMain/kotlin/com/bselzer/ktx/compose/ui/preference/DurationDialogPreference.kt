@@ -1,25 +1,23 @@
 package com.bselzer.ktx.compose.ui.preference
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
+import com.bselzer.ktx.compose.ui.container.Spacer
+import com.bselzer.ktx.compose.ui.dialog.AlertDialogStyle
+import com.bselzer.ktx.compose.ui.dialog.LocalAlertDialogStyle
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
+import com.bselzer.ktx.compose.ui.style.ButtonStyle
+import com.bselzer.ktx.compose.ui.style.LocalButtonStyle
+import com.bselzer.ktx.compose.ui.style.LocalWordStyle
+import com.bselzer.ktx.compose.ui.style.WordStyle
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.math.max
 import kotlin.math.min
@@ -32,22 +30,11 @@ import kotlin.time.toDuration
 /**
  * Lays out a dialog for selecting an amount of [DurationUnit] representing a [Duration].
  *
- * @param modifier the dialog modifier
  * @param onStateChanged the block for setting the updated state
- * @param spacing the spacing between components
- * @param iconPainter the painter for displaying the icon image
- * @param iconSize the size of the icon image
- * @param iconScale how to scale the icon image content
+ * @param style the style describing how to lay out the preference
  * @param title the name of the preference
- * @param titleStyle the style of the text for displaying the [title]
  * @param subtitle the description of the preference
- * @param subtitleStyle the style of the text for displaying the [subtitle]
  * @param buttonStyle the style of the text for the dialog buttons
- * @param buttonColors the colors of the dialog buttons
- * @param dialogShape the dialog shape
- * @param dialogBackgroundColor the color of the dialog background
- * @param dialogContentColor the color of the dialog content
- * @param dialogProperties the dialog properties
  * @param dialogTitle the name of the preference
  * @param dialogTitleStyle the style of the text for displaying the [dialogTitle]
  * @param initialAmount the initial amount of the [initialUnit]
@@ -59,51 +46,38 @@ import kotlin.time.toDuration
 @OptIn(ExperimentalTime::class)
 @Composable
 fun DurationDialogPreference(
-    modifier: Modifier = Modifier,
     onStateChanged: (Duration?) -> Unit,
-    spacing: Dp = 25.dp,
-    iconPainter: Painter,
-    iconSize: DpSize = DpSize(48.dp, 48.dp),
-    iconScale: ContentScale = ContentScale.FillBounds,
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
+    painter: Painter,
     title: String,
-    titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
     subtitle: String,
-    subtitleStyle: TextStyle = MaterialTheme.typography.subtitle2,
-    buttonStyle: TextStyle = MaterialTheme.typography.button,
-    buttonColors: ButtonColors = ButtonDefaults.buttonColors(),
-    dialogShape: Shape = MaterialTheme.shapes.medium,
-    dialogBackgroundColor: Color = MaterialTheme.colors.surface,
-    dialogContentColor: Color = contentColorFor(dialogBackgroundColor),
-    dialogProperties: DialogProperties = DialogProperties(),
+    buttonStyle: ButtonStyle = LocalButtonStyle.current,
+    buttonTextStyle: WordStyle = LocalWordStyle.current,
+    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.current,
     dialogTitle: String = title,
-    dialogTitleStyle: TextStyle = titleStyle,
+    dialogTitleStyle: WordStyle = LocalWordStyle.current,
+    dialogSpacing: Dp = PreferenceSpacing,
     initialAmount: Int,
     initialUnit: DurationUnit,
     minimum: Duration = 0.days,
     maximum: Duration = Int.MAX_VALUE.days,
-    units: List<DurationUnit> = DurationUnit.values().toList()
+    units: List<DurationUnit> = DurationUnit.values().toList(),
+    upIcon: @Composable () -> Unit,
+    downIcon: @Composable () -> Unit,
 ) {
     val state = remember { mutableStateOf<Duration?>(null) }
     DialogPreference(
-        modifier = modifier,
+        style = style,
+        painter = painter,
+        title = title,
+        subtitle = subtitle,
+        buttonStyle = buttonStyle,
+        buttonTextStyle = buttonTextStyle,
+        dialogStyle = dialogStyle,
+        dialogTitle = dialogTitle,
+        dialogTitleStyle = dialogTitleStyle,
         state = state,
         onStateChanged = onStateChanged,
-        spacing = spacing,
-        iconPainter = iconPainter,
-        iconSize = iconSize,
-        iconScale = iconScale,
-        title = title,
-        titleStyle = titleStyle,
-        subtitle = subtitle,
-        subtitleStyle = subtitleStyle,
-        buttonStyle = buttonStyle,
-        buttonColors = buttonColors,
-        dialogShape = dialogShape,
-        dialogBackgroundColor = dialogBackgroundColor,
-        dialogContentColor = dialogContentColor,
-        dialogProperties = dialogProperties,
-        dialogTitle = dialogTitle,
-        dialogTitleStyle = dialogTitleStyle
     ) {
         // Converted minimum can produce 0 because of being rounded down so set the minimum bound to at least 1. (ex: 30 seconds => 0 minutes)
         val unit = remember { mutableStateOf(initialUnit) }
@@ -122,11 +96,11 @@ fun DurationDialogPreference(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            NumberPicker(value = amount.value, range = convertedMin..convertedMax) {
+            NumberPicker(value = amount.value, range = convertedMin..convertedMax, upIcon = upIcon, downIcon = downIcon) {
                 amount.value = bounded(it)
             }
-            Spacer(modifier = Modifier.width(spacing))
-            ValuePicker(value = unit.value, values = units, labels = units.map { component -> component.userFriendly() }) {
+            Spacer(width = dialogSpacing)
+            ValuePicker(value = unit.value, values = units, labels = units.map { component -> component.userFriendly() }, upIcon = upIcon, downIcon = downIcon) {
                 unit.value = it
             }
         }
