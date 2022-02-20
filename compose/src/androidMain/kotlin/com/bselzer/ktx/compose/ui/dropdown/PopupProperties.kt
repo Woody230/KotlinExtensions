@@ -2,7 +2,7 @@ package com.bselzer.ktx.compose.ui.dropdown
 
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.bselzer.ktx.compose.ui.style.Style
-import com.bselzer.ktx.function.objects.merge
+import com.bselzer.ktx.function.objects.nullMerge
 
 /**
  * Properties used to customize the behavior of a popup.
@@ -46,12 +46,12 @@ data class PopupProperties(
     val usePlatformDefaultWidth: Boolean? = null
 ): Style<PopupProperties> {
     override fun merge(other: PopupProperties?): PopupProperties = if (other == null) this else PopupProperties(
-        focusable = focusable.merge(other.focusable),
-        dismissOnBackPress = dismissOnBackPress.merge(other.dismissOnBackPress),
-        dismissOnClickOutside = dismissOnClickOutside.merge(other.dismissOnClickOutside),
-        securePolicy = securePolicy.merge(other.securePolicy),
-        excludeFromSystemGesture = excludeFromSystemGesture.merge(other.excludeFromSystemGesture),
-        clippingEnabled = clippingEnabled.merge(other.clippingEnabled),
-        usePlatformDefaultWidth = usePlatformDefaultWidth.merge(other.usePlatformDefaultWidth)
+        focusable = focusable.nullMerge(other.focusable),
+        dismissOnBackPress = dismissOnBackPress.nullMerge(other.dismissOnBackPress),
+        dismissOnClickOutside = dismissOnClickOutside.nullMerge(other.dismissOnClickOutside),
+        securePolicy = securePolicy.nullMerge(other.securePolicy),
+        excludeFromSystemGesture = excludeFromSystemGesture.nullMerge(other.excludeFromSystemGesture),
+        clippingEnabled = clippingEnabled.nullMerge(other.clippingEnabled),
+        usePlatformDefaultWidth = usePlatformDefaultWidth.nullMerge(other.usePlatformDefaultWidth)
     )
 }

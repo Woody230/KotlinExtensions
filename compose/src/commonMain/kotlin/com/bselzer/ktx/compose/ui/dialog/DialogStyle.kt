@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.style.ModifiableStyle
 import com.bselzer.ktx.compose.ui.style.Style
-import com.bselzer.ktx.function.objects.merge
+import com.bselzer.ktx.function.objects.nullMerge
 
 /**
  * Properties used to customize the behavior of a Dialog.
@@ -53,9 +53,9 @@ data class AlertDialogStyle(
 
     override fun merge(other: AlertDialogStyle?): AlertDialogStyle = if (other == null) this else AlertDialogStyle(
         modifier = modifier.then(other.modifier),
-        shape = shape.merge(other.shape),
-        backgroundColor = backgroundColor.merge(other.backgroundColor),
-        contentColor = contentColor.merge(other.contentColor),
+        shape = shape.nullMerge(other.shape),
+        backgroundColor = backgroundColor.nullMerge(other.backgroundColor),
+        contentColor = contentColor.nullMerge(other.contentColor),
         properties = properties.merge(other.properties)
     )
 }

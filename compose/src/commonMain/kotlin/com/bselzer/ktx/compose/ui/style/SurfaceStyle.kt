@@ -8,7 +8,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -16,17 +18,16 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.bselzer.ktx.function.objects.merge
 
 /**
  * CompositionLocal containing the preferred SurfaceStyle that will be used by Surface components by default.
  */
-val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf { SurfaceStyle.Default }
+val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf { styleNotInitialized() }
 
 /**
  * CompositionLocal containing the preferred ClickableSurfaceStyle that will be used by clickable Surface components by default.
  */
-val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf { ClickableSurfaceStyle.Default }
+val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf { styleNotInitialized() }
 
 /**
  * A wrapper around the standard [Surface] composable.
@@ -55,6 +56,9 @@ fun Surface(
  * A wrapper around the standard [Surface] composable.
  *
  * @param style the style describing how to lay out the Surface
+ * @param interactionSource the MutableInteractionSource representing the stream of Interactions for this Surface.
+ * You can create and pass in your own remembered MutableInteractionSource if you want to observe Interactions and customize the appearance / behavior of this Surface in different Interactions.indication - indication to be shown when Surface is pressed.
+ * By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
  * @param content the content to lay out inside the Surface
  */
 @OptIn(ExperimentalMaterialApi::class)
@@ -63,23 +67,33 @@ fun Surface(
     onClick: () -> Unit,
     onClickLabel: String? = null,
     style: ClickableSurfaceStyle = LocalClickableSurfaceStyle.current,
+    interactionSource: MutableInteractionSource,
     content: @Composable () -> Unit,
-) {
-    val backgroundColor = style.color ?: MaterialTheme.colors.surface
-    Surface(
-        onClick = onClick,
-        modifier = style.modifier,
-        shape = style.shape ?: RectangleShape,
+) = Surface(
+    onClick = onClick,
+    modifier = style.modifier,
+    shape = style.shape,
+    color = style.color,
+    contentColor = style.contentColor,
+    border = style.border,
+    elevation = style.elevation,
+    interactionSource = interactionSource,
+    indication = style.indication ?: LocalIndication.current,
+    enabled = style.enabled ?: true,
+    onClickLabel = onClickLabel,
+    role = style.role,
+    content = content
+)
+
+/**
+ * Creates a localized [SurfaceStyle].
+ */
+@Composable
+fun surfaceStyle(): SurfaceStyle = run {
+    val backgroundColor = MaterialTheme.colors.surface
+    SurfaceStyle(
         color = backgroundColor,
-        contentColor = style.contentColor ?: contentColorFor(backgroundColor = backgroundColor),
-        border = style.border,
-        elevation = style.elevation ?: 0.dp,
-        interactionSource = style.interactionSource ?: remember { MutableInteractionSource() },
-        indication = style.indication ?: LocalIndication.current,
-        enabled = style.enabled ?: true,
-        onClickLabel = onClickLabel,
-        role = style.role,
-        content = content
+        contentColor = contentColorFor(backgroundColor = backgroundColor)
     )
 }
 
@@ -92,17 +106,17 @@ data class SurfaceStyle(
     /**
      * Defines the Surface's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
      */
-    val shape: Shape? = null,
+    val shape: Shape = RectangleShape,
 
     /**
      * The background color. Use Color.Transparent to have no color.
      */
-    val color: Color? = null,
+    val color: Color,
 
     /**
      * The preferred content color provided by this Surface to its children. Defaults to either the matching content color for backgroundColor, or if backgroundColor is not a color from the theme, this will keep the same value set above this Surface.
      */
-    val contentColor: Color? = null,
+    val contentColor: Color,
 
     /**
      * Border to draw on top of the Surface
@@ -112,20 +126,18 @@ data class SurfaceStyle(
     /**
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
-    val elevation: Dp? = null,
-) : ModifiableStyle<SurfaceStyle> {
-    companion object {
-        @Stable
-        val Default = SurfaceStyle()
-    }
+    val elevation: Dp = 0.dp,
+) : ModifiableStyle
 
-    override fun merge(other: SurfaceStyle?): SurfaceStyle = if (other == null) this else SurfaceStyle(
-        modifier = modifier.then(other.modifier),
-        shape = shape.merge(other.shape),
-        color = color.merge(other.color),
-        contentColor = contentColor.merge(other.contentColor),
-        border = border.merge(other.border),
-        elevation = elevation.merge(other.elevation),
+/**
+ * Creates a localized [ClickableSurfaceStyle].
+ */
+@Composable
+fun clickableSurfaceStyle(): ClickableSurfaceStyle = run {
+    val backgroundColor = MaterialTheme.colors.surface
+    ClickableSurfaceStyle(
+        color = backgroundColor,
+        contentColor = contentColorFor(backgroundColor = backgroundColor)
     )
 }
 
@@ -138,17 +150,17 @@ data class ClickableSurfaceStyle(
     /**
      * Defines the Surface's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
      */
-    val shape: Shape? = null,
+    val shape: Shape = RectangleShape,
 
     /**
      * The background color. Use Color.Transparent to have no color.
      */
-    val color: Color? = null,
+    val color: Color,
 
     /**
      * The preferred content color provided by this Surface to its children. Defaults to either the matching content color for backgroundColor, or if backgroundColor is not a color from the theme, this will keep the same value set above this Surface.
      */
-    val contentColor: Color? = null,
+    val contentColor: Color,
 
     /**
      * Border to draw on top of the Surface
@@ -158,13 +170,7 @@ data class ClickableSurfaceStyle(
     /**
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
-    val elevation: Dp? = null,
-
-    /**
-     * the MutableInteractionSource representing the stream of Interactions for this Surface. You can create and pass in your own remembered MutableInteractionSource if you want to observe Interactions and customize the appearance / behavior of this Surface in different Interactions.
-    indication - indication to be shown when Surface is pressed. By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
-     */
-    val interactionSource: MutableInteractionSource? = null,
+    val elevation: Dp = 0.dp,
 
     /**
      * indication to be shown when surface is pressed.
@@ -175,7 +181,7 @@ data class ClickableSurfaceStyle(
     /**
      * Controls the enabled state of the Surface. When false, this Surface will not be clickable
      */
-    val enabled: Boolean? = null,
+    val enabled: Boolean = true,
 
     /**
      *  The type of user interface element.
@@ -183,22 +189,4 @@ data class ClickableSurfaceStyle(
      *  For example, if the Surface acts as a button, you should pass the Role.Button
      */
     val role: Role? = null,
-) : ModifiableStyle<ClickableSurfaceStyle> {
-    companion object {
-        @Stable
-        val Default = ClickableSurfaceStyle()
-    }
-
-    override fun merge(other: ClickableSurfaceStyle?): ClickableSurfaceStyle = if (other == null) this else ClickableSurfaceStyle(
-        modifier = modifier.then(other.modifier),
-        shape = shape.merge(other.shape),
-        color = color.merge(other.color),
-        contentColor = contentColor.merge(other.contentColor),
-        border = border.merge(other.border),
-        elevation = elevation.merge(other.elevation),
-        interactionSource = interactionSource.merge(other.interactionSource),
-        indication = indication.merge(other.indication),
-        enabled = enabled.merge(other.enabled),
-        role = role.merge(other.role)
-    )
-}
+) : ModifiableStyle

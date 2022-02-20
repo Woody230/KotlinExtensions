@@ -3,7 +3,7 @@ package com.bselzer.ktx.compose.ui.dialog
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.window.DialogState
 import com.bselzer.ktx.compose.ui.style.Style
-import com.bselzer.ktx.function.objects.merge
+import com.bselzer.ktx.function.objects.nullMerge
 
 actual class DialogProperties(
     /**
@@ -66,14 +66,14 @@ actual class DialogProperties(
     actual constructor(): this(state = null)
 
     override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
-        state = state.merge(other.state),
-        visible = visible.merge(other.visible),
-        title = title.merge(other.title),
-        icon = icon.merge(other.icon),
-        undecorated = undecorated.merge(other.undecorated),
-        transparent = transparent.merge(other.transparent),
-        resizable = resizable.merge(other.resizable),
-        enabled = enabled.merge(other.enabled),
-        focusable = focusable.merge(other.focusable)
+        state = state.nullMerge(other.state),
+        visible = visible.nullMerge(other.visible),
+        title = title.nullMerge(other.title),
+        icon = icon.nullMerge(other.icon),
+        undecorated = undecorated.nullMerge(other.undecorated),
+        transparent = transparent.nullMerge(other.transparent),
+        resizable = resizable.nullMerge(other.resizable),
+        enabled = enabled.nullMerge(other.enabled),
+        focusable = focusable.nullMerge(other.focusable)
     )
 }

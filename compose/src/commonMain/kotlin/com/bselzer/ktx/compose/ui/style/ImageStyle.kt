@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -10,12 +9,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import com.bselzer.ktx.function.objects.merge
 
 /**
  * CompositionLocal containing the preferred ImageStyle that will be used by Image components by default.
  */
-val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf { ImageStyle.Default }
+val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf { styleNotInitialized() }
 
 /**
  * A wrapper around the standard [Image] composable.
@@ -33,11 +31,17 @@ fun Image(
     painter = painter,
     contentDescription = contentDescription,
     modifier = style.modifier,
-    alignment = style.alignment ?: Alignment.Center,
-    contentScale = style.contentScale ?: ContentScale.Fit,
-    alpha = style.alpha ?: DefaultAlpha,
+    alignment = style.alignment,
+    contentScale = style.contentScale,
+    alpha = style.alpha,
     colorFilter = style.colorFilter
 )
+
+/**
+ * Creates a localized [ImageStyle].
+ */
+@Composable
+fun imageStyle() = ImageStyle()
 
 /**
  * The style arguments associated with the [Image] composable.
@@ -48,33 +52,20 @@ data class ImageStyle(
     /**
      * Alignment parameter used to place the Painter in the given bounds defined by the width and height.
      */
-    val alignment: Alignment? = null,
+    val alignment: Alignment = Alignment.Center,
 
     /**
      * Scale parameter used to determine the aspect ratio scaling to be used if the bounds are a different size from the intrinsic size of the Painter
      */
-    val contentScale: ContentScale? = null,
+    val contentScale: ContentScale = ContentScale.Fit,
 
     /**
      * Opacity to be applied to the Painter when it is rendered onscreen the default renders the Painter completely opaque
      */
-    val alpha: Float? = null,
+    val alpha: Float = DefaultAlpha,
 
     /**
      * ColorFilter to apply for the Painter when it is rendered onscreen
      */
     val colorFilter: ColorFilter? = null
-): ModifiableStyle<ImageStyle> {
-    companion object {
-        @Stable
-        val Default = ImageStyle()
-    }
-
-    override fun merge(other: ImageStyle?): ImageStyle = if (other == null) this else ImageStyle(
-        modifier = modifier.then(other.modifier),
-        alignment = alignment.merge(other.alignment),
-        contentScale = contentScale.merge(other.contentScale),
-        alpha = alpha.merge(other.alpha),
-        colorFilter = colorFilter.merge(other.colorFilter)
-    )
-}
+): ModifiableStyle

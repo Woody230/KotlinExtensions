@@ -3,7 +3,7 @@ package com.bselzer.ktx.compose.ui.dropdown
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.bselzer.ktx.compose.ui.style.ModifiableStyle
-import com.bselzer.ktx.function.objects.merge
+import com.bselzer.ktx.function.objects.nullMerge
 
 actual data class DropdownStyle(
     override val modifier: Modifier = Modifier,
@@ -24,7 +24,7 @@ actual data class DropdownStyle(
 
     override fun merge(other: DropdownStyle?): DropdownStyle = if (other == null) this else DropdownStyle(
         modifier = modifier.then(other.modifier),
-        offset = offset.merge(other.offset),
+        offset = offset.nullMerge(other.offset),
         properties = properties.merge(other.properties)
     )
 }

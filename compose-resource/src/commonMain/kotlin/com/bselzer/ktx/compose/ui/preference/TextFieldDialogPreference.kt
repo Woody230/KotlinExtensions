@@ -58,7 +58,6 @@ fun TextFieldDialogPreference(
     }
 }
 
-/* TODO text field
 /**
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
  *
@@ -220,4 +219,3 @@ fun TextFieldDialogPreference(
         )
     )
 }
-*/

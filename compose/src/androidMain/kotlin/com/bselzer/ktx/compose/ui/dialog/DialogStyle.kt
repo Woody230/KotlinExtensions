@@ -2,7 +2,7 @@ package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.bselzer.ktx.compose.ui.style.Style
-import com.bselzer.ktx.function.objects.merge
+import com.bselzer.ktx.function.objects.nullMerge
 
 actual class DialogProperties(
     /**
@@ -28,9 +28,9 @@ actual class DialogProperties(
     actual constructor() : this(dismissOnBackPress = null)
 
     override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
-        dismissOnBackPress = dismissOnBackPress.merge(other.dismissOnBackPress),
-        dismissOnClickOutside = dismissOnClickOutside.merge(other.dismissOnClickOutside),
-        securePolicy = securePolicy.merge(other.securePolicy),
-        usePlatformDefaultWidth = usePlatformDefaultWidth.merge(other.usePlatformDefaultWidth)
+        dismissOnBackPress = dismissOnBackPress.nullMerge(other.dismissOnBackPress),
+        dismissOnClickOutside = dismissOnClickOutside.nullMerge(other.dismissOnClickOutside),
+        securePolicy = securePolicy.nullMerge(other.securePolicy),
+        usePlatformDefaultWidth = usePlatformDefaultWidth.nullMerge(other.usePlatformDefaultWidth)
     )
 }

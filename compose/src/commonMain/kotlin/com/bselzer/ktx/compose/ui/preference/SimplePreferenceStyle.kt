@@ -2,18 +2,16 @@ package com.bselzer.ktx.compose.ui.preference
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.description.DescriptionStyle
 import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
-import com.bselzer.ktx.compose.ui.style.LocalSpacing
 import com.bselzer.ktx.compose.ui.style.ModifiableStyle
-import com.bselzer.ktx.function.objects.merge
 
 /**
  * CompositionLocal containing the preferred SimplePreferenceStyle that will be used by SimplePreference components by default.
@@ -40,14 +38,23 @@ fun SimplePreference(
     ending: (@Composable () -> Unit)? = null,
 ) = SimplePreference(
     modifier = style.modifier,
-    spacing = style.spacing ?: LocalSpacing.current,
+    spacing = style.spacing,
     painter = painter,
-    imageStyle = style.imageStyle ?: LocalImageStyle.current,
-    descriptionStyle = style.descriptionStyle ?: LocalDescriptionStyle.current,
+    imageStyle = style.imageStyle,
+    descriptionStyle = style.descriptionStyle,
     title = title,
     subtitle = subtitle,
     onClick = onClick,
     ending = ending
+)
+
+/**
+ * Creates a localized [SimplePreferenceStyle].
+ */
+@Composable
+fun simplePreferenceStyle(): SimplePreferenceStyle = SimplePreferenceStyle(
+    imageStyle = LocalImageStyle.current,
+    descriptionStyle = LocalDescriptionStyle.current
 )
 
 /**
@@ -62,27 +69,15 @@ data class SimplePreferenceStyle(
     /**
      * The spacing between components.
      */
-    val spacing: Dp? = null,
+    val spacing: Dp = 25.dp,
 
     /**
      * The style describing how to lay out the image
      */
-    val imageStyle: ImageStyle? = null,
+    val imageStyle: ImageStyle,
 
     /**
      * The style describing how to lay out the description
      */
-    val descriptionStyle: DescriptionStyle? = null
-): ModifiableStyle<SimplePreferenceStyle> {
-    companion object {
-        @Stable
-        val Default = SimplePreferenceStyle()
-    }
-
-    override fun merge(other: SimplePreferenceStyle?): SimplePreferenceStyle = if (other == null) this else SimplePreferenceStyle(
-        modifier = modifier.then(other.modifier),
-        spacing = spacing.merge(other.spacing),
-        imageStyle = imageStyle?.merge(other.imageStyle) ?: other.imageStyle,
-        descriptionStyle = descriptionStyle?.merge(other.descriptionStyle) ?: other.descriptionStyle
-    )
-}
+    val descriptionStyle: DescriptionStyle
+): ModifiableStyle

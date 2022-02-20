@@ -4,16 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.bselzer.ktx.function.objects.merge
 
 /**
  * CompositionLocal containing the preferred RowStyle that will be used by Row components by default.
  */
-val LocalRowStyle: ProvidableCompositionLocal<RowStyle> = compositionLocalOf { RowStyle.Default }
+val LocalRowStyle: ProvidableCompositionLocal<RowStyle> = compositionLocalOf { styleNotInitialized() }
 
 /**
  * A wrapper around the standard [Row] composable.
@@ -27,10 +25,16 @@ fun Row(
     content: @Composable RowScope.() -> Unit
 ) = androidx.compose.foundation.layout.Row(
     modifier = style.modifier,
-    horizontalArrangement = style.horizontalArrangement ?: Arrangement.Start,
-    verticalAlignment = style.verticalAlignment ?: Alignment.Top,
+    horizontalArrangement = style.horizontalArrangement,
+    verticalAlignment = style.verticalAlignment,
     content = content
 )
+
+/**
+ * Creates a localized [RowStyle].
+ */
+@Composable
+fun rowStyle(): RowStyle = RowStyle()
 
 /**
  * The style arguments associated with the [Row] composable.
@@ -41,22 +45,11 @@ data class RowStyle(
     /**
      * The horizontal arrangement of the layout's children.
      */
-    val horizontalArrangement: Arrangement.Horizontal? = null,
+    val horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
 
     /**
      * The vertical alignment of the layout's children.
      */
-    val verticalAlignment: Alignment.Vertical? = null,
+    val verticalAlignment: Alignment.Vertical = Alignment.Top,
 
-): ModifiableStyle<RowStyle> {
-    companion object {
-        @Stable
-        val Default = RowStyle()
-    }
-
-    override fun merge(other: RowStyle?): RowStyle = if (other == null) this else RowStyle(
-        modifier = modifier.then(other.modifier),
-        horizontalArrangement = horizontalArrangement.merge(other.horizontalArrangement),
-        verticalAlignment = verticalAlignment.merge(other.verticalAlignment)
-    )
-}
+): ModifiableStyle
