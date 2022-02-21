@@ -21,4 +21,4 @@ object Dropdown {
  */
 expect class DropdownStyle(
     modifier: Modifier = Modifier,
-): ModifiableStyle<DropdownStyle>
+): ModifiableStyle

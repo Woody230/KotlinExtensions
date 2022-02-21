@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.SecureFlagPolicy
 
 /**
  * Opens a dialog with the given [content].
@@ -23,10 +22,10 @@ actual fun Dialog(
 ) = androidx.compose.ui.window.Dialog(
     onDismissRequest = onDismissRequest,
     properties = androidx.compose.ui.window.DialogProperties(
-        dismissOnBackPress = properties.dismissOnBackPress ?: true,
-        dismissOnClickOutside = properties.dismissOnClickOutside ?: true,
-        securePolicy = properties.securePolicy ?: SecureFlagPolicy.Inherit,
-        usePlatformDefaultWidth = properties.usePlatformDefaultWidth ?: true
+        dismissOnBackPress = properties.dismissOnBackPress,
+        dismissOnClickOutside = properties.dismissOnClickOutside,
+        securePolicy = properties.securePolicy,
+        usePlatformDefaultWidth = properties.usePlatformDefaultWidth
     ),
     content = content
 )

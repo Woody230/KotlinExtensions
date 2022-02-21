@@ -3,7 +3,6 @@ package com.bselzer.ktx.compose.ui.dialog
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.window.DialogState
 import com.bselzer.ktx.compose.ui.style.Style
-import com.bselzer.ktx.function.objects.nullMerge
 
 actual class DialogProperties(
     /**
@@ -24,12 +23,12 @@ actual class DialogProperties(
      * - native resources will not be released. They will be released only when [Dialog]
      * will leave the composition.
      */
-    val visible: Boolean? = null,
+    val visible: Boolean = true,
 
     /**
      * Title in the titlebar of the dialog
      */
-    val title: String? = null,
+    val title: String = "Untitled",
 
     /**
      * Icon in the titlebar of the dialog (for platforms which support this)
@@ -39,41 +38,29 @@ actual class DialogProperties(
     /**
      * Disables or enables decorations for this window.
      */
-    val undecorated: Boolean? = null,
+    val undecorated: Boolean = false,
 
     /**
      * Disables or enables window transparency. Transparency should be set
      * only if window is undecorated, otherwise an exception will be thrown.
      */
-    val transparent: Boolean? = null,
+    val transparent: Boolean = false,
 
     /**
      * Can dialog be resized by the user (application still can resize the dialog
      * changing [state])
      */
-    val resizable: Boolean? = null,
+    val resizable: Boolean = true,
 
     /**
      * Can dialog react to input events
      */
-    val enabled: Boolean? = null,
+    val enabled: Boolean = true,
 
     /**
      * Can dialog receive focus
      */
-    val focusable: Boolean? = null
-): Style<DialogProperties> {
-    actual constructor(): this(state = null)
-
-    override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
-        state = state.nullMerge(other.state),
-        visible = visible.nullMerge(other.visible),
-        title = title.nullMerge(other.title),
-        icon = icon.nullMerge(other.icon),
-        undecorated = undecorated.nullMerge(other.undecorated),
-        transparent = transparent.nullMerge(other.transparent),
-        resizable = resizable.nullMerge(other.resizable),
-        enabled = enabled.nullMerge(other.enabled),
-        focusable = focusable.nullMerge(other.focusable)
-    )
+    val focusable: Boolean = true
+): Style {
+    actual constructor() : this(state = null)
 }

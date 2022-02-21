@@ -13,7 +13,7 @@ import com.bselzer.ktx.function.objects.nullMerge
 /**
  * Properties used to customize the behavior of a Dialog.
  */
-expect class DialogProperties(): Style<DialogProperties>
+expect class DialogProperties(): Style
 
 /**
  * CompositionLocal containing the preferred AlertDialogStyle that will be used by AlertDialog components by default.

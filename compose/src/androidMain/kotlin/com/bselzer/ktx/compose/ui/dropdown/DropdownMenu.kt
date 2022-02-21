@@ -3,10 +3,7 @@ package com.bselzer.ktx.compose.ui.dropdown
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
-import androidx.compose.ui.window.SecureFlagPolicy
 
 /**
  * A wrapper around the [DropdownMenu] composable.
@@ -27,14 +24,15 @@ actual fun DropdownMenu(
     expanded = expanded,
     onDismissRequest = onDismissRequest,
     modifier = style.modifier,
-    offset = style.offset ?: DpOffset(0.dp, 0.dp),
+    offset = style.offset,
     properties = PopupProperties(
-        focusable = style.properties.focusable ?: false,
-        dismissOnBackPress = style.properties.dismissOnBackPress ?: true,
-        securePolicy = style.properties.securePolicy ?: SecureFlagPolicy.Inherit,
-        excludeFromSystemGesture = style.properties.excludeFromSystemGesture ?: true,
-        clippingEnabled = style.properties.clippingEnabled ?: true,
-        usePlatformDefaultWidth = style.properties.usePlatformDefaultWidth ?: false
+        focusable = style.properties.focusable,
+        dismissOnBackPress = style.properties.dismissOnBackPress,
+        dismissOnClickOutside = style.properties.dismissOnClickOutside,
+        securePolicy = style.properties.securePolicy,
+        excludeFromSystemGesture = style.properties.excludeFromSystemGesture,
+        clippingEnabled = style.properties.clippingEnabled,
+        usePlatformDefaultWidth = style.properties.usePlatformDefaultWidth
     ),
     content = content
 )
