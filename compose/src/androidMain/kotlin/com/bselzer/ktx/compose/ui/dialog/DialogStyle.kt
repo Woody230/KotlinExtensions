@@ -1,7 +1,9 @@
 package com.bselzer.ktx.compose.ui.dialog
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.bselzer.ktx.compose.ui.style.Style
+import com.bselzer.ktx.function.objects.safeMerge
 
 actual class DialogProperties(
     /**
@@ -23,6 +25,16 @@ actual class DialogProperties(
      * Whether the width of the dialog's content should be limited to the platform default, which is smaller than the screen width.
      */
     val usePlatformDefaultWidth: Boolean = true,
-): Style {
+): Style<DialogProperties> {
     actual constructor() : this(dismissOnBackPress = true)
+
+    override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
+        dismissOnBackPress = dismissOnBackPress.safeMerge(other.dismissOnBackPress, true),
+        dismissOnClickOutside = dismissOnClickOutside.safeMerge(other.dismissOnClickOutside, true),
+        securePolicy = securePolicy.safeMerge(other.securePolicy, SecureFlagPolicy.Inherit),
+        usePlatformDefaultWidth = usePlatformDefaultWidth.safeMerge(other.usePlatformDefaultWidth, true)
+    )
+
+    @Composable
+    override fun localized() = this
 }

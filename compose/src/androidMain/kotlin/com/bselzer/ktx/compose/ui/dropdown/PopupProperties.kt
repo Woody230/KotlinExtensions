@@ -1,7 +1,17 @@
 package com.bselzer.ktx.compose.ui.dropdown
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.bselzer.ktx.compose.ui.style.Style
+import com.bselzer.ktx.function.objects.safeMerge
+
+/**
+ * CompositionLocal containing the preferred PopupStyle that will be used by Popup components by default.
+ */
+val LocalPopupStyle: ProvidableCompositionLocal<PopupProperties> = compositionLocalOf { PopupProperties.Default }
 
 /**
  * Properties used to customize the behavior of a popup.
@@ -43,4 +53,22 @@ data class PopupProperties(
      * Whether the width of the popup's content should be limited to the platform default, which is smaller than the screen width.
      */
     val usePlatformDefaultWidth: Boolean = false
-): Style
+): Style<PopupProperties> {
+    companion object {
+        @Stable
+        val Default = PopupProperties()
+    }
+
+    override fun merge(other: PopupProperties?): PopupProperties = if (other == null) this else PopupProperties(
+        focusable = focusable.safeMerge(other.focusable, false),
+        dismissOnBackPress = dismissOnBackPress.safeMerge(other.dismissOnBackPress, true),
+        dismissOnClickOutside = dismissOnClickOutside.safeMerge(other.dismissOnClickOutside, true),
+        securePolicy = securePolicy.safeMerge(other.securePolicy, SecureFlagPolicy.Inherit),
+        excludeFromSystemGesture = excludeFromSystemGesture.safeMerge(other.excludeFromSystemGesture, true),
+        clippingEnabled = clippingEnabled.safeMerge(other.clippingEnabled, true),
+        usePlatformDefaultWidth = usePlatformDefaultWidth.safeMerge(other.usePlatformDefaultWidth, false)
+    )
+
+    @Composable
+    override fun localized(): PopupProperties = this
+}

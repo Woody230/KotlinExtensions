@@ -14,10 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.isSpecified
+import androidx.compose.ui.unit.*
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
@@ -99,3 +96,13 @@ val DefaultFlingBehavior = object : FlingBehavior {
  * Takes the [other] behavior if it is not the [DefaultFlingBehavior], otherwise takes this behavior.
  */
 fun FlingBehavior.merge(other: FlingBehavior): FlingBehavior = safeMerge(other, DefaultFlingBehavior)
+
+/**
+ * The default [DpOffset].
+ */
+val DefaultDpOffset = DpOffset(0.dp, 0.dp)
+
+/**
+ * Takes the [other] offset if it is not the [DefaultDpOffset], otherwise takes this offset.
+ */
+fun DpOffset.merge(other: DpOffset): DpOffset = safeMerge(other, DefaultDpOffset)

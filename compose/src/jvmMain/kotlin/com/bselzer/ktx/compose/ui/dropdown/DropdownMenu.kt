@@ -3,8 +3,6 @@ package com.bselzer.ktx.compose.ui.dropdown
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.dp
 
 /**
  * A wrapper around the [DropdownMenu] composable.
@@ -25,7 +23,7 @@ actual fun DropdownMenu(
     expanded = expanded,
     onDismissRequest = onDismissRequest,
     modifier = style.modifier,
-    offset = style.offset ?: DpOffset(0.dp, 0.dp),
-    focusable = style.focusable ?: true,
+    offset = style.offset,
+    focusable = style.focusable,
     content = content
 )

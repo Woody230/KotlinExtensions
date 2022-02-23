@@ -2,7 +2,9 @@ package com.bselzer.ktx.compose.ui.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.window.DialogState
 import androidx.compose.ui.window.DialogWindowScope
 import androidx.compose.ui.window.rememberDialogState
 
@@ -32,6 +34,14 @@ actual fun Dialog(
  *
  * @param onDismissRequest Executes when the user tries to dismiss the dialog.
  * @param properties [DialogProperties] for further customization of this dialog's behavior
+ * @param title Title in the titlebar of the dialog
+ * @param icon Icon in the titlebar of the dialog (for platforms which support this)
+ * @param state The state object to be used to control or observe the dialog's state
+ * When size/position is changed by the user, state will be updated.
+ * When size/position of the dialog is changed by the application (changing state),
+ * the native dialog will update its corresponding properties.
+ * If [DialogState.position] is not [WindowPosition.isSpecified], then after the first show on the
+ * screen [DialogState.position] will be set to the absolute values.
  * @param onPreviewKeyEvent This callback is invoked when the user interacts with the hardware
  * keyboard. It gives ancestors of a focused component the chance to intercept a [KeyEvent].
  * Return true to stop propagation of this event. If you return false, the key event will be
@@ -46,15 +56,19 @@ actual fun Dialog(
 fun Dialog(
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(),
+    title: String = "Untitled",
+    icon: Painter? = null,
+    state: DialogState = rememberDialogState(),
     onPreviewKeyEvent: ((KeyEvent) -> Boolean) = { false },
     onKeyEvent: ((KeyEvent) -> Boolean) = { false },
     content: @Composable DialogWindowScope.() -> Unit
 ) = androidx.compose.ui.window.Dialog(
+    // TODO will need to manage these properties since it provides a title within the content and not the window, control visibility
     onCloseRequest = onDismissRequest,
-    state = properties.state ?: rememberDialogState(),
+    state = state,
     visible = properties.visible,
-    title = properties.title,
-    icon = properties.icon,
+    title = title,
+    icon = icon,
     undecorated = properties.undecorated,
     transparent = properties.transparent,
     resizable = properties.resizable,

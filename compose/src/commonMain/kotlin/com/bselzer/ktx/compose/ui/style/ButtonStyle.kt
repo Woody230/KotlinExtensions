@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import com.bselzer.ktx.compose.ui.style.ButtonStyle.Companion.ButtonStyleType.*
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
@@ -84,26 +83,6 @@ data class ButtonStyle(
     companion object {
         @Stable
         val Default = ButtonStyle()
-
-        /**
-         * The type of button style.
-         */
-        enum class ButtonStyleType {
-            /**
-             * [Button] style
-             */
-            Button,
-
-            /**
-             * [TextButton] style
-             */
-            TextButton,
-
-            /**
-             * [OutlinedButton] style
-             */
-            OutlinedButton
-        }
     }
 
     override fun merge(other: ButtonStyle?): ButtonStyle = if (other == null) this else ButtonStyle(
@@ -117,22 +96,42 @@ data class ButtonStyle(
     )
 
     @Composable
-    override fun localized(): ButtonStyle = localized(type = Button)
+    override fun localized(): ButtonStyle = localized(type = ButtonStyleType.Button)
 
     @Composable
     fun localized(type: ButtonStyleType) = when (type) {
-        Button -> ButtonStyle(
+        ButtonStyleType.Button -> ButtonStyle(
             elevation = ButtonDefaults.elevation(),
             shape = MaterialTheme.shapes.small,
             colors = ButtonDefaults.buttonColors()
         )
-        TextButton -> ButtonStyle(
+        ButtonStyleType.TextButton -> ButtonStyle(
             colors = ButtonDefaults.textButtonColors(),
             contentPadding = ButtonDefaults.TextButtonContentPadding
         )
-        OutlinedButton -> ButtonStyle(
+        ButtonStyleType.OutlinedButton -> ButtonStyle(
             border = ButtonDefaults.outlinedBorder,
             colors = ButtonDefaults.outlinedButtonColors(),
         )
     }.merge(this)
+}
+
+/**
+ * The type of button style.
+ */
+enum class ButtonStyleType {
+    /**
+     * [Button] style
+     */
+    Button,
+
+    /**
+     * [TextButton] style
+     */
+    TextButton,
+
+    /**
+     * [OutlinedButton] style
+     */
+    OutlinedButton
 }

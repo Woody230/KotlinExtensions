@@ -9,11 +9,11 @@ import com.bselzer.ktx.compose.ui.style.ModifiableStyle
 /**
  * CompositionLocal containing the preferred DropdownStyle that will be used by Dropdown components by default.
  */
-val LocalDropdownStyle: ProvidableCompositionLocal<DropdownStyle> = compositionLocalOf { Dropdown.DefaultStyle }
+val LocalDropdownStyle: ProvidableCompositionLocal<DropdownStyle> = compositionLocalOf { Dropdown.Default }
 
 object Dropdown {
     @Stable
-    val DefaultStyle = DropdownStyle()
+    val Default = DropdownStyle()
 }
 
 /**
@@ -21,4 +21,4 @@ object Dropdown {
  */
 expect class DropdownStyle(
     modifier: Modifier = Modifier,
-): ModifiableStyle
+): ModifiableStyle<DropdownStyle>

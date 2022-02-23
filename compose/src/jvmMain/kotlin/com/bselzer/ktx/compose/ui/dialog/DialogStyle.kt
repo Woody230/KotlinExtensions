@@ -1,20 +1,10 @@
 package com.bselzer.ktx.compose.ui.dialog
 
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.window.DialogState
+import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.style.Style
+import com.bselzer.ktx.function.objects.safeMerge
 
 actual class DialogProperties(
-    /**
-     * The state object to be used to control or observe the dialog's state
-     * When size/position is changed by the user, state will be updated.
-     * When size/position of the dialog is changed by the application (changing state),
-     * the native dialog will update its corresponding properties.
-     * If [DialogState.position] is not [WindowPosition.isSpecified], then after the first show on the
-     * screen [DialogState.position] will be set to the absolute values.
-     */
-    val state: DialogState? = null,
-
     /**
      * Is [Dialog] visible to user.
      * If `false`:
@@ -24,16 +14,6 @@ actual class DialogProperties(
      * will leave the composition.
      */
     val visible: Boolean = true,
-
-    /**
-     * Title in the titlebar of the dialog
-     */
-    val title: String = "Untitled",
-
-    /**
-     * Icon in the titlebar of the dialog (for platforms which support this)
-     */
-    val icon: Painter? = null,
 
     /**
      * Disables or enables decorations for this window.
@@ -61,6 +41,18 @@ actual class DialogProperties(
      * Can dialog receive focus
      */
     val focusable: Boolean = true
-): Style {
-    actual constructor() : this(state = null)
+): Style<DialogProperties> {
+    actual constructor(): this(visible = true)
+
+    override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
+        visible = visible.safeMerge(other.visible, true),
+        undecorated = undecorated.safeMerge(other.undecorated, false),
+        transparent = transparent.safeMerge(other.transparent, false),
+        resizable = resizable.safeMerge(other.resizable, true),
+        enabled = enabled.safeMerge(other.enabled, true),
+        focusable = focusable.safeMerge(other.focusable, true)
+    )
+
+    @Composable
+    override fun localized(): DialogProperties = this
 }

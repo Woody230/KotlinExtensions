@@ -3,7 +3,6 @@ package com.bselzer.ktx.compose.ui.dialog
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,12 +60,11 @@ fun MaterialAlertDialog(
     onDismissRequest = onDismissRequest,
     properties = style.properties
 ) {
-    val backgroundColor = style.backgroundColor ?: MaterialTheme.colors.surface
     Surface(
         modifier = style.modifier,
-        shape = style.shape ?: MaterialTheme.shapes.medium,
-        color = backgroundColor,
-        contentColor = style.contentColor ?: contentColorFor(backgroundColor),
+        shape = style.shape,
+        color = style.backgroundColor,
+        contentColor = style.contentColor,
     ) {
         ConstraintLayout(
             // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
@@ -176,8 +174,8 @@ fun MaterialAlertDialogButtons(
 @Composable
 fun MaterialDialogButton(
     text: String,
-    textStyle: WordStyle = LocalWordStyle.current,
-    style: ButtonStyle = textButtonStyle(),
+    textStyle: WordStyle = LocalWordStyle.localized(),
+    style: ButtonStyle = LocalButtonStyle.current.localized(type = ButtonStyleType.TextButton),
     onClick: () -> Unit
 ) = Button(
     style = style,
