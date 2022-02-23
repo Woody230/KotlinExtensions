@@ -4,17 +4,15 @@ import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred IconButtonStyle that will be used by IconButton components by default.
  */
-val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = compositionLocalOf { IconButtonStyle.Default }
 
 /**
  * A wrapper around the standard [IconButton] composable.
@@ -27,7 +25,7 @@ val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = composit
 @Composable
 fun IconButton(
     onClick: () -> Unit,
-    style: IconButtonStyle = LocalIconButtonStyle.current,
+    style: IconButtonStyle = LocalIconButtonStyle.localized(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) = IconButton(
@@ -50,20 +48,14 @@ fun IconButton(
 @Composable
 fun IconButton(
     onClick: () -> Unit,
-    style: IconButtonStyle = LocalIconButtonStyle.current,
+    style: IconButtonStyle = LocalIconButtonStyle.localized(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     imageVector: ImageVector,
     contentDescription: String?,
-    iconStyle: IconStyle = LocalIconStyle.current
+    iconStyle: IconStyle = LocalIconStyle.localized()
 ) = IconButton(onClick = onClick, style = style, interactionSource = interactionSource) {
     Icon(imageVector = imageVector, contentDescription = contentDescription, style = iconStyle)
 }
-
-/**
- * Creates a localized [IconButtonStyle].
- */
-@Composable
-fun iconButtonStyle() = IconButtonStyle()
 
 /**
  * The style arguments associated with an [IconButton] composable.
@@ -75,4 +67,17 @@ data class IconButtonStyle(
      * Whether or not this IconButton will handle input events and appear enabled for semantics purposes
      */
     val enabled: Boolean = true
-) : ModifiableStyle
+) : ModifiableStyle<IconButtonStyle> {
+    companion object {
+        @Stable
+        val Default = IconButtonStyle()
+    }
+
+    override fun merge(other: IconButtonStyle?): IconButtonStyle = if (other == null) this else IconButtonStyle(
+        modifier = modifier.then(other.modifier),
+        enabled = enabled.safeMerge(other.enabled, true),
+    )
+
+    @Composable
+    override fun localized(): IconButtonStyle = this
+}

@@ -5,6 +5,7 @@ import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,7 +14,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 /**
  * CompositionLocal containing the preferred IconStyle that will be used by Icon components by default.
  */
-val LocalIconStyle: ProvidableCompositionLocal<IconStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalIconStyle: ProvidableCompositionLocal<IconStyle> = compositionLocalOf { IconStyle.Default }
 
 /**
  * A wrapper around the standard [Icon] composable.
@@ -26,19 +27,13 @@ val LocalIconStyle: ProvidableCompositionLocal<IconStyle> = compositionLocalOf {
 fun Icon(
     imageVector: ImageVector,
     contentDescription: String?,
-    style: IconStyle = LocalIconStyle.current,
+    style: IconStyle = LocalIconStyle.localized(),
 ) = Icon(
     imageVector = imageVector,
     contentDescription = contentDescription,
     modifier = style.modifier,
     tint = style.tint
 )
-
-/**
- * Creates a localized [IconStyle].
- */
-@Composable
-fun iconStyle(): IconStyle = IconStyle(tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current))
 
 /**
  * The style arguments associated with an [Icon] composable.
@@ -49,5 +44,20 @@ data class IconStyle(
     /**
      * Tint to be applied to imageVector. If Color.Unspecified is provided, then no tint is applied
      */
-    val tint: Color
-) : ModifiableStyle
+    val tint: Color = Color.Unspecified
+) : ModifiableStyle<IconStyle> {
+    companion object {
+        @Stable
+        val Default = IconStyle()
+    }
+
+    override fun merge(other: IconStyle?): IconStyle = if (other == null) this else IconStyle(
+        modifier = modifier.then(other.modifier),
+        tint = tint.merge(other.tint)
+    )
+
+    @Composable
+    override fun localized(): IconStyle = IconStyle(
+        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+    ).merge(this)
+}

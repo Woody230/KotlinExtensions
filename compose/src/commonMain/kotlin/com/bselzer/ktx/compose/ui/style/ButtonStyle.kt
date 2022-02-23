@@ -6,17 +6,17 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import com.bselzer.ktx.compose.ui.style.ButtonStyle.Companion.ButtonStyleType.*
+import com.bselzer.ktx.function.objects.nullMerge
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred ButtonStyle that will be used by Button components by default.
  */
-val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocalOf { ButtonStyle.Default }
 
 /**
  * A wrapper around the standard [Button] composable.
@@ -30,7 +30,7 @@ val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocal
 fun Button(
     onClick: () -> Unit,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ButtonStyle = LocalButtonStyle.current,
+    style: ButtonStyle = LocalButtonStyle.localized(),
     content: @Composable RowScope.() -> Unit
 ) = Button(
     onClick = onClick,
@@ -43,35 +43,6 @@ fun Button(
     colors = style.colors,
     contentPadding = style.contentPadding,
     content = content
-)
-
-/**
- * Creates a localized [ButtonStyle].
- */
-@Composable
-fun buttonStyle(): ButtonStyle = ButtonStyle(
-    elevation = ButtonDefaults.elevation(),
-    shape = MaterialTheme.shapes.small,
-    colors = ButtonDefaults.buttonColors(),
-    contentPadding = ButtonDefaults.ContentPadding
-)
-
-/**
- * @return the default style for a [TextButton].
- */
-@Composable
-fun textButtonStyle(): ButtonStyle = buttonStyle().copy(
-    colors = ButtonDefaults.textButtonColors(),
-    contentPadding = ButtonDefaults.TextButtonContentPadding
-)
-
-/**
- * @return the default style for an [OutlinedButton].
- */
-@Composable
-fun outlinedButtonStyle(): ButtonStyle = buttonStyle().copy(
-    border = ButtonDefaults.outlinedBorder,
-    colors = ButtonDefaults.outlinedButtonColors(),
 )
 
 /**
@@ -88,12 +59,12 @@ data class ButtonStyle(
     /**
      * [ButtonElevation] used to resolve the elevation for this button in different states. This controls the size of the shadow below the button. Pass null here to disable elevation for this button. See [ButtonDefaults.elevation].
      */
-    val elevation: ButtonElevation,
+    val elevation: ButtonElevation = DefaultButtonElevation,
 
     /**
      * Defines the button's shape as well as its shadow
      */
-    val shape: Shape,
+    val shape: Shape = DefaultShape,
 
     /**
      * Border to draw around the button
@@ -103,10 +74,65 @@ data class ButtonStyle(
     /**
      * [ButtonColors] that will be used to resolve the background and content color for this button in different states. See [ButtonDefaults.buttonColors].
      */
-    val colors: ButtonColors,
+    val colors: ButtonColors = DefaultButtonColors,
 
     /**
      * The spacing values to apply internally between the container and the content
      */
-    val contentPadding: PaddingValues
-) : ModifiableStyle
+    val contentPadding: PaddingValues = ButtonDefaults.ContentPadding
+) : ModifiableStyle<ButtonStyle> {
+    companion object {
+        @Stable
+        val Default = ButtonStyle()
+
+        /**
+         * The type of button style.
+         */
+        enum class ButtonStyleType {
+            /**
+             * [Button] style
+             */
+            Button,
+
+            /**
+             * [TextButton] style
+             */
+            TextButton,
+
+            /**
+             * [OutlinedButton] style
+             */
+            OutlinedButton
+        }
+    }
+
+    override fun merge(other: ButtonStyle?): ButtonStyle = if (other == null) this else ButtonStyle(
+        modifier = modifier.then(other.modifier),
+        enabled = enabled.safeMerge(other.enabled, true),
+        elevation = elevation.merge(other.elevation),
+        shape = shape.merge(other.shape),
+        border = border.nullMerge(other.border),
+        colors = colors.merge(other.colors),
+        contentPadding = contentPadding.safeMerge(other.contentPadding, ButtonDefaults.ContentPadding)
+    )
+
+    @Composable
+    override fun localized(): ButtonStyle = localized(type = Button)
+
+    @Composable
+    fun localized(type: ButtonStyleType) = when (type) {
+        Button -> ButtonStyle(
+            elevation = ButtonDefaults.elevation(),
+            shape = MaterialTheme.shapes.small,
+            colors = ButtonDefaults.buttonColors()
+        )
+        TextButton -> ButtonStyle(
+            colors = ButtonDefaults.textButtonColors(),
+            contentPadding = ButtonDefaults.TextButtonContentPadding
+        )
+        OutlinedButton -> ButtonStyle(
+            border = ButtonDefaults.outlinedBorder,
+            colors = ButtonDefaults.outlinedButtonColors(),
+        )
+    }.merge(this)
+}

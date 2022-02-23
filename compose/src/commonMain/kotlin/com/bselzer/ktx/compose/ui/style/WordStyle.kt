@@ -3,6 +3,7 @@ package com.bselzer.ktx.compose.ui.style
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,11 +16,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.bselzer.ktx.function.objects.nullMerge
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred WordStyle that will be used by Text components by default.
  */
-val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf { WordStyle.Default }
 
 /**
  * A wrapper around the standard [Text] composable.
@@ -31,7 +34,7 @@ val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
 @Composable
 fun Text(
     text: String,
-    style: WordStyle = LocalWordStyle.current,
+    style: WordStyle = LocalWordStyle.localized(),
     onTextLayout: (TextLayoutResult) -> Unit = {}
 ) = androidx.compose.material.Text(
     text = text,
@@ -51,12 +54,6 @@ fun Text(
     onTextLayout = onTextLayout,
     style = style.textStyle
 )
-
-/**
- * Creates a localized [WordStyle].
- */
-@Composable
-fun wordStyle(): WordStyle = WordStyle(textStyle = LocalTextStyle.current)
 
 /**
  * The style arguments associated with the [Text] composable.
@@ -128,4 +125,29 @@ data class WordStyle(
      * Style configuration for the text such as color, font, line height etc.
      */
     val textStyle: TextStyle = TextStyle.Default,
-): ModifiableStyle
+): ModifiableStyle<WordStyle> {
+    companion object {
+        @Stable
+        val Default = WordStyle()
+    }
+
+    override fun merge(other: WordStyle?): WordStyle = if (other == null) this else WordStyle(
+        modifier = modifier.then(other.modifier),
+        color = color.merge(other.color),
+        fontSize = fontSize.merge(other.fontSize),
+        fontStyle = fontStyle.nullMerge(other.fontStyle),
+        fontWeight = fontWeight.nullMerge(other.fontWeight),
+        fontFamily = fontFamily.nullMerge(other.fontFamily),
+        letterSpacing = letterSpacing.merge(other.letterSpacing),
+        textDecoration = textDecoration.nullMerge(other.textDecoration),
+        textAlign = textAlign.nullMerge(other.textAlign),
+        lineHeight = lineHeight.merge(other.lineHeight),
+        overflow = overflow.safeMerge(other.overflow, TextOverflow.Clip),
+        softWrap = softWrap.safeMerge(other.softWrap, true),
+        maxLines = maxLines.safeMerge(other.maxLines, Int.MAX_VALUE),
+        textStyle = textStyle.merge(other.textStyle),
+    )
+
+    @Composable
+    override fun localized(): WordStyle = WordStyle(textStyle = LocalTextStyle.current).merge(this)
+}

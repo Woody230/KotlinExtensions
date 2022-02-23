@@ -5,16 +5,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonColors
 import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred RadioButtonStyle that will be used by RadioButton components by default.
  */
-val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compositionLocalOf { RadioButtonStyle.Default }
 
 /**
  * A wrapper around the standard [RadioButton] composable.
@@ -27,7 +25,7 @@ val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compos
 @Composable
 fun RadioButton(
     selected: Boolean,
-    style: RadioButtonStyle = LocalRadioButtonStyle.current,
+    style: RadioButtonStyle = LocalRadioButtonStyle.localized(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onClick: (() -> Unit)? = null,
 ) = RadioButton(
@@ -37,14 +35,6 @@ fun RadioButton(
     enabled = style.enabled,
     interactionSource = interactionSource,
     colors = style.colors
-)
-
-/**
- * Creates a localized [RadioButtonStyle].
- */
-@Composable
-fun radioButtonStyle(): RadioButtonStyle = RadioButtonStyle(
-    colors = RadioButtonDefaults.colors()
 )
 
 /**
@@ -61,5 +51,21 @@ data class RadioButtonStyle(
     /**
      * [RadioButtonColors] that will be used to resolve the background and content color for this RadioButton in different states. See [RadioButtonDefaults.colors].
      */
-    val colors: RadioButtonColors,
-) : ModifiableStyle
+    val colors: RadioButtonColors = DefaultRadioButtonColors,
+) : ModifiableStyle<RadioButtonStyle> {
+    companion object {
+        @Stable
+        val Default = RadioButtonStyle()
+    }
+
+    override fun merge(other: RadioButtonStyle?): RadioButtonStyle = if (other == null) this else RadioButtonStyle(
+        modifier = modifier.then(other.modifier),
+        enabled = enabled.safeMerge(other.enabled, true),
+        colors = colors.merge(other.colors),
+    )
+
+    @Composable
+    override fun localized(): RadioButtonStyle = RadioButtonStyle(
+        colors = RadioButtonDefaults.colors()
+    ).merge(this)
+}

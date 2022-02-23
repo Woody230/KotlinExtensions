@@ -4,14 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred ColumnStyle that will be used by Column components by default.
  */
-val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocalOf { ColumnStyle.Default }
 
 /**
  * A wrapper around the standard [Column] composable.
@@ -21,7 +23,7 @@ val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocal
  */
 @Composable
 fun Column(
-    style: ColumnStyle = LocalColumnStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
     content: @Composable ColumnScope.() -> Unit
 ) = androidx.compose.foundation.layout.Column(
     modifier = style.modifier,
@@ -29,12 +31,6 @@ fun Column(
     horizontalAlignment = style.horizontalAlignment,
     content = content
 )
-
-/**
- * Creates a localized [ColumnStyle].
- */
-@Composable
-fun columnStyle() = ColumnStyle()
 
 /**
  * The style arguments associated with the [Column] composable.
@@ -51,4 +47,18 @@ data class ColumnStyle(
      * The horizontal alignment of the layout's children.
      */
     val horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-): ModifiableStyle
+): ModifiableStyle<ColumnStyle> {
+    companion object {
+        @Stable
+        val Default = ColumnStyle()
+    }
+
+    override fun merge(other: ColumnStyle?): ColumnStyle = if (other == null) this else ColumnStyle(
+        modifier = modifier.then(other.modifier),
+        verticalArrangement = verticalArrangement.safeMerge(other.verticalArrangement, Arrangement.Top),
+        horizontalAlignment = horizontalAlignment.safeMerge(other.horizontalAlignment, Alignment.Start)
+    )
+
+    @Composable
+    override fun localized() = this
+}

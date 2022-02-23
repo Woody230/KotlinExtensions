@@ -3,6 +3,7 @@ package com.bselzer.ktx.compose.ui.style
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,7 +13,7 @@ import androidx.compose.ui.unit.dp
 /**
  * CompositionLocal containing the preferred DividerStyle that will be used by Divider components by default.
  */
-val LocalDividerStyle: ProvidableCompositionLocal<DividerStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalDividerStyle: ProvidableCompositionLocal<DividerStyle> = compositionLocalOf { DividerStyle.Default }
 
 /**
  * A wrapper around the standard [Divider] composable.
@@ -21,19 +22,13 @@ val LocalDividerStyle: ProvidableCompositionLocal<DividerStyle> = compositionLoc
  */
 @Composable
 fun Divider(
-    style: DividerStyle = LocalDividerStyle.current,
+    style: DividerStyle = LocalDividerStyle.localized(),
 ) = androidx.compose.material.Divider(
     modifier = style.modifier,
     color = style.color,
     thickness = style.thickness,
     startIndent = style.startIndent
 )
-
-/**
- * Creates a localized [DividerStyle].
- */
-@Composable
-fun dividerStyle() = DividerStyle(color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f))
 
 /**
  * The style arguments associated with the [Divider] composable.
@@ -44,7 +39,7 @@ data class DividerStyle(
     /**
      * Color of the divider line.
      */
-    val color: Color,
+    val color: Color = Color.Unspecified,
 
     /**
      * Thickness of the divider line, 1 dp is used by default. Using Dp.Hairline will produce a single pixel divider regardless of screen density.
@@ -55,4 +50,17 @@ data class DividerStyle(
      * Start offset of this line, no offset by default.
      */
     val startIndent: Dp = 0.dp,
-): ModifiableStyle
+): ModifiableStyle<DividerStyle> {
+    companion object {
+        @Stable
+        val Default = DividerStyle()
+    }
+
+    override fun merge(other: DividerStyle?): DividerStyle = if (other == null) this else DividerStyle(
+        modifier = modifier.then(other.modifier),
+        color = color.merge(other.color),
+    )
+
+    @Composable
+    override fun localized() = DividerStyle(color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)).merge(this)
+}

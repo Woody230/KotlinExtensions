@@ -9,15 +9,16 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred LazyColumnStyle that will be used by LazyColumn components by default.
  */
-val LocalLazyColumnStyle: ProvidableCompositionLocal<LazyColumnStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalLazyColumnStyle: ProvidableCompositionLocal<LazyColumnStyle> = compositionLocalOf { LazyColumnStyle.Default }
 
 /**
  * A wrapper around the standard [LazyColumn] composable.
@@ -28,7 +29,7 @@ val LocalLazyColumnStyle: ProvidableCompositionLocal<LazyColumnStyle> = composit
  */
 @Composable
 fun LazyColumn(
-    style: LazyColumnStyle = LocalLazyColumnStyle.current,
+    style: LazyColumnStyle = LocalLazyColumnStyle.localized(),
     state: LazyListState = rememberLazyListState(),
     content: LazyListScope.() -> Unit
 ) = androidx.compose.foundation.lazy.LazyColumn(
@@ -43,14 +44,6 @@ fun LazyColumn(
 )
 
 /**
- * Creates a localized [LazyColumnStyle].
- */
-@Composable
-fun lazyColumnStyle(): LazyColumnStyle = LazyColumnStyle(
-    flingBehavior = ScrollableDefaults.flingBehavior()
-)
-
-/**
  * The style arguments associated with the [LazyColumn] composable.
  */
 data class LazyColumnStyle(
@@ -60,7 +53,7 @@ data class LazyColumnStyle(
      * A padding around the whole content. This will add padding for the. content after it has been clipped, which is not possible via modifier param.
      * You can use it to add a padding before the first item or after the last one. If you want to add a spacing between each item use verticalArrangement.
      */
-    val contentPadding: PaddingValues = PaddingValues(all = 0.dp),
+    val contentPadding: PaddingValues = DefaultPadding,
 
     /**
      * Reverse the direction of scrolling and layout, when true items will be composed from the bottom to the top and LazyListState.firstVisibleItemIndex == 0 will mean we scrolled to the bottom.
@@ -80,5 +73,24 @@ data class LazyColumnStyle(
     /**
      * Logic describing fling behavior.
      */
-    val flingBehavior: FlingBehavior
-): ModifiableStyle
+    val flingBehavior: FlingBehavior = DefaultFlingBehavior
+): ModifiableStyle<LazyColumnStyle> {
+    companion object {
+        @Stable
+        val Default = LazyColumnStyle()
+    }
+
+    override fun merge(other: LazyColumnStyle?): LazyColumnStyle = if (other == null) this else LazyColumnStyle(
+        modifier = modifier.then(other.modifier),
+        contentPadding = contentPadding.merge(other.contentPadding),
+        reverseLayout = reverseLayout.safeMerge(other.reverseLayout, false),
+        verticalArrangement = verticalArrangement.safeMerge(other.verticalArrangement, Arrangement.Top),
+        horizontalAlignment = horizontalAlignment.safeMerge(other.horizontalAlignment, Alignment.Start),
+        flingBehavior = flingBehavior.merge(other.flingBehavior)
+    )
+
+    @Composable
+    override fun localized() = LazyColumnStyle(
+        flingBehavior = ScrollableDefaults.flingBehavior()
+    ).merge(this)
+}

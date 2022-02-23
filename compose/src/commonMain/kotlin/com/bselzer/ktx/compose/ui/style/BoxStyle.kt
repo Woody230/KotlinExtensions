@@ -3,14 +3,16 @@ package com.bselzer.ktx.compose.ui.style
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred BoxStyle that will be used by Box components by default.
  */
-val LocalBoxStyle: ProvidableCompositionLocal<BoxStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalBoxStyle: ProvidableCompositionLocal<BoxStyle> = compositionLocalOf { BoxStyle.Default }
 
 /**
  * A wrapper around the standard [Box] composable.
@@ -20,7 +22,7 @@ val LocalBoxStyle: ProvidableCompositionLocal<BoxStyle> = compositionLocalOf { s
  */
 @Composable
 fun Box(
-    style: BoxStyle = LocalBoxStyle.current,
+    style: BoxStyle = LocalBoxStyle.localized(),
     content: @Composable BoxScope.() -> Unit
 ) = androidx.compose.foundation.layout.Box(
     modifier = style.modifier,
@@ -28,12 +30,6 @@ fun Box(
     propagateMinConstraints = style.propagateMinConstraints,
     content = content
 )
-
-/**
- * Creates a localized [BoxStyle].
- */
-@Composable
-fun boxStyle(): BoxStyle = BoxStyle()
 
 /**
  * The style arguments associated with a [Box] composable.
@@ -50,4 +46,18 @@ data class BoxStyle(
      * Whether the incoming min constraints should be passed to content.
      */
     val propagateMinConstraints: Boolean = false
-) : ModifiableStyle
+) : ModifiableStyle<BoxStyle> {
+    companion object {
+        @Stable
+        val Default = BoxStyle()
+    }
+
+    override fun merge(other: BoxStyle?): BoxStyle = if (other == null) this else BoxStyle(
+        modifier = modifier.then(other.modifier),
+        contentAlignment = contentAlignment.safeMerge(other.contentAlignment, Alignment.TopStart),
+        propagateMinConstraints = propagateMinConstraints.safeMerge(other.propagateMinConstraints, false)
+    )
+
+    @Composable
+    override fun localized(): BoxStyle = this
+}

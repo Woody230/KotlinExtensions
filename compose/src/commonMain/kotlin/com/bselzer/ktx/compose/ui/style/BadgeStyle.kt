@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 /**
  * CompositionLocal containing the preferred BadgeStyle that will be used by Badge components by default.
  */
-val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf { BadgeStyle.Default }
 
 /**
  * A wrapper around the standard [Badge] composable.
@@ -23,7 +24,7 @@ val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf
  */
 @Composable
 fun Badge(
-    style: BadgeStyle = LocalBadgeStyle.current,
+    style: BadgeStyle = LocalBadgeStyle.localized(),
     content: (@Composable RowScope.() -> Unit)? = null
 ) = Badge(
     modifier = style.modifier,
@@ -41,23 +42,11 @@ fun Badge(
  */
 @Composable
 fun Badge(
-    style: BadgeStyle = LocalBadgeStyle.current,
+    style: BadgeStyle = LocalBadgeStyle.localized(),
     text: String,
-    textStyle: WordStyle = LocalWordStyle.current,
+    textStyle: WordStyle = LocalWordStyle.localized(),
 ) = Badge(style = style) {
     Text(text = text, style = textStyle)
-}
-
-/**
- * Creates a localized [BadgeStyle].
- */
-@Composable
-fun badgeStyle(): BadgeStyle = run {
-    val backgroundColor = MaterialTheme.colors.error
-    BadgeStyle(
-        backgroundColor = backgroundColor,
-        contentColor = contentColorFor(backgroundColor = backgroundColor)
-    )
 }
 
 /**
@@ -75,4 +64,24 @@ data class BadgeStyle(
      * The color of label text rendered in the badge
      */
     val contentColor: Color = Color.Unspecified,
-) : ModifiableStyle
+) : ModifiableStyle<BadgeStyle> {
+    companion object {
+        @Stable
+        val Default = BadgeStyle()
+    }
+
+    override fun merge(other: BadgeStyle?): BadgeStyle = if (other == null) this else BadgeStyle(
+        modifier = modifier.then(other.modifier),
+        backgroundColor = backgroundColor.merge(other.backgroundColor),
+        contentColor = contentColor.merge(other.contentColor)
+    )
+
+    @Composable
+    override fun localized(): BadgeStyle = run {
+        val backgroundColor = MaterialTheme.colors.error
+        BadgeStyle(
+            backgroundColor = backgroundColor,
+            contentColor = contentColorFor(backgroundColor = backgroundColor)
+        ).merge(this)
+    }
+}

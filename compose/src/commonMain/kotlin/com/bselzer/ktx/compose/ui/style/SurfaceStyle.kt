@@ -10,6 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,16 +19,18 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.function.objects.nullMerge
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred SurfaceStyle that will be used by Surface components by default.
  */
-val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf { SurfaceStyle.Default }
 
 /**
  * CompositionLocal containing the preferred ClickableSurfaceStyle that will be used by clickable Surface components by default.
  */
-val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf { ClickableSurfaceStyle.Default }
 
 /**
  * A wrapper around the standard [Surface] composable.
@@ -37,20 +40,17 @@ val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle
  */
 @Composable
 fun Surface(
-    style: SurfaceStyle = LocalSurfaceStyle.current,
+    style: SurfaceStyle = LocalSurfaceStyle.localized(),
     content: @Composable () -> Unit,
-) {
-    val backgroundColor = style.color ?: MaterialTheme.colors.surface
-    Surface(
-        modifier = style.modifier,
-        shape = style.shape ?: RectangleShape,
-        color = backgroundColor,
-        contentColor = style.contentColor ?: contentColorFor(backgroundColor = backgroundColor),
-        border = style.border,
-        elevation = style.elevation ?: 0.dp,
-        content = content
-    )
-}
+) = Surface(
+    modifier = style.modifier,
+    shape = style.shape,
+    color = style.color,
+    contentColor = style.contentColor,
+    border = style.border,
+    elevation = style.elevation,
+    content = content
+)
 
 /**
  * A wrapper around the standard [Surface] composable.
@@ -66,7 +66,7 @@ fun Surface(
 fun Surface(
     onClick: () -> Unit,
     onClickLabel: String? = null,
-    style: ClickableSurfaceStyle = LocalClickableSurfaceStyle.current,
+    style: ClickableSurfaceStyle = LocalClickableSurfaceStyle.localized(),
     interactionSource: MutableInteractionSource,
     content: @Composable () -> Unit,
 ) = Surface(
@@ -78,24 +78,12 @@ fun Surface(
     border = style.border,
     elevation = style.elevation,
     interactionSource = interactionSource,
-    indication = style.indication ?: LocalIndication.current,
-    enabled = style.enabled ?: true,
+    indication = style.indication,
+    enabled = style.enabled,
     onClickLabel = onClickLabel,
     role = style.role,
     content = content
 )
-
-/**
- * Creates a localized [SurfaceStyle].
- */
-@Composable
-fun surfaceStyle(): SurfaceStyle = run {
-    val backgroundColor = MaterialTheme.colors.surface
-    SurfaceStyle(
-        color = backgroundColor,
-        contentColor = contentColorFor(backgroundColor = backgroundColor)
-    )
-}
 
 /**
  * The style arguments associated with a [Surface] composable.
@@ -106,17 +94,17 @@ data class SurfaceStyle(
     /**
      * Defines the Surface's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
      */
-    val shape: Shape = RectangleShape,
+    val shape: Shape = DefaultShape,
 
     /**
      * The background color. Use Color.Transparent to have no color.
      */
-    val color: Color,
+    val color: Color = Color.Unspecified,
 
     /**
      * The preferred content color provided by this Surface to its children. Defaults to either the matching content color for backgroundColor, or if backgroundColor is not a color from the theme, this will keep the same value set above this Surface.
      */
-    val contentColor: Color,
+    val contentColor: Color = Color.Unspecified,
 
     /**
      * Border to draw on top of the Surface
@@ -127,18 +115,29 @@ data class SurfaceStyle(
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
     val elevation: Dp = 0.dp,
-) : ModifiableStyle
+) : ModifiableStyle<SurfaceStyle> {
+    companion object {
+        @Stable
+        val Default = SurfaceStyle()
+    }
 
-/**
- * Creates a localized [ClickableSurfaceStyle].
- */
-@Composable
-fun clickableSurfaceStyle(): ClickableSurfaceStyle = run {
-    val backgroundColor = MaterialTheme.colors.surface
-    ClickableSurfaceStyle(
-        color = backgroundColor,
-        contentColor = contentColorFor(backgroundColor = backgroundColor)
+    override fun merge(other: SurfaceStyle?): SurfaceStyle = if (other == null) this else SurfaceStyle(
+        modifier = modifier.then(other.modifier),
+        shape = shape.merge(other.shape),
+        color = color.merge(other.color),
+        contentColor = contentColor.merge(other.contentColor),
+        border = border.nullMerge(other.border),
+        elevation = elevation.safeMerge(other.elevation, 0.dp),
     )
+
+    @Composable
+    override fun localized(): SurfaceStyle = run {
+        val backgroundColor = MaterialTheme.colors.surface
+        SurfaceStyle(
+            color = backgroundColor,
+            contentColor = contentColorFor(backgroundColor = backgroundColor)
+        ).merge(this)
+    }
 }
 
 /**
@@ -155,12 +154,12 @@ data class ClickableSurfaceStyle(
     /**
      * The background color. Use Color.Transparent to have no color.
      */
-    val color: Color,
+    val color: Color = Color.Unspecified,
 
     /**
      * The preferred content color provided by this Surface to its children. Defaults to either the matching content color for backgroundColor, or if backgroundColor is not a color from the theme, this will keep the same value set above this Surface.
      */
-    val contentColor: Color,
+    val contentColor: Color = Color.Unspecified,
 
     /**
      * Border to draw on top of the Surface
@@ -189,4 +188,31 @@ data class ClickableSurfaceStyle(
      *  For example, if the Surface acts as a button, you should pass the Role.Button
      */
     val role: Role? = null,
-) : ModifiableStyle
+) : ModifiableStyle<ClickableSurfaceStyle> {
+    companion object {
+        @Stable
+        val Default = ClickableSurfaceStyle()
+    }
+
+    override fun merge(other: ClickableSurfaceStyle?): ClickableSurfaceStyle = if (other == null) this else ClickableSurfaceStyle(
+        modifier = modifier.then(other.modifier),
+        shape = shape.merge(other.shape),
+        color = color.merge(other.color),
+        contentColor = contentColor.merge(other.contentColor),
+        border = border.nullMerge(other.border),
+        elevation = elevation.safeMerge(other.elevation, 0.dp),
+        indication = indication.nullMerge(other.indication),
+        enabled = enabled.safeMerge(other.enabled, true),
+        role = role.nullMerge(other.role)
+    )
+
+    @Composable
+    override fun localized(): ClickableSurfaceStyle = run {
+        val backgroundColor = MaterialTheme.colors.surface
+        ClickableSurfaceStyle(
+            color = backgroundColor,
+            contentColor = contentColorFor(backgroundColor = backgroundColor),
+            indication = LocalIndication.current
+        ).merge(this)
+    }
+}

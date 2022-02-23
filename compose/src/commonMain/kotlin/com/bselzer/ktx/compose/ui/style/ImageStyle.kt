@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -9,11 +10,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import com.bselzer.ktx.function.objects.nullMerge
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred ImageStyle that will be used by Image components by default.
  */
-val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf { styleNotInitialized() }
+val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf { ImageStyle.Default }
 
 /**
  * A wrapper around the standard [Image] composable.
@@ -26,7 +29,7 @@ val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf
 fun Image(
     painter: Painter,
     contentDescription: String?,
-    style: ImageStyle = LocalImageStyle.current
+    style: ImageStyle = LocalImageStyle.localized()
 ) = androidx.compose.foundation.Image(
     painter = painter,
     contentDescription = contentDescription,
@@ -36,12 +39,6 @@ fun Image(
     alpha = style.alpha,
     colorFilter = style.colorFilter
 )
-
-/**
- * Creates a localized [ImageStyle].
- */
-@Composable
-fun imageStyle() = ImageStyle()
 
 /**
  * The style arguments associated with the [Image] composable.
@@ -68,4 +65,20 @@ data class ImageStyle(
      * ColorFilter to apply for the Painter when it is rendered onscreen
      */
     val colorFilter: ColorFilter? = null
-): ModifiableStyle
+): ModifiableStyle<ImageStyle> {
+    companion object {
+        @Stable
+        val Default = ImageStyle()
+    }
+
+    override fun merge(other: ImageStyle?): ImageStyle = if (other == null) this else ImageStyle(
+        modifier = modifier.then(other.modifier),
+        alignment = alignment.safeMerge(other.alignment, Alignment.Center),
+        contentScale = contentScale.safeMerge(other.contentScale, ContentScale.Fit),
+        alpha = alpha.safeMerge(other.alpha, DefaultAlpha),
+        colorFilter = colorFilter.nullMerge(other.colorFilter)
+    )
+
+    @Composable
+    override fun localized(): ImageStyle = this
+}
