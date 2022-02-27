@@ -4,6 +4,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * Lays out a selector representing a [Boolean] preference state.
@@ -18,7 +19,7 @@ import androidx.compose.ui.graphics.painter.Painter
  */
 @Composable
 fun BinaryPreference(
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
     painter: Painter,
     title: String,
     subtitle: String,

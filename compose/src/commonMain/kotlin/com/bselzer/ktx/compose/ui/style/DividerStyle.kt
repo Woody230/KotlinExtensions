@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred DividerStyle that will be used by Divider components by default.
@@ -59,8 +60,12 @@ data class DividerStyle(
     override fun merge(other: DividerStyle?): DividerStyle = if (other == null) this else DividerStyle(
         modifier = modifier.then(other.modifier),
         color = color.merge(other.color),
+        thickness = thickness.safeMerge(other.thickness, 1.dp),
+        startIndent = startIndent.safeMerge(other.startIndent, 0.dp)
     )
 
     @Composable
-    override fun localized() = DividerStyle(color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)).merge(this)
+    override fun localized() = DividerStyle(
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+    ).merge(this)
 }

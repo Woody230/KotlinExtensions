@@ -14,10 +14,7 @@ import com.bselzer.ktx.compose.ui.dialog.AlertDialogStyle
 import com.bselzer.ktx.compose.ui.dialog.LocalAlertDialogStyle
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
-import com.bselzer.ktx.compose.ui.style.ButtonStyle
-import com.bselzer.ktx.compose.ui.style.LocalButtonStyle
-import com.bselzer.ktx.compose.ui.style.LocalWordStyle
-import com.bselzer.ktx.compose.ui.style.WordStyle
+import com.bselzer.ktx.compose.ui.style.*
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.math.max
 import kotlin.math.min
@@ -47,15 +44,15 @@ import kotlin.time.toDuration
 @Composable
 fun DurationDialogPreference(
     onStateChanged: (Duration?) -> Unit,
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
     painter: Painter,
     title: String,
     subtitle: String,
-    buttonStyle: ButtonStyle = LocalButtonStyle.current,
-    buttonTextStyle: WordStyle = LocalWordStyle.current,
-    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.current,
+    buttonStyle: ButtonStyle = LocalButtonStyle.localized(),
+    buttonTextStyle: WordStyle = LocalWordStyle.localized(),
+    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.localized(),
     dialogTitle: String = title,
-    dialogTitleStyle: WordStyle = LocalWordStyle.current,
+    dialogTitleStyle: WordStyle = LocalWordStyle.localized(),
     dialogSpacing: Dp = PreferenceSpacing,
     initialAmount: Int,
     initialUnit: DurationUnit,

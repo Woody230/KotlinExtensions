@@ -1,9 +1,12 @@
 package com.bselzer.ktx.compose.ui.description
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import com.bselzer.ktx.compose.ui.style.*
 
 /**
@@ -18,24 +21,24 @@ val LocalDescriptionStyle: ProvidableCompositionLocal<DescriptionStyle> = compos
  */
 @Composable
 fun Description(
-    style: DescriptionStyle = LocalDescriptionStyle.current,
+    style: DescriptionStyle = LocalDescriptionStyle.localized(),
     title: String,
     subtitle: String
 ) = Description(
-    style = style.style ?: LocalColumnStyle.current,
+    style = style.style,
     title = title,
-    titleStyle = style.titleStyle ?: LocalWordStyle.current,
+    titleStyle = style.titleStyle,
     subtitle = subtitle,
-    subtitleStyle = style.subtitleStyle ?: LocalWordStyle.current
+    subtitleStyle = style.subtitleStyle
 )
 
 /**
  * The style arguments associated with a [Description] composable.
  */
 data class DescriptionStyle(
-    val style: ColumnStyle? = null,
-    val titleStyle: WordStyle? = null,
-    val subtitleStyle: WordStyle? = null
+    val style: ColumnStyle = ColumnStyle.Default,
+    val titleStyle: WordStyle = WordStyle.Default,
+    val subtitleStyle: WordStyle = WordStyle.Default
 ) : Style<DescriptionStyle> {
     companion object {
         @Stable
@@ -43,8 +46,22 @@ data class DescriptionStyle(
     }
 
     override fun merge(other: DescriptionStyle?): DescriptionStyle = if (other == null) this else DescriptionStyle(
-        style = style?.merge(other.style) ?: other.style,
-        titleStyle = titleStyle?.merge(other.titleStyle) ?: other.titleStyle,
-        subtitleStyle = subtitleStyle?.merge(other.subtitleStyle) ?: other.subtitleStyle
+        style = style.merge(other.style),
+        titleStyle = titleStyle.merge(other.titleStyle),
+        subtitleStyle = subtitleStyle.merge(other.subtitleStyle)
     )
+
+    @Composable
+    override fun localized(): DescriptionStyle = DescriptionStyle(
+        style = LocalColumnStyle.localized(),
+        titleStyle = WordStyle(
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Visible,
+            textStyle = MaterialTheme.typography.subtitle1
+        ).merge(LocalWordStyle.localized()),
+        subtitleStyle = WordStyle(
+            overflow = TextOverflow.Ellipsis,
+            textStyle = MaterialTheme.typography.subtitle2
+        ).merge(LocalWordStyle.localized())
+    ).merge(this)
 }

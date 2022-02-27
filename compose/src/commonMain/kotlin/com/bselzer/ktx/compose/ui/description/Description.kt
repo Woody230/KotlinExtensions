@@ -1,9 +1,6 @@
 package com.bselzer.ktx.compose.ui.description
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import com.bselzer.ktx.compose.ui.style.*
 
 /**
@@ -17,36 +14,17 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun Description(
-    style: ColumnStyle = LocalColumnStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
     title: String,
-    titleStyle: WordStyle = LocalWordStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.localized(),
     subtitle: String,
-    subtitleStyle: WordStyle = LocalWordStyle.current
+    subtitleStyle: WordStyle = LocalWordStyle.localized()
 ) = Column(
     style = style
 ) {
     DescriptionTitle(title = title, style = titleStyle)
     DescriptionSubtitle(subtitle = subtitle, style = subtitleStyle)
 }
-
-/**
- * The default [WordStyle] for a [DescriptionTitle].
- */
-@Composable
-fun descriptionTitleStyle(): WordStyle = WordStyle.Default.copy(
-    fontWeight = FontWeight.Bold,
-    overflow = TextOverflow.Visible,
-    textStyle = MaterialTheme.typography.subtitle1
-)
-
-/**
- * The default [WordStyle] for a [DescriptionSubtitle].
- */
-@Composable
-fun descriptionSubtitleStyle(): WordStyle = WordStyle.Default.copy(
-    overflow = TextOverflow.Ellipsis,
-    textStyle = MaterialTheme.typography.subtitle2
-)
 
 /**
  * Lays out a description title.
@@ -57,10 +35,10 @@ fun descriptionSubtitleStyle(): WordStyle = WordStyle.Default.copy(
 @Composable
 fun DescriptionTitle(
     title: String,
-    style: WordStyle = LocalWordStyle.current
+    style: WordStyle = LocalWordStyle.localized()
 ) = Text(
     text = title,
-    style = descriptionTitleStyle().merge(style)
+    style = LocalDescriptionStyle.localized().titleStyle.merge(style)
 )
 
 /**
@@ -72,8 +50,8 @@ fun DescriptionTitle(
 @Composable
 fun DescriptionSubtitle(
     subtitle: String,
-    style: WordStyle = LocalWordStyle.current
+    style: WordStyle = LocalWordStyle.localized()
 ) = Text(
     text = subtitle,
-    style = descriptionSubtitleStyle().merge(style)
+    style = LocalDescriptionStyle.localized().subtitleStyle.merge(style)
 )

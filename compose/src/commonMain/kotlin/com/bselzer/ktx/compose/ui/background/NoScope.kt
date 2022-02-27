@@ -2,27 +2,24 @@ package com.bselzer.ktx.compose.ui.background
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import com.bselzer.ktx.compose.ui.style.Image
 import com.bselzer.ktx.compose.ui.style.ImageStyle
+import com.bselzer.ktx.compose.ui.style.LocalImageStyle
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
- * CompositionLocal containing the preferred BackgroundStyle that will be used by BackgroundImage components by default.
+ * Creates a localized [ImageStyle] for the [BackgroundImage].
  */
-val LocalBackgroundStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf {
-    ImageStyle.Default.copy(
-        // Fill the entirety of the parent.
-        modifier = Modifier.fillMaxSize(),
-
-        alignment = Alignment.Center,
-        contentScale = ContentScale.Crop
-    )
-}
+@Composable
+fun backgroundStyle(): ImageStyle = ImageStyle(
+    modifier = Modifier.fillMaxSize(),
+    alignment = Alignment.Center,
+    contentScale = ContentScale.Crop
+).merge(LocalImageStyle.localized())
 
 /**
  * Lays out a background image.
@@ -33,7 +30,7 @@ val LocalBackgroundStyle: ProvidableCompositionLocal<ImageStyle> = compositionLo
 @Composable
 fun BackgroundImage(
     painter: Painter,
-    style: ImageStyle = LocalBackgroundStyle.current
+    style: ImageStyle = backgroundStyle()
 ) = Image(
     painter = painter,
     contentDescription = null,

@@ -9,12 +9,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.description.DescriptionSubtitle
 import com.bselzer.ktx.compose.ui.description.DescriptionTitle
-import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
-import com.bselzer.ktx.compose.ui.style.LocalImageStyle
-import com.bselzer.ktx.compose.ui.style.LocalSpacing
-import com.bselzer.ktx.compose.ui.style.LocalWordStyle
 import com.bselzer.ktx.compose.ui.style.WordStyle
-import com.bselzer.ktx.compose.ui.unit.specified
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * Lays out the description of a preference with the title on the starting side and the subtitle and the ending side.
@@ -27,7 +23,7 @@ import com.bselzer.ktx.compose.ui.unit.specified
  */
 @Composable
 fun TextPreference(
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
     painter: Painter,
     title: String,
     subtitle: String,
@@ -43,13 +39,11 @@ fun TextPreference(
         ref = icon,
         contentDescription = title,
         painter = painter,
-        style = style.imageStyle ?: LocalImageStyle.current
+        style = style.imageStyle
     )
 
-    val descriptionStyle = style.descriptionStyle ?: LocalDescriptionStyle.current
-    val titleStyle = descriptionStyle.titleStyle ?: LocalWordStyle.current
-    val subtitleStyle = descriptionStyle.subtitleStyle ?: LocalWordStyle.current
-    val margin = (style.spacing ?: LocalSpacing.current).specified(PreferenceSpacing)
+    val descriptionStyle = style.descriptionStyle
+    val margin = style.spacing
     DescriptionTitle(
         title = title,
         style = WordStyle(
@@ -58,7 +52,7 @@ fun TextPreference(
                 bottom.linkTo(parent.bottom)
                 start.linkTo(icon.end, margin = margin)
             },
-        ).merge(titleStyle)
+        ).merge(descriptionStyle.titleStyle)
     )
 
     DescriptionSubtitle(
@@ -71,6 +65,6 @@ fun TextPreference(
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
             },
-        ).merge(subtitleStyle)
+        ).merge(descriptionStyle.subtitleStyle)
     )
 }

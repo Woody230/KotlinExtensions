@@ -16,7 +16,7 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun DividedColumn(
-    style: ColumnStyle = LocalColumnStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
     prepend: @Composable ColumnScope.() -> Unit,
     append: @Composable ColumnScope.() -> Unit,
     divider: @Composable ColumnScope.(Int) -> Unit,
@@ -46,7 +46,7 @@ fun DividedColumn(
  */
 @Composable
 fun DividedColumn(
-    style: ColumnStyle = LocalColumnStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
     prepend: Boolean = false,
     append: Boolean = false,
     divider: @Composable ColumnScope.() -> Unit,
@@ -70,7 +70,7 @@ fun DividedColumn(
  */
 @Composable
 fun DividedRow(
-    style: RowStyle = LocalRowStyle.current,
+    style: RowStyle = LocalRowStyle.localized(),
     prepend: @Composable RowScope.() -> Unit,
     append: @Composable RowScope.() -> Unit,
     divider: @Composable RowScope.(Int) -> Unit,
@@ -101,7 +101,7 @@ fun DividedRow(
  */
 @Composable
 fun DividedRow(
-    style: RowStyle = LocalRowStyle.current,
+    style: RowStyle = LocalRowStyle.localized(),
     prepend: Boolean = false,
     append: Boolean = false,
     divider: @Composable RowScope.() -> Unit,

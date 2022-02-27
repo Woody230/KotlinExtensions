@@ -15,8 +15,8 @@ import dev.icerock.moko.resources.compose.stringResource
  */
 @Composable
 fun DismissButton(
-    style: ButtonStyle = LocalButtonStyle.current,
-    textStyle: WordStyle = LocalWordStyle.current,
+    style: ButtonStyle = LocalButtonStyle.localized(),
+    textStyle: WordStyle = LocalWordStyle.localized(),
     onClick: () -> Unit
 ) = MaterialDialogButton(
     text = stringResource(Resources.strings.cancel),
@@ -34,8 +34,8 @@ fun DismissButton(
  */
 @Composable
 fun ConfirmationButton(
-    style: ButtonStyle = LocalButtonStyle.current,
-    textStyle: WordStyle = LocalWordStyle.current,
+    style: ButtonStyle = LocalButtonStyle.localized(),
+    textStyle: WordStyle = LocalWordStyle.localized(),
     onClick: () -> Unit
 ) = MaterialDialogButton(text = stringResource(Resources.strings.ok), textStyle = textStyle, style = style, onClick = onClick)
 
@@ -48,7 +48,7 @@ fun ConfirmationButton(
  */
 @Composable
 fun ResetButton(
-    style: ButtonStyle = LocalButtonStyle.current,
-    textStyle: WordStyle = LocalWordStyle.current,
+    style: ButtonStyle = LocalButtonStyle.localized(),
+    textStyle: WordStyle = LocalWordStyle.localized(),
     onClick: () -> Unit
 ) = MaterialDialogButton(text = stringResource(Resources.strings.reset), textStyle = textStyle, style = style, onClick = onClick)

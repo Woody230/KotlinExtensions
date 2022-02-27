@@ -5,10 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.ktx.compose.ui.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.dialog.*
-import com.bselzer.ktx.compose.ui.style.ButtonStyle
-import com.bselzer.ktx.compose.ui.style.LocalButtonStyle
-import com.bselzer.ktx.compose.ui.style.LocalWordStyle
-import com.bselzer.ktx.compose.ui.style.WordStyle
+import com.bselzer.ktx.compose.ui.style.*
 
 
 /**
@@ -28,15 +25,15 @@ import com.bselzer.ktx.compose.ui.style.WordStyle
 fun <T> DialogPreference(
     state: MutableState<T?>,
     onStateChanged: (T?) -> Unit,
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
     painter: Painter,
     title: String,
     subtitle: String,
-    buttonStyle: ButtonStyle = LocalButtonStyle.current,
-    buttonTextStyle: WordStyle = LocalWordStyle.current,
-    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.current,
+    buttonStyle: ButtonStyle = LocalButtonStyle.localized(),
+    buttonTextStyle: WordStyle = LocalWordStyle.localized(),
+    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.localized(),
     dialogTitle: String = title,
-    dialogTitleStyle: WordStyle = LocalWordStyle.current,
+    dialogTitleStyle: WordStyle = LocalWordStyle.localized(),
     dialogContent: @Composable () -> Unit,
 ) = DialogPreference(
     style = style,

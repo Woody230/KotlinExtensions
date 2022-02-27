@@ -14,7 +14,6 @@ import com.bselzer.ktx.compose.ui.container.DividedRow
 import com.bselzer.ktx.compose.ui.container.Spacer
 import com.bselzer.ktx.compose.ui.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.style.*
-import com.bselzer.ktx.compose.ui.unit.specified
 
 /**
  * Lays out a [title] for a section of preferences.
@@ -28,18 +27,18 @@ import com.bselzer.ktx.compose.ui.unit.specified
  */
 @Composable
 fun PreferenceSectionTitle(
-    style: RowStyle = LocalRowStyle.current,
-    spacing: Dp = LocalSpacing.current,
+    style: RowStyle = LocalRowStyle.localized(),
+    spacing: Dp = PreferenceSpacing,
     painter: Painter,
-    imageStyle: ImageStyle = LocalImageStyle.current,
+    imageStyle: ImageStyle = LocalImageStyle.localized(),
     title: String,
-    titleStyle: WordStyle = LocalWordStyle.current
+    titleStyle: WordStyle = LocalWordStyle.localized()
 ) = DividedRow(
     style = RowStyle(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ).merge(style),
-    divider = { Spacer(width = spacing.specified(default = PreferenceSpacing)) },
+    divider = { Spacer(width = spacing) },
     contents = arrayOf(
         {
             PreferenceImage(
@@ -72,11 +71,11 @@ fun PreferenceSectionTitle(
  */
 @Composable
 fun PreferenceSection(
-    style: ColumnStyle = LocalColumnStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
     painter: Painter,
-    imageStyle: ImageStyle = LocalImageStyle.current,
+    imageStyle: ImageStyle = LocalImageStyle.localized(),
     title: String,
-    titleStyle: WordStyle = LocalWordStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.localized(),
     titleSpacing: Dp = PreferenceSpacing,
     spacing: Dp = PreferenceSectionSpacing,
     content: @Composable ColumnScope.() -> Unit
@@ -110,7 +109,7 @@ fun PreferenceSection(
 fun PreferenceSectionTitle(
     spacing: Dp = PreferenceSpacing + PreferenceImageSize, // Default spacing + default image size
     title: String,
-    style: WordStyle = LocalWordStyle.current,
+    style: WordStyle = LocalWordStyle.localized(),
 ) = DescriptionTitle(
     title = title,
     style = WordStyle(
@@ -130,9 +129,9 @@ fun PreferenceSectionTitle(
  */
 @Composable
 fun PreferenceSection(
-    style: ColumnStyle = LocalColumnStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
     title: String,
-    titleStyle: WordStyle = LocalWordStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.localized(),
     titleSpacing: Dp = PreferenceSpacing + PreferenceImageSize,
     spacing: Dp = PreferenceSectionSpacing,
     content: @Composable ColumnScope.() -> Unit

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.style.Icon
 import com.bselzer.ktx.compose.ui.style.IconStyle
 import com.bselzer.ktx.compose.ui.style.LocalIconStyle
+import com.bselzer.ktx.compose.ui.style.localized
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -15,7 +16,7 @@ import dev.icerock.moko.resources.compose.stringResource
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun RefreshIcon(style: IconStyle = LocalIconStyle.current) = Icon(
+fun RefreshIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
     imageVector = Icons.Filled.Refresh,
     contentDescription = stringResource(resource = Resources.strings.refresh),
     style = style

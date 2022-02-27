@@ -14,6 +14,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.style.LocalWordStyle
 import com.bselzer.ktx.compose.ui.style.Text
 import com.bselzer.ktx.compose.ui.style.WordStyle
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * Lays out a row with values aligned from the center with [spacing].
@@ -31,8 +32,8 @@ fun CenteredRow(
     startValue: String,
     endValue: String,
     spacing: Dp = 5.dp,
-    startStyle: WordStyle = LocalWordStyle.current,
-    endStyle: WordStyle = LocalWordStyle.current
+    startStyle: WordStyle = LocalWordStyle.localized(),
+    endStyle: WordStyle = LocalWordStyle.localized()
 ) = ConstraintLayout(
     modifier = Modifier
         .fillMaxWidth()

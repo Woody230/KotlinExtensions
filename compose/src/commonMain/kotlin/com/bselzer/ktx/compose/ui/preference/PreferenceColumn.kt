@@ -20,9 +20,9 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun PreferenceColumn(
-    style: ColumnStyle = LocalColumnStyle.current,
-    spacing: Dp = LocalSpacing.current,
-    dividerStyle: DividerStyle = LocalDividerStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
+    spacing: Dp = PreferenceSpacing,
+    dividerStyle: DividerStyle = LocalDividerStyle.localized(),
     prepend: @Composable ColumnScope.() -> Unit = { },
     append: @Composable ColumnScope.() -> Unit = { },
     vararg contents: @Composable ColumnScope.() -> Unit
@@ -30,11 +30,10 @@ fun PreferenceColumn(
     style = style,
     divider = {
         CompositionLocalProvider(
-            // TODO instance of where using nulls and not resolving properties until within the composable is problematic
             LocalDividerStyle provides DividerStyle(thickness = PreferenceThickness).merge(dividerStyle)
         ) {
             // Divide the components by the spacing split across the divider thickness and then evenly across the remaining space.
-            val segment = (spacing - LocalDividerStyle.current.thickness!!) / 2
+            val segment = (spacing - LocalDividerStyle.current.thickness) / 2
             Spacer(height = segment)
             Divider(style = LocalDividerStyle.current)
             Spacer(height = segment)

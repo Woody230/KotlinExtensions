@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.style.Icon
 import com.bselzer.ktx.compose.ui.style.IconStyle
 import com.bselzer.ktx.compose.ui.style.LocalIconStyle
+import com.bselzer.ktx.compose.ui.style.localized
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -16,7 +17,7 @@ import dev.icerock.moko.resources.compose.stringResource
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun UpNavigationIcon(style: IconStyle = LocalIconStyle.current) = Icon(
+fun UpNavigationIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
     imageVector = Icons.Filled.ArrowBack,
     contentDescription = stringResource(resource = Resources.strings.up),
     style = style
@@ -28,7 +29,7 @@ fun UpNavigationIcon(style: IconStyle = LocalIconStyle.current) = Icon(
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun DrawerNavigationIcon(style: IconStyle = LocalIconStyle.current) = Icon(
+fun DrawerNavigationIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
     imageVector = Icons.Filled.Menu,
     contentDescription = stringResource(resource = Resources.strings.menu),
     style = style,

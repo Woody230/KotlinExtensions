@@ -17,7 +17,7 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun Background(
-    style: BoxStyle = LocalBoxStyle.current,
+    style: BoxStyle = LocalBoxStyle.localized(),
     background: @Composable BoxScope.() -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) = Box(style = style) {
@@ -35,8 +35,8 @@ fun Background(
  */
 @Composable
 fun BackgroundRow(
-    style: RowStyle = LocalRowStyle.current,
-    backgroundStyle: BoxStyle = LocalBoxStyle.current,
+    style: RowStyle = LocalRowStyle.localized(),
+    backgroundStyle: BoxStyle = LocalBoxStyle.localized(),
     background: @Composable BoxScope.() -> Unit,
     content: @Composable RowScope.() -> Unit
 ) = Background(style = backgroundStyle, background = background) {
@@ -56,8 +56,8 @@ fun BackgroundRow(
  */
 @Composable
 fun BackgroundColumn(
-    style: ColumnStyle = LocalColumnStyle.current,
-    backgroundStyle: BoxStyle = LocalBoxStyle.current,
+    style: ColumnStyle = LocalColumnStyle.localized(),
+    backgroundStyle: BoxStyle = LocalBoxStyle.localized(),
     background: @Composable BoxScope.() -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) = Background(style = backgroundStyle, background = background) {

@@ -12,7 +12,7 @@ import com.bselzer.ktx.compose.ui.description.DescriptionStyle
 import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
-import com.bselzer.ktx.compose.ui.style.LocalSpacing
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * Lays out a preference designed to display an icon, description, and optional content meant to take up a small amount of space.
@@ -30,10 +30,10 @@ import com.bselzer.ktx.compose.ui.style.LocalSpacing
 @Composable
 fun SimplePreference(
     modifier: Modifier = Modifier,
-    spacing: Dp = LocalSpacing.current,
+    spacing: Dp = PreferenceSpacing,
     painter: Painter,
-    imageStyle: ImageStyle = LocalImageStyle.current,
-    descriptionStyle: DescriptionStyle = LocalDescriptionStyle.current,
+    imageStyle: ImageStyle = LocalImageStyle.localized(),
+    descriptionStyle: DescriptionStyle = LocalDescriptionStyle.localized(),
     title: String,
     subtitle: String,
     onClick: () -> Unit,

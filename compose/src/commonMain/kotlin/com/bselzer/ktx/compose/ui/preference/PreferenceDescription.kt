@@ -10,8 +10,7 @@ import com.bselzer.ktx.compose.ui.description.Description
 import com.bselzer.ktx.compose.ui.description.DescriptionStyle
 import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ColumnStyle
-import com.bselzer.ktx.compose.ui.style.LocalSpacing
-import com.bselzer.ktx.compose.ui.unit.specified
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * Lays out a description of the state of the preference through a [title] and [subtitle].
@@ -29,25 +28,22 @@ fun ConstraintLayoutScope.PreferenceDescription(
     ref: ConstrainedLayoutReference = createRef(),
     startRef: ConstrainedLayoutReference? = null,
     endRef: ConstrainedLayoutReference? = null,
-    style: DescriptionStyle = LocalDescriptionStyle.current,
+    style: DescriptionStyle = LocalDescriptionStyle.localized(),
     title: String,
     subtitle: String,
-    spacing: Dp = LocalSpacing.current,
-) {
-    val margin = spacing.specified(default = PreferenceSpacing)
-    Description(
-        title = title,
-        subtitle = subtitle,
-        style = DescriptionStyle(
-            style = ColumnStyle(modifier = Modifier.constrainAs(ref = ref) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(anchor = startRef?.end ?: parent.start, margin = margin)
-                end.linkTo(anchor = endRef?.start ?: parent.end, margin = margin)
-                width = Dimension.fillToConstraints
-            })
-        ).merge(style)
-    )
-}
+    spacing: Dp = PreferenceSpacing,
+) = Description(
+    title = title,
+    subtitle = subtitle,
+    style = DescriptionStyle(
+        style = ColumnStyle(modifier = Modifier.constrainAs(ref = ref) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(anchor = startRef?.end ?: parent.start, margin = spacing)
+            end.linkTo(anchor = endRef?.start ?: parent.end, margin = spacing)
+            width = Dimension.fillToConstraints
+        })
+    ).merge(style)
+)
 
 

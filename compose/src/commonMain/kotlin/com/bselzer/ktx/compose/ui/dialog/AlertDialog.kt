@@ -52,7 +52,7 @@ fun MaterialAlertDialog(
 @Composable
 fun MaterialAlertDialog(
     onDismissRequest: () -> Unit,
-    style: AlertDialogStyle = LocalAlertDialogStyle.current,
+    style: AlertDialogStyle = LocalAlertDialogStyle.localized(),
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,

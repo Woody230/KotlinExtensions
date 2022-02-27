@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.dropdown
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * A wrapper around the [DropdownMenu] composable.
@@ -15,6 +16,6 @@ import androidx.compose.runtime.Composable
 expect fun DropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    style: DropdownStyle = LocalDropdownStyle.current,
+    style: DropdownStyle = LocalDropdownStyle.localized(),
     content: @Composable ColumnScope.() -> Unit,
 )
