@@ -8,13 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.container.Spacer
-import com.bselzer.ktx.compose.ui.dialog.AlertDialogStyle
-import com.bselzer.ktx.compose.ui.dialog.LocalAlertDialogStyle
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
-import com.bselzer.ktx.compose.ui.style.*
+import com.bselzer.ktx.compose.ui.style.localized
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.math.max
 import kotlin.math.min
@@ -29,11 +26,10 @@ import kotlin.time.toDuration
  *
  * @param onStateChanged the block for setting the updated state
  * @param style the style describing how to lay out the preference
+ * @param painter the icon representing the preference
  * @param title the name of the preference
  * @param subtitle the description of the preference
- * @param buttonStyle the style of the text for the dialog buttons
  * @param dialogTitle the name of the preference
- * @param dialogTitleStyle the style of the text for displaying the [dialogTitle]
  * @param initialAmount the initial amount of the [initialUnit]
  * @param initialUnit the type of [Duration] component of [initialAmount]
  * @param minimum the minimum duration
@@ -44,16 +40,11 @@ import kotlin.time.toDuration
 @Composable
 fun DurationDialogPreference(
     onStateChanged: (Duration?) -> Unit,
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
+    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.localized(),
     painter: Painter,
     title: String,
     subtitle: String,
-    buttonStyle: ButtonStyle = LocalButtonStyle.localized(),
-    buttonTextStyle: WordStyle = LocalWordStyle.localized(),
-    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.localized(),
     dialogTitle: String = title,
-    dialogTitleStyle: WordStyle = LocalWordStyle.localized(),
-    dialogSpacing: Dp = PreferenceSpacing,
     initialAmount: Int,
     initialUnit: DurationUnit,
     minimum: Duration = 0.days,
@@ -68,11 +59,7 @@ fun DurationDialogPreference(
         painter = painter,
         title = title,
         subtitle = subtitle,
-        buttonStyle = buttonStyle,
-        buttonTextStyle = buttonTextStyle,
-        dialogStyle = dialogStyle,
         dialogTitle = dialogTitle,
-        dialogTitleStyle = dialogTitleStyle,
         state = state,
         onStateChanged = onStateChanged,
     ) {
@@ -96,7 +83,7 @@ fun DurationDialogPreference(
             NumberPicker(value = amount.value, range = convertedMin..convertedMax, upIcon = upIcon, downIcon = downIcon) {
                 amount.value = bounded(it)
             }
-            Spacer(width = dialogSpacing)
+            Spacer(width = style.dialogSpacing)
             ValuePicker(value = unit.value, values = units, labels = units.map { component -> component.userFriendly() }, upIcon = upIcon, downIcon = downIcon) {
                 unit.value = it
             }

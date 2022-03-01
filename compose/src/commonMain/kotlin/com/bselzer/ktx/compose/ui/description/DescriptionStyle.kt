@@ -36,8 +36,19 @@ fun Description(
  * The style arguments associated with a [Description] composable.
  */
 data class DescriptionStyle(
+    /**
+     * The style of the container.
+     */
     val style: ColumnStyle = ColumnStyle.Default,
+
+    /**
+     * The style of the tile.
+     */
     val titleStyle: WordStyle = WordStyle.Default,
+
+    /**
+     * The style of the subtitle.
+     */
     val subtitleStyle: WordStyle = WordStyle.Default
 ) : Style<DescriptionStyle> {
     companion object {
