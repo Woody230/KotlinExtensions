@@ -51,6 +51,7 @@ fun PaddingValues.merge(other: PaddingValues): PaddingValues = safeMerge(other, 
  * The default [ButtonElevation].
  */
 val DefaultButtonElevation = object : ButtonElevation {
+    @Composable
     override fun elevation(enabled: Boolean, interactionSource: InteractionSource): State<Dp> = mutableStateOf(0.dp)
 }
 
@@ -63,7 +64,10 @@ fun ButtonElevation.merge(other: ButtonElevation): ButtonElevation = safeMerge(o
  * The default [ButtonColors].
  */
 val DefaultButtonColors = object : ButtonColors {
+    @Composable
     override fun backgroundColor(enabled: Boolean): State<Color> = mutableStateOf(Color.Unspecified)
+
+    @Composable
     override fun contentColor(enabled: Boolean): State<Color> = mutableStateOf(Color.Unspecified)
 }
 
