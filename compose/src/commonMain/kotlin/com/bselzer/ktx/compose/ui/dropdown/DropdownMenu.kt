@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.dropdown
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
-import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * A wrapper around the [DropdownMenu] composable.
@@ -16,6 +15,6 @@ import com.bselzer.ktx.compose.ui.style.localized
 expect fun DropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    style: DropdownStyle = LocalDropdownStyle.localized(),
+    style: DropdownStyle, // TODO = LocalDropdownStyle.localized(), -- can't use defaults https://github.com/JetBrains/compose-jb/issues/1407#issuecomment-997854105
     content: @Composable ColumnScope.() -> Unit,
 )

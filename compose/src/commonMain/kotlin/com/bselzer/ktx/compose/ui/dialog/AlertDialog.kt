@@ -26,7 +26,7 @@ import com.bselzer.ktx.compose.ui.style.*
 @Composable
 fun MaterialAlertDialog(
     onDismissRequest: () -> Unit,
-    style: AlertDialogStyle = LocalAlertDialogStyle.current,
+    style: AlertDialogStyle = LocalAlertDialogStyle.localized(),
     title: (@Composable () -> Unit)? = null,
     negativeButton: (@Composable () -> Unit)? = null,
     neutralButton: (@Composable () -> Unit)? = null,

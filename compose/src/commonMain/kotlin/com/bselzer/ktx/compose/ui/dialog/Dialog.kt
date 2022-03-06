@@ -15,6 +15,6 @@ import androidx.compose.runtime.Composable
 @Composable
 expect fun Dialog(
     onDismissRequest: () -> Unit,
-    properties: DialogProperties = DialogProperties(),
+    properties: DialogProperties, // TODO = DialogProperties(), -- can't use defaults https://github.com/JetBrains/compose-jb/issues/1407#issuecomment-997854105
     content: @Composable () -> Unit
 )
