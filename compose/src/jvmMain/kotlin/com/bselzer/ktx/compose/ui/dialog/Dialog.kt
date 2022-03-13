@@ -53,7 +53,7 @@ actual fun Dialog(
  * @param content The content to be displayed inside the dialog.
  */
 @Composable
-fun Dialog(
+private fun Dialog(
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(),
     title: String = "Untitled",
