@@ -12,7 +12,16 @@
     <string name="more_options">More Options</string>
     <string name="condense">Condense</string>
     <string name="expand">Expand</string>
+    <string name="zoom_in">Zoom In</string>
+    <string name="zoom_out">Zoom Out</string>
     <string name="menu">Menu</string>
+    <string name="not_set">Not set</string>
+    <string name="theme">Theme</string>
+    <string name="token">Token</string>
+    <string name="refresh_interval">Refresh Interval</string>
+    <string name="version">Version</string>
+    <string name="legal_notice">Legal Notice</string>
+    <string name="cache_clear">Cleared the cache.</string>
 
     <!-- Directions -->
     <string name="up">Up</string>

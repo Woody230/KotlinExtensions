@@ -12,7 +12,16 @@
     <string name="more_options">Plus d'options</string>
     <string name="contract">Abréger</string>
     <string name="expand">Agrandir</string>
+    <string name="zoom_in">Zoom Avant</string>
+    <string name="zoom_out">Zoom Arrière</string>
     <string name="menu">Menu</string>
+    <string name="not_set">Pas encore défini</string>
+    <string name="theme">Thème</string>
+    <string name="token">Jeton</string>
+    <string name="refresh_interval">Intervalle de Mise à Jour</string>
+    <string name="version">Version</string>
+    <string name="legal_notice">Avis Légaux</string>
+    <string name="cache_clear">Vidé le cache.</string>
 
     <!-- Directions -->
     <string name="up">En haut</string>
