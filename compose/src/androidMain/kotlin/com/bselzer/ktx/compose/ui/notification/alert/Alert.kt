@@ -1,9 +1,9 @@
-package com.bselzer.ktx.compose.ui.alert
+package com.bselzer.ktx.compose.ui.notification.alert
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.bselzer.ktx.compose.ui.alert.AlertType.*
+import com.bselzer.ktx.compose.ui.notification.alert.AlertType.*
 
 /**
  * Displays an alert notification with the given [title] and [message].

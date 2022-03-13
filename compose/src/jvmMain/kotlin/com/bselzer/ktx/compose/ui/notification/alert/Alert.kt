@@ -1,11 +1,11 @@
-package com.bselzer.ktx.compose.ui.alert
+package com.bselzer.ktx.compose.ui.notification.alert
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import com.bselzer.ktx.compose.ui.alert.AlertType.*
+import com.bselzer.ktx.compose.ui.notification.alert.AlertType.*
 
 /**
  * CompositionLocal containing the tray state for sending notifications.

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.alert
+package com.bselzer.ktx.compose.ui.notification.alert
 
 import androidx.compose.runtime.Composable
 
