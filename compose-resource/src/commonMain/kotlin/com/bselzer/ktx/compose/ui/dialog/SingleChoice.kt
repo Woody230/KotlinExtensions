@@ -28,7 +28,7 @@ import com.bselzer.ktx.compose.ui.style.*
 fun <T> SingleChoiceDialog(
     setShowDialog: (Boolean) -> Unit,
     onDismissRequest: () -> Unit = { setShowDialog(false) },
-    style: AlertDialogStyle = AlertDialogStyle(),
+    style: AlertDialogStyle = LocalAlertDialogStyle.localized(),
     title: String,
     titleStyle: WordStyle = LocalWordStyle.localized(),
     buttonStyle: ButtonStyle = LocalButtonStyle.localized(),
