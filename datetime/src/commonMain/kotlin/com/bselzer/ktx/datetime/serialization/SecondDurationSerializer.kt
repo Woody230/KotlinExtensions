@@ -9,12 +9,10 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
 
 /**
  * A serializer for seconds in the form of a [Duration]
  */
-@OptIn(ExperimentalTime::class)
 class SecondDurationSerializer : KSerializer<Duration> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Duration", PrimitiveKind.DOUBLE)
 

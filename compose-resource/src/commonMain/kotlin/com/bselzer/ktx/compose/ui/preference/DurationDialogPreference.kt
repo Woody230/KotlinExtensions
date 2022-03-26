@@ -18,7 +18,6 @@ import kotlin.math.min
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
 import kotlin.time.toDuration
 
 /**
@@ -36,7 +35,6 @@ import kotlin.time.toDuration
  * @param maximum the maximum duration
  * @param units the selectable [DurationUnit] types
  */
-@OptIn(ExperimentalTime::class)
 @Composable
 fun DurationDialogPreference(
     onStateChanged: (Duration?) -> Unit,
