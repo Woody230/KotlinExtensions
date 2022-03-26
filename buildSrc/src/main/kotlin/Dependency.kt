@@ -28,7 +28,7 @@ private const val LOGGING = "2.4.0"
 private const val LICENSING = "10.0.0"
 private const val KTOR = "1.6.7"
 private const val ANDROID_COMPOSE = "1.1.1"
-const val RESOURCE = "0.18.0"
+const val RESOURCE = "0.19.0"
 const val COMPOSE = "1.1.0"
 const val KOTLIN = "1.6.10"
 
