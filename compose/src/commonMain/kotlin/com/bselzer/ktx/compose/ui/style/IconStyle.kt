@@ -4,7 +4,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -14,7 +13,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 /**
  * CompositionLocal containing the preferred IconStyle that will be used by Icon components by default.
  */
-val LocalIconStyle: ProvidableCompositionLocal<IconStyle> = compositionLocalOf { IconStyle.Default }
+val LocalIconStyle: StyleProvider<IconStyle> = StyleProvider(compositionLocalOf { IconStyle.Default })
 
 /**
  * A wrapper around the standard [Icon] composable.
@@ -27,7 +26,7 @@ val LocalIconStyle: ProvidableCompositionLocal<IconStyle> = compositionLocalOf {
 fun Icon(
     imageVector: ImageVector,
     contentDescription: String?,
-    style: IconStyle = LocalIconStyle.localized(),
+    style: IconStyle = LocalIconStyle.current,
 ) = Icon(
     imageVector = imageVector,
     contentDescription = contentDescription,

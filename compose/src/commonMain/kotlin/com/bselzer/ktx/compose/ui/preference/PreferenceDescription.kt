@@ -10,7 +10,7 @@ import com.bselzer.ktx.compose.ui.description.Description
 import com.bselzer.ktx.compose.ui.description.DescriptionStyle
 import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ColumnStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 /**
  * Lays out a description of the state of the preference through a [title] and [subtitle].
@@ -28,7 +28,7 @@ fun ConstraintLayoutScope.PreferenceDescription(
     ref: ConstrainedLayoutReference = createRef(),
     startRef: ConstrainedLayoutReference? = null,
     endRef: ConstrainedLayoutReference? = null,
-    style: DescriptionStyle = LocalDescriptionStyle.localized(),
+    style: DescriptionStyle = LocalDescriptionStyle.current,
     title: String,
     subtitle: String,
     spacing: Dp = PreferenceSpacing,

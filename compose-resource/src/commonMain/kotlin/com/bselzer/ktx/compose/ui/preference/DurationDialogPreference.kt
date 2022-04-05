@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.ktx.compose.ui.container.Spacer
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
-import com.bselzer.ktx.compose.ui.style.localized
+
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.math.max
 import kotlin.math.min
@@ -38,7 +38,7 @@ import kotlin.time.toDuration
 @Composable
 fun DurationDialogPreference(
     onStateChanged: (Duration?) -> Unit,
-    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.localized(),
+    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,

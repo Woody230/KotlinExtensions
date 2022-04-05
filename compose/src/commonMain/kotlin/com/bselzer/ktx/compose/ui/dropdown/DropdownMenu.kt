@@ -15,6 +15,6 @@ import androidx.compose.runtime.Composable
 expect fun DropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    style: DropdownStyle, // TODO = LocalDropdownStyle.localized(), -- can't use defaults https://github.com/JetBrains/compose-jb/issues/1407#issuecomment-997854105
+    style: DropdownStyle, // TODO = LocalDropdownStyle.current, -- can't use defaults https://github.com/JetBrains/compose-jb/issues/1407#issuecomment-997854105
     content: @Composable ColumnScope.() -> Unit,
 )

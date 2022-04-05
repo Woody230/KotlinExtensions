@@ -3,7 +3,6 @@ package com.bselzer.ktx.compose.ui.style
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
@@ -13,7 +12,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred ColumnStyle that will be used by Column components by default.
  */
-val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocalOf { ColumnStyle.Default }
+val LocalColumnStyle: StyleProvider<ColumnStyle> = StyleProvider(compositionLocalOf { ColumnStyle.Default })
 
 /**
  * A wrapper around the standard [Column] composable.
@@ -23,7 +22,7 @@ val LocalColumnStyle: ProvidableCompositionLocal<ColumnStyle> = compositionLocal
  */
 @Composable
 fun Column(
-    style: ColumnStyle = LocalColumnStyle.localized(),
+    style: ColumnStyle = LocalColumnStyle.current,
     content: @Composable ColumnScope.() -> Unit
 ) = androidx.compose.foundation.layout.Column(
     modifier = style.modifier,

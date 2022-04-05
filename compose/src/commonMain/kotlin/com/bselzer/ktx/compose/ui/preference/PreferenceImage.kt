@@ -11,7 +11,6 @@ import androidx.constraintlayout.compose.ConstraintLayoutScope
 import com.bselzer.ktx.compose.ui.style.Image
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
-import com.bselzer.ktx.compose.ui.style.localized
 
 /**
  * Lays out an image related to preferences.
@@ -26,7 +25,7 @@ fun ConstraintLayoutScope.PreferenceImage(
     ref: ConstrainedLayoutReference,
     painter: Painter,
     contentDescription: String,
-    style: ImageStyle = LocalImageStyle.localized()
+    style: ImageStyle = LocalImageStyle.current
 ) = PreferenceImage(
     painter = painter,
     contentDescription = contentDescription,

@@ -14,11 +14,11 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun Description(
-    style: ColumnStyle = LocalColumnStyle.localized(),
+    style: ColumnStyle = LocalColumnStyle.current,
     title: String,
-    titleStyle: WordStyle = LocalWordStyle.localized(),
+    titleStyle: WordStyle = LocalWordStyle.current,
     subtitle: String,
-    subtitleStyle: WordStyle = LocalWordStyle.localized()
+    subtitleStyle: WordStyle = LocalWordStyle.current
 ) = Column(
     style = style
 ) {
@@ -35,10 +35,10 @@ fun Description(
 @Composable
 fun DescriptionTitle(
     title: String,
-    style: WordStyle = LocalWordStyle.localized()
+    style: WordStyle = LocalWordStyle.current
 ) = Text(
     text = title,
-    style = LocalDescriptionStyle.localized().titleStyle.merge(style)
+    style = LocalDescriptionStyle.current.titleStyle.merge(style)
 )
 
 /**
@@ -50,8 +50,8 @@ fun DescriptionTitle(
 @Composable
 fun DescriptionSubtitle(
     subtitle: String,
-    style: WordStyle = LocalWordStyle.localized()
+    style: WordStyle = LocalWordStyle.current
 ) = Text(
     text = subtitle,
-    style = LocalDescriptionStyle.localized().subtitleStyle.merge(style)
+    style = LocalDescriptionStyle.current.subtitleStyle.merge(style)
 )

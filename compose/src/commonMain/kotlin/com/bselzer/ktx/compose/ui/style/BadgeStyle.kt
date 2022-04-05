@@ -5,7 +5,6 @@ import androidx.compose.material.Badge
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -14,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 /**
  * CompositionLocal containing the preferred BadgeStyle that will be used by Badge components by default.
  */
-val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf { BadgeStyle.Default }
+val LocalBadgeStyle: StyleProvider<BadgeStyle> = StyleProvider(compositionLocalOf { BadgeStyle.Default })
 
 /**
  * A wrapper around the standard [Badge] composable.
@@ -24,7 +23,7 @@ val LocalBadgeStyle: ProvidableCompositionLocal<BadgeStyle> = compositionLocalOf
  */
 @Composable
 fun Badge(
-    style: BadgeStyle = LocalBadgeStyle.localized(),
+    style: BadgeStyle = LocalBadgeStyle.current,
     content: (@Composable RowScope.() -> Unit)? = null
 ) = Badge(
     modifier = style.modifier,
@@ -42,9 +41,9 @@ fun Badge(
  */
 @Composable
 fun Badge(
-    style: BadgeStyle = LocalBadgeStyle.localized(),
+    style: BadgeStyle = LocalBadgeStyle.current,
     text: String,
-    textStyle: WordStyle = LocalWordStyle.localized(),
+    textStyle: WordStyle = LocalWordStyle.current,
 ) = Badge(style = style) {
     Text(text = text, style = textStyle)
 }

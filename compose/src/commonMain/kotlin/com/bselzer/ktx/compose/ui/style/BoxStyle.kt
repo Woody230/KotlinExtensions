@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
@@ -12,7 +11,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred BoxStyle that will be used by Box components by default.
  */
-val LocalBoxStyle: ProvidableCompositionLocal<BoxStyle> = compositionLocalOf { BoxStyle.Default }
+val LocalBoxStyle: StyleProvider<BoxStyle> = StyleProvider(compositionLocalOf { BoxStyle.Default })
 
 /**
  * A wrapper around the standard [Box] composable.
@@ -22,7 +21,7 @@ val LocalBoxStyle: ProvidableCompositionLocal<BoxStyle> = compositionLocalOf { B
  */
 @Composable
 fun Box(
-    style: BoxStyle = LocalBoxStyle.localized(),
+    style: BoxStyle = LocalBoxStyle.current,
     content: @Composable BoxScope.() -> Unit
 ) = androidx.compose.foundation.layout.Box(
     modifier = style.modifier,

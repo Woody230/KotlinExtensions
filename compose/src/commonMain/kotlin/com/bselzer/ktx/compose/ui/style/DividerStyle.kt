@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -14,7 +13,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred DividerStyle that will be used by Divider components by default.
  */
-val LocalDividerStyle: ProvidableCompositionLocal<DividerStyle> = compositionLocalOf { DividerStyle.Default }
+val LocalDividerStyle: StyleProvider<DividerStyle> = StyleProvider(compositionLocalOf { DividerStyle.Default })
 
 /**
  * A wrapper around the standard [Divider] composable.
@@ -23,7 +22,7 @@ val LocalDividerStyle: ProvidableCompositionLocal<DividerStyle> = compositionLoc
  */
 @Composable
 fun Divider(
-    style: DividerStyle = LocalDividerStyle.localized(),
+    style: DividerStyle = LocalDividerStyle.current,
 ) = androidx.compose.material.Divider(
     modifier = style.modifier,
     color = style.color,

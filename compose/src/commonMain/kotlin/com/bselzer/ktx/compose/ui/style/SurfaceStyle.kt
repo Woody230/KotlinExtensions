@@ -9,7 +9,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -25,12 +24,12 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred SurfaceStyle that will be used by Surface components by default.
  */
-val LocalSurfaceStyle: ProvidableCompositionLocal<SurfaceStyle> = compositionLocalOf { SurfaceStyle.Default }
+val LocalSurfaceStyle: StyleProvider<SurfaceStyle> = StyleProvider(compositionLocalOf { SurfaceStyle.Default })
 
 /**
  * CompositionLocal containing the preferred ClickableSurfaceStyle that will be used by clickable Surface components by default.
  */
-val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle> = compositionLocalOf { ClickableSurfaceStyle.Default }
+val LocalClickableSurfaceStyle: StyleProvider<ClickableSurfaceStyle> = StyleProvider(compositionLocalOf { ClickableSurfaceStyle.Default })
 
 /**
  * A wrapper around the standard [Surface] composable.
@@ -40,7 +39,7 @@ val LocalClickableSurfaceStyle: ProvidableCompositionLocal<ClickableSurfaceStyle
  */
 @Composable
 fun Surface(
-    style: SurfaceStyle = LocalSurfaceStyle.localized(),
+    style: SurfaceStyle = LocalSurfaceStyle.current,
     content: @Composable () -> Unit,
 ) = Surface(
     modifier = style.modifier,
@@ -66,7 +65,7 @@ fun Surface(
 fun Surface(
     onClick: () -> Unit,
     onClickLabel: String? = null,
-    style: ClickableSurfaceStyle = LocalClickableSurfaceStyle.localized(),
+    style: ClickableSurfaceStyle = LocalClickableSurfaceStyle.current,
     interactionSource: MutableInteractionSource,
     content: @Composable () -> Unit,
 ) = Surface(

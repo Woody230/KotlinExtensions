@@ -29,7 +29,7 @@ import dev.icerock.moko.resources.compose.stringResource
  */
 @Composable
 fun LibraryColumn(
-    style: LazyColumnStyle = LocalLazyColumnStyle.localized(),
+    style: LazyColumnStyle = LocalLazyColumnStyle.current,
     divider: @Composable LazyListScope.(Int, Library) -> Unit = { _, _ -> Spacer(modifier = Modifier.height(16.dp)) },
     libraries: List<Library>
 ) {
@@ -69,11 +69,11 @@ fun LibraryColumn(
 @Composable
 fun LicenseDialog(
     showDialog: (Boolean) -> Unit,
-    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.localized(),
-    titleStyle: WordStyle = LocalWordStyle.localized(),
-    contentStyle: WordStyle = LocalWordStyle.localized(),
-    buttonStyle: ButtonStyle = LocalButtonStyle.localized(),
-    buttonTextStyle: WordStyle = LocalWordStyle.localized(),
+    dialogStyle: AlertDialogStyle = LocalAlertDialogStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.current,
+    contentStyle: WordStyle = LocalWordStyle.current,
+    buttonStyle: ButtonStyle = LocalButtonStyle.current,
+    buttonTextStyle: WordStyle = LocalWordStyle.current,
     library: Library,
 ) {
     val license = library.licenses.firstOrNull()
@@ -111,11 +111,11 @@ fun LicenseDialog(
  */
 @Composable
 fun LicenseCard(
-    cardStyle: ClickableCardStyle = LocalClickableCardStyle.localized(),
-    titleStyle: WordStyle = LocalWordStyle.localized(),
-    subtitleStyle: WordStyle = LocalWordStyle.localized(),
-    badgeStyle: BadgeStyle = LocalBadgeStyle.localized(),
-    badgeTextStyle: WordStyle = LocalWordStyle.localized(),
+    cardStyle: ClickableCardStyle = LocalClickableCardStyle.current,
+    titleStyle: WordStyle = LocalWordStyle.current,
+    subtitleStyle: WordStyle = LocalWordStyle.current,
+    badgeStyle: BadgeStyle = LocalBadgeStyle.current,
+    badgeTextStyle: WordStyle = LocalWordStyle.current,
     onClick: () -> Unit,
     library: Library
 ) = Card(

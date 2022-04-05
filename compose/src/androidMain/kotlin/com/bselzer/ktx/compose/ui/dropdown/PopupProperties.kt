@@ -1,17 +1,17 @@
 package com.bselzer.ktx.compose.ui.dropdown
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.bselzer.ktx.compose.ui.style.Style
+import com.bselzer.ktx.compose.ui.style.StyleProvider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred PopupStyle that will be used by Popup components by default.
  */
-val LocalPopupStyle: ProvidableCompositionLocal<PopupProperties> = compositionLocalOf { PopupProperties.Default }
+val LocalPopupStyle: StyleProvider<PopupProperties> = StyleProvider(compositionLocalOf { PopupProperties.Default })
 
 /**
  * Properties used to customize the behavior of a popup.

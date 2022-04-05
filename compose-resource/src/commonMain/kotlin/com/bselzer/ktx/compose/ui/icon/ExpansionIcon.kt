@@ -16,7 +16,7 @@ import dev.icerock.moko.resources.compose.stringResource
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun ExpansionIcon(isExpanded: Boolean, style: IconStyle = LocalIconStyle.localized()) = Icon(
+fun ExpansionIcon(isExpanded: Boolean, style: IconStyle = LocalIconStyle.current) = Icon(
     imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
     contentDescription = stringResource(resource = if (isExpanded) Resources.strings.condense else Resources.strings.expand),
     style = style
@@ -33,8 +33,8 @@ fun ExpansionIcon(isExpanded: Boolean, style: IconStyle = LocalIconStyle.localiz
 @Composable
 fun ExpansionIconButton(
     isExpanded: Boolean,
-    style: IconButtonStyle = LocalIconButtonStyle.localized(),
-    iconStyle: IconStyle = LocalIconStyle.localized(),
+    style: IconButtonStyle = LocalIconButtonStyle.current,
+    iconStyle: IconStyle = LocalIconStyle.current,
     setExpanded: (Boolean) -> Unit,
 ) = IconButton(style = style, onClick = { setExpanded(!isExpanded) }) {
     ExpansionIcon(isExpanded = isExpanded,style = iconStyle)

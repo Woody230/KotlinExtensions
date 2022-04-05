@@ -6,7 +6,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.function.objects.nullMerge
@@ -15,7 +18,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred ButtonStyle that will be used by Button components by default.
  */
-val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocalOf { ButtonStyle.Default }
+val LocalButtonStyle: StyleProvider<ButtonStyle> = StyleProvider(compositionLocalOf { ButtonStyle.Default })
 
 /**
  * A wrapper around the standard [Button] composable.
@@ -29,7 +32,7 @@ val LocalButtonStyle: ProvidableCompositionLocal<ButtonStyle> = compositionLocal
 fun Button(
     onClick: () -> Unit,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ButtonStyle = LocalButtonStyle.localized(),
+    style: ButtonStyle = LocalButtonStyle.current,
     content: @Composable RowScope.() -> Unit
 ) = Button(
     onClick = onClick,

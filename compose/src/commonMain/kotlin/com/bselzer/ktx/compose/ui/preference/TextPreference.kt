@@ -10,7 +10,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.description.DescriptionSubtitle
 import com.bselzer.ktx.compose.ui.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.style.WordStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 /**
  * Lays out the description of a preference with the title on the starting side and the subtitle and the ending side.
@@ -23,7 +23,7 @@ import com.bselzer.ktx.compose.ui.style.localized
  */
 @Composable
 fun TextPreference(
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,

@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.bselzer.ktx.compose.ui.style.DefaultDpOffset
 import com.bselzer.ktx.compose.ui.style.ModifiableStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 import com.bselzer.ktx.compose.ui.style.merge
 
 actual data class DropdownStyle(
@@ -32,5 +32,5 @@ actual data class DropdownStyle(
     )
 
     @Composable
-    override fun localized() = DropdownStyle(properties = LocalPopupStyle.localized())
+    override fun localized() = DropdownStyle(properties = LocalPopupStyle.current)
 }

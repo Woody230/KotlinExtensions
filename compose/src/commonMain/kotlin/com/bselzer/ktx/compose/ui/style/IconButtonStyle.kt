@@ -4,7 +4,10 @@ import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.bselzer.ktx.function.objects.safeMerge
@@ -12,7 +15,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred IconButtonStyle that will be used by IconButton components by default.
  */
-val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = compositionLocalOf { IconButtonStyle.Default }
+val LocalIconButtonStyle: StyleProvider<IconButtonStyle> = StyleProvider(compositionLocalOf { IconButtonStyle.Default })
 
 /**
  * A wrapper around the standard [IconButton] composable.
@@ -25,7 +28,7 @@ val LocalIconButtonStyle: ProvidableCompositionLocal<IconButtonStyle> = composit
 @Composable
 fun IconButton(
     onClick: () -> Unit,
-    style: IconButtonStyle = LocalIconButtonStyle.localized(),
+    style: IconButtonStyle = LocalIconButtonStyle.current,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) = IconButton(
@@ -48,11 +51,11 @@ fun IconButton(
 @Composable
 fun IconButton(
     onClick: () -> Unit,
-    style: IconButtonStyle = LocalIconButtonStyle.localized(),
+    style: IconButtonStyle = LocalIconButtonStyle.current,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     imageVector: ImageVector,
     contentDescription: String?,
-    iconStyle: IconStyle = LocalIconStyle.localized()
+    iconStyle: IconStyle = LocalIconStyle.current
 ) = IconButton(onClick = onClick, style = style, interactionSource = interactionSource) {
     Icon(imageVector = imageVector, contentDescription = contentDescription, style = iconStyle)
 }

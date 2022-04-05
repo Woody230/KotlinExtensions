@@ -8,7 +8,7 @@ import com.bselzer.ktx.compose.ui.dialog.ConfirmationButton
 import com.bselzer.ktx.compose.ui.dialog.DismissButton
 import com.bselzer.ktx.compose.ui.dialog.MaterialAlertDialog
 import com.bselzer.ktx.compose.ui.dialog.ResetButton
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 
 /**
@@ -27,7 +27,7 @@ import com.bselzer.ktx.compose.ui.style.localized
 fun <T> DialogPreference(
     state: MutableState<T?>,
     onStateChanged: (T?) -> Unit,
-    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.localized(),
+    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,

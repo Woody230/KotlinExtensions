@@ -21,7 +21,7 @@ val LocalDescriptionStyle: ProvidableCompositionLocal<DescriptionStyle> = compos
  */
 @Composable
 fun Description(
-    style: DescriptionStyle = LocalDescriptionStyle.localized(),
+    style: DescriptionStyle = LocalDescriptionStyle.current,
     title: String,
     subtitle: String
 ) = Description(
@@ -64,15 +64,15 @@ data class DescriptionStyle(
 
     @Composable
     override fun localized(): DescriptionStyle = DescriptionStyle(
-        style = LocalColumnStyle.localized(),
+        style = LocalColumnStyle.current,
         titleStyle = WordStyle(
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Visible,
             textStyle = MaterialTheme.typography.subtitle1
-        ).merge(LocalWordStyle.localized()),
+        ).merge(LocalWordStyle.current),
         subtitleStyle = WordStyle(
             overflow = TextOverflow.Ellipsis,
             textStyle = MaterialTheme.typography.subtitle2
-        ).merge(LocalWordStyle.localized())
+        ).merge(LocalWordStyle.current)
     ).merge(this)
 }

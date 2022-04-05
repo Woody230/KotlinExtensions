@@ -5,14 +5,17 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonColors
 import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred RadioButtonStyle that will be used by RadioButton components by default.
  */
-val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compositionLocalOf { RadioButtonStyle.Default }
+val LocalRadioButtonStyle: StyleProvider<RadioButtonStyle> = StyleProvider(compositionLocalOf { RadioButtonStyle.Default })
 
 /**
  * A wrapper around the standard [RadioButton] composable.
@@ -25,7 +28,7 @@ val LocalRadioButtonStyle: ProvidableCompositionLocal<RadioButtonStyle> = compos
 @Composable
 fun RadioButton(
     selected: Boolean,
-    style: RadioButtonStyle = LocalRadioButtonStyle.localized(),
+    style: RadioButtonStyle = LocalRadioButtonStyle.current,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onClick: (() -> Unit)? = null,
 ) = RadioButton(

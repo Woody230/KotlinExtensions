@@ -26,7 +26,7 @@ import com.bselzer.ktx.compose.ui.style.*
 @Composable
 fun MaterialAlertDialog(
     onDismissRequest: () -> Unit,
-    style: AlertDialogStyle = LocalAlertDialogStyle.localized(),
+    style: AlertDialogStyle = LocalAlertDialogStyle.current,
     title: (@Composable () -> Unit)? = null,
     negativeButton: (@Composable () -> Unit)? = null,
     neutralButton: (@Composable () -> Unit)? = null,
@@ -52,7 +52,7 @@ fun MaterialAlertDialog(
 @Composable
 fun MaterialAlertDialog(
     onDismissRequest: () -> Unit,
-    style: AlertDialogStyle = LocalAlertDialogStyle.localized(),
+    style: AlertDialogStyle = LocalAlertDialogStyle.current,
     title: (@Composable () -> Unit)? = null,
     buttons: (@Composable () -> Unit)?,
     content: @Composable () -> Unit,
@@ -174,7 +174,7 @@ fun MaterialAlertDialogButtons(
 @Composable
 fun MaterialDialogButton(
     text: String,
-    textStyle: WordStyle = LocalWordStyle.localized(),
+    textStyle: WordStyle = LocalWordStyle.current,
     style: ButtonStyle = LocalButtonStyle.current.localized(type = ButtonStyleType.TextButton),
     onClick: () -> Unit
 ) = Button(

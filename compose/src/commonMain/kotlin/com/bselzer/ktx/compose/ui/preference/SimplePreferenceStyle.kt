@@ -12,7 +12,7 @@ import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
 import com.bselzer.ktx.compose.ui.style.ModifiableStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
@@ -97,7 +97,7 @@ data class SimplePreferenceStyle(
 
     @Composable
     override fun localized() = SimplePreferenceStyle(
-        imageStyle = LocalImageStyle.localized(),
-        descriptionStyle = LocalDescriptionStyle.localized()
+        imageStyle = LocalImageStyle.current,
+        descriptionStyle = LocalDescriptionStyle.current
     ).merge(this)
 }

@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.style.Icon
 import com.bselzer.ktx.compose.ui.style.IconStyle
 import com.bselzer.ktx.compose.ui.style.LocalIconStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -19,7 +19,7 @@ import dev.icerock.moko.resources.compose.stringResource
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun UpIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
+fun UpIcon(style: IconStyle = LocalIconStyle.current) = Icon(
     imageVector = Icons.Filled.KeyboardArrowUp,
     contentDescription = stringResource(Resources.strings.up),
     style = style,
@@ -31,7 +31,7 @@ fun UpIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun DownIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
+fun DownIcon(style: IconStyle = LocalIconStyle.current) = Icon(
     imageVector = Icons.Filled.KeyboardArrowDown,
     contentDescription = stringResource(Resources.strings.down),
     style = style,
@@ -43,7 +43,7 @@ fun DownIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun LeftIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
+fun LeftIcon(style: IconStyle = LocalIconStyle.current) = Icon(
     imageVector = Icons.Filled.KeyboardArrowLeft,
     contentDescription = stringResource(Resources.strings.left),
     style = style,
@@ -55,7 +55,7 @@ fun LeftIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun RightIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
+fun RightIcon(style: IconStyle = LocalIconStyle.current) = Icon(
     imageVector = Icons.Filled.KeyboardArrowRight,
     contentDescription = stringResource(Resources.strings.right),
     style = style,

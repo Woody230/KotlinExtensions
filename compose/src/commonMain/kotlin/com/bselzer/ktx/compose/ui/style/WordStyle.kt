@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -22,7 +21,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred WordStyle that will be used by Text components by default.
  */
-val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf { WordStyle.Default }
+val LocalWordStyle: StyleProvider<WordStyle> = StyleProvider(compositionLocalOf { WordStyle.Default })
 
 /**
  * A wrapper around the standard [Text] composable.
@@ -34,7 +33,7 @@ val LocalWordStyle: ProvidableCompositionLocal<WordStyle> = compositionLocalOf {
 @Composable
 fun Text(
     text: String,
-    style: WordStyle = LocalWordStyle.localized(),
+    style: WordStyle = LocalWordStyle.current,
     onTextLayout: (TextLayoutResult) -> Unit = {}
 ) = androidx.compose.material.Text(
     text = text,

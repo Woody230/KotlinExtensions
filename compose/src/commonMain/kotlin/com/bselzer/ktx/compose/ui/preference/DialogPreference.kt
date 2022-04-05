@@ -2,7 +2,7 @@ package com.bselzer.ktx.compose.ui.preference
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.painter.Painter
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 /**
  * Lays out a [dialog] with a [title] and a [subtitle] describing the preference.
@@ -15,7 +15,7 @@ import com.bselzer.ktx.compose.ui.style.localized
  */
 @Composable
 fun DialogPreference(
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,
@@ -48,7 +48,7 @@ fun DialogPreference(
  */
 @Composable
 fun <T> DialogPreference(
-    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.localized(),
+    style: SimplePreferenceStyle = LocalSimplePreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,

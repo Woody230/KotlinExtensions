@@ -8,7 +8,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -21,12 +24,12 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred CardStyle that will be used by Card components by default.
  */
-val LocalCardStyle: ProvidableCompositionLocal<CardStyle> = compositionLocalOf { CardStyle.Default }
+val LocalCardStyle: StyleProvider<CardStyle> = StyleProvider(compositionLocalOf { CardStyle.Default })
 
 /**
  * CompositionLocal containing the preferred ClickableCardStyle that will be used by clickable Card components by default.
  */
-val LocalClickableCardStyle: ProvidableCompositionLocal<ClickableCardStyle> = compositionLocalOf { ClickableCardStyle.Default }
+val LocalClickableCardStyle: StyleProvider<ClickableCardStyle> = StyleProvider(compositionLocalOf { ClickableCardStyle.Default })
 
 /**
  * A wrapper around the standard [Card] composable.
@@ -36,7 +39,7 @@ val LocalClickableCardStyle: ProvidableCompositionLocal<ClickableCardStyle> = co
  */
 @Composable
 fun Card(
-    style: CardStyle = LocalCardStyle.localized(),
+    style: CardStyle = LocalCardStyle.current,
     content: @Composable () -> Unit,
 ) = Card(
     modifier = style.modifier,
@@ -65,7 +68,7 @@ fun Card(
     onClick: () -> Unit,
     onClickLabel: String? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    style: ClickableCardStyle = LocalClickableCardStyle.localized(),
+    style: ClickableCardStyle = LocalClickableCardStyle.current,
     content: @Composable () -> Unit,
 ) = Card(
     onClick = onClick,

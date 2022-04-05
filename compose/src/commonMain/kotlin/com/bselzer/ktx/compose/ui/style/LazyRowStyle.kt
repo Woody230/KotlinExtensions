@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
@@ -18,7 +17,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred LazyRowStyle that will be used by LazyRow components by default.
  */
-val LocalLazyRowStyle: ProvidableCompositionLocal<LazyRowStyle> = compositionLocalOf { LazyRowStyle.Default }
+val LocalLazyRowStyle: StyleProvider<LazyRowStyle> = StyleProvider(compositionLocalOf { LazyRowStyle.Default })
 
 /**
  * A wrapper around the standard [LazyRow] composable.

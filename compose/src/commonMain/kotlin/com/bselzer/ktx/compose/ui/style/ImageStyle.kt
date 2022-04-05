@@ -1,7 +1,6 @@
 package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
@@ -16,7 +15,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred ImageStyle that will be used by Image components by default.
  */
-val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf { ImageStyle.Default }
+val LocalImageStyle: StyleProvider<ImageStyle> = StyleProvider(compositionLocalOf { ImageStyle.Default })
 
 /**
  * A wrapper around the standard [Image] composable.
@@ -29,7 +28,7 @@ val LocalImageStyle: ProvidableCompositionLocal<ImageStyle> = compositionLocalOf
 fun Image(
     painter: Painter,
     contentDescription: String?,
-    style: ImageStyle = LocalImageStyle.localized()
+    style: ImageStyle = LocalImageStyle.current
 ) = androidx.compose.foundation.Image(
     painter = painter,
     contentDescription = contentDescription,

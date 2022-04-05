@@ -9,7 +9,7 @@ import androidx.compose.ui.layout.ContentScale
 import com.bselzer.ktx.compose.ui.style.Image
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 /**
  * Creates a localized [ImageStyle] for the [BackgroundImage].
@@ -19,7 +19,7 @@ fun backgroundStyle(): ImageStyle = ImageStyle(
     modifier = Modifier.fillMaxSize(),
     alignment = Alignment.Center,
     contentScale = ContentScale.Crop
-).merge(LocalImageStyle.localized())
+).merge(LocalImageStyle.current)
 
 /**
  * Lays out a background image.

@@ -15,8 +15,8 @@ import dev.icerock.moko.resources.compose.stringResource
  */
 @Composable
 fun DismissButton(
-    style: ButtonStyle = LocalButtonStyle.localized(),
-    textStyle: WordStyle = LocalWordStyle.localized(),
+    style: ButtonStyle = LocalButtonStyle.current,
+    textStyle: WordStyle = LocalWordStyle.current,
     onClick: () -> Unit
 ) = MaterialDialogButton(
     text = stringResource(Resources.strings.cancel),

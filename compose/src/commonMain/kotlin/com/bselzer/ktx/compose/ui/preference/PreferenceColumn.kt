@@ -20,9 +20,9 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun PreferenceColumn(
-    style: ColumnStyle = LocalColumnStyle.localized(),
+    style: ColumnStyle = LocalColumnStyle.current,
     spacing: Dp = PreferenceSpacing,
-    dividerStyle: DividerStyle = LocalDividerStyle.localized(),
+    dividerStyle: DividerStyle = LocalDividerStyle.current,
     prepend: @Composable ColumnScope.() -> Unit = { },
     append: @Composable ColumnScope.() -> Unit = { },
     vararg contents: @Composable ColumnScope.() -> Unit

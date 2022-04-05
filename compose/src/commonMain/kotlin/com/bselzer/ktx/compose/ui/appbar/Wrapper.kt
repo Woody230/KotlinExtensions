@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bselzer.ktx.compose.ui.style.*
+import com.bselzer.ktx.compose.ui.style.Column
+import com.bselzer.ktx.compose.ui.style.ColumnStyle
+import com.bselzer.ktx.compose.ui.style.LocalColumnStyle
+import com.bselzer.ktx.compose.ui.style.WordStyle
 
 /**
  * Wraps a [MaterialAppBar] and the [content] in a [Column].
@@ -18,7 +21,7 @@ import com.bselzer.ktx.compose.ui.style.*
  */
 @Composable
 fun MaterialAppBarColumn(
-    style: ColumnStyle = LocalColumnStyle.localized(),
+    style: ColumnStyle = LocalColumnStyle.current,
     title: String,
     titleStyle: WordStyle = appBarTitleStyle(),
     navigationIcon: (@Composable () -> Unit)? = null,

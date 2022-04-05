@@ -69,10 +69,10 @@ data class DialogPreferenceStyle(
 
     @Composable
     override fun localized(): DialogPreferenceStyle = DialogPreferenceStyle(
-        preferenceStyle = LocalSimplePreferenceStyle.localized(),
-        buttonStyle = LocalButtonStyle.localized(),
-        buttonTextStyle = LocalWordStyle.localized(),
-        dialogStyle = LocalAlertDialogStyle.localized(),
-        dialogTextStyle = LocalWordStyle.localized()
+        preferenceStyle = LocalSimplePreferenceStyle.current,
+        buttonStyle = LocalButtonStyle.current,
+        buttonTextStyle = LocalWordStyle.current,
+        dialogStyle = LocalAlertDialogStyle.current,
+        dialogTextStyle = LocalWordStyle.current
     ).merge(this)
 }

@@ -15,7 +15,7 @@ import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.container.Spacer
 import com.bselzer.ktx.compose.ui.style.ColumnStyle
 import com.bselzer.ktx.compose.ui.style.Text
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 /**
  * Lays out a dialog with an editable [Text] representing a [String] preference state.
@@ -33,7 +33,7 @@ import com.bselzer.ktx.compose.ui.style.localized
 fun TextFieldDialogPreference(
     initial: String = "",
     onStateChanged: (String?) -> Unit,
-    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.localized(),
+    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,
@@ -69,7 +69,7 @@ fun TextFieldDialogPreference(
  */
 @Composable
 fun TextFieldDialogPreference(
-    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.localized(),
+    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,
@@ -111,7 +111,7 @@ fun TextFieldDialogPreference(
  */
 @Composable
 fun TextFieldDialogPreference(
-    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.localized(),
+    style: DialogPreferenceStyle = LocalDialogPreferenceStyle.current,
     painter: Painter,
     title: String,
     subtitle: String,

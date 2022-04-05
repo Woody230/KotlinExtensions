@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
@@ -18,7 +17,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred LazyColumnStyle that will be used by LazyColumn components by default.
  */
-val LocalLazyColumnStyle: ProvidableCompositionLocal<LazyColumnStyle> = compositionLocalOf { LazyColumnStyle.Default }
+val LocalLazyColumnStyle: StyleProvider<LazyColumnStyle> = StyleProvider(compositionLocalOf { LazyColumnStyle.Default })
 
 /**
  * A wrapper around the standard [LazyColumn] composable.
@@ -29,7 +28,7 @@ val LocalLazyColumnStyle: ProvidableCompositionLocal<LazyColumnStyle> = composit
  */
 @Composable
 fun LazyColumn(
-    style: LazyColumnStyle = LocalLazyColumnStyle.localized(),
+    style: LazyColumnStyle = LocalLazyColumnStyle.current,
     state: LazyListState = rememberLazyListState(),
     content: LazyListScope.() -> Unit
 ) = androidx.compose.foundation.lazy.LazyColumn(

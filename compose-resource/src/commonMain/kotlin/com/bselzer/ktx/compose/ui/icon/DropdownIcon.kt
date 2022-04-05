@@ -16,7 +16,7 @@ import dev.icerock.moko.resources.compose.stringResource
  * @param style the style describing how to lay out the icon
  */
 @Composable
-fun DropdownIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
+fun DropdownIcon(style: IconStyle = LocalIconStyle.current) = Icon(
     imageVector = Icons.Filled.MoreVert,
     contentDescription = stringResource(resource = Resources.strings.more_options),
     style = style
@@ -31,8 +31,8 @@ fun DropdownIcon(style: IconStyle = LocalIconStyle.localized()) = Icon(
  */
 @Composable
 fun DropdownIconButton(
-    style: IconButtonStyle = LocalIconButtonStyle.localized(),
-    iconStyle: IconStyle = LocalIconStyle.localized(),
+    style: IconButtonStyle = LocalIconButtonStyle.current,
+    iconStyle: IconStyle = LocalIconStyle.current,
     setExpanded: (Boolean) -> Unit,
 ) = IconButton(style = style, onClick = { setExpanded(true) }) {
     DropdownIcon(style = iconStyle)
@@ -50,9 +50,9 @@ fun DropdownIconButton(
 @Composable
 fun DropdownMenuIcon(
     initial: Boolean = false,
-    style: DropdownStyle = LocalDropdownStyle.localized(),
-    buttonStyle: IconButtonStyle = LocalIconButtonStyle.localized(),
-    iconStyle: IconStyle = LocalIconStyle.localized(),
+    style: DropdownStyle = LocalDropdownStyle.current,
+    buttonStyle: IconButtonStyle = LocalIconButtonStyle.current,
+    iconStyle: IconStyle = LocalIconStyle.current,
     icons: (@Composable ((Boolean) -> Unit) -> Unit)?
 ) {
     var isExpanded by remember { mutableStateOf(initial) }

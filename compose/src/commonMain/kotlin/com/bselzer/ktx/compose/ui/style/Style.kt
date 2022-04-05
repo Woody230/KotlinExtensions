@@ -36,9 +36,3 @@ interface ModifiableStyle<T>: Style<T> where T: Style<T> {
 @Composable
 fun <T: Style<T>> ProvidableCompositionLocal<Style<T>>.merge(value: T, content: @Composable () -> Unit)
         = CompositionLocalProvider(this provides current.merge(value), content = content)
-
-/**
- * @return the localized version of the current style
- */
-@Composable
-fun <T: Style<T>> ProvidableCompositionLocal<T>.localized(): T = current.localized()

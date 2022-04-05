@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.bselzer.ktx.compose.ui.style.LocalWordStyle
 import com.bselzer.ktx.compose.ui.style.Text
 import com.bselzer.ktx.compose.ui.style.WordStyle
-import com.bselzer.ktx.compose.ui.style.localized
+
 
 /**
  * Creates a localized [WordStyle] for a [MaterialAppBarTitle].
@@ -18,7 +18,7 @@ fun appBarTitleStyle(): WordStyle = WordStyle(
     textStyle = MaterialTheme.typography.h6,
     fontWeight = FontWeight.Bold,
     maxLines = 1
-).merge(LocalWordStyle.localized())
+).merge(LocalWordStyle.current)
 
 /**
  * Lays out an app bar.
