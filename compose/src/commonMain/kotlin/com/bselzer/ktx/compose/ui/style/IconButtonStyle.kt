@@ -70,17 +70,19 @@ data class IconButtonStyle(
      * Whether or not this IconButton will handle input events and appear enabled for semantics purposes
      */
     val enabled: Boolean = true
-) : ModifiableStyle<IconButtonStyle> {
+) : ModifierStyle<IconButtonStyle>() {
     companion object {
         @Stable
         val Default = IconButtonStyle()
     }
 
-    override fun merge(other: IconButtonStyle?): IconButtonStyle = if (other == null) this else IconButtonStyle(
+    override fun safeMerge(other: IconButtonStyle): IconButtonStyle = IconButtonStyle(
         modifier = modifier.then(other.modifier),
         enabled = enabled.safeMerge(other.enabled, true),
     )
 
     @Composable
     override fun localized(): IconButtonStyle = this
+
+    override fun modify(modifier: Modifier): IconButtonStyle = copy(modifier = modifier)
 }

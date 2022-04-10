@@ -116,13 +116,13 @@ data class CardStyle(
      * The z-coordinate at which to place this card. This controls the size of the shadow below the card.
      */
     val elevation: Dp = 1.dp,
-) : ModifiableStyle<CardStyle> {
+) : ModifierStyle<CardStyle>() {
     companion object {
         @Stable
         val Default = CardStyle()
     }
 
-    override fun merge(other: CardStyle?): CardStyle = if (other == null) this else CardStyle(
+    override fun safeMerge(other: CardStyle): CardStyle = CardStyle(
         modifier = modifier.then(other.modifier),
         shape = shape.merge(other.shape),
         backgroundColor = backgroundColor.merge(other.backgroundColor),
@@ -140,6 +140,8 @@ data class CardStyle(
             contentColor = contentColorFor(backgroundColor = backgroundColor),
         ).merge(this)
     }
+
+    override fun modify(modifier: Modifier): CardStyle = copy(modifier = modifier)
 }
 
 
@@ -191,13 +193,13 @@ data class ClickableCardStyle(
      *  For example, if the Surface acts as a button, you should pass the Role.Button
      */
     val role: Role? = null,
-) : ModifiableStyle<ClickableCardStyle> {
+) : ModifierStyle<ClickableCardStyle>() {
     companion object {
         @Stable
         val Default = ClickableCardStyle()
     }
 
-    override fun merge(other: ClickableCardStyle?): ClickableCardStyle = if (other == null) this else ClickableCardStyle(
+    override fun safeMerge(other: ClickableCardStyle): ClickableCardStyle = ClickableCardStyle(
         modifier = modifier.then(other.modifier),
         shape = shape.merge(other.shape),
         backgroundColor = backgroundColor.merge(other.backgroundColor),
@@ -217,6 +219,8 @@ data class ClickableCardStyle(
             backgroundColor = backgroundColor,
             contentColor = contentColorFor(backgroundColor = backgroundColor),
             indication = LocalIndication.current
-        ).merge(this)
+        ).safeMerge(this)
     }
+
+    override fun modify(modifier: Modifier): ClickableCardStyle = copy(modifier = modifier)
 }

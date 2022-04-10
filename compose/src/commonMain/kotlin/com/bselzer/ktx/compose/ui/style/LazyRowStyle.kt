@@ -73,13 +73,13 @@ data class LazyRowStyle(
      * Logic describing fling behavior.
      */
     val flingBehavior: FlingBehavior = DefaultFlingBehavior
-): ModifiableStyle<LazyRowStyle> {
+) : ModifierStyle<LazyRowStyle>() {
     companion object {
         @Stable
         val Default = LazyRowStyle()
     }
 
-    override fun merge(other: LazyRowStyle?): LazyRowStyle = if (other == null) this else LazyRowStyle(
+    override fun safeMerge(other: LazyRowStyle): LazyRowStyle = LazyRowStyle(
         modifier = modifier.then(other.modifier),
         contentPadding = contentPadding.merge(other.contentPadding),
         reverseLayout = reverseLayout.safeMerge(other.reverseLayout, false),
@@ -92,4 +92,6 @@ data class LazyRowStyle(
     override fun localized(): LazyRowStyle = LazyRowStyle(
         flingBehavior = ScrollableDefaults.flingBehavior()
     ).merge(this)
+
+    override fun modify(modifier: Modifier): LazyRowStyle = copy(modifier = modifier)
 }

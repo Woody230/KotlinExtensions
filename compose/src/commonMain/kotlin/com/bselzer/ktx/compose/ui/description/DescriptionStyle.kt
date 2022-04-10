@@ -50,13 +50,13 @@ data class DescriptionStyle(
      * The style of the subtitle.
      */
     val subtitleStyle: WordStyle = WordStyle.Default
-) : Style<DescriptionStyle> {
+) : Style<DescriptionStyle>() {
     companion object {
         @Stable
         val Default = DescriptionStyle()
     }
 
-    override fun merge(other: DescriptionStyle?): DescriptionStyle = if (other == null) this else DescriptionStyle(
+    override fun safeMerge(other: DescriptionStyle): DescriptionStyle = DescriptionStyle(
         style = style.merge(other.style),
         titleStyle = titleStyle.merge(other.titleStyle),
         subtitleStyle = subtitleStyle.merge(other.subtitleStyle)

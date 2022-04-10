@@ -4,7 +4,7 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
-import com.bselzer.ktx.compose.ui.style.ModifiableStyle
+import com.bselzer.ktx.compose.ui.style.ModifierStyle
 
 /**
  * CompositionLocal containing the preferred DropdownStyle that will be used by Dropdown components by default.
@@ -21,4 +21,4 @@ object Dropdown {
  */
 expect class DropdownStyle(
     modifier: Modifier = Modifier,
-): ModifiableStyle<DropdownStyle>
+) : ModifierStyle<DropdownStyle>

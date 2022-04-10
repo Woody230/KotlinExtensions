@@ -46,13 +46,13 @@ data class ColumnStyle(
      * The horizontal alignment of the layout's children.
      */
     val horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-): ModifiableStyle<ColumnStyle> {
+) : ModifierStyle<ColumnStyle>() {
     companion object {
         @Stable
         val Default = ColumnStyle()
     }
 
-    override fun merge(other: ColumnStyle?): ColumnStyle = if (other == null) this else ColumnStyle(
+    override fun safeMerge(other: ColumnStyle): ColumnStyle = ColumnStyle(
         modifier = modifier.then(other.modifier),
         verticalArrangement = verticalArrangement.safeMerge(other.verticalArrangement, Arrangement.Top),
         horizontalAlignment = horizontalAlignment.safeMerge(other.horizontalAlignment, Alignment.Start)
@@ -60,4 +60,6 @@ data class ColumnStyle(
 
     @Composable
     override fun localized() = this
+
+    override fun modify(modifier: Modifier): ColumnStyle = copy(modifier = modifier)
 }

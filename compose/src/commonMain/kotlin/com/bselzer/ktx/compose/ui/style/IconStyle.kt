@@ -44,13 +44,13 @@ data class IconStyle(
      * Tint to be applied to imageVector. If Color.Unspecified is provided, then no tint is applied
      */
     val tint: Color = Color.Unspecified
-) : ModifiableStyle<IconStyle> {
+) : ModifierStyle<IconStyle>() {
     companion object {
         @Stable
         val Default = IconStyle()
     }
 
-    override fun merge(other: IconStyle?): IconStyle = if (other == null) this else IconStyle(
+    override fun safeMerge(other: IconStyle): IconStyle = IconStyle(
         modifier = modifier.then(other.modifier),
         tint = tint.merge(other.tint)
     )
@@ -59,4 +59,6 @@ data class IconStyle(
     override fun localized(): IconStyle = IconStyle(
         tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
     ).merge(this)
+
+    override fun modify(modifier: Modifier): IconStyle = copy(modifier = modifier)
 }

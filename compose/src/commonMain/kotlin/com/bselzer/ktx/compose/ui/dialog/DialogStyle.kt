@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.style.DefaultShape
-import com.bselzer.ktx.compose.ui.style.ModifiableStyle
+import com.bselzer.ktx.compose.ui.style.ModifierStyle
 import com.bselzer.ktx.compose.ui.style.Style
 import com.bselzer.ktx.compose.ui.style.merge
 
@@ -49,13 +49,13 @@ data class AlertDialogStyle(
      * Properties used to customize the behavior of a Dialog.
      */
     val properties: DialogProperties = DialogProperties()
-): ModifiableStyle<AlertDialogStyle> {
+) : ModifierStyle<AlertDialogStyle>() {
     companion object {
         @Stable
         val Default = AlertDialogStyle()
     }
 
-    override fun merge(other: AlertDialogStyle?): AlertDialogStyle = if (other == null) this else AlertDialogStyle(
+    override fun safeMerge(other: AlertDialogStyle): AlertDialogStyle = AlertDialogStyle(
         modifier = modifier.then(other.modifier),
         shape = shape.merge(other.shape),
         backgroundColor = backgroundColor.merge(other.backgroundColor),
@@ -70,7 +70,9 @@ data class AlertDialogStyle(
             shape = MaterialTheme.shapes.medium,
             backgroundColor = backgroundColor,
             contentColor = contentColorFor(backgroundColor)
-        ).merge(this)
+        ).safeMerge(this)
     }
+
+    override fun modify(modifier: Modifier): AlertDialogStyle = copy(modifier = modifier)
 }
 

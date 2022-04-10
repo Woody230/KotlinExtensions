@@ -63,13 +63,13 @@ data class BadgeStyle(
      * The color of label text rendered in the badge
      */
     val contentColor: Color = Color.Unspecified,
-) : ModifiableStyle<BadgeStyle> {
+) : ModifierStyle<BadgeStyle>() {
     companion object {
         @Stable
         val Default = BadgeStyle()
     }
 
-    override fun merge(other: BadgeStyle?): BadgeStyle = if (other == null) this else BadgeStyle(
+    override fun safeMerge(other: BadgeStyle): BadgeStyle = BadgeStyle(
         modifier = modifier.then(other.modifier),
         backgroundColor = backgroundColor.merge(other.backgroundColor),
         contentColor = contentColor.merge(other.contentColor)
@@ -83,4 +83,6 @@ data class BadgeStyle(
             contentColor = contentColorFor(backgroundColor = backgroundColor)
         ).merge(this)
     }
+
+    override fun modify(modifier: Modifier): BadgeStyle = copy(modifier = modifier)
 }

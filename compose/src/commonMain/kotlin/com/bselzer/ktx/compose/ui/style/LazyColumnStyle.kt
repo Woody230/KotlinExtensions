@@ -73,13 +73,13 @@ data class LazyColumnStyle(
      * Logic describing fling behavior.
      */
     val flingBehavior: FlingBehavior = DefaultFlingBehavior
-): ModifiableStyle<LazyColumnStyle> {
+) : ModifierStyle<LazyColumnStyle>() {
     companion object {
         @Stable
         val Default = LazyColumnStyle()
     }
 
-    override fun merge(other: LazyColumnStyle?): LazyColumnStyle = if (other == null) this else LazyColumnStyle(
+    override fun safeMerge(other: LazyColumnStyle): LazyColumnStyle = LazyColumnStyle(
         modifier = modifier.then(other.modifier),
         contentPadding = contentPadding.merge(other.contentPadding),
         reverseLayout = reverseLayout.safeMerge(other.reverseLayout, false),
@@ -92,4 +92,6 @@ data class LazyColumnStyle(
     override fun localized() = LazyColumnStyle(
         flingBehavior = ScrollableDefaults.flingBehavior()
     ).merge(this)
+
+    override fun modify(modifier: Modifier): LazyColumnStyle = copy(modifier = modifier)
 }

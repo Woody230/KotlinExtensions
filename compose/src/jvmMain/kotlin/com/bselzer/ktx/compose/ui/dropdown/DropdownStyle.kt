@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.bselzer.ktx.compose.ui.style.DefaultDpOffset
-import com.bselzer.ktx.compose.ui.style.ModifiableStyle
+import com.bselzer.ktx.compose.ui.style.ModifierStyle
 import com.bselzer.ktx.compose.ui.style.merge
 import com.bselzer.ktx.function.objects.safeMerge
 
@@ -20,10 +20,10 @@ actual data class DropdownStyle(
      * Whether the dropdown is focusable.
      */
     val focusable: Boolean = true
-): ModifiableStyle<DropdownStyle> {
-    actual constructor(modifier: Modifier): this(modifier = modifier, offset = DefaultDpOffset)
+) : ModifierStyle<DropdownStyle>() {
+    actual constructor(modifier: Modifier) : this(modifier = modifier, offset = DefaultDpOffset)
 
-    override fun merge(other: DropdownStyle?): DropdownStyle = if (other == null) this else DropdownStyle(
+    override fun safeMerge(other: DropdownStyle): DropdownStyle = DropdownStyle(
         modifier = modifier.then(other.modifier),
         offset = offset.merge(other.offset),
         focusable = focusable.safeMerge(other.focusable, true)
@@ -31,4 +31,6 @@ actual data class DropdownStyle(
 
     @Composable
     override fun localized(): DropdownStyle = this
+
+    override fun modify(modifier: Modifier): DropdownStyle = copy(modifier = modifier)
 }

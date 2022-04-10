@@ -2,10 +2,8 @@ package com.bselzer.ktx.compose.ui.style
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.ui.Modifier
 
-interface Style<T: Style<T>> {
+interface Styleable<T : Styleable<T>> {
     /**
      * Returns a new style that is a combination of this style and the given [other] style.
      *
@@ -23,16 +21,9 @@ interface Style<T: Style<T>> {
     fun localized(): T
 }
 
-interface ModifiableStyle<T>: Style<T> where T: Style<T> {
-    /**
-     * Modifier to apply to the layout node.
-     */
-    val modifier: Modifier
-}
+abstract class Style<T> : Styleable<T> where T : Style<T> {
+    protected abstract fun safeMerge(other: T): T
 
-/**
- * Provides a merged style of currently provided value with the new [value].
- */
-@Composable
-fun <T: Style<T>> ProvidableCompositionLocal<Style<T>>.merge(value: T, content: @Composable () -> Unit)
-        = CompositionLocalProvider(this provides current.merge(value), content = content)
+    @Suppress("UNCHECKED_CAST")
+    override fun merge(other: T?): T = if (other == null) this as T else safeMerge(other)
+}

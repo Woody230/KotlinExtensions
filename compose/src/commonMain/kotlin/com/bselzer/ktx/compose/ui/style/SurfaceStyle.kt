@@ -114,13 +114,13 @@ data class SurfaceStyle(
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
     val elevation: Dp = 0.dp,
-) : ModifiableStyle<SurfaceStyle> {
+) : ModifierStyle<SurfaceStyle>() {
     companion object {
         @Stable
         val Default = SurfaceStyle()
     }
 
-    override fun merge(other: SurfaceStyle?): SurfaceStyle = if (other == null) this else SurfaceStyle(
+    override fun safeMerge(other: SurfaceStyle): SurfaceStyle = SurfaceStyle(
         modifier = modifier.then(other.modifier),
         shape = shape.merge(other.shape),
         color = color.merge(other.color),
@@ -135,8 +135,10 @@ data class SurfaceStyle(
         SurfaceStyle(
             color = backgroundColor,
             contentColor = contentColorFor(backgroundColor = backgroundColor)
-        ).merge(this)
+        ).safeMerge(this)
     }
+
+    override fun modify(modifier: Modifier): SurfaceStyle = copy(modifier = modifier)
 }
 
 /**
@@ -187,13 +189,13 @@ data class ClickableSurfaceStyle(
      *  For example, if the Surface acts as a button, you should pass the Role.Button
      */
     val role: Role? = null,
-) : ModifiableStyle<ClickableSurfaceStyle> {
+) : ModifierStyle<ClickableSurfaceStyle>() {
     companion object {
         @Stable
         val Default = ClickableSurfaceStyle()
     }
 
-    override fun merge(other: ClickableSurfaceStyle?): ClickableSurfaceStyle = if (other == null) this else ClickableSurfaceStyle(
+    override fun safeMerge(other: ClickableSurfaceStyle): ClickableSurfaceStyle = ClickableSurfaceStyle(
         modifier = modifier.then(other.modifier),
         shape = shape.merge(other.shape),
         color = color.merge(other.color),
@@ -214,4 +216,6 @@ data class ClickableSurfaceStyle(
             indication = LocalIndication.current
         ).merge(this)
     }
+
+    override fun modify(modifier: Modifier): ClickableSurfaceStyle = copy(modifier = modifier)
 }

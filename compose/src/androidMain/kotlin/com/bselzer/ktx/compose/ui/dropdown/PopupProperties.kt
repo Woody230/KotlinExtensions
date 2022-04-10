@@ -53,13 +53,13 @@ data class PopupProperties(
      * Whether the width of the popup's content should be limited to the platform default, which is smaller than the screen width.
      */
     val usePlatformDefaultWidth: Boolean = false
-): Style<PopupProperties> {
+) : Style<PopupProperties>() {
     companion object {
         @Stable
         val Default = PopupProperties()
     }
 
-    override fun merge(other: PopupProperties?): PopupProperties = if (other == null) this else PopupProperties(
+    override fun safeMerge(other: PopupProperties): PopupProperties = PopupProperties(
         focusable = focusable.safeMerge(other.focusable, false),
         dismissOnBackPress = dismissOnBackPress.safeMerge(other.dismissOnBackPress, true),
         dismissOnClickOutside = dismissOnClickOutside.safeMerge(other.dismissOnClickOutside, true),

@@ -124,13 +124,13 @@ data class WordStyle(
      * Style configuration for the text such as color, font, line height etc.
      */
     val textStyle: TextStyle = TextStyle.Default,
-): ModifiableStyle<WordStyle> {
+) : ModifierStyle<WordStyle>() {
     companion object {
         @Stable
         val Default = WordStyle()
     }
 
-    override fun merge(other: WordStyle?): WordStyle = if (other == null) this else WordStyle(
+    override fun safeMerge(other: WordStyle): WordStyle = WordStyle(
         modifier = modifier.then(other.modifier),
         color = color.merge(other.color),
         fontSize = fontSize.merge(other.fontSize),
@@ -149,4 +149,6 @@ data class WordStyle(
 
     @Composable
     override fun localized(): WordStyle = WordStyle(textStyle = LocalTextStyle.current).merge(this)
+
+    override fun modify(modifier: Modifier): WordStyle = copy(modifier = modifier)
 }

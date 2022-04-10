@@ -82,13 +82,13 @@ data class ButtonStyle(
      * The spacing values to apply internally between the container and the content
      */
     val contentPadding: PaddingValues = ButtonDefaults.ContentPadding
-) : ModifiableStyle<ButtonStyle> {
+) : ModifierStyle<ButtonStyle>() {
     companion object {
         @Stable
         val Default = ButtonStyle()
     }
 
-    override fun merge(other: ButtonStyle?): ButtonStyle = if (other == null) this else ButtonStyle(
+    override fun safeMerge(other: ButtonStyle): ButtonStyle = ButtonStyle(
         modifier = modifier.then(other.modifier),
         enabled = enabled.safeMerge(other.enabled, true),
         elevation = elevation.merge(other.elevation),
@@ -117,6 +117,8 @@ data class ButtonStyle(
             colors = ButtonDefaults.outlinedButtonColors(),
         )
     }.merge(this)
+
+    override fun modify(modifier: Modifier): ButtonStyle = copy(modifier = modifier)
 }
 
 /**

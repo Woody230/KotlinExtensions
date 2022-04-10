@@ -64,13 +64,13 @@ data class ImageStyle(
      * ColorFilter to apply for the Painter when it is rendered onscreen
      */
     val colorFilter: ColorFilter? = null
-): ModifiableStyle<ImageStyle> {
+) : ModifierStyle<ImageStyle>() {
     companion object {
         @Stable
         val Default = ImageStyle()
     }
 
-    override fun merge(other: ImageStyle?): ImageStyle = if (other == null) this else ImageStyle(
+    override fun safeMerge(other: ImageStyle): ImageStyle = ImageStyle(
         modifier = modifier.then(other.modifier),
         alignment = alignment.safeMerge(other.alignment, Alignment.Center),
         contentScale = contentScale.safeMerge(other.contentScale, ContentScale.Fit),
@@ -80,4 +80,6 @@ data class ImageStyle(
 
     @Composable
     override fun localized(): ImageStyle = this
+
+    override fun modify(modifier: Modifier): ImageStyle = copy(modifier = modifier)
 }

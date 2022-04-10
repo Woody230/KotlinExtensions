@@ -11,7 +11,7 @@ import com.bselzer.ktx.compose.ui.description.DescriptionStyle
 import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
-import com.bselzer.ktx.compose.ui.style.ModifiableStyle
+import com.bselzer.ktx.compose.ui.style.ModifierStyle
 
 import com.bselzer.ktx.function.objects.safeMerge
 
@@ -82,13 +82,13 @@ data class SimplePreferenceStyle(
      * The style describing how to lay out the description
      */
     val descriptionStyle: DescriptionStyle = DescriptionStyle.Default
-): ModifiableStyle<SimplePreferenceStyle> {
+) : ModifierStyle<SimplePreferenceStyle>() {
     companion object {
         @Stable
         val Default = SimplePreferenceStyle()
     }
 
-    override fun merge(other: SimplePreferenceStyle?): SimplePreferenceStyle = if (other == null) this else SimplePreferenceStyle(
+    override fun safeMerge(other: SimplePreferenceStyle): SimplePreferenceStyle = SimplePreferenceStyle(
         modifier = modifier.then(other.modifier),
         spacing = spacing.safeMerge(other.spacing, PreferenceSpacing),
         imageStyle = imageStyle.merge(other.imageStyle),
@@ -100,4 +100,6 @@ data class SimplePreferenceStyle(
         imageStyle = LocalImageStyle.current,
         descriptionStyle = LocalDescriptionStyle.current
     ).merge(this)
+
+    override fun modify(modifier: Modifier): SimplePreferenceStyle = copy(modifier = modifier)
 }

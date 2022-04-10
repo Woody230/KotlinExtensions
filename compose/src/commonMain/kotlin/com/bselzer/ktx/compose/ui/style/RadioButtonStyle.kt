@@ -55,13 +55,13 @@ data class RadioButtonStyle(
      * [RadioButtonColors] that will be used to resolve the background and content color for this RadioButton in different states. See [RadioButtonDefaults.colors].
      */
     val colors: RadioButtonColors = DefaultRadioButtonColors,
-) : ModifiableStyle<RadioButtonStyle> {
+) : ModifierStyle<RadioButtonStyle>() {
     companion object {
         @Stable
         val Default = RadioButtonStyle()
     }
 
-    override fun merge(other: RadioButtonStyle?): RadioButtonStyle = if (other == null) this else RadioButtonStyle(
+    override fun safeMerge(other: RadioButtonStyle): RadioButtonStyle = RadioButtonStyle(
         modifier = modifier.then(other.modifier),
         enabled = enabled.safeMerge(other.enabled, true),
         colors = colors.merge(other.colors),
@@ -71,4 +71,6 @@ data class RadioButtonStyle(
     override fun localized(): RadioButtonStyle = RadioButtonStyle(
         colors = RadioButtonDefaults.colors()
     ).merge(this)
+
+    override fun modify(modifier: Modifier): RadioButtonStyle = copy(modifier = modifier)
 }

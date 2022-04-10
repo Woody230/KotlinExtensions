@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.bselzer.ktx.compose.ui.style.DefaultDpOffset
-import com.bselzer.ktx.compose.ui.style.ModifiableStyle
+import com.bselzer.ktx.compose.ui.style.ModifierStyle
 
 import com.bselzer.ktx.compose.ui.style.merge
 
@@ -22,10 +22,10 @@ actual data class DropdownStyle(
      * [PopupProperties] for further customization of this popup's behavior.
      */
     val properties: PopupProperties = PopupProperties()
-): ModifiableStyle<DropdownStyle> {
-    actual constructor(modifier: Modifier): this(modifier = modifier, offset = DefaultDpOffset)
+) : ModifierStyle<DropdownStyle>() {
+    actual constructor(modifier: Modifier) : this(modifier = modifier, offset = DefaultDpOffset)
 
-    override fun merge(other: DropdownStyle?): DropdownStyle = if (other == null) this else DropdownStyle(
+    override fun safeMerge(other: DropdownStyle): DropdownStyle = DropdownStyle(
         modifier = modifier.then(other.modifier),
         offset = offset.merge(other.offset),
         properties = properties.merge(other.properties)
@@ -33,4 +33,6 @@ actual data class DropdownStyle(
 
     @Composable
     override fun localized() = DropdownStyle(properties = LocalPopupStyle.current)
+
+    override fun modify(modifier: Modifier): DropdownStyle = copy(modifier = modifier)
 }

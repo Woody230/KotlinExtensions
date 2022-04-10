@@ -51,13 +51,13 @@ data class DialogPreferenceStyle(
      * The spacing between components in the dialog.
      */
     val dialogSpacing: Dp = PreferenceSpacing
-): ModifiableStyle<DialogPreferenceStyle> {
+) : ModifierStyle<DialogPreferenceStyle>() {
     companion object {
         @Stable
         val Default = DialogPreferenceStyle()
     }
 
-    override fun merge(other: DialogPreferenceStyle?): DialogPreferenceStyle = if (other == null) this else DialogPreferenceStyle(
+    override fun safeMerge(other: DialogPreferenceStyle): DialogPreferenceStyle = DialogPreferenceStyle(
         modifier = modifier.then(other.modifier),
         preferenceStyle = preferenceStyle.merge(other.preferenceStyle),
         buttonStyle = buttonStyle.merge(other.buttonStyle),
@@ -75,4 +75,6 @@ data class DialogPreferenceStyle(
         dialogStyle = LocalAlertDialogStyle.current,
         dialogTextStyle = LocalWordStyle.current
     ).merge(this)
+
+    override fun modify(modifier: Modifier): DialogPreferenceStyle = copy(modifier = modifier)
 }

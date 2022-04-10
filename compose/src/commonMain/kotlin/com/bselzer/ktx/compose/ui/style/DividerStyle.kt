@@ -50,13 +50,13 @@ data class DividerStyle(
      * Start offset of this line, no offset by default.
      */
     val startIndent: Dp = 0.dp,
-): ModifiableStyle<DividerStyle> {
+) : ModifierStyle<DividerStyle>() {
     companion object {
         @Stable
         val Default = DividerStyle()
     }
 
-    override fun merge(other: DividerStyle?): DividerStyle = if (other == null) this else DividerStyle(
+    override fun safeMerge(other: DividerStyle): DividerStyle = DividerStyle(
         modifier = modifier.then(other.modifier),
         color = color.merge(other.color),
         thickness = thickness.safeMerge(other.thickness, 1.dp),
@@ -67,4 +67,6 @@ data class DividerStyle(
     override fun localized() = DividerStyle(
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
     ).merge(this)
+
+    override fun modify(modifier: Modifier) = copy(modifier = modifier)
 }

@@ -41,10 +41,10 @@ actual class DialogProperties(
      * Can dialog receive focus
      */
     val focusable: Boolean = true
-): Style<DialogProperties> {
-    actual constructor(): this(visible = true)
+) : Style<DialogProperties>() {
+    actual constructor() : this(visible = true)
 
-    override fun merge(other: DialogProperties?): DialogProperties = if (other == null) this else DialogProperties(
+    override fun safeMerge(other: DialogProperties): DialogProperties = DialogProperties(
         visible = visible.safeMerge(other.visible, true),
         undecorated = undecorated.safeMerge(other.undecorated, false),
         transparent = transparent.safeMerge(other.transparent, false),

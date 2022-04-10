@@ -45,13 +45,13 @@ data class BoxStyle(
      * Whether the incoming min constraints should be passed to content.
      */
     val propagateMinConstraints: Boolean = false
-) : ModifiableStyle<BoxStyle> {
+) : ModifierStyle<BoxStyle>() {
     companion object {
         @Stable
         val Default = BoxStyle()
     }
 
-    override fun merge(other: BoxStyle?): BoxStyle = if (other == null) this else BoxStyle(
+    override fun safeMerge(other: BoxStyle): BoxStyle = BoxStyle(
         modifier = modifier.then(other.modifier),
         contentAlignment = contentAlignment.safeMerge(other.contentAlignment, Alignment.TopStart),
         propagateMinConstraints = propagateMinConstraints.safeMerge(other.propagateMinConstraints, false)
@@ -59,4 +59,6 @@ data class BoxStyle(
 
     @Composable
     override fun localized(): BoxStyle = this
+
+    override fun modify(modifier: Modifier): BoxStyle = copy(modifier = modifier)
 }

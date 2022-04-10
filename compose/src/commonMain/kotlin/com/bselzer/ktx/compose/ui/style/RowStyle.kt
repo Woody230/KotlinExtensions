@@ -46,13 +46,13 @@ data class RowStyle(
      * The vertical alignment of the layout's children.
      */
     val verticalAlignment: Alignment.Vertical = Alignment.Top,
-): ModifiableStyle<RowStyle> {
+) : ModifierStyle<RowStyle>() {
     companion object {
         @Stable
         val Default = RowStyle()
     }
 
-    override fun merge(other: RowStyle?): RowStyle = if (other == null) this else RowStyle(
+    override fun safeMerge(other: RowStyle): RowStyle = RowStyle(
         modifier = modifier.then(other.modifier),
         horizontalArrangement = horizontalArrangement.safeMerge(other.horizontalArrangement, Arrangement.Start),
         verticalAlignment = verticalAlignment.safeMerge(other.verticalAlignment, Alignment.Top)
@@ -60,4 +60,6 @@ data class RowStyle(
 
     @Composable
     override fun localized(): RowStyle = this
+
+    override fun modify(modifier: Modifier): RowStyle = copy(modifier = modifier)
 }
