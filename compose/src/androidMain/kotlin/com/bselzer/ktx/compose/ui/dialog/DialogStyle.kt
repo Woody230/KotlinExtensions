@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.dialog
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.bselzer.ktx.compose.ui.style.Style
 import com.bselzer.ktx.function.objects.safeMerge
@@ -34,7 +33,4 @@ actual class DialogProperties(
         securePolicy = securePolicy.safeMerge(other.securePolicy, SecureFlagPolicy.Inherit),
         usePlatformDefaultWidth = usePlatformDefaultWidth.safeMerge(other.usePlatformDefaultWidth, true)
     )
-
-    @Composable
-    override fun localized() = this
 }

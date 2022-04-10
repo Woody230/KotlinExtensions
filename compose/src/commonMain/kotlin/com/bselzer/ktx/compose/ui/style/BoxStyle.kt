@@ -57,8 +57,5 @@ data class BoxStyle(
         propagateMinConstraints = propagateMinConstraints.safeMerge(other.propagateMinConstraints, false)
     )
 
-    @Composable
-    override fun localized(): BoxStyle = this
-
     override fun modify(modifier: Modifier): BoxStyle = copy(modifier = modifier)
 }

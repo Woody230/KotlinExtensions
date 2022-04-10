@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.dropdown
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import com.bselzer.ktx.compose.ui.style.DefaultDpOffset
@@ -28,9 +27,6 @@ actual data class DropdownStyle(
         offset = offset.merge(other.offset),
         focusable = focusable.safeMerge(other.focusable, true)
     )
-
-    @Composable
-    override fun localized(): DropdownStyle = this
 
     override fun modify(modifier: Modifier): DropdownStyle = copy(modifier = modifier)
 }

@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.dialog
 
-import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.style.Style
 import com.bselzer.ktx.function.objects.safeMerge
 
@@ -52,7 +51,4 @@ actual class DialogProperties(
         enabled = enabled.safeMerge(other.enabled, true),
         focusable = focusable.safeMerge(other.focusable, true)
     )
-
-    @Composable
-    override fun localized(): DialogProperties = this
 }

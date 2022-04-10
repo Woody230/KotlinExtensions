@@ -58,8 +58,5 @@ data class RowStyle(
         verticalAlignment = verticalAlignment.safeMerge(other.verticalAlignment, Alignment.Top)
     )
 
-    @Composable
-    override fun localized(): RowStyle = this
-
     override fun modify(modifier: Modifier): RowStyle = copy(modifier = modifier)
 }

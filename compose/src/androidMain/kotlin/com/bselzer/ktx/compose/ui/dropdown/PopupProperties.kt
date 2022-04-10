@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.dropdown
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.window.SecureFlagPolicy
@@ -68,7 +67,4 @@ data class PopupProperties(
         clippingEnabled = clippingEnabled.safeMerge(other.clippingEnabled, true),
         usePlatformDefaultWidth = usePlatformDefaultWidth.safeMerge(other.usePlatformDefaultWidth, false)
     )
-
-    @Composable
-    override fun localized(): PopupProperties = this
 }

@@ -29,10 +29,4 @@ class StyleProvider<T>(@PublishedApi internal val provider: ProvidableCompositio
      * @see ProvidableCompositionLocal
      */
     infix fun providesDefault(value: T): ProvidedValue<T> = provider.providesDefault(value)
-
-    /**
-     * Provides a merged style of the currently provided style with the new [style] within the scope of the [content].
-     */
-    @Composable
-    fun merge(style: T, content: @Composable () -> Unit) = CompositionLocalProvider(this provides current.merge(style), content = content)
 }

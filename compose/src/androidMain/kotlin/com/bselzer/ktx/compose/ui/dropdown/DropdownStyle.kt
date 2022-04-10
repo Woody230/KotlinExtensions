@@ -32,7 +32,7 @@ actual data class DropdownStyle(
     )
 
     @Composable
-    override fun localized() = DropdownStyle(properties = LocalPopupStyle.current)
+    override fun localized() = DropdownStyle(properties = LocalPopupStyle.current).merge(this)
 
     override fun modify(modifier: Modifier): DropdownStyle = copy(modifier = modifier)
 }

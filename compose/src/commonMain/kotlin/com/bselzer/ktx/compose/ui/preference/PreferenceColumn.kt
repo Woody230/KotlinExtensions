@@ -2,7 +2,6 @@ package com.bselzer.ktx.compose.ui.preference
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.container.Spacer
@@ -29,15 +28,13 @@ fun PreferenceColumn(
 ) = DividedColumn(
     style = style,
     divider = {
-        CompositionLocalProvider(
-            LocalDividerStyle provides DividerStyle(thickness = PreferenceThickness).merge(dividerStyle)
-        ) {
-            // Divide the components by the spacing split across the divider thickness and then evenly across the remaining space.
-            val segment = (spacing - LocalDividerStyle.current.thickness) / 2
-            Spacer(height = segment)
-            Divider(style = LocalDividerStyle.current)
-            Spacer(height = segment)
-        }
+        val merged = DividerStyle(thickness = PreferenceThickness).merge(dividerStyle)
+
+        // Divide the components by the spacing split across the divider thickness and then evenly across the remaining space.
+        val segment = (spacing - merged.thickness) / 2
+        Spacer(height = segment)
+        Divider(style = merged)
+        Spacer(height = segment)
     },
     prepend = prepend,
     append = append,

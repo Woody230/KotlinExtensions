@@ -78,8 +78,5 @@ data class ImageStyle(
         colorFilter = colorFilter.nullMerge(other.colorFilter)
     )
 
-    @Composable
-    override fun localized(): ImageStyle = this
-
     override fun modify(modifier: Modifier): ImageStyle = copy(modifier = modifier)
 }

@@ -21,9 +21,12 @@ interface Styleable<T : Styleable<T>> {
     fun localized(): T
 }
 
+@Suppress("UNCHECKED_CAST")
 abstract class Style<T> : Styleable<T> where T : Style<T> {
     protected abstract fun safeMerge(other: T): T
 
-    @Suppress("UNCHECKED_CAST")
-    override fun merge(other: T?): T = if (other == null) this as T else safeMerge(other)
+    @Composable
+    override fun localized(): T = this as T
+
+    override fun merge(other: T?): T = if (other == null || other === this) this as T else safeMerge(other)
 }

@@ -81,8 +81,5 @@ data class IconButtonStyle(
         enabled = enabled.safeMerge(other.enabled, true),
     )
 
-    @Composable
-    override fun localized(): IconButtonStyle = this
-
     override fun modify(modifier: Modifier): IconButtonStyle = copy(modifier = modifier)
 }

@@ -58,8 +58,5 @@ data class ColumnStyle(
         horizontalAlignment = horizontalAlignment.safeMerge(other.horizontalAlignment, Alignment.Start)
     )
 
-    @Composable
-    override fun localized() = this
-
     override fun modify(modifier: Modifier): ColumnStyle = copy(modifier = modifier)
 }
