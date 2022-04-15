@@ -51,15 +51,6 @@ fun SimplePreference(
 )
 
 /**
- * Creates a localized [SimplePreferenceStyle].
- */
-@Composable
-fun simplePreferenceStyle(): SimplePreferenceStyle = SimplePreferenceStyle(
-    imageStyle = LocalImageStyle.current,
-    descriptionStyle = LocalDescriptionStyle.current
-)
-
-/**
  * The style arguments associated with a [SimplePreference] composable.
  */
 data class SimplePreferenceStyle(
