@@ -9,7 +9,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.description.DescriptionSubtitle
 import com.bselzer.ktx.compose.ui.description.DescriptionTitle
-import com.bselzer.ktx.compose.ui.style.WordStyle
 
 
 /**
@@ -46,25 +45,21 @@ fun TextPreference(
     val margin = style.spacing
     DescriptionTitle(
         title = title,
-        style = WordStyle(
-            modifier = Modifier.constrainAs(descriptionTitle) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(icon.end, margin = margin)
-            },
-        ).merge(descriptionStyle.titleStyle)
+        style = descriptionStyle.titleStyle precededBy Modifier.constrainAs(descriptionTitle) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(icon.end, margin = margin)
+        }
     )
 
     DescriptionSubtitle(
         subtitle = subtitle,
-        style = WordStyle(
-            Modifier.constrainAs(descriptionSubtitle) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(descriptionTitle.end, margin = margin)
-                end.linkTo(parent.end)
-                width = Dimension.fillToConstraints
-            },
-        ).merge(descriptionStyle.subtitleStyle)
+        style = descriptionStyle.subtitleStyle precededBy Modifier.constrainAs(descriptionSubtitle) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(descriptionTitle.end, margin = margin)
+            end.linkTo(parent.end)
+            width = Dimension.fillToConstraints
+        }
     )
 }

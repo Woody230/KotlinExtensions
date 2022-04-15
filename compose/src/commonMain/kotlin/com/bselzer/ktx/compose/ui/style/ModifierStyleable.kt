@@ -11,12 +11,12 @@ interface ModifierStyleable<T> : Styleable<T> where T : Styleable<T> {
     /**
      * Applies the [other] modifier after the current modifier.
      */
-    fun then(other: Modifier): T
+    infix fun succeededBy(other: Modifier): T
 
     /**
      * Applies the [other] modifier before the current modifier.
      */
-    fun precede(other: Modifier): T
+    infix fun precededBy(other: Modifier): T
 }
 
 abstract class ModifierStyle<T> : Style<T>(), ModifierStyleable<T> where T : ModifierStyle<T> {
@@ -25,6 +25,6 @@ abstract class ModifierStyle<T> : Style<T>(), ModifierStyleable<T> where T : Mod
      */
     protected abstract fun modify(modifier: Modifier): T
 
-    override fun then(other: Modifier): T = modify(modifier.then(other))
-    override fun precede(other: Modifier): T = modify(other.then(modifier))
+    override fun succeededBy(other: Modifier): T = modify(modifier.then(other))
+    override fun precededBy(other: Modifier): T = modify(other.then(modifier))
 }
