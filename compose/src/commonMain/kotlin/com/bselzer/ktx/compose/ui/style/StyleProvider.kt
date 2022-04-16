@@ -29,4 +29,11 @@ class StyleProvider<T>(@PublishedApi internal val provider: ProvidableCompositio
      * @see ProvidableCompositionLocal
      */
     infix fun providesDefault(value: T): ProvidedValue<T> = provider.providesDefault(value)
+
+    companion object {
+        /**
+         * Wraps the composition local within a [StyleProvider].
+         */
+        fun <T : Styleable<T>> ProvidableCompositionLocal<T>.provider(): StyleProvider<T> = StyleProvider(this)
+    }
 }

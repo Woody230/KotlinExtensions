@@ -9,9 +9,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.ktx.compose.ui.container.Spacer
+import com.bselzer.ktx.compose.ui.icon.DownIcon
+import com.bselzer.ktx.compose.ui.icon.UpIcon
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
-
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.math.max
 import kotlin.math.min
@@ -48,8 +49,8 @@ fun DurationDialogPreference(
     minimum: Duration = 0.days,
     maximum: Duration = Int.MAX_VALUE.days,
     units: List<DurationUnit> = DurationUnit.values().toList(),
-    upIcon: @Composable () -> Unit,
-    downIcon: @Composable () -> Unit,
+    upIcon: @Composable () -> Unit = { UpIcon() },
+    downIcon: @Composable () -> Unit = { DownIcon() },
 ) {
     val state = remember { mutableStateOf<Duration?>(null) }
     DialogPreference(

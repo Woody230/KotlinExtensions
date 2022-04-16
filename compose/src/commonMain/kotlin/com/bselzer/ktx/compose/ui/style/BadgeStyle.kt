@@ -9,11 +9,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 
 /**
  * CompositionLocal containing the preferred BadgeStyle that will be used by Badge components by default.
  */
-val LocalBadgeStyle: StyleProvider<BadgeStyle> = StyleProvider(compositionLocalOf { BadgeStyle.Default })
+val LocalBadgeStyle: StyleProvider<BadgeStyle> = compositionLocalOf { BadgeStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Badge] composable.

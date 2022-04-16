@@ -7,12 +7,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred RowStyle that will be used by Row components by default.
  */
-val LocalRowStyle: StyleProvider<RowStyle> = StyleProvider(compositionLocalOf { RowStyle.Default })
+val LocalRowStyle: StyleProvider<RowStyle> = compositionLocalOf { RowStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Row] composable.

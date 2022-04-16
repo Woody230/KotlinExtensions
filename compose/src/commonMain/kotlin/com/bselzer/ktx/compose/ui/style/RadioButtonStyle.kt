@@ -10,12 +10,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred RadioButtonStyle that will be used by RadioButton components by default.
  */
-val LocalRadioButtonStyle: StyleProvider<RadioButtonStyle> = StyleProvider(compositionLocalOf { RadioButtonStyle.Default })
+val LocalRadioButtonStyle: StyleProvider<RadioButtonStyle> = compositionLocalOf { RadioButtonStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [RadioButton] composable.

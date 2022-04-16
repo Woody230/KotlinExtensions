@@ -7,12 +7,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred ColumnStyle that will be used by Column components by default.
  */
-val LocalColumnStyle: StyleProvider<ColumnStyle> = StyleProvider(compositionLocalOf { ColumnStyle.Default })
+val LocalColumnStyle: StyleProvider<ColumnStyle> = compositionLocalOf { ColumnStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Column] composable.

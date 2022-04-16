@@ -2,17 +2,17 @@ package com.bselzer.ktx.compose.ui.description
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.bselzer.ktx.compose.ui.style.*
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 
 /**
  * CompositionLocal containing the preferred DescriptionStyle that will be used by Description components by default.
  */
-val LocalDescriptionStyle: ProvidableCompositionLocal<DescriptionStyle> = compositionLocalOf { DescriptionStyle.Default }
+val LocalDescriptionStyle: StyleProvider<DescriptionStyle> = compositionLocalOf { DescriptionStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Description] composable.

@@ -15,13 +15,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred WordStyle that will be used by Text components by default.
  */
-val LocalWordStyle: StyleProvider<WordStyle> = StyleProvider(compositionLocalOf { WordStyle.Default })
+val LocalWordStyle: StyleProvider<WordStyle> = compositionLocalOf { WordStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Text] composable.

@@ -8,12 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred DividerStyle that will be used by Divider components by default.
  */
-val LocalDividerStyle: StyleProvider<DividerStyle> = StyleProvider(compositionLocalOf { DividerStyle.Default })
+val LocalDividerStyle: StyleProvider<DividerStyle> = compositionLocalOf { DividerStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Divider] composable.

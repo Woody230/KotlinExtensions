@@ -9,11 +9,12 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 
 /**
  * CompositionLocal containing the preferred IconStyle that will be used by Icon components by default.
  */
-val LocalIconStyle: StyleProvider<IconStyle> = StyleProvider(compositionLocalOf { IconStyle.Default })
+val LocalIconStyle: StyleProvider<IconStyle> = compositionLocalOf { IconStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Icon] composable.

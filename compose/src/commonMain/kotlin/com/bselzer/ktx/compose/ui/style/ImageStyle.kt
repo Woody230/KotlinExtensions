@@ -9,13 +9,14 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred ImageStyle that will be used by Image components by default.
  */
-val LocalImageStyle: StyleProvider<ImageStyle> = StyleProvider(compositionLocalOf { ImageStyle.Default })
+val LocalImageStyle: StyleProvider<ImageStyle> = compositionLocalOf { ImageStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Image] composable.

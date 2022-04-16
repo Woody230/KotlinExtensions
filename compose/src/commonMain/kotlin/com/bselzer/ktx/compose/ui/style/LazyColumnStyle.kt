@@ -12,12 +12,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred LazyColumnStyle that will be used by LazyColumn components by default.
  */
-val LocalLazyColumnStyle: StyleProvider<LazyColumnStyle> = StyleProvider(compositionLocalOf { LazyColumnStyle.Default })
+val LocalLazyColumnStyle: StyleProvider<LazyColumnStyle> = compositionLocalOf { LazyColumnStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [LazyColumn] composable.

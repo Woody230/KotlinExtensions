@@ -1,7 +1,6 @@
 package com.bselzer.ktx.compose.ui.preference
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -14,7 +13,7 @@ import com.bselzer.ktx.function.objects.safeMerge
 /**
  * CompositionLocal containing the preferred DialogPreferenceStyle that will be used by DialogPreference components by default.
  */
-val LocalDialogPreferenceStyle: ProvidableCompositionLocal<DialogPreferenceStyle> = compositionLocalOf { DialogPreferenceStyle.Default }
+val LocalDialogPreferenceStyle: StyleProvider<DialogPreferenceStyle> = StyleProvider(compositionLocalOf { DialogPreferenceStyle.Default })
 
 /**
  * The style arguments associated with an DialogPreference composable.

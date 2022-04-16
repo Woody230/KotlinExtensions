@@ -12,13 +12,14 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred ButtonStyle that will be used by Button components by default.
  */
-val LocalButtonStyle: StyleProvider<ButtonStyle> = StyleProvider(compositionLocalOf { ButtonStyle.Default })
+val LocalButtonStyle: StyleProvider<ButtonStyle> = compositionLocalOf { ButtonStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Button] composable.

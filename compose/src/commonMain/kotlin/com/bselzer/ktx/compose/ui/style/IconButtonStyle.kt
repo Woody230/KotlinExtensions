@@ -10,12 +10,13 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred IconButtonStyle that will be used by IconButton components by default.
  */
-val LocalIconButtonStyle: StyleProvider<IconButtonStyle> = StyleProvider(compositionLocalOf { IconButtonStyle.Default })
+val LocalIconButtonStyle: StyleProvider<IconButtonStyle> = compositionLocalOf { IconButtonStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [IconButton] composable.

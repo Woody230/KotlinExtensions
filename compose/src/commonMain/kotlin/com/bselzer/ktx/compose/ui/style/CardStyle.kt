@@ -18,18 +18,19 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred CardStyle that will be used by Card components by default.
  */
-val LocalCardStyle: StyleProvider<CardStyle> = StyleProvider(compositionLocalOf { CardStyle.Default })
+val LocalCardStyle: StyleProvider<CardStyle> = compositionLocalOf { CardStyle.Default }.provider()
 
 /**
  * CompositionLocal containing the preferred ClickableCardStyle that will be used by clickable Card components by default.
  */
-val LocalClickableCardStyle: StyleProvider<ClickableCardStyle> = StyleProvider(compositionLocalOf { ClickableCardStyle.Default })
+val LocalClickableCardStyle: StyleProvider<ClickableCardStyle> = compositionLocalOf { ClickableCardStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Card] composable.

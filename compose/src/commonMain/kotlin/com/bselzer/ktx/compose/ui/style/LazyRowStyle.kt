@@ -12,12 +12,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred LazyRowStyle that will be used by LazyRow components by default.
  */
-val LocalLazyRowStyle: StyleProvider<LazyRowStyle> = StyleProvider(compositionLocalOf { LazyRowStyle.Default })
+val LocalLazyRowStyle: StyleProvider<LazyRowStyle> = compositionLocalOf { LazyRowStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [LazyRow] composable.

@@ -1,7 +1,6 @@
 package com.bselzer.ktx.compose.ui.preference
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
@@ -12,13 +11,14 @@ import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
 import com.bselzer.ktx.compose.ui.style.ModifierStyle
-
+import com.bselzer.ktx.compose.ui.style.StyleProvider
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred SimplePreferenceStyle that will be used by SimplePreference components by default.
  */
-val LocalSimplePreferenceStyle: ProvidableCompositionLocal<SimplePreferenceStyle> = compositionLocalOf { SimplePreferenceStyle.Default }
+val LocalSimplePreferenceStyle: StyleProvider<SimplePreferenceStyle> = compositionLocalOf { SimplePreferenceStyle.Default }.provider()
 
 /**
  * A wrapper around the [SimplePreference] composable.

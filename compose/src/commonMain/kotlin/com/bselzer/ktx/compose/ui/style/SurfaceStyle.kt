@@ -18,18 +18,19 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
 /**
  * CompositionLocal containing the preferred SurfaceStyle that will be used by Surface components by default.
  */
-val LocalSurfaceStyle: StyleProvider<SurfaceStyle> = StyleProvider(compositionLocalOf { SurfaceStyle.Default })
+val LocalSurfaceStyle: StyleProvider<SurfaceStyle> = compositionLocalOf { SurfaceStyle.Default }.provider()
 
 /**
  * CompositionLocal containing the preferred ClickableSurfaceStyle that will be used by clickable Surface components by default.
  */
-val LocalClickableSurfaceStyle: StyleProvider<ClickableSurfaceStyle> = StyleProvider(compositionLocalOf { ClickableSurfaceStyle.Default })
+val LocalClickableSurfaceStyle: StyleProvider<ClickableSurfaceStyle> = compositionLocalOf { ClickableSurfaceStyle.Default }.provider()
 
 /**
  * A wrapper around the standard [Surface] composable.
