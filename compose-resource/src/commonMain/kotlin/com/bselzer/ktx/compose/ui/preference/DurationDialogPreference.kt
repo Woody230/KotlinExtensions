@@ -83,6 +83,8 @@ fun DurationDialogPreference(
                 amount.value = bounded(it)
             }
             Spacer(width = style.dialogSpacing)
+
+            // TODO resource for component
             ValuePicker(value = unit.value, values = units, labels = units.map { component -> component.userFriendly() }, upIcon = upIcon, downIcon = downIcon) {
                 unit.value = it
             }

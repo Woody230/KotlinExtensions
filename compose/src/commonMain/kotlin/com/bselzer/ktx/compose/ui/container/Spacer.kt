@@ -9,10 +9,10 @@ import androidx.compose.ui.unit.Dp
  * Lays out space between items in a row.
  */
 @Composable
-fun RowScope.Spacer(width: Dp) = Spacer(modifier = Modifier.width(width = width))
+fun RowScope.Spacer(width: Dp) = Spacer(modifier = Modifier.width(width = width)) // TODO context receiver
 
 /**
  * Lays out space between items in a column.
  */
 @Composable
-fun ColumnScope.Spacer(height: Dp) = Spacer(modifier = Modifier.height(height = height))
+fun ColumnScope.Spacer(height: Dp) = Spacer(modifier = Modifier.height(height = height)) // TODO context receiver
