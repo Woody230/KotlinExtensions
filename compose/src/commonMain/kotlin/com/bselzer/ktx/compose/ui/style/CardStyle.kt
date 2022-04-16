@@ -138,7 +138,7 @@ data class CardStyle(
             shape = MaterialTheme.shapes.medium,
             backgroundColor = backgroundColor,
             contentColor = contentColorFor(backgroundColor = backgroundColor),
-        ).merge(this)
+        ).with(this)
     }
 
     override fun modify(modifier: Modifier): CardStyle = copy(modifier = modifier)

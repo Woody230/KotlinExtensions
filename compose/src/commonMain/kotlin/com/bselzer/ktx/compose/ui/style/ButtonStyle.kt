@@ -116,7 +116,7 @@ data class ButtonStyle(
             border = ButtonDefaults.outlinedBorder,
             colors = ButtonDefaults.outlinedButtonColors(),
         )
-    }.merge(this)
+    }.with(this)
 
     override fun modify(modifier: Modifier): ButtonStyle = copy(modifier = modifier)
 }

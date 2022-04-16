@@ -148,7 +148,7 @@ data class WordStyle(
     )
 
     @Composable
-    override fun localized(): WordStyle = WordStyle(textStyle = LocalTextStyle.current).merge(this)
+    override fun localized(): WordStyle = WordStyle(textStyle = LocalTextStyle.current).with(this)
 
     override fun modify(modifier: Modifier): WordStyle = copy(modifier = modifier)
 }

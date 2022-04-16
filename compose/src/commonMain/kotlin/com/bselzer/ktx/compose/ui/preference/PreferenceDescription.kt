@@ -43,7 +43,7 @@ fun ConstraintLayoutScope.PreferenceDescription(
             end.linkTo(anchor = endRef?.start ?: parent.end, margin = spacing)
             width = Dimension.fillToConstraints
         })
-    ).merge(style)
+    ).with(style)
 )
 
 

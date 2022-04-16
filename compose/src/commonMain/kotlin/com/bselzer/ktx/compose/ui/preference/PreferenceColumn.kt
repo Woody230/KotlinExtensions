@@ -28,7 +28,7 @@ fun PreferenceColumn(
 ) = DividedColumn(
     style = style,
     divider = {
-        val merged = DividerStyle(thickness = PreferenceThickness).merge(dividerStyle)
+        val merged = DividerStyle(thickness = PreferenceThickness).with(dividerStyle)
 
         // Divide the components by the spacing split across the divider thickness and then evenly across the remaining space.
         val segment = (spacing - merged.thickness) / 2

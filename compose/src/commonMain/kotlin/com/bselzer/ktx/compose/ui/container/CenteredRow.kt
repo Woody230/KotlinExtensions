@@ -43,19 +43,16 @@ fun CenteredRow(
     val (left, spacer, right) = createRefs()
     Text(
         text = startValue,
-        style = startStyle.merge(
-            // These properties take priority so merge them as the other.
-            WordStyle(
-                textAlign = TextAlign.Right,
-                modifier = Modifier.constrainAs(left) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(spacer.start)
-                    width = Dimension.fillToConstraints
-                }
-            )
-        ),
+        style = startStyle with WordStyle(
+            textAlign = TextAlign.Right,
+            modifier = Modifier.constrainAs(left) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(spacer.start)
+                width = Dimension.fillToConstraints
+            }
+        )
     )
     Spacer(
         modifier = Modifier
@@ -69,18 +66,15 @@ fun CenteredRow(
     )
     Text(
         text = endValue,
-        style = endStyle.merge(
-            // These properties take priority so merge them as the other.
-            WordStyle(
-                textAlign = TextAlign.Left,
-                modifier = Modifier.constrainAs(right) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(spacer.end)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                }
-            )
+        style = endStyle with WordStyle(
+            textAlign = TextAlign.Left,
+            modifier = Modifier.constrainAs(right) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(spacer.end)
+                end.linkTo(parent.end)
+                width = Dimension.fillToConstraints
+            }
         )
     )
 }

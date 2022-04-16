@@ -66,7 +66,7 @@ data class DividerStyle(
     @Composable
     override fun localized() = DividerStyle(
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier) = copy(modifier = modifier)
 }

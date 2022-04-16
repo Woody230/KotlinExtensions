@@ -57,9 +57,9 @@ data class DescriptionStyle(
     }
 
     override fun safeMerge(other: DescriptionStyle): DescriptionStyle = DescriptionStyle(
-        style = style.merge(other.style),
-        titleStyle = titleStyle.merge(other.titleStyle),
-        subtitleStyle = subtitleStyle.merge(other.subtitleStyle)
+        style = style.with(other.style),
+        titleStyle = titleStyle.with(other.titleStyle),
+        subtitleStyle = subtitleStyle.with(other.subtitleStyle)
     )
 
     @Composable
@@ -69,10 +69,10 @@ data class DescriptionStyle(
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Visible,
             textStyle = MaterialTheme.typography.subtitle1
-        ).merge(LocalWordStyle.current),
+        ).with(LocalWordStyle.current),
         subtitleStyle = WordStyle(
             overflow = TextOverflow.Ellipsis,
             textStyle = MaterialTheme.typography.subtitle2
-        ).merge(LocalWordStyle.current)
-    ).merge(this)
+        ).with(LocalWordStyle.current)
+    ).with(this)
 }

@@ -91,7 +91,7 @@ data class LazyRowStyle(
     @Composable
     override fun localized(): LazyRowStyle = LazyRowStyle(
         flingBehavior = ScrollableDefaults.flingBehavior()
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier): LazyRowStyle = copy(modifier = modifier)
 }

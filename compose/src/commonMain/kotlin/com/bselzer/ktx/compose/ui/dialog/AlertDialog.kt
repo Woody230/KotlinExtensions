@@ -181,5 +181,5 @@ fun MaterialDialogButton(
     style = style,
     onClick = onClick
 ) {
-    Text(text = text, style = WordStyle(textStyle = MaterialTheme.typography.button).merge(textStyle))
+    Text(text = text, style = WordStyle(textStyle = MaterialTheme.typography.button).with(textStyle))
 }

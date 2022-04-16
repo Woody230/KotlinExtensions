@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayoutScope
 import com.bselzer.ktx.compose.ui.style.Image
@@ -32,13 +31,13 @@ fun ConstraintLayoutScope.PreferenceImage(
     style = ImageStyle(
         contentScale = ContentScale.FillBounds,
         modifier = Modifier
-            .size(48.dp, 48.dp)
+            .size(PreferenceImageSize, PreferenceImageSize)
             .constrainAs(ref = ref) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
             },
-    ).merge(style)
+    ).with(style)
 )
 
 /**

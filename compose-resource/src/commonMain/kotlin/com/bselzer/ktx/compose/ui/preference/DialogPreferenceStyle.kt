@@ -59,11 +59,11 @@ data class DialogPreferenceStyle(
 
     override fun safeMerge(other: DialogPreferenceStyle): DialogPreferenceStyle = DialogPreferenceStyle(
         modifier = modifier.then(other.modifier),
-        preferenceStyle = preferenceStyle.merge(other.preferenceStyle),
-        buttonStyle = buttonStyle.merge(other.buttonStyle),
-        buttonTextStyle = buttonTextStyle.merge(other.buttonTextStyle),
-        dialogStyle = dialogStyle.merge(other.dialogStyle),
-        dialogTextStyle = dialogTextStyle.merge(other.dialogTextStyle),
+        preferenceStyle = preferenceStyle.with(other.preferenceStyle),
+        buttonStyle = buttonStyle.with(other.buttonStyle),
+        buttonTextStyle = buttonTextStyle.with(other.buttonTextStyle),
+        dialogStyle = dialogStyle.with(other.dialogStyle),
+        dialogTextStyle = dialogTextStyle.with(other.dialogTextStyle),
         dialogSpacing = dialogSpacing.safeMerge(other.dialogSpacing, PreferenceSpacing)
     )
 
@@ -74,7 +74,7 @@ data class DialogPreferenceStyle(
         buttonTextStyle = LocalWordStyle.current,
         dialogStyle = LocalAlertDialogStyle.current,
         dialogTextStyle = LocalWordStyle.current
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier): DialogPreferenceStyle = copy(modifier = modifier)
 }

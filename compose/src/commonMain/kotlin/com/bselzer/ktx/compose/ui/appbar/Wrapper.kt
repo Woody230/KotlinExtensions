@@ -28,7 +28,7 @@ fun MaterialAppBarColumn(
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable ColumnScope.() -> Unit,
 ) = Column(
-    style = ColumnStyle(modifier = Modifier.fillMaxSize()).merge(style)
+    style = style prioritize Modifier.fillMaxSize()
 ) {
     MaterialAppBar(title = title, titleStyle = titleStyle, navigationIcon = navigationIcon, actions = actions)
     content()

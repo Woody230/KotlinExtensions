@@ -54,7 +54,7 @@ fun DrawerSection(
     style: ColumnStyle = LocalColumnStyle.current,
     content: @Composable ColumnScope.() -> Unit,
 ) = Column(
-    style = ColumnStyle(modifier = Modifier.fillMaxWidth()).merge(style),
+    style = style prioritize Modifier.fillMaxWidth(),
     content = content
 )
 
@@ -86,7 +86,7 @@ fun DrawerSection(
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
-            ).merge(headerStyle)
+            ).with(headerStyle)
         )
 
         Spacer(height = 4.dp)
@@ -111,10 +111,13 @@ fun DrawerComponentRow(
     content: @Composable RowScope.() -> Unit,
 ) = Row(
     style = RowStyle(
-        modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 48.dp).clickable { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 48.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
-    ).merge(style),
+    ).with(style),
     content = content
 )
 
@@ -152,7 +155,7 @@ fun DrawerComponent(
             fontWeight = FontWeight.Bold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
-        ).merge(textStyle)
+        ).with(textStyle)
     )
 
     Spacer(width = 8.dp)

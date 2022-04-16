@@ -17,5 +17,5 @@ fun BoxScope.BackgroundImage(painter: Painter, style: ImageStyle = backgroundSty
     painter = painter,
 
     // Need to use matchParentSize() so that the image does not participate in sizing and can just fill the resulting size.
-    style = ImageStyle(modifier = Modifier.matchParentSize()).merge(style)
+    style = style prioritize Modifier.matchParentSize()
 )

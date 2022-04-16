@@ -18,7 +18,7 @@ fun appBarTitleStyle(): WordStyle = WordStyle(
     textStyle = MaterialTheme.typography.h6,
     fontWeight = FontWeight.Bold,
     maxLines = 1
-).merge(LocalWordStyle.current)
+).with(LocalWordStyle.current)
 
 /**
  * Lays out an app bar.

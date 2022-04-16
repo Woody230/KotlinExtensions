@@ -82,15 +82,15 @@ data class SimplePreferenceStyle(
     override fun safeMerge(other: SimplePreferenceStyle): SimplePreferenceStyle = SimplePreferenceStyle(
         modifier = modifier.then(other.modifier),
         spacing = spacing.safeMerge(other.spacing, PreferenceSpacing),
-        imageStyle = imageStyle.merge(other.imageStyle),
-        descriptionStyle = descriptionStyle.merge(other.descriptionStyle)
+        imageStyle = imageStyle.with(other.imageStyle),
+        descriptionStyle = descriptionStyle.with(other.descriptionStyle)
     )
 
     @Composable
     override fun localized() = SimplePreferenceStyle(
         imageStyle = LocalImageStyle.current,
         descriptionStyle = LocalDescriptionStyle.current
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier): SimplePreferenceStyle = copy(modifier = modifier)
 }

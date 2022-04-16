@@ -12,7 +12,7 @@ interface Styleable<T : Styleable<T>> {
      *
      * If the given style is null, returns this text style.
      */
-    fun merge(other: T?): T
+    infix fun with(other: T?): T
 
     /**
      * Creates a localized version of this style using the [CompositionLocalProvider].
@@ -28,5 +28,5 @@ abstract class Style<T> : Styleable<T> where T : Style<T> {
     @Composable
     override fun localized(): T = this as T
 
-    override fun merge(other: T?): T = if (other == null || other === this) this as T else safeMerge(other)
+    override fun with(other: T?): T = if (other == null || other === this) this as T else safeMerge(other)
 }

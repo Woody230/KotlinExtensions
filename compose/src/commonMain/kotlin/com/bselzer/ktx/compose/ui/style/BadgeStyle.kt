@@ -81,7 +81,7 @@ data class BadgeStyle(
         BadgeStyle(
             backgroundColor = backgroundColor,
             contentColor = contentColorFor(backgroundColor = backgroundColor)
-        ).merge(this)
+        ).with(this)
     }
 
     override fun modify(modifier: Modifier): BadgeStyle = copy(modifier = modifier)

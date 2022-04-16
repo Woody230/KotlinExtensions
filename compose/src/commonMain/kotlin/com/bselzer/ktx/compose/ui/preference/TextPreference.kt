@@ -45,7 +45,7 @@ fun TextPreference(
     val margin = style.spacing
     DescriptionTitle(
         title = title,
-        style = descriptionStyle.titleStyle precededBy Modifier.constrainAs(descriptionTitle) {
+        style = descriptionStyle.titleStyle prioritize Modifier.constrainAs(descriptionTitle) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             start.linkTo(icon.end, margin = margin)
@@ -54,7 +54,7 @@ fun TextPreference(
 
     DescriptionSubtitle(
         subtitle = subtitle,
-        style = descriptionStyle.subtitleStyle precededBy Modifier.constrainAs(descriptionSubtitle) {
+        style = descriptionStyle.subtitleStyle prioritize Modifier.constrainAs(descriptionSubtitle) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             start.linkTo(descriptionTitle.end, margin = margin)

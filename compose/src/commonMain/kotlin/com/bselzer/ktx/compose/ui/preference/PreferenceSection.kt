@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
+import com.bselzer.ktx.compose.runtime.composable
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.container.DividedRow
 import com.bselzer.ktx.compose.ui.container.Spacer
@@ -37,24 +38,20 @@ fun PreferenceSectionTitle(
     style = RowStyle(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
-    ).merge(style),
+    ).with(style),
     divider = { Spacer(width = spacing) },
     contents = arrayOf(
-        {
-            PreferenceImage(
-                painter = painter,
-                contentDescription = title,
-                style = imageStyle
-            )
-        },
-        {
-            DescriptionTitle(
-                title = title,
-                style = WordStyle(
-                    color = MaterialTheme.colors.primary
-                ).merge(titleStyle)
-            )
-        }
+        PreferenceImage(
+            painter = painter,
+            contentDescription = title,
+            style = imageStyle
+        ).composable(),
+        DescriptionTitle(
+            title = title,
+            style = WordStyle(
+                color = MaterialTheme.colors.primary
+            ).with(titleStyle)
+        ).composable()
     )
 )
 
@@ -83,18 +80,14 @@ fun PreferenceSection(
     style = style,
     divider = { Spacer(height = spacing) },
     contents = arrayOf(
-        {
-            PreferenceSectionTitle(
-                spacing = titleSpacing,
-                title = title,
-                painter = painter,
-                imageStyle = imageStyle,
-                titleStyle = titleStyle
-            )
-        },
-        {
-            content()
-        }
+        PreferenceSectionTitle(
+            spacing = titleSpacing,
+            title = title,
+            painter = painter,
+            imageStyle = imageStyle,
+            titleStyle = titleStyle
+        ).composable(),
+        content
     )
 )
 
@@ -115,7 +108,7 @@ fun PreferenceSectionTitle(
     style = WordStyle(
         modifier = Modifier.padding(start = spacing),
         color = MaterialTheme.colors.primary
-    ).merge(style)
+    ).with(style)
 )
 
 /**
@@ -139,15 +132,11 @@ fun PreferenceSection(
     style = style,
     divider = { Spacer(height = spacing) },
     contents = arrayOf(
-        {
-            PreferenceSectionTitle(
-                spacing = titleSpacing,
-                title = title,
-                style = titleStyle,
-            )
-        },
-        {
-            content()
-        }
+        PreferenceSectionTitle(
+            spacing = titleSpacing,
+            title = title,
+            style = titleStyle,
+        ).composable(),
+        content,
     )
 )

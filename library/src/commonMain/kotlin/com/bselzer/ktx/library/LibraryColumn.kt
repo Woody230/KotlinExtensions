@@ -78,7 +78,7 @@ fun LicenseDialog(
 ) {
     val license = library.licenses.firstOrNull()
     MaterialAlertDialog(
-        style = AlertDialogStyle(modifier = Modifier.fillMaxSize()).merge(dialogStyle),
+        style = dialogStyle prioritize Modifier.fillMaxSize(),
         onDismissRequest = { showDialog(false) },
         title = { MaterialAppBarTitle(title = license?.name ?: stringResource(Resources.strings.no_license), style = titleStyle) },
         positiveButton = {
@@ -93,7 +93,7 @@ fun LicenseDialog(
             style = WordStyle(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
                 textStyle = MaterialTheme.typography.body1
-            ).merge(contentStyle)
+            ).with(contentStyle)
         )
     }
 }
@@ -119,7 +119,7 @@ fun LicenseCard(
     onClick: () -> Unit,
     library: Library
 ) = Card(
-    style = ClickableCardStyle(modifier = Modifier.fillMaxWidth()).merge(cardStyle),
+    style = ClickableCardStyle(modifier = Modifier.fillMaxWidth()).with(cardStyle),
     onClick = onClick,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -129,7 +129,7 @@ fun LicenseCard(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textStyle = MaterialTheme.typography.h6
-            ).merge(titleStyle)
+            ).with(titleStyle)
         )
 
         if (library.author.isNotBlank()) {
@@ -138,7 +138,7 @@ fun LicenseCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     textStyle = MaterialTheme.typography.subtitle1,
-                ).merge(subtitleStyle)
+                ).with(subtitleStyle)
             )
         }
 
@@ -164,9 +164,9 @@ fun LicenseCard(
                         style = BadgeStyle(
                             modifier = Modifier.padding(end = 4.dp),
                             backgroundColor = MaterialTheme.colors.primary
-                        ).merge(badgeStyle),
+                        ).with(badgeStyle),
                         text = license.name,
-                        textStyle = WordStyle(textStyle = MaterialTheme.typography.subtitle2).merge(badgeTextStyle)
+                        textStyle = WordStyle(textStyle = MaterialTheme.typography.subtitle2).with(badgeTextStyle)
                     )
                 }
             }

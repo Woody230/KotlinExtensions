@@ -91,7 +91,7 @@ data class LazyColumnStyle(
     @Composable
     override fun localized() = LazyColumnStyle(
         flingBehavior = ScrollableDefaults.flingBehavior()
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier): LazyColumnStyle = copy(modifier = modifier)
 }

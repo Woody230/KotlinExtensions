@@ -19,7 +19,7 @@ fun backgroundStyle(): ImageStyle = ImageStyle(
     modifier = Modifier.fillMaxSize(),
     alignment = Alignment.Center,
     contentScale = ContentScale.Crop
-).merge(LocalImageStyle.current)
+).with(LocalImageStyle.current)
 
 /**
  * Lays out a background image.

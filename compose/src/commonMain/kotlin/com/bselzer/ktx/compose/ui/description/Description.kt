@@ -38,7 +38,7 @@ fun DescriptionTitle(
     style: WordStyle = LocalWordStyle.current
 ) = Text(
     text = title,
-    style = LocalDescriptionStyle.current.titleStyle.merge(style)
+    style = LocalDescriptionStyle.current.titleStyle.with(style)
 )
 
 /**
@@ -53,5 +53,5 @@ fun DescriptionSubtitle(
     style: WordStyle = LocalWordStyle.current
 ) = Text(
     text = subtitle,
-    style = LocalDescriptionStyle.current.subtitleStyle.merge(style)
+    style = LocalDescriptionStyle.current.subtitleStyle.with(style)
 )

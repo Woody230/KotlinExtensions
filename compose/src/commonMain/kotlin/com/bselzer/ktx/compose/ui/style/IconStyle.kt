@@ -58,7 +58,7 @@ data class IconStyle(
     @Composable
     override fun localized(): IconStyle = IconStyle(
         tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier): IconStyle = copy(modifier = modifier)
 }

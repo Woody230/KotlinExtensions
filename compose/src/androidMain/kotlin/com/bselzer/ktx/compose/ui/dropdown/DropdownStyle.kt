@@ -28,11 +28,11 @@ actual data class DropdownStyle(
     override fun safeMerge(other: DropdownStyle): DropdownStyle = DropdownStyle(
         modifier = modifier.then(other.modifier),
         offset = offset.merge(other.offset),
-        properties = properties.merge(other.properties)
+        properties = properties.with(other.properties)
     )
 
     @Composable
-    override fun localized() = DropdownStyle(properties = LocalPopupStyle.current).merge(this)
+    override fun localized() = DropdownStyle(properties = LocalPopupStyle.current).with(this)
 
     override fun modify(modifier: Modifier): DropdownStyle = copy(modifier = modifier)
 }

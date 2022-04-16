@@ -70,7 +70,7 @@ data class RadioButtonStyle(
     @Composable
     override fun localized(): RadioButtonStyle = RadioButtonStyle(
         colors = RadioButtonDefaults.colors()
-    ).merge(this)
+    ).with(this)
 
     override fun modify(modifier: Modifier): RadioButtonStyle = copy(modifier = modifier)
 }

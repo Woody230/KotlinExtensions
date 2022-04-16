@@ -41,14 +41,14 @@ fun <T> SingleChoiceDialog(
     onDismissRequest = onDismissRequest,
     content = choices,
     title = {
-        val textStyle = WordStyle(textStyle = MaterialTheme.typography.h6).merge(titleStyle)
+        val textStyle = WordStyle(textStyle = MaterialTheme.typography.h6).with(titleStyle)
         Column(modifier = Modifier.fillMaxWidth()) {
             MaterialAppBarTitle(title = title, style = textStyle)
             Divider(thickness = 1.dp)
         }
     },
     buttons = {
-        val textStyle = WordStyle(textStyle = MaterialTheme.typography.button).merge(buttonTextStyle)
+        val textStyle = WordStyle(textStyle = MaterialTheme.typography.button).with(buttonTextStyle)
         Column(modifier = Modifier.fillMaxWidth()) {
             Divider(thickness = 1.dp)
             MaterialAlertDialogButtons(
@@ -110,7 +110,7 @@ fun <T> SingleChoiceDialog(
     selected = selected,
     onStateChanged = onStateChanged,
 ) {
-    LazyColumn(style = LazyColumnStyle(modifier = Modifier.fillMaxWidth()).merge(columnStyle)) {
+    LazyColumn(style = LazyColumnStyle(modifier = Modifier.fillMaxWidth()).with(columnStyle)) {
         itemsIndexed(values) { index, value ->
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -121,7 +121,7 @@ fun <T> SingleChoiceDialog(
                     style = radioButtonStyle,
                 )
                 Spacer(modifier = Modifier.width(24.dp))
-                Text(text = labels.getOrNull(index) ?: "", style = WordStyle(textStyle = MaterialTheme.typography.body1).merge(labelStyle))
+                Text(text = labels.getOrNull(index) ?: "", style = WordStyle(textStyle = MaterialTheme.typography.body1).with(labelStyle))
             }
         }
     }

@@ -214,7 +214,7 @@ data class ClickableSurfaceStyle(
             color = backgroundColor,
             contentColor = contentColorFor(backgroundColor = backgroundColor),
             indication = LocalIndication.current
-        ).merge(this)
+        ).with(this)
     }
 
     override fun modify(modifier: Modifier): ClickableSurfaceStyle = copy(modifier = modifier)

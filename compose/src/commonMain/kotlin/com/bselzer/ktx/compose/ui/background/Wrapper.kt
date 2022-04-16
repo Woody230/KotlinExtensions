@@ -41,7 +41,7 @@ fun BackgroundRow(
     content: @Composable RowScope.() -> Unit
 ) = Background(style = backgroundStyle, background = background) {
     Row(
-        style = RowStyle(modifier = Modifier.wrapContentSize()).merge(style),
+        style = style prioritize Modifier.wrapContentSize(),
         content = content
     )
 }
@@ -62,7 +62,7 @@ fun BackgroundColumn(
     content: @Composable ColumnScope.() -> Unit
 ) = Background(style = backgroundStyle, background = background) {
     Column(
-        style = ColumnStyle(modifier = Modifier.wrapContentSize()).merge(style),
+        style = style prioritize Modifier.wrapContentSize(),
         content = content
     )
 }

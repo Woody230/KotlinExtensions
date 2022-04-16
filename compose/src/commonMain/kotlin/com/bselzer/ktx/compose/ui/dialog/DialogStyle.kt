@@ -60,7 +60,7 @@ data class AlertDialogStyle(
         shape = shape.merge(other.shape),
         backgroundColor = backgroundColor.merge(other.backgroundColor),
         contentColor = contentColor.merge(other.contentColor),
-        properties = properties.merge(other.properties)
+        properties = properties.with(other.properties)
     )
 
     @Composable
