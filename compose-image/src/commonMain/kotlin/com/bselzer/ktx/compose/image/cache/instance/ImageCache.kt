@@ -6,6 +6,7 @@ import com.bselzer.ktx.kodein.db.operation.clear
 import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.transaction.TransactionManager
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.kodein.db.Value
 
@@ -26,7 +27,7 @@ class ImageCache(transactionManager: TransactionManager, private val client: Htt
             id = Value.of(url),
             requestSingle = {
                 val content: ByteArray = try {
-                    client.get(url)
+                    client.get(url).body()
                 } catch (ex: Exception) {
                     ByteArray(0)
                 }
