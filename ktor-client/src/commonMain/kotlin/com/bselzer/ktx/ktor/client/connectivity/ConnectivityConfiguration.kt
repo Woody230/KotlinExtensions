@@ -7,7 +7,7 @@ data class ConnectivityConfiguration(
     /**
      * The url to connect to.
      */
-    val testUrl: Url = Url("http://clients3.google.com/generate_204"),
+    val url: Url = Url("http://clients3.google.com/generate_204"),
 
     /**
      * Whether to validate the status code of the connection.

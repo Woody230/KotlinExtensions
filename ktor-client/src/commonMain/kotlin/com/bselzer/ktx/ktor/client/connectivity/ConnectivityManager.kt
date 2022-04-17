@@ -18,7 +18,7 @@ abstract class ConnectivityManager(
      * Whether connectivity is able to be actively established.
      */
     open suspend fun isActive(): Boolean = try {
-        val response = httpClient.head(configuration.testUrl) {
+        val response = httpClient.head(configuration.url) {
             setCapability(HttpTimeout, configuration.timeout)
         }
 

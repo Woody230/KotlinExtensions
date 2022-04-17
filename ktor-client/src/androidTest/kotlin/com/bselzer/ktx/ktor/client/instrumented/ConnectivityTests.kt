@@ -60,7 +60,7 @@ class ConnectivityTests {
     @Config(sdk = [Build.VERSION_CODES.M])
     fun isActive_WithBadUrl_Fails() {
         // Arrange
-        val connectivity = Connectivity(configuration = ConnectivityConfiguration(testUrl = Url("Foo"))).apply {
+        val connectivity = Connectivity(configuration = ConnectivityConfiguration(url = Url("Foo"))).apply {
             this.context = this@ConnectivityTests.context
         }
 
