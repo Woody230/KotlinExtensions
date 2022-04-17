@@ -23,7 +23,7 @@ private const val DATASTORE = "1.0.0"
 private const val ANDROIDX_PREFERENCE = "1.1.1"
 private const val KODEIN_DB = "0.9.0-beta"
 private const val SETTINGS = "0.8.1"
-private const val COROUTINE = "1.6.0"
+private const val COROUTINE = "1.6.1"
 private const val LOGGING = "2.4.0"
 private const val LICENSING = "10.0.0"
 private const val KTOR = "2.0.0"
@@ -46,12 +46,16 @@ fun KotlinDependencyHandler.multiplatformSettings() {
     api("com.russhwolf:multiplatform-settings:$SETTINGS")
     api("com.russhwolf:multiplatform-settings-coroutines:$SETTINGS")
 }
+
 fun KotlinDependencyHandler.resources() = api("dev.icerock.moko:resources:$RESOURCE")
 fun KotlinDependencyHandler.resourcesCompose() = api("dev.icerock.moko:resources-compose:$RESOURCE")
 
 fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
 fun KotlinDependencyHandler.licensing() = api("com.mikepenz:aboutlibraries-core:${LICENSING}")
+
 fun KotlinDependencyHandler.ktorClient() = api("io.ktor:ktor-client-core:$KTOR")
+fun KotlinDependencyHandler.ktorOkHttpEngine() = implementation("io.ktor:ktor-client-okhttp:$KTOR")
+fun KotlinDependencyHandler.ktorMockEngine() = implementation("io.ktor:ktor-client-mock:$KTOR")
 
 fun KotlinDependencyHandler.runtime() = api("org.jetbrains.compose.runtime:runtime:$COMPOSE")
 fun KotlinDependencyHandler.ui() = api("org.jetbrains.compose.ui:ui:$COMPOSE")
