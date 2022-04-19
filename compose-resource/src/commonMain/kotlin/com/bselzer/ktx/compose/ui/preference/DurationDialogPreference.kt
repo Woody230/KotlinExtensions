@@ -13,7 +13,8 @@ import com.bselzer.ktx.compose.ui.icon.DownIcon
 import com.bselzer.ktx.compose.ui.icon.UpIcon
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
-import com.bselzer.ktx.function.objects.userFriendly
+import com.bselzer.ktx.resource.resource
+import dev.icerock.moko.resources.compose.stringResource
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration
@@ -83,9 +84,7 @@ fun DurationDialogPreference(
                 amount.value = bounded(it)
             }
             Spacer(width = style.dialogSpacing)
-
-            // TODO resource for component
-            ValuePicker(value = unit.value, values = units, labels = units.map { component -> component.userFriendly() }, upIcon = upIcon, downIcon = downIcon) {
+            ValuePicker(value = unit.value, values = units, labels = units.map { component -> stringResource(component.resource()) }, upIcon = upIcon, downIcon = downIcon) {
                 unit.value = it
             }
         }

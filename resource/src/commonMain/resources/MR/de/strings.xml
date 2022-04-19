@@ -32,4 +32,13 @@
     <!-- Library Module -->
     <string name="no_license">Keine Lizenz</string>
     <string name="no_license_found">Keine Lizenz gefunden.</string>
+
+    <!-- DurationUnit -->
+    <string name="nanoseconds">Nanosekunden</string>
+    <string name="microseconds">Mikrosekunden</string>
+    <string name="milliseconds">Millisekunden</string>
+    <string name="seconds">Sekunden</string>
+    <string name="minutes">Minuten</string>
+    <string name="hours">Stunden</string>
+    <string name="days">Tage</string>
 </resources>

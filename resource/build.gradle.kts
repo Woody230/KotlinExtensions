@@ -17,6 +17,7 @@ android.setup()
 kotlin.setup {
     commonMain {
         resources()
+        ktxDateTime()
     }
     commonTest()
 }
