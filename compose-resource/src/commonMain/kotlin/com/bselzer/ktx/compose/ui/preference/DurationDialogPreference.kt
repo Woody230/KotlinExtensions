@@ -13,7 +13,7 @@ import com.bselzer.ktx.compose.ui.icon.DownIcon
 import com.bselzer.ktx.compose.ui.icon.UpIcon
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
-import com.bselzer.ktx.resource.resource
+import com.bselzer.ktx.resource.strings.resource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlin.math.max
 import kotlin.math.min

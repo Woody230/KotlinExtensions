@@ -1,5 +1,6 @@
-package com.bselzer.ktx.resource
+package com.bselzer.ktx.resource.strings
 
+import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.StringResource
 import kotlin.time.DurationUnit
 import kotlin.time.DurationUnit.*
