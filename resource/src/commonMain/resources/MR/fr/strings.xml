@@ -16,6 +16,7 @@
     <string name="zoom_out">Zoom Arrière</string>
     <string name="menu">Menu</string>
     <string name="not_set">Pas encore défini</string>
+    <string name="unknown">Inconnu</string>
     <string name="theme">Thème</string>
     <string name="token">Jeton</string>
     <string name="refresh_interval">Intervalle de Mise à Jour</string>

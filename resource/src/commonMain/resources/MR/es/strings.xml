@@ -16,6 +16,7 @@
     <string name="zoom_out">Alejar</string>
     <string name="menu">Menú</string>
     <string name="not_set">No establecido</string>
+    <string name="unknown">Desconocido</string>
     <string name="theme">Tema</string>
     <string name="token">La clave API</string>
     <string name="refresh_interval">Intervalo de Actualización</string>

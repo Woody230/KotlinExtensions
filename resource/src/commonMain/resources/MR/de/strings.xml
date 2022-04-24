@@ -16,6 +16,7 @@
     <string name="zoom_out">Rauszoomen</string>
     <string name="menu">Menü</string>
     <string name="not_set">Nicht eingestellt</string>
+    <string name="unknown">Unbekannt</string>
     <string name="theme">Design</string>
     <string name="token">Authentifizierungstoken</string>
     <string name="refresh_interval">Aktualisierungsintervall</string>
