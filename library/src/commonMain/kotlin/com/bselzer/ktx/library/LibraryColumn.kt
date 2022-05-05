@@ -2,7 +2,6 @@ package com.bselzer.ktx.library
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -11,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarTitle
-import com.bselzer.ktx.compose.ui.dialog.AlertDialogStyle
-import com.bselzer.ktx.compose.ui.dialog.ConfirmationButton
-import com.bselzer.ktx.compose.ui.dialog.LocalAlertDialogStyle
-import com.bselzer.ktx.compose.ui.dialog.MaterialAlertDialog
+import com.bselzer.ktx.compose.ui.layout.dialog.AlertDialogStyle
+import com.bselzer.ktx.compose.ui.layout.dialog.ConfirmationButton
+import com.bselzer.ktx.compose.ui.layout.dialog.LocalAlertDialogStyle
+import com.bselzer.ktx.compose.ui.layout.dialog.MaterialAlertDialog
 import com.bselzer.ktx.compose.ui.style.*
 import com.bselzer.ktx.resource.Resources
 import com.mikepenz.aboutlibraries.entity.Library

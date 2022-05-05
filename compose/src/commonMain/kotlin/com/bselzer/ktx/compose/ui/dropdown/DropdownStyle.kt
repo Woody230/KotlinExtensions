@@ -4,7 +4,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.style.ModifierStyle
-import com.bselzer.ktx.compose.ui.style.StyleProvider
 import com.bselzer.ktx.compose.ui.style.StyleProvider.Companion.provider
 
 /**

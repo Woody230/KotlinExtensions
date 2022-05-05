@@ -2,9 +2,9 @@ package com.bselzer.ktx.compose.ui.dropdown
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
-import com.bselzer.ktx.compose.ui.style.DefaultDpOffset
+import com.bselzer.ktx.compose.ui.layout.merge.DefaultDpOffset
+import com.bselzer.ktx.compose.ui.layout.merge.merge
 import com.bselzer.ktx.compose.ui.style.ModifierStyle
-import com.bselzer.ktx.compose.ui.style.merge
 import com.bselzer.ktx.function.objects.safeMerge
 
 actual data class DropdownStyle(
