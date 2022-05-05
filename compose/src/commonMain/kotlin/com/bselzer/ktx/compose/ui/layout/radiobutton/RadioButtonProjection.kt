@@ -23,6 +23,6 @@ class RadioButtonProjection(
         modifier = modifier,
         enabled = logic.enabled,
         interactionSource = interactionSource,
-        colors = ComposeMerger.radioButtonColors.resolve(presentation.colors, RadioButtonDefaults.colors())
+        colors = ComposeMerger.radioButtonColors.safeTake(presentation.colors, RadioButtonDefaults.colors())
     )
 }

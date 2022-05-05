@@ -17,6 +17,6 @@ class IconProjection(
         imageVector = logic.imageVector,
         contentDescription = logic.contentDescription,
         modifier = modifier,
-        tint = ComposeMerger.color.resolve(presentation.tint, LocalContentColor.current.copy(alpha = LocalContentAlpha.current))
+        tint = ComposeMerger.color.safeTake(presentation.tint, LocalContentColor.current.copy(alpha = LocalContentAlpha.current))
     )
 }

@@ -9,37 +9,39 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
-import com.bselzer.ktx.compose.ui.layout.merge.DefaultButtonColors
-import com.bselzer.ktx.compose.ui.layout.merge.DefaultButtonElevation
-import com.bselzer.ktx.compose.ui.layout.merge.DefaultPadding
-import com.bselzer.ktx.compose.ui.layout.merge.DefaultShape
+import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
 
 data class ButtonPresentation(
     /**
      * [ButtonElevation] used to resolve the elevation for this button in different states. This controls the size of the shadow below the button. Pass null here to disable elevation for this button. See [ButtonDefaults.elevation].
      */
-    val elevation: ButtonElevation? = DefaultButtonElevation,
+    val elevation: ButtonElevation? = ComposeMerger.buttonElevation.default,
 
     /**
      * Defines the button's shape as well as its shadow
      */
-    val shape: Shape = DefaultShape,
+    val shape: Shape = ComposeMerger.shape.default,
 
     /**
      * Border to draw around the button
      */
-    val border: BorderStroke? = null,
+    val border: BorderStroke? = ComposeMerger.borderStroke.default,
 
     /**
      * [ButtonColors] that will be used to resolve the background and content color for this button in different states. See [ButtonDefaults.buttonColors].
      */
-    val colors: ButtonColors = DefaultButtonColors,
+    val colors: ButtonColors = ComposeMerger.buttonColors.default,
 
     /**
      * The spacing values to apply internally between the container and the content
      */
-    val contentPadding: PaddingValues = DefaultPadding
+    val contentPadding: PaddingValues = ComposeMerger.paddingValues.default,
+
+    /**
+     * The type of button.
+     */
+    val type: ButtonType = ButtonType.Button
 ) : PresentationModel {
     companion object {
         @Stable

@@ -24,9 +24,9 @@ class SurfaceProjection(
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit
     ) {
-        val shape = ComposeMerger.shape.resolve(presentation.shape, RectangleShape)
-        val color = ComposeMerger.color.resolve(presentation.color, MaterialTheme.colors.surface)
-        val contentColor = ComposeMerger.color.resolve(presentation.contentColor, contentColorFor(color))
+        val shape = ComposeMerger.shape.safeTake(presentation.shape, RectangleShape)
+        val color = ComposeMerger.color.safeTake(presentation.color, MaterialTheme.colors.surface)
+        val contentColor = ComposeMerger.color.safeTake(presentation.contentColor, contentColorFor(color))
 
         if (logic.onClick == null) {
             WithoutClick(modifier, shape, color, contentColor, content)

@@ -6,6 +6,7 @@ import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.project.Projectable
 
 class ButtonProjection(
@@ -18,17 +19,22 @@ class ButtonProjection(
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable RowScope.() -> Unit
     ) {
-        val presentation = if (this.presentation !== ButtonPresentation.Default) this.presentation else containedButtonPresentation()
+        val default = when (presentation.type) {
+            ButtonType.Button -> containedButtonPresentation()
+            ButtonType.OutlinedButton -> outlinedButtonPresentation()
+            ButtonType.TextButton -> textButtonPresentation()
+        }
+
         Button(
             onClick = logic.onClick,
             modifier = modifier,
             enabled = logic.enabled,
             interactionSource = interactionSource,
-            elevation = presentation.elevation,
-            shape = presentation.shape,
-            border = presentation.border,
-            colors = presentation.colors,
-            contentPadding = presentation.contentPadding,
+            elevation = ComposeMerger.buttonElevation.nullTake(presentation.elevation, default.elevation),
+            shape = ComposeMerger.shape.safeTake(presentation.shape, default.shape),
+            border = ComposeMerger.borderStroke.nullTake(presentation.border, default.border),
+            colors = ComposeMerger.buttonColors.safeTake(presentation.colors, default.colors),
+            contentPadding = ComposeMerger.paddingValues.safeTake(presentation.contentPadding, default.contentPadding),
             content = content
         )
     }

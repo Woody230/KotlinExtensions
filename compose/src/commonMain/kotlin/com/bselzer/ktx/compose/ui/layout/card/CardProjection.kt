@@ -23,9 +23,9 @@ class CardProjection(
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit
     ) {
-        val shape = ComposeMerger.shape.resolve(presentation.shape, MaterialTheme.shapes.medium)
-        val backgroundColor = ComposeMerger.color.resolve(presentation.backgroundColor, MaterialTheme.colors.surface)
-        val contentColor = ComposeMerger.color.resolve(presentation.contentColor, contentColorFor(backgroundColor))
+        val shape = ComposeMerger.shape.safeTake(presentation.shape, MaterialTheme.shapes.medium)
+        val backgroundColor = ComposeMerger.color.safeTake(presentation.backgroundColor, MaterialTheme.colors.surface)
+        val contentColor = ComposeMerger.color.safeTake(presentation.contentColor, contentColorFor(backgroundColor))
 
         if (logic.onClick == null) {
             WithoutClick(modifier, shape, backgroundColor, contentColor, content)

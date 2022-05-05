@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.merge
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
 
 object ComposeMerger {
+    val borderStroke: ComponentMerger<BorderStroke> = BorderStrokeMerger()
     val buttonColors: ComponentMerger<ButtonColors> = ButtonColorsMerger()
     val buttonElevation: ComponentMerger<ButtonElevation> = ButtonElevationMerger()
     val color: ComponentMerger<Color> = ColorMerger()

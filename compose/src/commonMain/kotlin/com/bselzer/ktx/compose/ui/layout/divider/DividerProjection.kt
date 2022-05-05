@@ -16,7 +16,7 @@ class DividerProjection(
         modifier: Modifier = Modifier
     ) = Divider(
         modifier = modifier,
-        color = ComposeMerger.color.resolve(presentation.color, MaterialTheme.colors.onSurface.copy(alpha = 0.12f)),
+        color = ComposeMerger.color.safeTake(presentation.color, MaterialTheme.colors.onSurface.copy(alpha = 0.12f)),
         thickness = presentation.thickness,
         startIndent = presentation.startIndent
     )

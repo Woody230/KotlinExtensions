@@ -25,7 +25,7 @@ class LazyRowProjection(
         reverseLayout = presentation.reverseLayout,
         horizontalArrangement = presentation.horizontalArrangement,
         verticalAlignment = presentation.verticalAlignment,
-        flingBehavior = ComposeMerger.flingBehavior.resolve(presentation.flingBehavior, ScrollableDefaults.flingBehavior()),
+        flingBehavior = ComposeMerger.flingBehavior.safeTake(presentation.flingBehavior, ScrollableDefaults.flingBehavior()),
         content = content
     )
 }

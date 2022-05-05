@@ -25,7 +25,7 @@ class LazyColumnProjection(
         reverseLayout = presentation.reverseLayout,
         verticalArrangement = presentation.verticalArrangement,
         horizontalAlignment = presentation.horizontalAlignment,
-        flingBehavior = ComposeMerger.flingBehavior.resolve(presentation.flingBehavior, ScrollableDefaults.flingBehavior()),
+        flingBehavior = ComposeMerger.flingBehavior.safeTake(presentation.flingBehavior, ScrollableDefaults.flingBehavior()),
         content = content
     )
 }

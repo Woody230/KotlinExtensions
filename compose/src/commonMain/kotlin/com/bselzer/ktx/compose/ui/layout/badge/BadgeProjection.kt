@@ -18,8 +18,8 @@ class BadgeProjection(
         modifier: Modifier = Modifier,
         content: @Composable (RowScope.() -> Unit)? = null
     ) {
-        val backgroundColor = ComposeMerger.color.resolve(presentation.backgroundColor, MaterialTheme.colors.error)
-        val contentColor = ComposeMerger.color.resolve(presentation.contentColor, contentColorFor(backgroundColor))
+        val backgroundColor = ComposeMerger.color.safeTake(presentation.backgroundColor, MaterialTheme.colors.error)
+        val contentColor = ComposeMerger.color.safeTake(presentation.contentColor, contentColorFor(backgroundColor))
         Badge(
             modifier = modifier,
             backgroundColor = backgroundColor,

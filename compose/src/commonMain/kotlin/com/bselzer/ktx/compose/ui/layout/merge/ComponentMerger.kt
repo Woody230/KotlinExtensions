@@ -1,6 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.merge
 
-import com.bselzer.ktx.function.objects.nonDefault
+import com.bselzer.ktx.function.objects.safeTake
 
 interface ComponentMerger<T> {
     /**
@@ -11,5 +11,10 @@ interface ComponentMerger<T> {
     /**
      * Takes the [first] object if it is not the [default], otherwise takes this object.
      */
-    fun resolve(first: T, second: T) = first.nonDefault(second, default)
+    fun safeTake(first: T, second: T) = first.safeTake(second, default)
+
+    /**
+     * Takes the [first] object if it is not the [default], otherwise takes this object.
+     */
+    fun nullTake(first: T?, second: T?) = first.safeTake(second, default)
 }
