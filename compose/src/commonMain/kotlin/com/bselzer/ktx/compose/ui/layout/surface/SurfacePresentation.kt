@@ -2,13 +2,17 @@ package com.bselzer.ktx.compose.ui.layout.surface
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.contentColorFor
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
+import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class SurfacePresentation(
     /**
@@ -48,4 +52,36 @@ data class SurfacePresentation(
      * By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
      */
     val indication: Indication? = ComposeMerger.indication.default
-) : PresentationModel
+) : Presenter<SurfacePresentation>() {
+    @Composable
+    override fun safeMerge(other: SurfacePresentation) = SurfacePresentation(
+        shape = ComposeMerger.shape.safeMerge(shape, other.shape),
+        color = ComposeMerger.color.safeMerge(color, other.color),
+        contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),
+        border = ComposeMerger.borderStroke.nullMerge(border, other.border),
+        elevation = ComposeMerger.dp.safeMerge(elevation, other.elevation),
+        role = ComposeMerger.role.nullMerge(role, other.role),
+        indication = ComposeMerger.indication.nullMerge(indication, other.indication)
+    )
+
+    @Composable
+    override fun localized(): SurfacePresentation {
+        val localized = super.localized()
+
+        return if (ComposeMerger.color.isDefault(localized.contentColor)) {
+            localized.copy(contentColor = contentColorFor(localized.color))
+        } else {
+            localized
+        }
+    }
+
+    @Composable
+    override fun createLocalization() = SurfacePresentation(
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colors.surface,
+        border = null,
+        elevation = 0.dp,
+        indication = LocalIndication.current,
+        role = null
+    )
+}

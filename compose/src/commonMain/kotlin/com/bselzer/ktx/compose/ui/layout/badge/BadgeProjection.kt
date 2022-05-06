@@ -2,24 +2,19 @@ package com.bselzer.ktx.compose.ui.layout.badge
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Badge
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.project.Projectable
+import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class BadgeProjection(
     override val logic: BadgeLogic = BadgeLogic(),
     override val presentation: BadgePresentation = BadgePresentation()
-) : Projectable<BadgeLogic, BadgePresentation> {
+) : Projector<BadgeLogic, BadgePresentation>() {
     @Composable
     fun project(
         modifier: Modifier = Modifier,
         content: @Composable (RowScope.() -> Unit)? = null
-    ) {
-        val backgroundColor = ComposeMerger.color.safeTake(presentation.backgroundColor, MaterialTheme.colors.error)
-        val contentColor = ComposeMerger.color.safeTake(presentation.contentColor, contentColorFor(backgroundColor))
+    ) = contextualize {
         Badge(
             modifier = modifier,
             backgroundColor = backgroundColor,

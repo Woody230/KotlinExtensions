@@ -2,13 +2,18 @@ package com.bselzer.ktx.compose.ui.layout.card
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.contentColorFor
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
+import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class CardPresentation(
     /**
@@ -29,23 +34,55 @@ data class CardPresentation(
     /**
      * Border to draw on top of the card
      */
-    val border: BorderStroke? = null,
+    val border: BorderStroke? = ComposeMerger.borderStroke.default,
 
     /**
      * The z-coordinate at which to place this card. This controls the size of the shadow below the card.
      */
-    val elevation: Dp = 1.dp,
+    val elevation: Dp = ComposeMerger.dp.default,
 
     /**
      *  The type of user interface element.
      *  Accessibility services might use this to describe the element or do customizations.
      *  For example, if the Surface acts as a button, you should pass the Role.Button
      */
-    val role: Role? = null,
+    val role: Role? = ComposeMerger.role.default,
 
     /**
      * Indication to be shown when surface is pressed.
      * By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
      */
     val indication: Indication? = ComposeMerger.indication.default
-) : PresentationModel
+) : Presenter<CardPresentation>() {
+    @Composable
+    override fun safeMerge(other: CardPresentation) = CardPresentation(
+        shape = ComposeMerger.shape.safeMerge(shape, other.shape),
+        backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
+        contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),
+        border = ComposeMerger.borderStroke.nullMerge(border, other.border),
+        elevation = ComposeMerger.dp.safeMerge(elevation, other.elevation),
+        role = ComposeMerger.role.nullMerge(role, other.role),
+        indication = ComposeMerger.indication.nullMerge(indication, other.indication)
+    )
+
+    @Composable
+    override fun localized(): CardPresentation {
+        val localized = super.localized()
+
+        return if (ComposeMerger.color.isDefault(localized.contentColor)) {
+            localized.copy(contentColor = contentColorFor(localized.backgroundColor))
+        } else {
+            localized
+        }
+    }
+
+    @Composable
+    override fun createLocalization() = CardPresentation(
+        shape = RectangleShape,
+        backgroundColor = MaterialTheme.colors.surface,
+        border = null,
+        elevation = 0.dp,
+        indication = LocalIndication.current,
+        role = null
+    )
+}

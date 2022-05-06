@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-internal class ButtonElevationMerger : ComponentMerger<ButtonElevation> {
+class ButtonElevationMerger : ComponentMerger<ButtonElevation> {
     override val default: ButtonElevation = Default
 
     companion object {

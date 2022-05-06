@@ -1,5 +1,9 @@
 package com.bselzer.ktx.compose.ui.layout.iconbutton
 
-import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
+import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
-class IconButtonPresentation : PresentationModel
+class IconButtonPresentation : Presenter<IconButtonPresentation>() {
+    @Composable
+    override fun safeMerge(other: IconButtonPresentation) = other
+}

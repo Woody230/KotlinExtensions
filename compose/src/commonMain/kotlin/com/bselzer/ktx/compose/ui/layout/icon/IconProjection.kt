@@ -13,7 +13,9 @@ class IconProjection(
     override val presentation: IconPresentation = IconPresentation()
 ) : Projectable<IconLogic, IconPresentation> {
     @Composable
-    fun project(modifier: Modifier = Modifier) = Icon(
+    fun project(
+        modifier: Modifier = Modifier
+    ) = Icon(
         imageVector = logic.imageVector,
         contentDescription = logic.contentDescription,
         modifier = modifier,

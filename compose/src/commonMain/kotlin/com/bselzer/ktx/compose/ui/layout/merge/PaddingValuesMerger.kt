@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.dp
 
-internal class PaddingValuesMerger : ComponentMerger<PaddingValues> {
+class PaddingValuesMerger : ComponentMerger<PaddingValues> {
     override val default: PaddingValues = Default
 
     companion object {

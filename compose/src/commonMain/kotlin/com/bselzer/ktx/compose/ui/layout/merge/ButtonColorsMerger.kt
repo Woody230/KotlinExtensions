@@ -7,7 +7,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 
-internal class ButtonColorsMerger : ComponentMerger<ButtonColors> {
+class ButtonColorsMerger : ComponentMerger<ButtonColors> {
     override val default: ButtonColors = Default
 
     companion object {

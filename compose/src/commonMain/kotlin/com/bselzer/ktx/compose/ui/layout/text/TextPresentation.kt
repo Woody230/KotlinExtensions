@@ -1,5 +1,7 @@
 package com.bselzer.ktx.compose.ui.layout.text
 
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -9,18 +11,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
+import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.merge.TriState
+import com.bselzer.ktx.compose.ui.layout.project.Presenter
+import com.bselzer.ktx.function.objects.nullMerge
+import com.bselzer.ktx.function.objects.safeMerge
 
 data class TextPresentation(
     /**
      * Color to apply to the text. If [Color.Unspecified], and style has no color set, this will be LocalContentColor.
      */
-    val color: Color = Color.Unspecified,
+    val color: Color = ComposeMerger.color.default,
 
     /**
      * The size of glyphs to use when painting the text. See [TextStyle.fontSize].
      */
-    val fontSize: TextUnit = TextUnit.Unspecified,
+    val fontSize: TextUnit = ComposeMerger.textUnit.default,
 
     /**
      * The typeface variant to use when drawing the letters (e.g., italic). See [TextStyle.fontStyle].
@@ -40,7 +46,7 @@ data class TextPresentation(
     /**
      * The amount of space to add between each letter. See [TextStyle.letterSpacing].
      */
-    val letterSpacing: TextUnit = TextUnit.Unspecified,
+    val letterSpacing: TextUnit = ComposeMerger.textUnit.default,
 
     /**
      * The decorations to paint on the text (e.g., an underline). See [TextStyle.textDecoration].
@@ -65,7 +71,7 @@ data class TextPresentation(
     /**
      * Whether the text should break at soft line breaks. If false, the glyphs in the text will be positioned as if there was unlimited horizontal space. If [softWrap] is false, [overflow] and TextAlign may have unexpected effects.
      */
-    val softWrap: Boolean = true,
+    val softWrap: TriState = TriState.DEFAULT,
 
     /**
      * The maximum number of lines for the text to span, wrapping if necessary. If the text exceeds the given number of lines, it will be truncated according to [overflow] and [softWrap]. If it is not null, then it must be greater than zero.
@@ -76,4 +82,38 @@ data class TextPresentation(
      * Style configuration for the text such as color, font, line height etc.
      */
     val textStyle: TextStyle = TextStyle.Default,
-) : PresentationModel
+) : Presenter<TextPresentation>() {
+    @Composable
+    override fun safeMerge(other: TextPresentation) = TextPresentation(
+        color = ComposeMerger.color.safeMerge(color, other.color),
+        fontSize = ComposeMerger.textUnit.safeMerge(fontSize, other.fontSize),
+        fontStyle = fontStyle.nullMerge(other.fontStyle),
+        fontWeight = fontWeight.nullMerge(other.fontWeight),
+        fontFamily = fontFamily.nullMerge(other.fontFamily),
+        letterSpacing = ComposeMerger.textUnit.safeMerge(letterSpacing, other.letterSpacing),
+        textDecoration = textDecoration.nullMerge(other.textDecoration),
+        textAlign = textAlign.nullMerge(other.textAlign),
+        lineHeight = ComposeMerger.textUnit.safeMerge(lineHeight, other.lineHeight),
+        overflow = overflow.safeMerge(other.overflow, TextOverflow.Clip),
+        softWrap = ComposeMerger.triState.safeMerge(softWrap, other.softWrap),
+        maxLines = ComposeMerger.int.safeMerge(maxLines, other.maxLines),
+        textStyle = textStyle.merge(other.textStyle),
+    )
+
+    @Composable
+    override fun createLocalization() = TextPresentation(
+        color = Color.Unspecified,
+        fontSize = TextUnit.Unspecified,
+        fontStyle = null,
+        fontWeight = null,
+        fontFamily = null,
+        letterSpacing = TextUnit.Unspecified,
+        textDecoration = null,
+        textAlign = null,
+        lineHeight = TextUnit.Unspecified,
+        overflow = TextOverflow.Clip,
+        softWrap = TriState.TRUE,
+        maxLines = Int.MAX_VALUE,
+        textStyle = LocalTextStyle.current
+    )
+}

@@ -7,10 +7,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonElevation
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
+import com.bselzer.ktx.compose.ui.layout.project.Presenter
+import com.bselzer.ktx.function.objects.safeMerge
 
 data class ButtonPresentation(
     /**
@@ -41,11 +41,23 @@ data class ButtonPresentation(
     /**
      * The type of button.
      */
-    val type: ButtonType = ButtonType.Button
-) : PresentationModel {
-    companion object {
-        @Stable
-        val Default = ButtonPresentation()
+    val type: ButtonType = ButtonType.DEFAULT
+) : Presenter<ButtonPresentation>() {
+    @Composable
+    override fun safeMerge(other: ButtonPresentation) = ButtonPresentation(
+        elevation = ComposeMerger.buttonElevation.nullMerge(elevation, other.elevation),
+        shape = ComposeMerger.shape.safeMerge(shape, other.shape),
+        border = ComposeMerger.borderStroke.nullMerge(border, other.border),
+        colors = ComposeMerger.buttonColors.safeMerge(colors, other.colors),
+        contentPadding = ComposeMerger.paddingValues.safeMerge(contentPadding, other.contentPadding),
+        type = type.safeMerge(other.type, ButtonType.DEFAULT)
+    )
+
+    @Composable
+    override fun createLocalization() = when (type) {
+        ButtonType.OUTLINED -> outlinedButtonPresentation()
+        ButtonType.TEXT -> textButtonPresentation()
+        else -> containedButtonPresentation()
     }
 }
 

@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-internal class ShapeMerger : ComponentMerger<Shape> {
+class ShapeMerger : ComponentMerger<Shape> {
     override val default: Shape = Default
 
     companion object {

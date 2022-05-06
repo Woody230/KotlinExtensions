@@ -1,7 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.card
 
-import com.bselzer.ktx.compose.ui.layout.project.LogicModel
-
 data class CardLogic(
     /**
      * Callback to be called when the card is clicked

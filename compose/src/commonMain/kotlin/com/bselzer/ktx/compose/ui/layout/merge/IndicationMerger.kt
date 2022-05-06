@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 
-internal class IndicationMerger : ComponentMerger<Indication> {
+class IndicationMerger : ComponentMerger<Indication> {
     override val default: Indication = Default
 
     companion object {

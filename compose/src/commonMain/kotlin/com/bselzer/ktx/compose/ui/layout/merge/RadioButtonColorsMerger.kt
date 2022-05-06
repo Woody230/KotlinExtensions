@@ -7,14 +7,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 
-internal class RadioButtonColorsMerger : ComponentMerger<RadioButtonColors> {
+class RadioButtonColorsMerger : ComponentMerger<RadioButtonColors> {
     override val default: RadioButtonColors = Default
 
     companion object {
         @Stable
         val Default = object : RadioButtonColors {
             @Composable
-            override fun radioColor(enabled: Boolean, selected: Boolean): State<Color> = mutableStateOf(Color.Unspecified)
+            override fun radioColor(enabled: TriState, selected: TriState): State<Color> = mutableStateOf(Color.Unspecified)
         }
     }
 }
