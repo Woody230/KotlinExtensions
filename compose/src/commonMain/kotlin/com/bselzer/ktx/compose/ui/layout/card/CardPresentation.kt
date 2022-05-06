@@ -60,7 +60,6 @@ data class CardPresentation(
         val Default = CardPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: CardPresentation) = CardPresentation(
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),

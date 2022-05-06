@@ -37,7 +37,6 @@ data class PickerPresentation(
         val Default = PickerPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: PickerPresentation) = PickerPresentation(
         textStyle = textStyle.merge(other.textStyle),
         animationOffset = ComposeMerger.dp.safeMerge(animationOffset, other.animationOffset),

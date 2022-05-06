@@ -49,7 +49,6 @@ data class ButtonPresentation(
         val Default = ButtonPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: ButtonPresentation) = ButtonPresentation(
         elevation = ComposeMerger.buttonElevation.nullMerge(elevation, other.elevation),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),

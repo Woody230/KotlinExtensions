@@ -30,7 +30,6 @@ data class DividerPresentation(
         val Default = DividerPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: DividerPresentation) = DividerPresentation(
         color = ComposeMerger.color.safeMerge(color, other.color),
         thickness = ComposeMerger.dp.safeMerge(thickness, other.thickness),

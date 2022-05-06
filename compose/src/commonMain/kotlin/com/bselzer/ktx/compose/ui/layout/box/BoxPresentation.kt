@@ -23,7 +23,6 @@ data class BoxPresentation(
         val Default = BoxPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: BoxPresentation) = BoxPresentation(
         contentAlignment = ComposeMerger.alignment.safeMerge(contentAlignment, other.contentAlignment),
         propagateMinConstraints = ComposeMerger.triState.safeMerge(propagateMinConstraints, other.propagateMinConstraints)

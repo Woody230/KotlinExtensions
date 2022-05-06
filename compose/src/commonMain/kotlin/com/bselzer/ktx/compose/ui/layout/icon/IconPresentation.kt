@@ -19,7 +19,6 @@ data class IconPresentation(
         val Default = IconPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: IconPresentation) = IconPresentation(
         tint = ComposeMerger.color.safeMerge(tint, other.tint)
     )

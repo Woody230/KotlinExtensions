@@ -23,7 +23,6 @@ data class ColumnPresentation(
         val Default = ColumnPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: ColumnPresentation) = ColumnPresentation(
         verticalArrangement = ComposeMerger.verticalArrangement.safeMerge(verticalArrangement, other.verticalArrangement),
         horizontalAlignment = ComposeMerger.horizontalAlignment.safeMerge(horizontalAlignment, other.horizontalAlignment)

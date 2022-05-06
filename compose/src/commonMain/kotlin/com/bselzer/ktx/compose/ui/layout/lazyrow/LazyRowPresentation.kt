@@ -44,7 +44,6 @@ data class LazyRowPresentation(
         val Default = LazyRowPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: LazyRowPresentation) = LazyRowPresentation(
         contentPadding = ComposeMerger.paddingValues.safeMerge(contentPadding, other.contentPadding),
         reverseLayout = ComposeMerger.triState.safeMerge(reverseLayout, other.reverseLayout),

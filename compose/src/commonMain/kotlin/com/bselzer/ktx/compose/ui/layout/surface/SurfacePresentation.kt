@@ -59,7 +59,6 @@ data class SurfacePresentation(
         val Default = SurfacePresentation()
     }
 
-    @Composable
     override fun safeMerge(other: SurfacePresentation) = SurfacePresentation(
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         color = ComposeMerger.color.safeMerge(color, other.color),

@@ -18,7 +18,6 @@ data class RadioButtonPresentation(
         val Default = RadioButtonPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: RadioButtonPresentation) = RadioButtonPresentation(
         colors = ComposeMerger.radioButtonColors.safeMerge(colors, other.colors)
     )

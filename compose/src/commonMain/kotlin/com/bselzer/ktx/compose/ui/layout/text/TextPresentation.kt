@@ -89,7 +89,6 @@ data class TextPresentation(
         val Default = TextPresentation()
     }
 
-    @Composable
     override fun safeMerge(other: TextPresentation) = TextPresentation(
         color = ComposeMerger.color.safeMerge(color, other.color),
         fontSize = ComposeMerger.textUnit.safeMerge(fontSize, other.fontSize),

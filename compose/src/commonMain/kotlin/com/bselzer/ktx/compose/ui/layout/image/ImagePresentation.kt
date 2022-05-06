@@ -35,7 +35,6 @@ data class ImagePresentation(
         val Default = ImagePresentation()
     }
 
-    @Composable
     override fun safeMerge(other: ImagePresentation) = ImagePresentation(
         alignment = ComposeMerger.alignment.safeMerge(alignment, other.alignment),
         contentScale = ComposeMerger.contentScale.safeMerge(contentScale, other.contentScale),
