@@ -3,6 +3,7 @@ package com.bselzer.ktx.compose.ui.layout.icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -13,6 +14,11 @@ data class IconPresentation(
      */
     val tint: Color = ComposeMerger.color.default
 ) : Presenter<IconPresentation>() {
+    companion object {
+        @Stable
+        val Default = IconPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: IconPresentation) = IconPresentation(
         tint = ComposeMerger.color.safeMerge(tint, other.tint)

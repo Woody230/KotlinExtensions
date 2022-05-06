@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class LazyRowProjection(
-    override val logic: LazyRowLogic = LazyRowLogic(),
-    override val presentation: LazyRowPresentation = LazyRowPresentation()
+    override val logic: LazyRowLogic = LazyRowLogic.Default,
+    override val presentation: LazyRowPresentation = LazyRowPresentation.Default
 ) : Projector<LazyRowLogic, LazyRowPresentation>() {
     @Composable
     fun project(

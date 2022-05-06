@@ -28,7 +28,7 @@ import kotlin.math.abs
  */
 class PickerProjection<T>(
     override val logic: PickerLogic<T>,
-    override val presentation: PickerPresentation = PickerPresentation()
+    override val presentation: PickerPresentation = PickerPresentation.Default
 ) : Projector<PickerLogic<T>, PickerPresentation>() {
     @Composable
     fun project(

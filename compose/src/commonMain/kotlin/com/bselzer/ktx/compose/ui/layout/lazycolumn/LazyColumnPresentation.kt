@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
@@ -38,6 +39,11 @@ data class LazyColumnPresentation(
      */
     val flingBehavior: FlingBehavior = ComposeMerger.flingBehavior.default
 ) : Presenter<LazyColumnPresentation>() {
+    companion object {
+        @Stable
+        val Default = LazyColumnPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: LazyColumnPresentation) = LazyColumnPresentation(
         contentPadding = ComposeMerger.paddingValues.safeMerge(contentPadding, other.contentPadding),

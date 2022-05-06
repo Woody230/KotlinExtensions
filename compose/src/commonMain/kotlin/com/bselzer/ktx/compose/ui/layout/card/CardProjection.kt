@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class CardProjection(
-    override val logic: CardLogic = CardLogic(),
-    override val presentation: CardPresentation = CardPresentation()
+    override val logic: CardLogic = CardLogic.Default,
+    override val presentation: CardPresentation = CardPresentation.Default
 ) : Projector<CardLogic, CardPresentation>() {
     @Composable
     fun project(

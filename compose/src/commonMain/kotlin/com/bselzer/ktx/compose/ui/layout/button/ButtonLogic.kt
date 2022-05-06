@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.button
 
+import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.project.LogicModel
 
 data class ButtonLogic(
@@ -12,4 +13,9 @@ data class ButtonLogic(
      * Will be called when the user clicks the button.
      */
     val onClick: () -> Unit = {}
-) : LogicModel
+) : LogicModel {
+    companion object {
+        @Stable
+        val Default = ButtonLogic()
+    }
+}

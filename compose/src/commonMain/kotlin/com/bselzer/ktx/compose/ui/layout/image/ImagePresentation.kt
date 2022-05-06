@@ -1,6 +1,7 @@
 package com.bselzer.ktx.compose.ui.layout.image
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
@@ -29,6 +30,11 @@ data class ImagePresentation(
      */
     val colorFilter: ColorFilter? = ComposeMerger.colorFilter.default
 ) : Presenter<ImagePresentation>() {
+    companion object {
+        @Stable
+        val Default = ImagePresentation()
+    }
+
     @Composable
     override fun safeMerge(other: ImagePresentation) = ImagePresentation(
         alignment = ComposeMerger.alignment.safeMerge(alignment, other.alignment),

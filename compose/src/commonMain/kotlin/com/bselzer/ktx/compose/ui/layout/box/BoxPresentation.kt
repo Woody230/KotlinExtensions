@@ -1,6 +1,7 @@
 package com.bselzer.ktx.compose.ui.layout.box
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
@@ -17,6 +18,11 @@ data class BoxPresentation(
      */
     val propagateMinConstraints: TriState = ComposeMerger.triState.default
 ) : Presenter<BoxPresentation>() {
+    companion object {
+        @Stable
+        val Default = BoxPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: BoxPresentation) = BoxPresentation(
         contentAlignment = ComposeMerger.alignment.safeMerge(contentAlignment, other.contentAlignment),

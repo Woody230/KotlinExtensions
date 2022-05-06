@@ -7,7 +7,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class TextProjection(
     override val logic: TextLogic,
-    override val presentation: TextPresentation = TextPresentation()
+    override val presentation: TextPresentation = TextPresentation.Default
 ) : Projector<TextLogic, TextPresentation>() {
     @Composable
     fun project(

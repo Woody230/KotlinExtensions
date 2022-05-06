@@ -6,6 +6,7 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -54,6 +55,11 @@ data class CardPresentation(
      */
     val indication: Indication? = ComposeMerger.indication.default
 ) : Presenter<CardPresentation>() {
+    companion object {
+        @Stable
+        val Default = CardPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: CardPresentation) = CardPresentation(
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),

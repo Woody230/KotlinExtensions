@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.layout.divider
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,11 @@ data class DividerPresentation(
      */
     val startIndent: Dp = ComposeMerger.dp.default,
 ) : Presenter<DividerPresentation>() {
+    companion object {
+        @Stable
+        val Default = DividerPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: DividerPresentation) = DividerPresentation(
         color = ComposeMerger.color.safeMerge(color, other.color),

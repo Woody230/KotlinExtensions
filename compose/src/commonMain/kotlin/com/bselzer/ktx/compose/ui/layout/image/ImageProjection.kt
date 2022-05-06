@@ -7,7 +7,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ImageProjection(
     override val logic: ImageLogic,
-    override val presentation: ImagePresentation = ImagePresentation()
+    override val presentation: ImagePresentation = ImagePresentation.Default
 ) : Projector<ImageLogic, ImagePresentation>() {
     @Composable
     fun project(

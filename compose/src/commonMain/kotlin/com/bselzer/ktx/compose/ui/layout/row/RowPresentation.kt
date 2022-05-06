@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.layout.row
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -17,6 +18,11 @@ data class RowPresentation(
      */
     val verticalAlignment: Alignment.Vertical = ComposeMerger.verticalAlignment.default,
 ) : Presenter<RowPresentation>() {
+    companion object {
+        @Stable
+        val Default = RowPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: RowPresentation) = RowPresentation(
         horizontalArrangement = ComposeMerger.horizontalArrangement.safeMerge(horizontalArrangement, other.horizontalArrangement),

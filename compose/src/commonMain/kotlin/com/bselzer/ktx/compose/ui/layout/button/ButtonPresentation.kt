@@ -7,6 +7,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonElevation
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -43,6 +44,11 @@ data class ButtonPresentation(
      */
     val type: ButtonType = ButtonType.DEFAULT
 ) : Presenter<ButtonPresentation>() {
+    companion object {
+        @Stable
+        val Default = ButtonPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: ButtonPresentation) = ButtonPresentation(
         elevation = ComposeMerger.buttonElevation.nullMerge(elevation, other.elevation),

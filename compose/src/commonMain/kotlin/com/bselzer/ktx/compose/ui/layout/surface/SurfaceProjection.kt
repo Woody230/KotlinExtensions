@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class SurfaceProjection(
-    override val logic: SurfaceLogic = SurfaceLogic(),
-    override val presentation: SurfacePresentation = SurfacePresentation()
+    override val logic: SurfaceLogic = SurfaceLogic.Default,
+    override val presentation: SurfacePresentation = SurfacePresentation.Default
 ) : Projector<SurfaceLogic, SurfacePresentation>() {
     @Composable
     fun project(

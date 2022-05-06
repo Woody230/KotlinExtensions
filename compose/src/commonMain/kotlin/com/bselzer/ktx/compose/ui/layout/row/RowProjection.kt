@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class RowProjection(
-    override val logic: RowLogic = RowLogic(),
-    override val presentation: RowPresentation = RowPresentation()
+    override val logic: RowLogic = RowLogic.Default,
+    override val presentation: RowPresentation = RowPresentation.Default
 ) : Projector<RowLogic, RowPresentation>() {
     @Composable
     fun project(

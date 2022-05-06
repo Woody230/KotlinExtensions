@@ -6,8 +6,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class DividerProjection(
-    override val logic: DividerLogic = DividerLogic(),
-    override val presentation: DividerPresentation = DividerPresentation()
+    override val logic: DividerLogic = DividerLogic.Default,
+    override val presentation: DividerPresentation = DividerPresentation.Default
 ) : Projector<DividerLogic, DividerPresentation>() {
     @Composable
     fun project(

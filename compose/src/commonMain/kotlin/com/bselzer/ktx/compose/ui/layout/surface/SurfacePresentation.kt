@@ -6,6 +6,7 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
@@ -33,19 +34,19 @@ data class SurfacePresentation(
     /**
      * Border to draw on top of the Surface
      */
-    val border: BorderStroke? = null,
+    val border: BorderStroke? = ComposeMerger.borderStroke.default,
 
     /**
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
-    val elevation: Dp = 0.dp,
+    val elevation: Dp = ComposeMerger.dp.default,
 
     /**
      *  The type of user interface element.
      *  Accessibility services might use this to describe the element or do customizations.
      *  For example, if the Surface acts as a button, you should pass the Role.Button
      */
-    val role: Role? = null,
+    val role: Role? = ComposeMerger.role.default,
 
     /**
      * Indication to be shown when surface is pressed.
@@ -53,6 +54,11 @@ data class SurfacePresentation(
      */
     val indication: Indication? = ComposeMerger.indication.default
 ) : Presenter<SurfacePresentation>() {
+    companion object {
+        @Stable
+        val Default = SurfacePresentation()
+    }
+
     @Composable
     override fun safeMerge(other: SurfacePresentation) = SurfacePresentation(
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),

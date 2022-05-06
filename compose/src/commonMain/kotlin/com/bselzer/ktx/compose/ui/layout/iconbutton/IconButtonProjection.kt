@@ -9,7 +9,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class IconButtonProjection(
     override val logic: IconButtonLogic,
-    override val presentation: IconButtonPresentation = IconButtonPresentation()
+    override val presentation: IconButtonPresentation = IconButtonPresentation.Default
 ) : Projector<IconButtonLogic, IconButtonPresentation>() {
     @Composable
     fun project(

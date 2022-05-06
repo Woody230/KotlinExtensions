@@ -9,7 +9,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class RadioButtonProjection(
     override val logic: RadioButtonLogic,
-    override val presentation: RadioButtonPresentation = RadioButtonPresentation()
+    override val presentation: RadioButtonPresentation = RadioButtonPresentation.Default
 ) : Projector<RadioButtonLogic, RadioButtonPresentation>() {
     @Composable
     fun project(

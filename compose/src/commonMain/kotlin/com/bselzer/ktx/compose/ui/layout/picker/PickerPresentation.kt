@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.layout.picker
 
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -24,13 +25,18 @@ data class PickerPresentation(
     /**
      * The [PresentationModel] for the up-directional icon.
      */
-    val upIcon: IconPresentation = IconPresentation(),
+    val upIcon: IconPresentation = IconPresentation.Default,
 
     /**
      * The [PresentationModel] for the down-directional icon.
      */
-    val downIcon: IconPresentation = IconPresentation()
+    val downIcon: IconPresentation = IconPresentation.Default
 ) : Presenter<PickerPresentation>() {
+    companion object {
+        @Stable
+        val Default = PickerPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: PickerPresentation) = PickerPresentation(
         textStyle = textStyle.merge(other.textStyle),

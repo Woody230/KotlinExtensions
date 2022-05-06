@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ButtonProjection(
-    override val logic: ButtonLogic = ButtonLogic(),
-    override val presentation: ButtonPresentation = ButtonPresentation()
+    override val logic: ButtonLogic = ButtonLogic.Default,
+    override val presentation: ButtonPresentation = ButtonPresentation.Default
 ) : Projector<ButtonLogic, ButtonPresentation>() {
     @Composable
     fun project(

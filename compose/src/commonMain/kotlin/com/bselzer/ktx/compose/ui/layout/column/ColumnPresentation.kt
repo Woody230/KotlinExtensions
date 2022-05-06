@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.layout.column
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -17,6 +18,11 @@ data class ColumnPresentation(
      */
     val horizontalAlignment: Alignment.Horizontal = ComposeMerger.horizontalAlignment.default,
 ) : Presenter<ColumnPresentation>() {
+    companion object {
+        @Stable
+        val Default = ColumnPresentation()
+    }
+
     @Composable
     override fun safeMerge(other: ColumnPresentation) = ColumnPresentation(
         verticalArrangement = ComposeMerger.verticalArrangement.safeMerge(verticalArrangement, other.verticalArrangement),

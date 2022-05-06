@@ -7,7 +7,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class IconProjection(
     override val logic: IconLogic,
-    override val presentation: IconPresentation = IconPresentation()
+    override val presentation: IconPresentation = IconPresentation.Default
 ) : Projector<IconLogic, IconPresentation>() {
     @Composable
     fun project(

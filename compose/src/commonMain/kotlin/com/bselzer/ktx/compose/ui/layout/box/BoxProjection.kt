@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class BoxProjection(
-    override val logic: BoxLogic = BoxLogic(),
-    override val presentation: BoxPresentation = BoxPresentation()
+    override val logic: BoxLogic = BoxLogic.Default,
+    override val presentation: BoxPresentation = BoxPresentation.Default
 ) : Projector<BoxLogic, BoxPresentation>() {
     @Composable
     fun project(

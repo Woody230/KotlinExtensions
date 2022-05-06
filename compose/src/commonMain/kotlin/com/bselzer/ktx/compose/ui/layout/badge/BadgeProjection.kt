@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class BadgeProjection(
-    override val logic: BadgeLogic = BadgeLogic(),
-    override val presentation: BadgePresentation = BadgePresentation()
+    override val logic: BadgeLogic = BadgeLogic.Default,
+    override val presentation: BadgePresentation = BadgePresentation.Default
 ) : Projector<BadgeLogic, BadgePresentation>() {
     @Composable
     fun project(
