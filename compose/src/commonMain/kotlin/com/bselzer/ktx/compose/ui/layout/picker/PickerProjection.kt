@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.icon.IconProjection
-import com.bselzer.ktx.compose.ui.layout.project.Projectable
+import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.unit.toPx
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -29,17 +29,19 @@ import kotlin.math.abs
 class PickerProjection<T>(
     override val logic: PickerLogic<T>,
     override val presentation: PickerPresentation = PickerPresentation()
-) : Projectable<PickerLogic<T>, PickerPresentation> {
+) : Projector<PickerLogic<T>, PickerPresentation>() {
     @Composable
     fun project(
         modifier: Modifier = Modifier,
-    ) = PickerColumn(
-        modifier = modifier,
-        index = logic.selectedIndex,
-        indexRange = logic.range,
-        setState = { index -> logic.getValue(index)?.let { logic.onSelectionChanged(it) } },
-        label = { index -> logic.getValue(index)?.let { logic.getLabel(it) } ?: "" }
-    )
+    ) = contextualize {
+        PickerColumn(
+            modifier = modifier,
+            index = logic.selectedIndex,
+            indexRange = logic.range,
+            setState = { index -> logic.getValue(index)?.let { logic.onSelectionChanged(it) } },
+            label = { index -> logic.getValue(index)?.let { logic.getLabel(it) } ?: "" }
+        )
+    }
 
     /**
      * @see <a href="https://gist.github.com/vganin/a9a84653a9f48a2d669910fbd48e32d5">gist by vganin for original logic</a>
