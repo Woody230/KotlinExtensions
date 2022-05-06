@@ -23,7 +23,7 @@ data class RadioButtonPresentation(
     )
 
     @Composable
-    override fun createLocalization() = RadioButtonPresentation(
+    override fun localized() = RadioButtonPresentation(
         colors = RadioButtonDefaults.colors()
-    )
+    ).merge(this)
 }

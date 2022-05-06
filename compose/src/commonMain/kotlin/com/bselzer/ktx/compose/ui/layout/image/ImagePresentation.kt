@@ -43,10 +43,10 @@ data class ImagePresentation(
     )
 
     @Composable
-    override fun createLocalization() = ImagePresentation(
+    override fun localized() = ImagePresentation(
         alignment = Alignment.Center,
         contentScale = ContentScale.Fit,
         alpha = DefaultAlpha,
         colorFilter = null
-    )
+    ).merge(this)
 }

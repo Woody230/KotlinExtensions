@@ -24,7 +24,7 @@ data class IconPresentation(
     )
 
     @Composable
-    override fun createLocalization() = IconPresentation(
+    override fun localized() = IconPresentation(
         tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-    )
+    ).merge(this)
 }

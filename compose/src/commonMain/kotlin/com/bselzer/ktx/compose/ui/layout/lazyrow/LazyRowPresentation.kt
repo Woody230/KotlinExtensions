@@ -53,21 +53,16 @@ data class LazyRowPresentation(
     )
 
     @Composable
-    override fun localized(): LazyRowPresentation {
-        val localized = super.localized()
-
-        return if (ComposeMerger.horizontalArrangement.isDefault(localized.horizontalArrangement)) {
-            localized.copy(horizontalArrangement = if (!localized.reverseLayout.toBoolean()) Arrangement.Start else Arrangement.End)
-        } else {
-            localized
-        }
-    }
-
-    @Composable
-    override fun createLocalization() = LazyRowPresentation(
+    override fun localized() = LazyRowPresentation(
         contentPadding = PaddingValues(0.dp),
         reverseLayout = TriState.FALSE,
         verticalAlignment = Alignment.Top,
         flingBehavior = ScrollableDefaults.flingBehavior()
-    )
+    ).merge(this).run {
+        if (ComposeMerger.horizontalArrangement.isDefault(horizontalArrangement)) {
+            copy(horizontalArrangement = if (!reverseLayout.toBoolean()) Arrangement.Start else Arrangement.End)
+        } else {
+            this
+        }
+    }
 }

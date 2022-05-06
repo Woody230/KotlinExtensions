@@ -106,7 +106,7 @@ data class TextPresentation(
     )
 
     @Composable
-    override fun createLocalization() = TextPresentation(
+    override fun localized() = TextPresentation(
         color = Color.Unspecified,
         fontSize = TextUnit.Unspecified,
         fontStyle = null,
@@ -120,5 +120,5 @@ data class TextPresentation(
         softWrap = TriState.TRUE,
         maxLines = Int.MAX_VALUE,
         textStyle = LocalTextStyle.current
-    )
+    ).merge(this)
 }

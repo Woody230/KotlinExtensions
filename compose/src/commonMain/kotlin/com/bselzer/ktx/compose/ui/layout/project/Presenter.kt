@@ -8,8 +8,5 @@ abstract class Presenter<Model> : PresentationModel<Model> where Model : Present
     protected abstract fun safeMerge(other: Model): Model
 
     @Composable
-    override fun localized(): Model = merge(createLocalization())
-
-    @Composable
-    protected open fun createLocalization(): Model = this as Model
+    override fun localized(): Model = this as Model
 }

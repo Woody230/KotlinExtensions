@@ -30,18 +30,13 @@ data class BadgePresentation(
     )
 
     @Composable
-    override fun localized(): BadgePresentation {
-        val localized = super.localized()
-
-        return if (ComposeMerger.color.isDefault(localized.contentColor)) {
-            localized.copy(contentColor = contentColorFor(localized.backgroundColor))
+    override fun localized(): BadgePresentation = BadgePresentation(
+        backgroundColor = MaterialTheme.colors.error
+    ).merge(this).run {
+        if (ComposeMerger.color.isDefault(contentColor)) {
+            copy(contentColor = contentColorFor(backgroundColor))
         } else {
-            localized
+            this
         }
     }
-
-    @Composable
-    override fun createLocalization() = BadgePresentation(
-        backgroundColor = MaterialTheme.colors.error,
-    )
 }

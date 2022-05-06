@@ -29,8 +29,8 @@ data class BoxPresentation(
     )
 
     @Composable
-    override fun createLocalization() = BoxPresentation(
+    override fun localized() = BoxPresentation(
         contentAlignment = Alignment.TopStart,
         propagateMinConstraints = TriState.TRUE
-    )
+    ).merge(this)
 }

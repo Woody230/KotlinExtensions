@@ -71,23 +71,18 @@ data class CardPresentation(
     )
 
     @Composable
-    override fun localized(): CardPresentation {
-        val localized = super.localized()
-
-        return if (ComposeMerger.color.isDefault(localized.contentColor)) {
-            localized.copy(contentColor = contentColorFor(localized.backgroundColor))
-        } else {
-            localized
-        }
-    }
-
-    @Composable
-    override fun createLocalization() = CardPresentation(
+    override fun localized() = CardPresentation(
         shape = RectangleShape,
         backgroundColor = MaterialTheme.colors.surface,
         border = null,
         elevation = 0.dp,
         indication = LocalIndication.current,
         role = null
-    )
+    ).merge(this).run {
+        if (ComposeMerger.color.isDefault(contentColor)) {
+            copy(contentColor = contentColorFor(backgroundColor))
+        } else {
+            this
+        }
+    }
 }

@@ -53,21 +53,16 @@ data class LazyColumnPresentation(
     )
 
     @Composable
-    override fun localized(): LazyColumnPresentation {
-        val localized = super.localized()
-
-        return if (ComposeMerger.verticalArrangement.isDefault(localized.verticalArrangement)) {
-            localized.copy(verticalArrangement = if (!localized.reverseLayout.toBoolean()) Arrangement.Top else Arrangement.Bottom)
-        } else {
-            localized
-        }
-    }
-
-    @Composable
-    override fun createLocalization() = LazyColumnPresentation(
+    override fun localized() = LazyColumnPresentation(
         contentPadding = PaddingValues(0.dp),
         reverseLayout = TriState.FALSE,
         horizontalAlignment = Alignment.Start,
         flingBehavior = ScrollableDefaults.flingBehavior()
-    )
+    ).merge(this).run {
+        if (ComposeMerger.verticalArrangement.isDefault(verticalArrangement)) {
+            copy(verticalArrangement = if (!reverseLayout.toBoolean()) Arrangement.Top else Arrangement.Bottom)
+        } else {
+            this
+        }
+    }
 }

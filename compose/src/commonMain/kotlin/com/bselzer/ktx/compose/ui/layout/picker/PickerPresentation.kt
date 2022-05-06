@@ -45,10 +45,10 @@ data class PickerPresentation(
     )
 
     @Composable
-    override fun createLocalization() = PickerPresentation(
+    override fun localized() = PickerPresentation(
         textStyle = LocalTextStyle.current,
-        animationOffset = 18.dp,
-        upIcon = upIcon.localized(),
-        downIcon = downIcon.localized()
-    )
+        animationOffset = 18.dp
+    ).merge(this).run {
+        copy(upIcon = upIcon.localized(), downIcon = downIcon.localized())
+    }
 }

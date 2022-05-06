@@ -37,9 +37,9 @@ data class DividerPresentation(
     )
 
     @Composable
-    override fun createLocalization() = DividerPresentation(
+    override fun localized() = DividerPresentation(
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
         thickness = 1.dp,
         startIndent = 0.dp
-    )
+    ).merge(this)
 }

@@ -29,8 +29,8 @@ data class ColumnPresentation(
     )
 
     @Composable
-    override fun createLocalization() = ColumnPresentation(
+    override fun localized() = ColumnPresentation(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
-    )
+    ).merge(this)
 }
