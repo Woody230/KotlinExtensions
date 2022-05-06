@@ -61,7 +61,7 @@ data class TextPresentation(
     /**
      * Line height for the Paragraph in TextUnit unit, e.g. SP or EM. See [TextStyle.lineHeight].
      */
-    val lineHeight: TextUnit = TextUnit.Unspecified,
+    val lineHeight: TextUnit = ComposeMerger.textUnit.default,
 
     /**
      * How visual overflow should be handled.
@@ -71,12 +71,12 @@ data class TextPresentation(
     /**
      * Whether the text should break at soft line breaks. If false, the glyphs in the text will be positioned as if there was unlimited horizontal space. If [softWrap] is false, [overflow] and TextAlign may have unexpected effects.
      */
-    val softWrap: TriState = TriState.DEFAULT,
+    val softWrap: TriState = ComposeMerger.triState.default,
 
     /**
      * The maximum number of lines for the text to span, wrapping if necessary. If the text exceeds the given number of lines, it will be truncated according to [overflow] and [softWrap]. If it is not null, then it must be greater than zero.
      */
-    val maxLines: Int = Int.MAX_VALUE,
+    val maxLines: Int = ComposeMerger.int.default,
 
     /**
      * Style configuration for the text such as color, font, line height etc.
