@@ -22,3 +22,8 @@ interface PresentationModel<Model> where Model : PresentationModel<Model> {
     @Composable
     fun localized(): Model
 }
+
+/**
+ * Merges this model with the [other] model if [this] exists. Otherwise, takes the [other] model.
+ */
+fun <Model : PresentationModel<Model>> Model?.merge(other: Model?) = this?.merge(other) ?: other
