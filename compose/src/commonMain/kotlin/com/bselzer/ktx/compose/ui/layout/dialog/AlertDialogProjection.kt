@@ -18,9 +18,9 @@ abstract class AlertDialogProjection(
     final override val logic: AlertDialogLogic,
     final override val presentation: AlertDialogPresentation = AlertDialogPresentation.Default
 ) : Projector<AlertDialogLogic, AlertDialogPresentation>() {
-    private val negativeButton = logic.negativeButton?.let { negativeButton -> TextButtonProjection(negativeButton, presentation.negativeButton) }
-    private val neutralButton = logic.neutralButton?.let { neutralButton -> TextButtonProjection(neutralButton, presentation.neutralButton) }
-    private val positiveButton = logic.positiveButton?.let { positiveButton -> TextButtonProjection(positiveButton, presentation.positiveButton) }
+    private val negativeButton = logic.negativeButton?.let { negativeButton -> TextButtonProjection(negativeButton, presentation.button) }
+    private val neutralButton = logic.neutralButton?.let { neutralButton -> TextButtonProjection(neutralButton, presentation.button) }
+    private val positiveButton = logic.positiveButton?.let { positiveButton -> TextButtonProjection(positiveButton, presentation.button) }
     private val title = logic.title?.let { title -> TextProjection(title, presentation.title) }
 
     @Composable

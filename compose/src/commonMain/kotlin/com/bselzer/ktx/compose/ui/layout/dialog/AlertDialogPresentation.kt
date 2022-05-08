@@ -14,19 +14,9 @@ import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonPresentation
 
 data class AlertDialogPresentation(
     /**
-     * The [PresentationModel] for the negative action button for dismissal.
+     * The [PresentationModel] for negative, neutral, and positive buttons.
      */
-    val negativeButton: TextButtonPresentation = TextButtonPresentation.Default,
-
-    /**
-     * The [PresentationModel] for the neutral action button for an alternative action.
-     */
-    val neutralButton: TextButtonPresentation = TextButtonPresentation.Default,
-
-    /**
-     * The [PresentationModel] for the positive action button for confirmation.
-     */
-    val positiveButton: TextButtonPresentation = TextButtonPresentation.Default,
+    val button: TextButtonPresentation = TextButtonPresentation.Default,
 
     /**
      * The [PresentationModel] for the title.
@@ -54,9 +44,7 @@ data class AlertDialogPresentation(
     }
 
     override fun safeMerge(other: AlertDialogPresentation) = AlertDialogPresentation(
-        negativeButton = negativeButton.merge(other.negativeButton),
-        neutralButton = neutralButton.merge(other.neutralButton),
-        positiveButton = positiveButton.merge(other.positiveButton),
+        button = button.merge(other.button),
         title = title.merge(other.title),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
@@ -65,9 +53,7 @@ data class AlertDialogPresentation(
 
     @Composable
     override fun localized() = AlertDialogPresentation(
-        negativeButton = negativeButton.localized(),
-        neutralButton = neutralButton.localized(),
-        positiveButton = positiveButton.localized(),
+        button = button.localized(),
         title = title.localized(),
         shape = MaterialTheme.shapes.medium,
         backgroundColor = MaterialTheme.colors.surface
