@@ -6,9 +6,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayoutScope
 import androidx.constraintlayout.compose.Dimension
-import com.bselzer.ktx.compose.ui.description.Description
-import com.bselzer.ktx.compose.ui.description.DescriptionStyle
-import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
+import com.bselzer.ktx.compose.ui.layout.description.Description
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionStyle
+import com.bselzer.ktx.compose.ui.layout.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ColumnStyle
 
 

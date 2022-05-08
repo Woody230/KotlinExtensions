@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.drawer
+package com.bselzer.ktx.compose.ui.layout.drawer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.bselzer.ktx.compose.ui.container.DividedColumn
-import com.bselzer.ktx.compose.ui.container.Spacer
+import com.bselzer.ktx.compose.ui.layout.container.DividedColumn
+import com.bselzer.ktx.compose.ui.layout.container.Spacer
 import com.bselzer.ktx.compose.ui.style.*
 
 /**

@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.bselzer.ktx.compose.ui.description.DescriptionStyle
-import com.bselzer.ktx.compose.ui.description.LocalDescriptionStyle
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionStyle
+import com.bselzer.ktx.compose.ui.layout.description.LocalDescriptionStyle
 import com.bselzer.ktx.compose.ui.style.ImageStyle
 import com.bselzer.ktx.compose.ui.style.LocalImageStyle
 

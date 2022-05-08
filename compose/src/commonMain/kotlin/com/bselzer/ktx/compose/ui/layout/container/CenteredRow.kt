@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.container
+package com.bselzer.ktx.compose.ui.layout.container
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth

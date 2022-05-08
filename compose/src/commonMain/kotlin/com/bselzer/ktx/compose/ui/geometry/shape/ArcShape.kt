@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.geometry
+package com.bselzer.ktx.compose.ui.geometry.shape
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size

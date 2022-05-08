@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.appbar
+package com.bselzer.ktx.compose.ui.layout.appbar
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope

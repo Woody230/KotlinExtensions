@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.background
+package com.bselzer.ktx.compose.ui.layout.background
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
@@ -13,7 +13,7 @@ import com.bselzer.ktx.compose.ui.style.ImageStyle
  * @param style the style describing how to lay out the background
  */
 @Composable
-fun BoxScope.BackgroundImage(painter: Painter, style: ImageStyle = backgroundStyle()) = com.bselzer.ktx.compose.ui.background.BackgroundImage(
+fun BoxScope.BackgroundImage(painter: Painter, style: ImageStyle = backgroundStyle()) = com.bselzer.ktx.compose.ui.layout.background.BackgroundImage(
     painter = painter,
 
     // Need to use matchParentSize() so that the image does not participate in sizing and can just fill the resulting size.

@@ -9,10 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
-import com.bselzer.ktx.compose.ui.container.DividedColumn
-import com.bselzer.ktx.compose.ui.container.DividedRow
-import com.bselzer.ktx.compose.ui.container.Spacer
-import com.bselzer.ktx.compose.ui.description.DescriptionTitle
+import com.bselzer.ktx.compose.ui.layout.container.DividedColumn
+import com.bselzer.ktx.compose.ui.layout.container.DividedRow
+import com.bselzer.ktx.compose.ui.layout.container.Spacer
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.style.*
 
 /**

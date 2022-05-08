@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.background
+package com.bselzer.ktx.compose.ui.layout.background
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope

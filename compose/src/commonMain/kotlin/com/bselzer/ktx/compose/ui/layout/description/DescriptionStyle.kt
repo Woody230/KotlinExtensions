@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.description
+package com.bselzer.ktx.compose.ui.layout.description
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable

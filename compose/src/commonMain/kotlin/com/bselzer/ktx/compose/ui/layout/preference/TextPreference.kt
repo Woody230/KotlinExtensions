@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.bselzer.ktx.compose.ui.description.DescriptionSubtitle
-import com.bselzer.ktx.compose.ui.description.DescriptionTitle
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionSubtitle
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionTitle
 
 
 /**

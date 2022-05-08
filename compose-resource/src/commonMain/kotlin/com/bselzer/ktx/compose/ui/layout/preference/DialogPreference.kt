@@ -3,7 +3,7 @@ package com.bselzer.ktx.compose.ui.layout.preference
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.painter.Painter
-import com.bselzer.ktx.compose.ui.description.DescriptionTitle
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionTitle
 import com.bselzer.ktx.compose.ui.layout.dialog.ConfirmationButton
 import com.bselzer.ktx.compose.ui.layout.dialog.DismissButton
 import com.bselzer.ktx.compose.ui.layout.dialog.MaterialAlertDialog

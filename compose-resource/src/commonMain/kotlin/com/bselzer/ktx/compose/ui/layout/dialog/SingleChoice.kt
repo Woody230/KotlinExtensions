@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarTitle
+import com.bselzer.ktx.compose.ui.layout.appbar.MaterialAppBarTitle
 import com.bselzer.ktx.compose.ui.style.*
 
 /**
