@@ -9,7 +9,7 @@ import com.bselzer.ktx.compose.ui.layout.text.TextProjection
 
 class TopAppBarProjection(
     override val logic: TopAppBarLogic,
-    override val presentation: TopAppBarPresentation
+    override val presentation: TopAppBarPresentation = TopAppBarPresentation.Default
 ) : Projector<TopAppBarLogic, TopAppBarPresentation>() {
     private val titleProjection = TextProjection(logic.title, presentation.title)
     private val navigationProjection = logic.navigation?.let { navigation -> IconButtonProjection(navigation, presentation.icon) }

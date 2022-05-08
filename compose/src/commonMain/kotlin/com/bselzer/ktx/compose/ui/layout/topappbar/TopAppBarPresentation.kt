@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonPresentation
@@ -40,6 +41,11 @@ data class TopAppBarPresentation(
      */
     val elevation: Dp = ComposeMerger.dp.default
 ) : Presenter<TopAppBarPresentation>() {
+    companion object {
+        @Stable
+        val Default = TopAppBarPresentation()
+    }
+
     override fun safeMerge(other: TopAppBarPresentation) = TopAppBarPresentation(
         title = title.merge(other.title),
         icon = icon.merge(other.icon),
