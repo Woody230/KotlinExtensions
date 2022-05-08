@@ -59,7 +59,10 @@ data class ButtonPresentation(
     )
 
     @Composable
-    override fun localized() = when (type) {
+    override fun localized() = localized(type)
+
+    @Composable
+    fun localized(type: ButtonType) = when (type) {
         ButtonType.OUTLINED -> outlinedButtonPresentation()
         ButtonType.TEXT -> textButtonPresentation()
         else -> containedButtonPresentation()

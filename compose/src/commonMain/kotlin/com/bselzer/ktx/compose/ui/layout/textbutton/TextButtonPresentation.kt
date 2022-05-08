@@ -3,6 +3,7 @@ package com.bselzer.ktx.compose.ui.layout.textbutton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.button.ButtonPresentation
+import com.bselzer.ktx.compose.ui.layout.button.ButtonType
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresentation
 
@@ -22,7 +23,7 @@ data class TextButtonPresentation(
 
     @Composable
     override fun localized() = copy(
-        button = button.localized(),
+        button = button.localized(type = ButtonType.TEXT),
         text = text.localized()
     )
 }
