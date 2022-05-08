@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -30,7 +28,7 @@ abstract class AlertDialogProjection(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
     ) = contextualize {
-        project(
+        AlertDialog(
             onDismissRequest = logic.onDismissRequest,
             buttons = { projectButtons() },
             modifier = modifier,
@@ -41,19 +39,6 @@ abstract class AlertDialogProjection(
             contentColor = contentColor
         )
     }
-
-    // TODO remove when AlertDialog is able to accessed in common https://github.com/JetBrains/compose-jb/issues/762
-    @Composable
-    protected abstract fun project(
-        onDismissRequest: () -> Unit,
-        buttons: @Composable () -> Unit,
-        modifier: Modifier,
-        title: (@Composable () -> Unit)?,
-        text: @Composable (() -> Unit)?,
-        shape: Shape,
-        backgroundColor: Color,
-        contentColor: Color,
-    )
 
     @Composable
     private fun projectButtons() = ConstraintLayout(

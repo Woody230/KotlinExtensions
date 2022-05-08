@@ -3,9 +3,9 @@ package com.bselzer.ktx.compose.ui.layout.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
-import com.bselzer.ktx.compose.ui.dropdown.DropdownMenu
-import com.bselzer.ktx.compose.ui.dropdown.DropdownStyle
-import com.bselzer.ktx.compose.ui.dropdown.LocalDropdownStyle
+import com.bselzer.ktx.compose.ui.layout.dropdownmenu.DropdownMenu
+import com.bselzer.ktx.compose.ui.layout.dropdownmenu.DropdownStyle
+import com.bselzer.ktx.compose.ui.layout.dropdownmenu.LocalDropdownStyle
 import com.bselzer.ktx.compose.ui.style.*
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
