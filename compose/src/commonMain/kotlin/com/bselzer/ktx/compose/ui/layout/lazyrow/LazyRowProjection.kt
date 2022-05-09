@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjection
+import com.bselzer.ktx.compose.ui.layout.modifier.then
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class LazyRowProjection<T>(
@@ -22,7 +23,7 @@ class LazyRowProjection<T>(
         content: @Composable LazyItemScope.(Int, T) -> Unit
     ) = contextualize {
         LazyRow(
-            modifier = modifier,
+            modifier = modifier.then(logic.modifiers),
             state = rememberSaveable(saver = LazyListState.Saver) { logic.state },
             contentPadding = contentPadding,
             reverseLayout = reverseLayout.toBoolean(),

@@ -2,8 +2,8 @@ package com.bselzer.ktx.compose.ui.layout.column
 
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.divider.DividerLogic
-import com.bselzer.ktx.compose.ui.layout.modifier.Clickable
 import com.bselzer.ktx.compose.ui.layout.modifier.Modifiable
+import com.bselzer.ktx.compose.ui.layout.modifier.Modifiables
 import com.bselzer.ktx.compose.ui.layout.project.LogicModel
 
 data class ColumnLogic(
@@ -13,9 +13,9 @@ data class ColumnLogic(
     val divider: DividerLogic? = null,
 
     /**
-     * The [Modifiable] click component.
+     * The [Modifiable] components.
      */
-    val clickable: Clickable? = null
+    val modifiers: Modifiables? = null
 ) : LogicModel {
     companion object {
         @Stable

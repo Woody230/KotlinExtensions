@@ -20,7 +20,7 @@ class RowProjection(
         vararg content: @Composable RowScope.() -> Unit,
     ) = contextualize {
         Row(
-            modifier = modifier.then(logic.clickable),
+            modifier = modifier.then(logic.modifiers),
             horizontalArrangement = horizontalArrangement,
             verticalAlignment = verticalAlignment,
         ) {

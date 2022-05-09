@@ -20,7 +20,7 @@ class ColumnProjection(
         vararg content: @Composable ColumnScope.() -> Unit,
     ) = contextualize {
         Column(
-            modifier = modifier.then(logic.clickable),
+            modifier = modifier.then(logic.modifiers),
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
         ) {

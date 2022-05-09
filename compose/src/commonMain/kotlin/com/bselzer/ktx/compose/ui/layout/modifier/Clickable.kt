@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.semantics.Role
 
-class Clickable(
+data class Clickable(
     /**
      * Controls the enabled state. When false, onClick, onLongClick or onDoubleClick won't be invoked
      */
