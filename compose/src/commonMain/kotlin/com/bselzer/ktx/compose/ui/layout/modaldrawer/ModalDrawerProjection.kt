@@ -37,12 +37,15 @@ class ModalDrawerProjection(
             drawerContentColor = contentColor,
             scrimColor = scrimColor,
             content = content,
-            drawerContent = {
-                containerProjection.project(
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-                    content = arrayOf(header()).plus(componentProjections.map { it.section() })
-                )
-            }
+            drawerContent = { drawerContent() }
+        )
+    }
+
+    @Composable
+    fun drawerContent() = contextualize {
+        containerProjection.project(
+            modifier = Modifier.padding(start = 16.dp, end = 8.dp),
+            content = arrayOf(header()).plus(componentProjections.map { it.section() })
         )
     }
 
