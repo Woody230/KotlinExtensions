@@ -5,11 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import com.bselzer.ktx.compose.ui.layout.column.ColumnPresentation
 import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresentation
 
 data class DescriptionPresentation(
+    /**
+     * The [PresentationModel] for the container holding the title and subtitle.
+     */
+    val container: ColumnPresentation = ColumnPresentation.Default,
+
     /**
      * The [PresentationModel] for the title.
      */
@@ -26,6 +32,7 @@ data class DescriptionPresentation(
     }
 
     override fun safeMerge(other: DescriptionPresentation) = DescriptionPresentation(
+        container = container.merge(other.container),
         title = title.merge(other.title),
         subtitle = subtitle.merge(other.subtitle)
     )
@@ -36,6 +43,7 @@ data class DescriptionPresentation(
         subtitle = descriptionSubtitlePresentation()
     ).merge(this).run {
         copy(
+            container = container.localized(),
             title = title.localized(),
             subtitle = subtitle.localized()
         )
