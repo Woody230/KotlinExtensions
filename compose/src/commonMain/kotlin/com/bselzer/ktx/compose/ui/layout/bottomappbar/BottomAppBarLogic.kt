@@ -12,5 +12,5 @@ data class BottomAppBarLogic(
     /**
      * The [LogicModel] for the action icons.
      */
-    val actions: Collection<IconButtonLogic> = emptyList()
+    val actions: List<IconButtonLogic> = emptyList()
 ) : LogicModel

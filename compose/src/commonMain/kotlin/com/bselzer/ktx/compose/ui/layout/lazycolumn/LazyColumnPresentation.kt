@@ -8,11 +8,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.layout.divider.DividerPresentation
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
+import com.bselzer.ktx.compose.ui.layout.project.PresentationModel
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class LazyColumnPresentation(
+    /**
+     * The [PresentationModel] of the divider between items.
+     */
+    val divider: DividerPresentation = DividerPresentation.Default,
+
+    /**
+     * Whether a divider should be added before the items.
+     */
+    val prepend: TriState = ComposeMerger.triState.default,
+
+    /**
+     * Whether a divider should be added after the items.
+     */
+    val append: TriState = ComposeMerger.triState.default,
+
     /**
      * A padding around the whole content. This will add padding for the. content after it has been clipped, which is not possible via modifier param.
      * You can use it to add a padding before the first item or after the last one. If you want to add a spacing between each item use verticalArrangement.
@@ -45,6 +62,9 @@ data class LazyColumnPresentation(
     }
 
     override fun safeMerge(other: LazyColumnPresentation) = LazyColumnPresentation(
+        divider = divider.merge(other.divider),
+        prepend = ComposeMerger.triState.safeMerge(prepend, other.prepend),
+        append = ComposeMerger.triState.safeMerge(append, other.append),
         contentPadding = ComposeMerger.paddingValues.safeMerge(contentPadding, other.contentPadding),
         reverseLayout = ComposeMerger.triState.safeMerge(reverseLayout, other.reverseLayout),
         verticalArrangement = ComposeMerger.verticalArrangement.safeMerge(verticalArrangement, other.verticalArrangement),
@@ -54,15 +74,20 @@ data class LazyColumnPresentation(
 
     @Composable
     override fun localized() = LazyColumnPresentation(
+        prepend = TriState.FALSE,
+        append = TriState.FALSE,
         contentPadding = PaddingValues(0.dp),
         reverseLayout = TriState.FALSE,
         horizontalAlignment = Alignment.Start,
         flingBehavior = ScrollableDefaults.flingBehavior()
     ).merge(this).run {
-        if (ComposeMerger.verticalArrangement.isDefault(verticalArrangement)) {
-            copy(verticalArrangement = if (!reverseLayout.toBoolean()) Arrangement.Top else Arrangement.Bottom)
-        } else {
-            this
-        }
+        copy(
+            divider = divider.localized(),
+            verticalArrangement = if (ComposeMerger.verticalArrangement.isDefault(verticalArrangement)) {
+                if (!reverseLayout.toBoolean()) Arrangement.Top else Arrangement.Bottom
+            } else {
+                verticalArrangement
+            }
+        )
     }
 }
