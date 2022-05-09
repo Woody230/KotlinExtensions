@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.bselzer.ktx.compose.ui.layout.container.Spacer
 import com.bselzer.ktx.compose.ui.layout.project.Projector
+import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.compose.ui.layout.text.TextProjection
 import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonProjection
 

@@ -8,9 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import com.bselzer.ktx.compose.ui.layout.container.Spacer
 import com.bselzer.ktx.compose.ui.layout.icon.DownIcon
 import com.bselzer.ktx.compose.ui.layout.icon.UpIcon
+import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.compose.ui.picker.NumberPicker
 import com.bselzer.ktx.compose.ui.picker.ValuePicker
 import com.bselzer.ktx.resource.strings.resource

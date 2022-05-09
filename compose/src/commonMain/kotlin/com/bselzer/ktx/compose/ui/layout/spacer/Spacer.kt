@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.container
+package com.bselzer.ktx.compose.ui.layout.spacer
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable

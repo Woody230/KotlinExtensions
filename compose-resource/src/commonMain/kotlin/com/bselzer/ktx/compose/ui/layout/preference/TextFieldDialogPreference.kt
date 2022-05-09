@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.AnnotatedString
 import com.bselzer.ktx.compose.ui.layout.container.DividedColumn
-import com.bselzer.ktx.compose.ui.layout.container.Spacer
 import com.bselzer.ktx.compose.ui.style.ColumnStyle
 
 
