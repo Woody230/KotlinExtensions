@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonElevation
+import androidx.compose.material.FloatingActionButtonElevation
 import androidx.compose.material.RadioButtonColors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ object ComposeMerger {
     val dp: ComponentMerger<Dp> = DpMerger()
     val dpOffset: ComponentMerger<DpOffset> = DpOffsetMerger()
     val flingBehavior: ComponentMerger<FlingBehavior> = FlingBehaviorMerger()
+    val floatingActionButtonElevation: ComponentMerger<FloatingActionButtonElevation> = FloatingActionButtonElevationMerger()
     val float: ComponentMerger<Float> = FloatMerger()
     val horizontalAlignment: ComponentMerger<Alignment.Horizontal> = HorizontalAlignmentMerger()
     val horizontalArrangement: ComponentMerger<Arrangement.Horizontal> = HorizontalArrangementMerger()
