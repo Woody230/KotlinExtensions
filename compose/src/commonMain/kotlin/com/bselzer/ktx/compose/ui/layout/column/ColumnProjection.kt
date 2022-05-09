@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjection
+import com.bselzer.ktx.compose.ui.layout.modifier.then
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ColumnProjection(
@@ -19,7 +20,7 @@ class ColumnProjection(
         vararg content: @Composable ColumnScope.() -> Unit,
     ) = contextualize {
         Column(
-            modifier = modifier,
+            modifier = modifier.then(logic.clickable),
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
         ) {

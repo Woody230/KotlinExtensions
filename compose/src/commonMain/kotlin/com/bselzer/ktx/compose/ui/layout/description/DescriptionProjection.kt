@@ -18,9 +18,8 @@ class DescriptionProjection(
     fun project(
         modifier: Modifier = Modifier
     ) = containerProjection.project(
-        modifier = modifier
-    ) {
-        titleProjection.project()
-        subtitleProjection.project()
-    }
+        modifier = modifier,
+        { titleProjection.project() },
+        { subtitleProjection.project() }
+    )
 }

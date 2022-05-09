@@ -19,9 +19,8 @@ class IconTextProjection(
     fun project(
         modifier: Modifier = Modifier
     ) = containerProjection.project(
-        modifier = modifier
-    ) {
-        iconProjection.project()
-        textProjection.project(modifier = Modifier.weight(1f))
-    }
+        modifier = modifier,
+        { iconProjection.project() },
+        { textProjection.project(modifier = Modifier.weight(1f)) }
+    )
 }

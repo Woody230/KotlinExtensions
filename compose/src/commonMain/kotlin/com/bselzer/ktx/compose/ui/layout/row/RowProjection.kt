@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjection
+import com.bselzer.ktx.compose.ui.layout.modifier.then
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class RowProjection(
@@ -19,7 +20,7 @@ class RowProjection(
         vararg content: @Composable RowScope.() -> Unit,
     ) = contextualize {
         Row(
-            modifier = modifier,
+            modifier = modifier.then(logic.clickable),
             horizontalArrangement = horizontalArrangement,
             verticalAlignment = verticalAlignment,
         ) {
