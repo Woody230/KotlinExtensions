@@ -8,14 +8,14 @@ import com.bselzer.ktx.compose.ui.layout.project.LogicModel
 
 data class ColumnLogic(
     /**
+     * The [Modifiable] components.
+     */
+    val modifiers: Modifiables? = null,
+
+    /**
      * The [LogicModel] of the divider.
      */
     val divider: DividerLogic? = null,
-
-    /**
-     * The [Modifiable] components.
-     */
-    val modifiers: Modifiables? = null
 ) : LogicModel {
     companion object {
         @Stable

@@ -8,14 +8,14 @@ import com.bselzer.ktx.compose.ui.layout.project.LogicModel
 
 class LazyRowLogic<T>(
     /**
-     * The [LogicModel] of the divider.
-     */
-    val divider: DividerLogic? = null,
-
-    /**
      * The [Modifiable] components.
      */
     val modifiers: Modifiables? = null,
+
+    /**
+     * The [LogicModel] of the divider.
+     */
+    val divider: DividerLogic? = null,
 
     /**
      * The state object to be used to control or observe the list's state.
