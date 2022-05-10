@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.textpreference
+package com.bselzer.ktx.compose.ui.layout.preference.text
 
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers

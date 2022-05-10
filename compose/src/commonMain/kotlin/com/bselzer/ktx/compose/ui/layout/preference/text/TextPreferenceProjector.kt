@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.textpreference
+package com.bselzer.ktx.compose.ui.layout.preference.text
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
