@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.image
 
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -7,6 +8,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.MatchParent
+import com.bselzer.ktx.compose.ui.layout.modifier.ModularSize
 import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
@@ -54,3 +57,20 @@ data class ImagePresenter(
         colorFilter = null
     ).merge(this)
 }
+
+@Composable
+fun backgroundImagePresenter() = ImagePresenter(
+    modifiers = PresentableModifiers(size = ModularSize.Filled),
+) merge baseBackgroundImagePresenter()
+
+@Composable
+fun BoxScope.backgroundImagePresenter() = ImagePresenter(
+    // Need to use matchParentSize() so that the image does not participate in sizing and can just fill the resulting size.
+    modifiers = PresentableModifiers(size = MatchParent(this)),
+) merge baseBackgroundImagePresenter()
+
+@Composable
+private fun baseBackgroundImagePresenter() = ImagePresenter(
+    alignment = Alignment.Center,
+    contentScale = ContentScale.Crop,
+)

@@ -67,9 +67,9 @@ data class ButtonPresenter(
 
     @Composable
     fun localized(type: ButtonType) = when (type) {
-        ButtonType.OUTLINED -> outlinedButtonPresentation()
-        ButtonType.TEXT -> textButtonPresentation()
-        else -> containedButtonPresentation()
+        ButtonType.OUTLINED -> outlinedButtonPresenter()
+        ButtonType.TEXT -> textButtonPresentater()
+        else -> containedButtonPresenter()
     }.merge(this)
 }
 
@@ -80,7 +80,7 @@ data class ButtonPresenter(
  * They contain actions that are primary to your app.
  */
 @Composable
-fun containedButtonPresentation(): ButtonPresenter = ButtonPresenter(
+fun containedButtonPresenter(): ButtonPresenter = ButtonPresenter(
     elevation = ButtonDefaults.elevation(),
     shape = MaterialTheme.shapes.small,
     border = null,
@@ -95,7 +95,7 @@ fun containedButtonPresentation(): ButtonPresenter = ButtonPresenter(
  * They contain actions that are important, but aren't the primary action in an app.
  */
 @Composable
-fun outlinedButtonPresentation(): ButtonPresenter = ButtonPresenter(
+fun outlinedButtonPresenter(): ButtonPresenter = ButtonPresenter(
     elevation = null,
     shape = MaterialTheme.shapes.small,
     border = ButtonDefaults.outlinedBorder,
@@ -110,7 +110,7 @@ fun outlinedButtonPresentation(): ButtonPresenter = ButtonPresenter(
  * In cards, text buttons help maintain an emphasis on card content.
  */
 @Composable
-fun textButtonPresentation(): ButtonPresenter = ButtonPresenter(
+fun textButtonPresentater(): ButtonPresenter = ButtonPresenter(
     elevation = null,
     shape = MaterialTheme.shapes.small,
     border = null,

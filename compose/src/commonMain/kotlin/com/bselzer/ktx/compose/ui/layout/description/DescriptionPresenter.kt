@@ -43,8 +43,8 @@ data class DescriptionPresenter(
 
     @Composable
     override fun localized() = DescriptionPresenter(
-        title = descriptionTitlePresentation(),
-        subtitle = descriptionSubtitlePresentation()
+        title = descriptionTitlePresenter(),
+        subtitle = descriptionSubtitlePresenter()
     ).merge(this).run {
         copy(
             container = container.localized(),
@@ -58,7 +58,7 @@ data class DescriptionPresenter(
  * The [Presentable] for the title of a description.
  */
 @Composable
-fun descriptionTitlePresentation() = TextPresenter(
+fun descriptionTitlePresenter() = TextPresenter(
     fontWeight = FontWeight.Bold,
     overflow = TextOverflow.Visible,
     textStyle = MaterialTheme.typography.subtitle1
@@ -68,7 +68,7 @@ fun descriptionTitlePresentation() = TextPresenter(
  * The [Presentable] for the subtitle of a description.
  */
 @Composable
-fun descriptionSubtitlePresentation() = TextPresenter(
+fun descriptionSubtitlePresenter() = TextPresenter(
     overflow = TextOverflow.Ellipsis,
     textStyle = MaterialTheme.typography.subtitle2
 )
