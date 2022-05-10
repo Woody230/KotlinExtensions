@@ -18,21 +18,21 @@ abstract class AlertDialogProjector(
     final override val interactor: AlertDialogInteractor,
     final override val presenter: AlertDialogPresenter = AlertDialogPresenter.Default
 ) : Projector<AlertDialogInteractor, AlertDialogPresenter>() {
-    private val negativeButton = interactor.negativeButton?.let { negativeButton -> TextButtonProjector(negativeButton, presenter.button) }
-    private val neutralButton = interactor.neutralButton?.let { neutralButton -> TextButtonProjector(neutralButton, presenter.button) }
-    private val positiveButton = interactor.positiveButton?.let { positiveButton -> TextButtonProjector(positiveButton, presenter.button) }
-    private val title = interactor.title?.let { title -> TextProjector(title, presenter.title) }
+    private val negativeProjector = interactor.negativeButton?.let { negativeButton -> TextButtonProjector(negativeButton, presenter.button) }
+    private val neutralProjector = interactor.neutralButton?.let { neutralButton -> TextButtonProjector(neutralButton, presenter.button) }
+    private val positiveProjector = interactor.positiveButton?.let { positiveButton -> TextButtonProjector(positiveButton, presenter.button) }
+    private val titleProjector = interactor.title?.let { title -> TextProjector(title, presenter.title) }
 
     @Composable
     fun project(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         AlertDialog(
             onDismissRequest = interactor.onDismissRequest,
             buttons = { projectButtons() },
-            modifier = modifier,
-            title = this@AlertDialogProjector.title?.let { title -> @Composable { title.project() } },
+            modifier = combinedModifier,
+            title = titleProjector?.let { title -> @Composable { title.project() } },
             text = content,
             shape = shape,
             backgroundColor = backgroundColor,
@@ -54,7 +54,7 @@ abstract class AlertDialogProjector(
             start.linkTo(parent.start)
             end.linkTo(spacer.start)
         }) {
-            neutralButton?.project()
+            neutralProjector?.project()
         }
 
         Spacer(modifier = Modifier.constrainAs(spacer) {
@@ -71,12 +71,12 @@ abstract class AlertDialogProjector(
             start.linkTo(spacer.end)
             end.linkTo(parent.end)
         }) {
-            negativeButton?.let { negativeButton ->
+            negativeProjector?.let { negativeButton ->
                 negativeButton.project()
                 Spacer(width = 8.dp)
             }
 
-            positiveButton?.project()
+            positiveProjector?.project()
         }
     }
 }

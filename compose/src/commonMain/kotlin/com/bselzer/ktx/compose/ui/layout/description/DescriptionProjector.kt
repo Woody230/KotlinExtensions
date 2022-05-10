@@ -10,16 +10,18 @@ class DescriptionProjector(
     override val interactor: DescriptionInteractor,
     override val presenter: DescriptionPresenter = DescriptionPresenter.Default
 ) : Projector<DescriptionInteractor, DescriptionPresenter>() {
-    private val containerProjection = ColumnProjector(interactor.container, presenter.container)
-    private val titleProjection = TextProjector(interactor.title, presenter.title)
-    private val subtitleProjection = TextProjector(interactor.subtitle, presenter.subtitle)
+    private val containerProjector = ColumnProjector(interactor.container, presenter.container)
+    private val titleProjector = TextProjector(interactor.title, presenter.title)
+    private val subtitleProjector = TextProjector(interactor.subtitle, presenter.subtitle)
 
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = containerProjection.project(
-        modifier = modifier,
-        { titleProjection.project() },
-        { subtitleProjection.project() }
-    )
+    ) = contextualize(modifier) { combinedModifier ->
+        containerProjector.project(
+            modifier = combinedModifier,
+            { titleProjector.project() },
+            { subtitleProjector.project() }
+        )
+    }
 }

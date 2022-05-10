@@ -12,10 +12,10 @@ data class SnackbarProjector(
     @Composable
     fun project(
         modifier: Modifier = Modifier,
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Snackbar(
             snackbarData = interactor.data,
-            modifier = modifier,
+            modifier = combinedModifier,
             actionOnNewLine = actionOnNewLine.toBoolean(),
             shape = shape,
             backgroundColor = backgroundColor,

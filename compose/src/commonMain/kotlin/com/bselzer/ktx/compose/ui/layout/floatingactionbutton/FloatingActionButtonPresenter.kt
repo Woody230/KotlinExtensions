@@ -11,11 +11,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.layout.icon.IconPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class FloatingActionButtonPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The [Presentable] of the text.
      */
@@ -47,13 +50,14 @@ data class FloatingActionButtonPresenter(
      *  content - the content of this FAB - this is typically an Icon.
      */
     val elevation: FloatingActionButtonElevation = ComposeMerger.floatingActionButtonElevation.default
-) : Presenter<FloatingActionButtonPresenter>() {
+) : Presenter<FloatingActionButtonPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = FloatingActionButtonPresenter()
     }
 
     override fun safeMerge(other: FloatingActionButtonPresenter) = FloatingActionButtonPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         text = text.merge(other.text),
         icon = icon.merge(other.icon),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),

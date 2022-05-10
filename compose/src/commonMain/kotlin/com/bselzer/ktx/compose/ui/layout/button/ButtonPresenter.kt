@@ -10,10 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.function.objects.safeMerge
 
 data class ButtonPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * [ButtonElevation] used to resolve the elevation for this button in different states. This controls the size of the shadow below the button. Pass null here to disable elevation for this button. See [ButtonDefaults.elevation].
      */
@@ -43,13 +46,14 @@ data class ButtonPresenter(
      * The type of button.
      */
     val type: ButtonType = ButtonType.DEFAULT
-) : Presenter<ButtonPresenter>() {
+) : Presenter<ButtonPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = ButtonPresenter()
     }
 
     override fun safeMerge(other: ButtonPresenter) = ButtonPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         elevation = ComposeMerger.buttonElevation.nullMerge(elevation, other.elevation),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         border = ComposeMerger.borderStroke.nullMerge(border, other.border),

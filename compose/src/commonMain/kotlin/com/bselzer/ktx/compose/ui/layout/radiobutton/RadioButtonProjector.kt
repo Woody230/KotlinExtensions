@@ -15,11 +15,11 @@ class RadioButtonProjector(
     fun project(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         RadioButton(
             selected = interactor.selected,
             onClick = interactor.onClick,
-            modifier = modifier,
+            modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
             colors = colors

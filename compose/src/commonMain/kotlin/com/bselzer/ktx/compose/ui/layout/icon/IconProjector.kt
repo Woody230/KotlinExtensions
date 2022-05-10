@@ -12,11 +12,11 @@ class IconProjector(
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Icon(
             imageVector = interactor.imageVector,
             contentDescription = interactor.contentDescription,
-            modifier = modifier,
+            modifier = combinedModifier,
             tint = tint
         )
     }

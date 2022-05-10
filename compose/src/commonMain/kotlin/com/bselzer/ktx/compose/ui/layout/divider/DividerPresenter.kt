@@ -7,9 +7,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class DividerPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * Color of the divider line.
      */
@@ -24,13 +27,14 @@ data class DividerPresenter(
      * Start offset of this line, no offset by default.
      */
     val startIndent: Dp = ComposeMerger.dp.default,
-) : Presenter<DividerPresenter>() {
+) : Presenter<DividerPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = DividerPresenter()
     }
 
     override fun safeMerge(other: DividerPresenter) = DividerPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         color = ComposeMerger.color.safeMerge(color, other.color),
         thickness = ComposeMerger.dp.safeMerge(thickness, other.thickness),
         startIndent = ComposeMerger.dp.safeMerge(startIndent, other.startIndent)

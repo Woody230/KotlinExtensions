@@ -12,11 +12,11 @@ class ImageProjector(
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Image(
             painter = interactor.painter,
             contentDescription = interactor.contentDescription,
-            modifier = modifier,
+            modifier = combinedModifier,
             alignment = alignment,
             contentScale = contentScale,
             alpha = alpha,

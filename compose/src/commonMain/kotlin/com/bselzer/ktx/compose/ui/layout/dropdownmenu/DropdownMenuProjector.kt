@@ -9,20 +9,20 @@ class DropdownMenuProjector(
     override val interactor: DropdownMenuInteractor,
     override val presenter: DropdownMenuPresenter
 ) : Projector<DropdownMenuInteractor, DropdownMenuPresenter>() {
-    private val iconProjections = interactor.icons.map { interaction -> IconButtonProjector(interaction, presenter.icon) }
+    private val iconProjectors = interactor.icons.map { interaction -> IconButtonProjector(interaction, presenter.icon) }
 
     @Composable
     fun project(
         modifier: Modifier = Modifier,
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         DropdownMenu(
             expanded = interactor.expanded,
             onDismissRequest = interactor.onDismissRequest,
             focusable = interactor.focusable,
-            modifier = modifier,
+            modifier = combinedModifier,
             offset = offset,
         ) {
-            iconProjections.forEach { icon -> icon.project() }
+            iconProjectors.forEach { icon -> icon.project() }
         }
     }
 }

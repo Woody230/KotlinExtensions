@@ -12,17 +12,19 @@ class TextButtonProjector(
     override val interactor: TextButtonInteractor,
     override val presenter: TextButtonPresenter
 ) : Projector<TextButtonInteractor, TextButtonPresenter>() {
-    private val button = ButtonProjector(interactor.button, presenter.button)
-    private val text = TextProjector(interactor.text, presenter.text)
+    private val buttonProjector = ButtonProjector(interactor.button, presenter.button)
+    private val textProjector = TextProjector(interactor.text, presenter.text)
 
     @Composable
     fun project(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-    ) = button.project(
-        modifier = modifier,
-        interactionSource = interactionSource
-    ) {
-        text.project()
+    ) = contextualize(modifier) { combinedModifier ->
+        buttonProjector.project(
+            modifier = combinedModifier,
+            interactionSource = interactionSource
+        ) {
+            textProjector.project()
+        }
     }
 }

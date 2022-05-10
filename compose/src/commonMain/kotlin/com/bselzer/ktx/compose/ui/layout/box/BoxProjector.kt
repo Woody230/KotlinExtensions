@@ -14,9 +14,9 @@ class BoxProjector(
     fun project(
         modifier: Modifier = Modifier,
         content: @Composable BoxScope.() -> Unit
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Box(
-            modifier = modifier,
+            modifier = combinedModifier,
             contentAlignment = contentAlignment,
             propagateMinConstraints = propagateMinConstraints.toBoolean(),
             content = content

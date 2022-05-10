@@ -6,9 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class BadgePresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The background color for the badge
      */
@@ -18,13 +21,14 @@ data class BadgePresenter(
      * The color of label text rendered in the badge
      */
     val contentColor: Color = ComposeMerger.color.default,
-) : Presenter<BadgePresenter>() {
+) : Presenter<BadgePresenter>(modifiers) {
     companion object {
         @Stable
         val Default = BadgePresenter()
     }
 
     override fun safeMerge(other: BadgePresenter) = BadgePresenter(
+        modifiers = modifiers.merge(other.modifiers),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
         contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor)
     )

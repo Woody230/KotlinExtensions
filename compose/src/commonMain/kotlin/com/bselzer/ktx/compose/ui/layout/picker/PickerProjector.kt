@@ -6,19 +6,18 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.icon.IconProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
+import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
+import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.unit.toPx
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -33,9 +32,9 @@ class PickerProjector<T>(
     @Composable
     fun project(
         modifier: Modifier = Modifier,
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         PickerColumn(
-            modifier = modifier,
+            modifier = combinedModifier,
             index = interactor.selectedIndex,
             indexRange = interactor.range,
             setState = { index -> interactor.getValue(index)?.let { interactor.onSelectionChanged(it) } },
@@ -92,7 +91,7 @@ class PickerProjector<T>(
 
         Column(columnModifier) {
             IconButton(onClick = { setState(index + 1) }) {
-                IconProjector(interactor.upIcon, presenter.upIcon).project()
+                IconProjector(interactor.upIcon, presenter.icon).project()
             }
 
             // Use the index associated with the animation when displaying the text values instead of the state index.
@@ -100,13 +99,12 @@ class PickerProjector<T>(
                 animatedStateValue(animatable.value),
                 presenter.animationOffset,
                 animatable,
-                presenter.textStyle
             ) { selectedIndex ->
                 label(selectedIndex)
             }
 
             IconButton(onClick = { setState(index - 1) }) {
-                IconProjector(interactor.downIcon, presenter.downIcon).project()
+                IconProjector(interactor.downIcon, presenter.icon).project()
             }
         }
     }
@@ -116,7 +114,6 @@ class PickerProjector<T>(
         index: Int,
         animationOffset: Dp,
         animatable: Animatable<Float, AnimationVector1D>,
-        textStyle: TextStyle,
         label: (Int) -> String
     ) = Box(
         modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -125,24 +122,30 @@ class PickerProjector<T>(
         val animationOffsetPx = animationOffset.toPx()
         val coercedOffset = animatable.value % animationOffsetPx
 
-        CompositionLocalProvider(LocalTextStyle provides textStyle) {
-            Text(
-                text = label(index - 1),
-                modifier = textModifier
-                    .offset(y = -animationOffset)
-                    .alpha(coercedOffset / animationOffsetPx)
-            )
-            Text(
-                text = label(index),
-                modifier = textModifier.alpha(1 - abs(coercedOffset) / animationOffsetPx)
-            )
-            Text(
-                text = label(index + 1),
-                modifier = textModifier
-                    .offset(y = animationOffset)
-                    .alpha(-coercedOffset / animationOffsetPx),
-            )
-        }
+        TextProjector(
+            interactor = TextInteractor(text = AnnotatedString(label(index - 1))),
+            presenter = presenter.text
+        ).project(
+            modifier = textModifier
+                .offset(y = -animationOffset)
+                .alpha(coercedOffset / animationOffsetPx)
+        )
+
+        TextProjector(
+            interactor = TextInteractor(text = AnnotatedString(label(index))),
+            presenter = presenter.text
+        ).project(
+            modifier = textModifier.alpha(1 - abs(coercedOffset) / animationOffsetPx)
+        )
+
+        TextProjector(
+            interactor = TextInteractor(text = AnnotatedString(label(index))),
+            presenter = presenter.text
+        ).project(
+            modifier = textModifier
+                .offset(y = animationOffset)
+                .alpha(-coercedOffset / animationOffsetPx),
+        )
     }
 
     @Composable

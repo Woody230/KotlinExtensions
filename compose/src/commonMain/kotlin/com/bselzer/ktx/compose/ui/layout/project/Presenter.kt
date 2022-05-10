@@ -1,9 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.project
 
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 
 @Suppress("UNCHECKED_CAST")
-abstract class Presenter<Model> : Presentable<Model> where Model : Presenter<Model> {
+abstract class Presenter<Model>(
+    override val modifiers: PresentableModifiers
+) : Presentable<Model> where Model : Presenter<Model> {
     override fun merge(other: Model?): Model = if (other == null || other === this) this as Model else safeMerge(other)
     protected abstract fun safeMerge(other: Model): Model
 

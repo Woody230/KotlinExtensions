@@ -11,10 +11,13 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class LazyColumnPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The [Presentable] of the divider between items.
      */
@@ -55,13 +58,14 @@ data class LazyColumnPresenter(
      * interaction describing fling behavior.
      */
     val flingBehavior: FlingBehavior = ComposeMerger.flingBehavior.default
-) : Presenter<LazyColumnPresenter>() {
+) : Presenter<LazyColumnPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = LazyColumnPresenter()
     }
 
     override fun safeMerge(other: LazyColumnPresenter) = LazyColumnPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         divider = divider.merge(other.divider),
         prepend = ComposeMerger.triState.safeMerge(prepend, other.prepend),
         append = ComposeMerger.triState.safeMerge(append, other.append),

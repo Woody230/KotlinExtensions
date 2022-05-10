@@ -12,20 +12,20 @@ class IconButtonProjector(
     override val interactor: IconButtonInteractor,
     override val presenter: IconButtonPresenter = IconButtonPresenter.Default
 ) : Projector<IconButtonInteractor, IconButtonPresenter>() {
-    private val iconProjection = IconProjector(interactor.icon, presenter.icon)
+    private val iconProjector = IconProjector(interactor.icon, presenter.icon)
 
     @Composable
     fun project(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         IconButton(
             onClick = interactor.onClick,
-            modifier = modifier,
+            modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
         ) {
-            iconProjection.project()
+            iconProjector.project()
         }
     }
 }

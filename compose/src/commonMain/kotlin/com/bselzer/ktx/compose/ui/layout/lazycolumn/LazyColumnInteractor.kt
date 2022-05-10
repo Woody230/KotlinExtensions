@@ -3,14 +3,10 @@ package com.bselzer.ktx.compose.ui.layout.lazycolumn
 import androidx.compose.foundation.lazy.LazyListState
 import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
-import com.bselzer.ktx.compose.ui.layout.modifier.Modifiable
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class LazyColumnInteractor<T>(
-    /**
-     * The [Modifiable] components.
-     */
-    val modifiers: InteractableModifiers? = null,
+    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
 
     /**
      * The [Interactor] of the divider.
@@ -26,4 +22,4 @@ data class LazyColumnInteractor<T>(
      * The items.
      */
     val items: List<T>
-) : Interactor()
+) : Interactor(modifiers)

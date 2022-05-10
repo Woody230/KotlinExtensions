@@ -12,9 +12,9 @@ class DividerProjector(
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Divider(
-            modifier = modifier,
+            modifier = combinedModifier,
             color = color,
             thickness = thickness,
             startIndent = startIndent

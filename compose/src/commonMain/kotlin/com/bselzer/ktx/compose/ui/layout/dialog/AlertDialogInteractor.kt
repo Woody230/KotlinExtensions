@@ -1,10 +1,13 @@
 package com.bselzer.ktx.compose.ui.layout.dialog
 
+import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonInteractor
 
 data class AlertDialogInteractor(
+    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+
     /**
      * The [Interactor] for the negative action button for dismissal.
      */
@@ -29,4 +32,4 @@ data class AlertDialogInteractor(
      * The block for when the user tries to dismiss the dialog by clicking outside or pressing the back button
      */
     val onDismissRequest: () -> Unit,
-) : Interactor()
+) : Interactor(modifiers)

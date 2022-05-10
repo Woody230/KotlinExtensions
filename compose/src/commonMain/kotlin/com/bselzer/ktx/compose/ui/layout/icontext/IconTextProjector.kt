@@ -11,16 +11,18 @@ class IconTextProjector(
     override val interactor: IconTextInteractor,
     override val presenter: IconTextPresenter = IconTextPresenter.Default
 ) : Projector<IconTextInteractor, IconTextPresenter>() {
-    private val containerProjection = RowProjector(interactor.container, presenter.container)
-    private val iconProjection = IconProjector(interactor.icon, presenter.icon)
-    private val textProjection = TextProjector(interactor.text, presenter.text)
+    private val containerProjector = RowProjector(interactor.container, presenter.container)
+    private val iconProjector = IconProjector(interactor.icon, presenter.icon)
+    private val textProjector = TextProjector(interactor.text, presenter.text)
 
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = containerProjection.project(
-        modifier = modifier,
-        { iconProjection.project() },
-        { textProjection.project(modifier = Modifier.weight(1f)) }
-    )
+    ) = contextualize(modifier) { combinedModifier ->
+        containerProjector.project(
+            modifier = combinedModifier,
+            { iconProjector.project() },
+            { textProjector.project(modifier = Modifier.weight(1f)) }
+        )
+    }
 }

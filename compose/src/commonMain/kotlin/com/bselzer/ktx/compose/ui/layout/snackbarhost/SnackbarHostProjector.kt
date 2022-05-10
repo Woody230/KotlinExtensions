@@ -14,10 +14,10 @@ data class SnackbarHostProjector(
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         SnackbarHost(
             hostState = interactor.state,
-            modifier = modifier,
+            modifier = combinedModifier,
         ) { data ->
             SnackbarProjector(
                 interactor = SnackbarInteractor(data = data),

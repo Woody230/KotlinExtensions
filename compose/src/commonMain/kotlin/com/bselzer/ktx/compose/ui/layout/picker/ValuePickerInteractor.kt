@@ -1,8 +1,11 @@
 package com.bselzer.ktx.compose.ui.layout.picker
 
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
+import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
 
 data class ValuePickerInteractor<T>(
+    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+
     /**
      * The selected value.
      */
@@ -17,7 +20,7 @@ data class ValuePickerInteractor<T>(
     override val onSelectionChanged: (T) -> Unit,
     override val upIcon: IconInteractor,
     override val downIcon: IconInteractor
-) : PickerInteractor<T> {
+) : PickerInteractor<T>(modifiers) {
     override val selectedIndex: Int = values.indexOfFirst { value -> value == selected }
     override val getValue: (Int) -> T? = { index -> values.getOrNull(index) }
     override val range: IntRange = values.indices

@@ -14,11 +14,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.function.objects.nullMerge
 import com.bselzer.ktx.function.objects.safeMerge
 
 data class TextPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * Color to apply to the text. If [Color.Unspecified], and style has no color set, this will be LocalContentColor.
      */
@@ -83,13 +86,14 @@ data class TextPresenter(
      * Style configuration for the text such as color, font, line height etc.
      */
     val textStyle: TextStyle = TextStyle.Default,
-) : Presenter<TextPresenter>() {
+) : Presenter<TextPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = TextPresenter()
     }
 
     override fun safeMerge(other: TextPresenter) = TextPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         color = ComposeMerger.color.safeMerge(color, other.color),
         fontSize = ComposeMerger.textUnit.safeMerge(fontSize, other.fontSize),
         fontStyle = fontStyle.nullMerge(other.fontStyle),

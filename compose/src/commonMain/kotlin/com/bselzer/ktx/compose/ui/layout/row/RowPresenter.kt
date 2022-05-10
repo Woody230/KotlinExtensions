@@ -7,10 +7,13 @@ import androidx.compose.ui.Alignment
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class RowPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The [Presentable] of the divider between items.
      */
@@ -35,13 +38,14 @@ data class RowPresenter(
      * The vertical alignment of the layout's children.
      */
     val verticalAlignment: Alignment.Vertical = ComposeMerger.verticalAlignment.default,
-) : Presenter<RowPresenter>() {
+) : Presenter<RowPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = RowPresenter()
     }
 
     override fun safeMerge(other: RowPresenter) = RowPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         divider = divider.merge(other.divider),
         prepend = ComposeMerger.triState.safeMerge(prepend, other.prepend),
         append = ComposeMerger.triState.safeMerge(append, other.append),

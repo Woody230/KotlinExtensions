@@ -1,10 +1,13 @@
 package com.bselzer.ktx.compose.ui.layout.centeredtext
 
+import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.spacer.SpacerInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 
 data class CenteredTextInteractor(
+    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+
     /**
      * The [Interactor] of the starting text.
      */
@@ -19,4 +22,4 @@ data class CenteredTextInteractor(
      * The [Interactor] of the spacing between the starting and ending text.
      */
     val spacer: SpacerInteractor = SpacerInteractor.Default
-) : Interactor()
+) : Interactor(modifiers)

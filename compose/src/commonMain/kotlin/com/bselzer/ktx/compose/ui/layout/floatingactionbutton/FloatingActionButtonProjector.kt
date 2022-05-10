@@ -14,18 +14,18 @@ class FloatingActionButtonProjector(
     override val interactor: FloatingActionButtonInteractor,
     override val presenter: FloatingActionButtonPresenter = FloatingActionButtonPresenter.Default
 ) : Projector<FloatingActionButtonInteractor, FloatingActionButtonPresenter>() {
-    private val textProjection = interactor.text?.let { text -> TextProjector(text, presenter.text) }
-    private val iconProjection = interactor.icon?.let { icon -> IconProjector(icon, presenter.icon) }
+    private val textProjector = interactor.text?.let { text -> TextProjector(text, presenter.text) }
+    private val iconProjector = interactor.icon?.let { icon -> IconProjector(icon, presenter.icon) }
 
     @Composable
     fun project(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize {
-        if (textProjection == null) {
-            WithoutText(modifier, interactionSource)
+    ) = contextualize(modifier) { combinedModifier ->
+        if (textProjector == null) {
+            WithoutText(combinedModifier, interactionSource)
         } else {
-            WithText(modifier, interactionSource, textProjection)
+            WithText(combinedModifier, interactionSource, textProjector)
         }
     }
 
@@ -42,19 +42,19 @@ class FloatingActionButtonProjector(
         contentColor = contentColor,
         elevation = elevation
     ) {
-        iconProjection?.project()
+        iconProjector?.project()
     }
 
     @Composable
     private fun FloatingActionButtonPresenter.WithText(
         modifier: Modifier,
         interactionSource: MutableInteractionSource,
-        textProjection: TextProjector
+        textProjector: TextProjector
     ) = ExtendedFloatingActionButton(
-        text = { textProjection.project() },
+        text = { textProjector.project() },
         onClick = interactor.onClick,
         modifier = modifier,
-        icon = iconProjection?.let { icon -> { icon.project() } },
+        icon = iconProjector?.let { icon -> { icon.project() } },
         interactionSource = interactionSource,
         shape = shape,
         backgroundColor = backgroundColor,

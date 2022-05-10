@@ -16,8 +16,8 @@ class BottomAppBarProjector(
     override val interactor: BottomAppBarInteractor,
     override val presenter: BottomAppBarPresenter = BottomAppBarPresenter.Default
 ) : Projector<BottomAppBarInteractor, BottomAppBarPresenter>() {
-    private val navigationProjection = interactor.navigation?.let { navigation -> IconButtonProjector(navigation, presenter.icon) }
-    private val actionProjection = interactor.actions.map { action -> IconButtonProjector(action, presenter.icon) }
+    private val navigationProjector = interactor.navigation?.let { navigation -> IconButtonProjector(navigation, presenter.icon) }
+    private val actionProjector = interactor.actions.map { action -> IconButtonProjector(action, presenter.icon) }
 
     companion object {
         private val AppBarHorizontalPadding = 4.dp
@@ -34,22 +34,22 @@ class BottomAppBarProjector(
     @Composable
     fun project(
         modifier: Modifier = Modifier
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         BottomAppBar(
-            modifier = modifier,
+            modifier = combinedModifier,
             backgroundColor = backgroundColor,
             contentColor = contentColor,
             elevation = elevation,
             cutoutShape = cutoutShape,
             contentPadding = contentPadding
         ) {
-            if (navigationProjection == null) {
+            if (navigationProjector == null) {
                 Spacer(TitleInsetWithoutIcon)
             } else {
                 Row(TitleIconModifier, verticalAlignment = Alignment.CenterVertically) {
                     CompositionLocalProvider(
                         LocalContentAlpha provides ContentAlpha.high,
-                        content = { navigationProjection.project() }
+                        content = { navigationProjector.project() }
                     )
                 }
             }
@@ -63,7 +63,7 @@ class BottomAppBarProjector(
                     Modifier.fillMaxHeight(),
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
-                    content = { actionProjection.forEach { action -> action.project() } }
+                    content = { actionProjector.forEach { action -> action.project() } }
                 )
             }
         }

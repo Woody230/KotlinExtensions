@@ -14,9 +14,9 @@ class BadgeProjector(
     fun project(
         modifier: Modifier = Modifier,
         content: @Composable (RowScope.() -> Unit)? = null
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Badge(
-            modifier = modifier,
+            modifier = combinedModifier,
             backgroundColor = backgroundColor,
             contentColor = contentColor,
             content = content

@@ -7,12 +7,15 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonPresenter
 
 data class AlertDialogPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The [Presentable] for negative, neutral, and positive buttons.
      */
@@ -37,13 +40,14 @@ data class AlertDialogPresenter(
      * The color of the dialog content.
      */
     val contentColor: Color = ComposeMerger.color.default,
-) : Presenter<AlertDialogPresenter>() {
+) : Presenter<AlertDialogPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = AlertDialogPresenter()
     }
 
     override fun safeMerge(other: AlertDialogPresenter) = AlertDialogPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         button = button.merge(other.button),
         title = title.merge(other.title),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),

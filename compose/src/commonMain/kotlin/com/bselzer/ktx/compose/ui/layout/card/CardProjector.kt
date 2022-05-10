@@ -17,11 +17,11 @@ class CardProjector(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         if (interactor.onClick == null) {
-            WithoutClick(modifier, content)
+            WithoutClick(combinedModifier, content)
         } else {
-            WithClick(modifier, interactionSource, interactor.onClick, content)
+            WithClick(combinedModifier, interactionSource, interactor.onClick, content)
         }
     }
 

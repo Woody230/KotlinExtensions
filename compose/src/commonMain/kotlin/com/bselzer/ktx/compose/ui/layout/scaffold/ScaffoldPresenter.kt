@@ -11,6 +11,7 @@ import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButt
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
 import com.bselzer.ktx.compose.ui.layout.modaldrawer.ModalDrawerPresenter
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostPresenter
@@ -18,6 +19,8 @@ import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarPresenter
 import com.bselzer.ktx.function.objects.safeMerge
 
 data class ScaffoldPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The [Presentable] for the drawer.
      */
@@ -64,13 +67,14 @@ data class ScaffoldPresenter(
      * Defaults to either the matching content color for backgroundColor, or, if it is not a color from the theme, this will keep the same value set above this Surface.
      */
     val contentColor: Color = ComposeMerger.color.default
-) : Presenter<ScaffoldPresenter>() {
+) : Presenter<ScaffoldPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = ScaffoldPresenter()
     }
 
     override fun safeMerge(other: ScaffoldPresenter) = ScaffoldPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         drawer = drawer.merge(other.drawer),
         snackbarHost = snackbarHost.merge(other.snackbarHost),
         topBar = topBar.merge(other.topBar),

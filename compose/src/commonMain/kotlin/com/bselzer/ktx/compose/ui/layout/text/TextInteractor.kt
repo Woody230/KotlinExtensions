@@ -3,9 +3,12 @@ package com.bselzer.ktx.compose.ui.layout.text
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
+import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class TextInteractor(
+    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+
     /**
      * The text to be displayed.
      */
@@ -23,4 +26,4 @@ data class TextInteractor(
      * It's used to insert composables into text layout. Check InlineTextContent for more information.
      */
     val inlineContent: Map<String, InlineTextContent> = mapOf()
-) : Interactor()
+) : Interactor(modifiers)

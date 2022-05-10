@@ -14,10 +14,10 @@ class TextProjector(
     fun project(
         modifier: Modifier = Modifier,
         textAlign: TextAlign? = null
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Text(
             text = interactor.text,
-            modifier = modifier,
+            modifier = combinedModifier,
             color = color,
             fontSize = fontSize,
             fontStyle = fontStyle,

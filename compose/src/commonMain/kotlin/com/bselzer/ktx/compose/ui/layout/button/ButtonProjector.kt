@@ -17,10 +17,10 @@ class ButtonProjector(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable RowScope.() -> Unit
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         Button(
             onClick = interactor.onClick,
-            modifier = modifier,
+            modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
             elevation = elevation,

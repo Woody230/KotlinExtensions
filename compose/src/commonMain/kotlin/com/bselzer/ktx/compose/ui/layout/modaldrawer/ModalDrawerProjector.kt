@@ -17,18 +17,18 @@ class ModalDrawerProjector(
     override val interactor: ModalDrawerInteractor,
     override val presenter: ModalDrawerPresenter = ModalDrawerPresenter.Default
 ) : Projector<ModalDrawerInteractor, ModalDrawerPresenter>() {
-    private val containerProjection = ColumnProjector(interactor.container, presenter.container)
-    private val imageProjection = interactor.image?.let { image -> ImageProjector(image, presenter.image) }
-    private val descriptionProjection = interactor.description?.let { description -> DescriptionProjector(description, presenter.description) }
-    private val componentProjections = interactor.components.map { components -> components.map { component -> IconTextProjector(component, presenter.component) } }
+    private val containerProjector = ColumnProjector(interactor.container, presenter.container)
+    private val imageProjector = interactor.image?.let { image -> ImageProjector(image, presenter.image) }
+    private val descriptionProjector = interactor.description?.let { description -> DescriptionProjector(description, presenter.description) }
+    private val componentProjectors = interactor.components.map { components -> components.map { component -> IconTextProjector(component, presenter.component) } }
 
     @Composable
     fun project(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
-    ) = contextualize {
+    ) = contextualize(modifier) { combinedModifier ->
         ModalDrawer(
-            modifier = modifier,
+            modifier = combinedModifier,
             drawerState = rememberSaveable(saver = DrawerState.Saver(interactor.confirmStateChange)) { interactor.state },
             gesturesEnabled = interactor.gesturesEnabled,
             drawerShape = shape,
@@ -42,18 +42,16 @@ class ModalDrawerProjector(
     }
 
     @Composable
-    fun drawerContent() = contextualize {
-        containerProjection.project(
-            modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-            content = arrayOf(header()).plus(componentProjections.map { it.section() })
-        )
-    }
+    fun drawerContent() = containerProjector.project(
+        modifier = Modifier.padding(start = 16.dp, end = 8.dp),
+        content = arrayOf(header()).plus(componentProjectors.map { it.section() })
+    )
 
     @Composable
     private fun header(): @Composable ColumnScope.() -> Unit = {
         Column(modifier = Modifier.fillMaxWidth()) {
-            imageProjection?.project()
-            descriptionProjection?.project()
+            imageProjector?.project()
+            descriptionProjector?.project()
             Spacer(modifier = Modifier.height(8.dp))
         }
     }

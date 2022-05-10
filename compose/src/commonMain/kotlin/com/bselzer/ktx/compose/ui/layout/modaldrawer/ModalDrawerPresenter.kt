@@ -18,12 +18,15 @@ import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.icontext.IconTextPresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.row.RowPresenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class ModalDrawerPresenter(
+    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+
     /**
      * The [Presentable] for the container holding the header and sections.
      */
@@ -70,13 +73,14 @@ data class ModalDrawerPresenter(
      * Color of the scrim that obscures content when the drawer is open
      */
     val scrimColor: Color = ComposeMerger.color.default
-) : Presenter<ModalDrawerPresenter>() {
+) : Presenter<ModalDrawerPresenter>(modifiers) {
     companion object {
         @Stable
         val Default = ModalDrawerPresenter()
     }
 
     override fun safeMerge(other: ModalDrawerPresenter) = ModalDrawerPresenter(
+        modifiers = modifiers.merge(other.modifiers),
         container = container.merge(other.container),
         image = image.merge(other.image),
         description = description.merge(other.description),
