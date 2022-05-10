@@ -2,10 +2,11 @@ package com.bselzer.ktx.compose.ui.layout.project
 
 import androidx.compose.runtime.Composable
 
-abstract class Projector<Logic, Presentation> : Projectable<Logic, Presentation> where Logic : LogicModel, Presentation : PresentationModel<Presentation> {
+abstract class Projector<Interactor, Presenter> :
+    Projectable<Interactor, Presenter> where Interactor : Interactable, Presenter : Presentable<Presenter> {
     /**
-     * Calls the specified block with the localized version of the [presentation].
+     * Calls the specified block with the localized version of the [presenter].
      */
     @Composable
-    protected fun contextualize(block: @Composable Presentation.() -> Unit) = presentation.localized().block() // TODO add the logic model with context receivers
+    protected fun contextualize(block: @Composable Presenter.() -> Unit) = presenter.localized().block() // TODO add the interaction model with context receivers
 }

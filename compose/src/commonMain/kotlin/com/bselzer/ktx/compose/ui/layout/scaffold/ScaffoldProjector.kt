@@ -5,22 +5,22 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarProjection
-import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonProjection
-import com.bselzer.ktx.compose.ui.layout.modaldrawer.ModalDrawerProjection
+import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarProjector
+import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonProjector
+import com.bselzer.ktx.compose.ui.layout.modaldrawer.ModalDrawerProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
-import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostProjection
-import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarProjection
+import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostProjector
+import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarProjector
 
 class ScaffoldProjector(
-    override val logic: ScaffoldLogic,
-    override val presentation: ScaffoldPresentation = ScaffoldPresentation.Default
-) : Projector<ScaffoldLogic, ScaffoldPresentation>() {
-    private val drawerProjection = ModalDrawerProjection(logic.drawer, presentation.drawer)
-    private val snackbarHostProjection = SnackbarHostProjection(logic.snackbarHost, presentation.snackbarHost)
-    private val topBarProjection = logic.topBar?.let { bar -> TopAppBarProjection(bar, presentation.topBar) }
-    private val bottomBarProjection = logic.bottomBar?.let { bar -> BottomAppBarProjection(bar, presentation.bottomBar) }
-    private val fabProjection = logic.floatingActionButton?.let { fab -> FloatingActionButtonProjection(fab, presentation.floatingActionButton) }
+    override val interactor: ScaffoldInteractor,
+    override val presenter: ScaffoldPresenter = ScaffoldPresenter.Default
+) : Projector<ScaffoldInteractor, ScaffoldPresenter>() {
+    private val drawerProjection = ModalDrawerProjector(interactor.drawer, presenter.drawer)
+    private val snackbarHostProjection = SnackbarHostProjector(interactor.snackbarHost, presenter.snackbarHost)
+    private val topBarProjection = interactor.topBar?.let { bar -> TopAppBarProjector(bar, presenter.topBar) }
+    private val bottomBarProjection = interactor.bottomBar?.let { bar -> BottomAppBarProjector(bar, presenter.bottomBar) }
+    private val fabProjection = interactor.floatingActionButton?.let { fab -> FloatingActionButtonProjector(fab, presenter.floatingActionButton) }
 
     @Composable
     fun project(
@@ -29,7 +29,7 @@ class ScaffoldProjector(
     ) = contextualize {
         Scaffold(
             modifier = modifier,
-            scaffoldState = remember { logic.state },
+            scaffoldState = remember { interactor.state },
             topBar = { topBarProjection?.project() },
             bottomBar = { bottomBarProjection?.project() },
             snackbarHost = { snackbarHostProjection.project() },
@@ -37,7 +37,7 @@ class ScaffoldProjector(
             floatingActionButtonPosition = floatingActionButtonPosition,
             isFloatingActionButtonDocked = isFloatingActionButtonDocked.toBoolean(),
             drawerContent = { drawerProjection.drawerContent() },
-            drawerGesturesEnabled = logic.drawer.gesturesEnabled,
+            drawerGesturesEnabled = interactor.drawer.gesturesEnabled,
             drawerShape = drawer.shape,
             drawerElevation = drawer.elevation,
             drawerBackgroundColor = drawer.backgroundColor,

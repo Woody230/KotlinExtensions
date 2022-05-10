@@ -17,7 +17,7 @@ data class HorizontalScroll(
     val enabled: Boolean = true,
 
     /**
-     * logic describing fling behavior when drag has finished with velocity.
+     * interaction describing fling behavior when drag has finished with velocity.
      * If null, default from ScrollableDefaults.flingBehavior will be used.
      */
     val flingBehavior: FlingBehavior? = null,
