@@ -3,7 +3,6 @@ package com.bselzer.ktx.compose.ui.layout.preference
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.ModularSize
@@ -36,10 +35,7 @@ data class PreferencePresenter(
 
     @Composable
     override fun localized() = PreferencePresenter(
-        image = ImagePresenter(
-            modifiers = PresentableModifiers(size = ModularSize(48.dp, 48.dp)),
-            contentScale = ContentScale.FillBounds
-        )
+        image = preferenceImagePresenter()
     ).merge(this).run {
         copy(
             image = image.localized(),
@@ -47,3 +43,14 @@ data class PreferencePresenter(
         )
     }
 }
+
+@Composable
+fun preferenceImagePresenter() = ImagePresenter(
+    contentScale = ContentScale.FillBounds,
+    modifiers = PresentableModifiers(
+        size = ModularSize(
+            width = PreferenceConstants.ImageSize,
+            height = PreferenceConstants.ImageSize
+        )
+    ),
+)

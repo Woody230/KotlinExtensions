@@ -24,13 +24,4 @@ class DescriptionProjector(
             { subtitleProjector.project() }
         )
     }
-
-    @Composable
-    internal fun project(
-        title: Modifier = Modifier,
-        subtitle: Modifier = Modifier
-    ) {
-        titleProjector.project(modifier = title)
-        subtitleProjector.project(modifier = subtitle)
-    }
 }
