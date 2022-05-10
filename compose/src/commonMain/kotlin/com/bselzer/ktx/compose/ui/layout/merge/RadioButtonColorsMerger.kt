@@ -14,7 +14,7 @@ class RadioButtonColorsMerger : ComponentMerger<RadioButtonColors> {
         @Stable
         val Default = object : RadioButtonColors {
             @Composable
-            override fun radioColor(enabled: TriState, selected: TriState): State<Color> = mutableStateOf(Color.Unspecified)
+            override fun radioColor(enabled: Boolean, selected: Boolean): State<Color> = mutableStateOf(Color.Transparent)
         }
     }
 }
