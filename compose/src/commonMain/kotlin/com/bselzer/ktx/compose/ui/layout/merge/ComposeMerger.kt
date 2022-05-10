@@ -5,10 +5,7 @@ import androidx.compose.foundation.Indication
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.ButtonElevation
-import androidx.compose.material.FloatingActionButtonElevation
-import androidx.compose.material.RadioButtonColors
+import androidx.compose.material.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -24,6 +21,7 @@ object ComposeMerger {
     val borderStroke: ComponentMerger<BorderStroke> = BorderStrokeMerger()
     val buttonColors: ComponentMerger<ButtonColors> = ButtonColorsMerger()
     val buttonElevation: ComponentMerger<ButtonElevation> = ButtonElevationMerger()
+    val checkboxColors: ComponentMerger<CheckboxColors> = CheckboxColorsMerger()
     val colorFilter: ComponentMerger<ColorFilter> = ColorFilterMerger()
     val color: ComponentMerger<Color> = ColorMerger()
     val contentScale: ComponentMerger<ContentScale> = ContentScaleMerger()
