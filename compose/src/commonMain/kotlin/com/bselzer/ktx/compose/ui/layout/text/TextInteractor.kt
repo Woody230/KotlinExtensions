@@ -26,4 +26,6 @@ data class TextInteractor(
      * It's used to insert composables into text layout. Check InlineTextContent for more information.
      */
     val inlineContent: Map<String, InlineTextContent> = mapOf()
-) : Interactor(modifiers)
+) : Interactor(modifiers) {
+    constructor(text: String) : this(text = AnnotatedString(text))
+}
