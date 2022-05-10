@@ -38,6 +38,7 @@ object ComposeMerger {
     val radioButtonColors: ComponentMerger<RadioButtonColors> = RadioButtonColorsMerger()
     val role: ComponentMerger<Role?> = RoleMerger()
     val shape: ComponentMerger<Shape> = ShapeMerger()
+    val switchColors: ComponentMerger<SwitchColors> = SwitchColorsMerger()
     val textUnit: ComponentMerger<TextUnit> = TextUnitMerger()
     val triState: ComponentMerger<TriState> = TriStateMerger()
     val verticalAlignment: ComponentMerger<Alignment.Vertical> = VerticalAlignmentMerger()

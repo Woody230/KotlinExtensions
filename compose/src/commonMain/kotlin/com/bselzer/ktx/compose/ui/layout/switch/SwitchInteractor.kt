@@ -1,13 +1,13 @@
-package com.bselzer.ktx.compose.ui.layout.checkbox
+package com.bselzer.ktx.compose.ui.layout.switch
 
 import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
-data class CheckboxInteractor(
+data class SwitchInteractor(
     override val modifiers: InteractableModifiers = InteractableModifiers.Default,
 
     /**
-     * whether Checkbox is checked or unchecked
+     * whether or not this component is checked
      */
     val checked: Boolean,
 
@@ -17,7 +17,7 @@ data class CheckboxInteractor(
     val enabled: Boolean = true,
 
     /**
-     * callback to be invoked when checkbox is being clicked, therefore the change of checked state in requested.
+     * callback to be invoked when Switch is being clicked, therefore the change of checked state is requested.
      * If null, then this is passive and relies entirely on a higher-level component to control the "checked" state.
      */
     val onCheckedChange: ((Boolean) -> Unit)? = null,
