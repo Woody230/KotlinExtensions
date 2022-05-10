@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.dialog
+package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
 import com.bselzer.ktx.compose.ui.layout.project.Interactor

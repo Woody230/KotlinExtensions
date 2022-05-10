@@ -3,12 +3,11 @@ package com.bselzer.ktx.compose.ui.layout.preference
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.painter.Painter
+import com.bselzer.ktx.compose.ui.layout.alertdialog.ConfirmationButton
+import com.bselzer.ktx.compose.ui.layout.alertdialog.DismissButton
+import com.bselzer.ktx.compose.ui.layout.alertdialog.MaterialAlertDialog
+import com.bselzer.ktx.compose.ui.layout.alertdialog.ResetButton
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionTitle
-import com.bselzer.ktx.compose.ui.layout.dialog.ConfirmationButton
-import com.bselzer.ktx.compose.ui.layout.dialog.DismissButton
-import com.bselzer.ktx.compose.ui.layout.dialog.MaterialAlertDialog
-import com.bselzer.ktx.compose.ui.layout.dialog.ResetButton
-
 
 
 /**

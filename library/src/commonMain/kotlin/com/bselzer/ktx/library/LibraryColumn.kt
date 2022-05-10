@@ -9,11 +9,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogStyle
+import com.bselzer.ktx.compose.ui.layout.alertdialog.ConfirmationButton
+import com.bselzer.ktx.compose.ui.layout.alertdialog.LocalAlertDialogStyle
+import com.bselzer.ktx.compose.ui.layout.alertdialog.MaterialAlertDialog
 import com.bselzer.ktx.compose.ui.layout.appbar.MaterialAppBarTitle
-import com.bselzer.ktx.compose.ui.layout.dialog.AlertDialogStyle
-import com.bselzer.ktx.compose.ui.layout.dialog.ConfirmationButton
-import com.bselzer.ktx.compose.ui.layout.dialog.LocalAlertDialogStyle
-import com.bselzer.ktx.compose.ui.layout.dialog.MaterialAlertDialog
 import com.bselzer.ktx.compose.ui.style.*
 import com.bselzer.ktx.resource.Resources
 import com.mikepenz.aboutlibraries.entity.Library

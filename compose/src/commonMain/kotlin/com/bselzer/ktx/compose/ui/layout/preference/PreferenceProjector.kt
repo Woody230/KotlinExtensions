@@ -33,6 +33,9 @@ class PreferenceProjector(
         )
     }
 
+    /**
+     * @param ending the composable function for laying out the end of the preference next to the description
+     */
     @Composable
     fun project(
         modifier: Modifier = Modifier,

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.dialog
+package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

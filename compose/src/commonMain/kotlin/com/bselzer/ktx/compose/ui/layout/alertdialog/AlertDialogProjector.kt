@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.dialog
+package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +14,9 @@ import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonProjector
 
-abstract class AlertDialogProjector(
-    final override val interactor: AlertDialogInteractor,
-    final override val presenter: AlertDialogPresenter = AlertDialogPresenter.Default
+class AlertDialogProjector(
+    override val interactor: AlertDialogInteractor,
+    override val presenter: AlertDialogPresenter = AlertDialogPresenter.Default
 ) : Projector<AlertDialogInteractor, AlertDialogPresenter>() {
     private val negativeProjector = interactor.negativeButton?.let { negativeButton -> TextButtonProjector(negativeButton, presenter.button) }
     private val neutralProjector = interactor.neutralButton?.let { neutralButton -> TextButtonProjector(neutralButton, presenter.button) }

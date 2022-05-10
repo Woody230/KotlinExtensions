@@ -5,8 +5,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.bselzer.ktx.compose.ui.layout.dialog.AlertDialogStyle
-import com.bselzer.ktx.compose.ui.layout.dialog.LocalAlertDialogStyle
+import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogStyle
+import com.bselzer.ktx.compose.ui.layout.alertdialog.LocalAlertDialogStyle
 import com.bselzer.ktx.compose.ui.style.*
 import com.bselzer.ktx.function.objects.safeMerge
 

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.dialog
+package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
