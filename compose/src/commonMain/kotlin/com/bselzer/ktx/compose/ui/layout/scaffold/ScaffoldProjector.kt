@@ -16,7 +16,7 @@ class ScaffoldProjector(
     override val interactor: ScaffoldInteractor = ScaffoldInteractor.Default,
     override val presenter: ScaffoldPresenter = ScaffoldPresenter.Default
 ) : Projector<ScaffoldInteractor, ScaffoldPresenter>() {
-    private val drawerProjector = ModalDrawerProjector(interactor.drawer, presenter.drawer)
+    private val drawerProjector = interactor.drawer?.let { drawer -> ModalDrawerProjector(drawer, presenter.drawer) }
     private val snackbarHostProjector = SnackbarHostProjector(interactor.snackbarHost, presenter.snackbarHost)
     private val topBarProjector = interactor.topBar?.let { bar -> TopAppBarProjector(bar, presenter.topBar) }
     private val bottomBarProjector = interactor.bottomBar?.let { bar -> BottomAppBarProjector(bar, presenter.bottomBar) }
@@ -36,8 +36,8 @@ class ScaffoldProjector(
             floatingActionButton = { fabProjector?.Projection() },
             floatingActionButtonPosition = floatingActionButtonPosition,
             isFloatingActionButtonDocked = isFloatingActionButtonDocked.toBoolean(),
-            drawerContent = { drawerProjector.drawerContent() },
-            drawerGesturesEnabled = interactor.drawer.gesturesEnabled,
+            drawerContent = drawerProjector?.let { drawer -> { drawer.drawerContent() } },
+            drawerGesturesEnabled = interactor.drawer?.gesturesEnabled ?: true,
             drawerShape = drawer.shape,
             drawerElevation = drawer.elevation,
             drawerBackgroundColor = drawer.backgroundColor,

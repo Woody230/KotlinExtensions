@@ -16,7 +16,7 @@ data class ScaffoldInteractor(
     /**
      * The [Interactor] for the drawer.
      */
-    val drawer: ModalDrawerInteractor = ModalDrawerInteractor.Default,
+    val drawer: ModalDrawerInteractor? = null,
 
     /**
      * The [Interactor] for the snackbar host.
@@ -38,7 +38,7 @@ data class ScaffoldInteractor(
      */
     val floatingActionButton: FloatingActionButtonInteractor? = null,
 ) : Interactor(modifiers) {
-    val state: ScaffoldState = ScaffoldState(drawer.state, snackbarHost.state)
+    val state: ScaffoldState = ScaffoldState(drawer?.state ?: ModalDrawerInteractor.Default.state, snackbarHost.state)
 
     companion object {
         @Stable
