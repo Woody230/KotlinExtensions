@@ -22,7 +22,7 @@ class TextPreferenceProjector(
     private val subtitleProjector = TextProjector(interactor.subtitle, presenter.subtitle)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
     ) = contextualize(modifier) { combinedModifier ->
         ConstraintLayout(
@@ -47,14 +47,14 @@ class TextPreferenceProjector(
         subtitleRef: ConstrainedLayoutReference,
         startRef: ConstrainedLayoutReference,
     ) {
-        titleProjector.project(
+        titleProjector.Projection(
             modifier = Modifier.constrainAs(titleRef) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 start.linkTo(startRef.end, margin = PreferenceConstants.Spacing)
             }
         )
-        subtitleProjector.project(
+        subtitleProjector.Projection(
             modifier = Modifier.constrainAs(subtitleRef) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)

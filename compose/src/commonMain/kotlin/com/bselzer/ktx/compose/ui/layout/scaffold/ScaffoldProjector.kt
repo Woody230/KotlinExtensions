@@ -23,17 +23,17 @@ class ScaffoldProjector(
     private val fabProjector = interactor.floatingActionButton?.let { fab -> FloatingActionButtonProjector(fab, presenter.floatingActionButton) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable (PaddingValues) -> Unit
     ) = contextualize(modifier) { combinedModifier ->
         Scaffold(
             modifier = combinedModifier,
             scaffoldState = remember { interactor.state },
-            topBar = { topBarProjector?.project() },
-            bottomBar = { bottomBarProjector?.project() },
-            snackbarHost = { snackbarHostProjector.project() },
-            floatingActionButton = { fabProjector?.project() },
+            topBar = { topBarProjector?.Projection() },
+            bottomBar = { bottomBarProjector?.Projection() },
+            snackbarHost = { snackbarHostProjector.Projection() },
+            floatingActionButton = { fabProjector?.Projection() },
             floatingActionButtonPosition = floatingActionButtonPosition,
             isFloatingActionButtonDocked = isFloatingActionButtonDocked.toBoolean(),
             drawerContent = { drawerProjector.drawerContent() },

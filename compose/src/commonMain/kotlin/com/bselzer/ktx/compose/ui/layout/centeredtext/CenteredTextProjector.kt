@@ -20,7 +20,7 @@ class CenteredTextProjector(
     private val spacerProjector = SpacerProjector(interactor.spacer, presenter.spacer)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         ConstraintLayout(
@@ -28,7 +28,7 @@ class CenteredTextProjector(
         ) {
             // TODO consider layout direction (both vertical/horizontal and start/end)
             val (left, spacer, right) = createRefs()
-            startProjector.project(
+            startProjector.Projection(
                 textAlign = TextAlign.Right,
                 modifier = Modifier.constrainAs(left) {
                     top.linkTo(parent.top)
@@ -38,7 +38,7 @@ class CenteredTextProjector(
                     width = Dimension.fillToConstraints
                 }
             )
-            spacerProjector.project(
+            spacerProjector.Projection(
                 modifier = Modifier
                     .defaultMinSize(minWidth = 5.dp)
                     .constrainAs(spacer) {
@@ -48,7 +48,7 @@ class CenteredTextProjector(
                         end.linkTo(right.start)
                     }
             )
-            endProjector.project(
+            endProjector.Projection(
                 textAlign = TextAlign.Left,
                 modifier = Modifier.constrainAs(right) {
                     top.linkTo(parent.top)

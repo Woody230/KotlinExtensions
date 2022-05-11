@@ -16,12 +16,12 @@ class CheckboxPreferenceProjector(
     private val checkboxProjector = CheckboxProjector(interactor.checkbox, presenter.checkbox)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->
-        preferenceProjector.project(combinedModifier) {
-            checkboxProjector.project(interactionSource = interactionSource)
+        preferenceProjector.Projection(combinedModifier) {
+            checkboxProjector.Projection(interactionSource = interactionSource)
         }
     }
 }

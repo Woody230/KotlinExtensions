@@ -15,13 +15,13 @@ class DescriptionProjector(
     private val subtitleProjector = TextProjector(interactor.subtitle, presenter.subtitle)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
-        containerProjector.project(
+        containerProjector.Projection(
             modifier = combinedModifier,
-            { titleProjector.project() },
-            { subtitleProjector.project() }
+            { titleProjector.Projection() },
+            { subtitleProjector.Projection() }
         )
     }
 }

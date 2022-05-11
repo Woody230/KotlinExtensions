@@ -10,7 +10,7 @@ class IconProjector(
     override val presenter: IconPresenter = IconPresenter.Default
 ) : Projector<IconInteractor, IconPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         Icon(

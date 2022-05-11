@@ -16,13 +16,13 @@ class IconTextProjector(
     private val textProjector = TextProjector(interactor.text, presenter.text)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
-        containerProjector.project(
+        containerProjector.Projection(
             modifier = combinedModifier,
-            { iconProjector.project() },
-            { textProjector.project(modifier = Modifier.weight(1f)) }
+            { iconProjector.Projection() },
+            { textProjector.Projection(modifier = Modifier.weight(1f)) }
         )
     }
 }

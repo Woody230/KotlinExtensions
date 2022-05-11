@@ -16,12 +16,12 @@ class SwitchPreferenceProjector(
     private val switchProjector = SwitchProjector(interactor.switch, presenter.switch)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->
-        preferenceProjector.project(combinedModifier) {
-            switchProjector.project(interactionSource = interactionSource)
+        preferenceProjector.Projection(combinedModifier) {
+            switchProjector.Projection(interactionSource = interactionSource)
         }
     }
 }

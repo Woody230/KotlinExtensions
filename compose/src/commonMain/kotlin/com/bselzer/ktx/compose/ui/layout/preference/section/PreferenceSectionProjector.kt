@@ -17,7 +17,7 @@ class PreferenceSectionProjector(
     private val titleProjector = TextProjector(interactor.title, presenter.title)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable ColumnScope.() -> Unit
     ) = contextualize(modifier) { combinedModifier ->
@@ -26,9 +26,9 @@ class PreferenceSectionProjector(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                imageProjector.project()
+                imageProjector.Projection()
                 Spacer(modifier = Modifier.width(PreferenceConstants.Spacing))
-                titleProjector.project()
+                titleProjector.Projection()
             }
 
             Spacer(modifier = Modifier.height(PreferenceConstants.SectionSpacing))

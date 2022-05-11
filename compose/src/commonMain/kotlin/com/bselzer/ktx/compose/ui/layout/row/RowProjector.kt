@@ -20,7 +20,7 @@ class RowProjector(
     private val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         vararg content: @Composable RowScope.() -> Unit,
     ) = contextualize(modifier) { combinedModifier ->
@@ -30,19 +30,19 @@ class RowProjector(
             verticalAlignment = verticalAlignment,
         ) {
             if (prepend.toBoolean()) {
-                dividerProjector?.project()
+                dividerProjector?.Projection()
             }
 
             content.forEachIndexed { index, function ->
                 function()
 
                 if (index != content.lastIndex) {
-                    dividerProjector?.project()
+                    dividerProjector?.Projection()
                 }
             }
 
             if (append.toBoolean()) {
-                dividerProjector?.project()
+                dividerProjector?.Projection()
             }
         }
     }

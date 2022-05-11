@@ -14,13 +14,13 @@ class BadgeTextProjector(
     private val textProjector = TextProjector(interactor.text, presenter.text)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
-        badgeProjector.project(
+        badgeProjector.Projection(
             modifier = combinedModifier
         ) {
-            textProjector.project()
+            textProjector.Projection()
         }
     }
 }

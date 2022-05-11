@@ -12,7 +12,7 @@ class CheckboxProjector(
     override val presenter: CheckboxPresenter = CheckboxPresenter.Default
 ) : Projector<CheckboxInteractor, CheckboxPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->

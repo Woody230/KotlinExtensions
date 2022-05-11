@@ -32,7 +32,7 @@ class BottomAppBarProjector(
     }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         BottomAppBar(
@@ -49,7 +49,7 @@ class BottomAppBarProjector(
                 Row(TitleIconModifier, verticalAlignment = Alignment.CenterVertically) {
                     CompositionLocalProvider(
                         LocalContentAlpha provides ContentAlpha.high,
-                        content = { navigationProjector.project() }
+                        content = { navigationProjector.Projection() }
                     )
                 }
             }
@@ -63,7 +63,7 @@ class BottomAppBarProjector(
                     Modifier.fillMaxHeight(),
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
-                    content = { actionProjector.forEach { action -> action.project() } }
+                    content = { actionProjector.forEach { action -> action.Projection() } }
                 )
             }
         }

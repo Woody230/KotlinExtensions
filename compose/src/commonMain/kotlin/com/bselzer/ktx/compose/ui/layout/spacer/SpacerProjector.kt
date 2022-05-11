@@ -10,7 +10,7 @@ class SpacerProjector(
     override val presenter: SpacerPresenter = SpacerPresenter.Default
 ) : Projector<SpacerInteractor, SpacerPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
     ) = contextualize(modifier) { combinedModifier ->
         Spacer(modifier = combinedModifier)

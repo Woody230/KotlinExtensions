@@ -12,7 +12,7 @@ class DropdownMenuProjector(
     private val iconProjectors = interactor.icons.map { interaction -> IconButtonProjector(interaction, presenter.icon) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
     ) = contextualize(modifier) { combinedModifier ->
         DropdownMenu(
@@ -22,7 +22,7 @@ class DropdownMenuProjector(
             modifier = combinedModifier,
             offset = offset,
         ) {
-            iconProjectors.forEach { icon -> icon.project() }
+            iconProjectors.forEach { icon -> icon.Projection() }
         }
     }
 }

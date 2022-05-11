@@ -17,7 +17,7 @@ class LazyRowProjector<T>(
     private val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable LazyItemScope.(Int, T) -> Unit
     ) = contextualize(modifier) { combinedModifier ->
@@ -34,7 +34,7 @@ class LazyRowProjector<T>(
                 val isFirst = index == 0
                 val shouldPrepend = isFirst && prepend.toBoolean()
                 if (shouldPrepend) {
-                    dividerProjector?.project()
+                    dividerProjector?.Projection()
                 }
 
                 content(index, item)
@@ -43,7 +43,7 @@ class LazyRowProjector<T>(
                 val isIntermediate = !isFirst && !isLast
                 val shouldAppend = isLast && append.toBoolean()
                 if (isIntermediate || shouldAppend) {
-                    dividerProjector?.project()
+                    dividerProjector?.Projection()
                 }
             }
         }

@@ -24,7 +24,7 @@ class PreferenceProjector(
         internal fun ConstraintLayoutScope.PreferenceImage(
             ref: ConstrainedLayoutReference,
             image: ImageProjector
-        ) = image.project(
+        ) = image.Projection(
             modifier = Modifier.constrainAs(ref = ref) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
@@ -37,7 +37,7 @@ class PreferenceProjector(
      * @param ending the composable function for laying out the end of the preference next to the description
      */
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         ending: (@Composable () -> Unit)? = null,
     ) = contextualize(modifier) { combinedModifier ->
@@ -74,7 +74,7 @@ class PreferenceProjector(
         ref: ConstrainedLayoutReference,
         startRef: ConstrainedLayoutReference? = null,
         endRef: ConstrainedLayoutReference? = null,
-    ) = descriptionProjector.project(
+    ) = descriptionProjector.Projection(
         modifier = Modifier.constrainAs(ref = ref) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)

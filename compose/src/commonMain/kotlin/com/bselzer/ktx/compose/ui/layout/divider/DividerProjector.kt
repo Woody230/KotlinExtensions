@@ -10,7 +10,7 @@ class DividerProjector(
     override val presenter: DividerPresenter = DividerPresenter.Default
 ) : Projector<DividerInteractor, DividerPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         Divider(

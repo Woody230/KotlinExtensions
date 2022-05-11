@@ -23,7 +23,7 @@ class ModalDrawerProjector(
     private val componentProjectors = interactor.components.map { components -> components.map { component -> IconTextProjector(component, presenter.component) } }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
     ) = contextualize(modifier) { combinedModifier ->
@@ -42,7 +42,7 @@ class ModalDrawerProjector(
     }
 
     @Composable
-    fun drawerContent() = containerProjector.project(
+    fun drawerContent() = containerProjector.Projection(
         modifier = Modifier.padding(start = 16.dp, end = 8.dp),
         content = arrayOf(header()).plus(componentProjectors.map { it.section() })
     )
@@ -50,8 +50,8 @@ class ModalDrawerProjector(
     @Composable
     private fun header(): @Composable ColumnScope.() -> Unit = {
         Column(modifier = Modifier.fillMaxWidth()) {
-            imageProjector?.project()
-            descriptionProjector?.project()
+            imageProjector?.Projection()
+            descriptionProjector?.Projection()
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -64,7 +64,7 @@ class ModalDrawerProjector(
                 .defaultMinSize(minHeight = 48.dp)
         ) {
             Spacer(modifier = Modifier.height(4.dp))
-            forEach { component -> component.project() }
+            forEach { component -> component.Projection() }
             Spacer(modifier = Modifier.height(4.dp))
         }
     }

@@ -10,7 +10,7 @@ data class SnackbarProjector(
     override val presenter: SnackbarPresenter = SnackbarPresenter.Default
 ) : Projector<SnackbarInteractor, SnackbarPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
     ) = contextualize(modifier) { combinedModifier ->
         Snackbar(

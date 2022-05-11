@@ -24,7 +24,7 @@ class AlertDialogProjector(
     private val titleProjector = interactor.title?.let { title -> TextProjector(title, presenter.title) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
     ) = contextualize(modifier) { combinedModifier ->
@@ -32,7 +32,7 @@ class AlertDialogProjector(
             onDismissRequest = interactor.onDismissRequest,
             buttons = { projectButtons() },
             modifier = combinedModifier,
-            title = titleProjector?.let { title -> @Composable { title.project() } },
+            title = titleProjector?.let { title -> @Composable { title.Projection() } },
             text = content,
             shape = shape,
             backgroundColor = backgroundColor,
@@ -54,7 +54,7 @@ class AlertDialogProjector(
             start.linkTo(parent.start)
             end.linkTo(spacer.start)
         }) {
-            neutralProjector?.project()
+            neutralProjector?.Projection()
         }
 
         Spacer(modifier = Modifier.constrainAs(spacer) {
@@ -72,11 +72,11 @@ class AlertDialogProjector(
             end.linkTo(parent.end)
         }) {
             negativeProjector?.let { negativeButton ->
-                negativeButton.project()
+                negativeButton.Projection()
                 Spacer(width = 8.dp)
             }
 
-            positiveProjector?.project()
+            positiveProjector?.Projection()
         }
     }
 }

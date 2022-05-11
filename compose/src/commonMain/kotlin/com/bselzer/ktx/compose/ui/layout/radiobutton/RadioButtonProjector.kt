@@ -12,7 +12,7 @@ class RadioButtonProjector(
     override val presenter: RadioButtonPresenter = RadioButtonPresenter.Default
 ) : Projector<RadioButtonInteractor, RadioButtonPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->

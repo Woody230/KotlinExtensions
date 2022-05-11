@@ -23,11 +23,11 @@ class DurationPreferenceProjector(
     private val preferenceProjector = AlertDialogPreferenceProjector(interactor.preference, presenter.preference)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         showDialog: Boolean
     ) = contextualize(modifier) { combinedModifier ->
-        preferenceProjector.project(
+        preferenceProjector.Projection(
             modifier = combinedModifier,
             showDialog = showDialog,
             ending = null,
@@ -63,7 +63,7 @@ class DurationPreferenceProjector(
                 downIcon = interactor.downIcon,
                 onSelectionChanged = { amount.value = bounded(it) }
             ),
-        ).project()
+        ).Projection()
 
         @Composable
         fun UnitPicker() = PickerProjector(
@@ -76,7 +76,7 @@ class DurationPreferenceProjector(
                 downIcon = interactor.downIcon,
                 onSelectionChanged = { unit.value = it }
             )
-        ).project()
+        ).Projection()
 
         Row(
             modifier = Modifier.fillMaxWidth(),

@@ -30,7 +30,7 @@ class PickerProjector<T>(
     override val presenter: PickerPresenter = PickerPresenter.Default
 ) : Projector<PickerInteractor<T>, PickerPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
     ) = contextualize(modifier) { combinedModifier ->
         PickerColumn(
@@ -91,7 +91,7 @@ class PickerProjector<T>(
 
         Column(columnModifier) {
             IconButton(onClick = { setState(index + 1) }) {
-                IconProjector(interactor.upIcon, presenter.icon).project()
+                IconProjector(interactor.upIcon, presenter.icon).Projection()
             }
 
             // Use the index associated with the animation when displaying the text values instead of the state index.
@@ -104,7 +104,7 @@ class PickerProjector<T>(
             }
 
             IconButton(onClick = { setState(index - 1) }) {
-                IconProjector(interactor.downIcon, presenter.icon).project()
+                IconProjector(interactor.downIcon, presenter.icon).Projection()
             }
         }
     }
@@ -125,7 +125,7 @@ class PickerProjector<T>(
         TextProjector(
             interactor = TextInteractor(text = AnnotatedString(label(index - 1))),
             presenter = presenter.text
-        ).project(
+        ).Projection(
             modifier = textModifier
                 .offset(y = -animationOffset)
                 .alpha(coercedOffset / animationOffsetPx)
@@ -134,14 +134,14 @@ class PickerProjector<T>(
         TextProjector(
             interactor = TextInteractor(text = AnnotatedString(label(index))),
             presenter = presenter.text
-        ).project(
+        ).Projection(
             modifier = textModifier.alpha(1 - abs(coercedOffset) / animationOffsetPx)
         )
 
         TextProjector(
             interactor = TextInteractor(text = AnnotatedString(label(index))),
             presenter = presenter.text
-        ).project(
+        ).Projection(
             modifier = textModifier
                 .offset(y = animationOffset)
                 .alpha(-coercedOffset / animationOffsetPx),

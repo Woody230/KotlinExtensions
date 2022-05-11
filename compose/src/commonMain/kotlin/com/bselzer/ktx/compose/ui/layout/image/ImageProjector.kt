@@ -10,7 +10,7 @@ class ImageProjector(
     override val presenter: ImagePresenter = ImagePresenter.Default
 ) : Projector<ImageInteractor, ImagePresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         Image(

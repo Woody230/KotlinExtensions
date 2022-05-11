@@ -11,7 +11,7 @@ class BadgeProjector(
     override val presenter: BadgePresenter = BadgePresenter.Default
 ) : Projector<BadgeInteractor, BadgePresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable (RowScope.() -> Unit)? = null
     ) = contextualize(modifier) { combinedModifier ->

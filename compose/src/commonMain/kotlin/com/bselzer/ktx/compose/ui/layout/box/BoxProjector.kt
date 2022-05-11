@@ -11,7 +11,7 @@ class BoxProjector(
     override val presenter: BoxPresenter = BoxPresenter.Default
 ) : Projector<BoxInteractor, BoxPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable BoxScope.() -> Unit
     ) = contextualize(modifier) { combinedModifier ->

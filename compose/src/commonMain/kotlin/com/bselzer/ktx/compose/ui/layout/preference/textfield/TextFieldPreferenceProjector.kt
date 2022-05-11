@@ -19,11 +19,11 @@ class TextFieldPreferenceProjector(
     private val inputProjector = TextFieldProjector(interactor.input, presenter.input)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         showDialog: Boolean,
     ) = contextualize(modifier) { combinedModifier ->
-        preferenceProjector.project(
+        preferenceProjector.Projection(
             modifier = combinedModifier,
             showDialog = showDialog,
             ending = null,
@@ -35,9 +35,9 @@ class TextFieldPreferenceProjector(
     @Composable
     private fun DialogContent() = dividedColumnProjector(
         thickness = PreferenceConstants.Thickness
-    ).project(
+    ).Projection(
         modifier = Modifier.fillMaxWidth(),
-        { inputDescriptionProjector.project() },
-        { inputProjector.project() }
+        { inputDescriptionProjector.Projection() },
+        { inputProjector.Projection() }
     )
 }

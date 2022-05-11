@@ -33,7 +33,7 @@ class LibraryProjector(
     override val presenter: LibraryPresenter = LibraryPresenter.Default
 ) : Projector<LibraryInteractor, LibraryPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         var selected by remember { mutableStateOf<Library?>(null) }
@@ -47,7 +47,7 @@ class LibraryProjector(
             presenter = LazyColumnPresenter(
                 divider = DividerPresenter(color = Color.Transparent, thickness = 16.dp)
             )
-        ).project(
+        ).Projection(
             modifier = combinedModifier
         ) { index, library ->
             Card(library) { selected = it }
@@ -62,13 +62,13 @@ class LibraryProjector(
                     setSelected(null)
                 }
             }
-        ).project {
+        ).Projection {
             val license = selected.licenses.firstOrNull()
             val text = if (license == null) stringResource(Resources.strings.no_license_found) else license.licenseContent ?: ""
             TextProjector(
                 interactor = TextInteractor(text = text),
                 presenter = dialogBody
-            ).project(
+            ).Projection(
                 modifier = Modifier.verticalScroll(rememberScrollState())
             )
         }
@@ -80,25 +80,25 @@ class LibraryProjector(
             onClick = { setSelected(library) },
         ),
         presenter = container
-    ).project {
+    ).Projection {
         Column(modifier = Modifier.fillMaxWidth()) {
             TextProjector(
                 interactor = TextInteractor(text = library.name),
                 presenter = title
-            ).project()
+            ).Projection()
 
             if (library.author.isNotBlank()) {
                 TextProjector(
                     interactor = TextInteractor(text = library.author),
                     presenter = subtitle
-                ).project()
+                ).Projection()
             }
 
             if (!library.artifactVersion.isNullOrBlank()) {
                 TextProjector(
                     interactor = TextInteractor(text = library.artifactId),
                     presenter = subtitle
-                ).project()
+                ).Projection()
             }
 
             if (library.licenses.isNotEmpty()) {
@@ -113,7 +113,7 @@ class LibraryProjector(
                                 text = TextInteractor(text = license.name)
                             ),
                             presenter = badge
-                        ).project(
+                        ).Projection(
                             modifier = Modifier.padding(end = 4.dp)
                         )
                     }

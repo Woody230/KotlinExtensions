@@ -13,7 +13,7 @@ class SurfaceProjector(
     override val presenter: SurfacePresenter = SurfacePresenter.Default
 ) : Projector<SurfaceInteractor, SurfacePresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit

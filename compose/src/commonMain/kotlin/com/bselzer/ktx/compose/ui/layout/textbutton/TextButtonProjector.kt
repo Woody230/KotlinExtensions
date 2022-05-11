@@ -16,15 +16,15 @@ class TextButtonProjector(
     private val textProjector = TextProjector(interactor.text, presenter.text)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
     ) = contextualize(modifier) { combinedModifier ->
-        buttonProjector.project(
+        buttonProjector.Projection(
             modifier = combinedModifier,
             interactionSource = interactionSource
         ) {
-            textProjector.project()
+            textProjector.Projection()
         }
     }
 }

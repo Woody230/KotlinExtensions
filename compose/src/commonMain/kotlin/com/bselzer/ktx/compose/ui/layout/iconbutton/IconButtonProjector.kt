@@ -15,7 +15,7 @@ class IconButtonProjector(
     private val iconProjector = IconProjector(interactor.icon, presenter.icon)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->
@@ -25,7 +25,7 @@ class IconButtonProjector(
             enabled = interactor.enabled,
             interactionSource = interactionSource,
         ) {
-            iconProjector.project()
+            iconProjector.Projection()
         }
     }
 }

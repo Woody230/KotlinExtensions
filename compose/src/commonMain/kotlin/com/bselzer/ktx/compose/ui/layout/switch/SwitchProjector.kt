@@ -12,7 +12,7 @@ class SwitchProjector(
     override val presenter: SwitchPresenter = SwitchPresenter.Default
 ) : Projector<SwitchInteractor, SwitchPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->

@@ -13,7 +13,7 @@ class ButtonProjector(
     override val presenter: ButtonPresenter = ButtonPresenter.Default
 ) : Projector<ButtonInteractor, ButtonPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable RowScope.() -> Unit

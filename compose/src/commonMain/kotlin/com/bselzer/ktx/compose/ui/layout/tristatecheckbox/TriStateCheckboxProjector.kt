@@ -12,7 +12,7 @@ class TriStateCheckboxProjector(
     override val presenter: TriStateCheckboxPresenter = TriStateCheckboxPresenter.Default
 ) : Projector<TriStateCheckboxInteractor, TriStateCheckboxPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->

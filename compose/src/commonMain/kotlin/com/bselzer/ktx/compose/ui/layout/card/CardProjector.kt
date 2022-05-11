@@ -13,7 +13,7 @@ class CardProjector(
     override val presenter: CardPresenter = CardPresenter.Default
 ) : Projector<CardInteractor, CardPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit

@@ -17,7 +17,7 @@ class TextProjector(
     override val presenter: TextPresenter = TextPresenter.Default
 ) : Projector<TextInteractor, TextPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         textAlign: TextAlign? = null
     ) = contextualize(modifier) { combinedModifier ->

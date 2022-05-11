@@ -16,14 +16,14 @@ class TopAppBarProjector(
     private val actionProjector = interactor.actions.map { action -> IconButtonProjector(action, presenter.icon) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         TopAppBar(
-            title = { titleProjector.project() },
+            title = { titleProjector.Projection() },
             modifier = combinedModifier,
-            navigationIcon = navigationProjector?.let { navigation -> { navigation.project() } },
-            actions = { actionProjector.forEach { action -> action.project() } },
+            navigationIcon = navigationProjector?.let { navigation -> { navigation.Projection() } },
+            actions = { actionProjector.forEach { action -> action.Projection() } },
             backgroundColor = backgroundColor,
             contentColor = contentColor,
             elevation = elevation

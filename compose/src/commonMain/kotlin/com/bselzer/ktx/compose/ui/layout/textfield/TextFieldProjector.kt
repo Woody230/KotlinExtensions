@@ -20,7 +20,7 @@ class TextFieldProjector(
     private val trailingIconProjector = interactor.trailingIcon?.let { icon -> IconProjector(icon, presenter.icon) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->
@@ -31,10 +31,10 @@ class TextFieldProjector(
             enabled = interactor.enabled,
             readOnly = interactor.readOnly,
             textStyle = textStyle,
-            label = labelProjector?.let { label -> { label.project() } },
-            placeholder = placeholderProjector?.let { placeholder -> { placeholder.project() } },
-            leadingIcon = leadingIconProjector?.let { icon -> { icon.project() } },
-            trailingIcon = trailingIconProjector?.let { icon -> { icon.project() } },
+            label = labelProjector?.let { label -> { label.Projection() } },
+            placeholder = placeholderProjector?.let { placeholder -> { placeholder.Projection() } },
+            leadingIcon = leadingIconProjector?.let { icon -> { icon.Projection() } },
+            trailingIcon = trailingIconProjector?.let { icon -> { icon.Projection() } },
             isError = interactor.isError,
             visualTransformation = visualTransformation,
             keyboardOptions = interactor.keyboardOptions,

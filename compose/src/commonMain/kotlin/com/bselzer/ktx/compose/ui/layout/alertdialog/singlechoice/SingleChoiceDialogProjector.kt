@@ -21,7 +21,7 @@ class SingleChoiceDialogProjector<Choice>(
     override val presenter: SingleChoiceDialogPresenter = SingleChoiceDialogPresenter.Default
 ) : Projector<SingleChoiceDialogInteractor<Choice>, SingleChoiceDialogPresenter>() {
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         LazyColumn(modifier = combinedModifier) {
@@ -36,14 +36,14 @@ class SingleChoiceDialogProjector<Choice>(
                             selected = choice == interactor.selected,
                             onClick = { interactor.onSelection(choice) }
                         ),
-                    ).project()
+                    ).Projection()
 
                     Spacer(modifier = Modifier.width(24.dp))
 
                     TextProjector(
                         presenter = text,
                         interactor = TextInteractor(text = interactor.getLabel(choice))
-                    ).project()
+                    ).Projection()
                 }
             }
         }

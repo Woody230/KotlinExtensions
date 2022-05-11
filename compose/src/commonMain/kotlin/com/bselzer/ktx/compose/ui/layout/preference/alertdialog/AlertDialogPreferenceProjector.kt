@@ -19,16 +19,16 @@ class AlertDialogPreferenceProjector(
      * @param dialog the composable function for layout out the body of the dialog
      */
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         showDialog: Boolean,
         ending: @Composable (() -> Unit)? = null,
         dialog: @Composable () -> Unit,
     ) = contextualize(modifier) { combinedModifier ->
         if (showDialog) {
-            dialogProjector.project(content = dialog)
+            dialogProjector.Projection(content = dialog)
         }
 
-        preferenceProjector.project(combinedModifier, ending = ending)
+        preferenceProjector.Projection(combinedModifier, ending = ending)
     }
 }

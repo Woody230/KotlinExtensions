@@ -18,7 +18,7 @@ class FloatingActionButtonProjector(
     private val iconProjector = interactor.icon?.let { icon -> IconProjector(icon, presenter.icon) }
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     ) = contextualize(modifier) { combinedModifier ->
@@ -42,7 +42,7 @@ class FloatingActionButtonProjector(
         contentColor = contentColor,
         elevation = elevation
     ) {
-        iconProjector?.project()
+        iconProjector?.Projection()
     }
 
     @Composable
@@ -51,10 +51,10 @@ class FloatingActionButtonProjector(
         interactionSource: MutableInteractionSource,
         textProjector: TextProjector
     ) = ExtendedFloatingActionButton(
-        text = { textProjector.project() },
+        text = { textProjector.Projection() },
         onClick = interactor.onClick,
         modifier = modifier,
-        icon = iconProjector?.let { icon -> { icon.project() } },
+        icon = iconProjector?.let { icon -> { icon.Projection() } },
         interactionSource = interactionSource,
         shape = shape,
         backgroundColor = backgroundColor,
