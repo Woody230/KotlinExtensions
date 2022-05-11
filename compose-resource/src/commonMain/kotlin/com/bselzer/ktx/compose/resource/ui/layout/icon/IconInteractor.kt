@@ -1,8 +1,9 @@
-package com.bselzer.ktx.compose.ui.layout.icon
+package com.bselzer.ktx.compose.resource.ui.layout.icon
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
 

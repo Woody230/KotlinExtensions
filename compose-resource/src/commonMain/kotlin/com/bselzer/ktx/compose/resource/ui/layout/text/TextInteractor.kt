@@ -1,6 +1,7 @@
-package com.bselzer.ktx.compose.ui.layout.text
+package com.bselzer.ktx.compose.resource.ui.layout.text
 
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
 

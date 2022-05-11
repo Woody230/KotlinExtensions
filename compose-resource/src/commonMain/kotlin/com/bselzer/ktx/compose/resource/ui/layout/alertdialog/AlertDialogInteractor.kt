@@ -1,10 +1,11 @@
-package com.bselzer.ktx.compose.ui.layout.alertdialog
+package com.bselzer.ktx.compose.resource.ui.layout.alertdialog
 
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.resource.ui.layout.text.confirmationTextInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.text.dismissTextInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.text.resetTextInteractor
+import com.bselzer.ktx.compose.ui.layout.alertdialog.alertDialogButtonsInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
-import com.bselzer.ktx.compose.ui.layout.text.confirmationTextInteractor
-import com.bselzer.ktx.compose.ui.layout.text.dismissTextInteractor
-import com.bselzer.ktx.compose.ui.layout.text.resetTextInteractor
 
 /**
  * Creates an [AlertDialogInteractor] with an optional negative button, optional neutral button, and a positive confirmation button.

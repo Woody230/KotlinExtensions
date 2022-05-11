@@ -10,8 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.confirmationAlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
-import com.bselzer.ktx.compose.ui.layout.alertdialog.confirmationAlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextInteractor
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextProjector
 import com.bselzer.ktx.compose.ui.layout.card.CardInteractor
