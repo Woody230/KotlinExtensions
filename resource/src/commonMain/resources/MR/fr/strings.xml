@@ -4,12 +4,12 @@
     <string name="cache">Cache</string>
     <string name="licenses">Licences</string>
     <string name="about_app">À propos de l’Application</string>
-    <string name="ok">D'accord</string>
+    <string name="ok">D’accord</string>
     <string name="cancel">Annuler</string>
     <string name="reset">Réinitialiser</string>
     <string name="refresh">Actualiser</string>
     <string name="delete">Supprimer</string>
-    <string name="more_options">Plus d'options</string>
+    <string name="more_options">Plus d’options</string>
     <string name="contract">Abréger</string>
     <string name="expand">Agrandir</string>
     <string name="zoom_in">Zoom Avant</string>
@@ -32,7 +32,7 @@
 
     <!-- Library Module -->
     <string name="no_license">Pas de Licence</string>
-    <string name="no_license_found">Aucune licence n'a été trouvée.</string>
+    <string name="no_license_found">Aucune licence n’a été trouvée.</string>
 
     <!-- DurationUnit -->
     <string name="nanoseconds">Nanosecondes</string>
