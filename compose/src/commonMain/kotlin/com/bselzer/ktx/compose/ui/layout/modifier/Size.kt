@@ -18,10 +18,22 @@ data class ModularSize(
         val Default = ModularSize()
 
         @Stable
-        val Filled = ModularSize(FilledWidth(), FilledHeight())
+        val FillSize = ModularSize(width = FilledWidth(), height = FilledHeight())
 
         @Stable
-        val Wrapped = ModularSize(WrappedWidth(), WrappedHeight())
+        val FillWidth = ModularSize(width = FilledWidth())
+
+        @Stable
+        val FillHeight = ModularSize(height = FilledHeight())
+
+        @Stable
+        val WrapSize = ModularSize(width = WrappedWidth(), height = WrappedHeight())
+
+        @Stable
+        val WrapWidth = ModularSize(width = WrappedWidth())
+
+        @Stable
+        val WrapHeight = ModularSize(height = WrappedHeight())
     }
 
     override val modifier: Modifier = Modifier

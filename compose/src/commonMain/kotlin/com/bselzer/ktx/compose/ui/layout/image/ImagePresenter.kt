@@ -60,7 +60,7 @@ data class ImagePresenter(
 
 @Composable
 fun backgroundImagePresenter() = ImagePresenter(
-    modifiers = PresentableModifiers(size = ModularSize.Filled),
+    modifiers = PresentableModifiers(size = ModularSize.FillSize),
 ) merge baseBackgroundImagePresenter()
 
 @Composable
