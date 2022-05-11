@@ -15,15 +15,15 @@
  */
 package androidx.constraintlayout.core.widgets
 
-import androidx.constraintlayout.core.widgets.Chain.applyChainConstraints
-import androidx.constraintlayout.core.widgets.analyzer.Direct.ls
-import androidx.constraintlayout.core.widgets.analyzer.Direct.solvingPass
-import androidx.constraintlayout.core.widgets.analyzer.Grouping.simpleSolvingPass
-import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.LinearSystem
 import androidx.constraintlayout.core.Metrics
 import androidx.constraintlayout.core.SolverVariable
+import androidx.constraintlayout.core.widgets.Chain.applyChainConstraints
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.widgets.analyzer.DependencyGraph
+import androidx.constraintlayout.core.widgets.analyzer.Direct.ls
+import androidx.constraintlayout.core.widgets.analyzer.Direct.solvingPass
+import androidx.constraintlayout.core.widgets.analyzer.Grouping.simpleSolvingPass
 import kotlin.math.max
 
 /**
@@ -715,25 +715,25 @@ class ConstraintWidgetContainer : WidgetContainer {
             }
             if (true) {
                 var width = max(mMinWidth, width)
-                if (width > width) {
+                if (width > this.width) {
                     if (DEBUG_LAYOUT) {
                         println(
-                            "layout override 2, width from $width vs $width"
+                            "layout override 2, width from ${this.width} vs $width"
                         )
                     }
-                    width = width
+                    this.width = width
                     mListDimensionBehaviors[DIMENSION_HORIZONTAL] = DimensionBehaviour.FIXED
                     wrap_override = true
                     needsSolving = true
                 }
                 var height = max(mMinHeight, height)
-                if (height > height) {
+                if (height > this.height) {
                     if (DEBUG_LAYOUT) {
                         println(
-                            "layout override 2, height from $height vs $height"
+                            "layout override 2, height from ${this.height} vs $height"
                         )
                     }
-                    height = height
+                    this.height = height
                     mListDimensionBehaviors[DIMENSION_VERTICAL] = DimensionBehaviour.FIXED
                     wrap_override = true
                     needsSolving = true

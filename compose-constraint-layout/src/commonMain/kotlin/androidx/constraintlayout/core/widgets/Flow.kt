@@ -15,8 +15,8 @@
  */
 package androidx.constraintlayout.core.widgets
 
-import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.LinearSystem
+import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -837,7 +837,7 @@ class Flow : VirtualLayout() {
                     paddingBottom = 0
                 } else {
                     bottom = mBottom
-                    paddingBottom = paddingBottom
+                    paddingBottom = this.paddingBottom
                 }
                 val currentBottom = current.biggest!!.mBottom
                 current.setup(
@@ -858,7 +858,7 @@ class Flow : VirtualLayout() {
                     paddingRight = 0
                 } else {
                     right = mRight
-                    paddingRight = paddingRight
+                    paddingRight = this.paddingRight
                 }
                 val currentRight = current.biggest!!.mRight
                 current.setup(
@@ -987,7 +987,7 @@ class Flow : VirtualLayout() {
                     paddingBottom = 0
                 } else {
                     bottom = mBottom
-                    paddingBottom = paddingBottom
+                    paddingBottom = this.paddingBottom
                 }
                 val currentBottom = current.biggest!!.mBottom
                 current.setup(
@@ -1008,7 +1008,7 @@ class Flow : VirtualLayout() {
                     paddingRight = 0
                 } else {
                     right = mRight
-                    paddingRight = paddingRight
+                    paddingRight = this.paddingRight
                 }
                 val currentRight = current.biggest!!.mRight
                 current.setup(
