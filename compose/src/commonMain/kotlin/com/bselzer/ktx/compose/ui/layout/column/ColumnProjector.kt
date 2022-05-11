@@ -4,7 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
+import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
+import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.merge.toTriState
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ColumnProjector(
@@ -41,3 +47,31 @@ class ColumnProjector(
         }
     }
 }
+
+/**
+ * Creates a [ColumnProjector] with a divider with the given [color], [thickness], and [interactor].
+ *
+ * If [prepend] is true then a divider will appear before the items.
+ *
+ * If [append] is true then a divider will appear after the items.
+ */
+@Composable
+fun dividedColumnProjector(
+    color: Color = Color.Transparent,
+    thickness: Dp = ComposeMerger.dp.default,
+    interactor: DividerInteractor = DividerInteractor.Default,
+    prepend: Boolean = false,
+    append: Boolean = false
+) = ColumnProjector(
+    interactor = ColumnInteractor(
+        divider = interactor
+    ),
+    presenter = ColumnPresenter(
+        prepend = prepend.toTriState(),
+        append = append.toTriState(),
+        divider = DividerPresenter(
+            color = color,
+            thickness = thickness
+        )
+    )
+)

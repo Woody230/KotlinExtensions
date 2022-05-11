@@ -21,3 +21,12 @@ enum class TriState {
      */
     fun toBoolean(): Boolean = this == TRUE
 }
+
+/**
+ * @return [TriState.DEFAULT] if null, [TriState.FALSE] if false, otherwise true
+ */
+fun Boolean?.toTriState() = when (this) {
+    null -> TriState.DEFAULT
+    false -> TriState.FALSE
+    true -> TriState.TRUE
+}
