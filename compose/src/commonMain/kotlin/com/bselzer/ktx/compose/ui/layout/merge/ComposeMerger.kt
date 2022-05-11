@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
@@ -39,8 +40,10 @@ object ComposeMerger {
     val role: ComponentMerger<Role?> = RoleMerger()
     val shape: ComponentMerger<Shape> = ShapeMerger()
     val switchColors: ComponentMerger<SwitchColors> = SwitchColorsMerger()
+    val textFieldColors: ComponentMerger<TextFieldColors> = TextFieldColorsMerger()
     val textUnit: ComponentMerger<TextUnit> = TextUnitMerger()
     val triState: ComponentMerger<TriState> = TriStateMerger()
     val verticalAlignment: ComponentMerger<Alignment.Vertical> = VerticalAlignmentMerger()
     val verticalArrangement: ComponentMerger<Arrangement.Vertical> = VerticalArrangementMerger()
+    val visualTransformation: ComponentMerger<VisualTransformation> = VisualTransformationMerger()
 }
