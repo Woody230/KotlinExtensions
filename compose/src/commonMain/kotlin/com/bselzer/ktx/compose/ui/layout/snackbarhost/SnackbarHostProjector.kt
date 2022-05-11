@@ -8,7 +8,7 @@ import com.bselzer.ktx.compose.ui.layout.snackbar.SnackbarInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbar.SnackbarProjector
 
 data class SnackbarHostProjector(
-    override val interactor: SnackbarHostInteractor,
+    override val interactor: SnackbarHostInteractor = SnackbarHostInteractor.Default,
     override val presenter: SnackbarHostPresenter = SnackbarHostPresenter.Default
 ) : Projector<SnackbarHostInteractor, SnackbarHostPresenter>() {
     @Composable

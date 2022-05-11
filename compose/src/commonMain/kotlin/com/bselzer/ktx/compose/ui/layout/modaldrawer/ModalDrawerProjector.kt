@@ -14,7 +14,7 @@ import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ModalDrawerProjector(
-    override val interactor: ModalDrawerInteractor,
+    override val interactor: ModalDrawerInteractor = ModalDrawerInteractor.Default,
     override val presenter: ModalDrawerPresenter = ModalDrawerPresenter.Default
 ) : Projector<ModalDrawerInteractor, ModalDrawerPresenter>() {
     private val containerProjector = ColumnProjector(interactor.container, presenter.container)

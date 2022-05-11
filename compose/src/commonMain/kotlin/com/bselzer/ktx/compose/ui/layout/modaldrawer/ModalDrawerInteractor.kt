@@ -2,6 +2,7 @@ package com.bselzer.ktx.compose.ui.layout.modaldrawer
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
+import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.icontext.IconTextInteractor
@@ -51,4 +52,9 @@ data class ModalDrawerInteractor(
      * The state of the drawer.
      */
     val state = DrawerState(value, confirmStateChange)
+
+    companion object {
+        @Stable
+        val Default = ModalDrawerInteractor()
+    }
 }

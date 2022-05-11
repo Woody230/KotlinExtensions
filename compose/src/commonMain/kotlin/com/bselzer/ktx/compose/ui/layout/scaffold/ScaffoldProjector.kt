@@ -13,7 +13,7 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostProjector
 import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarProjector
 
 class ScaffoldProjector(
-    override val interactor: ScaffoldInteractor,
+    override val interactor: ScaffoldInteractor = ScaffoldInteractor.Default,
     override val presenter: ScaffoldPresenter = ScaffoldPresenter.Default
 ) : Projector<ScaffoldInteractor, ScaffoldPresenter>() {
     private val drawerProjector = ModalDrawerProjector(interactor.drawer, presenter.drawer)
