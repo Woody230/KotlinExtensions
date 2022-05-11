@@ -10,8 +10,8 @@ import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.merge.toTriState
 import com.bselzer.ktx.compose.ui.layout.project.Projector
+import com.bselzer.ktx.function.objects.safeMerge
 
 class RowProjector(
     override val interactor: RowInteractor = RowInteractor.Default,
@@ -49,29 +49,20 @@ class RowProjector(
 }
 
 /**
- * Creates a [RowProjector] with a divider with the given [color], [thickness], and [interactor].
- *
- * If [prepend] is true then a divider will appear before the items.
- *
- * If [append] is true then a divider will appear after the items.
+ * Creates a [RowProjector] with a divider with the given [color], [thickness], [interactor], and [presenter].
  */
 @Composable
 fun dividedRowProjector(
     color: Color = Color.Transparent,
     thickness: Dp = ComposeMerger.dp.default,
-    interactor: DividerInteractor = DividerInteractor.Default,
-    prepend: Boolean = false,
-    append: Boolean = false
+    interactor: RowInteractor = RowInteractor.Default,
+    presenter: RowPresenter = RowPresenter.Default
 ) = RowProjector(
-    interactor = RowInteractor(
-        divider = interactor
-    ),
+    interactor = interactor.copy(divider = DividerInteractor.Default.safeMerge(interactor.divider, null)),
     presenter = RowPresenter(
-        prepend = prepend.toTriState(),
-        append = append.toTriState(),
         divider = DividerPresenter(
             color = color,
             thickness = thickness
         )
-    )
+    ).merge(presenter)
 )

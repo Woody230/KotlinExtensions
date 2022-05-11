@@ -5,12 +5,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
-sealed interface SizeConstraint : Modifiable
+sealed interface Size : Modifiable
 
 data class ModularSize(
     val width: WidthConstraint = PreferredWidth.Default,
     val height: HeightConstraint = PreferredHeight.Default
-) : SizeConstraint {
+) : Size {
     constructor(width: Dp, height: Dp) : this(PreferredWidth(width), PreferredHeight(height))
 
     companion object {
@@ -31,6 +31,6 @@ data class ModularSize(
 
 data class MatchParent(
     val scope: BoxScope
-) : SizeConstraint {
+) : Size {
     override val modifier: Modifier = with(scope) { Modifier.matchParentSize() }
 }
