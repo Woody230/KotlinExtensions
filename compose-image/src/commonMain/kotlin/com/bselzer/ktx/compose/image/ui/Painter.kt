@@ -8,21 +8,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntOffset
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.model.Image
-import io.ktor.client.*
-import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Converts a [ByteArray] into an [ImageBitmap].
  */
 internal expect fun ByteArray.asImageBitmap(): ImageBitmap
-
-/**
- * The dispatcher for retrieving images.
- */
-val LocalImageDispatcher = staticCompositionLocalOf { Dispatchers.Default }
 
 /**
  * The cache for retrieving images.
@@ -43,12 +35,11 @@ fun rememberImagePainter(
     url: String?,
     offset: IntOffset = IntOffset.Zero,
     filterQuality: FilterQuality = FilterQuality.Low,
-    context: CoroutineContext = LocalImageDispatcher.current,
 ): Painter? {
     // Attempt to load the image from the cache.
     val image: Image? by produceState<Image?>(initialValue = null, key1 = url) {
         value = url?.let {
-            withContext(context) {
+            withContext(Dispatchers.Default) {
                 val image = cache.getImage(url = url)
 
                 // Ignore defaulted images (no bytes).
