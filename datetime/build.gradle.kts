@@ -6,7 +6,15 @@ plugins {
 
 publishing.publish(project)
 
-android.setup()
+android.setup {
+    compileOptions {
+        // DateTimeFormatter requires API level 26+ otherwise
+        isCoreLibraryDesugaringEnabled = true
+    }
+    dependencies {
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    }
+}
 
 kotlin.setup {
     commonMain {
@@ -15,4 +23,6 @@ kotlin.setup {
         coroutine()
     }
     commonTest()
+    androidTest()
+    jvmTest()
 }
