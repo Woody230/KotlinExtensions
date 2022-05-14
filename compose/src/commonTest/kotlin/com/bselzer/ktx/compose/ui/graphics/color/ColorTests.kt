@@ -1,8 +1,6 @@
-package com.bselzer.ktx.compose.style
+package com.bselzer.ktx.compose.ui.graphics.color
 
 import androidx.compose.ui.graphics.Color
-import com.bselzer.ktx.compose.ui.graphics.color.Hex
-import com.bselzer.ktx.compose.ui.graphics.color.color
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
