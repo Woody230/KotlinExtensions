@@ -7,6 +7,6 @@ class IntMerger : ComponentMerger<Int> {
 
     companion object {
         @Stable
-        val Default = Int.MIN_VALUE + 1
+        const val Default = Int.MIN_VALUE + 1
     }
 }

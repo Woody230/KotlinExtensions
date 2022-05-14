@@ -7,6 +7,6 @@ class FloatMerger : ComponentMerger<Float> {
 
     companion object {
         @Stable
-        val Default = Float.NaN
+        const val Default = Float.NaN
     }
 }

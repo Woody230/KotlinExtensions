@@ -11,7 +11,7 @@ interface ComponentMerger<T> {
     /**
      * Determines whether the [value] is the exact reference of the [default].
      */
-    fun isDefault(value: T) = value === default
+    fun isDefault(value: T) = value == default
 
     /**
      * Merges the [first] object with the [second] object by taking the [second] object if it is not the [default], otherwise taking the [first] object.

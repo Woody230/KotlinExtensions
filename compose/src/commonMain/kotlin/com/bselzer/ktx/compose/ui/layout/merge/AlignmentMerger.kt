@@ -9,6 +9,6 @@ class AlignmentMerger : ComponentMerger<Alignment> {
 
     companion object {
         @Stable
-        val Default = BiasAlignment(0f, 0f)
+        val Default = BiasAlignment(Float.NaN, Float.NaN)
     }
 }
