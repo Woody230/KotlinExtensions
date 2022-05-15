@@ -23,6 +23,7 @@
     <string name="version">Version</string>
     <string name="legal_notice">Rechtliche Hinweise</string>
     <string name="cache_clear">Habe den Cache geleert.</string>
+    <string name="migration">Migration</string>
 
     <!-- Directions -->
     <string name="up">Oben</string>
