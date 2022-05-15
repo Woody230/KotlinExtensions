@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.padding
@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-sealed interface Padding : Modifiable
+sealed interface Padding : PresentableModifier
 
 data class ModularPadding(
     val start: Dp = 0.dp,

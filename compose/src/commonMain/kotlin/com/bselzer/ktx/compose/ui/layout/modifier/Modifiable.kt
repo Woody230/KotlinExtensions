@@ -8,20 +8,3 @@ interface Modifiable {
      */
     val modifier: Modifier
 }
-
-/**
- * Concatenates this modifier with another.
- * Returns a Modifier representing this modifier followed by other in sequence.
- *
- * If the [other] is null, then nothing is applied.
- */
-infix fun Modifier.then(other: Modifiable?) = other?.let { then(other.modifier) } ?: this
-
-/**
- * Concatenates this modifier with the [other] if it is not the [default].
- */
-fun <T : Modifiable> Modifier.then(other: T, default: T) = if (
-    other === default
-) this else {
-    then(other)
-}

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.heightIn
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
-sealed interface HeightConstraint : Modifiable
+sealed interface HeightConstraint : PresentableModifier
 
 data class PreferredHeight(
     val min: Dp = Dp.Unspecified,

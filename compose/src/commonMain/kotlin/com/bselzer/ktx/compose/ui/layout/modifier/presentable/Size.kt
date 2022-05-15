@@ -1,11 +1,11 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
-sealed interface Size : Modifiable
+sealed interface Size : PresentableModifier
 
 data class ModularSize(
     val width: WidthConstraint = PreferredWidth.Default,
@@ -37,8 +37,8 @@ data class ModularSize(
     }
 
     override val modifier: Modifier = Modifier
-        .then(width)
-        .then(height)
+        .then(width.modifier)
+        .then(height.modifier)
 }
 
 data class MatchParent(

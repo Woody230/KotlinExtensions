@@ -13,12 +13,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import com.bselzer.ktx.compose.ui.layout.icon.IconPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class TextFieldPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
     val label: TextPresenter = TextPresenter.Default,
     val icon: IconPresenter = IconPresenter.Default,
 
@@ -57,14 +57,14 @@ data class TextFieldPresenter(
      *  See TextFieldDefaults.textFieldColors
      */
     val colors: TextFieldColors = ComposeMerger.textFieldColors.default
-) : Presenter<TextFieldPresenter>(modifiers) {
+) : Presenter<TextFieldPresenter>(modifier) {
     companion object {
         @Stable
         val Default = TextFieldPresenter()
     }
 
     override fun safeMerge(other: TextFieldPresenter) = TextFieldPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         label = label.merge(other.label),
         icon = icon.merge(other.icon),
         textStyle = textStyle.merge(other.textStyle),

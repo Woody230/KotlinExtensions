@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.interactable
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.FlingBehavior
@@ -26,7 +26,7 @@ data class VerticalScroll(
      * Reverse the direction of scrolling, when true, 0 ScrollState.value will mean right, when false, 0 ScrollState.value will mean left
      */
     val reverseScrolling: Boolean = false,
-) : Modifiable {
+) : InteractableModifier {
     override val modifier: Modifier = Modifier.verticalScroll(
         state = state,
         enabled = enabled,

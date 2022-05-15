@@ -1,7 +1,7 @@
 package com.bselzer.ktx.compose.ui.layout.preference.duration
 
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.function.objects.userFriendly
@@ -11,7 +11,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 data class DurationPreferenceInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
     val preference: AlertDialogPreferenceInteractor,
 
     /**
@@ -53,7 +53,7 @@ data class DurationPreferenceInteractor(
      * Converts the [DurationUnit] into a displayable label.
      */
     val getLabel: (DurationUnit) -> String = { it.userFriendly() }
-) : Interactor(modifiers) {
+) : Interactor(modifier) {
     /**
      * The [Duration] formed from the [initialAmount] and [initialUnit].
      */

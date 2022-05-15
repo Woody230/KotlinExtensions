@@ -8,13 +8,13 @@ import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogPresenter
 import com.bselzer.ktx.compose.ui.layout.badge.BadgePresenter
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextPresenter
 import com.bselzer.ktx.compose.ui.layout.card.CardPresenter
-import com.bselzer.ktx.compose.ui.layout.modifier.ModularSize.Companion.FillWidth
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class LibraryPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     val dialog: AlertDialogPresenter = AlertDialogPresenter.Default,
 
@@ -42,14 +42,14 @@ data class LibraryPresenter(
      * The [Presenter] for the name of a license.
      */
     val badge: BadgeTextPresenter = BadgeTextPresenter.Default
-) : Presenter<LibraryPresenter>(modifiers) {
+) : Presenter<LibraryPresenter>(modifier) {
     companion object {
         @Stable
         val Default = LibraryPresenter()
     }
 
     override fun safeMerge(other: LibraryPresenter) = LibraryPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         dialog = dialog.merge(other.dialog),
         dialogBody = dialogBody.merge(other.dialogBody),
         container = container.merge(other.container),
@@ -60,7 +60,7 @@ data class LibraryPresenter(
 
     @Composable
     override fun localized() = LibraryPresenter(
-        modifiers = PresentableModifiers(size = FillWidth),
+        modifier = ModularSize.FillWidth,
         dialogBody = TextPresenter(
             textStyle = MaterialTheme.typography.body1
         ),

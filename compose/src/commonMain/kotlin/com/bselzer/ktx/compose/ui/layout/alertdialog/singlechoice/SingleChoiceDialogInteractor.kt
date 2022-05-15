@@ -1,10 +1,10 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice
 
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class SingleChoiceDialogInteractor<Choice>(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The selected value.
@@ -25,4 +25,4 @@ data class SingleChoiceDialogInteractor<Choice>(
      * Callback for managing the selection of a value.
      */
     val onSelection: (Choice) -> Unit
-) : Interactor(modifiers)
+) : Interactor(modifier)

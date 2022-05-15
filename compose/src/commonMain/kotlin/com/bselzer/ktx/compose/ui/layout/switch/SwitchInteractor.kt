@@ -1,10 +1,10 @@
 package com.bselzer.ktx.compose.ui.layout.switch
 
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class SwitchInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * whether or not this component is checked
@@ -21,4 +21,4 @@ data class SwitchInteractor(
      * If null, then this is passive and relies entirely on a higher-level component to control the "checked" state.
      */
     val onCheckedChange: ((Boolean) -> Unit)? = null,
-) : Interactor(modifiers)
+) : Interactor(modifier)

@@ -3,12 +3,12 @@ package com.bselzer.ktx.compose.ui.layout.textfield
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 
 data class TextFieldInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] for the label to be displayed inside the text field container.
@@ -68,4 +68,4 @@ data class TextFieldInteractor(
      * Note that this IME action may be different from what you specified in KeyboardOptions.imeAction.
      */
     val keyboardActions: KeyboardActions = KeyboardActions.Default,
-) : Interactor(modifiers)
+) : Interactor(modifier)

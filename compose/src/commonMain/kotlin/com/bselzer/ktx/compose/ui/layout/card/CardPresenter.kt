@@ -14,11 +14,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class CardPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * Defines the card's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
@@ -57,14 +57,14 @@ data class CardPresenter(
      * By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
      */
     val indication: Indication? = ComposeMerger.indication.default
-) : Presenter<CardPresenter>(modifiers) {
+) : Presenter<CardPresenter>(modifier) {
     companion object {
         @Stable
         val Default = CardPresenter()
     }
 
     override fun safeMerge(other: CardPresenter) = CardPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
         contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),

@@ -2,14 +2,14 @@ package com.bselzer.ktx.compose.ui.layout.preference.textfield
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldPresenter
 
 data class TextFieldPreferencePresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presenter] for core preference and dialog properties.
@@ -25,14 +25,14 @@ data class TextFieldPreferencePresenter(
      * The [Presenter] for the input field.
      */
     val input: TextFieldPresenter = TextFieldPresenter.Default,
-) : Presenter<TextFieldPreferencePresenter>(modifiers) {
+) : Presenter<TextFieldPreferencePresenter>(modifier) {
     companion object {
         @Stable
         val Default = TextFieldPreferencePresenter()
     }
 
     override fun safeMerge(other: TextFieldPreferencePresenter) = TextFieldPreferencePresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         preference = preference.merge(other.preference),
         inputDescription = inputDescription.merge(other.inputDescription),
         input = input.merge(other.input)

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.offset
@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-sealed interface Offset : Modifiable
+sealed interface Offset : PresentableModifier
 
 data class ModularOffset(
     val x: Dp = 0.dp,

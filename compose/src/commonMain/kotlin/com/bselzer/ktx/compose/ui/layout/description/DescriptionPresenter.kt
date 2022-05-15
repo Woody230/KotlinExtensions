@@ -6,13 +6,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class DescriptionPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presentable] for the container holding the title and subtitle.
@@ -28,14 +28,14 @@ data class DescriptionPresenter(
      * The [Presentable] for the subtitle.
      */
     val subtitle: TextPresenter = TextPresenter.Default
-) : Presenter<DescriptionPresenter>(modifiers) {
+) : Presenter<DescriptionPresenter>(modifier) {
     companion object {
         @Stable
         val Default = DescriptionPresenter()
     }
 
     override fun safeMerge(other: DescriptionPresenter) = DescriptionPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         container = container.merge(other.container),
         title = title.merge(other.title),
         subtitle = subtitle.merge(other.subtitle)

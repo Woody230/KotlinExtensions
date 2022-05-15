@@ -3,11 +3,11 @@ package com.bselzer.ktx.compose.ui.layout.background.column
 import com.bselzer.ktx.compose.ui.layout.box.BoxInteractor
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class BackgroundColumnInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] for the container holding the [background] image and [column].
@@ -20,4 +20,4 @@ data class BackgroundColumnInteractor(
     val background: ImageInteractor,
 
     val column: ColumnInteractor = ColumnInteractor.Default
-) : Interactor(modifiers)
+) : Interactor(modifier)

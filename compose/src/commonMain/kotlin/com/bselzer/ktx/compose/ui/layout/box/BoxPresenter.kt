@@ -5,11 +5,11 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class BoxPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The default alignment inside the Box.
@@ -20,14 +20,14 @@ data class BoxPresenter(
      * Whether the incoming min constraints should be passed to content.
      */
     val propagateMinConstraints: TriState = ComposeMerger.triState.default
-) : Presenter<BoxPresenter>(modifiers) {
+) : Presenter<BoxPresenter>(modifier) {
     companion object {
         @Stable
         val Default = BoxPresenter()
     }
 
     override fun safeMerge(other: BoxPresenter) = BoxPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         contentAlignment = ComposeMerger.alignment.safeMerge(contentAlignment, other.contentAlignment),
         propagateMinConstraints = ComposeMerger.triState.safeMerge(propagateMinConstraints, other.propagateMinConstraints)
     )

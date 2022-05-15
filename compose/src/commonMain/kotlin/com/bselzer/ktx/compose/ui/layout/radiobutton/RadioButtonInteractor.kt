@@ -1,10 +1,10 @@
 package com.bselzer.ktx.compose.ui.layout.radiobutton
 
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class RadioButtonInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * Whether the button is selected.
@@ -20,4 +20,4 @@ data class RadioButtonInteractor(
      * Callback to be invoked when the RadioButton is being clicked. If null, then this is passive and relies entirely on a higher-level component to control the state.
      */
     val onClick: (() -> Unit)? = null
-) : Interactor(modifiers)
+) : Interactor(modifier)

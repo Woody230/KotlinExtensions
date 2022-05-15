@@ -1,12 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.picker
 
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 abstract class PickerInteractor<T>(
-    override val modifiers: InteractableModifiers
-) : Interactor(modifiers) {
+    override val modifier: InteractableModifier
+) : Interactor(modifier) {
     /**
      * The index of the selected value.
      */

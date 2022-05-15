@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredWidthIn
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
-sealed interface WidthConstraint : Modifiable
+sealed interface WidthConstraint : PresentableModifier
 
 data class PreferredWidth(
     val min: Dp = Dp.Unspecified,

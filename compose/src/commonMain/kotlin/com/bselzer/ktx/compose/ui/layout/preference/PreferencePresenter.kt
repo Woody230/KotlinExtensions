@@ -5,12 +5,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.layout.ContentScale
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
-import com.bselzer.ktx.compose.ui.layout.modifier.ModularSize
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class PreferencePresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presenter] for the image.
@@ -21,14 +21,14 @@ data class PreferencePresenter(
      * The [Presenter] for the name and description of the preference.
      */
     val description: DescriptionPresenter = DescriptionPresenter.Default,
-) : Presenter<PreferencePresenter>(modifiers) {
+) : Presenter<PreferencePresenter>(modifier) {
     companion object {
         @Stable
         val Default = PreferencePresenter()
     }
 
     override fun safeMerge(other: PreferencePresenter) = PreferencePresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         image = image.merge(other.image),
         description = description.merge(other.description)
     )
@@ -47,10 +47,8 @@ data class PreferencePresenter(
 @Composable
 fun preferenceImagePresenter() = ImagePresenter(
     contentScale = ContentScale.FillBounds,
-    modifiers = PresentableModifiers(
-        size = ModularSize(
-            width = PreferenceConstants.ImageSize,
-            height = PreferenceConstants.ImageSize
-        )
-    ),
+    modifier = ModularSize(
+        width = PreferenceConstants.ImageSize,
+        height = PreferenceConstants.ImageSize
+    )
 )

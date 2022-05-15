@@ -1,11 +1,11 @@
 package com.bselzer.ktx.compose.ui.layout.card
 
 import androidx.compose.runtime.Stable
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class CardInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * Callback to be called when the card is clicked
@@ -21,7 +21,7 @@ data class CardInteractor(
      * Controls the enabled state of the card. When false, this card will not be clickable
      */
     val enabled: Boolean = true,
-) : Interactor(modifiers) {
+) : Interactor(modifier) {
     companion object {
         @Stable
         val Default = CardInteractor()

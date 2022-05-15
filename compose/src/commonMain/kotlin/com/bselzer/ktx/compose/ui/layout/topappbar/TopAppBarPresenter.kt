@@ -10,13 +10,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class TopAppBarPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presentable] for the title.
@@ -43,14 +43,14 @@ data class TopAppBarPresenter(
      * The elevation of this TopAppBar.
      */
     val elevation: Dp = ComposeMerger.dp.default
-) : Presenter<TopAppBarPresenter>(modifiers) {
+) : Presenter<TopAppBarPresenter>(modifier) {
     companion object {
         @Stable
         val Default = TopAppBarPresenter()
     }
 
     override fun safeMerge(other: TopAppBarPresenter) = TopAppBarPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         title = title.merge(other.title),
         icon = icon.merge(other.icon),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),

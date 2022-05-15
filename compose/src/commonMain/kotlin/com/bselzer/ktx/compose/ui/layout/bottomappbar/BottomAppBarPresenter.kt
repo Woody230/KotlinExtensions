@@ -12,12 +12,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class BottomAppBarPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presentable] for the navigation and action icons.
@@ -51,14 +51,14 @@ data class BottomAppBarPresenter(
      * This shape will be drawn with an offset around all sides. If null, where will be no cutout.
      */
     val cutoutShape: Shape? = ComposeMerger.shape.default
-) : Presenter<BottomAppBarPresenter>(modifiers) {
+) : Presenter<BottomAppBarPresenter>(modifier) {
     companion object {
         @Stable
         val Default = BottomAppBarPresenter()
     }
 
     override fun safeMerge(other: BottomAppBarPresenter) = BottomAppBarPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         icon = icon.merge(other.icon),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
         contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),

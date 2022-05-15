@@ -5,14 +5,14 @@ import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.description.descriptionSubtitlePresenter
 import com.bselzer.ktx.compose.ui.layout.description.descriptionTitlePresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.preference.preferenceImagePresenter
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 data class TextPreferencePresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presenter] for the image.
@@ -28,14 +28,14 @@ data class TextPreferencePresenter(
      * The [Presentable] for the subtitle.
      */
     val subtitle: TextPresenter = TextPresenter.Default
-) : Presenter<TextPreferencePresenter>(modifiers) {
+) : Presenter<TextPreferencePresenter>(modifier) {
     companion object {
         @Stable
         val Default = TextPreferencePresenter()
     }
 
     override fun safeMerge(other: TextPreferencePresenter) = TextPreferencePresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         image = image.merge(other.image),
         title = title.merge(other.title),
         subtitle = subtitle.merge(other.subtitle)

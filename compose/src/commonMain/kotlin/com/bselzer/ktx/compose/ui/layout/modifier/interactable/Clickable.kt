@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.modifier
+package com.bselzer.ktx.compose.ui.layout.modifier.interactable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Indication
@@ -58,7 +58,7 @@ data class Clickable(
      * Will be called when user clicks on the element
      */
     val onClick: () -> Unit,
-) : Modifiable {
+) : InteractableModifier {
     @OptIn(ExperimentalFoundationApi::class)
     override val modifier: Modifier = Modifier.composed {
         Modifier.combinedClickable(

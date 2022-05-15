@@ -1,12 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.description
 
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 
 data class DescriptionInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] for the container holding the title and subtitle.
@@ -22,4 +22,4 @@ data class DescriptionInteractor(
      * The [Interactor] for the subtitle.
      */
     val subtitle: TextInteractor
-) : Interactor(modifiers)
+) : Interactor(modifier)

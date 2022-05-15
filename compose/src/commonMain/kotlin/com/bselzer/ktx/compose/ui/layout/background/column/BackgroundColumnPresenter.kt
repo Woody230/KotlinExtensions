@@ -5,11 +5,11 @@ import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.box.BoxPresenter
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class BackgroundColumnPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * The [Presenter] for the container holding the [background] image and column.
@@ -22,14 +22,14 @@ data class BackgroundColumnPresenter(
     val background: ImagePresenter = ImagePresenter.Default,
 
     val column: ColumnPresenter = ColumnPresenter.Default
-) : Presenter<BackgroundColumnPresenter>(modifiers) {
+) : Presenter<BackgroundColumnPresenter>(modifier) {
     companion object {
         @Stable
         val Default = BackgroundColumnPresenter()
     }
 
     override fun safeMerge(other: BackgroundColumnPresenter) = BackgroundColumnPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         container = container.merge(other.container),
         background = background.merge(other.background),
         column = column.merge(other.column)

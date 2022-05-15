@@ -1,13 +1,13 @@
 package com.bselzer.ktx.compose.ui.layout.preference.textfield
 
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
 
 data class TextFieldPreferenceInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] for core preference and dialog properties.
@@ -28,4 +28,4 @@ data class TextFieldPreferenceInteractor(
      * The initial state of the [input].
      */
     val initialInput: String = ""
-) : Interactor(modifiers)
+) : Interactor(modifier)

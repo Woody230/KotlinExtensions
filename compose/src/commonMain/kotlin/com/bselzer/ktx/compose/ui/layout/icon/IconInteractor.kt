@@ -1,11 +1,11 @@
 package com.bselzer.ktx.compose.ui.layout.icon
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class IconInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * [ImageVector] to draw inside this icon
@@ -18,4 +18,4 @@ data class IconInteractor(
      * This text should be localized, such as by using androidx.compose.ui.res.stringResource or similar
      */
     val contentDescription: String?,
-) : Interactor(modifiers)
+) : Interactor(modifier)

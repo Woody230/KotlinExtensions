@@ -2,11 +2,11 @@ package com.bselzer.ktx.compose.ui.layout.lazyrow
 
 import androidx.compose.foundation.lazy.LazyListState
 import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 class LazyRowInteractor<T>(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] of the divider.
@@ -22,4 +22,4 @@ class LazyRowInteractor<T>(
      * The items.
      */
     val items: List<T>
-) : Interactor(modifiers)
+) : Interactor(modifier)

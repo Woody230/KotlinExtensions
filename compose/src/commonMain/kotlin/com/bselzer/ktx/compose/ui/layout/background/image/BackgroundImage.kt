@@ -7,9 +7,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
-import com.bselzer.ktx.compose.ui.layout.modifier.MatchParent
-import com.bselzer.ktx.compose.ui.layout.modifier.ModularSize
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.MatchParent
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
 
 fun backgroundImageInteractor(painter: Painter) = ImageInteractor(
     painter = painter,
@@ -18,13 +17,13 @@ fun backgroundImageInteractor(painter: Painter) = ImageInteractor(
 
 @Composable
 fun backgroundImagePresenter() = ImagePresenter(
-    modifiers = PresentableModifiers(size = ModularSize.FillSize),
+    modifier = ModularSize.FillSize,
 ) merge baseBackgroundImagePresenter()
 
 @Composable
 fun BoxScope.backgroundImagePresenter() = ImagePresenter(
     // Need to use matchParentSize() so that the image does not participate in sizing and can just fill the resulting size.
-    modifiers = PresentableModifiers(size = MatchParent(this)),
+    modifier = MatchParent(this),
 ) merge baseBackgroundImagePresenter()
 
 @Composable

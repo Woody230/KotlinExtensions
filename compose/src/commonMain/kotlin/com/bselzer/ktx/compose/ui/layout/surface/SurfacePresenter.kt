@@ -13,11 +13,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class SurfacePresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * Defines the Surface's shape as well its shadow. A shadow is only displayed if the elevation is greater than zero.
@@ -56,14 +56,14 @@ data class SurfacePresenter(
      * By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
      */
     val indication: Indication? = ComposeMerger.indication.default
-) : Presenter<SurfacePresenter>(modifiers) {
+) : Presenter<SurfacePresenter>(modifier) {
     companion object {
         @Stable
         val Default = SurfacePresenter()
     }
 
     override fun safeMerge(other: SurfacePresenter) = SurfacePresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         color = ComposeMerger.color.safeMerge(color, other.color),
         contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),

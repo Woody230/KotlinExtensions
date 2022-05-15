@@ -10,11 +10,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class SnackbarPresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * Whether or not action should be put on the separate line. Recommended for action with long action text
@@ -46,14 +46,14 @@ data class SnackbarPresenter(
      * The z-coordinate at which to place the SnackBar. This controls the size of the shadow below the SnackBar
      */
     val elevation: Dp = ComposeMerger.dp.default
-) : Presenter<SnackbarPresenter>(modifiers) {
+) : Presenter<SnackbarPresenter>(modifier) {
     companion object {
         @Stable
         val Default = SnackbarPresenter()
     }
 
     override fun safeMerge(other: SnackbarPresenter) = SnackbarPresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         actionOnNewLine = ComposeMerger.triState.safeMerge(actionOnNewLine, other.actionOnNewLine),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),

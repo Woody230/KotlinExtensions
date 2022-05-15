@@ -7,11 +7,11 @@ import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.icontext.IconTextInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class ModalDrawerInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] for the container holding the header and sections.
@@ -47,7 +47,7 @@ data class ModalDrawerInteractor(
      * Whether or not drawer can be interacted by gestures
      */
     val gesturesEnabled: Boolean = true,
-) : Interactor(modifiers) {
+) : Interactor(modifier) {
     /**
      * The state of the drawer.
      */

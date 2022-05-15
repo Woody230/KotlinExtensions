@@ -1,12 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.preference.text
 
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 
 data class TextPreferenceInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The [Interactor] for the image.
@@ -22,4 +22,4 @@ data class TextPreferenceInteractor(
      * The [Interactor] for the subtitle.
      */
     val subtitle: TextInteractor
-) : Interactor(modifiers)
+) : Interactor(modifier)

@@ -1,10 +1,10 @@
 package com.bselzer.ktx.compose.ui.layout.picker
 
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
-import com.bselzer.ktx.compose.ui.layout.modifier.InteractableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 
 data class IntegerPickerInteractor(
-    override val modifiers: InteractableModifiers = InteractableModifiers.Default,
+    override val modifier: InteractableModifier = InteractableModifier,
 
     /**
      * The selected number.
@@ -15,7 +15,7 @@ data class IntegerPickerInteractor(
     override val onSelectionChanged: (Int) -> Unit,
     override val upIcon: IconInteractor,
     override val downIcon: IconInteractor
-) : PickerInteractor<Int>(modifiers) {
+) : PickerInteractor<Int>(modifier) {
     override val selectedIndex: Int = range.toList().binarySearch(selected)
     override val getValue: (Int) -> Int? = { index -> range.elementAtOrNull(index) }
     override val getLabel: (Int) -> String = { number -> number.toString() }

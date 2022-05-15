@@ -7,11 +7,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
-import com.bselzer.ktx.compose.ui.layout.modifier.PresentableModifiers
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class ImagePresenter(
-    override val modifiers: PresentableModifiers = PresentableModifiers.Default,
+    override val modifier: PresentableModifier = PresentableModifier,
 
     /**
      * Alignment parameter used to place the Painter in the given bounds defined by the width and height.
@@ -32,14 +32,14 @@ data class ImagePresenter(
      * ColorFilter to apply for the Painter when it is rendered onscreen
      */
     val colorFilter: ColorFilter? = ComposeMerger.colorFilter.default
-) : Presenter<ImagePresenter>(modifiers) {
+) : Presenter<ImagePresenter>(modifier) {
     companion object {
         @Stable
         val Default = ImagePresenter()
     }
 
     override fun safeMerge(other: ImagePresenter) = ImagePresenter(
-        modifiers = modifiers.merge(other.modifiers),
+        modifier = modifier.merge(other.modifier),
         alignment = ComposeMerger.alignment.safeMerge(alignment, other.alignment),
         contentScale = ComposeMerger.contentScale.safeMerge(contentScale, other.contentScale),
         alpha = ComposeMerger.float.safeMerge(alpha, other.alpha),
