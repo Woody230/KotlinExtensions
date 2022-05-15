@@ -24,6 +24,9 @@ data class BoxPresenter(
     companion object {
         @Stable
         val Default = BoxPresenter()
+
+        @Stable
+        val Centered = BoxPresenter(contentAlignment = Alignment.Center)
     }
 
     override fun safeMerge(other: BoxPresenter) = BoxPresenter(

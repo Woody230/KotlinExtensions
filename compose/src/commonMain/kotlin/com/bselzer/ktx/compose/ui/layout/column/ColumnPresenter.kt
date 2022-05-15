@@ -42,6 +42,12 @@ data class ColumnPresenter(
     companion object {
         @Stable
         val Default = ColumnPresenter()
+
+        @Stable
+        val Centered = ColumnPresenter(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally)
+
+        @Stable
+        val CenteredHorizontally = ColumnPresenter(horizontalAlignment = Alignment.CenterHorizontally)
     }
 
     override fun safeMerge(other: ColumnPresenter) = ColumnPresenter(

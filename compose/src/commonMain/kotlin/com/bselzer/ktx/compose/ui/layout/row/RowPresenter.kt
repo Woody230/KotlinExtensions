@@ -42,6 +42,12 @@ data class RowPresenter(
     companion object {
         @Stable
         val Default = RowPresenter()
+
+        @Stable
+        val Centered = RowPresenter(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically)
+
+        @Stable
+        val CenteredVertically = RowPresenter(verticalAlignment = Alignment.CenterVertically)
     }
 
     override fun safeMerge(other: RowPresenter) = RowPresenter(
