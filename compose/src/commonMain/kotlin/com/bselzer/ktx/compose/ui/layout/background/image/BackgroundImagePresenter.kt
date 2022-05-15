@@ -37,9 +37,7 @@ data class BackgroundImagePresenter(
     )
 
     @Composable
-    override fun localized() = BackgroundImagePresenter(
-        background = backgroundImagePresenter()
-    ).merge(this).copy(
+    override fun localized() = copy(
         container = container.localized(),
         background = background.localized(),
     )
