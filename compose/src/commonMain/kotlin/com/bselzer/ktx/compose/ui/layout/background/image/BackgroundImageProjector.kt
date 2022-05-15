@@ -14,7 +14,7 @@ class BackgroundImageProjector(
     private val containerProjector = BoxProjector(interactor.container, presenter.container)
 
     @Composable
-    fun project(
+    fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable BoxScope.() -> Unit
     ) = contextualize(modifier) { combinedModifier ->
