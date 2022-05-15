@@ -12,7 +12,7 @@ class DescriptionProjector(
 ) : Projector<DescriptionInteractor, DescriptionPresenter>() {
     private val containerProjector = ColumnProjector(interactor.container, presenter.container)
     private val titleProjector = TextProjector(interactor.title, presenter.title)
-    private val subtitleProjector = TextProjector(interactor.subtitle, presenter.subtitle)
+    private val subtitleProjector = interactor.subtitle?.let { subtitle -> TextProjector(subtitle, presenter.subtitle) }
 
     @Composable
     fun Projection(
@@ -20,8 +20,11 @@ class DescriptionProjector(
     ) = contextualize(modifier) { combinedModifier ->
         containerProjector.Projection(
             modifier = combinedModifier,
-            { titleProjector.Projection() },
-            { subtitleProjector.Projection() }
+            content = if (subtitleProjector == null) arrayOf({ titleProjector.Projection() })
+            else arrayOf(
+                { titleProjector.Projection() },
+                { subtitleProjector.Projection() }
+            )
         )
     }
 }

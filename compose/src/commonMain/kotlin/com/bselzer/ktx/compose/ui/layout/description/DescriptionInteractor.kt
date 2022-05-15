@@ -21,5 +21,5 @@ data class DescriptionInteractor(
     /**
      * The [Interactor] for the subtitle.
      */
-    val subtitle: TextInteractor
+    val subtitle: TextInteractor? = null
 ) : Interactor(modifier)
