@@ -16,5 +16,8 @@ data class RowInteractor(
     companion object {
         @Stable
         val Default = RowInteractor()
+
+        @Stable
+        val Divided = RowInteractor(divider = DividerInteractor.Default)
     }
 }

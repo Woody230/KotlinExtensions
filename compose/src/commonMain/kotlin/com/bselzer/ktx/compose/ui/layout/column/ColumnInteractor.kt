@@ -16,5 +16,8 @@ data class ColumnInteractor(
     companion object {
         @Stable
         val Default = ColumnInteractor()
+
+        @Stable
+        val Divided = ColumnInteractor(divider = DividerInteractor.Default)
     }
 }
