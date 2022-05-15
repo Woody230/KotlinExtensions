@@ -9,7 +9,7 @@ data class ColumnInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
 
     /**
-     * The [Interactor] of the divider.
+     * The [Interactor] of the divider. If it is not null, then the divider will be used.
      */
     val divider: DividerInteractor? = null,
 ) : Interactor(modifier) {
