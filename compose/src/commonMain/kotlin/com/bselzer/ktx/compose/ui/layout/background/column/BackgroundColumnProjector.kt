@@ -26,6 +26,8 @@ class BackgroundColumnProjector(
         ) {
             ImageProjector(
                 interactor = interactor.background,
+
+                // TODO scoped modifiable handling?
                 presenter = backgroundImagePresenter() merge presenter.background
             ).Projection()
 
