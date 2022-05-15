@@ -1,8 +1,9 @@
-package com.bselzer.ktx.compose.ui.layout.backgroundcolumn
+package com.bselzer.ktx.compose.ui.layout.background.column
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.bselzer.ktx.compose.ui.layout.background.image.backgroundImagePresenter
 import com.bselzer.ktx.compose.ui.layout.box.BoxProjector
 import com.bselzer.ktx.compose.ui.layout.column.ColumnProjector
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector

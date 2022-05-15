@@ -1,6 +1,5 @@
-package com.bselzer.ktx.compose.ui.layout.backgroundcolumn
+package com.bselzer.ktx.compose.ui.layout.background.column
 
-import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.ktx.compose.ui.layout.box.BoxInteractor
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
@@ -22,8 +21,3 @@ data class BackgroundColumnInteractor(
 
     val column: ColumnInteractor = ColumnInteractor.Default
 ) : Interactor(modifiers)
-
-fun backgroundImageInteractor(painter: Painter) = ImageInteractor(
-    painter = painter,
-    contentDescription = null
-)
