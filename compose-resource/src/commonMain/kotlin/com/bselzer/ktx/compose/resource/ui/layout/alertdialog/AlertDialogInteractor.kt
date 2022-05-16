@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.resource.ui.layout.text.confirmationTextInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.text.dismissTextInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.text.resetTextInteractor
+import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
+import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.alertDialogButtonsInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 
@@ -29,18 +31,17 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
  * @param onConfirmation Executes when the user clicks the positive button.
  * Returns whether the dialog should be shown.
  *
- * @param setShowDialog Executes when the user tries to dismiss the dialog or clicks a button.
- * The result of the associated callback is passed in, in order to change whether the dialog is shown.
+ * @param closeDialog Executes when the user tries to dismiss the dialog or clicks a button and the associated callback indicates that the dialog should be closed.
  */
 @Composable
 fun confirmationAlertDialogInteractor(
-    onDismissRequest: () -> Boolean = { false },
+    onDismissRequest: () -> DialogState = { DialogState.CLOSED },
     negativeText: TextInteractor? = null,
-    onNegative: () -> Boolean = { false },
+    onNegative: () -> DialogState = { DialogState.CLOSED },
     neutralText: TextInteractor? = null,
-    onNeutral: (() -> Boolean) = { false },
-    onConfirmation: () -> Boolean = { false },
-    setShowDialog: (Boolean) -> Unit,
+    onNeutral: () -> DialogState = { DialogState.CLOSED },
+    onConfirmation: () -> DialogState = { DialogState.CLOSED },
+    closeDialog: () -> Unit,
 ) = alertDialogButtonsInteractor(
     onDismissRequest = onDismissRequest,
     negativeText = negativeText,
@@ -49,7 +50,7 @@ fun confirmationAlertDialogInteractor(
     onNeutral = onNeutral,
     positiveText = confirmationTextInteractor(),
     onPositive = onConfirmation,
-    setShowDialog = setShowDialog
+    closeDialog = closeDialog
 )
 
 /**
@@ -71,17 +72,16 @@ fun confirmationAlertDialogInteractor(
  * @param onConfirmation Executes when the user clicks the positive button.
  * Returns whether the dialog should be shown.
  *
- * @param setShowDialog Executes when the user tries to dismiss the dialog or clicks a button.
- * The result of the associated callback is passed in, in order to change whether the dialog is shown.
+ * @param closeDialog Executes when the user tries to dismiss the dialog or clicks a button and the associated callback indicates that the dialog should be closed.
  */
 @Composable
 fun dismissAlertDialogInteractor(
-    onDismissRequest: () -> Boolean = { false },
-    onDismiss: () -> Boolean = { false },
+    onDismissRequest: () -> DialogState = { DialogState.CLOSED },
+    onDismiss: () -> DialogState = { DialogState.CLOSED },
     neutralText: TextInteractor? = null,
-    onNeutral: (() -> Boolean) = { false },
-    onConfirmation: () -> Boolean = { false },
-    setShowDialog: (Boolean) -> Unit,
+    onNeutral: () -> DialogState = { DialogState.CLOSED },
+    onConfirmation: () -> DialogState = { DialogState.CLOSED },
+    closeDialog: () -> Unit,
 ) = confirmationAlertDialogInteractor(
     onDismissRequest = onDismissRequest,
     negativeText = dismissTextInteractor(),
@@ -89,7 +89,7 @@ fun dismissAlertDialogInteractor(
     neutralText = neutralText,
     onNeutral = onNeutral,
     onConfirmation = onConfirmation,
-    setShowDialog = setShowDialog
+    closeDialog = closeDialog
 )
 
 /**
@@ -108,21 +108,20 @@ fun dismissAlertDialogInteractor(
  * @param onConfirmation Executes when the user clicks the positive button.
  * Returns whether the dialog should be shown.
  *
- * @param setShowDialog Executes when the user tries to dismiss the dialog or clicks a button.
- * The result of the associated callback is passed in, in order to change whether the dialog is shown.
+ * @param closeDialog Executes when the user tries to dismiss the dialog or clicks a button and the associated callback indicates that the dialog should be closed.
  */
 @Composable
 fun resetAlertDialogInteractor(
-    onDismissRequest: () -> Boolean = { false },
-    onDismiss: () -> Boolean = { false },
-    onReset: () -> Boolean = { false },
-    onConfirmation: () -> Boolean = { false },
-    setShowDialog: (Boolean) -> Unit,
+    onDismissRequest: () -> DialogState = { DialogState.CLOSED },
+    onDismiss: () -> DialogState = { DialogState.CLOSED },
+    onReset: () -> DialogState = { DialogState.CLOSED },
+    onConfirmation: () -> DialogState = { DialogState.CLOSED },
+    closeDialog: () -> Unit,
 ) = dismissAlertDialogInteractor(
     onDismissRequest = onDismissRequest,
     onDismiss = onDismiss,
     neutralText = resetTextInteractor(),
     onNeutral = onReset,
     onConfirmation = onConfirmation,
-    setShowDialog = setShowDialog
+    closeDialog = closeDialog
 )

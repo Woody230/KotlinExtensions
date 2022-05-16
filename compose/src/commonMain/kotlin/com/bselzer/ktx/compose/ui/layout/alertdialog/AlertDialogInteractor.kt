@@ -61,45 +61,52 @@ data class AlertDialogInteractor(
  * @param onPositive Executes when the user clicks the positive button.
  * Returns whether the dialog should be shown.
  *
- * @param setShowDialog Executes when the user tries to dismiss the dialog or clicks a button.
- * The result of the associated callback is passed in, in order to change whether the dialog is shown.
+ * @param closeDialog Executes when the user tries to dismiss the dialog or clicks a button and the associated callback indicates that the dialog should be closed.
  */
 @Composable
 fun alertDialogButtonsInteractor(
-    onDismissRequest: () -> Boolean = { false },
+    onDismissRequest: () -> DialogState = { DialogState.CLOSED },
     negativeText: TextInteractor? = null,
-    onNegative: () -> Boolean = { false },
+    onNegative: () -> DialogState = { DialogState.CLOSED },
     neutralText: TextInteractor? = null,
-    onNeutral: (() -> Boolean) = { false },
+    onNeutral: () -> DialogState = { DialogState.CLOSED },
     positiveText: TextInteractor? = null,
-    onPositive: () -> Boolean = { false },
-    setShowDialog: (Boolean) -> Unit,
-) = AlertDialogInteractor(
-    negativeButton = negativeText?.let {
-        TextButtonInteractor(
-            text = negativeText,
-            button = ButtonInteractor {
-                setShowDialog(onNegative())
-            },
-        )
-    },
-    neutralButton = neutralText?.let {
-        TextButtonInteractor(
-            text = neutralText,
-            button = ButtonInteractor {
-                setShowDialog(onNeutral())
-            },
-        )
-    },
-    positiveButton = positiveText?.let {
-        TextButtonInteractor(
-            text = positiveText,
-            button = ButtonInteractor {
-                setShowDialog(onPositive())
-            }
-        )
-    },
-    onDismissRequest = {
-        setShowDialog(onDismissRequest())
+    onPositive: () -> DialogState = { DialogState.CLOSED },
+    closeDialog: () -> Unit,
+): AlertDialogInteractor {
+    fun (() -> DialogState).perform() {
+        if (invoke() == DialogState.CLOSED) {
+            closeDialog()
+        }
     }
-)
+
+    return AlertDialogInteractor(
+        negativeButton = negativeText?.let {
+            TextButtonInteractor(
+                text = negativeText,
+                button = ButtonInteractor { onNegative.perform() },
+            )
+        },
+        neutralButton = neutralText?.let {
+            TextButtonInteractor(
+                text = neutralText,
+                button = ButtonInteractor { onNeutral.perform() },
+            )
+        },
+        positiveButton = positiveText?.let {
+            TextButtonInteractor(
+                text = positiveText,
+                button = ButtonInteractor { onPositive.perform() }
+            )
+        },
+        onDismissRequest = { onDismissRequest.perform() }
+    )
+}
+
+/**
+ * The state of a dialog indicating whether the dialog should remain opened.
+ */
+enum class DialogState {
+    OPENED,
+    CLOSED
+}

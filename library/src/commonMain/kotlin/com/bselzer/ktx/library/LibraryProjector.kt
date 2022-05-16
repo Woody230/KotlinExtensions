@@ -57,11 +57,7 @@ class LibraryProjector(
     @Composable
     private fun LibraryPresenter.Dialog(selected: Library?, setSelected: (Library?) -> Unit) = selected?.let {
         AlertDialogProjector(
-            interactor = confirmationAlertDialogInteractor { showDialog ->
-                if (!showDialog) {
-                    setSelected(null)
-                }
-            }
+            interactor = confirmationAlertDialogInteractor { setSelected(null) }
         ).Projection {
             val license = selected.licenses.firstOrNull()
             val text = if (license == null) stringResource(Resources.strings.no_license_found) else license.licenseContent ?: ""
