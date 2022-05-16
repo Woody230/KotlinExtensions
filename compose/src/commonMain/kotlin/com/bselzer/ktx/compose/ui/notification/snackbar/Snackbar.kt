@@ -3,11 +3,9 @@ package com.bselzer.ktx.compose.ui.notification.snackbar
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * CompositionLocal containing the [SnackbarHostState] for sending notifications.
@@ -22,10 +20,9 @@ fun ShowSnackbar(
     message: String,
     actionLabel: String? = null,
     duration: SnackbarDuration = SnackbarDuration.Short,
-    scope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 ) {
     val state = LocalSnackbarHostState.current
-    scope.launch {
+    LaunchedEffect(message, actionLabel, duration) {
         state.showSnackbar(message, actionLabel, duration)
     }
 }
