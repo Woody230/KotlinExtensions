@@ -3,7 +3,7 @@ package com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
-data class SingleChoiceDialogInteractor<Choice>(
+data class SingleChoiceInteractor<Choice>(
     override val modifier: InteractableModifier = InteractableModifier,
 
     /**

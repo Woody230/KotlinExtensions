@@ -7,17 +7,17 @@ import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.radiobutton.RadioButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
-data class SingleChoiceDialogPresenter(
+data class SingleChoicePresenter(
     override val modifier: PresentableModifier = PresentableModifier,
     val radioButton: RadioButtonPresenter = RadioButtonPresenter.Default,
     val text: TextPresenter = TextPresenter.Default
-) : Presenter<SingleChoiceDialogPresenter>(modifier) {
+) : Presenter<SingleChoicePresenter>(modifier) {
     companion object {
         @Stable
-        val Default = SingleChoiceDialogPresenter()
+        val Default = SingleChoicePresenter()
     }
 
-    override fun safeMerge(other: SingleChoiceDialogPresenter) = SingleChoiceDialogPresenter(
+    override fun safeMerge(other: SingleChoicePresenter) = SingleChoicePresenter(
         modifier = modifier.merge(other.modifier),
         radioButton = radioButton.merge(other.radioButton),
         text = text.merge(other.text)

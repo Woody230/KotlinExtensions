@@ -16,10 +16,10 @@ import com.bselzer.ktx.compose.ui.layout.radiobutton.RadioButtonProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
-class SingleChoiceDialogProjector<Choice>(
-    override val interactor: SingleChoiceDialogInteractor<Choice>,
-    override val presenter: SingleChoiceDialogPresenter = SingleChoiceDialogPresenter.Default
-) : Projector<SingleChoiceDialogInteractor<Choice>, SingleChoiceDialogPresenter>() {
+class SingleChoiceProjector<Choice>(
+    override val interactor: SingleChoiceInteractor<Choice>,
+    override val presenter: SingleChoicePresenter = SingleChoicePresenter.Default
+) : Projector<SingleChoiceInteractor<Choice>, SingleChoicePresenter>() {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
