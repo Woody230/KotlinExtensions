@@ -19,3 +19,8 @@ class DBTransaction(
      */
     constructor(database: DB) : this(database, database.newBatch())
 }
+
+/**
+ * Creates a new [DBTransaction] for the given database.
+ */
+fun DB.transaction() = DBTransaction(this)
