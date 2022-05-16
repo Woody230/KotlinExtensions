@@ -1,6 +1,6 @@
 package com.bselzer.ktx.kodein.db.operation
 
-import com.bselzer.ktx.kodein.db.transaction.TransactionManager
+import com.bselzer.ktx.kodein.db.transaction.Transaction
 import org.kodein.db.getById
 
 /**
@@ -9,10 +9,10 @@ import org.kodein.db.getById
  * @param requestIds a block for retrieving all of the ids
  * @param requestById a block for mapping ids to their associated models
  */
-suspend inline fun <reified Model : Any, Id : Any> TransactionManager.putMissingById(
+suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
     crossinline requestIds: suspend () -> Collection<Id>,
     crossinline requestById: suspend (Collection<Id>) -> Collection<Model>
-) = transaction {
+) {
     val allIds = requestIds()
     val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
     requestById(missingIds).forEach { model -> writer.put(model) }
@@ -27,12 +27,12 @@ suspend inline fun <reified Model : Any, Id : Any> TransactionManager.putMissing
  * @param getId a block for mapping models to their associated ids
  * @param default a block for mapping ids to their default models
  */
-suspend inline fun <reified Model : Any, Id : Any> TransactionManager.putMissingById(
+suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
     crossinline requestIds: suspend () -> Collection<Id>,
     crossinline requestById: suspend (Collection<Id>) -> Collection<Model>,
     crossinline getId: suspend (Model) -> Id,
     crossinline default: suspend (Id) -> Model
-) = transaction {
+) {
     val allIds = requestIds().toHashSet()
     val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
 

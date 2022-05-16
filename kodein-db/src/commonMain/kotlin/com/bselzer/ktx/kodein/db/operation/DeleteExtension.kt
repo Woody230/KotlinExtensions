@@ -1,12 +1,10 @@
 package com.bselzer.ktx.kodein.db.operation
 
-import com.bselzer.ktx.kodein.db.transaction.TransactionManager
+import com.bselzer.ktx.kodein.db.transaction.Transaction
 import org.kodein.db.deleteAll
 import org.kodein.db.find
 
 /**
  * Deletes all of the [Model] from the database.
  */
-suspend inline fun <reified Model : Any> TransactionManager.clear() = transaction {
-    writer.deleteAll(reader.find<Model>().all())
-}
+inline fun <reified Model : Any> Transaction.clear() = writer.deleteAll(reader.find<Model>().all())

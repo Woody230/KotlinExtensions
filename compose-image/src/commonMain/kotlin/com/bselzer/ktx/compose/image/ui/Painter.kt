@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntOffset
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.model.Image
+import com.bselzer.ktx.kodein.db.transaction.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,7 +20,7 @@ internal expect fun ByteArray.asImageBitmap(): ImageBitmap
 /**
  * The cache for retrieving images.
  */
-val LocalImageCache: ProvidableCompositionLocal<ImageCache> = staticCompositionLocalOf { throw NotImplementedError("The local image cache is not set.") }
+val LocalImageCache: ProvidableCompositionLocal<ImageCache> = staticCompositionLocalOf { ImageCache() }
 
 /**
  * Creates a painter with the byte content from the image at the given [url].
@@ -30,17 +31,16 @@ val LocalImageCache: ProvidableCompositionLocal<ImageCache> = staticCompositionL
  * @param filterQuality the sampling algorithm applied to the image when it is scaled
  */
 @Composable
-fun rememberImagePainter(
+fun Transaction.rememberImagePainter(
     cache: ImageCache = LocalImageCache.current,
     url: String?,
     offset: IntOffset = IntOffset.Zero,
     filterQuality: FilterQuality = FilterQuality.Low,
 ): Painter? {
-    // Attempt to load the image from the cache.
     val image: Image? by produceState<Image?>(initialValue = null, key1 = url) {
         value = url?.let {
             withContext(Dispatchers.Default) {
-                val image = cache.getImage(url = url)
+                val image = with(cache) { getImage(url) }
 
                 // Ignore defaulted images (no bytes).
                 return@withContext if (image.content.isEmpty()) null else image

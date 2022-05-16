@@ -1,19 +1,14 @@
 package com.bselzer.ktx.compose.image.cache.instance
 
+import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.model.Image
-import com.bselzer.ktx.kodein.db.cache.DBCache
+import com.bselzer.ktx.kodein.db.cache.Cache
 import com.bselzer.ktx.kodein.db.operation.clear
 import com.bselzer.ktx.kodein.db.operation.getById
-import com.bselzer.ktx.kodein.db.transaction.TransactionManager
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import com.bselzer.ktx.kodein.db.transaction.Transaction
 import org.kodein.db.Value
 
-/**
- * The cache for [Image]s.
- */
-class ImageCache(transactionManager: TransactionManager, private val client: HttpClient) : DBCache(transactionManager) {
+class ImageCache(private val client: ImageClient = ImageClient()) : Cache {
     /**
      * Gets the [Image] with the same [url].
      *
@@ -22,28 +17,18 @@ class ImageCache(transactionManager: TransactionManager, private val client: Htt
      * @param url the image location
      * @return the image
      */
-    suspend fun getImage(url: String): Image = transaction {
-        getById(
-            id = Value.of(url),
-            requestSingle = {
-                val content: ByteArray = try {
-                    client.get(url).body()
-                } catch (ex: Exception) {
-                    ByteArray(0)
-                }
+    suspend fun Transaction.getImage(url: String): Image = getById(
+        id = Value.of(url),
+        requestSingle = { client.getImage(url) },
 
-                Image(url = url, content = content)
-            },
-
-            // Only write the image if its content was successfully retrieved and not defaulted.
-            writeFilter = { image -> image.content.isNotEmpty() }
-        )
-    }
+        // Only write the image if its content was successfully retrieved and not defaulted.
+        writeFilter = { image -> image.content.isNotEmpty() }
+    )
 
     /**
      * Clears the [Image] models.
      */
-    suspend fun clear() = transaction {
+    override fun Transaction.clear() {
         clear<Image>()
     }
 }

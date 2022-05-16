@@ -1,6 +1,6 @@
 package com.bselzer.ktx.kodein.db.operation
 
-import com.bselzer.ktx.kodein.db.transaction.TransactionManager
+import com.bselzer.ktx.kodein.db.transaction.Transaction
 import org.kodein.db.getById
 
 /**
@@ -13,11 +13,11 @@ import org.kodein.db.getById
  * @param writeFilter the block for determining whether to write the [requestSingle] model to the database. Returning true writes the model.
  * @return the model with the [id]
  */
-suspend inline fun <reified Model : Any, Id : Any> TransactionManager.getById(
+suspend inline fun <reified Model : Any, Id : Any> Transaction.getById(
     id: Id,
     crossinline requestSingle: suspend () -> Model,
     crossinline writeFilter: (Model) -> Boolean = { true }
-): Model = transaction {
+): Model {
     var model = reader.getById<Model>(id)
     if (model == null) {
         model = requestSingle()
@@ -25,5 +25,6 @@ suspend inline fun <reified Model : Any, Id : Any> TransactionManager.getById(
             writer.put(model)
         }
     }
-    model
+
+    return model
 }
