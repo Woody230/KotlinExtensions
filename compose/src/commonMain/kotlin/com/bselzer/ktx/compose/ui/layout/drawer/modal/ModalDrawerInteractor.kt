@@ -1,37 +1,13 @@
-package com.bselzer.ktx.compose.ui.layout.modaldrawer
+package com.bselzer.ktx.compose.ui.layout.drawer.modal
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.runtime.Stable
-import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
-import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
-import com.bselzer.ktx.compose.ui.layout.icontext.IconTextInteractor
-import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class ModalDrawerInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
-
-    /**
-     * The [Interactor] for the container holding the header and sections.
-     */
-    val container: ColumnInteractor = ColumnInteractor.Default,
-
-    /**
-     * The [Interactor] for the header image.
-     */
-    val image: ImageInteractor? = null,
-
-    /**
-     * The [Interactor] for the header description.
-     */
-    val description: DescriptionInteractor? = null,
-
-    /**
-     * The [Interactor]s for the sections of icon/text components.
-     */
-    val components: List<List<IconTextInteractor>> = emptyList(),
 
     /**
      * The initial value of the state.

@@ -10,6 +10,9 @@ import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.project.Interactable
+import com.bselzer.ktx.compose.ui.layout.project.Presentable
+import com.bselzer.ktx.compose.ui.layout.project.Projectable
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.function.objects.safeMerge
 
@@ -45,6 +48,22 @@ class RowProjector(
                 dividerProjector?.Projection()
             }
         }
+    }
+}
+
+/**
+ * Adds a [RowScope]d composable to the list if the associated projector is not null.
+ *
+ * @return true if a composable delegate is added
+ */
+fun <Interactor, Presenter, Projector> MutableList<@Composable RowScope.() -> Unit>.addIfNotNull(
+    projector: Projector?,
+    block: @Composable RowScope.(Projector) -> Unit
+): Boolean where Interactor : Interactable, Presenter : Presentable<Presenter>, Projector : Projectable<Interactor, Presenter> {
+    return if (projector == null) {
+        false
+    } else {
+        add { block(projector) }
     }
 }
 

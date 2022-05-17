@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarPresenter
+import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
 import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
-import com.bselzer.ktx.compose.ui.layout.modaldrawer.ModalDrawerPresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter

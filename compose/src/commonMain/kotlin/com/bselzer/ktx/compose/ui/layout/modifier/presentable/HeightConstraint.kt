@@ -1,9 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,4 +42,10 @@ data class WrappedHeight(
     val unbounded: Boolean = false
 ) : HeightConstraint {
     override val modifier: Modifier = Modifier.wrapContentHeight(align = align, unbounded = unbounded)
+}
+
+data class DefaultMinHeight(
+    val min: Dp
+) : HeightConstraint {
+    override val modifier: Modifier = Modifier.defaultMinSize(minHeight = min)
 }

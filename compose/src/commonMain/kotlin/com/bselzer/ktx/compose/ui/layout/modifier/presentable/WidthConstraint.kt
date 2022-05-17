@@ -1,9 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.requiredWidthIn
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,4 +42,10 @@ data class WrappedWidth(
     val unbounded: Boolean = false
 ) : WidthConstraint {
     override val modifier: Modifier = Modifier.wrapContentWidth(align = align, unbounded = unbounded)
+}
+
+data class DefaultMinWidth(
+    val min: Dp
+) : WidthConstraint {
+    override val modifier: Modifier = Modifier.defaultMinSize(minWidth = min)
 }

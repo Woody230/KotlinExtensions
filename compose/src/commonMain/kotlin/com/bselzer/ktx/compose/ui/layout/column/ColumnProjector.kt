@@ -10,6 +10,9 @@ import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
+import com.bselzer.ktx.compose.ui.layout.project.Interactable
+import com.bselzer.ktx.compose.ui.layout.project.Presentable
+import com.bselzer.ktx.compose.ui.layout.project.Projectable
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.function.objects.safeMerge
 
@@ -47,6 +50,23 @@ class ColumnProjector(
         }
     }
 }
+
+/**
+ * Adds a [ColumnScope]d composable to the list if the associated projector is not null.
+ *
+ * @return true if a composable delegate is added
+ */
+fun <Interactor, Presenter, Projector> MutableList<@Composable ColumnScope.() -> Unit>.addIfNotNull(
+    projector: Projector?,
+    block: @Composable ColumnScope.(Projector) -> Unit
+): Boolean where Interactor : Interactable, Presenter : Presentable<Presenter>, Projector : Projectable<Interactor, Presenter> {
+    return if (projector == null) {
+        false
+    } else {
+        add { block(projector) }
+    }
+}
+
 
 /**
  * Creates a [ColumnProjector] with a divider with the given [color], [thickness], [interactor], and [presenter].

@@ -3,8 +3,8 @@ package com.bselzer.ktx.compose.ui.layout.scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarInteractor
+import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonInteractor
-import com.bselzer.ktx.compose.ui.layout.modaldrawer.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
