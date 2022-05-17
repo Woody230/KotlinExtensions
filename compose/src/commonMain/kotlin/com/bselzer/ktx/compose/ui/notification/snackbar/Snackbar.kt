@@ -22,7 +22,7 @@ fun ShowSnackbar(
     duration: SnackbarDuration = SnackbarDuration.Short,
 ) {
     val state = LocalSnackbarHostState.current
-    LaunchedEffect(message, actionLabel, duration) {
+    LaunchedEffect(message) {
         state.showSnackbar(message, actionLabel, duration)
     }
 }
