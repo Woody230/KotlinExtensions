@@ -40,13 +40,15 @@ class ModalDrawerProjector(
     }
 
     @Composable
-    fun DrawerContent(modifier: Modifier = Modifier) = containerProjector.Projection(
-        modifier = modifier,
-        content = buildArray {
-            addIfNotNull(headerProjector) { it.Projection() }
-            sectionProjectors.forEach { section ->
-                add { section.Projection() }
+    fun DrawerContent(modifier: Modifier = Modifier) = contextualize(modifier) { combinedModifier ->
+        containerProjector.Projection(
+            modifier = combinedModifier,
+            content = buildArray {
+                addIfNotNull(headerProjector) { it.Projection() }
+                sectionProjectors.forEach { section ->
+                    add { section.Projection() }
+                }
             }
-        }
-    )
+        )
+    }
 }
