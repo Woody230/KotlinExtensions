@@ -14,7 +14,7 @@ class DrawerSectionProjector(
     override val presenter: DrawerSectionPresenter = DrawerSectionPresenter.Default
 ) : Projector<DrawerSectionInteractor, DrawerSectionPresenter>() {
     private val containerProjector = ColumnProjector(interactor.container, presenter.container)
-    private val titleProjector = interactor.title?.let { title -> TextProjector(title, presenter.component.text) }
+    private val titleProjector = interactor.title?.let { title -> TextProjector(title, presenter.title) }
     private val componentProjectors = interactor.components.map { component -> DrawerComponentProjector(component, presenter.component) }
 
     @Composable

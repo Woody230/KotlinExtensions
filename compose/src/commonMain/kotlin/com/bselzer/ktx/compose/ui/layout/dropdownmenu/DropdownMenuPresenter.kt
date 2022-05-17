@@ -36,7 +36,9 @@ data class DropdownMenuPresenter(
     @Composable
     override fun localized() = DropdownMenuPresenter(
         offset = DpOffset.Zero,
-    ).merge(this).copy(
-        icon = icon.localized()
-    )
+    ).merge(this).run {
+        copy(
+            icon = icon.localized()
+        )
+    }
 }
