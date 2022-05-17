@@ -35,7 +35,7 @@ class ModalDrawerProjector(
             drawerContentColor = contentColor,
             scrimColor = scrimColor,
             content = content,
-            drawerContent = { DrawerContent(combinedModifier) }
+            drawerContent = { DrawerContent() }
         )
     }
 
