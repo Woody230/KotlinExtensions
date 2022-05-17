@@ -9,17 +9,17 @@ import com.bselzer.ktx.compose.ui.layout.preference.PreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class CheckboxPreferenceProjector(
-    override val interactor: CheckboxPreferenceInteractor,
-    override val presenter: CheckboxPreferencePresenter = CheckboxPreferencePresenter.Default
-) : Projector<CheckboxPreferenceInteractor, CheckboxPreferencePresenter>() {
-    private val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
-    private val checkboxProjector = CheckboxProjector(interactor.checkbox, presenter.checkbox)
-
+    interactor: CheckboxPreferenceInteractor,
+    presenter: CheckboxPreferencePresenter = CheckboxPreferencePresenter.Default
+) : Projector<CheckboxPreferenceInteractor, CheckboxPreferencePresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
+        val checkboxProjector = CheckboxProjector(interactor.checkbox, presenter.checkbox)
+
         preferenceProjector.Projection(combinedModifier) {
             checkboxProjector.Projection(interactionSource = interactionSource)
         }

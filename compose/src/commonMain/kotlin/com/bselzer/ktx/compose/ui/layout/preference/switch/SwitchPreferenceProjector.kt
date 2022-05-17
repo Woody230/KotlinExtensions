@@ -9,17 +9,18 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.switch.SwitchProjector
 
 class SwitchPreferenceProjector(
-    override val interactor: SwitchPreferenceInteractor,
-    override val presenter: SwitchPreferencePresenter = SwitchPreferencePresenter.Default
-) : Projector<SwitchPreferenceInteractor, SwitchPreferencePresenter>() {
-    private val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
-    private val switchProjector = SwitchProjector(interactor.switch, presenter.switch)
+    interactor: SwitchPreferenceInteractor,
+    presenter: SwitchPreferencePresenter = SwitchPreferencePresenter.Default
+) : Projector<SwitchPreferenceInteractor, SwitchPreferencePresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
+        val switchProjector = SwitchProjector(interactor.switch, presenter.switch)
+
         preferenceProjector.Projection(combinedModifier) {
             switchProjector.Projection(interactionSource = interactionSource)
         }

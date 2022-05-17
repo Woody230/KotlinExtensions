@@ -13,20 +13,21 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostProjector
 import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarProjector
 
 class ScaffoldProjector(
-    override val interactor: ScaffoldInteractor = ScaffoldInteractor.Default,
-    override val presenter: ScaffoldPresenter = ScaffoldPresenter.Default
-) : Projector<ScaffoldInteractor, ScaffoldPresenter>() {
-    private val drawerProjector = interactor.drawer?.let { drawer -> ModalDrawerProjector(drawer, presenter.drawer) }
-    private val snackbarHostProjector = SnackbarHostProjector(interactor.snackbarHost, presenter.snackbarHost)
-    private val topBarProjector = interactor.topBar?.let { bar -> TopAppBarProjector(bar, presenter.topBar) }
-    private val bottomBarProjector = interactor.bottomBar?.let { bar -> BottomAppBarProjector(bar, presenter.bottomBar) }
-    private val fabProjector = interactor.floatingActionButton?.let { fab -> FloatingActionButtonProjector(fab, presenter.floatingActionButton) }
+    interactor: ScaffoldInteractor = ScaffoldInteractor.Default,
+    presenter: ScaffoldPresenter = ScaffoldPresenter.Default
+) : Projector<ScaffoldInteractor, ScaffoldPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable (PaddingValues) -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val drawerProjector = interactor.drawer?.let { drawer -> ModalDrawerProjector(drawer, presenter.drawer) }
+        val snackbarHostProjector = SnackbarHostProjector(interactor.snackbarHost, presenter.snackbarHost)
+        val topBarProjector = interactor.topBar?.let { bar -> TopAppBarProjector(bar, presenter.topBar) }
+        val bottomBarProjector = interactor.bottomBar?.let { bar -> BottomAppBarProjector(bar, presenter.bottomBar) }
+        val fabProjector = interactor.floatingActionButton?.let { fab -> FloatingActionButtonProjector(fab, presenter.floatingActionButton) }
+
         Scaffold(
             modifier = combinedModifier,
             scaffoldState = remember { interactor.state },
@@ -34,17 +35,17 @@ class ScaffoldProjector(
             bottomBar = { bottomBarProjector?.Projection() },
             snackbarHost = { snackbarHostProjector.Projection() },
             floatingActionButton = { fabProjector?.Projection() },
-            floatingActionButtonPosition = floatingActionButtonPosition,
-            isFloatingActionButtonDocked = isFloatingActionButtonDocked.toBoolean(),
+            floatingActionButtonPosition = presenter.floatingActionButtonPosition,
+            isFloatingActionButtonDocked = presenter.isFloatingActionButtonDocked.toBoolean(),
             drawerContent = { drawerProjector?.DrawerContent() },
             drawerGesturesEnabled = interactor.drawer?.gesturesEnabled ?: true,
-            drawerShape = drawer.shape,
-            drawerElevation = drawer.elevation,
-            drawerBackgroundColor = drawer.backgroundColor,
-            drawerContentColor = drawer.contentColor,
-            drawerScrimColor = drawer.scrimColor,
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
+            drawerShape = presenter.drawer.shape,
+            drawerElevation = presenter.drawer.elevation,
+            drawerBackgroundColor = presenter.drawer.backgroundColor,
+            drawerContentColor = presenter.drawer.contentColor,
+            drawerScrimColor = presenter.drawer.scrimColor,
+            backgroundColor = presenter.backgroundColor,
+            contentColor = presenter.contentColor,
             content = content
         )
     }

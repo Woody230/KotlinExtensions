@@ -9,17 +9,18 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class TextButtonProjector(
-    override val interactor: TextButtonInteractor,
-    override val presenter: TextButtonPresenter
-) : Projector<TextButtonInteractor, TextButtonPresenter>() {
-    private val buttonProjector = ButtonProjector(interactor.button, presenter.button)
-    private val textProjector = TextProjector(interactor.text, presenter.text)
+    interactor: TextButtonInteractor,
+    presenter: TextButtonPresenter
+) : Projector<TextButtonInteractor, TextButtonPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val buttonProjector = ButtonProjector(interactor.button, presenter.button)
+        val textProjector = TextProjector(interactor.text, presenter.text)
+
         buttonProjector.Projection(
             modifier = combinedModifier,
             interactionSource = interactionSource

@@ -13,34 +13,37 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.function.collection.buildArray
 
 class ModalDrawerProjector(
-    override val interactor: ModalDrawerInteractor = ModalDrawerInteractor.Default,
-    override val presenter: ModalDrawerPresenter = ModalDrawerPresenter.Default
-) : Projector<ModalDrawerInteractor, ModalDrawerPresenter>() {
-    private val containerProjector = ColumnProjector(interactor.container, presenter.container)
-    private val headerProjector = interactor.header?.let { header -> DrawerHeaderProjector(header, presenter.header) }
-    private val sectionProjectors = interactor.sections.map { section -> DrawerSectionProjector(section, presenter.section) }
-
+    interactor: ModalDrawerInteractor = ModalDrawerInteractor.Default,
+    presenter: ModalDrawerPresenter = ModalDrawerPresenter.Default
+) : Projector<ModalDrawerInteractor, ModalDrawerPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         ModalDrawer(
             modifier = combinedModifier,
             drawerState = rememberSaveable(saver = DrawerState.Saver(interactor.confirmStateChange)) { interactor.state },
             gesturesEnabled = interactor.gesturesEnabled,
-            drawerShape = shape,
-            drawerElevation = elevation,
-            drawerBackgroundColor = backgroundColor,
-            drawerContentColor = contentColor,
-            scrimColor = scrimColor,
+            drawerShape = presenter.shape,
+            drawerElevation = presenter.elevation,
+            drawerBackgroundColor = presenter.backgroundColor,
+            drawerContentColor = presenter.contentColor,
+            scrimColor = presenter.scrimColor,
             content = content,
-            drawerContent = { DrawerContent() }
+            drawerContent = {
+                // Will need to contextualize again so don't pass the current combined modifier to avoid duplication.
+                DrawerContent()
+            }
         )
     }
 
     @Composable
-    fun DrawerContent(modifier: Modifier = Modifier) = contextualize(modifier) { combinedModifier ->
+    fun DrawerContent(modifier: Modifier = Modifier) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val containerProjector = ColumnProjector(interactor.container, presenter.container)
+        val headerProjector = interactor.header?.let { DrawerHeaderProjector(it, presenter.header) }
+        val sectionProjectors = interactor.sections.map { DrawerSectionProjector(it, presenter.section) }
+
         containerProjector.Projection(
             modifier = combinedModifier,
             content = buildArray {

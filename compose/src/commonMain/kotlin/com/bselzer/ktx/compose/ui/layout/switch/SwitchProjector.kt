@@ -8,21 +8,21 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class SwitchProjector(
-    override val interactor: SwitchInteractor,
-    override val presenter: SwitchPresenter = SwitchPresenter.Default
-) : Projector<SwitchInteractor, SwitchPresenter>() {
+    interactor: SwitchInteractor,
+    presenter: SwitchPresenter = SwitchPresenter.Default
+) : Projector<SwitchInteractor, SwitchPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Switch(
             checked = interactor.checked,
             onCheckedChange = interactor.onCheckedChange,
             modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
-            colors = colors
+            colors = presenter.colors
         )
     }
 }

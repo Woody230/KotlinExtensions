@@ -8,21 +8,21 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class CheckboxProjector(
-    override val interactor: CheckboxInteractor,
-    override val presenter: CheckboxPresenter = CheckboxPresenter.Default
-) : Projector<CheckboxInteractor, CheckboxPresenter>() {
+    interactor: CheckboxInteractor,
+    presenter: CheckboxPresenter = CheckboxPresenter.Default
+) : Projector<CheckboxInteractor, CheckboxPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Checkbox(
             checked = interactor.checked,
             onCheckedChange = interactor.onCheckedChange,
             modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
-            colors = colors
+            colors = presenter.colors
         )
     }
 }

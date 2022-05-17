@@ -6,13 +6,13 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class SpacerProjector(
-    override val interactor: SpacerInteractor,
-    override val presenter: SpacerPresenter = SpacerPresenter.Default
-) : Projector<SpacerInteractor, SpacerPresenter>() {
+    interactor: SpacerInteractor,
+    presenter: SpacerPresenter = SpacerPresenter.Default
+) : Projector<SpacerInteractor, SpacerPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Spacer(modifier = combinedModifier)
     }
 }

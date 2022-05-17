@@ -17,27 +17,28 @@ import kotlin.time.Duration
 import kotlin.time.toDuration
 
 class DurationPreferenceProjector(
-    override val interactor: DurationPreferenceInteractor,
-    override val presenter: DurationPreferencePresenter = DurationPreferencePresenter.Default
-) : Projector<DurationPreferenceInteractor, DurationPreferencePresenter>() {
-    private val preferenceProjector = AlertDialogPreferenceProjector(interactor.preference, presenter.preference)
+    interactor: DurationPreferenceInteractor,
+    presenter: DurationPreferencePresenter = DurationPreferencePresenter.Default
+) : Projector<DurationPreferenceInteractor, DurationPreferencePresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         showDialog: Boolean
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val preferenceProjector = AlertDialogPreferenceProjector(interactor.preference, presenter.preference)
+
         preferenceProjector.Projection(
             modifier = combinedModifier,
             showDialog = showDialog,
             ending = null,
         ) {
-            DialogContent()
+            DialogContent(interactor, presenter)
         }
     }
 
     @Composable
-    private fun DurationPreferencePresenter.DialogContent() {
+    private fun DialogContent(interactor: DurationPreferenceInteractor, presenter: DurationPreferencePresenter) {
         val state = remember { mutableStateOf<Duration?>(null) }
 
         // Converted minimum can produce 0 because of being rounded down so set the minimum bound to at least 1. (ex: 30 seconds => 0 minutes)
@@ -55,7 +56,7 @@ class DurationPreferenceProjector(
 
         @Composable
         fun NumberPicker() = PickerProjector(
-            presenter = picker,
+            presenter = presenter.picker,
             interactor = IntegerPickerInteractor(
                 selected = amount.value,
                 range = convertedMin..convertedMax,
@@ -67,7 +68,7 @@ class DurationPreferenceProjector(
 
         @Composable
         fun UnitPicker() = PickerProjector(
-            presenter = picker,
+            presenter = presenter.picker,
             interactor = ValuePickerInteractor(
                 selected = unit.value,
                 values = interactor.units,

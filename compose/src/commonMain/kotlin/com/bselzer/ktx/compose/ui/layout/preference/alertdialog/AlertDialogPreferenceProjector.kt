@@ -7,11 +7,9 @@ import com.bselzer.ktx.compose.ui.layout.preference.PreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class AlertDialogPreferenceProjector(
-    override val interactor: AlertDialogPreferenceInteractor,
-    override val presenter: AlertDialogPreferencePresenter = AlertDialogPreferencePresenter.Default
-) : Projector<AlertDialogPreferenceInteractor, AlertDialogPreferencePresenter>() {
-    private val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
-    private val dialogProjector = AlertDialogProjector(interactor.dialog, presenter.dialog)
+    interactor: AlertDialogPreferenceInteractor,
+    presenter: AlertDialogPreferencePresenter = AlertDialogPreferencePresenter.Default
+) : Projector<AlertDialogPreferenceInteractor, AlertDialogPreferencePresenter>(interactor, presenter) {
 
     /**
      * @param showDialog whether the dialog should be shown
@@ -24,7 +22,10 @@ class AlertDialogPreferenceProjector(
         showDialog: Boolean,
         ending: @Composable (() -> Unit)? = null,
         dialog: @Composable () -> Unit,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
+        val dialogProjector = AlertDialogProjector(interactor.dialog, presenter.dialog)
+
         if (showDialog) {
             dialogProjector.Projection(content = dialog)
         }

@@ -15,33 +15,36 @@ import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonProjector
 
 class AlertDialogProjector(
-    override val interactor: AlertDialogInteractor,
-    override val presenter: AlertDialogPresenter = AlertDialogPresenter.Default
-) : Projector<AlertDialogInteractor, AlertDialogPresenter>() {
-    private val negativeProjector = interactor.negativeButton?.let { negativeButton -> TextButtonProjector(negativeButton, presenter.button) }
-    private val neutralProjector = interactor.neutralButton?.let { neutralButton -> TextButtonProjector(neutralButton, presenter.button) }
-    private val positiveProjector = interactor.positiveButton?.let { positiveButton -> TextButtonProjector(positiveButton, presenter.button) }
-    private val titleProjector = interactor.title?.let { title -> TextProjector(title, presenter.title) }
-
+    interactor: AlertDialogInteractor,
+    presenter: AlertDialogPresenter = AlertDialogPresenter.Default
+) : Projector<AlertDialogInteractor, AlertDialogPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val negativeProjector = interactor.negativeButton?.let { TextButtonProjector(it, presenter.button) }
+        val neutralProjector = interactor.neutralButton?.let { TextButtonProjector(it, presenter.button) }
+        val positiveProjector = interactor.positiveButton?.let { TextButtonProjector(it, presenter.button) }
+        val titleProjector = interactor.title?.let { TextProjector(it, presenter.title) }
         AlertDialog(
             onDismissRequest = interactor.onDismissRequest,
-            buttons = { projectButtons() },
+            buttons = { projectButtons(negativeProjector, neutralProjector, positiveProjector) },
             modifier = combinedModifier,
             title = titleProjector?.let { title -> @Composable { title.Projection() } },
             text = content,
-            shape = shape,
-            backgroundColor = backgroundColor,
-            contentColor = contentColor
+            shape = presenter.shape,
+            backgroundColor = presenter.backgroundColor,
+            contentColor = presenter.contentColor
         )
     }
 
     @Composable
-    private fun projectButtons() = ConstraintLayout(
+    private fun projectButtons(
+        negativeProjector: TextButtonProjector?,
+        neutralProjector: TextButtonProjector?,
+        positiveProjector: TextButtonProjector?
+    ) = ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 24.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)

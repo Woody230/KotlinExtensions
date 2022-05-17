@@ -7,21 +7,21 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.snackbar.SnackbarInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbar.SnackbarProjector
 
-data class SnackbarHostProjector(
-    override val interactor: SnackbarHostInteractor = SnackbarHostInteractor.Default,
-    override val presenter: SnackbarHostPresenter = SnackbarHostPresenter.Default
-) : Projector<SnackbarHostInteractor, SnackbarHostPresenter>() {
+class SnackbarHostProjector(
+    interactor: SnackbarHostInteractor = SnackbarHostInteractor.Default,
+    presenter: SnackbarHostPresenter = SnackbarHostPresenter.Default
+) : Projector<SnackbarHostInteractor, SnackbarHostPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         SnackbarHost(
             hostState = interactor.state,
             modifier = combinedModifier,
         ) { data ->
             SnackbarProjector(
                 interactor = SnackbarInteractor(data = data),
-                presenter = snackbar
+                presenter = presenter.snackbar
             ).Projection()
         }
     }

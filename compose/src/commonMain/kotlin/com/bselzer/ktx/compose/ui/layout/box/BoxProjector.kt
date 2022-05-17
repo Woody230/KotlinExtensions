@@ -7,18 +7,18 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class BoxProjector(
-    override val interactor: BoxInteractor = BoxInteractor.Default,
-    override val presenter: BoxPresenter = BoxPresenter.Default
-) : Projector<BoxInteractor, BoxPresenter>() {
+    interactor: BoxInteractor = BoxInteractor.Default,
+    presenter: BoxPresenter = BoxPresenter.Default
+) : Projector<BoxInteractor, BoxPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable BoxScope.() -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Box(
             modifier = combinedModifier,
-            contentAlignment = contentAlignment,
-            propagateMinConstraints = propagateMinConstraints.toBoolean(),
+            contentAlignment = presenter.contentAlignment,
+            propagateMinConstraints = presenter.propagateMinConstraints.toBoolean(),
             content = content
         )
     }

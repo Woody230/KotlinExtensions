@@ -10,22 +10,23 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class PreferenceSectionProjector(
-    override val interactor: PreferenceSectionInteractor,
-    override val presenter: PreferenceSectionPresenter = PreferenceSectionPresenter.Default
-) : Projector<PreferenceSectionInteractor, PreferenceSectionPresenter>() {
-    private val imageProjector = ImageProjector(interactor.image, presenter.image)
-    private val titleProjector = TextProjector(interactor.title, presenter.title)
+    interactor: PreferenceSectionInteractor,
+    presenter: PreferenceSectionPresenter = PreferenceSectionPresenter.Default
+) : Projector<PreferenceSectionInteractor, PreferenceSectionPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable ColumnScope.() -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Column(modifier = combinedModifier) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val imageProjector = ImageProjector(interactor.image, presenter.image)
+                val titleProjector = TextProjector(interactor.title, presenter.title)
+
                 imageProjector.Projection()
                 Spacer(modifier = Modifier.width(PreferenceConstants.Spacing))
                 titleProjector.Projection()

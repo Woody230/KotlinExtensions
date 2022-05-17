@@ -10,17 +10,18 @@ import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.function.collection.buildArray
 
 class DrawerComponentProjector(
-    override val interactor: DrawerComponentInteractor,
-    override val presenter: DrawerComponentPresenter = DrawerComponentPresenter.Default
-) : Projector<DrawerComponentInteractor, DrawerComponentPresenter>() {
-    private val containerProjector = RowProjector(interactor.container, presenter.container)
-    private val iconProjector = interactor.icon?.let { icon -> IconProjector(icon, presenter.icon) }
-    private val textProjector = TextProjector(interactor.text, presenter.text)
+    interactor: DrawerComponentInteractor,
+    presenter: DrawerComponentPresenter = DrawerComponentPresenter.Default
+) : Projector<DrawerComponentInteractor, DrawerComponentPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val containerProjector = RowProjector(interactor.container, presenter.container)
+        val iconProjector = interactor.icon?.let { IconProjector(it, presenter.icon) }
+        val textProjector = TextProjector(interactor.text, presenter.text)
+
         containerProjector.Projection(
             modifier = combinedModifier,
             content = buildArray {

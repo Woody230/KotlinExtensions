@@ -11,54 +11,41 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class FloatingActionButtonProjector(
-    override val interactor: FloatingActionButtonInteractor,
-    override val presenter: FloatingActionButtonPresenter = FloatingActionButtonPresenter.Default
-) : Projector<FloatingActionButtonInteractor, FloatingActionButtonPresenter>() {
-    private val textProjector = interactor.text?.let { text -> TextProjector(text, presenter.text) }
-    private val iconProjector = interactor.icon?.let { icon -> IconProjector(icon, presenter.icon) }
-
+    interactor: FloatingActionButtonInteractor,
+    presenter: FloatingActionButtonPresenter = FloatingActionButtonPresenter.Default
+) : Projector<FloatingActionButtonInteractor, FloatingActionButtonPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val textProjector = interactor.text?.let { TextProjector(it, presenter.text) }
+        val iconProjector = interactor.icon?.let { IconProjector(it, presenter.icon) }
+
         if (textProjector == null) {
-            WithoutText(combinedModifier, interactionSource)
+            FloatingActionButton(
+                onClick = interactor.onClick,
+                modifier = combinedModifier,
+                interactionSource = interactionSource,
+                shape = presenter.shape,
+                backgroundColor = presenter.backgroundColor,
+                contentColor = presenter.contentColor,
+                elevation = presenter.elevation
+            ) {
+                iconProjector?.Projection()
+            }
         } else {
-            WithText(combinedModifier, interactionSource, textProjector)
+            ExtendedFloatingActionButton(
+                text = { textProjector.Projection() },
+                onClick = interactor.onClick,
+                modifier = combinedModifier,
+                icon = iconProjector?.let { icon -> { icon.Projection() } },
+                interactionSource = interactionSource,
+                shape = presenter.shape,
+                backgroundColor = presenter.backgroundColor,
+                contentColor = presenter.contentColor,
+                elevation = presenter.elevation
+            )
         }
     }
-
-    @Composable
-    private fun FloatingActionButtonPresenter.WithoutText(
-        modifier: Modifier,
-        interactionSource: MutableInteractionSource
-    ) = FloatingActionButton(
-        onClick = interactor.onClick,
-        modifier = modifier,
-        interactionSource = interactionSource,
-        shape = shape,
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        elevation = elevation
-    ) {
-        iconProjector?.Projection()
-    }
-
-    @Composable
-    private fun FloatingActionButtonPresenter.WithText(
-        modifier: Modifier,
-        interactionSource: MutableInteractionSource,
-        textProjector: TextProjector
-    ) = ExtendedFloatingActionButton(
-        text = { textProjector.Projection() },
-        onClick = interactor.onClick,
-        modifier = modifier,
-        icon = iconProjector?.let { icon -> { icon.Projection() } },
-        interactionSource = interactionSource,
-        shape = shape,
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        elevation = elevation
-    )
 }

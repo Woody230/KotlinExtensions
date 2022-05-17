@@ -13,12 +13,9 @@ import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class BottomAppBarProjector(
-    override val interactor: BottomAppBarInteractor,
-    override val presenter: BottomAppBarPresenter = BottomAppBarPresenter.Default
-) : Projector<BottomAppBarInteractor, BottomAppBarPresenter>() {
-    private val navigationProjector = interactor.navigation?.let { navigation -> IconButtonProjector(navigation, presenter.icon) }
-    private val actionProjector = interactor.actions.map { action -> IconButtonProjector(action, presenter.icon) }
-
+    interactor: BottomAppBarInteractor,
+    presenter: BottomAppBarPresenter = BottomAppBarPresenter.Default
+) : Projector<BottomAppBarInteractor, BottomAppBarPresenter>(interactor, presenter) {
     companion object {
         private val AppBarHorizontalPadding = 4.dp
 
@@ -34,15 +31,17 @@ class BottomAppBarProjector(
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         BottomAppBar(
             modifier = combinedModifier,
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
-            elevation = elevation,
-            cutoutShape = cutoutShape,
-            contentPadding = contentPadding
+            backgroundColor = presenter.backgroundColor,
+            contentColor = presenter.contentColor,
+            elevation = presenter.elevation,
+            cutoutShape = presenter.cutoutShape,
+            contentPadding = presenter.contentPadding
         ) {
+            val navigationProjector = interactor.navigation?.let { navigation -> IconButtonProjector(navigation, presenter.icon) }
+            val actionProjector = interactor.actions.map { action -> IconButtonProjector(action, presenter.icon) }
             if (navigationProjector == null) {
                 Spacer(TitleInsetWithoutIcon)
             } else {

@@ -6,18 +6,18 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class DividerProjector(
-    override val interactor: DividerInteractor = DividerInteractor.Default,
-    override val presenter: DividerPresenter = DividerPresenter.Default
-) : Projector<DividerInteractor, DividerPresenter>() {
+    interactor: DividerInteractor = DividerInteractor.Default,
+    presenter: DividerPresenter = DividerPresenter.Default
+) : Projector<DividerInteractor, DividerPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Divider(
             modifier = combinedModifier,
-            color = color,
-            thickness = thickness,
-            startIndent = startIndent
+            color = presenter.color,
+            thickness = presenter.thickness,
+            startIndent = presenter.startIndent
         )
     }
 }

@@ -14,29 +14,32 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class TextPreferenceProjector(
-    override val interactor: TextPreferenceInteractor,
-    override val presenter: TextPreferencePresenter = TextPreferencePresenter.Default
-) : Projector<TextPreferenceInteractor, TextPreferencePresenter>() {
-    private val imageProjector = ImageProjector(interactor.image, presenter.image)
-    private val titleProjector = TextProjector(interactor.title, presenter.title)
-    private val subtitleProjector = TextProjector(interactor.subtitle, presenter.subtitle)
+    interactor: TextPreferenceInteractor,
+    presenter: TextPreferencePresenter = TextPreferencePresenter.Default
+) : Projector<TextPreferenceInteractor, TextPreferencePresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(combinedModifier)
         ) {
+            val imageProjector = ImageProjector(interactor.image, presenter.image)
+            val titleProjector = TextProjector(interactor.title, presenter.title)
+            val subtitleProjector = TextProjector(interactor.subtitle, presenter.subtitle)
+
             val (icon, descriptionTitle, descriptionSubtitle) = createRefs()
-            PreferenceImage(ref = icon, image = imageProjector)
+            PreferenceImage(ref = icon, imageProjector = imageProjector)
 
             DisjointPreferenceDescription(
                 titleRef = descriptionTitle,
                 subtitleRef = descriptionSubtitle,
-                startRef = icon
+                startRef = icon,
+                titleProjector = titleProjector,
+                subtitleProjector = subtitleProjector
             )
         }
     }
@@ -46,6 +49,8 @@ class TextPreferenceProjector(
         titleRef: ConstrainedLayoutReference,
         subtitleRef: ConstrainedLayoutReference,
         startRef: ConstrainedLayoutReference,
+        titleProjector: TextProjector,
+        subtitleProjector: TextProjector
     ) {
         titleProjector.Projection(
             modifier = Modifier.constrainAs(titleRef) {

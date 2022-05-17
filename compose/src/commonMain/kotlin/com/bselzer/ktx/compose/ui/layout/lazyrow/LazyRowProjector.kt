@@ -11,28 +11,28 @@ import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class LazyRowProjector<T>(
-    override val interactor: LazyRowInteractor<T>,
-    override val presenter: LazyRowPresenter = LazyRowPresenter.Default
-) : Projector<LazyRowInteractor<T>, LazyRowPresenter>() {
-    private val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
+    interactor: LazyRowInteractor<T>,
+    presenter: LazyRowPresenter = LazyRowPresenter.Default
+) : Projector<LazyRowInteractor<T>, LazyRowPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable LazyItemScope.(Int, T) -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         LazyRow(
             modifier = combinedModifier,
             state = rememberSaveable(saver = LazyListState.Saver) { interactor.state },
-            contentPadding = contentPadding,
-            reverseLayout = reverseLayout.toBoolean(),
-            horizontalArrangement = horizontalArrangement,
-            verticalAlignment = verticalAlignment,
-            flingBehavior = flingBehavior,
+            contentPadding = presenter.contentPadding,
+            reverseLayout = presenter.reverseLayout.toBoolean(),
+            horizontalArrangement = presenter.horizontalArrangement,
+            verticalAlignment = presenter.verticalAlignment,
+            flingBehavior = presenter.flingBehavior,
         ) {
+            val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
             itemsIndexed(interactor.items) { index, item ->
                 val isFirst = index == 0
-                val shouldPrepend = isFirst && prepend.toBoolean()
+                val shouldPrepend = isFirst && presenter.prepend.toBoolean()
                 if (shouldPrepend) {
                     dividerProjector?.Projection()
                 }
@@ -41,7 +41,7 @@ class LazyRowProjector<T>(
 
                 val isLast = index == interactor.items.lastIndex
                 val isIntermediate = !isFirst && !isLast
-                val shouldAppend = isLast && append.toBoolean()
+                val shouldAppend = isLast && presenter.append.toBoolean()
                 if (isIntermediate || shouldAppend) {
                     dividerProjector?.Projection()
                 }

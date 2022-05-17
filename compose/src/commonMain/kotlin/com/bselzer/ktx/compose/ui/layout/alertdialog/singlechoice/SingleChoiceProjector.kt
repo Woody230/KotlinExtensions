@@ -17,13 +17,13 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class SingleChoiceProjector<Choice>(
-    override val interactor: SingleChoiceInteractor<Choice>,
-    override val presenter: SingleChoicePresenter = SingleChoicePresenter.Default
-) : Projector<SingleChoiceInteractor<Choice>, SingleChoicePresenter>() {
+    interactor: SingleChoiceInteractor<Choice>,
+    presenter: SingleChoicePresenter = SingleChoicePresenter.Default
+) : Projector<SingleChoiceInteractor<Choice>, SingleChoicePresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         LazyColumn(modifier = combinedModifier) {
             items(interactor.values) { choice ->
                 Row(
@@ -31,7 +31,7 @@ class SingleChoiceProjector<Choice>(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     RadioButtonProjector(
-                        presenter = radioButton,
+                        presenter = presenter.radioButton,
                         interactor = RadioButtonInteractor(
                             selected = choice == interactor.selected,
                             onClick = { interactor.onSelection(choice) }
@@ -41,7 +41,7 @@ class SingleChoiceProjector<Choice>(
                     Spacer(modifier = Modifier.width(24.dp))
 
                     TextProjector(
-                        presenter = text,
+                        presenter = presenter.text,
                         interactor = TextInteractor(text = interactor.getLabel(choice))
                     ).Projection()
                 }

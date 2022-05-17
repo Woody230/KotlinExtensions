@@ -13,43 +13,43 @@ import androidx.compose.ui.text.style.TextAlign
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class TextProjector(
-    override val interactor: TextInteractor,
-    override val presenter: TextPresenter = TextPresenter.Default
-) : Projector<TextInteractor, TextPresenter>() {
+    interactor: TextInteractor,
+    presenter: TextPresenter = TextPresenter.Default
+) : Projector<TextInteractor, TextPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         textAlign: TextAlign? = null
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
         Text(
             text = interactor.text,
-            color = color,
-            fontSize = fontSize,
-            fontStyle = fontStyle,
-            fontWeight = fontWeight,
-            fontFamily = fontFamily,
-            letterSpacing = letterSpacing,
-            textDecoration = textDecoration,
-            textAlign = textAlign ?: this.textAlign,
-            lineHeight = lineHeight,
-            overflow = overflow,
-            softWrap = softWrap.toBoolean(),
-            maxLines = maxLines,
+            color = presenter.color,
+            fontSize = presenter.fontSize,
+            fontStyle = presenter.fontStyle,
+            fontWeight = presenter.fontWeight,
+            fontFamily = presenter.fontFamily,
+            letterSpacing = presenter.letterSpacing,
+            textDecoration = presenter.textDecoration,
+            textAlign = textAlign ?: presenter.textAlign,
+            lineHeight = presenter.lineHeight,
+            overflow = presenter.overflow,
+            softWrap = presenter.softWrap.toBoolean(),
+            maxLines = presenter.maxLines,
             inlineContent = interactor.inlineContent,
             onTextLayout = { result ->
                 layoutResult.value = result
                 interactor.onTextLayout(result)
             },
-            style = textStyle,
-            modifier = combinedModifier then pointerInputModifier(layoutResult.value)
+            style = presenter.textStyle,
+            modifier = combinedModifier then pointerInputModifier(interactor, layoutResult.value)
         )
     }
 
     /**
      * Applies the [pointerInput] modifier if the onClickOffset handler exists, mimicking a [ClickableText].
      */
-    private fun pointerInputModifier(layoutResult: TextLayoutResult?) = if (interactor.onClickOffset == null) {
+    private fun pointerInputModifier(interactor: TextInteractor, layoutResult: TextLayoutResult?) = if (interactor.onClickOffset == null) {
         Modifier
     } else {
         Modifier.pointerInput(interactor.onClickOffset) {

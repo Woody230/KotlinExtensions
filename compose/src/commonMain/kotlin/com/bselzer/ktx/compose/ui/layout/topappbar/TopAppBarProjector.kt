@@ -8,25 +8,26 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class TopAppBarProjector(
-    override val interactor: TopAppBarInteractor,
-    override val presenter: TopAppBarPresenter = TopAppBarPresenter.Default
-) : Projector<TopAppBarInteractor, TopAppBarPresenter>() {
-    private val titleProjector = TextProjector(interactor.title, presenter.title)
-    private val navigationProjector = interactor.navigation?.let { navigation -> IconButtonProjector(navigation, presenter.icon) }
-    private val actionProjector = interactor.actions.map { action -> IconButtonProjector(action, presenter.icon) }
+    interactor: TopAppBarInteractor,
+    presenter: TopAppBarPresenter = TopAppBarPresenter.Default
+) : Projector<TopAppBarInteractor, TopAppBarPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val titleProjector = TextProjector(interactor.title, presenter.title)
+        val navigationProjector = interactor.navigation?.let { IconButtonProjector(it, presenter.icon) }
+        val actionProjector = interactor.actions.map { IconButtonProjector(it, presenter.icon) }
+
         TopAppBar(
             title = { titleProjector.Projection() },
             modifier = combinedModifier,
             navigationIcon = navigationProjector?.let { navigation -> { navigation.Projection() } },
             actions = { actionProjector.forEach { action -> action.Projection() } },
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
-            elevation = elevation
+            backgroundColor = presenter.backgroundColor,
+            contentColor = presenter.contentColor,
+            elevation = presenter.elevation
         )
     }
 }

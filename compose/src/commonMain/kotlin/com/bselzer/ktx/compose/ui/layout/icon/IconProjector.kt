@@ -6,18 +6,18 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class IconProjector(
-    override val interactor: IconInteractor,
-    override val presenter: IconPresenter = IconPresenter.Default
-) : Projector<IconInteractor, IconPresenter>() {
+    interactor: IconInteractor,
+    presenter: IconPresenter = IconPresenter.Default
+) : Projector<IconInteractor, IconPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Icon(
             painter = interactor.painter,
             contentDescription = interactor.contentDescription,
             modifier = combinedModifier,
-            tint = tint
+            tint = presenter.tint
         )
     }
 }

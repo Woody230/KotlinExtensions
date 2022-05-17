@@ -29,15 +29,15 @@ import com.mikepenz.aboutlibraries.entity.Library
 import dev.icerock.moko.resources.compose.stringResource
 
 class LibraryProjector(
-    override val interactor: LibraryInteractor,
-    override val presenter: LibraryPresenter = LibraryPresenter.Default
-) : Projector<LibraryInteractor, LibraryPresenter>() {
+    interactor: LibraryInteractor,
+    presenter: LibraryPresenter = LibraryPresenter.Default
+) : Projector<LibraryInteractor, LibraryPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         var selected by remember { mutableStateOf<Library?>(null) }
-        Dialog(selected) { selected = it }
+        presenter.Dialog(selected) { selected = it }
 
         LazyColumnProjector(
             interactor = LazyColumnInteractor(
@@ -50,7 +50,7 @@ class LibraryProjector(
         ).Projection(
             modifier = combinedModifier
         ) { index, library ->
-            Card(library) { selected = it }
+            presenter.Card(library) { selected = it }
         }
     }
 

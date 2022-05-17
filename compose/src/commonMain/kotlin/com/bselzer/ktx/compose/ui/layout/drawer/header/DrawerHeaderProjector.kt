@@ -10,17 +10,19 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.function.collection.buildArray
 
 class DrawerHeaderProjector(
-    override val interactor: DrawerHeaderInteractor,
-    override val presenter: DrawerHeaderPresenter = DrawerHeaderPresenter.Default
-) : Projector<DrawerHeaderInteractor, DrawerHeaderPresenter>() {
-    private val containerProjector = ColumnProjector(interactor.container, presenter.container)
-    private val imageProjector = interactor.image?.let { image -> ImageProjector(image, presenter.image) }
-    private val descriptionProjector = interactor.description?.let { description -> DescriptionProjector(description, presenter.description) }
+    interactor: DrawerHeaderInteractor,
+    presenter: DrawerHeaderPresenter = DrawerHeaderPresenter.Default
+) : Projector<DrawerHeaderInteractor, DrawerHeaderPresenter>(interactor, presenter) {
+
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val containerProjector = ColumnProjector(interactor.container, presenter.container)
+        val imageProjector = interactor.image?.let { ImageProjector(it, presenter.image) }
+        val descriptionProjector = interactor.description?.let { DescriptionProjector(it, presenter.description) }
+
         containerProjector.Projection(
             modifier = combinedModifier,
             content = buildArray {

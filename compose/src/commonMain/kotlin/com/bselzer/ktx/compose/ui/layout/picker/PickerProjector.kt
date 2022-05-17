@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.icon.IconProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
+import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.unit.toPx
 import kotlinx.coroutines.launch
@@ -26,19 +27,21 @@ import kotlin.math.abs
  * Projects a value of type [T] with up and down directional buttons to change the selected value.
  */
 class PickerProjector<T>(
-    override val interactor: PickerInteractor<T>,
-    override val presenter: PickerPresenter = PickerPresenter.Default
-) : Projector<PickerInteractor<T>, PickerPresenter>() {
+    interactor: PickerInteractor<T>,
+    presenter: PickerPresenter = PickerPresenter.Default
+) : Projector<PickerInteractor<T>, PickerPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         PickerColumn(
             modifier = combinedModifier,
+            interactor = interactor,
+            presenter = presenter,
             index = interactor.selectedIndex,
             indexRange = interactor.range,
             setState = { index -> interactor.getValue(index)?.let { interactor.onSelectionChanged(it) } },
-            label = { index -> interactor.getValue(index)?.let { interactor.getLabel(it) } ?: "" }
+            label = { index -> interactor.getValue(index)?.let { interactor.getLabel(it) } ?: "" },
         )
     }
 
@@ -48,11 +51,14 @@ class PickerProjector<T>(
     @Composable
     private fun PickerColumn(
         modifier: Modifier,
+        interactor: PickerInteractor<T>,
+        presenter: PickerPresenter,
         index: Int,
         indexRange: IntRange?,
         setState: (Int) -> Unit,
         label: (Int) -> String,
     ) {
+        // TODO polish
         val scope = rememberCoroutineScope()
 
         val animationOffsetPx = presenter.animationOffset.toPx()
@@ -96,6 +102,7 @@ class PickerProjector<T>(
 
             // Use the index associated with the animation when displaying the text values instead of the state index.
             PickerBox(
+                presenter.text,
                 animatedStateValue(animatable.value),
                 presenter.animationOffset,
                 animatable,
@@ -111,10 +118,11 @@ class PickerProjector<T>(
 
     @Composable
     private fun ColumnScope.PickerBox(
+        textPresenter: TextPresenter,
         index: Int,
         animationOffset: Dp,
         animatable: Animatable<Float, AnimationVector1D>,
-        label: (Int) -> String
+        label: (Int) -> String,
     ) = Box(
         modifier = Modifier.align(Alignment.CenterHorizontally)
     ) {
@@ -124,7 +132,7 @@ class PickerProjector<T>(
 
         TextProjector(
             interactor = TextInteractor(text = AnnotatedString(label(index - 1))),
-            presenter = presenter.text
+            presenter = textPresenter
         ).Projection(
             modifier = textModifier
                 .offset(y = -animationOffset)
@@ -133,14 +141,14 @@ class PickerProjector<T>(
 
         TextProjector(
             interactor = TextInteractor(text = AnnotatedString(label(index))),
-            presenter = presenter.text
+            presenter = textPresenter
         ).Projection(
             modifier = textModifier.alpha(1 - abs(coercedOffset) / animationOffsetPx)
         )
 
         TextProjector(
             interactor = TextInteractor(text = AnnotatedString(label(index))),
-            presenter = presenter.text
+            presenter = textPresenter
         ).Projection(
             modifier = textModifier
                 .offset(y = animationOffset)

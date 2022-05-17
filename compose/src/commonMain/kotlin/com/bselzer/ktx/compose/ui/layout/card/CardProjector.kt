@@ -9,56 +9,42 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class CardProjector(
-    override val interactor: CardInteractor = CardInteractor.Default,
-    override val presenter: CardPresenter = CardPresenter.Default
-) : Projector<CardInteractor, CardPresenter>() {
+    interactor: CardInteractor = CardInteractor.Default,
+    presenter: CardPresenter = CardPresenter.Default
+) : Projector<CardInteractor, CardPresenter>(interactor, presenter) {
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         if (interactor.onClick == null) {
-            WithoutClick(combinedModifier, content)
+            Card(
+                modifier = combinedModifier,
+                shape = presenter.shape,
+                backgroundColor = presenter.backgroundColor,
+                contentColor = presenter.contentColor,
+                border = presenter.border,
+                elevation = presenter.elevation,
+                content = content
+            )
         } else {
-            WithClick(combinedModifier, interactionSource, interactor.onClick, content)
+            Card(
+                onClick = interactor.onClick,
+                modifier = combinedModifier,
+                shape = presenter.shape,
+                backgroundColor = presenter.backgroundColor,
+                contentColor = presenter.contentColor,
+                border = presenter.border,
+                elevation = presenter.elevation,
+                interactionSource = interactionSource,
+                indication = presenter.indication,
+                enabled = interactor.enabled,
+                onClickLabel = interactor.onClickLabel,
+                role = presenter.role,
+                content = content
+            )
         }
     }
-
-    @Composable
-    fun CardPresenter.WithoutClick(
-        modifier: Modifier,
-        content: @Composable () -> Unit
-    ) = Card(
-        modifier = modifier,
-        shape = shape,
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        border = border,
-        elevation = elevation,
-        content = content
-    )
-
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    fun CardPresenter.WithClick(
-        modifier: Modifier,
-        interactionSource: MutableInteractionSource,
-        onClick: () -> Unit,
-        content: @Composable () -> Unit
-    ) = Card(
-        onClick = onClick,
-        modifier = modifier,
-        shape = shape,
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        border = border,
-        elevation = elevation,
-        interactionSource = interactionSource,
-        indication = indication,
-        enabled = interactor.enabled,
-        onClickLabel = interactor.onClickLabel,
-        role = role,
-        content = content
-    )
 }

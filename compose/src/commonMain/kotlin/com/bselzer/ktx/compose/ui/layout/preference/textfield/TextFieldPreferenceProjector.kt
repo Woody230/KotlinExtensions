@@ -11,33 +11,31 @@ import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldProjector
 
 class TextFieldPreferenceProjector(
-    override val interactor: TextFieldPreferenceInteractor,
-    override val presenter: TextFieldPreferencePresenter = TextFieldPreferencePresenter.Default
-) : Projector<TextFieldPreferenceInteractor, TextFieldPreferencePresenter>() {
-    private val preferenceProjector = AlertDialogPreferenceProjector(interactor.preference, presenter.preference)
-    private val inputDescriptionProjector = TextProjector(interactor.inputDescription, presenter.inputDescription)
-    private val inputProjector = TextFieldProjector(interactor.input, presenter.input)
+    interactor: TextFieldPreferenceInteractor,
+    presenter: TextFieldPreferencePresenter = TextFieldPreferencePresenter.Default
+) : Projector<TextFieldPreferenceInteractor, TextFieldPreferencePresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         showDialog: Boolean,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val preferenceProjector = AlertDialogPreferenceProjector(interactor.preference, presenter.preference)
+        val inputDescriptionProjector = TextProjector(interactor.inputDescription, presenter.inputDescription)
+        val inputProjector = TextFieldProjector(interactor.input, presenter.input)
+
         preferenceProjector.Projection(
             modifier = combinedModifier,
             showDialog = showDialog,
             ending = null,
         ) {
-            DialogContent()
+            dividedColumnProjector(
+                thickness = PreferenceConstants.Thickness
+            ).Projection(
+                modifier = Modifier.fillMaxWidth(),
+                { inputDescriptionProjector.Projection() },
+                { inputProjector.Projection() }
+            )
         }
     }
-
-    @Composable
-    private fun DialogContent() = dividedColumnProjector(
-        thickness = PreferenceConstants.Thickness
-    ).Projection(
-        modifier = Modifier.fillMaxWidth(),
-        { inputDescriptionProjector.Projection() },
-        { inputProjector.Projection() }
-    )
 }

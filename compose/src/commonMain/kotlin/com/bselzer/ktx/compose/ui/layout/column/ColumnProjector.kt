@@ -17,22 +17,22 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.function.objects.safeMerge
 
 class ColumnProjector(
-    override val interactor: ColumnInteractor = ColumnInteractor.Default,
-    override val presenter: ColumnPresenter = ColumnPresenter.Default
-) : Projector<ColumnInteractor, ColumnPresenter>() {
-    private val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
+    interactor: ColumnInteractor = ColumnInteractor.Default,
+    presenter: ColumnPresenter = ColumnPresenter.Default
+) : Projector<ColumnInteractor, ColumnPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         vararg content: @Composable ColumnScope.() -> Unit,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Column(
             modifier = combinedModifier,
-            verticalArrangement = verticalArrangement,
-            horizontalAlignment = horizontalAlignment,
+            verticalArrangement = presenter.verticalArrangement,
+            horizontalAlignment = presenter.horizontalAlignment,
         ) {
-            if (prepend.toBoolean()) {
+            val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
+            if (presenter.prepend.toBoolean()) {
                 dividerProjector?.Projection()
             }
 
@@ -44,7 +44,7 @@ class ColumnProjector(
                 }
             }
 
-            if (append.toBoolean()) {
+            if (presenter.append.toBoolean()) {
                 dividerProjector?.Projection()
             }
         }

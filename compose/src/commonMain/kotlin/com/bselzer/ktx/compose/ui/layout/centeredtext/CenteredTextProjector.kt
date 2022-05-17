@@ -12,17 +12,18 @@ import com.bselzer.ktx.compose.ui.layout.spacer.SpacerProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class CenteredTextProjector(
-    override val interactor: CenteredTextInteractor,
-    override val presenter: CenteredTextPresenter = CenteredTextPresenter.Default
-) : Projector<CenteredTextInteractor, CenteredTextPresenter>() {
-    private val startProjector = TextProjector(interactor.start, presenter.text)
-    private val endProjector = TextProjector(interactor.end, presenter.text)
-    private val spacerProjector = SpacerProjector(interactor.spacer, presenter.spacer)
-
+    interactor: CenteredTextInteractor,
+    presenter: CenteredTextPresenter = CenteredTextPresenter.Default
+) : Projector<CenteredTextInteractor, CenteredTextPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val startProjector = TextProjector(interactor.start, presenter.text)
+        val endProjector = TextProjector(interactor.end, presenter.text)
+        val spacerProjector = SpacerProjector(interactor.spacer, presenter.spacer)
+
+        // TODO weights instead?
         ConstraintLayout(
             modifier = combinedModifier
         ) {

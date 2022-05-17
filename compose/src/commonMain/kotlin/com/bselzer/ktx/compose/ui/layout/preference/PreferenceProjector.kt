@@ -13,18 +13,16 @@ import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class PreferenceProjector(
-    override val interactor: PreferenceInteractor,
-    override val presenter: PreferencePresenter = PreferencePresenter.Default
-) : Projector<PreferenceInteractor, PreferencePresenter>() {
-    private val imageProjector = ImageProjector(interactor.image, presenter.image)
-    private val descriptionProjector = DescriptionProjector(interactor.description, presenter.description)
+    interactor: PreferenceInteractor,
+    presenter: PreferencePresenter = PreferencePresenter.Default
+) : Projector<PreferenceInteractor, PreferencePresenter>(interactor, presenter) {
 
     companion object {
         @Composable
         internal fun ConstraintLayoutScope.PreferenceImage(
             ref: ConstrainedLayoutReference,
-            image: ImageProjector
-        ) = image.Projection(
+            imageProjector: ImageProjector
+        ) = imageProjector.Projection(
             modifier = Modifier.constrainAs(ref = ref) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
@@ -40,19 +38,23 @@ class PreferenceProjector(
     fun Projection(
         modifier: Modifier = Modifier,
         ending: (@Composable () -> Unit)? = null,
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val imageProjector = ImageProjector(interactor.image, presenter.image)
+        val descriptionProjector = DescriptionProjector(interactor.description, presenter.description)
+
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(combinedModifier)
         ) {
             val (icon, description, box) = createRefs()
-            PreferenceImage(ref = icon, image = imageProjector)
+            PreferenceImage(ref = icon, imageProjector = imageProjector)
 
             PreferenceDescription(
                 ref = description,
                 startRef = icon,
                 endRef = if (ending == null) null else box,
+                descriptionProjector = descriptionProjector
             )
 
             ending?.let { ending ->
@@ -74,6 +76,7 @@ class PreferenceProjector(
         ref: ConstrainedLayoutReference,
         startRef: ConstrainedLayoutReference? = null,
         endRef: ConstrainedLayoutReference? = null,
+        descriptionProjector: DescriptionProjector,
     ) = descriptionProjector.Projection(
         modifier = Modifier.constrainAs(ref = ref) {
             top.linkTo(parent.top)

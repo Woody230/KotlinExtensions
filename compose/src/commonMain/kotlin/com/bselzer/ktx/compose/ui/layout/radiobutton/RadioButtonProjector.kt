@@ -8,21 +8,21 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class RadioButtonProjector(
-    override val interactor: RadioButtonInteractor,
-    override val presenter: RadioButtonPresenter = RadioButtonPresenter.Default
-) : Projector<RadioButtonInteractor, RadioButtonPresenter>() {
+    interactor: RadioButtonInteractor,
+    presenter: RadioButtonPresenter = RadioButtonPresenter.Default
+) : Projector<RadioButtonInteractor, RadioButtonPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         RadioButton(
             selected = interactor.selected,
             onClick = interactor.onClick,
             modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
-            colors = colors
+            colors = presenter.colors
         )
     }
 }

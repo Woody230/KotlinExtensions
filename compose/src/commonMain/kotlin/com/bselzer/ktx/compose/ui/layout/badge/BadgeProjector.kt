@@ -7,18 +7,18 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class BadgeProjector(
-    override val interactor: BadgeInteractor = BadgeInteractor.Default,
-    override val presenter: BadgePresenter = BadgePresenter.Default
-) : Projector<BadgeInteractor, BadgePresenter>() {
+    interactor: BadgeInteractor = BadgeInteractor.Default,
+    presenter: BadgePresenter = BadgePresenter.Default
+) : Projector<BadgeInteractor, BadgePresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable (RowScope.() -> Unit)? = null
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Badge(
             modifier = combinedModifier,
-            backgroundColor = backgroundColor,
-            contentColor = contentColor,
+            backgroundColor = presenter.backgroundColor,
+            contentColor = presenter.contentColor,
             content = content
         )
     }

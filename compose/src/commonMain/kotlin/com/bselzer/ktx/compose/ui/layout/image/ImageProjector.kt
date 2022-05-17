@@ -6,21 +6,21 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ImageProjector(
-    override val interactor: ImageInteractor,
-    override val presenter: ImagePresenter = ImagePresenter.Default
-) : Projector<ImageInteractor, ImagePresenter>() {
+    interactor: ImageInteractor,
+    presenter: ImagePresenter = ImagePresenter.Default
+) : Projector<ImageInteractor, ImagePresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Image(
             painter = interactor.painter,
             contentDescription = interactor.contentDescription,
             modifier = combinedModifier,
-            alignment = alignment,
-            contentScale = contentScale,
-            alpha = alpha,
-            colorFilter = colorFilter
+            alignment = presenter.alignment,
+            contentScale = presenter.contentScale,
+            alpha = presenter.alpha,
+            colorFilter = presenter.colorFilter
         )
     }
 }

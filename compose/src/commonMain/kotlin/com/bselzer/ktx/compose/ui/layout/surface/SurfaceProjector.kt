@@ -9,56 +9,42 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class SurfaceProjector(
-    override val interactor: SurfaceInteractor = SurfaceInteractor.Default,
-    override val presenter: SurfacePresenter = SurfacePresenter.Default
-) : Projector<SurfaceInteractor, SurfacePresenter>() {
+    interactor: SurfaceInteractor = SurfaceInteractor.Default,
+    presenter: SurfacePresenter = SurfacePresenter.Default
+) : Projector<SurfaceInteractor, SurfacePresenter>(interactor, presenter) {
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable () -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         if (interactor.onClick == null) {
-            WithoutClick(combinedModifier, content)
+            Surface(
+                modifier = combinedModifier,
+                shape = presenter.shape,
+                color = presenter.color,
+                contentColor = presenter.contentColor,
+                border = presenter.border,
+                elevation = presenter.elevation,
+                content = content
+            )
         } else {
-            WithClick(combinedModifier, interactionSource, interactor.onClick, content)
+            Surface(
+                onClick = interactor.onClick,
+                modifier = combinedModifier,
+                shape = presenter.shape,
+                color = presenter.color,
+                contentColor = presenter.contentColor,
+                border = presenter.border,
+                elevation = presenter.elevation,
+                interactionSource = interactionSource,
+                indication = presenter.indication,
+                enabled = interactor.enabled,
+                onClickLabel = interactor.onClickLabel,
+                role = presenter.role,
+                content = content
+            )
         }
     }
-
-    @Composable
-    fun SurfacePresenter.WithoutClick(
-        modifier: Modifier,
-        content: @Composable () -> Unit
-    ) = Surface(
-        modifier = modifier,
-        shape = shape,
-        color = color,
-        contentColor = contentColor,
-        border = border,
-        elevation = elevation,
-        content = content
-    )
-
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    fun SurfacePresenter.WithClick(
-        modifier: Modifier,
-        interactionSource: MutableInteractionSource,
-        onClick: () -> Unit,
-        content: @Composable () -> Unit
-    ) = Surface(
-        onClick = onClick,
-        modifier = modifier,
-        shape = shape,
-        color = color,
-        contentColor = contentColor,
-        border = border,
-        elevation = elevation,
-        interactionSource = interactionSource,
-        indication = indication,
-        enabled = interactor.enabled,
-        onClickLabel = interactor.onClickLabel,
-        role = role,
-        content = content
-    )
 }

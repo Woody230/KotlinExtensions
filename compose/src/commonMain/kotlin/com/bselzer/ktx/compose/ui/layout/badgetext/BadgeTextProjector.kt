@@ -7,16 +7,17 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class BadgeTextProjector(
-    override val interactor: BadgeTextInteractor,
-    override val presenter: BadgeTextPresenter = BadgeTextPresenter.Default
-) : Projector<BadgeTextInteractor, BadgeTextPresenter>() {
-    private val badgeProjector = BadgeProjector(interactor.badge, presenter.badge)
-    private val textProjector = TextProjector(interactor.text, presenter.text)
+    interactor: BadgeTextInteractor,
+    presenter: BadgeTextPresenter = BadgeTextPresenter.Default
+) : Projector<BadgeTextInteractor, BadgeTextPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val badgeProjector = BadgeProjector(interactor.badge, presenter.badge)
+        val textProjector = TextProjector(interactor.text, presenter.text)
+
         badgeProjector.Projection(
             modifier = combinedModifier
         ) {

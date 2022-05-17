@@ -8,17 +8,18 @@ import com.bselzer.ktx.compose.ui.layout.row.RowProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class IconTextProjector(
-    override val interactor: IconTextInteractor,
-    override val presenter: IconTextPresenter = IconTextPresenter.Default
-) : Projector<IconTextInteractor, IconTextPresenter>() {
-    private val containerProjector = RowProjector(interactor.container, presenter.container)
-    private val iconProjector = IconProjector(interactor.icon, presenter.icon)
-    private val textProjector = TextProjector(interactor.text, presenter.text)
+    interactor: IconTextInteractor,
+    presenter: IconTextPresenter = IconTextPresenter.Default
+) : Projector<IconTextInteractor, IconTextPresenter>(interactor, presenter) {
 
     @Composable
     fun Projection(
         modifier: Modifier = Modifier
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val containerProjector = RowProjector(interactor.container, presenter.container)
+        val iconProjector = IconProjector(interactor.icon, presenter.icon)
+        val textProjector = TextProjector(interactor.text, presenter.text)
+
         containerProjector.Projection(
             modifier = combinedModifier,
             { iconProjector.Projection() },

@@ -11,39 +11,39 @@ import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 
 class TextFieldProjector(
-    override val interactor: TextFieldInteractor,
-    override val presenter: TextFieldPresenter = TextFieldPresenter.Default
-) : Projector<TextFieldInteractor, TextFieldPresenter>() {
-    private val labelProjector = interactor.label?.let { label -> TextProjector(label, presenter.label) }
-    private val placeholderProjector = interactor.placeholder?.let { placeholder -> TextProjector(placeholder, TextPresenter(textStyle = presenter.textStyle)) }
-    private val leadingIconProjector = interactor.leadingIcon?.let { icon -> IconProjector(icon, presenter.icon) }
-    private val trailingIconProjector = interactor.trailingIcon?.let { icon -> IconProjector(icon, presenter.icon) }
-
+    interactor: TextFieldInteractor,
+    presenter: TextFieldPresenter = TextFieldPresenter.Default
+) : Projector<TextFieldInteractor, TextFieldPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
+        val labelProjector = interactor.label?.let { TextProjector(it, presenter.label) }
+        val placeholderProjector = interactor.placeholder?.let { TextProjector(it, TextPresenter(textStyle = presenter.textStyle)) }
+        val leadingIconProjector = interactor.leadingIcon?.let { IconProjector(it, presenter.icon) }
+        val trailingIconProjector = interactor.trailingIcon?.let { IconProjector(it, presenter.icon) }
+
         TextField(
             value = interactor.value,
             onValueChange = interactor.onValueChange,
             modifier = combinedModifier,
             enabled = interactor.enabled,
             readOnly = interactor.readOnly,
-            textStyle = textStyle,
+            textStyle = presenter.textStyle,
             label = labelProjector?.let { label -> { label.Projection() } },
             placeholder = placeholderProjector?.let { placeholder -> { placeholder.Projection() } },
             leadingIcon = leadingIconProjector?.let { icon -> { icon.Projection() } },
             trailingIcon = trailingIconProjector?.let { icon -> { icon.Projection() } },
             isError = interactor.isError,
-            visualTransformation = visualTransformation,
+            visualTransformation = presenter.visualTransformation,
             keyboardOptions = interactor.keyboardOptions,
             keyboardActions = interactor.keyboardActions,
-            singleLine = singleLine.toBoolean(),
-            maxLines = maxLines,
+            singleLine = presenter.singleLine.toBoolean(),
+            maxLines = presenter.maxLines,
             interactionSource = interactionSource,
-            shape = shape,
-            colors = colors
+            shape = presenter.shape,
+            colors = presenter.colors
         )
     }
 }

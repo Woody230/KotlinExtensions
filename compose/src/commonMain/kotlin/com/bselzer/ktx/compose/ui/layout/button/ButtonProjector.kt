@@ -9,25 +9,25 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class ButtonProjector(
-    override val interactor: ButtonInteractor,
-    override val presenter: ButtonPresenter = ButtonPresenter.Default
-) : Projector<ButtonInteractor, ButtonPresenter>() {
+    interactor: ButtonInteractor,
+    presenter: ButtonPresenter = ButtonPresenter.Default
+) : Projector<ButtonInteractor, ButtonPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
         content: @Composable RowScope.() -> Unit
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         Button(
             onClick = interactor.onClick,
             modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
-            elevation = elevation,
-            shape = shape,
-            border = border,
-            colors = colors,
-            contentPadding = contentPadding,
+            elevation = presenter.elevation,
+            shape = presenter.shape,
+            border = presenter.border,
+            colors = presenter.colors,
+            contentPadding = presenter.contentPadding,
             content = content
         )
     }

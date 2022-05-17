@@ -8,21 +8,21 @@ import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class TriStateCheckboxProjector(
-    override val interactor: TriStateCheckboxInteractor,
-    override val presenter: TriStateCheckboxPresenter = TriStateCheckboxPresenter.Default
-) : Projector<TriStateCheckboxInteractor, TriStateCheckboxPresenter>() {
+    interactor: TriStateCheckboxInteractor,
+    presenter: TriStateCheckboxPresenter = TriStateCheckboxPresenter.Default
+) : Projector<TriStateCheckboxInteractor, TriStateCheckboxPresenter>(interactor, presenter) {
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
         interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    ) = contextualize(modifier) { combinedModifier ->
+    ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         TriStateCheckbox(
             state = interactor.state,
             onClick = interactor.onClick,
             modifier = combinedModifier,
             enabled = interactor.enabled,
             interactionSource = interactionSource,
-            colors = colors
+            colors = presenter.colors
         )
     }
 }
