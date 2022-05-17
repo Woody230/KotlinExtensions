@@ -11,9 +11,11 @@ abstract class Projector<Interactor, Presenter> :
      * Calls the specified block with the localized version of the [presenter].
      */
     @Composable
-    protected fun contextualize(modifier: Modifier, block: @Composable Presenter.(Modifier) -> Unit) = presenter.localized().block(
-        modifier
-            .then(presenter.modifier.modifier)
-            .then(interactor.modifier.modifier)
-    )
+    protected fun contextualize(modifier: Modifier, block: @Composable Presenter.(Modifier) -> Unit) = presenter.localized().run {
+        block(
+            modifier
+                .then(this.modifier.modifier)
+                .then(interactor.modifier.modifier)
+        )
+    }
 }
