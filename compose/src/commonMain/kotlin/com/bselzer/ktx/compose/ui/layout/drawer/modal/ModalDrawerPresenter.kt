@@ -8,12 +8,18 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
+import com.bselzer.ktx.compose.ui.layout.drawer.header.DrawerHeaderPresenter
+import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 
 data class ModalDrawerPresenter(
     override val modifier: PresentableModifier = PresentableModifier,
+    val container: ColumnPresenter = ColumnPresenter.Default,
+    val header: DrawerHeaderPresenter = DrawerHeaderPresenter.Default,
+    val section: DrawerSectionPresenter = DrawerSectionPresenter.Default,
 
     /**
      * Shape of the drawer sheet
@@ -49,6 +55,9 @@ data class ModalDrawerPresenter(
 
     override fun safeMerge(other: ModalDrawerPresenter) = ModalDrawerPresenter(
         modifier = modifier.merge(other.modifier),
+        container = container.merge(other.container),
+        header = header.merge(other.header),
+        section = section.merge(other.section),
         shape = ComposeMerger.shape.safeMerge(shape, other.shape),
         elevation = ComposeMerger.dp.safeMerge(elevation, other.elevation),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
@@ -64,6 +73,9 @@ data class ModalDrawerPresenter(
         scrimColor = DrawerDefaults.scrimColor
     ).merge(this).run {
         copy(
+            container = container.localized(),
+            header = header.localized(),
+            section = section.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

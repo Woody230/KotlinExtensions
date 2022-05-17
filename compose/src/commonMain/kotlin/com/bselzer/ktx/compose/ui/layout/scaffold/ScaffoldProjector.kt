@@ -1,12 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.scaffold
 
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarProjector
+import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerProjector
 import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostProjector
@@ -16,6 +16,7 @@ class ScaffoldProjector(
     override val interactor: ScaffoldInteractor = ScaffoldInteractor.Default,
     override val presenter: ScaffoldPresenter = ScaffoldPresenter.Default
 ) : Projector<ScaffoldInteractor, ScaffoldPresenter>() {
+    private val drawerProjector = interactor.drawer?.let { drawer -> ModalDrawerProjector(drawer, presenter.drawer) }
     private val snackbarHostProjector = SnackbarHostProjector(interactor.snackbarHost, presenter.snackbarHost)
     private val topBarProjector = interactor.topBar?.let { bar -> TopAppBarProjector(bar, presenter.topBar) }
     private val bottomBarProjector = interactor.bottomBar?.let { bar -> BottomAppBarProjector(bar, presenter.bottomBar) }
@@ -24,7 +25,6 @@ class ScaffoldProjector(
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-        drawerContent: @Composable ColumnScope.() -> Unit,
         content: @Composable (PaddingValues) -> Unit
     ) = contextualize(modifier) { combinedModifier ->
         Scaffold(
@@ -36,7 +36,7 @@ class ScaffoldProjector(
             floatingActionButton = { fabProjector?.Projection() },
             floatingActionButtonPosition = floatingActionButtonPosition,
             isFloatingActionButtonDocked = isFloatingActionButtonDocked.toBoolean(),
-            drawerContent = drawerContent,
+            drawerContent = { drawerProjector?.DrawerContent() },
             drawerGesturesEnabled = interactor.drawer?.gesturesEnabled ?: true,
             drawerShape = drawer.shape,
             drawerElevation = drawer.elevation,
