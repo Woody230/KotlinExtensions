@@ -1,6 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.icon
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
@@ -8,9 +8,9 @@ data class IconInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
 
     /**
-     * [ImageVector] to draw inside this icon
+     * [Painter] to draw inside this icon
      */
-    val imageVector: ImageVector,
+    val painter: Painter,
 
     /**
      * Text used by accessibility services to describe what this icon represents.

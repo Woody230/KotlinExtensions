@@ -3,6 +3,7 @@ package com.bselzer.ktx.compose.resource.ui.layout.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.stringResource
@@ -12,7 +13,7 @@ import dev.icerock.moko.resources.compose.stringResource
  */
 @Composable
 fun deleteIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.Delete,
+    painter = Icons.Filled.Delete.painter(),
     contentDescription = stringResource(resource = Resources.strings.delete),
 )
 
@@ -21,7 +22,7 @@ fun deleteIconInteractor() = IconInteractor(
  */
 @Composable
 fun upIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.KeyboardArrowUp,
+    painter = Icons.Filled.KeyboardArrowUp.painter(),
     contentDescription = stringResource(Resources.strings.up),
 )
 
@@ -30,7 +31,7 @@ fun upIconInteractor() = IconInteractor(
  */
 @Composable
 fun downIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.KeyboardArrowDown,
+    painter = Icons.Filled.KeyboardArrowDown.painter(),
     contentDescription = stringResource(Resources.strings.down),
 )
 
@@ -39,7 +40,7 @@ fun downIconInteractor() = IconInteractor(
  */
 @Composable
 fun leftIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.KeyboardArrowLeft,
+    painter = Icons.Filled.KeyboardArrowLeft.painter(),
     contentDescription = stringResource(Resources.strings.left),
 )
 
@@ -48,7 +49,7 @@ fun leftIconInteractor() = IconInteractor(
  */
 @Composable
 fun rightIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.KeyboardArrowRight,
+    painter = Icons.Filled.KeyboardArrowRight.painter(),
     contentDescription = stringResource(Resources.strings.right),
 )
 
@@ -57,7 +58,7 @@ fun rightIconInteractor() = IconInteractor(
  */
 @Composable
 fun dropdownIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.MoreVert,
+    painter = Icons.Filled.MoreVert.painter(),
     contentDescription = stringResource(resource = Resources.strings.more_options),
 )
 
@@ -68,7 +69,7 @@ fun dropdownIconInteractor() = IconInteractor(
  */
 @Composable
 fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
-    imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+    painter = if (isExpanded) Icons.Filled.KeyboardArrowUp.painter() else Icons.Filled.KeyboardArrowDown.painter(),
     contentDescription = stringResource(resource = if (isExpanded) Resources.strings.condense else Resources.strings.expand),
 )
 
@@ -77,7 +78,7 @@ fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
  */
 @Composable
 fun upNavigationIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.ArrowBack,
+    painter = Icons.Filled.ArrowBack.painter(),
     contentDescription = stringResource(resource = Resources.strings.up),
 )
 
@@ -86,7 +87,7 @@ fun upNavigationIconInteractor() = IconInteractor(
  */
 @Composable
 fun drawerNavigationIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.Menu,
+    painter = Icons.Filled.Menu.painter(),
     contentDescription = stringResource(resource = Resources.strings.menu),
 )
 
@@ -95,6 +96,6 @@ fun drawerNavigationIconInteractor() = IconInteractor(
  */
 @Composable
 fun refreshIconInteractor() = IconInteractor(
-    imageVector = Icons.Filled.Refresh,
+    painter = Icons.Filled.Refresh.painter(),
     contentDescription = stringResource(resource = Resources.strings.refresh),
 )

@@ -14,7 +14,7 @@ class IconProjector(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier ->
         Icon(
-            imageVector = interactor.imageVector,
+            painter = interactor.painter,
             contentDescription = interactor.contentDescription,
             modifier = combinedModifier,
             tint = tint
