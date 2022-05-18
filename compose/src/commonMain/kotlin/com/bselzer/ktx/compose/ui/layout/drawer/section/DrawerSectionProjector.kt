@@ -1,9 +1,9 @@
 package com.bselzer.ktx.compose.ui.layout.drawer.section
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.column.ColumnProjector
-import com.bselzer.ktx.compose.ui.layout.column.addIfNotNull
 import com.bselzer.ktx.compose.ui.layout.drawer.component.DrawerComponentProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
@@ -22,14 +22,16 @@ class DrawerSectionProjector(
         val titleProjector = interactor.title?.let { TextProjector(it, presenter.title) }
         val componentProjectors = interactor.components.map { DrawerComponentProjector(it, presenter.component) }
 
-        containerProjector.Projection(
-            modifier = combinedModifier,
-            content = buildArray {
-                addIfNotNull(titleProjector) { it.Projection() }
-                componentProjectors.forEach {
-                    add { it.Projection() }
+        Column(modifier = combinedModifier) {
+            titleProjector?.Projection()
+
+            containerProjector.Projection(
+                content = buildArray {
+                    componentProjectors.forEach {
+                        add { it.Projection() }
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }

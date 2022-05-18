@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
+import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.drawer.header.DrawerHeaderPresenter
 import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
@@ -71,7 +72,10 @@ data class ModalDrawerPresenter(
     @Composable
     override fun localized() = ModalDrawerPresenter(
         container = ColumnPresenter(
-            modifier = ModularSize.FillWidth then ModularPadding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
+            modifier = ModularSize.FillWidth then ModularPadding(all = 8.dp),
+            divider = DividerPresenter(
+                modifier = ModularPadding(vertical = 4.dp)
+            )
         ),
         shape = MaterialTheme.shapes.large,
         elevation = DrawerDefaults.Elevation,
