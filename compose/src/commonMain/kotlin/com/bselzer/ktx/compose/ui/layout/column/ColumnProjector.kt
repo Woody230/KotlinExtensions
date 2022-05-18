@@ -70,9 +70,11 @@ fun <Interactor, Presenter, Projector> MutableList<@Composable ColumnScope.() ->
 
 /**
  * Creates a [ColumnProjector] with a divider with the given [color], [thickness], [interactor], and [presenter].
+ *
+ * By default, the color is transparent to act like a Spacer.
  */
 @Composable
-fun dividedColumnProjector(
+fun spacedColumnProjector(
     color: Color = Color.Transparent,
     thickness: Dp = ComposeMerger.dp.default,
     interactor: ColumnInteractor = ColumnInteractor.Default,

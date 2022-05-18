@@ -69,9 +69,11 @@ fun <Interactor, Presenter, Projector> MutableList<@Composable RowScope.() -> Un
 
 /**
  * Creates a [RowProjector] with a divider with the given [color], [thickness], [interactor], and [presenter].
+ *
+ * By default, the color is transparent to act like a Spacer.
  */
 @Composable
-fun dividedRowProjector(
+fun spacedRowProjector(
     color: Color = Color.Transparent,
     thickness: Dp = ComposeMerger.dp.default,
     interactor: RowInteractor = RowInteractor.Default,
