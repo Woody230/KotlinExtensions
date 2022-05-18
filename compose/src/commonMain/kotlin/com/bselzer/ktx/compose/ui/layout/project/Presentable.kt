@@ -11,7 +11,7 @@ interface Presentable<Model> : Mergeable<Model> where Model : Presentable<Model>
     /**
      * The [Modifier]s.
      */
-    val modifier: PresentableModifier
+    val modifier: PresentableModifier // TODO should modifiers be segregated between presentable and interactable rather than just using Modifier directly?
 
     /**
      * Creates a localized version of this presentation.
