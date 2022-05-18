@@ -1,11 +1,15 @@
 package com.bselzer.ktx.compose.ui.layout.scaffold
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.DrawerState
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarProjector
+import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerProjector
 import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
@@ -30,7 +34,12 @@ class ScaffoldProjector(
 
         Scaffold(
             modifier = combinedModifier,
-            scaffoldState = remember { interactor.state },
+            scaffoldState = rememberScaffoldState(
+                drawerState = with(interactor.drawer ?: ModalDrawerInteractor.Default) {
+                    rememberSaveable(saver = DrawerState.Saver(confirmStateChange)) { state }
+                },
+                snackbarHostState = remember { interactor.snackbarHost.state }
+            ),
             topBar = { topBarProjector?.Projection() },
             bottomBar = { bottomBarProjector?.Projection() },
             snackbarHost = { snackbarHostProjector.Projection() },

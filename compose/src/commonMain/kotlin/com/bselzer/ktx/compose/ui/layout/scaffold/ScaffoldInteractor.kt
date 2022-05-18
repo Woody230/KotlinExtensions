@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.scaffold
 
-import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
@@ -38,8 +37,6 @@ data class ScaffoldInteractor(
      */
     val floatingActionButton: FloatingActionButtonInteractor? = null,
 ) : Interactor(modifier) {
-    val state: ScaffoldState = ScaffoldState(drawer?.state ?: ModalDrawerInteractor.Default.state, snackbarHost.state)
-
     companion object {
         @Stable
         val Default = ScaffoldInteractor()

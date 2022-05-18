@@ -16,25 +16,20 @@ data class ModalDrawerInteractor(
     val sections: List<DrawerSectionInteractor> = emptyList(),
 
     /**
-     * The initial value of the state.
-     */
-    val value: DrawerValue = DrawerValue.Closed,
-
-    /**
      * Optional callback invoked to confirm or veto a pending state change.
      */
     val confirmStateChange: (DrawerValue) -> Boolean = { true },
+
+    /**
+     * The state of the drawer.
+     */
+    val state: DrawerState = DrawerState(initialValue = DrawerValue.Closed, confirmStateChange),
 
     /**
      * Whether or not drawer can be interacted by gestures
      */
     val gesturesEnabled: Boolean = true,
 ) : Interactor(modifier) {
-    /**
-     * The state of the drawer.
-     */
-    val state = DrawerState(value, confirmStateChange)
-
     companion object {
         @Stable
         val Default = ModalDrawerInteractor()
