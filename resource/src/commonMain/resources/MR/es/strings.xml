@@ -4,6 +4,7 @@
     <string name="cache">Caché</string>
     <string name="licenses">Licencias</string>
     <string name="about_app">Acerca de la Aplicación</string>
+    <string name="about">Acerca de</string>
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="reset">Resetear</string>
@@ -24,6 +25,11 @@
     <string name="legal_notice">Aviso Legal</string>
     <string name="cache_clear">Borró la caché.</string>
     <string name="migration">Migración</string>
+
+    <!-- Contact -->
+    <string name="contact">Contacto</string>
+    <string name="email">Correo electrónico</string>
+    <string name="developer">Desarrollador</string>
 
     <!-- Directions -->
     <string name="up">Arriba</string>

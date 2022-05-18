@@ -4,6 +4,7 @@
     <string name="cache">Cache</string>
     <string name="licenses">Licenses</string>
     <string name="about_app">About the App</string>
+    <string name="about">About</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="reset">Reset</string>
@@ -24,6 +25,12 @@
     <string name="legal_notice">Legal Notice</string>
     <string name="cache_clear">Cleared the cache.</string>
     <string name="migration">Migration</string>
+
+    <!-- Contact -->
+    <string name="github">GitHub</string>
+    <string name="contact">Contact</string>
+    <string name="email">Email</string>
+    <string name="developer">Developer</string>
 
     <!-- Directions -->
     <string name="up">Up</string>
