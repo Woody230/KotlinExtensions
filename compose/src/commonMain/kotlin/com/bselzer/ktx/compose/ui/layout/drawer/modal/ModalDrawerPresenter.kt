@@ -72,7 +72,8 @@ data class ModalDrawerPresenter(
     @Composable
     override fun localized() = ModalDrawerPresenter(
         container = ColumnPresenter(
-            modifier = ModularSize.FillWidth then ModularPadding(all = 16.dp),
+            // Not using horizontal padding so that dividers remain the full size of the container.
+            modifier = ModularPadding(vertical = 16.dp) then ModularSize.FillWidth,
             divider = DividerPresenter(
                 modifier = ModularPadding(vertical = 4.dp)
             )

@@ -10,6 +10,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.icon.IconPresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.DefaultMinHeight
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularPadding
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -37,7 +38,7 @@ data class DrawerComponentPresenter(
     @Composable
     override fun localized() = DrawerComponentPresenter(
         container = RowPresenter(
-            modifier = ModularSize.FillWidth then ModularSize(height = DefaultMinHeight(48.dp)),
+            modifier = ModularSize.FillWidth then ModularPadding(horizontal = 8.dp) then ModularSize(height = DefaultMinHeight(48.dp)),
             horizontalArrangement = Arrangement.spacedBy(32.dp),
             verticalAlignment = Alignment.CenterVertically
         ),

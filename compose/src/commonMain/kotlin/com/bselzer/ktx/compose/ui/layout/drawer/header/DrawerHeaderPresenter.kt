@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularPadding
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -32,7 +33,7 @@ data class DrawerHeaderPresenter(
     @Composable
     override fun localized() = DrawerHeaderPresenter(
         container = ColumnPresenter(
-            modifier = ModularSize.FillWidth,
+            modifier = ModularSize.FillWidth then ModularPadding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
     ).merge(this).copy(
