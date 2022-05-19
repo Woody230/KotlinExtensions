@@ -30,23 +30,9 @@ actual class AppBrowser actual constructor() : Browser, ContentProvider() {
         }
     }
 
-    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-        throw NotImplementedError()
-    }
-
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
-        throw NotImplementedError()
-    }
-
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        throw NotImplementedError()
-    }
-
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
-        throw NotImplementedError()
-    }
-
-    override fun getType(uri: Uri): String? {
-        throw NotImplementedError()
-    }
+    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? = null
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int = 0
+    override fun insert(uri: Uri, values: ContentValues?): Uri? = null
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int = 0
+    override fun getType(uri: Uri): String? = null
 }
