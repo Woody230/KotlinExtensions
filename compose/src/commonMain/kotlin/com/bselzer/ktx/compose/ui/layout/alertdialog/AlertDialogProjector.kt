@@ -1,14 +1,14 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.bselzer.ktx.compose.ui.layout.dialog.Dialog
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
@@ -27,9 +27,12 @@ class AlertDialogProjector(
         val neutralProjector = interactor.neutralButton?.let { TextButtonProjector(it, presenter.button) }
         val positiveProjector = interactor.positiveButton?.let { TextButtonProjector(it, presenter.button) }
         val titleProjector = interactor.title?.let { TextProjector(it, presenter.title) }
+
+        // TODO currently can't use an actual alert dialog since scrolling is not working properly
+        /*
         AlertDialog(
             onDismissRequest = interactor.onDismissRequest,
-            buttons = { projectButtons(negativeProjector, neutralProjector, positiveProjector) },
+            buttons = { ProjectButtons(negativeProjector, neutralProjector, positiveProjector) },
             modifier = combinedModifier,
             title = titleProjector?.let { title -> @Composable { title.Projection() } },
             text = content,
@@ -37,10 +40,63 @@ class AlertDialogProjector(
             backgroundColor = presenter.backgroundColor,
             contentColor = presenter.contentColor
         )
+        */
+
+        Dialog(
+            onDismissRequest = interactor.onDismissRequest,
+        ) {
+            Surface(
+                modifier = combinedModifier,
+                shape = presenter.shape,
+                color = presenter.backgroundColor,
+                contentColor = presenter.contentColor,
+            ) {
+                // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
+                ConstraintLayout(modifier = Modifier.fillMaxHeight()) {
+                    val (titleBox, contentBox, buttonBox) = createRefs()
+
+                    Box(
+                        contentAlignment = Alignment.CenterStart,
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = if (titleProjector == null) 0.dp else 64.dp)
+                            .constrainAs(titleBox) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start, 24.dp)
+                                end.linkTo(parent.end, 8.dp)
+                                width = Dimension.fillToConstraints
+                            }
+                    ) {
+                        titleProjector?.Projection()
+                    }
+
+                    Box(
+                        modifier = Modifier.constrainAs(contentBox) {
+                            top.linkTo(titleBox.bottom)
+                            bottom.linkTo(buttonBox.top)
+                            start.linkTo(parent.start, 24.dp)
+                            end.linkTo(parent.end, 8.dp)
+                            width = Dimension.fillToConstraints
+                            height = Dimension.preferredWrapContent
+                        }
+                    ) {
+                        content()
+                    }
+
+                    Box(
+                        modifier = Modifier.constrainAs(buttonBox) {
+                            bottom.linkTo(parent.bottom)
+                            end.linkTo(parent.end)
+                        }
+                    ) {
+                        ProjectButtons(negativeProjector, neutralProjector, positiveProjector)
+                    }
+                }
+            }
+        }
     }
 
     @Composable
-    private fun projectButtons(
+    private fun ProjectButtons(
         negativeProjector: TextButtonProjector?,
         neutralProjector: TextButtonProjector?,
         positiveProjector: TextButtonProjector?
