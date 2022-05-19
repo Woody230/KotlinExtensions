@@ -7,6 +7,7 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
@@ -60,6 +61,11 @@ data class TopAppBarPresenter(
 
     @Composable
     override fun localized() = TopAppBarPresenter(
+        title = TextPresenter(
+            fontWeight = FontWeight.Bold,
+            maxLines = 2,
+            textStyle = MaterialTheme.typography.h6
+        ),
         backgroundColor = MaterialTheme.colors.primarySurface,
         elevation = AppBarDefaults.TopAppBarElevation
     ).merge(this).run {
