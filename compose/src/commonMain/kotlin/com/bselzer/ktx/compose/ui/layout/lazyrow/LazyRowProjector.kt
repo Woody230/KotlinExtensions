@@ -40,7 +40,7 @@ class LazyRowProjector<T>(
                 content(index, item)
 
                 val isLast = index == interactor.items.lastIndex
-                val isIntermediate = !isFirst && !isLast
+                val isIntermediate = !isLast
                 val shouldAppend = isLast && presenter.append.toBoolean()
                 if (isIntermediate || shouldAppend) {
                     dividerProjector?.Projection()

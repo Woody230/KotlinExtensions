@@ -31,6 +31,10 @@
     <string name="not_selected">Not selected</string>
     <string name="partially_selected">Partially selected</string>
 
+    <!-- Theme -->
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+
     <!-- Contact -->
     <string name="github">GitHub</string>
     <string name="contact">Contact</string>

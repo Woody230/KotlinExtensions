@@ -31,6 +31,10 @@
     <string name="not_selected">No seleccionado</string>
     <string name="partially_selected">Seleccionado parcialmente</string>
 
+    <!-- Theme -->
+    <string name="light">Luz</string>
+    <string name="dark">Obscuro</string>
+
     <!-- Contact -->
     <string name="contact">Contacto</string>
     <string name="email">Correo electrónico</string>
