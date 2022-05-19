@@ -90,9 +90,10 @@ class LibraryProjector(
                 ).Projection()
             }
 
-            if (!library.artifactVersion.isNullOrBlank()) {
+            val version = library.artifactVersion
+            if (!version.isNullOrBlank()) {
                 TextProjector(
-                    interactor = TextInteractor(text = library.artifactId),
+                    interactor = TextInteractor(text = version),
                     presenter = subtitle
                 ).Projection()
             }
