@@ -26,6 +26,11 @@
     <string name="cache_clear">Vidé le cache.</string>
     <string name="migration">Migration</string>
 
+    <!-- Selected -->
+    <string name="selected">Sélectionné</string>
+    <string name="not_selected">Non sélectionné</string>
+    <string name="partially_selected">Partiellement sélectionné</string>
+
     <!-- Contact -->
     <string name="contact">Contacter</string>
     <string name="email">Adresse courriel</string>

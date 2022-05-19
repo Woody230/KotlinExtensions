@@ -26,6 +26,11 @@
     <string name="cache_clear">Cleared the cache.</string>
     <string name="migration">Migration</string>
 
+    <!-- Selection -->
+    <string name="selected">Selected</string>
+    <string name="not_selected">Not selected</string>
+    <string name="partially_selected">Partially selected</string>
+
     <!-- Contact -->
     <string name="github">GitHub</string>
     <string name="contact">Contact</string>
