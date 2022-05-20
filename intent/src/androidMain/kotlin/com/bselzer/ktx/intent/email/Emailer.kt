@@ -13,8 +13,12 @@ internal actual class AppEmailer actual constructor() : AndroidIntent(), Emailer
             // https://developer.android.com/guide/components/intents-common#ComposeEmail
             // SENDTO for no attachment
             val intent = Intent(Intent.ACTION_SENDTO).apply {
+                // Sending this outside of the activity context so need to use this flag.
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
                 // Data as mailto to only allow email apps to handle this intent.
                 setDataAndType(Uri.parse("mailto:"), "*/*")
+
                 putExtra(Intent.EXTRA_EMAIL, email.to.toTypedArray())
                 putExtra(Intent.EXTRA_CC, email.cc.toTypedArray())
                 putExtra(Intent.EXTRA_BCC, email.bcc.toTypedArray())
