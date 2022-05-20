@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontWeight
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
@@ -57,15 +58,25 @@ data class AlertDialogPresenter(
 
     @Composable
     override fun localized() = AlertDialogPresenter(
-        button = button.localized(),
-        title = title.localized(),
+        title = TextPresenter(
+            // Implementation defaults to subtitle1 but material2 guidelines specify h6 and bold
+            fontWeight = FontWeight.Bold,
+            textStyle = MaterialTheme.typography.h6
+        ),
+        button = TextButtonPresenter(
+            // Implementation does not provide a default for these
+            text = TextPresenter(
+                fontWeight = FontWeight.SemiBold,
+                textStyle = MaterialTheme.typography.button
+            )
+        ),
         shape = MaterialTheme.shapes.medium,
         backgroundColor = MaterialTheme.colors.surface
     ).merge(this).run {
-        if (ComposeMerger.color.isDefault(contentColor)) {
-            copy(contentColor = contentColorFor(backgroundColor))
-        } else {
-            this
-        }
+        copy(
+            button = button.localized(),
+            title = title.localized(),
+            contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
+        )
     }
 }

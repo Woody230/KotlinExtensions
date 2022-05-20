@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
@@ -24,8 +25,15 @@ data class SingleChoicePresenter(
     )
 
     @Composable
-    override fun localized() = copy(
-        radioButton = radioButton.localized(),
-        text = text.localized()
-    )
+    override fun localized() = SingleChoicePresenter(
+        // Implementation defaults to body2 but material2 guidelines specify body1
+        text = TextPresenter(
+            textStyle = MaterialTheme.typography.body1
+        )
+    ).merge(this).run {
+        copy(
+            radioButton = radioButton.localized(),
+            text = text.localized()
+        )
+    }
 }
