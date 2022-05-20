@@ -26,6 +26,8 @@ data class SingleChoicePresenter(
 
     @Composable
     override fun localized() = SingleChoicePresenter(
+        // TODO divider appended after title and prepended before buttons?
+
         // Implementation defaults to body2 but material2 guidelines specify body1
         text = TextPresenter(
             textStyle = MaterialTheme.typography.body1

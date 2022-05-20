@@ -56,13 +56,15 @@ class LibraryProjector(
 
     @Composable
     private fun LibraryPresenter.Dialog(selected: Library?, setSelected: (Library?) -> Unit) = selected?.let {
+        val license = selected.licenses.firstOrNull()
         AlertDialogProjector(
-            interactor = confirmationAlertDialogInteractor { setSelected(null) }
+            interactor = confirmationAlertDialogInteractor { setSelected(null) }.copy(
+                title = TextInteractor(license?.name ?: "")
+            )
         ).Projection(
             // TODO vertical scrolling not working properly without constrained version of dialog
             constrained = true
         ) {
-            val license = selected.licenses.firstOrNull()
             val text = if (license == null) stringResource(Resources.strings.no_license_found) else license.licenseContent ?: ""
             TextProjector(
                 interactor = TextInteractor(text = text),

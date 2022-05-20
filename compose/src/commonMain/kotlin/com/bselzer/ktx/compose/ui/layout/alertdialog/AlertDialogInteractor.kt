@@ -1,6 +1,7 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.toUpperCase
 import com.bselzer.ktx.compose.ui.layout.button.ButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
@@ -88,19 +89,19 @@ fun alertDialogButtonsInteractor(
     return AlertDialogInteractor(
         negativeButton = negativeText?.let {
             TextButtonInteractor(
-                text = negativeText,
+                text = negativeText.copy(text = negativeText.text.toUpperCase()),
                 button = ButtonInteractor { onNegative.perform() },
             )
         },
         neutralButton = neutralText?.let {
             TextButtonInteractor(
-                text = neutralText,
+                text = neutralText.copy(text = neutralText.text.toUpperCase()),
                 button = ButtonInteractor { onNeutral.perform() },
             )
         },
         positiveButton = positiveText?.let {
             TextButtonInteractor(
-                text = positiveText,
+                text = positiveText.copy(text = positiveText.text.toUpperCase()),
                 button = ButtonInteractor { onPositive.perform() }
             )
         },
