@@ -10,4 +10,6 @@ android.setup()
 kotlin.setup {
     commonMain()
     commonTest()
+    androidTest()
+    jvmTest()
 }
