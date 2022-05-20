@@ -22,6 +22,13 @@ class AlertDialogProjector(
     fun Projection(
         modifier: Modifier = Modifier,
         content: @Composable () -> Unit
+    ) = Projection(modifier = modifier, constrained = false, content = content)
+
+    @Composable
+    fun Projection(
+        modifier: Modifier = Modifier,
+        constrained: Boolean,
+        content: @Composable () -> Unit
     ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         val negativeProjector = interactor.negativeButton?.let { TextButtonProjector(it, presenter.button) }
         val neutralProjector = interactor.neutralButton?.let { TextButtonProjector(it, presenter.button) }
@@ -30,42 +37,42 @@ class AlertDialogProjector(
 
         // TODO animation?
         if (interactor.state == DialogState.OPENED) {
-            // TODO currently can't use an actual alert dialog since scrolling is not working properly
-            /*
-            AlertDialog(
-                onDismissRequest = interactor.onDismissRequest,
-                buttons = { ProjectButtons(negativeProjector, neutralProjector, positiveProjector) },
-                modifier = combinedModifier,
-                title = titleProjector?.let { title -> @Composable { title.Projection() } },
-                text = content,
-                shape = presenter.shape,
-                backgroundColor = presenter.backgroundColor,
-                contentColor = presenter.contentColor
-            )
-            */
-
-            Dialog(
-                onDismissRequest = interactor.onDismissRequest,
-            ) {
-                Surface(
+            if (!constrained) {
+                AlertDialog(
+                    onDismissRequest = interactor.onDismissRequest,
+                    buttons = { ProjectButtons(negativeProjector, neutralProjector, positiveProjector) },
                     modifier = combinedModifier,
+                    title = titleProjector?.let { title -> @Composable { title.Projection() } },
+                    text = content,
                     shape = presenter.shape,
-                    color = presenter.backgroundColor,
-                    contentColor = presenter.contentColor,
+                    backgroundColor = presenter.backgroundColor,
+                    contentColor = presenter.contentColor
+                )
+            } else {
+                Dialog(
+                    onDismissRequest = interactor.onDismissRequest,
                 ) {
-                    ConstraintContent(
-                        // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
-                        modifier = Modifier.fillMaxHeight(),
-                        negativeProjector = negativeProjector,
-                        neutralProjector = neutralProjector,
-                        positiveProjector = positiveProjector,
-                        titleProjector = titleProjector,
-                        content = content
-                    )
+                    Surface(
+                        modifier = combinedModifier,
+                        shape = presenter.shape,
+                        color = presenter.backgroundColor,
+                        contentColor = presenter.contentColor,
+                    ) {
+                        ConstraintContent(
+                            // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
+                            modifier = Modifier.fillMaxHeight(),
+                            negativeProjector = negativeProjector,
+                            neutralProjector = neutralProjector,
+                            positiveProjector = positiveProjector,
+                            titleProjector = titleProjector,
+                            content = content
+                        )
+                    }
                 }
             }
         }
     }
+
 
     @Composable
     private fun ConstraintContent(
