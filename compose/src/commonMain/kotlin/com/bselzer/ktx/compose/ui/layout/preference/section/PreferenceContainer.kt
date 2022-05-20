@@ -17,7 +17,8 @@ fun preferenceColumnProjector(): ColumnProjector {
     val thickness = PreferenceConstants.Thickness
     val segment = (PreferenceConstants.Spacing - thickness) / 2
     return spacedColumnProjector(
-        thickness = PreferenceConstants.Spacing + PreferenceConstants.Thickness,
+        color = DividerPresenter.Default.color,
+        thickness = thickness,
         presenter = ColumnPresenter(
             divider = DividerPresenter(
                 modifier = ModularPadding(vertical = segment)
