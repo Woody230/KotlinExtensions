@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.preference.switch
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,7 +22,19 @@ class SwitchPreferenceProjector(
         val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
         val switchProjector = SwitchProjector(interactor.switch, presenter.switch)
 
-        preferenceProjector.Projection(combinedModifier) {
+        preferenceProjector.Projection(combinedModifier.clickable(
+            // If the container is clicked then mimic a click on the switch.
+            // TODO is there some way to programmatically click the switch instead of doing the logic here as well?
+            //  interaction source emitting only affects the indication and does not perform the handler
+            enabled = interactor.switch.enabled,
+            onClick = {
+                if (interactor.switch.enabled) {
+                    interactor.switch.onCheckedChange?.let { onCheckedChange ->
+                        onCheckedChange(!interactor.switch.checked)
+                    }
+                }
+            }
+        )) {
             switchProjector.Projection(interactionSource = interactionSource)
         }
     }
