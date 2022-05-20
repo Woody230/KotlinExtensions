@@ -8,5 +8,5 @@ import com.bselzer.ktx.compose.ui.layout.project.Interactor
 data class AlertDialogPreferenceInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
     val preference: PreferenceInteractor,
-    val dialog: AlertDialogInteractor
+    val dialog: AlertDialogInteractor,
 ) : Interactor(modifier)

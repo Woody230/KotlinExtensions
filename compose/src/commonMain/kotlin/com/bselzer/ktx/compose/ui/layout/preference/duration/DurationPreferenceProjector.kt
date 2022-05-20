@@ -24,13 +24,11 @@ class DurationPreferenceProjector(
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-        showDialog: Boolean
     ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         val preferenceProjector = AlertDialogPreferenceProjector(interactor.preference, presenter.preference)
 
         preferenceProjector.Projection(
             modifier = combinedModifier,
-            showDialog = showDialog,
             ending = null,
         ) {
             DialogContent(interactor, presenter)

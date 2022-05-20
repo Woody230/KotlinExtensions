@@ -55,7 +55,7 @@ class TextProjector(
         Modifier.pointerInput(interactor.onClickOffset) {
             detectTapGestures { position ->
                 layoutResult?.let { layoutResult ->
-                    interactor.onClickOffset.invoke(layoutResult.getOffsetForPosition(position))
+                    interactor.onClickOffset.invoke(layoutResult.getOffsetForPosition(position), layoutResult.layoutInput.text)
                 }
             }
         }

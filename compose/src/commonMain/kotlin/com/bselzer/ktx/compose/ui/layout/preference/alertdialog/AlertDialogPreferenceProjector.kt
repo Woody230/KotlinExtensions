@@ -12,24 +12,19 @@ class AlertDialogPreferenceProjector(
 ) : Projector<AlertDialogPreferenceInteractor, AlertDialogPreferencePresenter>(interactor, presenter) {
 
     /**
-     * @param showDialog whether the dialog should be shown
      * @param ending the composable function for laying out the end of the preference next to the description
      * @param dialog the composable function for layout out the body of the dialog
      */
     @Composable
     fun Projection(
         modifier: Modifier = Modifier,
-        showDialog: Boolean,
         ending: @Composable (() -> Unit)? = null,
         dialog: @Composable () -> Unit,
     ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         val preferenceProjector = PreferenceProjector(interactor.preference, presenter.preference)
         val dialogProjector = AlertDialogProjector(interactor.dialog, presenter.dialog)
 
-        if (showDialog) {
-            dialogProjector.Projection(content = dialog)
-        }
-
+        dialogProjector.Projection(content = dialog)
         preferenceProjector.Projection(combinedModifier, ending = ending)
     }
 }

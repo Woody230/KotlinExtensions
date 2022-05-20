@@ -28,70 +28,90 @@ class AlertDialogProjector(
         val positiveProjector = interactor.positiveButton?.let { TextButtonProjector(it, presenter.button) }
         val titleProjector = interactor.title?.let { TextProjector(it, presenter.title) }
 
-        // TODO currently can't use an actual alert dialog since scrolling is not working properly
-        /*
-        AlertDialog(
-            onDismissRequest = interactor.onDismissRequest,
-            buttons = { ProjectButtons(negativeProjector, neutralProjector, positiveProjector) },
-            modifier = combinedModifier,
-            title = titleProjector?.let { title -> @Composable { title.Projection() } },
-            text = content,
-            shape = presenter.shape,
-            backgroundColor = presenter.backgroundColor,
-            contentColor = presenter.contentColor
-        )
-        */
-
-        Dialog(
-            onDismissRequest = interactor.onDismissRequest,
-        ) {
-            Surface(
+        // TODO animation?
+        if (interactor.state == DialogState.OPENED) {
+            // TODO currently can't use an actual alert dialog since scrolling is not working properly
+            /*
+            AlertDialog(
+                onDismissRequest = interactor.onDismissRequest,
+                buttons = { ProjectButtons(negativeProjector, neutralProjector, positiveProjector) },
                 modifier = combinedModifier,
+                title = titleProjector?.let { title -> @Composable { title.Projection() } },
+                text = content,
                 shape = presenter.shape,
-                color = presenter.backgroundColor,
-                contentColor = presenter.contentColor,
+                backgroundColor = presenter.backgroundColor,
+                contentColor = presenter.contentColor
+            )
+            */
+
+            Dialog(
+                onDismissRequest = interactor.onDismissRequest,
             ) {
-                // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
-                ConstraintLayout(modifier = Modifier.fillMaxHeight()) {
-                    val (titleBox, contentBox, buttonBox) = createRefs()
-
-                    Box(
-                        contentAlignment = Alignment.CenterStart,
-                        modifier = Modifier
-                            .defaultMinSize(minHeight = if (titleProjector == null) 0.dp else 64.dp)
-                            .constrainAs(titleBox) {
-                                top.linkTo(parent.top)
-                                start.linkTo(parent.start, 24.dp)
-                                end.linkTo(parent.end, 8.dp)
-                                width = Dimension.fillToConstraints
-                            }
-                    ) {
-                        titleProjector?.Projection()
-                    }
-
-                    Box(
-                        modifier = Modifier.constrainAs(contentBox) {
-                            top.linkTo(titleBox.bottom)
-                            bottom.linkTo(buttonBox.top)
-                            start.linkTo(parent.start, 24.dp)
-                            end.linkTo(parent.end, 8.dp)
-                            width = Dimension.fillToConstraints
-                            height = Dimension.preferredWrapContent
-                        }
-                    ) {
-                        content()
-                    }
-
-                    Box(
-                        modifier = Modifier.constrainAs(buttonBox) {
-                            bottom.linkTo(parent.bottom)
-                            end.linkTo(parent.end)
-                        }
-                    ) {
-                        ProjectButtons(negativeProjector, neutralProjector, positiveProjector)
-                    }
+                Surface(
+                    modifier = combinedModifier,
+                    shape = presenter.shape,
+                    color = presenter.backgroundColor,
+                    contentColor = presenter.contentColor,
+                ) {
+                    ConstraintContent(
+                        // TODO can't properly wrap content without title/buttons going out of view unless the size is defined (through the filling)
+                        modifier = Modifier.fillMaxHeight(),
+                        negativeProjector = negativeProjector,
+                        neutralProjector = neutralProjector,
+                        positiveProjector = positiveProjector,
+                        titleProjector = titleProjector,
+                        content = content
+                    )
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun ConstraintContent(
+        modifier: Modifier,
+        negativeProjector: TextButtonProjector?,
+        neutralProjector: TextButtonProjector?,
+        positiveProjector: TextButtonProjector?,
+        titleProjector: TextProjector?,
+        content: @Composable () -> Unit
+    ) = ConstraintLayout(modifier = modifier) {
+        val (titleBox, contentBox, buttonBox) = createRefs()
+
+        Box(
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier
+                .defaultMinSize(minHeight = if (titleProjector == null) 0.dp else 64.dp)
+                .constrainAs(titleBox) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start, 24.dp)
+                    end.linkTo(parent.end, 8.dp)
+                    width = Dimension.fillToConstraints
+                }
+        ) {
+            titleProjector?.Projection()
+        }
+
+        Box(
+            modifier = Modifier.constrainAs(contentBox) {
+                top.linkTo(titleBox.bottom)
+                bottom.linkTo(buttonBox.top)
+                start.linkTo(parent.start, 24.dp)
+                end.linkTo(parent.end, 8.dp)
+                width = Dimension.fillToConstraints
+                height = Dimension.preferredWrapContent
+            }
+        ) {
+            content()
+        }
+
+        Box(
+            modifier = Modifier.constrainAs(buttonBox) {
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+            }
+        ) {
+            ProjectButtons(negativeProjector, neutralProjector, positiveProjector)
         }
     }
 

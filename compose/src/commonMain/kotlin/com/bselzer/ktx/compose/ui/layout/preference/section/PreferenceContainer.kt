@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.ColumnProjector
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
+import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularPadding
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceConstants
 
@@ -16,9 +17,11 @@ fun preferenceColumnProjector(): ColumnProjector {
     val thickness = PreferenceConstants.Thickness
     val segment = (PreferenceConstants.Spacing - thickness) / 2
     return spacedColumnProjector(
-        thickness = thickness,
+        thickness = PreferenceConstants.Spacing + PreferenceConstants.Thickness,
         presenter = ColumnPresenter(
-            modifier = ModularPadding(vertical = segment)
+            divider = DividerPresenter(
+                modifier = ModularPadding(vertical = segment)
+            )
         )
     )
 }

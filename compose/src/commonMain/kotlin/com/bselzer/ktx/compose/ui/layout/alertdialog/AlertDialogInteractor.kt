@@ -31,6 +31,11 @@ data class AlertDialogInteractor(
     val title: TextInteractor? = null,
 
     /**
+     * The state of the dialog indicating whether it should be opened.
+     */
+    val state: DialogState = DialogState.OPENED,
+
+    /**
      * The block for when the user tries to dismiss the dialog by clicking outside or pressing the back button
      */
     val onDismissRequest: () -> Unit,
@@ -108,5 +113,15 @@ fun alertDialogButtonsInteractor(
  */
 enum class DialogState {
     OPENED,
-    CLOSED
+    CLOSED;
+
+    fun toBoolean() = this == OPENED
+}
+
+/**
+ * @return [DialogState.OPENED] if the [value] is true, otherwise [DialogState.CLOSED]
+ */
+fun DialogState(value: Boolean?) = when (value) {
+    true -> DialogState.OPENED
+    else -> DialogState.CLOSED
 }
