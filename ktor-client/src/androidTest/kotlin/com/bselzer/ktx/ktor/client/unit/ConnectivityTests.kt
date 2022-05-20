@@ -1,8 +1,8 @@
 package com.bselzer.ktx.ktor.client.unit
 
+import android.content.pm.ProviderInfo
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.bselzer.ktx.ktor.client.connectivity.Connectivity
 import com.bselzer.ktx.ktor.client.connectivity.ConnectivityConfiguration
 import io.ktor.client.*
@@ -10,15 +10,30 @@ import io.ktor.client.engine.mock.*
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+
 @RunWith(AndroidJUnit4::class)
 class ConnectivityTests {
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
+    private lateinit var connectivity: Connectivity
+
+    @Before
+    fun setup() {
+        val info = ProviderInfo().apply {
+            authority = "authority"
+        }
+
+        connectivity = Robolectric
+            .buildContentProvider(Connectivity::class.java)
+            .create(info)
+            .get()
+    }
 
     /**
      * Verifies that when status code validation is off then a bad status code is ignored.
@@ -35,8 +50,10 @@ class ConnectivityTests {
 
         val configuration = ConnectivityConfiguration(statusValidation = false)
 
-        val connectivity = Connectivity(configuration = configuration, httpClient = client).apply {
-            this.context = this@ConnectivityTests.context
+        connectivity.apply {
+            this.configuration = configuration
+            this.httpClient = client
+            onCreate()
         }
 
         // Act
@@ -61,8 +78,10 @@ class ConnectivityTests {
 
         val configuration = ConnectivityConfiguration(statusValidation = true)
 
-        val connectivity = Connectivity(configuration = configuration, httpClient = client).apply {
-            this.context = this@ConnectivityTests.context
+        connectivity.apply {
+            this.configuration = configuration
+            this.httpClient = client
+            onCreate()
         }
 
         // Act
@@ -91,8 +110,10 @@ class ConnectivityTests {
             )
         )
 
-        val connectivity = Connectivity(configuration = configuration, httpClient = client).apply {
-            this.context = this@ConnectivityTests.context
+        connectivity.apply {
+            this.configuration = configuration
+            this.httpClient = client
+            onCreate()
         }
 
         // Act

@@ -5,4 +5,4 @@ import io.ktor.client.*
 actual class Connectivity actual constructor(
     configuration: ConnectivityConfiguration,
     httpClient: HttpClient
-) : ConnectivityManager(configuration, httpClient)
+) : ConnectivityManager by KtorConnectivityManager(configuration, httpClient)
