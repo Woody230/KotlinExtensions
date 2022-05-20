@@ -70,6 +70,7 @@ fun KotlinDependencyHandler.projectCompose() = api(project(":compose"))
 fun KotlinDependencyHandler.projectComposeResource() = api(project(":compose-resource"))
 fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
 fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
+fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
 
 /**
  * Sets up common dependencies.

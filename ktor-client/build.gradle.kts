@@ -7,9 +7,14 @@ publishing.publish(project)
 
 android.setup()
 
+dependencies {
+    testImplementation(project(mapOf("path" to ":intent")))
+}
+
 kotlin.setup {
     commonMain {
         ktorClient()
+        projectIntent()
     }
     commonTest {
         coroutine()

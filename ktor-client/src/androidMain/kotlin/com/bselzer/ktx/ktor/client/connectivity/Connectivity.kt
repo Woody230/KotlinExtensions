@@ -1,20 +1,16 @@
 package com.bselzer.ktx.ktor.client.connectivity
 
-import android.content.ContentProvider
-import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Build
 import android.util.Log
+import com.bselzer.ktx.intent.AndroidIntent
 import io.ktor.client.*
 
 actual class Connectivity actual constructor(
     internal var configuration: ConnectivityConfiguration,
     internal var httpClient: HttpClient
-) : ContentProvider(), ConnectivityManager {
-    private val tag = this::class.simpleName
+) : AndroidIntent(), ConnectivityManager {
     private lateinit var ktor: KtorConnectivityManager
 
     override fun onCreate(): Boolean {
@@ -65,10 +61,4 @@ actual class Connectivity actual constructor(
      * Whether the [networkCapabilities] has the given [type] of transport.
      */
     fun hasTransport(type: TransportType): Boolean = networkCapabilities?.hasTransport(type.code) == true
-
-    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? = null
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int = 0
-    override fun insert(uri: Uri, values: ContentValues?): Uri? = null
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int = 0
-    override fun getType(uri: Uri): String? = null
 }
