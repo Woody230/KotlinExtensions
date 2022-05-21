@@ -21,10 +21,14 @@
     <string name="theme">Design</string>
     <string name="token">Authentifizierungstoken</string>
     <string name="refresh_interval">Aktualisierungsintervall</string>
-    <string name="version">Version</string>
     <string name="legal_notice">Rechtliche Hinweise</string>
     <string name="cache_clear">Habe den Cache geleert.</string>
     <string name="migration">Migration</string>
+
+    <!-- Versioning -->
+    <string name="version">Version</string>
+    <string name="version_code">Versionscode</string>
+    <string name="version_name">Versionsname</string>
 
     <!-- Selected -->
     <string name="selected">Ausgewählt</string>
