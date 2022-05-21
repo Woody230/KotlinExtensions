@@ -17,5 +17,5 @@ interface Presentable<Model> : Mergeable<Model> where Model : Presentable<Model>
      * Creates a localized version of this presentation.
      */
     @Composable
-    fun localized(): Model
+    fun localized(): Model // TODO add composition local usage?
 }

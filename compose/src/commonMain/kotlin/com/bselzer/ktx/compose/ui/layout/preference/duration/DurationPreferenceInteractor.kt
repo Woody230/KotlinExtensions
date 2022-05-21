@@ -6,9 +6,7 @@ import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPrefe
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
 import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 data class DurationPreferenceInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
@@ -25,24 +23,24 @@ data class DurationPreferenceInteractor(
     val downIcon: IconInteractor,
 
     /**
-     * The initial amount of the [initialUnit].
+     * The amount of the [unit].
      */
-    val initialAmount: Int = 1,
+    val amount: Int,
 
     /**
-     * The type of [Duration] component of [initialAmount].
+     * The type of [Duration] component of [amount].
      */
-    val initialUnit: DurationUnit = DurationUnit.DAYS,
+    val unit: DurationUnit,
 
     /**
-     * The minimum duration bound.
+     * Callback to perform when the value changes with the new amount and unit.
      */
-    val minimum: Duration = 0.days,
+    val onValueChange: (Int, DurationUnit) -> Unit,
 
     /**
-     * The maximum duration bound.
+     * The range of amounts to select from.
      */
-    val maximum: Duration = Int.MAX_VALUE.days,
+    val amountRange: IntRange = 1..Int.MAX_VALUE,
 
     /**
      * The selectable [DurationUnit] types.
@@ -52,10 +50,5 @@ data class DurationPreferenceInteractor(
     /**
      * Converts the [DurationUnit] into a displayable label.
      */
-    val getLabel: (DurationUnit) -> String = { it.userFriendly() }
-) : Interactor(modifier) {
-    /**
-     * The [Duration] formed from the [initialAmount] and [initialUnit].
-     */
-    val initialDuration: Duration = initialAmount.toDuration(initialUnit)
-}
+    val unitLabel: (DurationUnit) -> String = { it.userFriendly() }
+) : Interactor(modifier)

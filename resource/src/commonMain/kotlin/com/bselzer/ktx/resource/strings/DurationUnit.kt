@@ -8,7 +8,7 @@ import kotlin.time.DurationUnit.*
 /**
  * @return the [StringResource] associated with the [DurationUnit]
  */
-fun DurationUnit.resource(): StringResource = when (this) {
+fun DurationUnit.stringResource(): StringResource = when (this) {
     NANOSECONDS -> Resources.strings.nanoseconds
     MICROSECONDS -> Resources.strings.microseconds
     MILLISECONDS -> Resources.strings.milliseconds

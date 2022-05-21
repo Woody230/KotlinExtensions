@@ -16,7 +16,8 @@ data class IntegerPickerInteractor(
     override val upIcon: IconInteractor,
     override val downIcon: IconInteractor
 ) : PickerInteractor<Int>(modifier) {
-    override val selectedIndex: Int = range.toList().binarySearch(selected)
-    override val getValue: (Int) -> Int? = { index -> range.elementAtOrNull(index) }
+    // Use the selection directly instead of indexing the range.
+    override val selectedIndex: Int = selected
+    override val getValue: (Int) -> Int? = { index -> index }
     override val getLabel: (Int) -> String = { number -> number.toString() }
 }

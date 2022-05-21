@@ -1,4 +1,4 @@
-package com.bselzer.ktx.datetime.timer
+package com.bselzer.ktx.datetime.format
 
 import kotlin.time.Duration
 
