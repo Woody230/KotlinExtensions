@@ -6,12 +6,13 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
+import kotlin.reflect.KClass
 
 abstract class AndroidIntent : ContentProvider() {
     protected val tag = this::class.simpleName
 
     private companion object {
-        var applicationContext: Context? = null
+        val applicationContext: MutableMap<KClass<*>, Context> = mutableMapOf()
     }
 
     override fun onCreate(): Boolean {
@@ -19,13 +20,13 @@ abstract class AndroidIntent : ContentProvider() {
         if (context == null) {
             Log.i(tag, "Context is required but it is null.")
         } else {
-            applicationContext = context.applicationContext
+            applicationContext[this::class] = context.applicationContext
         }
 
         return true
     }
 
-    fun requireApplicationContext(): Context = requireNotNull(applicationContext) { "Context is required but it is not initialized." }
+    fun requireApplicationContext(): Context = requireNotNull(applicationContext[this::class]) { "Context is required but it is not initialized." }
 
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? = null
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int = 0
