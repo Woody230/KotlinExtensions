@@ -3,7 +3,6 @@ package com.bselzer.ktx.ktor.client.connectivity
 import android.content.Context
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.util.Log
 import com.bselzer.ktx.intent.AndroidIntent
 import io.ktor.client.*
 
@@ -14,23 +13,15 @@ actual class Connectivity actual constructor(
     private lateinit var ktor: KtorConnectivityManager
 
     override fun onCreate(): Boolean {
-        if (context == null) {
-            Log.i(tag, "Context is required to determine connectivity but it is null.")
-        }
-
         ktor = KtorConnectivityManager(configuration, httpClient)
-        return true
+        return super.onCreate()
     }
 
     /**
      * The connectivity service associated with the context.
      */
     private val connectivityManager: android.net.ConnectivityManager
-        get() {
-            val context = context
-            checkNotNull(context) { "Context is required to access the android.net.ConnectivityManager" }
-            return context.getSystemService(Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
-        }
+        get() = requireApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
 
     /**
      * The network capabilities associated with the active network for Marshmallow and up.

@@ -8,7 +8,7 @@ import com.bselzer.ktx.intent.AndroidIntent
 internal actual class AppEmailer actual constructor() : AndroidIntent(), Emailer {
     override fun send(email: Email): Boolean {
         return try {
-            val context = context ?: return false
+            val context = requireApplicationContext()
 
             // https://developer.android.com/guide/components/intents-common#ComposeEmail
             // SENDTO for no attachment
