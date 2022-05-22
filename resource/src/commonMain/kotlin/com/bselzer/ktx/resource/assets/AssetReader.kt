@@ -6,7 +6,7 @@ interface AssetReader {
     /**
      * Reads the [AssetResource] as text.
      */
-    fun AssetResource.text(): String
+    fun AssetResource.readText(): String
 
     companion object : AssetReader by SystemAssetReader()
 }
