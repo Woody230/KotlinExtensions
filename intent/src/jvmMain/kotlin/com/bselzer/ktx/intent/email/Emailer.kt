@@ -1,12 +1,13 @@
 package com.bselzer.ktx.intent.email
 
 import com.bselzer.ktx.intent.JvmIntent
+import com.bselzer.ktx.logging.Logger
 import java.awt.Desktop
 import java.net.URI
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-internal actual class AppEmailer actual constructor() : JvmIntent(), Emailer {
+internal actual class SystemEmailer actual constructor() : JvmIntent(), Emailer {
     override fun send(email: Email): Boolean {
         return try {
             val desktop = desktop ?: return false
@@ -38,7 +39,7 @@ internal actual class AppEmailer actual constructor() : JvmIntent(), Emailer {
             desktop.mail(uri)
             true
         } catch (ex: Exception) {
-            logger.log(System.Logger.Level.ERROR, "Failed to send $email", ex)
+            Logger.e(ex) { "Failed to send $email" }
             false
         }
     }

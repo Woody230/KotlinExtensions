@@ -9,8 +9,8 @@ interface Browser {
      */
     fun open(uri: String): Boolean
 
-    companion object : Browser by AppBrowser()
+    companion object : Browser by SystemBrowser()
 }
 
-internal expect class AppBrowser() : Browser
+internal expect class SystemBrowser() : Browser
 

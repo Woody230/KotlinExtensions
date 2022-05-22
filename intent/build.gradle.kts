@@ -8,7 +8,9 @@ publishing.publish(project)
 android.setup()
 
 kotlin.setup {
-    commonMain()
+    commonMain {
+        projectLogging()
+    }
     commonTest()
     androidTest()
     jvmTest()

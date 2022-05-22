@@ -11,6 +11,8 @@ android.setup()
 kotlin.setup {
     commonMain {
         ktxSerialization()
+        xmlSerialization()
+        projectLogging()
     }
     commonTest()
     jvmTest()

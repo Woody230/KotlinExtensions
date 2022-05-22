@@ -1,7 +1,7 @@
 package com.bselzer.ktx.serialization
 
-import com.bselzer.ktx.serialization.function.enumValueOrNull
-import com.bselzer.ktx.serialization.function.validEnumValues
+import com.bselzer.ktx.serialization.json.function.enumValueOrNull
+import com.bselzer.ktx.serialization.json.function.validEnumValues
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.test.Test

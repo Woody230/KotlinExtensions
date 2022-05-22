@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
-internal class EmailerTests : AndroidIntentTests<AppEmailer>() {
-    override val intentClass: KClass<AppEmailer> = AppEmailer::class
+internal class EmailerTests : AndroidIntentTests<SystemEmailer>() {
+    override val intentClass: KClass<SystemEmailer> = SystemEmailer::class
 
     @Test
     fun sendFull() {

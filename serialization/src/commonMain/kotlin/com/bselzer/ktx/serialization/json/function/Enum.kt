@@ -1,4 +1,4 @@
-package com.bselzer.ktx.serialization.function
+package com.bselzer.ktx.serialization.json.function
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive

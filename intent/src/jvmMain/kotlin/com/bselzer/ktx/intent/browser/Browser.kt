@@ -1,10 +1,11 @@
 package com.bselzer.ktx.intent.browser
 
 import com.bselzer.ktx.intent.JvmIntent
+import com.bselzer.ktx.logging.Logger
 import java.awt.Desktop
 import java.net.URI
 
-internal actual class AppBrowser actual constructor() : JvmIntent(), Browser {
+internal actual class SystemBrowser actual constructor() : JvmIntent(), Browser {
     override fun open(uri: String): Boolean {
         return try {
             val desktop = desktop ?: return false
@@ -15,7 +16,7 @@ internal actual class AppBrowser actual constructor() : JvmIntent(), Browser {
             desktop.browse(URI.create(uri))
             true
         } catch (ex: Exception) {
-            logger.log(System.Logger.Level.ERROR, "Failed to open the uri $uri.", ex)
+            Logger.e(ex) { "Failed to open the uri $uri." }
             false
         }
     }

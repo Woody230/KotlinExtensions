@@ -2,10 +2,10 @@ package com.bselzer.ktx.intent.browser
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import com.bselzer.ktx.intent.AndroidIntent
+import com.bselzer.ktx.logging.Logger
 
-internal actual class AppBrowser actual constructor() : AndroidIntent(), Browser {
+internal actual class SystemBrowser actual constructor() : AndroidIntent(), Browser {
     override fun open(uri: String): Boolean {
         return try {
             val context = requireApplicationContext()
@@ -16,7 +16,7 @@ internal actual class AppBrowser actual constructor() : AndroidIntent(), Browser
             context.startActivity(intent)
             true
         } catch (ex: Exception) {
-            Log.e(tag, "Failed to open the uri $uri", ex)
+            Logger.e(ex) { "Failed to open the uri $uri" }
             false
         }
     }

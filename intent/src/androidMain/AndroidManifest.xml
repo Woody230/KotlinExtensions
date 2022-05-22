@@ -4,11 +4,11 @@
 
     <application>
         <provider
-            android:name="com.bselzer.ktx.intent.browser.AppBrowser"
+            android:name="com.bselzer.ktx.intent.browser.SystemBrowser"
             android:authorities="${applicationId}.Browser"
             android:exported="false" />
         <provider
-            android:name="com.bselzer.ktx.intent.email.AppEmailer"
+            android:name="com.bselzer.ktx.intent.email.SystemEmailer"
             android:authorities="${applicationId}.Emailer"
             android:exported="false" />
     </application>

@@ -5,12 +5,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.util.Log
+import com.bselzer.ktx.logging.Logger
 import kotlin.reflect.KClass
 
 abstract class AndroidIntent : ContentProvider() {
-    protected val tag = this::class.simpleName
-
     private companion object {
         val applicationContext: MutableMap<KClass<*>, Context> = mutableMapOf()
     }
@@ -18,7 +16,7 @@ abstract class AndroidIntent : ContentProvider() {
     override fun onCreate(): Boolean {
         val context = context
         if (context == null) {
-            Log.i(tag, "Context is required but it is null.")
+            Logger.i { "Context is required but it is null." }
         } else {
             applicationContext[this::class] = context.applicationContext
         }

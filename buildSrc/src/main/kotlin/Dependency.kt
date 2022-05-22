@@ -28,6 +28,7 @@ private const val LOGGING = "2.4.0"
 private const val LICENSING = "10.0.0"
 private const val KTOR = "2.0.1"
 private const val ANDROID_COMPOSE = "1.1.1"
+private const val XML = "0.84.0"
 const val RESOURCE = "0.19.0"
 const val COMPOSE = "1.1.0"
 const val KOTLIN = "1.6.10"
@@ -46,6 +47,8 @@ fun KotlinDependencyHandler.multiplatformSettings() {
     api("com.russhwolf:multiplatform-settings:$SETTINGS")
     api("com.russhwolf:multiplatform-settings-coroutines:$SETTINGS")
 }
+
+fun KotlinDependencyHandler.xmlSerialization() = api("io.github.pdvrieze.xmlutil:serialization:$XML")
 
 fun KotlinDependencyHandler.resources() = api("dev.icerock.moko:resources:$RESOURCE")
 fun KotlinDependencyHandler.resourcesCompose() = api("dev.icerock.moko:resources-compose:$RESOURCE")
@@ -71,6 +74,7 @@ fun KotlinDependencyHandler.projectComposeResource() = api(project(":compose-res
 fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
 fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
 fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
+fun KotlinDependencyHandler.projectLogging() = api(project(":logging"))
 
 /**
  * Sets up common dependencies.
@@ -187,6 +191,13 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    publishing {
+        multipleVariants {
+            allVariants()
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
     block(this)
 }

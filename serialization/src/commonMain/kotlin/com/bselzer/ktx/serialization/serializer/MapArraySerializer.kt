@@ -6,7 +6,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 /**
- * The serializer for converting a json array of json arrays into a map.
+ * The serializer for converting an array of arrays into a map.
  */
 // TODO https://github.com/Kotlin/kotlinx.serialization/issues/1587 Despite not needing a second generic parameter, it is required for the plugin to work.
 open class MapArraySerializer<Key, Value>(keySerializer: KSerializer<Key>, valueSerializer: KSerializer<Value>) :
@@ -22,7 +22,7 @@ open class MapArraySerializer<Key, Value>(keySerializer: KSerializer<Key>, value
     override fun deserialize(decoder: Decoder): Map<Key, Key>
     {
         val lists = listSerializer.deserialize(decoder)
-        return lists.map { list -> list[0] to list[1] }.toMap()
+        return lists.associate { list -> list[0] to list[1] }
     }
 
     override fun serialize(encoder: Encoder, value: Map<Key, Key>)

@@ -8,7 +8,7 @@ interface Emailer {
      */
     fun send(email: Email): Boolean
 
-    companion object : Emailer by AppEmailer()
+    companion object : Emailer by SystemEmailer()
 }
 
-internal expect class AppEmailer() : Emailer
+internal expect class SystemEmailer() : Emailer

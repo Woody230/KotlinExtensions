@@ -18,6 +18,7 @@ kotlin.setup {
     commonMain {
         resources()
         ktxDateTime()
+        projectIntent()
     }
     commonTest()
 }

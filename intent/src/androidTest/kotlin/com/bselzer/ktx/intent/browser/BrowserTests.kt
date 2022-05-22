@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
-internal class BrowserTests : AndroidIntentTests<AppBrowser>() {
-    override val intentClass: KClass<AppBrowser> = AppBrowser::class
+internal class BrowserTests : AndroidIntentTests<SystemBrowser>() {
+    override val intentClass: KClass<SystemBrowser> = SystemBrowser::class
 
     @Test
     fun open() {

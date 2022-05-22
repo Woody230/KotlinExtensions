@@ -2,10 +2,10 @@ package com.bselzer.ktx.intent.email
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import com.bselzer.ktx.intent.AndroidIntent
+import com.bselzer.ktx.logging.Logger
 
-internal actual class AppEmailer actual constructor() : AndroidIntent(), Emailer {
+internal actual class SystemEmailer actual constructor() : AndroidIntent(), Emailer {
     override fun send(email: Email): Boolean {
         return try {
             val context = requireApplicationContext()
@@ -29,7 +29,7 @@ internal actual class AppEmailer actual constructor() : AndroidIntent(), Emailer
             context.startActivity(intent)
             true
         } catch (ex: Exception) {
-            Log.e(tag, "Failed to send $email", ex)
+            Logger.e(ex) { "Failed to send $email" }
             false
         }
     }
