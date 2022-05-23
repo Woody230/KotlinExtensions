@@ -38,6 +38,9 @@ class ScaffoldProjector(
         CompositionLocalProvider(
             LocalSnackbarHostState provides snackbarHost
         ) {
+            // The scaffold controls displaying the drawer and so we cannot project the whole drawer, just its content.
+            // Consequently, we must provide the drawer components explicitly by localizing the presenter right now.
+            val drawer = presenter.drawer.localized()
             Scaffold(
                 modifier = combinedModifier,
                 scaffoldState = rememberScaffoldState(
@@ -54,11 +57,11 @@ class ScaffoldProjector(
                 isFloatingActionButtonDocked = presenter.isFloatingActionButtonDocked.toBoolean(),
                 drawerContent = drawerProjector?.let { { it.DrawerContent() } },
                 drawerGesturesEnabled = interactor.drawer?.gesturesEnabled ?: true,
-                drawerShape = presenter.drawer.shape,
-                drawerElevation = presenter.drawer.elevation,
-                drawerBackgroundColor = presenter.drawer.backgroundColor,
-                drawerContentColor = presenter.drawer.contentColor,
-                drawerScrimColor = presenter.drawer.scrimColor,
+                drawerShape = drawer.shape,
+                drawerElevation = drawer.elevation,
+                drawerBackgroundColor = drawer.backgroundColor,
+                drawerContentColor = drawer.contentColor,
+                drawerScrimColor = drawer.scrimColor,
                 backgroundColor = presenter.backgroundColor,
                 contentColor = presenter.contentColor,
                 content = content
