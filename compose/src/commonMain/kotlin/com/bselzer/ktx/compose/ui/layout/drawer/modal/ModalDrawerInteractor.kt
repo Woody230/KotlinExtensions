@@ -2,8 +2,12 @@ package com.bselzer.ktx.compose.ui.layout.drawer.modal
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
+import com.bselzer.ktx.compose.ui.layout.drawer.LocalDrawerState
 import com.bselzer.ktx.compose.ui.layout.drawer.header.DrawerHeaderInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
@@ -35,3 +39,17 @@ data class ModalDrawerInteractor(
         val Default = ModalDrawerInteractor()
     }
 }
+
+/**
+ * Remembers the [DrawerState] of the [ModalDrawerInteractor] and provides it to the [LocalDrawerState].
+ */
+@Composable
+fun ModalDrawerInteractor.rememberState(
+    content: @Composable () -> Unit
+) = CompositionLocalProvider(
+    LocalDrawerState provides rememberSaveable(
+        saver = DrawerState.Saver(confirmStateChange),
+        init = { state }
+    ),
+    content = content
+)
