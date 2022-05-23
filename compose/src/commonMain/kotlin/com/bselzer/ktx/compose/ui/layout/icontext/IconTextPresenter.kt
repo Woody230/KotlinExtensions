@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.icontext
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.icon.IconPresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
@@ -37,12 +36,5 @@ data class IconTextPresenter(
         container = container.merge(other.container),
         icon = icon.merge(other.icon),
         text = text.merge(other.text)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        container = container.localized(),
-        icon = icon.localized(),
-        text = text.localized()
     )
 }

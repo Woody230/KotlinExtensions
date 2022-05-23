@@ -45,13 +45,7 @@ data class DescriptionPresenter(
     override fun localized() = DescriptionPresenter(
         title = descriptionTitlePresenter(),
         subtitle = descriptionSubtitlePresenter()
-    ).merge(this).run {
-        copy(
-            container = container.localized(),
-            title = title.localized(),
-            subtitle = subtitle.localized()
-        )
-    }
+    ).merge(this)
 }
 
 /**

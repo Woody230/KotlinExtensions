@@ -75,7 +75,6 @@ data class BottomAppBarPresenter(
         contentPadding = AppBarDefaults.ContentPadding
     ).merge(this).run {
         copy(
-            icon = icon.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

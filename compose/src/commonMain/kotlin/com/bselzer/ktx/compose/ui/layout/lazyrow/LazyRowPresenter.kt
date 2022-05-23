@@ -86,7 +86,6 @@ data class LazyRowPresenter(
         flingBehavior = ScrollableDefaults.flingBehavior()
     ).merge(this).run {
         copy(
-            divider = divider.localized(),
             horizontalArrangement = if (ComposeMerger.horizontalArrangement.isDefault(horizontalArrangement)) {
                 if (!reverseLayout.toBoolean()) Arrangement.Start else Arrangement.End
             } else {

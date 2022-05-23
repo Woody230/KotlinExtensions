@@ -36,12 +36,7 @@ data class PreferencePresenter(
     @Composable
     override fun localized() = PreferencePresenter(
         image = preferenceImagePresenter()
-    ).merge(this).run {
-        copy(
-            image = image.localized(),
-            description = description.localized()
-        )
-    }
+    ).merge(this)
 }
 
 @Composable

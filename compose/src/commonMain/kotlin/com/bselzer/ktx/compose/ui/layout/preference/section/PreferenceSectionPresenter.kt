@@ -37,10 +37,5 @@ data class PreferenceSectionPresenter(
     override fun localized() = PreferenceSectionPresenter(
         image = preferenceImagePresenter(),
         title = descriptionTitlePresenter()
-    ).merge(this).run {
-        copy(
-            image = image.localized(),
-            title = title.localized()
-        )
-    }
+    ).merge(this)
 }

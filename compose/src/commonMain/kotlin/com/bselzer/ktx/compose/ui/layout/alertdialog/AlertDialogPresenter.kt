@@ -74,8 +74,6 @@ data class AlertDialogPresenter(
         backgroundColor = MaterialTheme.colors.surface
     ).merge(this).run {
         copy(
-            button = button.localized(),
-            title = title.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

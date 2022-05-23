@@ -32,10 +32,5 @@ data class SingleChoicePresenter(
         text = TextPresenter(
             textStyle = MaterialTheme.typography.body1
         )
-    ).merge(this).run {
-        copy(
-            radioButton = radioButton.localized(),
-            text = text.localized()
-        )
-    }
+    ).merge(this)
 }

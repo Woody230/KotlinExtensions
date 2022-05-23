@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.preference.duration
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.picker.PickerPresenter
@@ -21,11 +20,5 @@ data class DurationPreferencePresenter(
         modifier = modifier.merge(other.modifier),
         preference = preference.merge(other.preference),
         picker = picker.merge(other.picker)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        preference = preference.localized(),
-        picker = picker.localized()
     )
 }

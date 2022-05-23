@@ -46,11 +46,5 @@ data class TextPreferencePresenter(
         image = preferenceImagePresenter(),
         title = descriptionTitlePresenter(),
         subtitle = descriptionSubtitlePresenter()
-    ).merge(this).run {
-        copy(
-            image = image.localized(),
-            title = title.localized(),
-            subtitle = subtitle.localized()
-        )
-    }
+    ).merge(this)
 }

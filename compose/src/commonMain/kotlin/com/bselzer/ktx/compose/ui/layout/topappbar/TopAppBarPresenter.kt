@@ -70,8 +70,6 @@ data class TopAppBarPresenter(
         elevation = AppBarDefaults.TopAppBarElevation
     ).merge(this).run {
         copy(
-            title = title.localized(),
-            icon = icon.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

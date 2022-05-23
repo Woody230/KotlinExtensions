@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.preference.checkbox
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.checkbox.CheckboxPresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
@@ -21,11 +20,5 @@ data class CheckboxPreferencePresenter(
         modifier = modifier.merge(other.modifier),
         preference = preference.merge(other.preference),
         checkbox = checkbox.merge(other.checkbox)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        preference = preference.localized(),
-        checkbox = checkbox.localized()
     )
 }

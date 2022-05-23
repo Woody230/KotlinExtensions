@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.centeredtext
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
@@ -30,11 +29,5 @@ data class CenteredTextPresenter(
         modifier = modifier.merge(other.modifier),
         text = text.merge(other.text),
         spacer = spacer.merge(other.spacer)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        text = text.localized(),
-        spacer = spacer.localized()
     )
 }

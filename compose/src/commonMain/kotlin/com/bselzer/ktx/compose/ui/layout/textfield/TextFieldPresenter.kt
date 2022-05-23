@@ -84,10 +84,5 @@ data class TextFieldPresenter(
         maxLines = Int.MAX_VALUE,
         shape = MaterialTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize),
         colors = TextFieldDefaults.textFieldColors()
-    ).merge(this).run {
-        copy(
-            label = label.localized(),
-            icon = icon.localized()
-        )
-    }
+    ).merge(this)
 }

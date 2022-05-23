@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.badgetext
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.badge.BadgePresenter
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
@@ -21,11 +20,5 @@ data class BadgeTextPresenter(
         modifier = modifier.merge(other.modifier),
         badge = badge.merge(other.badge),
         text = text.merge(other.text)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        badge = badge.localized(),
-        text = text.localized()
     )
 }

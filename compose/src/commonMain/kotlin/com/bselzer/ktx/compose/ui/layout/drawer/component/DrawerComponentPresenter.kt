@@ -48,11 +48,5 @@ data class DrawerComponentPresenter(
             overflow = TextOverflow.Ellipsis,
             textStyle = MaterialTheme.typography.body2
         )
-    ).merge(this).run {
-        copy(
-            container = container.localized(),
-            icon = icon.localized(),
-            text = text.localized(),
-        )
-    }
+    ).merge(this)
 }

@@ -92,11 +92,6 @@ data class ScaffoldPresenter(
         isFloatingActionButtonDocked = TriState.FALSE,
     ).merge(this).run {
         copy(
-            drawer = drawer.localized(),
-            snackbarHost = snackbarHost.localized(),
-            topBar = topBar.localized(),
-            bottomBar = bottomBar.localized(),
-            floatingActionButton = floatingActionButton.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

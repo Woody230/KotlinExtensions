@@ -84,9 +84,6 @@ data class ModalDrawerPresenter(
         scrimColor = DrawerDefaults.scrimColor
     ).merge(this).run {
         copy(
-            container = container.localized(),
-            header = header.localized(),
-            section = section.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.snackbarhost
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
@@ -24,7 +23,4 @@ data class SnackbarHostPresenter(
         modifier = modifier.merge(other.modifier),
         snackbar = snackbar.merge(other.snackbar)
     )
-
-    @Composable
-    override fun localized() = copy(snackbar = snackbar.localized())
 }

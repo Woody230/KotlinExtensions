@@ -47,11 +47,5 @@ data class DrawerSectionPresenter(
             overflow = TextOverflow.Ellipsis,
             textStyle = MaterialTheme.typography.body2
         )
-    ).merge(this).run {
-        copy(
-            container = container.localized(),
-            title = title.localized(),
-            component = component.localized()
-        )
-    }
+    ).merge(this)
 }

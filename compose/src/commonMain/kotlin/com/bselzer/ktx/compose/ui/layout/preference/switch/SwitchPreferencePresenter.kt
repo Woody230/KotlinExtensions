@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.preference.switch
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
@@ -21,11 +20,5 @@ data class SwitchPreferencePresenter(
         modifier = modifier.merge(other.modifier),
         preference = preference.merge(other.preference),
         switch = switch.merge(other.switch)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        preference = preference.localized(),
-        switch = switch.localized()
     )
 }

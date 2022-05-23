@@ -73,8 +73,6 @@ data class FloatingActionButtonPresenter(
         elevation = FloatingActionButtonDefaults.elevation()
     ).merge(this).run {
         copy(
-            text = text.localized(),
-            icon = icon.localized(),
             contentColor = if (ComposeMerger.color.isDefault(contentColor)) contentColorFor(backgroundColor) else contentColor
         )
     }

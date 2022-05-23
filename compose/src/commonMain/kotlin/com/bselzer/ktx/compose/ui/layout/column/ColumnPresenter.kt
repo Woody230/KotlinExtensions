@@ -65,7 +65,5 @@ data class ColumnPresenter(
         append = TriState.FALSE,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
-    ).merge(this).run {
-        copy(divider = divider.localized())
-    }
+    ).merge(this)
 }

@@ -1,6 +1,5 @@
 package com.bselzer.ktx.compose.ui.layout.preference.textfield
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferencePresenter
@@ -36,12 +35,5 @@ data class TextFieldPreferencePresenter(
         preference = preference.merge(other.preference),
         inputDescription = inputDescription.merge(other.inputDescription),
         input = input.merge(other.input)
-    )
-
-    @Composable
-    override fun localized() = copy(
-        preference = preference.localized(),
-        inputDescription = inputDescription.localized(),
-        input = input.localized()
     )
 }

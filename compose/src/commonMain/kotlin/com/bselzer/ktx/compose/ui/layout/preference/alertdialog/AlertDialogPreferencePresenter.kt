@@ -29,10 +29,5 @@ data class AlertDialogPreferencePresenter(
         dialog = AlertDialogPresenter(
             title = descriptionTitlePresenter()
         )
-    ).merge(this).run {
-        copy(
-            preference = preference.localized(),
-            dialog = dialog.localized()
-        )
-    }
+    ).merge(this)
 }

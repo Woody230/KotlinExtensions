@@ -86,7 +86,6 @@ data class LazyColumnPresenter(
         flingBehavior = ScrollableDefaults.flingBehavior()
     ).merge(this).run {
         copy(
-            divider = divider.localized(),
             verticalArrangement = if (ComposeMerger.verticalArrangement.isDefault(verticalArrangement)) {
                 if (!reverseLayout.toBoolean()) Arrangement.Top else Arrangement.Bottom
             } else {

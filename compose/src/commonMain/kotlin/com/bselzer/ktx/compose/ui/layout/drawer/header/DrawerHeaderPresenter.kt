@@ -36,9 +36,5 @@ data class DrawerHeaderPresenter(
             modifier = ModularSize.FillWidth then ModularPadding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
-    ).merge(this).copy(
-        container = container.localized(),
-        image = image.localized(),
-        description = description.localized(),
-    )
+    ).merge(this)
 }

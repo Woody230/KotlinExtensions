@@ -79,14 +79,5 @@ data class LibraryPresenter(
                 backgroundColor = MaterialTheme.colors.primary
             )
         )
-    ).merge(this).run {
-        copy(
-            dialog = dialog.localized(),
-            dialogBody = dialogBody.localized(),
-            container = container.localized(),
-            title = title.localized(),
-            subtitle = subtitle.localized(),
-            badge = badge.localized()
-        )
-    }
+    ).merge(this)
 }

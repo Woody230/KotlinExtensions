@@ -25,8 +25,7 @@ data class TextButtonPresenter(
     )
 
     @Composable
-    override fun localized() = copy(
-        button = button.localized(type = ButtonType.TEXT),
-        text = text.localized()
-    )
+    override fun localized() = TextButtonPresenter(
+        button = ButtonPresenter(type = ButtonType.TEXT)
+    ).merge(this)
 }
