@@ -12,7 +12,7 @@ data class IconButtonPresenter(
     /**
      * The [Presentable] for the icon.
      */
-    val icon: IconPresenter = IconPresenter()
+    val icon: IconPresenter = IconPresenter.Default
 ) : Presenter<IconButtonPresenter>(modifier) {
     companion object {
         @Stable
