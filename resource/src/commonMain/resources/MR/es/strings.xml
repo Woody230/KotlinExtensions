@@ -26,6 +26,9 @@
     <string name="migration">Migración</string>
     <string name="overview">Resumen</string>
 
+    <!-- Locale -->
+    <string name="language">Idioma</string>
+
     <!-- Versioning -->
     <string name="version">Versión</string>
     <string name="version_code">Código de Versión</string>

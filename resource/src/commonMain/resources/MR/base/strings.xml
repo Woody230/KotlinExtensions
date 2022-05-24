@@ -26,6 +26,13 @@
     <string name="migration">Migration</string>
     <string name="overview">Overview</string>
 
+    <!-- Locale -->
+    <string name="language">Language</string>
+    <string name="locale_en">English</string>
+    <string name="locale_fr">Français</string>
+    <string name="locale_de">Deutsch</string>
+    <string name="locale_es">Español</string>
+
     <!-- Versioning -->
     <string name="version">Version</string>
     <string name="version_code">Version Code</string>

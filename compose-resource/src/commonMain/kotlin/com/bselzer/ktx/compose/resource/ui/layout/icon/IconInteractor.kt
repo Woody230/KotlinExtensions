@@ -173,3 +173,9 @@ fun triStateCheckboxIconInteractor(state: ToggleableState) = IconInteractor(
         }
     )
 )
+
+@Composable
+fun languageIconInteractor() = IconInteractor(
+    painter = Resources.images.ic_language.painter(),
+    contentDescription = stringResource(Resources.strings.about_app)
+)
