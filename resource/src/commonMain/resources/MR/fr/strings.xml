@@ -24,6 +24,7 @@
     <string name="legal_notice">Avis Légaux</string>
     <string name="cache_clear">Vidé le cache.</string>
     <string name="migration">Migration</string>
+    <string name="overview">Aperçu</string>
 
     <!-- Versioning -->
     <string name="version">Version</string>
@@ -62,4 +63,10 @@
     <string name="minutes">Minutes</string>
     <string name="hours">Heures</string>
     <string name="days">Jours</string>
+
+    <!-- Colors -->
+    <string name="red">Rouge</string>
+    <string name="blue">Bleu</string>
+    <string name="green">Vert</string>
+    <string name="gray">Gris</string>
 </resources>
