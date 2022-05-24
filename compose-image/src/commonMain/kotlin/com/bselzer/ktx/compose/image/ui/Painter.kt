@@ -1,6 +1,8 @@
 package com.bselzer.ktx.compose.image.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -14,25 +16,32 @@ import com.bselzer.ktx.compose.image.model.Image
 internal expect fun ByteArray.asImageBitmap(): ImageBitmap
 
 /**
- * Creates a painter with the byte content from the [image].
+ * Creates a painter with the byte content from the image associated with the [url].
  *
- * @param image the image to create a painter for
+ * @param url the url to retrieve the image from
+ * @param getImage the block for retrieving the image from the [url]
  * @param offset the subsection of the image to draw
  * @param filterQuality the sampling algorithm applied to the image when it is scaled
  */
 @Composable
 fun rememberImagePainter(
-    image: Image?,
+    url: String,
+    getImage: suspend (String) -> Image?,
     offset: IntOffset = IntOffset.Zero,
     filterQuality: FilterQuality = FilterQuality.Low,
 ): Painter? {
-    val content = if (image?.content?.isNotEmpty() == true) image.content else null
+    val image by produceState<Image?>(initialValue = null, key1 = url) {
+        value = run {
+            val image = getImage(url)
+            if (image?.content?.isNotEmpty() == true) image else null
+        }
+    }
 
     // Attempt to convert the image bytes into a bitmap.
-    val bitmap = content?.let {
+    val bitmap = image?.let {
         try {
             // TODO transformations
-            content.asImageBitmap()
+            it.content.asImageBitmap()
         } catch (ex: Exception) {
             null
         }
