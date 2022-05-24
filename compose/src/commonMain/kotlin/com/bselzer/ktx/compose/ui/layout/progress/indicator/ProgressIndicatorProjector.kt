@@ -15,12 +15,12 @@ class ProgressIndicatorProjector<Presenter>(
 ) where Presenter : ProgressIndicatorPresenter<Presenter> {
     companion object {
         @Stable
-        val IndefiniteCircular = ProgressIndicatorProjector(
+        val IndeterminateCircular = ProgressIndicatorProjector(
             presenter = CircularIndicatorPresenter.Default
         )
 
         @Stable
-        val IndefiniteLinear = ProgressIndicatorProjector(
+        val IndeterminateLinear = ProgressIndicatorProjector(
             presenter = LinearIndicatorPresenter.Default
         )
     }

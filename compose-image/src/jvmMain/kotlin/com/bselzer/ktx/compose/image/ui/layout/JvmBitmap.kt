@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.image.ui
+package com.bselzer.ktx.compose.image.ui.layout
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap

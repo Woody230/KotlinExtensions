@@ -11,12 +11,9 @@ android.setupWithCompose()
 
 kotlin.setup {
     commonMain {
-        runtime()
-        ui()
-        material()
-        foundation()
         ktorClient()
         ktxSerialization()
+        projectCompose()
         projectKodeinDb()
     }
     commonTest()

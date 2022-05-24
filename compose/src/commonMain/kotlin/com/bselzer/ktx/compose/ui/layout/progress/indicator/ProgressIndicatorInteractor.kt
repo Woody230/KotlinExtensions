@@ -11,7 +11,7 @@ data class ProgressIndicatorInteractor(
      * The progress of this progress indicator, where 0.0 represents no progress and 1.0 represents full progress.
      * Values outside of this range are coerced into the range.
      *
-     * If the progress is null, then the state is treated as indefinite.
+     * If the progress is null, then it is considered indeterminate.
      */
     val progress: Float? = null
 ) : Interactor(modifier) {
