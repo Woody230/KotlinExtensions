@@ -10,4 +10,9 @@ interface StringLocalizer {
     companion object : StringLocalizer by SystemStringLocalizer()
 }
 
-internal expect class SystemStringLocalizer() : StringLocalizer
+internal abstract class BaseSystemStringLocalizer : StringLocalizer {
+    @Composable
+    protected fun List<Any>.localize(): Array<Any> = map { arg -> if (arg is StringDesc) localize(arg) else arg.toString() }.toTypedArray()
+}
+
+internal expect class SystemStringLocalizer() : BaseSystemStringLocalizer

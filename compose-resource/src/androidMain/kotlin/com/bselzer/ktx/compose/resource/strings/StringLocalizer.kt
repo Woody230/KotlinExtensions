@@ -6,10 +6,11 @@ import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import dev.icerock.moko.resources.desc.*
 import java.util.*
 
-internal actual class SystemStringLocalizer actual constructor() : StringLocalizer {
+internal actual class SystemStringLocalizer actual constructor() : BaseSystemStringLocalizer() {
     private val context
         @Composable
         get() = run {
+            // Use the LocalLocale which allows for locally defining locales instead of just by a global which is what moko does.
             val context = LocalContext.current
             val locale = Locale(LocalLocale.current.toLanguageTag())
             val configuration = context.resources.configuration.apply { setLocale(locale) }
@@ -29,7 +30,4 @@ internal actual class SystemStringLocalizer actual constructor() : StringLocaliz
         is ResourceStringDesc -> context.resources.getString(desc.stringRes.resourceId)
         else -> throw NotImplementedError("Unable to localize an unsupported StringDesc: $desc")
     }
-
-    @Composable
-    private fun List<Any>.localize(): Array<Any> = map { arg -> if (arg is StringDesc) localize(arg) else arg.toString() }.toTypedArray()
 }
