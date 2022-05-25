@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,12 +29,17 @@ class SingleChoiceProjector<Choice>(
             items(interactor.values) { choice ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().clickable {
+                        // Allow the whole row to be clickable instead of just the radio button.
+                        interactor.onSelection(choice)
+                    }
                 ) {
                     RadioButtonProjector(
                         presenter = presenter.radioButton,
                         interactor = RadioButtonInteractor(
                             selected = choice == interactor.selected,
+
+                            // Keep the radio button onClick so that minimum touch size is applied.
                             onClick = { interactor.onSelection(choice) }
                         ),
                     ).Projection()
