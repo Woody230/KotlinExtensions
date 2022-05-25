@@ -7,7 +7,8 @@ import androidx.compose.ui.state.ToggleableState
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.resource.Resources
-import dev.icerock.moko.resources.compose.stringResource
+import dev.icerock.moko.resources.compose.localized
+import dev.icerock.moko.resources.desc.desc
 
 /**
  * Creates an interactor for indicating the deletion of an element.
@@ -15,7 +16,7 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 fun deleteIconInteractor() = IconInteractor(
     painter = Icons.Filled.Delete.painter(),
-    contentDescription = stringResource(resource = Resources.strings.delete),
+    contentDescription = Resources.strings.delete.desc().localized(),
 )
 
 /**
@@ -24,7 +25,7 @@ fun deleteIconInteractor() = IconInteractor(
 @Composable
 fun upIconInteractor() = IconInteractor(
     painter = Icons.Filled.KeyboardArrowUp.painter(),
-    contentDescription = stringResource(Resources.strings.up),
+    contentDescription = Resources.strings.up.desc().localized(),
 )
 
 /**
@@ -33,7 +34,7 @@ fun upIconInteractor() = IconInteractor(
 @Composable
 fun downIconInteractor() = IconInteractor(
     painter = Icons.Filled.KeyboardArrowDown.painter(),
-    contentDescription = stringResource(Resources.strings.down),
+    contentDescription = Resources.strings.down.desc().localized(),
 )
 
 /**
@@ -42,7 +43,7 @@ fun downIconInteractor() = IconInteractor(
 @Composable
 fun leftIconInteractor() = IconInteractor(
     painter = Icons.Filled.KeyboardArrowLeft.painter(),
-    contentDescription = stringResource(Resources.strings.left),
+    contentDescription = Resources.strings.left.desc().localized(),
 )
 
 /**
@@ -51,7 +52,7 @@ fun leftIconInteractor() = IconInteractor(
 @Composable
 fun rightIconInteractor() = IconInteractor(
     painter = Icons.Filled.KeyboardArrowRight.painter(),
-    contentDescription = stringResource(Resources.strings.right),
+    contentDescription = Resources.strings.right.desc().localized(),
 )
 
 /**
@@ -60,7 +61,7 @@ fun rightIconInteractor() = IconInteractor(
 @Composable
 fun dropdownIconInteractor() = IconInteractor(
     painter = Icons.Filled.MoreVert.painter(),
-    contentDescription = stringResource(resource = Resources.strings.more_options),
+    contentDescription = Resources.strings.more_options.desc().localized(),
 )
 
 /**
@@ -71,7 +72,10 @@ fun dropdownIconInteractor() = IconInteractor(
 @Composable
 fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
     painter = if (isExpanded) Icons.Filled.KeyboardArrowUp.painter() else Icons.Filled.KeyboardArrowDown.painter(),
-    contentDescription = stringResource(resource = if (isExpanded) Resources.strings.expand else Resources.strings.condense),
+    contentDescription = run {
+        val resource = if (isExpanded) Resources.strings.expand else Resources.strings.condense
+        resource.desc().localized()
+    }
 )
 
 /**
@@ -80,7 +84,7 @@ fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
 @Composable
 fun upNavigationIconInteractor() = IconInteractor(
     painter = Icons.Filled.ArrowBack.painter(),
-    contentDescription = stringResource(resource = Resources.strings.up),
+    contentDescription = Resources.strings.up.desc().localized(),
 )
 
 /**
@@ -89,7 +93,7 @@ fun upNavigationIconInteractor() = IconInteractor(
 @Composable
 fun drawerNavigationIconInteractor() = IconInteractor(
     painter = Icons.Filled.Menu.painter(),
-    contentDescription = stringResource(resource = Resources.strings.menu),
+    contentDescription = Resources.strings.menu.desc().localized(),
 )
 
 /**
@@ -98,7 +102,7 @@ fun drawerNavigationIconInteractor() = IconInteractor(
 @Composable
 fun refreshIconInteractor() = IconInteractor(
     painter = Icons.Filled.Refresh.painter(),
-    contentDescription = stringResource(resource = Resources.strings.refresh),
+    contentDescription = Resources.strings.refresh.desc().localized(),
 )
 
 /**
@@ -107,7 +111,7 @@ fun refreshIconInteractor() = IconInteractor(
 @Composable
 fun cachedIconInteractor() = IconInteractor(
     painter = Resources.images.ic_cached.painter(),
-    contentDescription = stringResource(Resources.strings.cache)
+    contentDescription = Resources.strings.cache.desc().localized()
 )
 
 /**
@@ -116,7 +120,7 @@ fun cachedIconInteractor() = IconInteractor(
 @Composable
 fun settingsIconInteractor() = IconInteractor(
     painter = Resources.images.ic_settings.painter(),
-    contentDescription = stringResource(Resources.strings.settings)
+    contentDescription = Resources.strings.settings.desc().localized()
 )
 
 /**
@@ -125,7 +129,7 @@ fun settingsIconInteractor() = IconInteractor(
 @Composable
 fun zoomInMapIconInteractor() = IconInteractor(
     painter = Resources.images.ic_zoom_in_map.painter(),
-    contentDescription = stringResource(Resources.strings.zoom_in)
+    contentDescription = Resources.strings.zoom_in.desc().localized()
 )
 
 /**
@@ -134,7 +138,7 @@ fun zoomInMapIconInteractor() = IconInteractor(
 @Composable
 fun zoomOutMapIconInteractor() = IconInteractor(
     painter = Resources.images.ic_zoom_out_map.painter(),
-    contentDescription = stringResource(Resources.strings.zoom_out)
+    contentDescription = Resources.strings.zoom_out.desc().localized()
 )
 
 /**
@@ -143,7 +147,7 @@ fun zoomOutMapIconInteractor() = IconInteractor(
 @Composable
 fun licenseIconInteractor() = IconInteractor(
     painter = Resources.images.ic_policy.painter(),
-    contentDescription = stringResource(Resources.strings.licenses)
+    contentDescription = Resources.strings.licenses.desc().localized()
 )
 
 /**
@@ -152,7 +156,7 @@ fun licenseIconInteractor() = IconInteractor(
 @Composable
 fun aboutAppIconInteractor() = IconInteractor(
     painter = Resources.images.ic_info.painter(),
-    contentDescription = stringResource(Resources.strings.about_app)
+    contentDescription = Resources.strings.about_app.desc().localized()
 )
 
 /**
@@ -165,17 +169,18 @@ fun triStateCheckboxIconInteractor(state: ToggleableState) = IconInteractor(
         ToggleableState.Off -> Resources.images.ic_checkbox_outline_blank
         ToggleableState.On -> Resources.images.ic_checkbox
     }.painter(),
-    contentDescription = stringResource(
-        when (state) {
-            ToggleableState.Indeterminate -> Resources.strings.partially_selected
-            ToggleableState.Off -> Resources.strings.not_selected
-            ToggleableState.On -> Resources.strings.selected
-        }
-    )
+    contentDescription = when (state) {
+        ToggleableState.Indeterminate -> Resources.strings.partially_selected
+        ToggleableState.Off -> Resources.strings.not_selected
+        ToggleableState.On -> Resources.strings.selected
+    }.desc().localized()
 )
 
+/**
+ * Creates an interactor for indicating language for internationalization.
+ */
 @Composable
 fun languageIconInteractor() = IconInteractor(
     painter = Resources.images.ic_language.painter(),
-    contentDescription = stringResource(Resources.strings.about_app)
+    contentDescription = Resources.strings.language.desc().localized()
 )
