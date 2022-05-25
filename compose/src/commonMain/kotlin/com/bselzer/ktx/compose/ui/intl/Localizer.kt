@@ -10,6 +10,16 @@ interface Localizer {
      */
     var locale: Locale
 
+    /**
+     * Adds a listener to be notified of locale changes.
+     */
+    fun addListener(listener: (Locale) -> Unit)
+
+    /**
+     * Removes all of the listeners.
+     */
+    fun removeListeners()
+
     companion object : Localizer by SystemLocalizer() {
         val ENGLISH = Locale("en")
         val FRENCH = Locale("fr")
@@ -22,6 +32,7 @@ interface Localizer {
 internal abstract class BaseSystemLocalizer : Localizer {
     // Use a mutable state so that compositions can be made aware of changes.
     private val state: MutableState<Locale> = mutableStateOf(Locale.current)
+    private val listeners: MutableList<(Locale) -> Unit> = mutableListOf()
 
     override var locale: Locale
         get() = state.value
@@ -29,6 +40,14 @@ internal abstract class BaseSystemLocalizer : Localizer {
             setSystemLocale(value)
             state.value = value
         }
+
+    override fun addListener(listener: (Locale) -> Unit) {
+        listeners.add(listener)
+    }
+
+    override fun removeListeners() {
+        listeners.clear()
+    }
 
     /**
      * Sets the platform specific locale from the composable [Locale].
