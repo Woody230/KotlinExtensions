@@ -16,6 +16,11 @@ interface Localizer {
     fun addListener(listener: (Locale) -> Unit)
 
     /**
+     * Removes the listener.
+     */
+    fun removeListener(listener: (Locale) -> Unit)
+
+    /**
      * Removes all of the listeners.
      */
     fun removeListeners()
@@ -39,10 +44,15 @@ internal abstract class BaseSystemLocalizer : Localizer {
         set(value) {
             setSystemLocale(value)
             state.value = value
+            listeners.forEach { listener -> listener(value) }
         }
 
     override fun addListener(listener: (Locale) -> Unit) {
         listeners.add(listener)
+    }
+
+    override fun removeListener(listener: (Locale) -> Unit) {
+        listeners.remove(listener)
     }
 
     override fun removeListeners() {
