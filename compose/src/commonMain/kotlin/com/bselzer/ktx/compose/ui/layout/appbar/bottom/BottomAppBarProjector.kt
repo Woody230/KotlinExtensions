@@ -9,6 +9,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.layout.appbar.action.Actions
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 
@@ -62,7 +63,15 @@ class BottomAppBarProjector(
                     Modifier.fillMaxHeight(),
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically,
-                    content = { actionProjector.forEach { action -> action.Projection() } }
+                    content = {
+                        // TODO would probably need to add offset for the dropdown to be positioned appropriately
+                        Actions(
+                            actions = interactor.actions,
+                            dropdown = interactor.dropdown,
+                            presenter = presenter.icon,
+                            policy = presenter.actionPolicy
+                        )
+                    }
                 )
             }
         }

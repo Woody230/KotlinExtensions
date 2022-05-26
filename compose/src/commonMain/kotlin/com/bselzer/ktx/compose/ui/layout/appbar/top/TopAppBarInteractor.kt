@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.appbar.top
 
+import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
@@ -17,9 +18,13 @@ data class TopAppBarInteractor(
      * The [Interactor] for the navigation icon.
      */
     val navigation: IconButtonInteractor? = null,
+    /**
+     * The [Interactor]s for the action icons.
+     */
+    val actions: List<IconButtonInteractor> = emptyList(),
 
     /**
-     * The [Interactor] for the action icons.
+     * The [Interactor] for the dropdown icon.
      */
-    val actions: Collection<IconButtonInteractor> = emptyList()
+    val dropdown: IconInteractor? = null,
 ) : Interactor(modifier)

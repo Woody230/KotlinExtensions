@@ -10,11 +10,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import com.bselzer.ktx.compose.ui.layout.appbar.action.ActionPolicy
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
+import com.bselzer.ktx.function.objects.safeMerge
 
 data class BottomAppBarPresenter(
     override val modifier: PresentableModifier = PresentableModifier,
@@ -23,6 +25,11 @@ data class BottomAppBarPresenter(
      * The [Presentable] for the navigation and action icons.
      */
     val icon: IconButtonPresenter = IconButtonPresenter.Default,
+
+    /**
+     * The policy for determining how to display the actions.
+     */
+    val actionPolicy: ActionPolicy = ActionPolicy,
 
     /**
      * The background color for the BottomAppBar. Use Color.Transparent to have no color.
@@ -60,6 +67,7 @@ data class BottomAppBarPresenter(
     override fun safeMerge(other: BottomAppBarPresenter) = BottomAppBarPresenter(
         modifier = modifier.merge(other.modifier),
         icon = icon.merge(other.icon),
+        actionPolicy = actionPolicy.safeMerge(other.actionPolicy, ActionPolicy),
         backgroundColor = ComposeMerger.color.safeMerge(backgroundColor, other.backgroundColor),
         contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),
         elevation = ComposeMerger.dp.safeMerge(elevation, other.elevation),

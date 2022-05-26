@@ -7,7 +7,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 
 class DropdownMenuProjector(
     interactor: DropdownMenuInteractor,
-    presenter: DropdownMenuPresenter
+    presenter: DropdownMenuPresenter = DropdownMenuPresenter.Default
 ) : Projector<DropdownMenuInteractor, DropdownMenuPresenter>(interactor, presenter) {
 
     @Composable
