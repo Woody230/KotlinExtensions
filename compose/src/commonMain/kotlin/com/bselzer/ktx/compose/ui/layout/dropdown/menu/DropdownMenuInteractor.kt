@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.dropdownmenu
+package com.bselzer.ktx.compose.ui.layout.dropdown.menu
 
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier

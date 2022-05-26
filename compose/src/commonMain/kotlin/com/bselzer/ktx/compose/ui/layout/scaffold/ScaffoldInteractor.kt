@@ -2,7 +2,8 @@ package com.bselzer.ktx.compose.ui.layout.scaffold
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarInteractor
+import com.bselzer.ktx.compose.ui.layout.appbar.bottom.BottomAppBarInteractor
+import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.LocalDrawerState
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.rememberState
@@ -11,7 +12,6 @@ import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModif
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.rememberState
-import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 
 data class ScaffoldInteractor(

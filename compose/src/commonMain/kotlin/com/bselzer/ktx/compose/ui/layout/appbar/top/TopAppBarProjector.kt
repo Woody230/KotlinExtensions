@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.topappbar
+package com.bselzer.ktx.compose.ui.layout.appbar.top
 
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable

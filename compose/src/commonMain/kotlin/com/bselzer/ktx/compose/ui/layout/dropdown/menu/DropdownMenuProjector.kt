@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.dropdownmenu
+package com.bselzer.ktx.compose.ui.layout.dropdown.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout.bottomappbar
+package com.bselzer.ktx.compose.ui.layout.appbar.bottom
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.AppBarDefaults

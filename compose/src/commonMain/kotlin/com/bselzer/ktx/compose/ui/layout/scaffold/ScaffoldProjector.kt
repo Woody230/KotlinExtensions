@@ -5,7 +5,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarProjector
+import com.bselzer.ktx.compose.ui.layout.appbar.bottom.BottomAppBarProjector
+import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarProjector
 import com.bselzer.ktx.compose.ui.layout.drawer.LocalDrawerState
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerProjector
@@ -15,7 +16,6 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostProjector
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.rememberState
-import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarProjector
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 
 class ScaffoldProjector(

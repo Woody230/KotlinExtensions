@@ -6,7 +6,8 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import com.bselzer.ktx.compose.ui.layout.bottomappbar.BottomAppBarPresenter
+import com.bselzer.ktx.compose.ui.layout.appbar.bottom.BottomAppBarPresenter
+import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarPresenter
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
 import com.bselzer.ktx.compose.ui.layout.floatingactionbutton.FloatingActionButtonPresenter
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
@@ -15,7 +16,6 @@ import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifie
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostPresenter
-import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarPresenter
 import com.bselzer.ktx.function.objects.safeMerge
 
 data class ScaffoldPresenter(
