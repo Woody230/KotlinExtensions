@@ -5,4 +5,4 @@ import androidx.compose.ui.graphics.ImageBitmap
 /**
  * Converts a [ByteArray] into an [ImageBitmap].
  */
-internal expect fun ByteArray.asImageBitmap(): ImageBitmap
+expect fun ByteArray.asImageBitmap(): ImageBitmap

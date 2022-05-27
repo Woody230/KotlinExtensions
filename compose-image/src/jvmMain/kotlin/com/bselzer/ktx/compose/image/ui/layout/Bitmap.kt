@@ -7,4 +7,4 @@ import org.jetbrains.skia.Image
 /**
  * Converts a [ByteArray] into an [ImageBitmap].
  */
-internal actual fun ByteArray.asImageBitmap(): ImageBitmap = Image.makeFromEncoded(this).toComposeImageBitmap()
+actual fun ByteArray.asImageBitmap(): ImageBitmap = Image.makeFromEncoded(this).toComposeImageBitmap()

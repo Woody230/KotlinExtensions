@@ -75,6 +75,7 @@ fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
 fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
 fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
 fun KotlinDependencyHandler.projectLogging() = implementation(project(":logging"))
+fun KotlinDependencyHandler.projectValue() = api(project(":value"))
 
 /**
  * Sets up common dependencies.

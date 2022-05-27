@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 /**
  * Converts a [ByteArray] into an [ImageBitmap].
  */
-internal actual fun ByteArray.asImageBitmap(): ImageBitmap {
+actual fun ByteArray.asImageBitmap(): ImageBitmap {
     val bytes = this
 
     // Note that an exception will be thrown when the size is 0.
