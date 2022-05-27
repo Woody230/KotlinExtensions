@@ -18,11 +18,11 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.getById(
     crossinline requestSingle: suspend () -> Model,
     crossinline writeFilter: (Model) -> Boolean = { true }
 ): Model {
-    var model = reader.getById<Model>(id)
+    var model = getById<Model>(id)
     if (model == null) {
         model = requestSingle()
         if (writeFilter(model)) {
-            writer.put(model)
+            put(model)
         }
     }
 

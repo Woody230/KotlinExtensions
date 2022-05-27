@@ -1,29 +1,31 @@
 package com.bselzer.ktx.compose.image.cache.instance
 
-import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.model.Image
 import com.bselzer.ktx.kodein.db.cache.Cache
 import com.bselzer.ktx.kodein.db.operation.clear
-import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.transaction.Transaction
-import org.kodein.db.Value
+import org.kodein.db.*
 
-class ImageCache(private val client: ImageClient = ImageClient()) : Cache {
+interface ImageCache : Cache {
     /**
-     * Gets the [Image] with the same [url].
-     *
-     * If there is no image in the database, then a call is made to request it through the [client].
-     *
-     * @param url the image location
-     * @return the image
+     * Gets the [Image] associated with the [url], or null if it does not exist.
      */
-    suspend fun Transaction.getImage(url: String): Image = getById(
-        id = Value.of(url),
-        requestSingle = { client.getImage(url) },
+    fun DBRead.getImageOrNull(url: String, vararg options: Options.Get): Image? = getById(Value.of(url), *options)
 
+    /**
+     * Gets the [Image] associated with the [url], or an [Image] with no content if it does not exist.
+     */
+    fun DBRead.getImage(url: String, vararg options: Options.Get): Image = getImageOrNull(url, *options) ?: Image(url, byteArrayOf())
+
+    /**
+     * Puts the [image] into the database if the content exists.
+     */
+    fun DBWrite.putImage(image: Image, vararg options: Options.Puts) {
         // Only write the image if its content was successfully retrieved and not defaulted.
-        writeFilter = { image -> image.content.isNotEmpty() }
-    )
+        if (image.content.isNotEmpty()) {
+            put(image, *options)
+        }
+    }
 
     /**
      * Clears the [Image] models.
@@ -31,4 +33,6 @@ class ImageCache(private val client: ImageClient = ImageClient()) : Cache {
     override fun Transaction.clear() {
         clear<Image>()
     }
+
+    companion object : ImageCache
 }

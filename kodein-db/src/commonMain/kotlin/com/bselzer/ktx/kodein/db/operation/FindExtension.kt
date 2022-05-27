@@ -1,6 +1,8 @@
 package com.bselzer.ktx.kodein.db.operation
 
 import com.bselzer.ktx.kodein.db.transaction.Transaction
+import com.bselzer.ktx.value.identifier.Identifiable
+import com.bselzer.ktx.value.identifier.Identifier
 import org.kodein.db.deleteFrom
 import org.kodein.db.find
 import org.kodein.db.useModels
@@ -26,15 +28,49 @@ suspend inline fun <reified Model : Any> Transaction.findAllOnce(crossinline req
  * @return all the models
  */
 suspend inline fun <reified Model : Any> Transaction.findAllByCount(minimum: Int, crossinline requestAll: suspend () -> Collection<Model>): Collection<Model> {
-    var stored: Collection<Model> = reader.find<Model>().all().useModels { it.toList() }
+    var stored: Collection<Model> = find<Model>().all().useModels { it.toList() }
     if (stored.count() < minimum) {
         // Clear existing entries and then request the current up-to-date models.
-        stored.forEach { model -> writer.deleteFrom(model) }
+        stored.forEach { model -> deleteFrom(model) }
 
         val requested = requestAll()
-        requested.forEach { model -> writer.put(model) }
+        requested.forEach { model -> put(model) }
         stored = requested
     }
 
     return stored
+}
+
+/**
+ * Finds the [Reference] models from the database based on an id found on an [Origin] model.
+ *
+ * @param origin the models to get an id from
+ * @param getId the function for mapping an [Origin] model to a [Reference] [Value]
+ * @param Origin the type of the model with the reference id
+ * @param Id the type of the id of the [Reference] model
+ * @param Reference the type of the model to retrieve
+ */
+inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> Transaction.findByReferenceId(
+    origin: Collection<Origin>,
+    crossinline getId: Origin.() -> Id
+): Collection<Reference> {
+    val ids = origin.map(getId)
+    return find<Reference>().all().useModels { it.filter { reference -> ids.contains(reference.id) }.toList() }
+}
+
+/**
+ * Finds the [Reference] models from the database based on ids found on an [Origin] model.
+ *
+ * @param origin the models to get ids from
+ * @param getIds the function for mapping an [Origin] model to one or more [Reference] [Value]s
+ * @param Origin the type of the model with the reference ids
+ * @param Id the type of the id of the [Reference] model
+ * @param Reference the type of the model to retrieve
+ */
+inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> Transaction.findByReferenceIds(
+    origin: Collection<Origin>,
+    crossinline getIds: Origin.() -> Collection<Id>
+): Collection<Reference> {
+    val ids = origin.flatMap(getIds)
+    return find<Reference>().all().useModels { it.filter { reference -> ids.contains(reference.id) }.toList() }
 }

@@ -14,8 +14,8 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
     crossinline requestById: suspend (Collection<Id>) -> Collection<Model>
 ) {
     val allIds = requestIds()
-    val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
-    requestById(missingIds).forEach { model -> writer.put(model) }
+    val missingIds = allIds.filter { id -> getById<Model>(id) == null }
+    requestById(missingIds).forEach { model -> put(model) }
 }
 
 /**
@@ -34,12 +34,12 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
     crossinline default: suspend (Id) -> Model
 ) {
     val allIds = requestIds().toHashSet()
-    val missingIds = allIds.filter { id -> reader.getById<Model>(id) == null }
+    val missingIds = allIds.filter { id -> getById<Model>(id) == null }
 
     val newModels = requestById(missingIds)
-    newModels.forEach { model -> writer.put(model) }
+    newModels.forEach { model -> put(model) }
 
     // Add the models for any ids that are still missing by using the default.
     val defaultModels = allIds.minus(newModels.map { model -> getId(model) }.toSet()).map { id -> default(id) }
-    defaultModels.forEach { model -> writer.put(model) }
+    defaultModels.forEach { model -> put(model) }
 }
