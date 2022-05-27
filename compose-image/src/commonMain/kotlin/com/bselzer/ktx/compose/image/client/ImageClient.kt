@@ -10,18 +10,22 @@ import io.ktor.client.request.*
  */
 class ImageClient(private val client: HttpClient = HttpClient()) {
     /**
-     * Gets the [Image] with the same [url].
+     * Gets the [Image] at the [url], or an [Image] with empty content if it is unable to be retrieved.
      **
      * @param url the image location
      * @return the image
      */
-    suspend fun getImage(url: String): Image {
-        val content: ByteArray = try {
-            client.get(url).body()
-        } catch (ex: Exception) {
-            ByteArray(0)
-        }
+    suspend fun getImage(url: String): Image = getImageOrNull(url) ?: Image(url, byteArrayOf())
 
-        return Image(url = url, content = content)
+    /**
+     * Gets the [Image] at the [url], or null if the [Image] is unable to be retrieved.
+     **
+     * @param url the image location
+     * @return the image
+     */
+    suspend fun getImageOrNull(url: String): Image? = try {
+        client.get(url).body()
+    } catch (ex: Exception) {
+        null
     }
 }
