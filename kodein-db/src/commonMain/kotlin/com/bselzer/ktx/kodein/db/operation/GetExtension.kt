@@ -1,6 +1,8 @@
 package com.bselzer.ktx.kodein.db.operation
 
 import com.bselzer.ktx.kodein.db.transaction.Transaction
+import com.bselzer.ktx.value.identifier.Identifiable
+import com.bselzer.ktx.value.identifier.Identifier
 import org.kodein.db.getById
 
 /**
@@ -28,3 +30,21 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.getById(
 
     return model
 }
+
+/**
+ * Gets a model from the database by its id.
+ *
+ * If the model does not exist, then the [requestSingle] block is called and is written to the database if the id is not defaulted.
+ *
+ * @param id the id to search for
+ * @param requestSingle the block for retrieving the model
+ * @return the model with the [id]
+ */
+suspend inline fun <reified Model : Identifiable<Id>, Id : Any> Transaction.getById(
+    id: Identifier<Id>,
+    crossinline requestSingle: suspend () -> Model
+) = getById(
+    id = id,
+    requestSingle = requestSingle,
+    writeFilter = { !it.id.isDefault }
+)
