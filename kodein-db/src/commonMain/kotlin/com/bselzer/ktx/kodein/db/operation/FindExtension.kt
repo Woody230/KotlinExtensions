@@ -3,6 +3,7 @@ package com.bselzer.ktx.kodein.db.operation
 import com.bselzer.ktx.kodein.db.transaction.Transaction
 import com.bselzer.ktx.value.identifier.Identifiable
 import com.bselzer.ktx.value.identifier.Identifier
+import org.kodein.db.DBRead
 import org.kodein.db.deleteFrom
 import org.kodein.db.find
 import org.kodein.db.useModels
@@ -50,7 +51,7 @@ suspend inline fun <reified Model : Any> Transaction.findAllByCount(minimum: Int
  * @param Id the type of the id of the [Reference] model
  * @param Reference the type of the model to retrieve
  */
-inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> Transaction.findByReferenceId(
+inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> DBRead.findByReferenceId(
     origin: Origin,
     crossinline getId: Origin.() -> Id
 ): Collection<Reference> = findByReferenceId(listOf(origin), getId)
@@ -64,7 +65,7 @@ inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifia
  * @param Id the type of the id of the [Reference] model
  * @param Reference the type of the model to retrieve
  */
-inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> Transaction.findByReferenceId(
+inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> DBRead.findByReferenceId(
     origin: Collection<Origin>,
     crossinline getId: Origin.() -> Id
 ): Collection<Reference> {
@@ -81,7 +82,7 @@ inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifia
  * @param Id the type of the id of the [Reference] model
  * @param Reference the type of the model to retrieve
  */
-inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> Transaction.findByReferenceIds(
+inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> DBRead.findByReferenceIds(
     origin: Origin,
     crossinline getIds: Origin.() -> Collection<Id>
 ): Collection<Reference> = findByReferenceIds(listOf(origin), getIds)
@@ -95,7 +96,7 @@ inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifia
  * @param Id the type of the id of the [Reference] model
  * @param Reference the type of the model to retrieve
  */
-inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> Transaction.findByReferenceIds(
+inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifiable<Value>> DBRead.findByReferenceIds(
     origin: Collection<Origin>,
     crossinline getIds: Origin.() -> Collection<Id>
 ): Collection<Reference> {
@@ -110,7 +111,7 @@ inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifia
  * @param Id the type of the id of the [Model]
  * @param Model the type of the model to retrieve
  */
-inline fun <Value, Id : Identifier<Value>, reified Model : Identifiable<Value>> Transaction.findByIds(
+inline fun <Value, Id : Identifier<Value>, reified Model : Identifiable<Value>> DBRead.findByIds(
     ids: Collection<Id>,
 ): Collection<Model> = find<Model>().all().useModels { models ->
     models.filter { model -> ids.contains(model.id) }.toList()
