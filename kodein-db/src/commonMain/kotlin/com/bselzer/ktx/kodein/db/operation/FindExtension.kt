@@ -69,7 +69,7 @@ inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifia
     crossinline getId: Origin.() -> Id
 ): Collection<Reference> {
     val ids = origin.map(getId)
-    return find<Reference>().all().useModels { it.filter { reference -> ids.contains(reference.id) }.toList() }
+    return findByIds(ids)
 }
 
 /**
@@ -100,5 +100,18 @@ inline fun <Origin, Value, Id : Identifier<Value>, reified Reference : Identifia
     crossinline getIds: Origin.() -> Collection<Id>
 ): Collection<Reference> {
     val ids = origin.flatMap(getIds)
-    return find<Reference>().all().useModels { it.filter { reference -> ids.contains(reference.id) }.toList() }
+    return findByIds(ids)
+}
+
+/**
+ * Finds the [Model]s from the database with an id matching one of the [ids].
+ *
+ * @param ids the ids
+ * @param Id the type of the id of the [Model]
+ * @param Model the type of the model to retrieve
+ */
+inline fun <Value, Id : Identifier<Value>, reified Model : Identifiable<Value>> Transaction.findByIds(
+    ids: Collection<Id>,
+): Collection<Model> = find<Model>().all().useModels { models ->
+    models.filter { model -> ids.contains(model.id) }.toList()
 }
