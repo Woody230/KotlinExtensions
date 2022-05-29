@@ -5,6 +5,7 @@ import com.bselzer.ktx.logging.Logger
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import kotlinx.coroutines.CancellationException
 
 /**
  * The client for [Image]s.
@@ -16,7 +17,10 @@ class ImageClient(private val client: HttpClient = HttpClient()) {
      * @param url the image location
      * @return the image
      */
-    suspend fun getImage(url: String): Image = client.get(url).body()
+    suspend fun getImage(url: String): Image {
+        val content: ByteArray = client.get(url).body()
+        return Image(url, content)
+    }
 
     /**
      * Gets the [Image] at the [url], or null if the [Image] is unable to be retrieved.
@@ -27,7 +31,9 @@ class ImageClient(private val client: HttpClient = HttpClient()) {
     suspend fun getImageOrNull(url: String): Image? = try {
         getImage(url)
     } catch (ex: Exception) {
-        Logger.e(ex, "Failed to retrieve the image at $url.")
+        if (ex !is CancellationException) {
+            Logger.e(ex, "Failed to retrieve the image at $url.")
+        }
         null
     }
 }
