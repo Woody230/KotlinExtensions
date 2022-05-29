@@ -1,6 +1,7 @@
 package com.bselzer.ktx.compose.image.client
 
 import com.bselzer.ktx.compose.image.model.Image
+import com.bselzer.ktx.logging.Logger
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -26,6 +27,7 @@ class ImageClient(private val client: HttpClient = HttpClient()) {
     suspend fun getImageOrNull(url: String): Image? = try {
         getImage(url)
     } catch (ex: Exception) {
+        Logger.e(ex, "Failed to retrieve the image at $url.")
         null
     }
 }

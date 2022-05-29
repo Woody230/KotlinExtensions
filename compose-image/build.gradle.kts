@@ -15,6 +15,7 @@ kotlin.setup {
         ktxSerialization()
         projectCompose()
         projectKodeinDb()
+        projectLogging()
     }
     commonTest()
 }
