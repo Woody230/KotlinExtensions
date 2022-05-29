@@ -37,7 +37,6 @@ class ScaffoldProjector(
         content: @Composable (PaddingValues) -> Unit
     ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         val drawerProjector = interactor.drawer?.let { drawer -> ModalDrawerProjector(drawer, presenter.drawer) }
-        val snackbarHostProjector = SnackbarHostProjector(interactor.snackbarHost, presenter.snackbarHost)
         val topBarProjector = interactor.topBar?.let { bar -> TopAppBarProjector(bar, presenter.topBar) }
         val bottomBarProjector = interactor.bottomBar?.let { bar -> BottomAppBarProjector(bar, presenter.bottomBar) }
         val fabProjector = interactor.floatingActionButton?.let { fab -> FloatingActionButtonProjector(fab, presenter.floatingActionButton) }
@@ -48,12 +47,17 @@ class ScaffoldProjector(
         Scaffold(
             modifier = combinedModifier,
             scaffoldState = rememberScaffoldState(
-                drawerState = LocalDrawerState.current,
-                snackbarHostState = LocalSnackbarHostState.current
+                drawerState = interactor.drawer?.state ?: ModalDrawerInteractor.Default.state,
+                snackbarHostState = interactor.snackbarHost.state
             ),
             topBar = { topBarProjector?.Projection() },
             bottomBar = { bottomBarProjector?.Projection() },
-            snackbarHost = { snackbarHostProjector.Projection() },
+            snackbarHost = { hostState ->
+                SnackbarHostProjector(
+                    interactor = interactor.snackbarHost.copy(state = hostState),
+                    presenter.snackbarHost
+                ).Projection()
+            },
             floatingActionButton = { fabProjector?.Projection() },
             floatingActionButtonPosition = presenter.floatingActionButtonPosition,
             isFloatingActionButtonDocked = presenter.isFloatingActionButtonDocked.toBoolean(),
