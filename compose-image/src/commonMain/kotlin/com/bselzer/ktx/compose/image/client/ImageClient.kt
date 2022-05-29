@@ -15,7 +15,7 @@ class ImageClient(private val client: HttpClient = HttpClient()) {
      * @param url the image location
      * @return the image
      */
-    suspend fun getImage(url: String): Image = getImageOrNull(url) ?: Image(url, byteArrayOf())
+    suspend fun getImage(url: String): Image = client.get(url).body()
 
     /**
      * Gets the [Image] at the [url], or null if the [Image] is unable to be retrieved.
@@ -24,7 +24,7 @@ class ImageClient(private val client: HttpClient = HttpClient()) {
      * @return the image
      */
     suspend fun getImageOrNull(url: String): Image? = try {
-        client.get(url).body()
+        getImage(url)
     } catch (ex: Exception) {
         null
     }

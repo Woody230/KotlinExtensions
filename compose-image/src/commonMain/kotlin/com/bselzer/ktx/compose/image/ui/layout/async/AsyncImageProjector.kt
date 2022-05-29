@@ -11,6 +11,8 @@ import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class AsyncImageProjector(
     interactor: AsyncImageInteractor,
@@ -41,7 +43,7 @@ class AsyncImageProjector(
     private fun produceResult(interactor: AsyncImageInteractor): State<AsyncImageResult> = run {
         val url = interactor.url
         produceState<AsyncImageResult>(initialValue = AsyncImageResult.Loading, key1 = url) {
-            value = run {
+            value = withContext(Dispatchers.Default) {
                 val image = interactor.getImage(url)
 
                 // Ignore empty bytes which will cause exceptions when trying to create a bitmap.
