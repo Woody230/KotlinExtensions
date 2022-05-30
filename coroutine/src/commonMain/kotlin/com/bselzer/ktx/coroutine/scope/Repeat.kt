@@ -1,4 +1,4 @@
-package com.bselzer.ktx.coroutine
+package com.bselzer.ktx.coroutine.scope
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
