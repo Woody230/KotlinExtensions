@@ -27,6 +27,7 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
  * Finds missing models based on their id and puts them in the database.
  *
  * Note that the batch **MUST** be written before you attempt to find the models.
+ * Consequently, the result of this method should be used instead if you do not want to immediately commit.
  *
  * @param requestIds a block for retrieving all of the ids
  * @param requestById a block for mapping ids to their associated models
@@ -34,7 +35,7 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
  */
 @Suppress("UNCHECKED_CAST")
 @JvmName("putMissingIdentifiableById")
-suspend inline fun <reified Model : Identifiable<Id, Value>, Id : Identifier<Id>, Value> Transaction.putMissingById(
+suspend inline fun <reified Model : Identifiable<Id, Value>, Id : Identifier<Value>, Value> Transaction.putMissingById(
     crossinline requestIds: suspend () -> Collection<Id>,
     crossinline requestById: suspend (Collection<Id>) -> Collection<Model>
 ): Map<Id, Model> {
