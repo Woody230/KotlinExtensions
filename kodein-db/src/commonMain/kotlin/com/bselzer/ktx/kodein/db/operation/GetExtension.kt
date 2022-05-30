@@ -40,7 +40,7 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.getById(
  * @param requestSingle the block for retrieving the model
  * @return the model with the [id]
  */
-suspend inline fun <reified Model : Identifiable<Id>, Id : Any> Transaction.getById(
+suspend inline fun <reified Model : Identifiable<Id, Value>, Id : Identifier<Value>, Value> Transaction.getById(
     id: Identifier<Id>,
     crossinline requestSingle: suspend () -> Model
 ) = getById(

@@ -10,12 +10,10 @@ import org.kodein.db.model.orm.MetadataExtractor
  */
 class IdentifiableMetadataExtractor : MetadataExtractor {
     override fun extractMetadata(model: Any, vararg options: Options.Puts): Metadata? = when (model) {
-        is Identifiable<*> -> {
+        is Identifiable<*, *> -> {
             val id = model.id.value
             if (id == null) null else Metadata(id)
         }
-        else -> {
-            null
-        }
+        else -> null
     }
 }

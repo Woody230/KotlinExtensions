@@ -1,5 +1,5 @@
 package com.bselzer.ktx.value.identifier
 
-interface Identifiable<Id> {
-    val id: Identifier<Id>
+interface Identifiable<Id : Identifier<Value>, Value> {
+    val id: Id
 }
