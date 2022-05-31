@@ -8,7 +8,6 @@
     <string name="ok">Ok</string>
     <string name="cancel">Abbrechen</string>
     <string name="reset">Zurücksetzen</string>
-    <string name="refresh">Aktualisieren</string>
     <string name="delete">Löschen</string>
     <string name="more_options">Weitere Optionen</string>
     <string name="condense">Verdichten</string>
@@ -20,7 +19,6 @@
     <string name="unknown">Unbekannt</string>
     <string name="theme">Design</string>
     <string name="token">Authentifizierungstoken</string>
-    <string name="refresh_interval">Aktualisierungsintervall</string>
     <string name="legal_notice">Rechtliche Hinweise</string>
     <string name="cache_clear">Habe den Cache geleert.</string>
     <string name="migration">Migration</string>
@@ -33,6 +31,10 @@
     <string name="version">Version</string>
     <string name="version_code">Versionscode</string>
     <string name="version_name">Versionsname</string>
+
+    <!-- Refresh -->
+    <string name="refresh">Aktualisieren</string>
+    <string name="refresh_interval">Aktualisierungsintervall</string>
 
     <!-- Selected -->
     <string name="selected">Ausgewählt</string>

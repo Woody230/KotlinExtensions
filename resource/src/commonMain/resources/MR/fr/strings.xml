@@ -8,7 +8,6 @@
     <string name="ok">D’accord</string>
     <string name="cancel">Annuler</string>
     <string name="reset">Réinitialiser</string>
-    <string name="refresh">Actualiser</string>
     <string name="delete">Supprimer</string>
     <string name="more_options">Plus d’options</string>
     <string name="contract">Abréger</string>
@@ -20,7 +19,6 @@
     <string name="unknown">Inconnu</string>
     <string name="theme">Thème</string>
     <string name="token">Jeton</string>
-    <string name="refresh_interval">Intervalle de Mise à Jour</string>
     <string name="legal_notice">Avis Légaux</string>
     <string name="cache_clear">Vidé le cache.</string>
     <string name="migration">Migration</string>
@@ -33,6 +31,10 @@
     <string name="version">Version</string>
     <string name="version_code">Code de Version</string>
     <string name="version_name">Nom de Version</string>
+
+    <!-- Refresh -->
+    <string name="refresh">Actualiser</string>
+    <string name="refresh_interval">Intervalle de Mise à Jour</string>
 
     <!-- Selected -->
     <string name="selected">Sélectionné</string>
