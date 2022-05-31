@@ -19,8 +19,8 @@ class CenteredTextProjector(
     fun Projection(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
-        val startProjector = TextProjector(interactor.start, presenter.text)
-        val endProjector = TextProjector(interactor.end, presenter.text)
+        val startProjector = TextProjector(interactor.start, presenter.start)
+        val endProjector = TextProjector(interactor.end, presenter.end)
         val spacerProjector = SpacerProjector(interactor.spacer, presenter.spacer)
 
         // TODO weights instead?

@@ -11,9 +11,14 @@ data class CenteredTextPresenter(
     override val modifier: PresentableModifier = PresentableModifier,
 
     /**
-     * The [Presentable] of the text.
+     * The [Presentable] of the starting text.
      */
-    val text: TextPresenter = TextPresenter.Default,
+    val start: TextPresenter = TextPresenter.Default,
+
+    /**
+     * The [Presentable] of the ending text.
+     */
+    val end: TextPresenter = TextPresenter.Default,
 
     /**
      * The [Presentable] of the spacing between the starting and ending text.
@@ -27,7 +32,8 @@ data class CenteredTextPresenter(
 
     override fun safeMerge(other: CenteredTextPresenter) = CenteredTextPresenter(
         modifier = modifier.merge(other.modifier),
-        text = text.merge(other.text),
+        start = start.merge(other.start),
+        end = end.merge(other.end),
         spacer = spacer.merge(other.spacer)
     )
 }
