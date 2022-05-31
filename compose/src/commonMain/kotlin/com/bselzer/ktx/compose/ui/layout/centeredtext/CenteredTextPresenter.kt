@@ -1,6 +1,8 @@
 package com.bselzer.ktx.compose.ui.layout.centeredtext
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presentable
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -36,4 +38,9 @@ data class CenteredTextPresenter(
         end = end.merge(other.end),
         spacer = spacer.merge(other.spacer)
     )
+
+    @Composable
+    override fun localized() = CenteredTextPresenter(
+        modifier = ModularSize.FillWidth then ModularSize.WrapHeight
+    ).merge(this)
 }
