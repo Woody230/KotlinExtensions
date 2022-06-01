@@ -34,3 +34,8 @@ data class TextInteractor(
 ) : Interactor(modifier) {
     constructor(text: String) : this(text = AnnotatedString(text))
 }
+
+/**
+ * @return a [TextInteractor] containing this [String]
+ */
+fun String.textInteractor() = TextInteractor(this)

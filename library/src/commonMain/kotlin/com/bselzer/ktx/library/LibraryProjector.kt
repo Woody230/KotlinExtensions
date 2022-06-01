@@ -10,7 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.confirmationAlertDialogInteractor
+import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.uniTextAlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextInteractor
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextProjector
@@ -24,9 +25,10 @@ import com.bselzer.ktx.compose.ui.layout.lazycolumn.LazyColumnProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
+import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.Resources
 import com.mikepenz.aboutlibraries.entity.Library
-import dev.icerock.moko.resources.compose.stringResource
+import dev.icerock.moko.resources.desc.desc
 
 class LibraryProjector(
     interactor: LibraryInteractor,
@@ -58,16 +60,14 @@ class LibraryProjector(
     private fun LibraryPresenter.Dialog(selected: Library?, setSelected: (Library?) -> Unit) = selected?.let {
         val license = selected.licenses.firstOrNull()
         AlertDialogProjector(
-            interactor = confirmationAlertDialogInteractor { setSelected(null) }.copy(
-                title = TextInteractor(license?.name ?: "")
-            )
+            interactor = uniTextAlertDialogInteractor { setSelected(null) }.title(text = license?.name ?: "").build()
         ).Projection(
             // TODO vertical scrolling not working properly without constrained version of dialog
             constrained = true
         ) {
-            val text = if (license == null) stringResource(Resources.strings.no_license_found) else license.licenseContent ?: ""
+            val text = if (license == null) Resources.strings.no_license_found.desc() else (license.licenseContent ?: "").desc()
             TextProjector(
-                interactor = TextInteractor(text = text),
+                interactor = text.localized().textInteractor(),
                 presenter = dialogBody
             ).Projection(
                 modifier = Modifier.verticalScroll(rememberScrollState())
