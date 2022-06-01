@@ -77,6 +77,9 @@ data class LibraryPresenter(
         badge = BadgeTextPresenter(
             badge = BadgePresenter(
                 backgroundColor = MaterialTheme.colors.primary
+            ),
+            text = TextPresenter(
+                textStyle = MaterialTheme.typography.subtitle2
             )
         )
     ).merge(this)
