@@ -50,15 +50,15 @@ data class AlertDialogInteractor(
         var onDismissRequest: () -> DialogState = { DialogState.CLOSED },
 
         /**
-         * The [TextInteractor] for the title.
+         * The text for the title.
          */
-        var title: TextInteractor? = null,
+        var title: String? = null,
 
         /**
-         * The [TextInteractor] for the negative button.
+         * The text for the negative button.
          * If null, then the negative button is not displayed.
          */
-        var negativeText: TextInteractor? = null,
+        var negativeText: String? = null,
 
         /**
          * Executes when the user clicks the negative button.
@@ -67,10 +67,10 @@ data class AlertDialogInteractor(
         var onNegative: () -> DialogState = { DialogState.CLOSED },
 
         /**
-         * The [TextInteractor] for the neutral button.
+         * The text for the neutral button.
          * If null, then the neutral button is not displayed.
          */
-        var neutralText: TextInteractor? = null,
+        var neutralText: String? = null,
 
         /**
          * Executes when the user clicks the neutral button.
@@ -79,10 +79,10 @@ data class AlertDialogInteractor(
         var onNeutral: () -> DialogState = { DialogState.CLOSED },
 
         /**
-         * The [TextInteractor] for the positive button.
+         * The text for the positive button.
          * If null, then the positive button is not displayed.
          */
-        var positiveText: TextInteractor? = null,
+        var positiveText: String? = null,
 
         /**
          * Executes when the user clicks the positive button.
@@ -113,21 +113,21 @@ data class AlertDialogInteractor(
             }
 
             return AlertDialogInteractor(
-                title = title,
+                title = title?.textInteractor(),
                 state = state,
-                negativeButton = negativeText?.let { negativeText ->
+                negativeButton = negativeText?.textInteractor()?.let { negativeText ->
                     TextButtonInteractor(
                         text = negativeText.copy(text = negativeText.text.toUpperCase()),
                         button = ButtonInteractor { onNegative.perform() },
                     )
                 },
-                neutralButton = neutralText?.let { neutralText ->
+                neutralButton = neutralText?.textInteractor()?.let { neutralText ->
                     TextButtonInteractor(
                         text = neutralText.copy(text = neutralText.text.toUpperCase()),
                         button = ButtonInteractor { onNeutral.perform() },
                     )
                 },
-                positiveButton = positiveText?.let { positiveText ->
+                positiveButton = positiveText?.textInteractor()?.let { positiveText ->
                     TextButtonInteractor(
                         text = positiveText.copy(text = positiveText.text.toUpperCase()),
                         button = ButtonInteractor { onPositive.perform() }
@@ -140,7 +140,7 @@ data class AlertDialogInteractor(
         /**
          * Applies the [text] to the title.
          */
-        fun title(text: String) = apply { title = text.textInteractor() }
+        fun title(text: String) = apply { title = text }
 
         /**
          * Executes the [block] when the user tries to dismiss the Dialog by clicking outside or pressing the back button.
@@ -190,17 +190,17 @@ data class AlertDialogInteractor(
         /**
          * Applies the [text] for the negative button.
          */
-        fun negativeText(text: String) = apply { negativeText = text.textInteractor() }
+        fun negativeText(text: String) = apply { negativeText = text }
 
         /**
          * Applies the [text] for the neutral button.
          */
-        fun neutralText(text: String) = apply { neutralText = text.textInteractor() }
+        fun neutralText(text: String) = apply { neutralText = text }
 
         /**
          * Applies the [text] for the positive button.
          */
-        fun positiveText(text: String) = apply { positiveText = text.textInteractor() }
+        fun positiveText(text: String) = apply { positiveText = text }
     }
 }
 

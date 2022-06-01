@@ -1,10 +1,9 @@
 package com.bselzer.ktx.compose.resource.ui.layout.alertdialog
 
 import androidx.compose.runtime.Composable
-import com.bselzer.ktx.compose.resource.ui.layout.text.confirmationTextInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.text.dismissTextInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.text.resetTextInteractor
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
+import com.bselzer.ktx.resource.Resources
 
 /**
  * Creates a new [AlertDialogInteractor.Builder] with [triText] enabled.
@@ -39,7 +38,7 @@ fun uniTextAlertDialogInteractor(closeDialog: () -> Unit) = AlertDialogInteracto
  */
 @Composable
 fun AlertDialogInteractor.Builder.triText() = apply {
-    neutralText = resetTextInteractor()
+    neutralText = Resources.strings.reset.localized()
     biText()
 }
 
@@ -50,7 +49,7 @@ fun AlertDialogInteractor.Builder.triText() = apply {
  */
 @Composable
 fun AlertDialogInteractor.Builder.biText() = apply {
-    negativeText = dismissTextInteractor()
+    negativeText = Resources.strings.cancel.localized()
     uniText()
 }
 
@@ -59,5 +58,5 @@ fun AlertDialogInteractor.Builder.biText() = apply {
  */
 @Composable
 fun AlertDialogInteractor.Builder.uniText() = apply {
-    positiveText = confirmationTextInteractor()
+    positiveText = Resources.strings.ok.localized()
 }
