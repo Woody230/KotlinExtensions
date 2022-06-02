@@ -1,5 +1,10 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog
 
+import androidx.compose.foundation.clickable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.toUpperCase
 import com.bselzer.ktx.compose.ui.layout.button.ButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
@@ -7,6 +12,8 @@ import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.textbutton.TextButtonInteractor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 data class AlertDialogInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
@@ -101,11 +108,20 @@ data class AlertDialogInteractor(
         var closeDialog: () -> Unit,
     ) {
         /**
-         * Creates an [AlertDialogInteractor] from the components.
+         * Creates a new instance of the [AlertDialogInteractor.Builder].
+         *
+         * The [AlertDialogInteractor.Builder.state] is set to the [state].
+         * On closing of the dialog, the [state] is updated to [DialogState.CLOSED].
+         */
+        constructor(state: MutableState<DialogState>) : this(state = state.value, closeDialog = { state.value = DialogState.CLOSED })
+
+        /**
+         * Applies the [block] to this builder then creates an [AlertDialogInteractor] from the components.
          *
          * The [negativeText], [neutralText], and [positiveText] are converted to uppercase.
          */
-        fun build(): AlertDialogInteractor {
+        @Composable
+        fun build(block: @Composable Builder.() -> Unit = {}): AlertDialogInteractor = block(this).run {
             fun (() -> DialogState).perform() {
                 if (invoke() == DialogState.CLOSED) {
                     closeDialog()
@@ -138,18 +154,15 @@ data class AlertDialogInteractor(
         }
 
         /**
-         * Applies the [text] to the title.
-         */
-        fun title(text: String) = apply { title = text }
-
-        /**
          * Executes the [block] when the user tries to dismiss the Dialog by clicking outside or pressing the back button.
          * This is not called when the dismiss button is clicked.
          * After execution, the dialog will be closed.
          */
-        fun closeOnDismissRequest(block: () -> Unit) = apply {
+        @Composable
+        fun closeOnDismissRequest(block: suspend CoroutineScope.() -> Unit) = apply {
+            val scope = rememberCoroutineScope()
             onDismissRequest = {
-                block()
+                scope.launch(block = block)
                 DialogState.CLOSED
             }
         }
@@ -158,9 +171,11 @@ data class AlertDialogInteractor(
          * Executes the [block] when the user clicks the negative button.
          * After execution, the dialog will be closed.
          */
-        fun closeOnNegative(block: () -> Unit) = apply {
+        @Composable
+        fun closeOnNegative(block: suspend CoroutineScope.() -> Unit) = apply {
+            val scope = rememberCoroutineScope()
             onNegative = {
-                block()
+                scope.launch(block = block)
                 DialogState.CLOSED
             }
         }
@@ -169,9 +184,11 @@ data class AlertDialogInteractor(
          * Executes the [block] when the user clicks the neutral button.
          * After execution, the dialog will be closed.
          */
-        fun closeOnNeutral(block: () -> Unit) = apply {
+        @Composable
+        fun closeOnNeutral(block: suspend CoroutineScope.() -> Unit) = apply {
+            val scope = rememberCoroutineScope()
             onNeutral = {
-                block()
+                scope.launch(block = block)
                 DialogState.CLOSED
             }
         }
@@ -180,27 +197,14 @@ data class AlertDialogInteractor(
          * Executes the [block] when the user clicks the positive button.
          * After execution, the dialog will be closed.
          */
-        fun closeOnPositive(block: () -> Unit) = apply {
+        @Composable
+        fun closeOnPositive(block: suspend CoroutineScope.() -> Unit) = apply {
+            val scope = rememberCoroutineScope()
             onPositive = {
-                block()
+                scope.launch(block = block)
                 DialogState.CLOSED
             }
         }
-
-        /**
-         * Applies the [text] for the negative button.
-         */
-        fun negativeText(text: String) = apply { negativeText = text }
-
-        /**
-         * Applies the [text] for the neutral button.
-         */
-        fun neutralText(text: String) = apply { neutralText = text }
-
-        /**
-         * Applies the [text] for the positive button.
-         */
-        fun positiveText(text: String) = apply { positiveText = text }
     }
 }
 
@@ -221,3 +225,8 @@ fun DialogState(value: Boolean?) = when (value) {
     true -> DialogState.OPENED
     else -> DialogState.CLOSED
 }
+
+/**
+ * @return a modifier that sets the [DialogState] to open when clicked
+ */
+fun MutableState<DialogState>.open(): Modifier = Modifier.clickable { value = DialogState.OPENED }

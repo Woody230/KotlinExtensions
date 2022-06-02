@@ -11,7 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.uniTextAlertDialogInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.uniText
+import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextInteractor
 import com.bselzer.ktx.compose.ui.layout.badgetext.BadgeTextProjector
@@ -60,7 +61,7 @@ class LibraryProjector(
     private fun LibraryPresenter.Dialog(selected: Library?, setSelected: (Library?) -> Unit) = selected?.let {
         val license = selected.licenses.firstOrNull()
         AlertDialogProjector(
-            interactor = uniTextAlertDialogInteractor { setSelected(null) }.title(text = license?.name ?: "").build()
+            interactor = AlertDialogInteractor.Builder { setSelected(null) }.uniText().build { title = license?.name ?: "" }
         ).Projection(
             // TODO vertical scrolling not working properly without constrained version of dialog
             constrained = true

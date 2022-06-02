@@ -6,30 +6,6 @@ import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.resource.Resources
 
 /**
- * Creates a new [AlertDialogInteractor.Builder] with [triText] enabled.
- */
-@Composable
-fun triTextAlertDialogInteractor(closeDialog: () -> Unit) = AlertDialogInteractor.Builder(
-    closeDialog = closeDialog
-).triText()
-
-/**
- * Creates a new [AlertDialogInteractor.Builder] with [biText] enabled.
- */
-@Composable
-fun biTextAlertDialogInteractor(closeDialog: () -> Unit) = AlertDialogInteractor.Builder(
-    closeDialog = closeDialog
-).biText()
-
-/**
- * Creates a new [AlertDialogInteractor.Builder] with [uniText] enabled.
- */
-@Composable
-fun uniTextAlertDialogInteractor(closeDialog: () -> Unit) = AlertDialogInteractor.Builder(
-    closeDialog = closeDialog
-).uniText()
-
-/**
  * Enables the negative button with dismissal text.
  *
  * Enables the neutral button with reset text.
