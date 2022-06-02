@@ -50,9 +50,8 @@ data class AlertDialogInteractor(
         /**
          * Executes when the user tries to dismiss the Dialog by clicking outside or pressing the back button.
          * This is not called when the dismiss button is clicked.
-         * Returns whether the dialog should be shown.
          */
-        var onDismissRequest: () -> DialogState = { DialogState.CLOSED },
+        var onDismissRequest: suspend CoroutineScope.() -> Unit = { closeDialog() },
 
         /**
          * The text for the title.
@@ -69,7 +68,7 @@ data class AlertDialogInteractor(
          * Executes when the user clicks the negative button.
          * Returns whether the dialog should be shown.
          */
-        var onNegative: () -> DialogState = { DialogState.CLOSED },
+        var onNegative: suspend CoroutineScope.() -> DialogState = { DialogState.CLOSED },
 
         /**
          * The text for the neutral button.
@@ -81,7 +80,7 @@ data class AlertDialogInteractor(
          * Executes when the user clicks the neutral button.
          * Returns whether the dialog should be shown.
          */
-        var onNeutral: () -> DialogState = { DialogState.CLOSED },
+        var onNeutral: suspend CoroutineScope.() -> DialogState = { DialogState.CLOSED },
 
         /**
          * The text for the positive button.
@@ -93,7 +92,7 @@ data class AlertDialogInteractor(
          * Executes when the user clicks the positive button.
          * Returns whether the dialog should be shown.
          */
-        var onPositive: () -> DialogState = { DialogState.CLOSED },
+        var onPositive: suspend CoroutineScope.() -> DialogState = { DialogState.CLOSED },
 
         /**
          * The state of the dialog indicating whether it should be opened.
@@ -103,15 +102,18 @@ data class AlertDialogInteractor(
         /**
          * Executes when the user tries to dismiss the dialog or clicks a button and the associated callback indicates that the dialog should be closed.
          */
-        var closeDialog: () -> Unit,
+        var closeDialog: suspend CoroutineScope.() -> Unit,
     ) {
         /**
          * Creates a new instance of the [AlertDialogInteractor.Builder].
          *
          * The [AlertDialogInteractor.Builder.state] is set to the [state].
-         * On closing of the dialog, the [state] is updated to [DialogState.CLOSED].
+         * On closing of the dialog, the [state] is updated to [DialogState.CLOSED] and the [onClose] callback is called.
          */
-        constructor(state: MutableState<DialogState>) : this(state = state.value, closeDialog = { state.value = DialogState.CLOSED })
+        constructor(state: MutableState<DialogState>, onClose: suspend CoroutineScope.() -> Unit = {}) : this(state = state.value, closeDialog = {
+            onClose()
+            state.value = DialogState.CLOSED
+        })
 
         /**
          * Applies the [block] to this builder then creates an [AlertDialogInteractor] from the components.
@@ -120,8 +122,9 @@ data class AlertDialogInteractor(
          */
         @Composable
         fun build(block: @Composable Builder.() -> Unit = {}): AlertDialogInteractor = block(this).run {
-            fun (() -> DialogState).perform() {
-                if (invoke() == DialogState.CLOSED) {
+            val scope = rememberCoroutineScope()
+            fun (suspend CoroutineScope.() -> DialogState).perform() = scope.launch {
+                if (invoke(this) == DialogState.CLOSED) {
                     closeDialog()
                 }
             }
@@ -147,7 +150,9 @@ data class AlertDialogInteractor(
                         button = ButtonInteractor { onPositive.perform() }
                     )
                 },
-                onDismissRequest = { onDismissRequest.perform() }
+                onDismissRequest = {
+                    scope.launch { onDismissRequest() }
+                }
             )
         }
 
@@ -158,10 +163,9 @@ data class AlertDialogInteractor(
          */
         @Composable
         fun closeOnDismissRequest(block: suspend CoroutineScope.() -> Unit) = apply {
-            val scope = rememberCoroutineScope()
             onDismissRequest = {
-                scope.launch(block = block)
-                DialogState.CLOSED
+                block()
+                closeDialog()
             }
         }
 
@@ -171,9 +175,8 @@ data class AlertDialogInteractor(
          */
         @Composable
         fun closeOnNegative(block: suspend CoroutineScope.() -> Unit) = apply {
-            val scope = rememberCoroutineScope()
             onNegative = {
-                scope.launch(block = block)
+                block()
                 DialogState.CLOSED
             }
         }
@@ -184,9 +187,8 @@ data class AlertDialogInteractor(
          */
         @Composable
         fun closeOnNeutral(block: suspend CoroutineScope.() -> Unit) = apply {
-            val scope = rememberCoroutineScope()
             onNeutral = {
-                scope.launch(block = block)
+                block()
                 DialogState.CLOSED
             }
         }
@@ -197,9 +199,8 @@ data class AlertDialogInteractor(
          */
         @Composable
         fun closeOnPositive(block: suspend CoroutineScope.() -> Unit) = apply {
-            val scope = rememberCoroutineScope()
             onPositive = {
-                scope.launch(block = block)
+                block()
                 DialogState.CLOSED
             }
         }

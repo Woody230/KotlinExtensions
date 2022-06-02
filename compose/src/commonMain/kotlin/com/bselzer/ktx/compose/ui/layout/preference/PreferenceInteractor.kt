@@ -5,7 +5,6 @@ import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
-import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 
 data class PreferenceInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
@@ -31,8 +30,8 @@ data class PreferenceInteractor(
             contentDescription = contentDescription
         ),
         description = DescriptionInteractor(
-            title = title.textInteractor(),
-            subtitle = subtitle.textInteractor()
+            title = title,
+            subtitle = subtitle
         )
     )
 }
