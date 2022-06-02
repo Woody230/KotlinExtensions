@@ -4,6 +4,7 @@ import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
+import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 
 data class DescriptionInteractor(
     override val modifier: InteractableModifier = InteractableModifier,
@@ -22,4 +23,6 @@ data class DescriptionInteractor(
      * The [Interactor] for the subtitle.
      */
     val subtitle: TextInteractor? = null
-) : Interactor(modifier)
+) : Interactor(modifier) {
+    constructor(title: String, subtitle: String?) : this(title = title.textInteractor(), subtitle = subtitle?.textInteractor())
+}
