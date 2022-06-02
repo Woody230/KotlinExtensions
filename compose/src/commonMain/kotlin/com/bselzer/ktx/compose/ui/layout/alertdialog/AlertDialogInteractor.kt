@@ -1,9 +1,7 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.foundation.clickable
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.toUpperCase
 import com.bselzer.ktx.compose.ui.layout.button.ButtonInteractor
@@ -229,4 +227,10 @@ fun DialogState(value: Boolean?) = when (value) {
 /**
  * @return a modifier that sets the [DialogState] to open when clicked
  */
-fun MutableState<DialogState>.open(): Modifier = Modifier.clickable { value = DialogState.OPENED }
+fun MutableState<DialogState>.openOnClick(): Modifier = Modifier.clickable { value = DialogState.OPENED }
+
+/**
+ * Remembers the mutable [DialogState] whose initial value is [initial].
+ */
+@Composable
+fun rememberDialogState(initial: DialogState = DialogState.CLOSED) = remember { mutableStateOf(initial) }
