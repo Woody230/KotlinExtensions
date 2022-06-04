@@ -19,8 +19,11 @@ suspend inline fun <reified Model : Any, Id : Any> Transaction.putMissingById(
     crossinline requestById: suspend (Collection<Id>) -> Collection<Model>
 ) {
     val allIds = requestIds().toHashSet()
+
     val missingIds = allIds.filter { id -> getById<Model>(id) == null }
-    requestById(missingIds).forEach { model -> put(model) }
+    if (missingIds.isNotEmpty()) {
+        requestById(missingIds).forEach { model -> put(model) }
+    }
 }
 
 /**
@@ -41,10 +44,13 @@ suspend inline fun <reified Model : Identifiable<Id, Value>, Id : Identifier<Val
 ): Map<Id, Model> {
     val allIds = requestIds().toHashSet()
     val models = allIds.associateWith { id -> getById<Model>(id) }.toMutableMap()
+
     val missingIds = allIds.filter { id -> getById<Model>(id) == null }
-    requestById(missingIds).forEach { model ->
-        models[model.id] = model
-        put(model)
+    if (missingIds.isNotEmpty()) {
+        requestById(missingIds).forEach { model ->
+            models[model.id] = model
+            put(model)
+        }
     }
 
     // Ensure all non-existent models are purged before casting.
