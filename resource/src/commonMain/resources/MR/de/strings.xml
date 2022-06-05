@@ -1,77 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="settings">Einstellungen</string>
-    <string name="cache">Cache</string>
-    <string name="licenses">Lizenzen</string>
     <string name="about_app">Über die App</string>
     <string name="about">Über</string>
-    <string name="ok">Ok</string>
+    <string name="blue">Blau</string>
+    <string name="cache_clear">Habe den Cache geleert.</string>
+    <string name="cache">Cache</string>
     <string name="cancel">Abbrechen</string>
-    <string name="reset">Zurücksetzen</string>
-    <string name="delete">Löschen</string>
-    <string name="more_options">Weitere Optionen</string>
     <string name="condense">Verdichten</string>
+    <string name="contact">Kontakt</string>
+    <string name="dark">Dunkel</string>
+    <string name="days">Tage</string>
+    <string name="delete">Löschen</string>
+    <string name="developer">Entwickler</string>
+    <string name="down">Nach unten</string>
+    <string name="email">E-Mail</string>
     <string name="expand">Erweitern</string>
-    <string name="zoom_in">Hineinzoomen</string>
-    <string name="zoom_out">Rauszoomen</string>
+    <string name="gray">Grau</string>
+    <string name="green">Grün</string>
+    <string name="hours">Stunden</string>
+    <string name="language">Sprache</string>
+    <string name="left">Links</string>
+    <string name="legal_notice">Rechtliche Hinweise</string>
+    <string name="licenses">Lizenzen</string>
+    <string name="light">Licht</string>
     <string name="menu">Menü</string>
+    <string name="microseconds">Mikrosekunden</string>
+    <string name="migration">Migration</string>
+    <string name="milliseconds">Millisekunden</string>
+    <string name="minutes">Minuten</string>
+    <string name="more_options">Weitere Optionen</string>
+    <string name="nanoseconds">Nanosekunden</string>
+    <string name="no_license_found">Keine Lizenz gefunden.</string>
+    <string name="no_license">Keine Lizenz</string>
+    <string name="not_selected">Nicht ausgewählt</string>
     <string name="not_set">Nicht eingestellt</string>
-    <string name="unknown">Unbekannt</string>
+    <string name="ok">Ok</string>
+    <string name="overview">Übersicht</string>
+    <string name="partially_selected">Teilweise ausgewählt</string>
+    <string name="red">Rot</string>
+    <string name="refresh_interval">Aktualisierungsintervall</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="right">Rechts</string>
+    <string name="seconds">Sekunden</string>
+    <string name="selected">Ausgewählt</string>
+    <string name="settings">Einstellungen</string>
     <string name="theme">Design</string>
     <string name="token">Authentifizierungstoken</string>
-    <string name="legal_notice">Rechtliche Hinweise</string>
-    <string name="cache_clear">Habe den Cache geleert.</string>
-    <string name="migration">Migration</string>
-    <string name="overview">Übersicht</string>
-
-    <!-- Locale -->
-    <string name="language">Sprache</string>
-
-    <!-- Versioning -->
-    <string name="version">Version</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="up">Oben</string>
     <string name="version_code">Versionscode</string>
     <string name="version_name">Versionsname</string>
-
-    <!-- Refresh -->
-    <string name="refresh">Aktualisieren</string>
-    <string name="refresh_interval">Aktualisierungsintervall</string>
-
-    <!-- Selected -->
-    <string name="selected">Ausgewählt</string>
-    <string name="not_selected">Nicht ausgewählt</string>
-    <string name="partially_selected">Teilweise ausgewählt</string>
-
-    <!-- Theme -->
-    <string name="light">Licht</string>
-    <string name="dark">Dunkel</string>
-
-    <!-- Contact -->
-    <string name="contact">Kontakt</string>
-    <string name="email">E-Mail</string>
-    <string name="developer">Entwickler</string>
-
-    <!-- Directions -->
-    <string name="up">Oben</string>
-    <string name="down">Nach unten</string>
-    <string name="left">Links</string>
-    <string name="right">Rechts</string>
-
-    <!-- Library Module -->
-    <string name="no_license">Keine Lizenz</string>
-    <string name="no_license_found">Keine Lizenz gefunden.</string>
-
-    <!-- DurationUnit -->
-    <string name="nanoseconds">Nanosekunden</string>
-    <string name="microseconds">Mikrosekunden</string>
-    <string name="milliseconds">Millisekunden</string>
-    <string name="seconds">Sekunden</string>
-    <string name="minutes">Minuten</string>
-    <string name="hours">Stunden</string>
-    <string name="days">Tage</string>
-
-    <!-- Colors -->
-    <string name="red">Rot</string>
-    <string name="blue">Blau</string>
-    <string name="green">Grün</string>
-    <string name="gray">Grau</string>
+    <string name="version">Version</string>
+    <string name="zoom_in">Hineinzoomen</string>
+    <string name="zoom_out">Rauszoomen</string>
 </resources>
