@@ -25,5 +25,5 @@ kotlin.setup {
 
 multiplatformResources {
     multiplatformResourcesPackage = "com.bselzer.ktx.resource"
-    multiplatformResourcesClassName = "Resources"
+    multiplatformResourcesClassName = "KtxResources"
 }

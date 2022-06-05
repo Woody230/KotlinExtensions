@@ -27,7 +27,7 @@ import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import com.mikepenz.aboutlibraries.entity.Library
 import dev.icerock.moko.resources.desc.desc
 
@@ -66,7 +66,7 @@ class LibraryProjector(
             // TODO vertical scrolling not working properly without constrained version of dialog
             constrained = true
         ) {
-            val text = if (license == null) Resources.strings.no_license_found.desc() else (license.licenseContent ?: "").desc()
+            val text = if (license == null) KtxResources.strings.no_license_found.desc() else (license.licenseContent ?: "").desc()
             TextProjector(
                 interactor = text.localized().textInteractor(),
                 presenter = dialogBody

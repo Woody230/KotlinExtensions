@@ -2,7 +2,7 @@ package com.bselzer.ktx.compose.resource.ui.intl
 
 import androidx.compose.ui.text.intl.Locale
 import com.bselzer.ktx.compose.ui.intl.Localizer
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.StringResource
 
 /**
@@ -14,9 +14,9 @@ fun Locale.stringResource(): StringResource = stringResourceOrNull() ?: throw No
  * Converts the [Locale] into a [StringResource], or null if the conversion does not exist.
  */
 fun Locale.stringResourceOrNull() = when (this) {
-    Localizer.ENGLISH -> Resources.strings.locale_en
-    Localizer.FRENCH -> Resources.strings.locale_fr
-    Localizer.GERMAN -> Resources.strings.locale_de
-    Localizer.SPANISH -> Resources.strings.locale_es
+    Localizer.ENGLISH -> KtxResources.strings.locale_en
+    Localizer.FRENCH -> KtxResources.strings.locale_fr
+    Localizer.GERMAN -> KtxResources.strings.locale_de
+    Localizer.SPANISH -> KtxResources.strings.locale_es
     else -> null
 }
