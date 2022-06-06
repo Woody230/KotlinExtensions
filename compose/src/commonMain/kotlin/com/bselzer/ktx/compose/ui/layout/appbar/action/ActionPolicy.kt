@@ -22,7 +22,7 @@ internal abstract class AdjustableActionPolicy : ActionPolicy {
 
     protected open val minimumApplicationSize: DpSize
         @Composable
-        get() = DpSize.Unspecified
+        get() = DpSize.Zero
 
     override val maxActions: Int
         @Composable
