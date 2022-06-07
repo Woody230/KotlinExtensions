@@ -1,14 +1,6 @@
-package com.bselzer.ktx.compose.ui.intl
-
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.neverEqualPolicy
-import androidx.compose.ui.text.intl.Locale
+package com.bselzer.ktx.intl
 
 interface Localizer {
-    /**
-     * The default locale.
-     */
     var locale: Locale
 
     /**
@@ -35,15 +27,14 @@ interface Localizer {
     }
 }
 
-internal abstract class BaseSystemLocalizer : Localizer {
-    // Use a mutable state so that compositions can be made aware of changes.
-    private val state: MutableState<Locale> = mutableStateOf(Locale.current, neverEqualPolicy())
+internal class SystemLocalizer : Localizer {
     private val listeners: MutableList<(Locale) -> Unit> = mutableListOf()
 
-    final override var locale: Locale
-        get() = state.value
+    private var _locale: Locale = DefaultLocale
+    override var locale: Locale
+        get() = _locale
         set(value) {
-            state.value = value
+            _locale = value
             listeners.forEach { listener -> listener(value) }
         }
 
@@ -59,5 +50,3 @@ internal abstract class BaseSystemLocalizer : Localizer {
         listeners.clear()
     }
 }
-
-internal expect class SystemLocalizer() : BaseSystemLocalizer

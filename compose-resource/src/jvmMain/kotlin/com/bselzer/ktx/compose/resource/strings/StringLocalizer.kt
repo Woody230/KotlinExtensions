@@ -9,7 +9,7 @@ internal actual class SystemStringLocalizer actual constructor() : BaseSystemStr
     @Composable
     override fun localize(desc: StringDesc): String {
         // Use the LocalLocale which allows for locally defining locales instead of just by a global which is what moko does.
-        val locale = Locale(LocalLocale.current.toLanguageTag())
+        val locale = Locale(LocalLocale.current.languageTag)
         return when (desc) {
             is CompositionStringDesc -> {
                 val localized = desc.args.associateWith { localize(it) }

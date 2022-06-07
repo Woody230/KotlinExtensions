@@ -21,6 +21,7 @@ kotlin.setup {
         ktxDateTime()
         ktxSerialization()
         coroutine()
+        projectIntl()
     }
     commonTest()
     androidTest()

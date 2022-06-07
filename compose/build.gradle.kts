@@ -19,6 +19,7 @@ kotlin.setup {
         ktxSerialization()
         projectConstraintLayout()
         projectFunction()
+        projectIntl()
     }
     jvmMain()
     commonTest()

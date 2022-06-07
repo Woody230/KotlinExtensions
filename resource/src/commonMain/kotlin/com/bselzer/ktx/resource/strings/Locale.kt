@@ -1,7 +1,7 @@
-package com.bselzer.ktx.compose.resource.ui.intl
+package com.bselzer.ktx.resource.strings
 
-import androidx.compose.ui.text.intl.Locale
-import com.bselzer.ktx.compose.ui.intl.Localizer
+import com.bselzer.ktx.intl.Locale
+import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.StringResource
 

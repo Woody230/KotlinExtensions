@@ -1,5 +1,7 @@
 package com.bselzer.ktx.datetime.format
 
+import com.bselzer.ktx.intl.DefaultLocale
+import com.bselzer.ktx.intl.Localizer
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
@@ -26,10 +28,20 @@ class PatternDateTimeFormatterTests {
 
     @Test
     fun dayOfWeek() {
-        val date = Instant.parse("2022-05-12T11:00:00.000Z").toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-        val formatter = DateTimeFormatter.ofPattern("EEEE")
-        assertEquals("Thursday", formatter.format(date))
-        assertEquals("jeudi", formatter.withLocale(Locale.FRENCH).format(date))
-        assertEquals("jueves", formatter.withLocale(Locale.Builder().setLanguage("es").setRegion("ES").build()).format(date))
+        val instant = Instant.parse("2022-05-12T11:00:00.000Z")
+        val date = instant.toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+        val javaFormatter = DateTimeFormatter.ofPattern("EEEE")
+        assertEquals("Thursday", javaFormatter.format(date))
+        assertEquals("jeudi", javaFormatter.withLocale(Locale.FRENCH).format(date))
+        assertEquals("jueves", javaFormatter.withLocale(Locale.Builder().setLanguage("es").setRegion("ES").build()).format(date))
+
+        val kotlinFormatter = PatternDateTimeFormatter("EEEE")
+        assertEquals("Thursday", kotlinFormatter.format(instant))
+
+        DefaultLocale = Localizer.FRENCH
+        assertEquals("jeudi", kotlinFormatter.format(instant))
+
+        DefaultLocale = Localizer.SPANISH
+        assertEquals("jueves", kotlinFormatter.format(instant))
     }
 }

@@ -1,6 +1,6 @@
-package com.bselzer.ktx.compose.ui.intl
+package com.bselzer.ktx.intl.serialization
 
-import androidx.compose.ui.text.intl.Locale
+import com.bselzer.ktx.intl.Locale
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -17,6 +17,6 @@ class LocaleSerializer : KSerializer<Locale> {
     override fun deserialize(decoder: Decoder): Locale = Locale(decoder.decodeString())
 
     override fun serialize(encoder: Encoder, value: Locale) {
-        encoder.encodeString(value.toLanguageTag())
+        encoder.encodeString(value.languageTag)
     }
 }

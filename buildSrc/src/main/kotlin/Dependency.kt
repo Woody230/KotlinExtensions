@@ -76,6 +76,7 @@ fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
 fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
 fun KotlinDependencyHandler.projectLogging() = implementation(project(":logging"))
 fun KotlinDependencyHandler.projectValue() = api(project(":value"))
+fun KotlinDependencyHandler.projectIntl() = api(project(":intl"))
 
 /**
  * Sets up common dependencies.
