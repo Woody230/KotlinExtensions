@@ -43,7 +43,6 @@ internal abstract class BaseSystemLocalizer : Localizer {
     final override var locale: Locale
         get() = state.value
         set(value) {
-            setSystemLocale(value)
             state.value = value
             listeners.forEach { listener -> listener(value) }
         }
@@ -59,11 +58,6 @@ internal abstract class BaseSystemLocalizer : Localizer {
     override fun removeListeners() {
         listeners.clear()
     }
-
-    /**
-     * Sets the platform specific locale from the composable [Locale].
-     */
-    protected abstract fun setSystemLocale(locale: Locale)
 }
 
 internal expect class SystemLocalizer() : BaseSystemLocalizer
