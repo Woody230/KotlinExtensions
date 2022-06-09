@@ -132,34 +132,35 @@ class AlertDialogProjector(
             .fillMaxWidth()
             .padding(start = 24.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
     ) {
-        val (neutral, spacer, core) = createRefs()
+        val (neutral, core) = createRefs()
 
         Row(modifier = Modifier.constrainAs(neutral) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             start.linkTo(parent.start)
-            end.linkTo(spacer.start)
-        }) {
-            neutralProjector?.Projection()
-        }
-
-        Spacer(modifier = Modifier.constrainAs(spacer) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(neutral.end)
             end.linkTo(core.start)
             width = Dimension.fillToConstraints
-        })
+        }) {
+            neutralProjector?.let { neutralButton ->
+                neutralButton.Projection()
+
+                if (positiveProjector != null || negativeProjector != null) {
+                    Spacer(width = 8.dp)
+                }
+            }
+        }
 
         Row(modifier = Modifier.constrainAs(core) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
-            start.linkTo(spacer.end)
             end.linkTo(parent.end)
         }) {
             negativeProjector?.let { negativeButton ->
                 negativeButton.Projection()
-                Spacer(width = 8.dp)
+
+                if (positiveProjector != null) {
+                    Spacer(width = 8.dp)
+                }
             }
 
             positiveProjector?.Projection()
