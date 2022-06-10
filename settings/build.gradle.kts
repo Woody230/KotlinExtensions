@@ -13,6 +13,7 @@ kotlin.setup {
         ktxSerialization()
         coroutine()
         multiplatformSettings()
+        projectValue()
     }
     commonTest()
 }
