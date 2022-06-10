@@ -12,7 +12,7 @@ internal actual class SystemStringLocalizer actual constructor() : BaseSystemStr
         get() = run {
             // Use the LocalLocale which allows for locally defining locales instead of just by a global which is what moko does.
             val context = LocalContext.current
-            val locale = Locale(LocalLocale.current.languageTag)
+            val locale = Locale(LocalLocale.current.toLanguageTag())
             val configuration = context.resources.configuration.apply { setLocale(locale) }
             context.createConfigurationContext(configuration)
         }
