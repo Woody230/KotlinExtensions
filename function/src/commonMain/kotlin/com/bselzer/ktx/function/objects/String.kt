@@ -13,7 +13,7 @@ fun String.userFriendly(): String
 
     // Capitalize the first letter of words split by spaces.
     name.split(" ").forEach { string ->
-        builder.append(string.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }).append(" ")
+        builder.append(string.capitalize()).append(" ")
     }
 
     val result = builder.toString()
@@ -23,8 +23,9 @@ fun String.userFriendly(): String
 /**
  * @return a user friendly string
  */
-fun KClass<*>.userFriendly(): String
-{
+fun KClass<*>.userFriendly(): String {
     // Add spaces between capital letters.
     return this.simpleName?.replace(Regex("(\\p{Ll})(\\p{Lu})"), "$1 $2").toString()
 }
+
+fun String.capitalize(): String = replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
