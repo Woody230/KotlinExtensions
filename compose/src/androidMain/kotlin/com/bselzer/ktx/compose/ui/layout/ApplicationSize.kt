@@ -1,13 +1,12 @@
-package com.bselzer.ktx.compose.ui.layout.appbar.action
+package com.bselzer.ktx.compose.ui.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 
-internal actual class SystemActionPolicy : AdjustableActionPolicy() {
-    override val applicationSize: DpSize
+actual class SystemApplicationSize : ApplicationSize {
+    override val current: DpSize
         @Composable
         get() = LocalContext.current.resources.configuration.run {
             DpSize(
@@ -16,12 +15,12 @@ internal actual class SystemActionPolicy : AdjustableActionPolicy() {
             )
         }
 
-    override val minimumApplicationSize: DpSize
+    override val minimum: DpSize
         @Composable
         get() = LocalContext.current.resources.configuration.run {
             DpSize(
                 width = smallestScreenWidthDp.dp,
-                height = Dp.Unspecified
+                height = 0.dp
             )
         }
 }
