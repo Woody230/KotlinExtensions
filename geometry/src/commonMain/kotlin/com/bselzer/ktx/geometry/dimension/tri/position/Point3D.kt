@@ -10,6 +10,8 @@ data class Point3D(
     override val y: Double = 0.0,
     override val z: Double = 0.0
 ) : Coordinates3D {
+    override fun toString(): String = "[$x,$y,$z]"
+
     /**
      * Converts this [Point3D] to a [Point2D].
      */

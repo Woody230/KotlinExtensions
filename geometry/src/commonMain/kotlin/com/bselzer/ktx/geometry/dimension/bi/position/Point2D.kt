@@ -7,4 +7,6 @@ import kotlinx.serialization.Serializable
 data class Point2D(
     override val x: Double = 0.0,
     override val y: Double = 0.0
-) : Coordinates2D
+) : Coordinates2D {
+    override fun toString(): String = "[$x,$y]"
+}
