@@ -12,7 +12,7 @@ class Point3DTests {
         val isNotDefault = Point3D(1.0, 2.0, 3.0)
 
         // Act / Assert
-        assertTrue(isDefault.isDefault())
-        assertFalse(isNotDefault.isDefault())
+        assertTrue(isDefault.isDefault)
+        assertFalse(isNotDefault.isDefault)
     }
 }

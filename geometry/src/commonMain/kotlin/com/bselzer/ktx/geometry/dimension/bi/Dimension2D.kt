@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable(with = Dimension2DSerializer::class)
 data class Dimension2D(
-    val width: Double = 0.0,
-    val height: Double = 0.0
-)
+    override val width: Double = 0.0,
+    override val height: Double = 0.0
+) : Size2D
