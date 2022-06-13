@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.IntOffset
 import com.bselzer.ktx.compose.image.model.Image
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
+import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
 
 data class AsyncImageInteractor(
@@ -40,10 +41,13 @@ data class AsyncImageInteractor(
 
     /**
      * The [ImageInteractor] to display when the [url] is being loaded.
-     *
-     * If it is null, then an indeterminate progress indicator is used instead.
      */
     val loadingImage: ImageInteractor? = null,
+
+    /**
+     * The [ProgressIndicatorInteractor] to display when the [loadingImage] is null.
+     */
+    val loadingProgress: ProgressIndicatorInteractor? = null,
 
     /**
      * The [ImageInteractor] to display when the [url] is unable to be loaded.

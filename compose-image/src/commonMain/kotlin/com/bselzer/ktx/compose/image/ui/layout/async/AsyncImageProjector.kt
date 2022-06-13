@@ -75,18 +75,20 @@ class AsyncImageProjector(
     }
 
     @Composable
-    private fun LoadingImage(interactor: AsyncImageInteractor, presenter: AsyncImagePresenter) {
-        // Default to a progress bar if an image is not provided.
-        if (interactor.loadingImage == null) {
-            ProgressIndicatorProjector(
-                presenter = presenter.progress
-            ).Projection()
-        } else {
+    private fun LoadingImage(interactor: AsyncImageInteractor, presenter: AsyncImagePresenter) = when {
+        interactor.loadingImage != null -> {
             ImageProjector(
                 interactor = interactor.loadingImage,
                 presenter = presenter.image
             ).Projection()
         }
+        interactor.loadingProgress != null -> {
+            ProgressIndicatorProjector(
+                interactor = interactor.loadingProgress,
+                presenter = presenter.progress
+            ).Projection()
+        }
+        else -> {}
     }
 
     @Composable
