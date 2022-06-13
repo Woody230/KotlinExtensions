@@ -2,6 +2,8 @@ package com.bselzer.ktx.logging
 
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTimedValue
 
 object Logger {
     /**
@@ -146,6 +148,29 @@ object Logger {
      * @param message the message
      */
     fun wtf(message: String? = defaultMessage): Unit = wtf(null, message)
+
+    /**
+     * Creates a debug log indicating the execution time of the [block].
+     *
+     * @param message the message
+     * @param block the block to execute
+     * @return the result of the block
+     */
+    inline fun <R> time(message: String, crossinline block: () -> R): R = time({ message }, block)
+
+    /**
+     * Creates a debug log indicating the execution time of the [block].
+     *
+     * @param message the message
+     * @param block the block to execute
+     * @return the result of the block
+     */
+    @OptIn(ExperimentalTime::class)
+    inline fun <R> time(noinline message: () -> String, crossinline block: () -> R): R {
+        val (result, duration) = measureTimedValue(block)
+        d { message() + " Executed for $duration." }
+        return result
+    }
 
     /**
      * Clears all logging capabilities.
