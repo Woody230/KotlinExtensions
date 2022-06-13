@@ -44,7 +44,7 @@ class ProgressIndicatorProjector<Presenter>(
                 )
             }
         } else {
-            // Display the progress indicator with explcitly defined progress.
+            // Display the progress indicator with explicitly defined progress.
             when (presenter) {
                 is CircularIndicatorPresenter -> CircularProgressIndicator(
                     progress = interactor.progress,
