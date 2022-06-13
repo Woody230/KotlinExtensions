@@ -156,7 +156,7 @@ object Logger {
      * @param block the block to execute
      * @return the result of the block
      */
-    inline fun <R> time(message: String, crossinline block: () -> R): R = time({ message }, block)
+    inline fun <R> time(message: String, block: () -> R): R = time({ message }, block)
 
     /**
      * Creates a debug log indicating the execution time of the [block].
@@ -166,7 +166,7 @@ object Logger {
      * @return the result of the block
      */
     @OptIn(ExperimentalTime::class)
-    inline fun <R> time(noinline message: () -> String, crossinline block: () -> R): R {
+    inline fun <R> time(noinline message: () -> String, block: () -> R): R {
         val (result, duration) = measureTimedValue(block)
         d { message() + " Executed for $duration." }
         return result
