@@ -22,6 +22,15 @@ fun Hex.color(): Color {
 }
 
 /**
+ * The [Color] associated with an ARGB or RGB hexadecimal representation, or null if the [Hex.value] is unable to be converted.
+ */
+fun Hex.colorOrNull(): Color? = try {
+    color()
+} catch (ex: Exception) {
+    null
+}
+
+/**
  * The hexadecimal representation of this [Color] in ARGB format.
  */
 fun Color.hex(): Hex {
