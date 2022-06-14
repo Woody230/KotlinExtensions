@@ -20,3 +20,15 @@ fun Hex.color(): Color {
     }
     return Color(hex.toLong(radix = 16))
 }
+
+/**
+ * The hexadecimal representation of this [Color] in ARGB format.
+ */
+fun Color.hex(): Hex {
+    fun Float.convert() = (this * 255).toLong().toString(radix = 16).padStart(length = 2, padChar = '0')
+    val alpha = alpha.convert()
+    val red = red.convert()
+    val green = green.convert()
+    val blue = blue.convert()
+    return Hex("#$alpha$red$green$blue")
+}

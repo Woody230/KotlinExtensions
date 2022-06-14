@@ -18,6 +18,23 @@ class ColorTests {
     }
 
     @Test
+    fun colorNoAlpha() {
+        // Arrange
+        val color = Color(
+            alpha = 255.zeroToOneScaled(),
+            red = 61.zeroToOneScaled(),
+            green = 171.zeroToOneScaled(),
+            blue = 90.zeroToOneScaled()
+        )
+
+        // Act
+        val hex = color.hex()
+
+        // Assert
+        assertEquals("#ff3dab5a", hex.value)
+    }
+
+    @Test
     fun hexWithAlpha() {
         // Arrange
         val hex = "053dab5a"
@@ -27,6 +44,23 @@ class ColorTests {
 
         // Assert
         color.assertArgb(alpha = 5, red = 61, green = 171, blue = 90)
+    }
+
+    @Test
+    fun colorWithAlpha() {
+        // Arrange
+        val color = Color(
+            alpha = 5.zeroToOneScaled(),
+            red = 61.zeroToOneScaled(),
+            green = 171.zeroToOneScaled(),
+            blue = 90.zeroToOneScaled()
+        )
+
+        // Act
+        val hex = color.hex()
+
+        // Assert
+        assertEquals("#053dab5a", hex.value)
     }
 
     /**
