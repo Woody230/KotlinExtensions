@@ -3,7 +3,6 @@ package com.bselzer.ktx.settings.setting
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.SuspendSettings
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -11,7 +10,7 @@ import kotlinx.coroutines.flow.callbackFlow
 /**
  * A base wrapper for a [Settings] instance.
  */
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalSettingsApi::class)
+@OptIn(ExperimentalSettingsApi::class)
 abstract class SettingWrapper<T>(protected val settings: SuspendSettings, override val key: String, override val defaultValue: T) : Setting<T> {
     private val listeners: MutableList<SettingListener> = mutableListOf()
 

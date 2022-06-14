@@ -11,6 +11,7 @@ android.setupWithCompose()
 kotlin.setup {
     commonMain {
         runtime()
+        ui()
         coroutine()
         projectSettings()
     }
