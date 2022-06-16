@@ -23,15 +23,97 @@ import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.aakira.napier.Napier
+import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlin.math.truncate
+
+/**
+ * Create and remember a snapping [FlingBehavior] to be used with [LazyListState].
+ *
+ * This is a convenience function for using [rememberLazyListSnapperLayoutInfo] and
+ * [rememberSnapperFlingBehavior]. If you require access to the layout info, you can safely use
+ * those APIs directly.
+ *
+ * @param lazyListState The [LazyListState] to update.
+ * @param snapOffsetForItem Block which returns which offset the given item should 'snap' to.
+ * See [SnapOffsets] for provided values.
+ * @param endContentPadding The amount of content padding on the end edge of the lazy list
+ * in dps (end/bottom depending on the scrolling direction).
+ * @param decayAnimationSpec The decay animation spec to use for decayed flings.
+ * @param springAnimationSpec The animation spec to use when snapping.
+ * @param snapIndex Block which returns the index to snap to. The block is provided with the
+ * [SnapperLayoutInfo], the index where the fling started, and the index which Snapper has
+ * determined is the correct target index. Callers can override this value to any valid index
+ * for the layout. Some common use cases include limiting the fling distance, and rounding up/down
+ * to achieve snapping to groups of items.
+ */
+@ExperimentalSnapperApi
+@Composable
+public fun rememberSnapperFlingBehavior(
+    lazyListState: LazyListState,
+    snapOffsetForItem: (layoutInfo: SnapperLayoutInfo, item: SnapperLayoutItemInfo) -> Int = SnapOffsets.Center,
+    endContentPadding: Dp = 0.dp,
+    decayAnimationSpec: DecayAnimationSpec<Float> = rememberSplineBasedDecay(),
+    springAnimationSpec: AnimationSpec<Float> = SnapperFlingBehaviorDefaults.SpringAnimationSpec,
+    snapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int,
+): SnapperFlingBehavior = rememberSnapperFlingBehavior(
+    layoutInfo = rememberLazyListSnapperLayoutInfo(
+        lazyListState = lazyListState,
+        snapOffsetForItem = snapOffsetForItem,
+        endContentPadding = endContentPadding
+    ),
+    decayAnimationSpec = decayAnimationSpec,
+    springAnimationSpec = springAnimationSpec,
+    snapIndex = snapIndex,
+)
+
+/**
+ * Create and remember a snapping [FlingBehavior] to be used with [LazyListState].
+ *
+ * This is a convenience function for using [rememberLazyListSnapperLayoutInfo] and
+ * [rememberSnapperFlingBehavior]. If you require access to the layout info, you can safely use
+ * those APIs directly.
+ *
+ * @param lazyListState The [LazyListState] to update.
+ * @param snapOffsetForItem Block which returns which offset the given item should 'snap' to.
+ * See [SnapOffsets] for provided values.
+ * @param endContentPadding The amount of content padding on the end edge of the lazy list
+ * in dps (end/bottom depending on the scrolling direction).
+ * @param decayAnimationSpec The decay animation spec to use for decayed flings.
+ * @param springAnimationSpec The animation spec to use when snapping.
+ */
+@ExperimentalSnapperApi
+@Composable
+public fun rememberSnapperFlingBehavior(
+    lazyListState: LazyListState,
+    snapOffsetForItem: (layoutInfo: SnapperLayoutInfo, item: SnapperLayoutItemInfo) -> Int = SnapOffsets.Center,
+    endContentPadding: Dp = 0.dp,
+    decayAnimationSpec: DecayAnimationSpec<Float> = rememberSplineBasedDecay(),
+    springAnimationSpec: AnimationSpec<Float> = SnapperFlingBehaviorDefaults.SpringAnimationSpec,
+): SnapperFlingBehavior {
+    // You might be wondering this is function exists rather than a default value for snapIndex
+    // above. It was done to remove overload ambiguity with the maximumFlingDistance overload
+    // below. When that function is removed, we also remove this function and move to a default
+    // param value.
+    return rememberSnapperFlingBehavior(
+        lazyListState = lazyListState,
+        snapOffsetForItem = snapOffsetForItem,
+        endContentPadding = endContentPadding,
+        decayAnimationSpec = decayAnimationSpec,
+        springAnimationSpec = springAnimationSpec,
+        snapIndex = SnapperFlingBehaviorDefaults.SnapIndex
+    )
+}
 
 /**
  * Create and remember a snapping [FlingBehavior] to be used with [LazyListState].
@@ -50,9 +132,11 @@ import kotlin.math.truncate
  * @param maximumFlingDistance Block which returns the maximum fling distance in pixels.
  * The returned value should be > 0.
  */
-@ExperimentalSnapperApi
 @Composable
-fun rememberSnapperFlingBehavior(
+@Deprecated("The maximumFlingDistance parameter has been replaced with snapIndex")
+@Suppress("DEPRECATION")
+@ExperimentalSnapperApi
+public fun rememberSnapperFlingBehavior(
     lazyListState: LazyListState,
     snapOffsetForItem: (layoutInfo: SnapperLayoutInfo, item: SnapperLayoutItemInfo) -> Int = SnapOffsets.Center,
     endContentPadding: Dp = 0.dp,
@@ -67,7 +151,7 @@ fun rememberSnapperFlingBehavior(
     ),
     decayAnimationSpec = decayAnimationSpec,
     springAnimationSpec = springAnimationSpec,
-    maximumFlingDistance = maximumFlingDistance
+    maximumFlingDistance = maximumFlingDistance,
 )
 
 /**
@@ -81,7 +165,7 @@ fun rememberSnapperFlingBehavior(
  */
 @ExperimentalSnapperApi
 @Composable
-fun rememberLazyListSnapperLayoutInfo(
+public fun rememberLazyListSnapperLayoutInfo(
     lazyListState: LazyListState,
     snapOffsetForItem: (layoutInfo: SnapperLayoutInfo, item: SnapperLayoutItemInfo) -> Int = SnapOffsets.Center,
     endContentPadding: Dp = 0.dp,
@@ -105,7 +189,7 @@ fun rememberLazyListSnapperLayoutInfo(
  * in pixels (end/bottom depending on the scrolling direction).
  */
 @ExperimentalSnapperApi
-class LazyListSnapperLayoutInfo(
+public class LazyListSnapperLayoutInfo(
     private val lazyListState: LazyListState,
     private val snapOffsetForItem: (layoutInfo: SnapperLayoutInfo, item: SnapperLayoutItemInfo) -> Int,
     endContentPadding: Int = 0,
@@ -118,6 +202,9 @@ class LazyListSnapperLayoutInfo(
         get() = lazyListState.layoutInfo.viewportEndOffset - endContentPadding
 
     private val itemCount: Int get() = lazyListState.layoutInfo.totalItemsCount
+
+    override val totalItemsCount: Int
+        get() = lazyListState.layoutInfo.totalItemsCount
 
     override val currentItem: SnapperLayoutItemInfo?
         get() = visibleItems.lastOrNull { it.offset <= snapOffsetForItem(this, it) }
@@ -137,8 +224,8 @@ class LazyListSnapperLayoutInfo(
         // multiplying distancePerItem by the index delta
         val currentItem = currentItem ?: return 0 // TODO: throw?
         return ((index - currentItem.index) * estimateDistancePerItem()).roundToInt() +
-                currentItem.offset -
-                snapOffsetForItem(this, currentItem)
+            currentItem.offset -
+            snapOffsetForItem(this, currentItem)
     }
 
     override fun canScrollTowardsStart(): Boolean {
@@ -166,62 +253,54 @@ class LazyListSnapperLayoutInfo(
             return curr.index
         }
 
+        val distanceToCurrent = distanceToIndexSnap(curr.index)
+        val distanceToNext = distanceToIndexSnap(curr.index + 1)
+
+        if (abs(velocity) < 0.5f) {
+            // If we don't have a velocity, target whichever item is closer
+            return when {
+                distanceToCurrent.absoluteValue < distanceToNext.absoluteValue -> curr.index
+                else -> curr.index + 1
+            }.coerceIn(0, itemCount - 1)
+        }
+
+        // Otherwise we calculate using the velocity
         val flingDistance = decayAnimationSpec.calculateTargetValue(0f, velocity)
             .coerceIn(-maximumFlingDistance, maximumFlingDistance)
-
-        val distanceNext = distanceToIndexSnap(curr.index + 1)
-        val distanceCurrent = distanceToIndexSnap(curr.index)
-
-        // If the fling doesn't reach the next snap point (in the fling direction), we try
-        // and snap depending on which snap point is closer to the current scroll position
-        if (
-            (flingDistance >= 0 && flingDistance < distanceNext) ||
-            (flingDistance < 0 && flingDistance > distanceCurrent)
-        ) {
-            return if (distanceNext < -distanceCurrent) {
-                (curr.index + 1).coerceIn(0, itemCount - 1)
-            } else {
-                curr.index
+            .let { distance ->
+                // It's likely that the user has already scrolled an amount before the fling
+                // has been started. We compensate for that by removing the scrolled distance
+                // from the calculated fling distance. This is necessary so that we don't fling
+                // past the max fling distance.
+                if (velocity < 0) {
+                    (distance + distanceToNext).coerceAtMost(0f)
+                } else {
+                    (distance + distanceToCurrent).coerceAtLeast(0f)
+                }
             }
-        }
 
-        // forwards, toward index + 1, backwards towards index
-        val distanceToNextSnap = if (velocity > 0) distanceNext else distanceCurrent
+        val flingIndexDelta = flingDistance / distancePerItem.toDouble()
+        val currentItemOffsetRatio = distanceToCurrent / distancePerItem.toDouble()
 
-        /**
-         * We calculate the index delta by dividing the fling distance by the average
-         * scroll per child.
-         *
-         * We take the current item offset into account by subtracting `distanceToNextSnap`
-         * from the fling distance. This is then applied as an extra index delta below.
-         */
-        val indexDelta = truncate(
-            (flingDistance - distanceToNextSnap) / distancePerItem
-        ).let {
-            // As we removed the `distanceToNextSnap` from the fling distance, we need to calculate
-            // whether we need to take that into account...
-            if (velocity > 0) {
-                // If we're flinging forward, distanceToNextSnap represents the scroll distance
-                // to index + 1, so we need to add that (1) to the calculate delta
-                it.toInt() + 1
-            } else {
-                // If we're going backwards, distanceToNextSnap represents the scroll distance
-                // to the snap point of the current index, so there's nothing to do
-                it.toInt()
+        // The index offset from the current index. We round this value which results in
+        // flings rounding towards the (relative) infinity. The key use case for this is to
+        // support short + fast flings. These could result in a fling distance of ~70% of the
+        // item distance (example). The rounding ensures that we target the next page.
+        val indexOffset = (flingIndexDelta - currentItemOffsetRatio).roundToInt()
+
+        return (curr.index + indexOffset).coerceIn(0, itemCount - 1)
+            .also { result ->
+                SnapperLog.d {
+                    "determineTargetIndex. " +
+                        "result: $result, " +
+                        "current item: $curr, " +
+                        "current item offset: ${currentItemOffsetRatio}, " +
+                        "distancePerItem: $distancePerItem, " +
+                        "maximumFlingDistance: ${maximumFlingDistance}, " +
+                        "flingDistance: ${flingDistance}, " +
+                        "flingIndexDelta: $flingIndexDelta"
+                }
             }
-        }
-
-        Napier.d(
-            message = {
-                "current item: $curr, " +
-                        "distancePerChild: $distancePerItem, " +
-                        "maximumFlingDistance: $maximumFlingDistance, " +
-                        "flingDistance: $flingDistance, " +
-                        "indexDelta: $indexDelta"
-            }
-        )
-
-        return (curr.index + indexDelta).coerceIn(0, itemCount - 1)
     }
 
     /**

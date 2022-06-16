@@ -15,8 +15,8 @@ This repository is tailored to the needs of multiple personal projects and may n
 | base64 | ✅ | String/byte array base64 encoding using [kbase64](https://github.com/jershell/kbase64). |
 | comparator | ✅ |General object comparators. |
 | compose | ✅ | General [compose-jb](https://github.com/JetBrains/compose-jb) extensions. |
-| compose-accompanist | ⊝ |Copy of [Accompanist](https://github.com/google/accompanist) modules with multiplatform capability. |
-| compose-constraint-layout | ⊝ |Copy of [ConstraintLayout](https://github.com/androidx/constraintlayout) (v2.1.3 core and v1.0.0 compose) with multiplatform capability. |
+| compose-accompanist | ⊝ | Copy of [Accompanist](https://github.com/google/accompanist) modules (v0.23.1 and v0.2.1 [Snapper](https://github.com/chrisbanes/snapper)) with multiplatform capability.  |
+| compose-constraint-layout | ⊝ | Copy of [ConstraintLayout](https://github.com/androidx/constraintlayout) (v2.1.3 core and v1.0.0 compose) with multiplatform capability. |
 | compose-image | ✅ |[Compose-jb](https://github.com/JetBrains/compose-jb) image loading. |
 | compose-resource | ✅ |Wrappers for strings and images for the compose module using the resource module. | 
 | coroutine | ✅ | General [coroutine](https://kotlinlang.org/docs/coroutines-overview.html) extensions. |
