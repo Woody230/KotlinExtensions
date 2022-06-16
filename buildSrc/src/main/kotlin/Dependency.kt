@@ -77,6 +77,7 @@ fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
 fun KotlinDependencyHandler.projectLogging() = implementation(project(":logging"))
 fun KotlinDependencyHandler.projectValue() = api(project(":value"))
 fun KotlinDependencyHandler.projectIntl() = api(project(":intl"))
+fun KotlinDependencyHandler.projectSerializationCompose() = api(project(":serialization-compose"))
 
 /**
  * Sets up common dependencies.

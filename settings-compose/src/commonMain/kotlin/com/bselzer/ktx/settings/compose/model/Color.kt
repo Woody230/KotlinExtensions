@@ -1,6 +1,9 @@
 package com.bselzer.ktx.settings.compose.model
 
 import androidx.compose.ui.graphics.Color
+import com.bselzer.ktx.compose.ui.graphics.color.Hex
+import com.bselzer.ktx.compose.ui.graphics.color.colorOrNull
+import com.bselzer.ktx.compose.ui.graphics.color.hex
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 
@@ -22,8 +25,8 @@ suspend fun SuspendSettings.getColor(key: String, defaultValue: Color = Color.Bl
  */
 @OptIn(ExperimentalSettingsApi::class)
 suspend fun SuspendSettings.getColorOrNull(key: String): Color? {
-    val value = getLongOrNull(key) ?: return null
-    return Color(value)
+    val value = getStringOrNull(key) ?: return null
+    return Hex(value).colorOrNull()
 }
 
 /**
@@ -33,4 +36,4 @@ suspend fun SuspendSettings.getColorOrNull(key: String): Color? {
  * @param value the value
  */
 @OptIn(ExperimentalSettingsApi::class)
-suspend fun SuspendSettings.putColor(key: String, value: Color) = putLong(key, value.value.toLong())
+suspend fun SuspendSettings.putColor(key: String, value: Color) = putString(key, value.hex().value)
