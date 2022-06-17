@@ -65,6 +65,11 @@ data class AlertDialogInteractor(
         var negativeText: String? = null,
 
         /**
+         * Whether the negative button is enabled.
+         */
+        var negativeEnabled: Boolean = true,
+
+        /**
          * Executes when the user clicks the negative button.
          * Returns whether the dialog should be shown.
          */
@@ -77,6 +82,11 @@ data class AlertDialogInteractor(
         var neutralText: String? = null,
 
         /**
+         * Whether the neutral button is enabled.
+         */
+        var neutralEnabled: Boolean = true,
+
+        /**
          * Executes when the user clicks the neutral button.
          * Returns whether the dialog should be shown.
          */
@@ -87,6 +97,11 @@ data class AlertDialogInteractor(
          * If null, then the positive button is not displayed.
          */
         var positiveText: String? = null,
+
+        /**
+         * Whether the positive button is enabled.
+         */
+        var positiveEnabled: Boolean = true,
 
         /**
          * Executes when the user clicks the positive button.
@@ -135,19 +150,19 @@ data class AlertDialogInteractor(
                 negativeButton = negativeText?.textInteractor()?.let { negativeText ->
                     TextButtonInteractor(
                         text = negativeText.copy(text = negativeText.text.toUpperCase()),
-                        button = ButtonInteractor { onNegative.perform() },
+                        button = ButtonInteractor(enabled = negativeEnabled) { onNegative.perform() },
                     )
                 },
                 neutralButton = neutralText?.textInteractor()?.let { neutralText ->
                     TextButtonInteractor(
                         text = neutralText.copy(text = neutralText.text.toUpperCase()),
-                        button = ButtonInteractor { onNeutral.perform() },
+                        button = ButtonInteractor(enabled = neutralEnabled) { onNeutral.perform() },
                     )
                 },
                 positiveButton = positiveText?.textInteractor()?.let { positiveText ->
                     TextButtonInteractor(
                         text = positiveText.copy(text = positiveText.text.toUpperCase()),
-                        button = ButtonInteractor { onPositive.perform() }
+                        button = ButtonInteractor(enabled = positiveEnabled) { onPositive.perform() }
                     )
                 },
                 onDismissRequest = {
