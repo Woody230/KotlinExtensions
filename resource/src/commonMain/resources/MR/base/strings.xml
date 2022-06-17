@@ -14,8 +14,10 @@
     <string name="delete">Delete</string>
     <string name="details">Details</string>
     <string name="developer">Developer</string>
+    <string name="disabled">Disabled</string>
     <string name="down">Down</string>
     <string name="email">Email</string>
+    <string name="enabled">Enabled</string>
     <string name="expand">Expand</string>
     <string name="github">GitHub</string>
     <string name="gray">Gray</string>

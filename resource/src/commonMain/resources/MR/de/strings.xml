@@ -14,8 +14,10 @@
     <string name="delete">Löschen</string>
     <string name="details">Einzelheiten</string>
     <string name="developer">Entwickler</string>
+    <string name="disabled">Deaktiviert</string>
     <string name="down">Nach unten</string>
     <string name="email">E-Mail</string>
+    <string name="enabled">Aktiviert</string>
     <string name="expand">Erweitern</string>
     <string name="gray">Grau</string>
     <string name="green">Grün</string>
