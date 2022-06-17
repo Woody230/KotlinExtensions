@@ -18,6 +18,11 @@ fun Hex.color(): Color {
         // Alpha not specified so append full opacity.
         hex = "FF${hex}"
     }
+
+    check(hex.length == 8) {
+        "Hex value has a length of ${hex.length} but a length of 6 or 8 is required without a # prefix OR a length of 7 or 9 characters with a # prefix."
+    }
+
     return Color(hex.toLong(radix = 16))
 }
 
