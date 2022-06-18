@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version KOTLIN
+    kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
 publishing.publish(project)

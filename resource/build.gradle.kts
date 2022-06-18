@@ -1,13 +1,18 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("dev.icerock.mobile.multiplatform-resources") version RESOURCE
+    id("dev.icerock.mobile.multiplatform-resources") version Versions.RESOURCE
 }
 
 buildscript {
     dependencies {
-        classpath("dev.icerock.moko:resources-generator:$RESOURCE")
+        classpath("dev.icerock.moko:resources-generator:${Versions.RESOURCE}")
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.bselzer.ktx.resource"
+    multiplatformResourcesClassName = "KtxResources"
 }
 
 publishing.publish(project)
@@ -22,9 +27,4 @@ kotlin.setup {
         projectIntl()
     }
     commonTest()
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "com.bselzer.ktx.resource"
-    multiplatformResourcesClassName = "KtxResources"
 }

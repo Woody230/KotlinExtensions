@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version COMPOSE
+    id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
 publishing.publish(project)

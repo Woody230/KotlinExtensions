@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version COMPOSE
+    id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
 // This module is a copy of modules within Google's Accompanist project with minor modifications to make it usable for multiplatform.

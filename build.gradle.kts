@@ -8,10 +8,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 allprojects {
-    group = "com.bselzer.ktx"
-    version = "4.0.0"
+    group = "com.bselzer.${Metadata.BASE_PUBLISHING_NAME}"
+    version = Metadata.VERSION
 
     apply(plugin = "maven-publish")
+    apply(plugin = "signing")
 
     repositories {
         google()
