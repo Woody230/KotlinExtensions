@@ -4,8 +4,8 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPomDeveloperSpec
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.findByType
-import org.gradle.kotlin.dsl.registering
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
 
@@ -15,7 +15,7 @@ import org.gradle.plugins.signing.SigningExtension
  * @see <a href="https://docs.gradle.org/current/userguide/publishing_customization.html">gradle</a>
  * @see <a href="https://maven.apache.org/pom.html">pom.xml</a>
  */
-fun PublishingExtension.publish(project: Project, devs: MavenPomDeveloperSpec.() -> Unit = {}) {
+fun PublishingExtension.publish(project: Project, devs: MavenPomDeveloperSpec.() -> Unit = {}) = project.afterEvaluate {
     val releaseType = releaseType(Metadata.VERSION)
     repositories {
         maven {
@@ -26,10 +26,7 @@ fun PublishingExtension.publish(project: Project, devs: MavenPomDeveloperSpec.()
     }
 
     publications.withType<MavenPublication>().configureEach {
-        project.tasks.registering(org.gradle.api.tasks.bundling.Jar::class) {
-            archiveClassifier.set("javadoc")
-            artifact(this)
-        }
+        artifact(project.extra.get("jar"))
 
         pom {
             name.set(project.name)
