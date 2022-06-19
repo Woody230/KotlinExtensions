@@ -40,13 +40,16 @@ object Versions {
 }
 
 object Metadata {
-    const val BASE_PUBLISHING_NAME = "ktx"
+    const val GROUP_ID = "io.github.woody230"
+    const val BASE_ARTIFACT_ID = "ktx"
     const val VERSION = "4.0.1"
+    const val JVM_TARGET = "1.8"
 }
 
 object LocalProperty {
     const val SONATYPE_USERNAME = "sonatype.username"
     const val SONATYPE_PASSWORD = "sonatype.password"
+    const val SIGNING_KEY_ID = "signing.keyId"
     const val SIGNING_KEY = "signing.key"
     const val SIGNING_PASSWORD = "signing.password"
 }

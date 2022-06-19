@@ -26,13 +26,18 @@ fun PublishingExtension.publish(project: Project, devs: MavenPomDeveloperSpec.()
     }
 
     publications.withType<MavenPublication>().configureEach {
+        val fullArtifactId = artifactId(project)
+        groupId = Metadata.GROUP_ID
+        artifactId = fullArtifactId
+        version = Metadata.VERSION
+
         project.tasks.registering(org.gradle.api.tasks.bundling.Jar::class) {
             archiveClassifier.set("javadoc")
             artifact(this)
         }
 
         pom {
-            name(project)
+            name.set(fullArtifactId)
             description()
             licenses()
             developers(devs = devs)
@@ -59,7 +64,7 @@ private fun releaseType(version: String): ReleaseType {
 private fun MavenArtifactRepository.url(releaseType: ReleaseType) {
     val url = when (releaseType.isRelease()) {
         true -> "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-        false -> "https://oss.sonatype.org/content/repositories/snapshots/"
+        false -> "https://s01.oss.sonatype.org/content/repositories/snapshots/"
     }
 
     setUrl(url)
@@ -75,19 +80,20 @@ private fun MavenArtifactRepository.signing(project: Project) {
         if (hasLocalProperties(LocalProperty.SIGNING_KEY, LocalProperty.SIGNING_PASSWORD)) {
             extensions.findByType<SigningExtension>()?.apply {
                 val publishing = project.extensions.findByType<PublishingExtension>() ?: return@apply
+                val keyId = localProperty(LocalProperty.SIGNING_KEY_ID)
                 val key = localPropertyFileText(LocalProperty.SIGNING_KEY)
                 val password = localProperty(LocalProperty.SIGNING_PASSWORD)
 
-                useInMemoryPgpKeys(key, password)
+                useInMemoryPgpKeys(keyId, key, password)
                 sign(publishing.publications)
             }
         }
     }
 }
 
-private fun MavenPom.name(project: Project) = name.set("${Metadata.BASE_PUBLISHING_NAME}-${project.name}")
-private fun MavenPom.description() = description.set("Extensions for the Kotlin standard library and third-party libraries.")
 
+private fun artifactId(project: Project): String = "${Metadata.BASE_ARTIFACT_ID}-${project.name}"
+private fun MavenPom.description() = description.set("Extensions for the Kotlin standard library and third-party libraries.")
 private fun MavenPom.licenses() = licenses {
     license {
         this.name.set("The Apache Software License, Version 2.0")
