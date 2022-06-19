@@ -26,18 +26,13 @@ fun PublishingExtension.publish(project: Project, devs: MavenPomDeveloperSpec.()
     }
 
     publications.withType<MavenPublication>().configureEach {
-        val fullArtifactId = artifactId(project)
-        groupId = Metadata.GROUP_ID
-        artifactId = fullArtifactId
-        version = Metadata.VERSION
-
         project.tasks.registering(org.gradle.api.tasks.bundling.Jar::class) {
             archiveClassifier.set("javadoc")
             artifact(this)
         }
 
         pom {
-            name.set(fullArtifactId)
+            name.set(project.name)
             description()
             licenses()
             developers(devs = devs)
@@ -92,7 +87,6 @@ private fun MavenArtifactRepository.signing(project: Project) {
 }
 
 
-private fun artifactId(project: Project): String = "${Metadata.BASE_ARTIFACT_ID}-${project.name}"
 private fun MavenPom.description() = description.set("Extensions for the Kotlin standard library and third-party libraries.")
 private fun MavenPom.licenses() = licenses {
     license {
