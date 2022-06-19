@@ -3,7 +3,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 allprojects {
-    group = Metadata.GROUP_ID
+    group = "${Metadata.GROUP_ID}.${Metadata.SUBGROUP_ID}"
     version = Metadata.VERSION
 
     apply(plugin = "maven-publish")

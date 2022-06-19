@@ -41,6 +41,7 @@ object Versions {
 
 object Metadata {
     const val GROUP_ID = "io.github.woody230"
+    const val SUBGROUP_ID = "ktx"
     const val VERSION = "4.0.1"
     const val JVM_TARGET = "1.8"
 }
@@ -86,15 +87,15 @@ fun KotlinDependencyHandler.uiUtil() = api("org.jetbrains.compose.ui:ui-util:$CO
 fun KotlinDependencyHandler.material() = api("org.jetbrains.compose.material:material:$COMPOSE")
 fun KotlinDependencyHandler.foundation() = api("org.jetbrains.compose.foundation:foundation:$COMPOSE")
 
-fun KotlinDependencyHandler.projectConstraintLayout() = api(project(":ktx-compose-constraint-layout"))
-fun KotlinDependencyHandler.projectFunction() = api(project(":ktx-function"))
-fun KotlinDependencyHandler.projectSettings() = api(project(":ktx-settings"))
-fun KotlinDependencyHandler.projectCompose() = api(project(":ktx-compose"))
-fun KotlinDependencyHandler.projectComposeResource() = api(project(":ktx-compose-resource"))
-fun KotlinDependencyHandler.projectKodeinDb() = api(project(":ktx-kodein-db"))
-fun KotlinDependencyHandler.projectResource() = api(project(":ktx-resource"))
-fun KotlinDependencyHandler.projectIntent() = api(project(":ktx-intent"))
-fun KotlinDependencyHandler.projectLogging() = implementation(project(":ktx-logging"))
-fun KotlinDependencyHandler.projectValue() = api(project(":ktx-value"))
-fun KotlinDependencyHandler.projectIntl() = api(project(":ktx-intl"))
-fun KotlinDependencyHandler.projectSerializationCompose() = api(project(":ktx-serialization-compose"))
+fun KotlinDependencyHandler.projectConstraintLayout() = api(project(":compose-constraint-layout"))
+fun KotlinDependencyHandler.projectFunction() = api(project(":function"))
+fun KotlinDependencyHandler.projectSettings() = api(project(":settings"))
+fun KotlinDependencyHandler.projectCompose() = api(project(":compose"))
+fun KotlinDependencyHandler.projectComposeResource() = api(project(":compose-resource"))
+fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
+fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
+fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
+fun KotlinDependencyHandler.projectLogging() = implementation(project(":logging"))
+fun KotlinDependencyHandler.projectValue() = api(project(":value"))
+fun KotlinDependencyHandler.projectIntl() = api(project(":intl"))
+fun KotlinDependencyHandler.projectSerializationCompose() = api(project(":serialization-compose"))

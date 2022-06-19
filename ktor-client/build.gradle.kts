@@ -8,7 +8,7 @@ publishing.publish(project)
 android.setup()
 
 dependencies {
-    testImplementation(project(mapOf("path" to ":ktx-intent")))
+    testImplementation(project(mapOf("path" to ":intent")))
 }
 
 kotlin.setup {
