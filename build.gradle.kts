@@ -8,6 +8,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 allprojects {
+    group = Metadata.GROUP_ID
+    version = Metadata.VERSION
+
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
 
