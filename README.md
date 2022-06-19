@@ -1,12 +1,11 @@
 ![](https://img.shields.io/badge/targets-Android%2FJVM-informational)
 ![](https://img.shields.io/github/v/release/Woody230/KotlinExtensions)
 ![](https://img.shields.io/github/license/Woody230/KotlinExtensions)
+[![](https://img.shields.io/maven-central/v/io.github.woody230.ktx/compose)](https://search.maven.org/search?q=io.github.woody230.ktx)
 
 # Kotlin Extensions
 
-Kotlin Multiplatform extensions.
-
-This repository is tailored to the needs of multiple personal projects and may not be suitable for general use as is and in the future.
+Kotlin Multiplatform extensions and implementations for the Kotlin standard library and third-party libraries.
 
 ## Modules
 
@@ -42,6 +41,14 @@ This repository is tailored to the needs of multiple personal projects and may n
 
 ## Gradle
 
+Published to [Maven Central](https://search.maven.org/search?q=io.github.woody230.ktx).
+
 ```kotlin
-implementation("com.bselzer.ktx:$Module:$Version")
+repositories {
+    mavenCentral()
+}
+```
+
+```kotlin
+implementation("io.github.woody230.ktx:$Module:4.0.1")
 ```
