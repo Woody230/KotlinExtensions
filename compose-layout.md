@@ -468,29 +468,29 @@ fun TextField(painter: Painter) {
     var editText by remember { mutableStateOf("") }
     TextFieldPreferenceProjector(
         interactor = TextFieldPreferenceInteractor(
+            inputDescription = "Country Code".textInteractor(),
+            input = TextFieldInteractor(
+                value = editText,
+                onValueChange = { value -> editText = value }
+            ),
             preference = AlertDialogPreferenceInteractor(
                 preference = PreferenceInteractor(
                     painter = painter,
                     title = "Country".textInteractor(),
                     subtitle = code.toString().textInteractor()
                 ),
-                  dialog = AlertDialogInteractor.Builder(state) {
-                        logic.clearInput()
-                  }.biText().build {
-                      title = "What is your country?"
-            
-                      closeOnPositive {
-                          // Save preference
-                          code = editText.toInt()
-                      }
+                dialog = AlertDialogInteractor.Builder(state) {
+                    logic.clearInput()
+                }.biText().build {
+                  title = "What is your country?"
+        
+                  closeOnPositive {
+                      // Save preference
+                      code = editText.toInt()
                   }
-                ),
-              inputDescription = "Country Code".textInteractor(),
-              input = TextFieldInteractor(
-                value = editText,
-                onValueChange = { value -> editText = value }
-              )
-          )
+                }
+            ),
+        )
     ).Projection(modifier = state.openOnClick())
 }
 ```
