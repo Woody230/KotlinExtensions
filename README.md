@@ -285,6 +285,11 @@ AndroidX [Preference](https://developer.android.com/jetpack/androidx/releases/pr
 * Common images taken from [material icons](https://fonts.google.com/icons?selected=Material+Icons) that are not bundled directly with compose.
     * Currently this project is not using the extended material icons set from `org.jetbrains.compose.material:material-icons-extended-desktop`.
 
+Resources are generated with the name `KtxResources`:
+```kotlin
+val days = KtxResources.strings.days
+```
+
 ## serialization
 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) extensions.
 
