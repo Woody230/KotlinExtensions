@@ -126,7 +126,7 @@ val withConfirmationCancel = AlertDialogInteractor.Builder().biText().build()
 val withConfirmationCancelReset = AlertDialogInteractor.Builder().triText().build()
 ```
 
-[IconInteractor](#projection) wrappers for common use cases such as:
+[IconInteractor](compose-layout.md#projection) wrappers for common use cases such as:
 ```kotlin
 val delete = deleteIconInteractor()
 val language = languageIconInteractor()
