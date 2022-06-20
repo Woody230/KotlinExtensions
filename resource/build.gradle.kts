@@ -15,7 +15,10 @@ multiplatformResources {
     multiplatformResourcesClassName = "KtxResources"
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "moko-resources extensions"
+)
 
 android.setup()
 

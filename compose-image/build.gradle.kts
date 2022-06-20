@@ -5,7 +5,10 @@ plugins {
     kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "Jetbrains Compose image fetching and displaying."
+)
 
 android.setupWithCompose()
 

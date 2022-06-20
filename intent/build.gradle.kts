@@ -3,7 +3,10 @@ plugins {
     kotlin("multiplatform")
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "Based on Android intents."
+)
 
 android.setup()
 

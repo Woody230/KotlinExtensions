@@ -3,7 +3,10 @@ plugins {
     kotlin("multiplatform")
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "General Kotlin standard library extensions."
+)
 
 android.setup()
 

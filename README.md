@@ -92,7 +92,7 @@ A copy of [ConstraintLayout](https://github.com/androidx/constraintlayout) (v2.1
 * Conversion of a `ByteArray` to an `androidx.compose.ui.graphics.ImageBitmap`.
 * Image fetching using [Ktor](https://ktor.io/docs/welcome.html).
 * Caching extensions for [Kodein-DB](https://github.com/Kodein-Framework/Kodein-DB).
-* [AsyncImageProjector](#projection) composable.
+* [AsyncImageProjector](compose-layout.md#projection) composable.
 
 ```kotlin
 val client = ImageClient()
@@ -326,7 +326,8 @@ fun lastRefresh(settings: SuspendSettings): Setting<Instant> {
 }
 ```
 
-These wrappers must provide an instance of `SuspendSettings`, a key, and a default value to use when the preference is not set. When calling get() or observe(), this default value will be used as the default instead of null.
+These wrappers must provide an instance of `SuspendSettings`, a key, and a default value to use when the preference is not set. 
+When calling get() or observe(), this default value will be used as the default instead of null.
 
 | Method | Purpose |
 | --- | --- |

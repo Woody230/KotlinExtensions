@@ -3,7 +3,10 @@ plugins {
     id("com.android.library")
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "Client side Ktor extensions."
+)
 
 android.setup()
 

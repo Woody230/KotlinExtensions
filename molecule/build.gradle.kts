@@ -4,7 +4,10 @@ plugins {
 }
 
 // This module is a copy of https://github.com/cashapp/molecule with minor modifications to make it usable for multiplatform.
-publishing.publish(project) {
+publishing.publish(
+    project = project,
+    description = "A copy of molecule v0.2.0 with multiplatform capability."
+) {
     developer {
         name.set("CashApp")
     }

@@ -4,7 +4,10 @@ plugins {
     id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "Jetbrains Compose extensions for AboutLibraries."
+)
 
 android.setupWithCompose()
 

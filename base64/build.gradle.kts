@@ -3,7 +3,10 @@ plugins {
     kotlin("multiplatform")
 }
 
-publishing.publish(project) {
+publishing.publish(
+    project = project,
+    description = "Base64 encoding and decoding between strings and byte arrays using v0.0.1 of kbase64."
+) {
     developer {
         name.set("jershell")
     }

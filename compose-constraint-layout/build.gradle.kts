@@ -5,7 +5,10 @@ plugins {
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
-publishing.publish(project) {
+publishing.publish(
+    project = project,
+    description = "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability."
+) {
     developer {
         name.set("The Android Open Source Project")
     }

@@ -4,7 +4,10 @@ plugins {
     id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "Wrappers for strings and images using the compose and resource modules."
+)
 
 android.setupWithCompose()
 

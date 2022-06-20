@@ -4,7 +4,10 @@ plugins {
     id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "multiplatform-settings extensions for Jetbrains Compose classes"
+)
 
 android.setupWithCompose()
 

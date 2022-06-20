@@ -3,7 +3,10 @@ plugins {
     kotlin("multiplatform")
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "Object comparators."
+)
 
 android.setup()
 

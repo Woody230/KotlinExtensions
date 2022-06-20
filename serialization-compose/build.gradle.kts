@@ -5,7 +5,10 @@ plugins {
     kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
-publishing.publish(project)
+publishing.publish(
+    project = project,
+    description = "kotlinx.serialization extension for Jetbrains Compose classes"
+)
 
 android.setupWithCompose()
 
