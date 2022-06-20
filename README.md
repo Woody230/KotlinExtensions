@@ -18,7 +18,7 @@ repositories {
 ```
 
 ```kotlin
-implementation("io.github.woody230.ktx:$Module:4.0.1")
+implementation("io.github.woody230.ktx:$Module:$Version")
 ```
 
 # Modules
