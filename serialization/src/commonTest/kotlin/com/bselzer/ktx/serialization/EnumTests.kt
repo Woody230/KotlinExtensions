@@ -1,7 +1,6 @@
 package com.bselzer.ktx.serialization
 
-import com.bselzer.ktx.serialization.json.function.enumValueOrNull
-import com.bselzer.ktx.serialization.json.function.validEnumValues
+import com.bselzer.ktx.serialization.json.JsonContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
@@ -30,8 +29,8 @@ class EnumTests
         val map2 = mapOf("A" to "4", "C" to "7")
 
         // Act
-        val output1 = map1.validEnumValues<TestEnum, Int>()
-        val output2 = map2.validEnumValues<TestEnum, String>()
+        val output1 = with(JsonContext) { map1.validEnumValues<TestEnum, Int>() }
+        val output2 = with(JsonContext) { map2.validEnumValues<TestEnum, String>() }
 
         // Assert
         assertEquals(3, output1.count())
@@ -54,9 +53,11 @@ class EnumTests
         val exactInsensitive = "b"
 
         // Act / Assert
-        assertEquals(TestEnum.B, correct.enumValueOrNull())
-        assertNull(exact.enumValueOrNull<TestEnum>())
-        assertNull(insensitive.enumValueOrNull<TestEnum>())
-        assertNull(exactInsensitive.enumValueOrNull<TestEnum>())
+        with(JsonContext) {
+            assertEquals(TestEnum.B, correct.enumValueOrNull())
+            assertNull(exact.enumValueOrNull<TestEnum>())
+            assertNull(insensitive.enumValueOrNull<TestEnum>())
+            assertNull(exactInsensitive.enumValueOrNull<TestEnum>())
+        }
     }
 }
