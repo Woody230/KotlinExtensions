@@ -3,7 +3,11 @@ plugins {
     kotlin("multiplatform")
 }
 
-publishing.publish(project)
+publishing.publish(project) {
+    developer {
+        name.set("jershell")
+    }
+}
 
 android.setup()
 

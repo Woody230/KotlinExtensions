@@ -8,9 +8,7 @@ import Versions.KTOR
 import Versions.KTX_DATETIME
 import Versions.KTX_SERIALIZATION
 import Versions.LICENSING
-import Versions.LIFECYCLE
 import Versions.LOGGING
-import Versions.MOSHI
 import Versions.RESOURCE
 import Versions.SETTINGS
 import Versions.XML
@@ -19,8 +17,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 object Versions {
     const val KTX_DATETIME = "0.3.2"
     const val KTX_SERIALIZATION = "1.3.2"
-    const val MOSHI = "1.11.0"
-    const val LIFECYCLE = "2.3.1"
     const val CORE = "1.7.0"
     const val ANDROID_TEST = "1.1.0"
     const val ROBOLECTRIC = "4.6.1"
@@ -42,7 +38,7 @@ object Versions {
 object Metadata {
     const val GROUP_ID = "io.github.woody230"
     const val SUBGROUP_ID = "ktx"
-    const val VERSION = "4.0.1"
+    const val VERSION = "4.1.0"
     const val JVM_TARGET = "1.8"
 }
 
@@ -57,8 +53,6 @@ object LocalProperty {
 fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
 fun KotlinDependencyHandler.ktxSerialization() = api("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
 
-fun KotlinDependencyHandler.moshi() = api("com.squareup.moshi:moshi-kotlin:$MOSHI")
-fun KotlinDependencyHandler.livedata() = api("androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE")
 fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-preferences:$DATASTORE")
 fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")

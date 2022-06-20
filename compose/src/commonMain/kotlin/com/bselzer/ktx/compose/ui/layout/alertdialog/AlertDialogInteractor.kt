@@ -51,7 +51,7 @@ data class AlertDialogInteractor(
          * Executes when the user tries to dismiss the Dialog by clicking outside or pressing the back button.
          * This is not called when the dismiss button is clicked.
          */
-        var onDismissRequest: suspend CoroutineScope.() -> Unit = { closeDialog() },
+        var onDismissRequest: suspend CoroutineScope.() -> DialogState = { DialogState.CLOSED },
 
         /**
          * The text for the title.
@@ -166,7 +166,7 @@ data class AlertDialogInteractor(
                     )
                 },
                 onDismissRequest = {
-                    scope.launch { onDismissRequest() }
+                    onDismissRequest.perform()
                 }
             )
         }
@@ -180,7 +180,7 @@ data class AlertDialogInteractor(
         fun closeOnDismissRequest(block: suspend CoroutineScope.() -> Unit) = apply {
             onDismissRequest = {
                 block()
-                closeDialog()
+                DialogState.CLOSED
             }
         }
 
