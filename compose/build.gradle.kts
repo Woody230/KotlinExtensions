@@ -2,7 +2,6 @@ plugins {
     id("com.android.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose") version Versions.COMPOSE
-    kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
 publishing.publish(
@@ -19,7 +18,6 @@ kotlin.setup {
         material()
         foundation()
 
-        ktxSerialization()
         projectConstraintLayout()
         projectFunction()
         projectIntl()
