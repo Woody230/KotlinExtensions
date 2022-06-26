@@ -302,8 +302,8 @@ enum class LegendName {
 }
 
 with(JsonContext) {
-    val legend: LegendName = "Legend1".enumValue() // LegendName.DRAGON
-    val nullableLegend: LegendName? = "Legend2".enumValueOrNull() // Null
+    val legend: LegendName = "Legend1".decode() // LegendName.DRAGON
+    val nullableLegend: LegendName? = "Legend2".decodeOrNull() // Null
 }
 ```
 
