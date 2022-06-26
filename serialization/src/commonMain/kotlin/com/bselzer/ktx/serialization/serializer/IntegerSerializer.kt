@@ -14,16 +14,13 @@ open class IntegerSerializer : KSerializer<Int>
 {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Integer", PrimitiveKind.INT)
 
-    override fun serialize(encoder: Encoder, value: Int)
-    {
+    override fun serialize(encoder: Encoder, value: Int) {
         encoder.encodeInt(value)
     }
 
-    override fun deserialize(decoder: Decoder): Int
-    {
+    override fun deserialize(decoder: Decoder): Int {
         val decoded = decoder.decodeString()
-        return when
-        {
+        return when {
             // Attempt to convert from a boolean first.
             "true".equals(decoded, true) -> 1
             "false".equals(decoded, true) -> 0

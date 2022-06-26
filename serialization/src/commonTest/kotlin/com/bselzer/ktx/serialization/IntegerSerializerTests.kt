@@ -10,24 +10,20 @@ import kotlin.test.assertFailsWith
 /**
  * Represents tests for the [IntegerSerializer] class.
  */
-class IntegerSerializerTests
-{
-    /**
-     * The serializer.
-     */
+class IntegerSerializerTests {
     private val serializer = IntegerSerializer()
+    private val json = Json { isLenient = true }
 
     /**
      * Verifies that an integer can be deserialized.
      */
     @Test
-    fun processInteger_Deserializes()
-    {
+    fun processInteger_Deserializes() {
         // Arrange
         val input = JsonPrimitive(15)
 
         // Act
-        val output = Json { isLenient = true }.decodeFromJsonElement(serializer, input)
+        val output = json.decodeFromJsonElement(serializer, input)
 
         // Assert
         assertEquals(15, output)
@@ -43,7 +39,7 @@ class IntegerSerializerTests
         val input = JsonPrimitive(true)
 
         // Act
-        val output = Json { isLenient = true }.decodeFromJsonElement(serializer, input)
+        val output = json.decodeFromJsonElement(serializer, input)
 
         // Assert
         assertEquals(1, output)

@@ -29,8 +29,8 @@ class EnumTests
         val map2 = mapOf("A" to "4", "C" to "7")
 
         // Act
-        val output1 = with(JsonContext) { map1.validEnumValues<TestEnum, Int>() }
-        val output2 = with(JsonContext) { map2.validEnumValues<TestEnum, String>() }
+        val output1 = with(JsonContext) { map1.decodeKeys<TestEnum, Int>() }
+        val output2 = with(JsonContext) { map2.decodeKeys<TestEnum, String>() }
 
         // Assert
         assertEquals(3, output1.count())
@@ -54,10 +54,10 @@ class EnumTests
 
         // Act / Assert
         with(JsonContext) {
-            assertEquals(TestEnum.B, correct.enumValueOrNull())
-            assertNull(exact.enumValueOrNull<TestEnum>())
-            assertNull(insensitive.enumValueOrNull<TestEnum>())
-            assertNull(exactInsensitive.enumValueOrNull<TestEnum>())
+            assertEquals(TestEnum.B, correct.decodeOrNull())
+            assertNull(exact.decodeOrNull<TestEnum>())
+            assertNull(insensitive.decodeOrNull<TestEnum>())
+            assertNull(exactInsensitive.decodeOrNull<TestEnum>())
         }
     }
 }
