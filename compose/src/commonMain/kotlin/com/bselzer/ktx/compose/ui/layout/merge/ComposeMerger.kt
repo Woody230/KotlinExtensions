@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
+import com.bselzer.ktx.compose.ui.layout.LayoutOrientation
 
 object ComposeMerger {
     val alignment: ComponentMerger<Alignment> = AlignmentMerger()
@@ -35,6 +36,7 @@ object ComposeMerger {
     val horizontalArrangement: ComponentMerger<Arrangement.Horizontal> = HorizontalArrangementMerger()
     val indication: ComponentMerger<Indication> = IndicationMerger()
     val int: ComponentMerger<Int> = IntMerger()
+    val layoutOrientation: ComponentMerger<LayoutOrientation> = LayoutOrientationMerger()
     val paddingValues: ComponentMerger<PaddingValues> = PaddingValuesMerger()
     val radioButtonColors: ComponentMerger<RadioButtonColors> = RadioButtonColorsMerger()
     val role: ComponentMerger<Role?> = RoleMerger()

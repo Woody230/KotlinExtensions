@@ -3,9 +3,12 @@ package com.bselzer.ktx.compose.ui.layout.column
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.bselzer.ktx.compose.ui.layout.LayoutOrientation
+import com.bselzer.ktx.compose.ui.layout.LocalLayoutOrientation
 import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
@@ -31,21 +34,25 @@ class ColumnProjector(
             verticalArrangement = presenter.verticalArrangement,
             horizontalAlignment = presenter.horizontalAlignment,
         ) {
-            val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
-            if (presenter.prepend.toBoolean()) {
-                dividerProjector?.Projection()
-            }
-
-            content.forEachIndexed { index, function ->
-                function()
-
-                if (index != content.lastIndex) {
+            CompositionLocalProvider(
+                LocalLayoutOrientation provides LayoutOrientation.VERTICAL
+            ) {
+                val dividerProjector = interactor.divider?.let { divider -> DividerProjector(divider, presenter.divider) }
+                if (presenter.prepend.toBoolean()) {
                     dividerProjector?.Projection()
                 }
-            }
 
-            if (presenter.append.toBoolean()) {
-                dividerProjector?.Projection()
+                content.forEachIndexed { index, function ->
+                    function()
+
+                    if (index != content.lastIndex) {
+                        dividerProjector?.Projection()
+                    }
+                }
+
+                if (presenter.append.toBoolean()) {
+                    dividerProjector?.Projection()
+                }
             }
         }
     }

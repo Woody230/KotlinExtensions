@@ -6,6 +6,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.layout.LayoutOrientation
+import com.bselzer.ktx.compose.ui.layout.LocalLayoutOrientation
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
 import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PresentableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Presenter
@@ -27,6 +29,11 @@ data class DividerPresenter(
      * Start offset of this line, no offset by default.
      */
     val startIndent: Dp = ComposeMerger.dp.default,
+
+    /**
+     * The direction to lay out the divider.
+     */
+    val orientation: LayoutOrientation = ComposeMerger.layoutOrientation.default
 ) : Presenter<DividerPresenter>(modifier) {
     companion object {
         @Stable
@@ -37,13 +44,23 @@ data class DividerPresenter(
         modifier = modifier.merge(other.modifier),
         color = ComposeMerger.color.safeMerge(color, other.color),
         thickness = ComposeMerger.dp.safeMerge(thickness, other.thickness),
-        startIndent = ComposeMerger.dp.safeMerge(startIndent, other.startIndent)
+        startIndent = ComposeMerger.dp.safeMerge(startIndent, other.startIndent),
+        orientation = ComposeMerger.layoutOrientation.safeMerge(orientation, other.orientation)
     )
 
     @Composable
     override fun localized() = DividerPresenter(
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
         thickness = 1.dp,
-        startIndent = 0.dp
+        startIndent = 0.dp,
+        orientation = when (LocalLayoutOrientation.current) {
+            // Layout in the opposite direction to divide items inside columns/rows.
+            LayoutOrientation.HORIZONTAL -> LayoutOrientation.VERTICAL
+            LayoutOrientation.VERTICAL -> LayoutOrientation.HORIZONTAL
+
+            // By default, a divider will always orient horizontally.
+            // Consequently, this is why the layout orientation has been added.
+            else -> LayoutOrientation.HORIZONTAL
+        }
     ).merge(this)
 }

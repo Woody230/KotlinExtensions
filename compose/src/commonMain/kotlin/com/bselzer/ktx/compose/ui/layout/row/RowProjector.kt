@@ -3,9 +3,12 @@ package com.bselzer.ktx.compose.ui.layout.row
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.bselzer.ktx.compose.ui.layout.LayoutOrientation
+import com.bselzer.ktx.compose.ui.layout.LocalLayoutOrientation
 import com.bselzer.ktx.compose.ui.layout.divider.DividerInteractor
 import com.bselzer.ktx.compose.ui.layout.divider.DividerPresenter
 import com.bselzer.ktx.compose.ui.layout.divider.DividerProjector
@@ -31,21 +34,25 @@ class RowProjector(
             horizontalArrangement = presenter.horizontalArrangement,
             verticalAlignment = presenter.verticalAlignment,
         ) {
-            val dividerProjector = interactor.divider?.let { DividerProjector(it, presenter.divider) }
-            if (presenter.prepend.toBoolean()) {
-                dividerProjector?.Projection()
-            }
-
-            content.forEachIndexed { index, function ->
-                function()
-
-                if (index != content.lastIndex) {
+            CompositionLocalProvider(
+                LocalLayoutOrientation provides LayoutOrientation.HORIZONTAL
+            ) {
+                val dividerProjector = interactor.divider?.let { DividerProjector(it, presenter.divider) }
+                if (presenter.prepend.toBoolean()) {
                     dividerProjector?.Projection()
                 }
-            }
 
-            if (presenter.append.toBoolean()) {
-                dividerProjector?.Projection()
+                content.forEachIndexed { index, function ->
+                    function()
+
+                    if (index != content.lastIndex) {
+                        dividerProjector?.Projection()
+                    }
+                }
+
+                if (presenter.append.toBoolean()) {
+                    dividerProjector?.Projection()
+                }
             }
         }
     }
