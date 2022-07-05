@@ -70,7 +70,7 @@ fun dropdownIconInteractor() = IconInteractor(
  */
 @Composable
 fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
-    painter = if (isExpanded) Icons.Filled.KeyboardArrowUp.painter() else Icons.Filled.KeyboardArrowDown.painter(),
+    painter = if (isExpanded) Icons.Filled.KeyboardArrowDown.painter() else Icons.Filled.KeyboardArrowRight.painter(),
     contentDescription = run {
         val resource = if (isExpanded) KtxResources.strings.expand else KtxResources.strings.condense
         resource.localized()
