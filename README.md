@@ -208,7 +208,30 @@ Internationalization through locale support.
 `DefaultLocale` provides the system's default locale. However, there is no ability to be notified of changes to this locale. Instead, a `Localizer` should be used to maintain an instance of a locale and to be able to be notified of changes by adding a listener which can then be used to update the `DefaultLocale` if needed.
 
 ## kodein-db
-[Kodein-DB](https://github.com/Kodein-Framework/Kodein-DB) caching framework extensions.
+[Kodein-DB](https://github.com/Kodein-Framework/Kodein-DB) extensions.
+
+Note that Kodein-DB is currently archived but may return under a new name.
+
+If you would still like to use it, then apply the following:
+```kotlin
+val version = "0.9.0-beta"
+
+// For applications
+implementation("org.kodein.db:kodein-db:$version")
+
+// For libraries
+implementation("org.kodein.db:kodein-db-api:$version")
+
+// kotlinx.serialization
+implementation("org.kodein.db:kodein-db-serializer-kotlinx:$version")
+
+// Desktop LevelDB native build depending on OS
+implementation("org.kodein.db:kodein-leveldb-jni-jvm-linux:$version")
+implementation("org.kodein.db:kodein-leveldb-jni-jvm-macos:$version")
+implementation("org.kodein.db:kodein-leveldb-jni-jvm-windows:$version")
+```
+
+The fully intact documentation can be found in [commit 0f310b317920fbbea56d5dc81a9049a072aaa435](https://github.com/kosi-libs/documentation/tree/0f310b317920fbbea56d5dc81a9049a072aaa435/docs/kodein-db/0.8).
 
 * `IdentifiableMetadataExtractor` for `Identifiable` objects from the [value](#value) module to use the identifier's value as the metadata.
 * `IdentifierValueConverter` for using an `Identifier.value` as a Value if it is for an Int, Long, or String.
