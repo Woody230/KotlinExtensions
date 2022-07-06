@@ -77,6 +77,7 @@ fun KotlinDependencyHandler.foundation() = api("org.jetbrains.compose.foundation
 
 fun KotlinDependencyHandler.projectAboutLibraries() = api(project(":aboutlibraries"))
 fun KotlinDependencyHandler.projectConstraintLayout() = api(project(":compose-constraint-layout"))
+fun KotlinDependencyHandler.projectDateTime() = api(project(":datetime"))
 fun KotlinDependencyHandler.projectFunction() = api(project(":function"))
 fun KotlinDependencyHandler.projectSettings() = api(project(":settings"))
 fun KotlinDependencyHandler.projectComposeUi() = api(project(":compose-ui"))

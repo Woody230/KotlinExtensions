@@ -1,4 +1,4 @@
-package com.bselzer.ktx.datetime.serialization
+package com.bselzer.ktx.serialization.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
