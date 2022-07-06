@@ -5,12 +5,15 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Internationalization through locale support."
+    description = "kotlinx.serialization for internationalization"
 )
 
 android.setup()
 
 kotlin.setup {
-    commonMain()
+    commonMain {
+        ktxSerialization()
+        projectIntl()
+    }
     commonTest()
 }

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.intl.serialization
+package com.bselzer.ktx.serialization.serializer
 
 import com.bselzer.ktx.intl.Locale
 import kotlinx.serialization.KSerializer
