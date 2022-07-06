@@ -5,7 +5,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Internationalization through locale support."
+    description = "Internationalization."
 )
 
 android.setup()

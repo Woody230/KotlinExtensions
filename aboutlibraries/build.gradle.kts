@@ -12,7 +12,7 @@ android.setupWithCompose()
 
 kotlin.setup {
     commonMain {
-        licensing()
+        aboutLibraries()
     }
     commonTest()
 }

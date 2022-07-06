@@ -26,7 +26,7 @@ kotlin.setup {
         ui()
         material()
         foundation()
-        logging()
+        napier()
     }
     commonTest()
 }

@@ -6,7 +6,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Composable implementations for Jetbrains Compose."
+    description = "Custom composable implementations for Jetbrains Compose."
 )
 
 android.setupWithCompose()

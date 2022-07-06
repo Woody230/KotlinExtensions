@@ -1,3 +1,4 @@
+import Versions.ABOUT_LIBRARIES
 import Versions.COMPOSE
 import Versions.CORE
 import Versions.COROUTINE
@@ -5,8 +6,7 @@ import Versions.KODEIN_DB
 import Versions.KTOR
 import Versions.KTX_DATETIME
 import Versions.KTX_SERIALIZATION
-import Versions.LICENSING
-import Versions.LOGGING
+import Versions.NAPIER
 import Versions.RESOURCE
 import Versions.SETTINGS
 import Versions.XML
@@ -21,8 +21,8 @@ object Versions {
     const val KODEIN_DB = "0.9.0-beta"
     const val SETTINGS = "0.8.1"
     const val COROUTINE = "1.6.1"
-    const val LOGGING = "2.4.0"
-    const val LICENSING = "10.0.0"
+    const val NAPIER = "2.4.0"
+    const val ABOUT_LIBRARIES = "10.0.0"
     const val KTOR = "2.0.1"
     const val ANDROID_COMPOSE = "1.1.1"
     const val XML = "0.84.0"
@@ -62,8 +62,8 @@ fun KotlinDependencyHandler.xmlSerialization() = api("io.github.pdvrieze.xmlutil
 fun KotlinDependencyHandler.resources() = api("dev.icerock.moko:resources:$RESOURCE")
 fun KotlinDependencyHandler.resourcesCompose() = api("dev.icerock.moko:resources-compose:$RESOURCE")
 
-fun KotlinDependencyHandler.logging() = implementation("io.github.aakira:napier:$LOGGING")
-fun KotlinDependencyHandler.licensing() = api("com.mikepenz:aboutlibraries-core:${LICENSING}")
+fun KotlinDependencyHandler.napier() = implementation("io.github.aakira:napier:$NAPIER")
+fun KotlinDependencyHandler.aboutLibraries() = api("com.mikepenz:aboutlibraries-core:${ABOUT_LIBRARIES}")
 
 fun KotlinDependencyHandler.ktorClient() = api("io.ktor:ktor-client-core:$KTOR")
 fun KotlinDependencyHandler.ktorOkHttpEngine() = implementation("io.ktor:ktor-client-okhttp:$KTOR")

@@ -14,7 +14,7 @@ android.setup {
         isCoreLibraryDesugaringEnabled = true
     }
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.0")
     }
 }
 

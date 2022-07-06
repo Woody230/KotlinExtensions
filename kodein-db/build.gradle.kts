@@ -5,7 +5,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Kodein-DB caching framework extensions."
+    description = "Kodein-DB extensions."
 )
 
 android.setup()

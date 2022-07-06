@@ -12,7 +12,7 @@ android.setup()
 
 kotlin.setup {
     commonMain {
-        logging()
+        napier()
     }
     commonTest()
 }
