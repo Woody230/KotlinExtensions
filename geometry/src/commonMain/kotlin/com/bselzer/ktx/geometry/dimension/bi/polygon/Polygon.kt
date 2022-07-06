@@ -6,7 +6,7 @@ abstract class Polygon(
     /**
      * The points forming the shape.
      */
-    internal val points: List<Point2D>
+    val points: List<Point2D>
 ) {
     override fun toString(): String = points.joinToString()
 }

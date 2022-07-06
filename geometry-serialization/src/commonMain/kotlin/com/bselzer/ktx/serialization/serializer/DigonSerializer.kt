@@ -1,4 +1,4 @@
-package com.bselzer.ktx.geometry.dimension.bi.serialization
+package com.bselzer.ktx.serialization.serializer
 
 import com.bselzer.ktx.geometry.dimension.bi.polygon.Digon
 import com.bselzer.ktx.geometry.dimension.bi.position.Point2D

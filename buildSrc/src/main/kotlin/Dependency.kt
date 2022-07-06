@@ -1,8 +1,6 @@
-import Versions.ANDROIDX_PREFERENCE
 import Versions.COMPOSE
 import Versions.CORE
 import Versions.COROUTINE
-import Versions.DATASTORE
 import Versions.KODEIN_DB
 import Versions.KTOR
 import Versions.KTX_DATETIME
@@ -20,8 +18,6 @@ object Versions {
     const val CORE = "1.7.0"
     const val ANDROID_TEST = "1.1.0"
     const val ROBOLECTRIC = "4.6.1"
-    const val DATASTORE = "1.0.0"
-    const val ANDROIDX_PREFERENCE = "1.1.1"
     const val KODEIN_DB = "0.9.0-beta"
     const val SETTINGS = "0.8.1"
     const val COROUTINE = "1.6.1"
@@ -53,8 +49,6 @@ object LocalProperty {
 fun KotlinDependencyHandler.ktxDateTime() = api("org.jetbrains.kotlinx:kotlinx-datetime:$KTX_DATETIME")
 fun KotlinDependencyHandler.ktxSerialization() = api("org.jetbrains.kotlinx:kotlinx-serialization-json:$KTX_SERIALIZATION")
 
-fun KotlinDependencyHandler.datastore() = api("androidx.datastore:datastore-preferences:$DATASTORE")
-fun KotlinDependencyHandler.androidxPreference() = api("androidx.preference:preference-ktx:$ANDROIDX_PREFERENCE")
 fun KotlinDependencyHandler.androidCore() = api("androidx.core:core-ktx:$CORE")
 fun KotlinDependencyHandler.kodeinDb() = api("org.kodein.db:kodein-db-api:$KODEIN_DB")
 fun KotlinDependencyHandler.coroutine() = api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE")
@@ -100,3 +94,4 @@ fun KotlinDependencyHandler.projectLogging() = implementation(project(":logging"
 fun KotlinDependencyHandler.projectValue() = api(project(":value"))
 fun KotlinDependencyHandler.projectIntl() = api(project(":intl"))
 fun KotlinDependencyHandler.projectImageModel() = api(project(":image-model"))
+fun KotlinDependencyHandler.projectGeometry() = api(project(":geometry"))

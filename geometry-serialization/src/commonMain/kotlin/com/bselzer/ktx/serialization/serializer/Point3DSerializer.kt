@@ -1,4 +1,4 @@
-package com.bselzer.ktx.geometry.dimension.tri.serialization
+package com.bselzer.ktx.serialization.serializer
 
 import com.bselzer.ktx.geometry.dimension.tri.position.Point3D
 import kotlinx.serialization.KSerializer

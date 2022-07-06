@@ -1,4 +1,4 @@
-package com.bselzer.ktx.geometry.dimension.bi.serialization
+package com.bselzer.ktx.serialization.serializer
 
 import com.bselzer.ktx.geometry.dimension.bi.Dimension2D
 import kotlinx.serialization.KSerializer
