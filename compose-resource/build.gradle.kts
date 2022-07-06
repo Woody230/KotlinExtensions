@@ -13,10 +13,9 @@ android.setupWithCompose()
 
 kotlin.setup {
     commonMain {
-        projectCompose()
-
-        resourcesCompose()
         projectResource()
+        projectComposeUiLayoutCommon()
+        projectComposeUiIntl()
     }
     commonTest()
     androidTestWithCompose()

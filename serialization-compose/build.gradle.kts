@@ -14,7 +14,7 @@ android.setupWithCompose()
 
 kotlin.setup {
     commonMain {
-        projectCompose()
+        projectComposeUiGraphics()
         ktxSerialization()
     }
     commonTest()
