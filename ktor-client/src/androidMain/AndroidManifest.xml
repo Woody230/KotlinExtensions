@@ -7,7 +7,7 @@
 
     <application>
         <provider
-            android:name="com.bselzer.ktx.ktor.client.connectivity.Connectivity"
+            android:name="com.bselzer.ktx.client.connectivity.Connectivity"
             android:authorities="${applicationId}.Connectivity"
             android:exported="false" />
     </application>
