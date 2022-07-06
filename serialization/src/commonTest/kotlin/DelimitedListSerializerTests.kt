@@ -1,6 +1,4 @@
-package com.bselzer.ktx.serialization
-
-import com.bselzer.ktx.serialization.json.JsonContext
+import com.bselzer.ktx.serialization.context.JsonContext
 import com.bselzer.ktx.serialization.serializer.DelimitedListSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

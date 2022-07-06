@@ -1,6 +1,6 @@
 package com.bselzer.ktx.serialization.serializer
 
-import com.bselzer.ktx.serialization.json.JsonContext
+import com.bselzer.ktx.serialization.context.JsonContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

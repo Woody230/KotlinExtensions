@@ -1,5 +1,3 @@
-package com.bselzer.ktx.serialization
-
 import com.bselzer.ktx.serialization.serializer.MapArraySerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer

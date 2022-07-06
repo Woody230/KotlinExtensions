@@ -1,6 +1,5 @@
-package com.bselzer.ktx.serialization.json
+package com.bselzer.ktx.serialization.context
 
-import com.bselzer.ktx.serialization.context.StringFormatContext
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive

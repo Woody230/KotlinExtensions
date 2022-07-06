@@ -1,5 +1,3 @@
-package com.bselzer.ktx.serialization
-
 import com.bselzer.ktx.serialization.serializer.RegexPatternSerializer
 import kotlinx.serialization.json.Json
 import kotlin.test.Test

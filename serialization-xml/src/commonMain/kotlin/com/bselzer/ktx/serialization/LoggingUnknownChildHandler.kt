@@ -1,4 +1,4 @@
-package com.bselzer.ktx.serialization.xml.configuration
+package com.bselzer.ktx.serialization
 
 import com.bselzer.ktx.logging.Logger
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi

@@ -6,18 +6,16 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "kotlinx.serialization extensions"
+    description = "kotlinx.serialization extensions for pdvrieze.xmlutil"
 )
 
 android.setup()
 
 kotlin.setup {
     commonMain {
-        ktxSerialization()
+        xmlSerialization()
         projectLogging()
     }
-    commonTest {
-        xmlSerialization()
-    }
+    commonTest()
     jvmTest()
 }

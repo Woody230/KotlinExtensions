@@ -1,5 +1,3 @@
-package com.bselzer.ktx.serialization
-
 import com.bselzer.ktx.serialization.serializer.IntegerSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
