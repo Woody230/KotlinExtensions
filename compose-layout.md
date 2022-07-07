@@ -219,6 +219,25 @@ fun TopAppBar() = TopAppBarProjector(
 ).Projection()
 ```
 
+## AsyncImage
+Able to display a loading image or progress bar while in progress and/or a failure image when loading fails.
+
+```kotlin
+val client = ImageClient()
+
+@Composable
+fun Image(url: String, contentDescription: String, useProgressIndicator: Boolean) = AsyncImageProjector(
+    interactor = AsyncImageInteractor(
+      url = url,
+      getImage = { url -> client.getImage(url).content },
+      contentDescription = contentDescription,
+      loadingProgress = if (useProgressIndicator) ProgressIndicatorInteractor.Default else null
+    ),
+).Projection(
+    modifier = Modifier.size(100.dp)
+)
+```
+
 ## BackgroundImage
 Content is placed inside a box and the image will by default match the size in order to act as a background behind the content.
 
