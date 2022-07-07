@@ -1,5 +1,5 @@
 import com.bselzer.ktx.geometry.dimension.tri.position.Point3D
-import com.bselzer.ktx.serialization.serializer.Modules
+import com.bselzer.ktx.serialization.serializer.GeometryModules
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 
 class ThreeDimensionalTests {
     private val json = Json {
-        serializersModule = Modules.THREE_DIMENSIONAL
+        serializersModule = GeometryModules.THREE_DIMENSIONAL
     }
 
     @Test

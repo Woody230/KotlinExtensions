@@ -1,4 +1,4 @@
-import com.bselzer.ktx.serialization.serializer.Modules
+import com.bselzer.ktx.serialization.serializer.DateTimeModules
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
@@ -9,7 +9,7 @@ import kotlin.time.Duration.Companion.minutes
 
 class DurationTests {
     private val json = Json {
-        serializersModule = Modules.ALL
+        serializersModule = DateTimeModules.ALL
     }
 
     @Test

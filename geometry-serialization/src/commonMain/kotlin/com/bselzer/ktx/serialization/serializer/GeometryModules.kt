@@ -4,7 +4,7 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 import kotlinx.serialization.modules.plus
 
-object Modules {
+object GeometryModules {
     val TWO_DIMENSIONAL = SerializersModule {
         contextual(DigonSerializer())
         contextual(Dimension2DSerializer())

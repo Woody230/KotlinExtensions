@@ -2,7 +2,7 @@ import com.bselzer.ktx.geometry.dimension.bi.Dimension2D
 import com.bselzer.ktx.geometry.dimension.bi.polygon.Digon
 import com.bselzer.ktx.geometry.dimension.bi.polygon.Quadrilateral
 import com.bselzer.ktx.geometry.dimension.bi.position.Point2D
-import com.bselzer.ktx.serialization.serializer.Modules
+import com.bselzer.ktx.serialization.serializer.GeometryModules
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class TwoDimensionalTests {
     private val json = Json {
-        serializersModule = Modules.TWO_DIMENSIONAL
+        serializersModule = GeometryModules.TWO_DIMENSIONAL
     }
 
 
