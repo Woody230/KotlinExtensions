@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/targets-Android%2FJVM-informational)
 ![](https://img.shields.io/github/v/release/Woody230/KotlinExtensions)
-[![](https://img.shields.io/maven-central/v/io.github.woody230.ktx/compose)](https://search.maven.org/search?q=io.github.woody230.ktx)
+[![](https://img.shields.io/maven-central/v/io.github.woody230.ktx/compose-ui)](https://search.maven.org/search?q=io.github.woody230.ktx)
 ![](https://img.shields.io/github/license/Woody230/KotlinExtensions)
 
 # Kotlin Extensions
@@ -431,18 +431,13 @@ When calling get() or observe(), this default value will be used as the default 
 [Value classes](https://kotlinlang.org/docs/inline-classes.html) for an `Identifier` wrapping a Byte, Boolean, Double, Float, Int, Long, Short, or String. The `Identifiable` interface can be used to specify an `Identifier` id.
 
 ```kotlin
-@Serializable
 @JvmInline
 value class LuckId(override val value: String = "") : StringIdentifier {
     override fun toString(): String = value
 }
 
-@Serializable
 data class AccountLuck(
-    @SerialName("id")
     override val id: LuckId = LuckId(),
-
-    @SerialName("value")
     val value: Int = 0
 ) : Identifiable<LuckId, String>
 ```
