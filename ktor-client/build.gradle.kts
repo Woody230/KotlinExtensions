@@ -17,7 +17,6 @@ dependencies {
 kotlin.setup {
     commonMain {
         ktorClient()
-        projectIntent()
     }
     commonTest {
         coroutine()
