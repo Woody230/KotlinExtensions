@@ -1,64 +1,35 @@
 package com.bselzer.ktx.client.options
 
-import com.bselzer.ktx.client.internal.replacedPathSegments
 import io.ktor.http.*
 
-interface UrlOptions {
+class UrlOptions(
+    private val protocol: URLProtocol? = null,
+    private val host: String? = null,
+    private val port: Int? = null,
+
     /**
-     * The path segments.
-     *
      * The names of [pathParameters] should be enclosed by curly brackets `{ }`.
      */
-    val pathSegments: List<String>
+    private val pathSegments: List<String> = emptyList(),
 
     /**
      * The parameters to replace in the [pathSegments].
      */
-    val pathParameters: Map<String, String>
+    val pathParameters: Map<String, String> = emptyMap(),
 
     /**
      * The parameters to append to the path.
      */
-    val queryParameters: Map<String, String>
+    val queryParameters: Map<String, String> = emptyMap(),
 
-    /**
-     * URL protocol (scheme).
-     */
-    val protocol: URLProtocol?
-
-    /**
-     * The name without the port (domain).
-     */
-    val host: String?
-
-    /**
-     * The port identifier.
-     */
-    val port: Int?
-
-    /**
-     * The username.
-     */
-    val user: String?
-
-    /**
-     * The password.
-     */
-    val password: String?
-
-    /**
-     * The fragment.
-     */
-    val fragment: String?
-
-    /**
-     * Whether to keep trailing question character even if there are no query parameters
-     */
-    val trailingQuery: Boolean?
-
+    private val fragment: String? = null,
+    private val user: String? = null,
+    private val password: String? = null,
+    private val trailingQuery: Boolean? = null
+) {
     val url: Url
         get() = URLBuilder().apply {
-            appendPathSegments(replacedPathSegments())
+            appendPathSegments(replacedPathSegments)
             queryParameters.forEach { query -> parameters.append(query.key, query.value) }
             this@UrlOptions.protocol?.let { protocol = it }
             this@UrlOptions.host?.let { host = it }
@@ -69,14 +40,12 @@ interface UrlOptions {
             this@UrlOptions.trailingQuery?.let { trailingQuery = it }
         }.build()
 
-    companion object : UrlOptions by DefaultUrlOptions()
-
     /**
      * Takes the [other] [protocol], [host], [port], [fragment], [user], [password], and [trailingQuery] over these options.
      * Appends the [other] [pathSegments] to these segments.
-     * Adds or replaces the [other] [pathParameters] and [queryParameters] to these parameters.
+     * Adds [other] [pathParameters] and [queryParameters] to these parameters, replacing existing keys if there is a duplicate.
      */
-    fun merge(other: UrlOptions): UrlOptions = DefaultUrlOptions(
+    fun merge(other: UrlOptions): UrlOptions = UrlOptions(
         protocol = other.protocol ?: protocol,
         host = other.host ?: host,
         port = other.port ?: port,
@@ -88,5 +57,29 @@ interface UrlOptions {
         password = other.password ?: password,
         trailingQuery = other.trailingQuery ?: trailingQuery
     )
-}
 
+    /**
+     * Takes the other [protocol], [host], [port], [fragment], [user], [password], and [trailingQuery] over these options.
+     * Appends the other [pathSegments] to these segments.
+     * Adds the other [pathParameters] and [queryParameters] to these parameters, replacing existing keys if there is a duplicate.
+     */
+    fun merge(vararg others: UrlOptions): UrlOptions = others.fold(initial = this) { current, next -> current.merge(next) }
+
+    companion object {
+        val Default = UrlOptions()
+        private val replacementPattern = Regex("\\{[^{}]*}")
+    }
+
+    /**
+     * Replaces the names of path parameters with the associated value.
+     *
+     * Names must be enclosed by curly brackets `{ }`.
+     */
+    private val replacedPathSegments: List<String>
+        get() = pathSegments.map { segment ->
+            segment.replace(replacementPattern) { match ->
+                val name = match.value.substring(1, match.range.last)
+                pathParameters.getValue(name)
+            }
+        }
+}
