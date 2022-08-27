@@ -1,4 +1,4 @@
-import com.bselzer.ktx.client.options.HttpUrlOptions
+import com.bselzer.ktx.client.options.DefaultUrlOptions
 import com.bselzer.ktx.client.options.UrlOptions
 import io.ktor.http.*
 import kotlin.test.*
@@ -7,7 +7,7 @@ class UrlOptionsTests {
     @Test
     fun merge_WithDefault() {
         // Arrange
-        val default = UrlOptions(
+        val default = DefaultUrlOptions(
             protocol = URLProtocol.HTTPS,
             host = "api.guildwars2.com",
             port = 80,
@@ -20,7 +20,7 @@ class UrlOptionsTests {
             trailingQuery = true,
         )
 
-        val intermediary = UrlOptions(
+        val intermediary = DefaultUrlOptions(
             protocol = URLProtocol.HTTP,
             host = "intermediaryHost",
             port = 99,
@@ -33,7 +33,7 @@ class UrlOptionsTests {
             trailingQuery = false,
         )
 
-        val preferred = UrlOptions(
+        val preferred = DefaultUrlOptions(
             pathSegments = listOf("maps", "{mapId}", "tasks"),
             pathParameters = mapOf("mapId" to "4"),
             queryParameters = mapOf("page_size" to "25")
@@ -41,7 +41,7 @@ class UrlOptionsTests {
 
         // Act
         val order = listOf(default, intermediary, preferred)
-        val merged = order.fold<HttpUrlOptions, HttpUrlOptions>(HttpUrlOptions) { current, next -> current.merge(next) }
+        val merged = order.fold<UrlOptions, UrlOptions>(UrlOptions) { current, next -> current.merge(next) }
 
         // Assert
         val pathSegments = listOf("v2", "continents", "{continentId}", "floors", "{floorId}", "regions", "{regionId}", "maps", "{mapId}", "tasks")
@@ -67,9 +67,9 @@ class UrlOptionsTests {
     @Test
     fun merge_NoDefault() {
         // Arrange
-        val default = HttpUrlOptions
+        val default = UrlOptions
 
-        val intermediary = UrlOptions(
+        val intermediary = DefaultUrlOptions(
             protocol = URLProtocol.HTTP,
             host = "intermediaryHost",
             port = 99,
@@ -107,7 +107,7 @@ class UrlOptionsTests {
     @Test
     fun missingPathParameter_ThrowsException() {
         // Arrange
-        val options = UrlOptions(
+        val options = DefaultUrlOptions(
             pathSegments = listOf("continents", "{continentId}", "floors", "{floorId}", "regions", "{regionId}"),
             pathParameters = mapOf("floorId" to "2"),
         )

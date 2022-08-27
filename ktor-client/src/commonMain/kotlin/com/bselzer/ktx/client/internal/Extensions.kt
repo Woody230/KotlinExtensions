@@ -1,13 +1,13 @@
 package com.bselzer.ktx.client.internal
 
-import com.bselzer.ktx.client.options.HttpUrlOptions
+import com.bselzer.ktx.client.options.UrlOptions
 
 /**
  * Replaces the names of path parameters with the associated value.
  *
  * Names must be enclosed by curly brackets `{ }`.
  */
-internal fun HttpUrlOptions.replacedPathSegments(): List<String> {
+internal fun UrlOptions.replacedPathSegments(): List<String> {
     val pattern = Regex("\\{[^{}]*}")
     return pathSegments.map { segment ->
         segment.replace(pattern) { match ->

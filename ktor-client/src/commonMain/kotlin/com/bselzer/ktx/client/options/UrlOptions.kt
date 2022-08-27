@@ -1,16 +1,92 @@
 package com.bselzer.ktx.client.options
 
+import com.bselzer.ktx.client.internal.replacedPathSegments
 import io.ktor.http.*
 
-data class UrlOptions(
-    override val protocol: URLProtocol? = null,
-    override val host: String? = null,
-    override val port: Int? = null,
-    override val pathSegments: List<String> = emptyList(),
-    override val pathParameters: Map<String, String> = emptyMap(),
-    override val queryParameters: Map<String, String> = emptyMap(),
-    override val fragment: String? = null,
-    override val user: String? = null,
-    override val password: String? = null,
-    override val trailingQuery: Boolean? = null
-) : HttpUrlOptions
+interface UrlOptions {
+    /**
+     * The path segments.
+     *
+     * The names of [pathParameters] should be enclosed by curly brackets `{ }`.
+     */
+    val pathSegments: List<String>
+
+    /**
+     * The parameters to replace in the [pathSegments].
+     */
+    val pathParameters: Map<String, String>
+
+    /**
+     * The parameters to append to the path.
+     */
+    val queryParameters: Map<String, String>
+
+    /**
+     * URL protocol (scheme).
+     */
+    val protocol: URLProtocol?
+
+    /**
+     * The name without the port (domain).
+     */
+    val host: String?
+
+    /**
+     * The port identifier.
+     */
+    val port: Int?
+
+    /**
+     * The username.
+     */
+    val user: String?
+
+    /**
+     * The password.
+     */
+    val password: String?
+
+    /**
+     * The fragment.
+     */
+    val fragment: String?
+
+    /**
+     * Whether to keep trailing question character even if there are no query parameters
+     */
+    val trailingQuery: Boolean?
+
+    val url: Url
+        get() = URLBuilder().apply {
+            appendPathSegments(replacedPathSegments())
+            queryParameters.forEach { query -> parameters.append(query.key, query.value) }
+            this@UrlOptions.protocol?.let { protocol = it }
+            this@UrlOptions.host?.let { host = it }
+            this@UrlOptions.port?.let { port = it }
+            user = this@UrlOptions.user
+            password = this@UrlOptions.password
+            this@UrlOptions.fragment?.let { fragment = it }
+            this@UrlOptions.trailingQuery?.let { trailingQuery = it }
+        }.build()
+
+    companion object : UrlOptions by DefaultUrlOptions()
+
+    /**
+     * Takes the [other] [protocol], [host], [port], [fragment], [user], [password], and [trailingQuery] over these options.
+     * Appends the [other] [pathSegments] to these segments.
+     * Adds or replaces the [other] [pathParameters] and [queryParameters] to these parameters.
+     */
+    fun merge(other: UrlOptions): UrlOptions = DefaultUrlOptions(
+        protocol = other.protocol ?: protocol,
+        host = other.host ?: host,
+        port = other.port ?: port,
+        pathSegments = pathSegments + other.pathSegments,
+        pathParameters = pathParameters + other.pathParameters,
+        queryParameters = queryParameters + other.queryParameters,
+        fragment = other.fragment ?: fragment,
+        user = other.user ?: user,
+        password = other.password ?: password,
+        trailingQuery = other.trailingQuery ?: trailingQuery
+    )
+}
+
