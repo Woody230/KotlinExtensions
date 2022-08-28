@@ -357,9 +357,6 @@ Client side [Ktor](https://ktor.io/docs/getting-started-ktor-client.html) extens
 ## logging
 Logging wrapper around [Napier](https://github.com/AAkira/Napier).
 
-## molecule
-A copy of [Molecule](https://github.com/cashapp/molecule) v0.2.0 with multiplatform capability.
-
 ## resource
 [moko-resources](https://github.com/icerockdev/moko-resources) extensions.
 
