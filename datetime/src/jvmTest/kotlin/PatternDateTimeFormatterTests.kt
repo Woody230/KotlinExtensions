@@ -27,13 +27,18 @@ class PatternDateTimeFormatterTests {
 
     @Test
     fun dayOfWeek() {
+        TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"))
+
         val instant = Instant.parse("2022-05-12T11:00:00.000Z")
         val date = instant.toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+
+        // --- JAVA ---
         val javaFormatter = DateTimeFormatter.ofPattern("EEEE")
         assertEquals("Thursday", javaFormatter.format(date))
         assertEquals("jeudi", javaFormatter.withLocale(Locale.FRENCH).format(date))
         assertEquals("jueves", javaFormatter.withLocale(Locale.Builder().setLanguage("es").setRegion("ES").build()).format(date))
 
+        // --- KOTLIN ---
         val kotlinFormatter = PatternDateTimeFormatter("EEEE")
         assertEquals("Thursday", kotlinFormatter.format(instant))
 

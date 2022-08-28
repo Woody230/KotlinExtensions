@@ -23,7 +23,9 @@ kotlin.setup {
         ktxDateTime()
         coroutine()
     }
-    commonTest()
+    commonTest {
+        projectIntl()
+    }
     androidTest()
     jvmTest()
 }
