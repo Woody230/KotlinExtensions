@@ -41,6 +41,11 @@ class UrlOptions(
         }.build()
 
     /**
+     * Get the first parameter that uses the [key] from either the [pathParameters] or the [queryParameters], or null if it does not exist.
+     */
+    fun parameterOrNull(key: String): String? = pathParameters[key] ?: queryParameters[key]
+
+    /**
      * Takes the [other] [protocol], [host], [port], [fragment], [user], [password], and [trailingQuery] over these options.
      * Appends the [other] [pathSegments] to these segments.
      * Adds [other] [pathParameters] and [queryParameters] to these parameters, replacing existing keys if there is a duplicate.
