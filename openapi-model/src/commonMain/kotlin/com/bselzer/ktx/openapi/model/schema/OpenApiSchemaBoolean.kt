@@ -19,10 +19,12 @@ data class OpenApiSchemaBoolean(
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
-    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.BOOLEAN),
+    override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Any> = emptyList(),
     override val const: Any? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
-) : OpenApiSchema
+) : OpenApiSchema {
+    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.BOOLEAN) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
+}

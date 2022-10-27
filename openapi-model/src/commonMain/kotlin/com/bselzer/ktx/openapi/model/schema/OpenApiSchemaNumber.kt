@@ -19,7 +19,7 @@ data class OpenApiSchemaNumber(
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
-    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.NUMBER),
+    override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Any> = emptyList(),
@@ -50,4 +50,6 @@ data class OpenApiSchemaNumber(
      * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
      */
     val exclusiveMaximum: Double? = null
-) : OpenApiSchema
+) : OpenApiSchema {
+    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.NUMBER) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
+}

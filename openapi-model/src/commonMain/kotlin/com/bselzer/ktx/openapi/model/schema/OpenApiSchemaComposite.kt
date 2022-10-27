@@ -25,4 +25,6 @@ data class OpenApiSchemaComposite(
     override val enum: List<Any> = emptyList(),
     override val const: Any? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
-) : OpenApiSchema
+) : OpenApiSchema {
+    override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
+}

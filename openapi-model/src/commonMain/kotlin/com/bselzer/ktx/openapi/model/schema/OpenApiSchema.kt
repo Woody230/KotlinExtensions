@@ -21,12 +21,10 @@ sealed interface OpenApiSchema : OpenApiExtensible {
     val oneOf: List<OpenApiSchema>
     val not: OpenApiSchema?
 
+    val isNullable: Boolean
     val types: Set<OpenApiSchemaType>
     val format: String?
     val externalDocs: OpenApiExternalDocumentation?
     val enum: List<Any>
     val const: Any?
-
-    val isNullable: Boolean
-        get() = types.contains(OpenApiSchemaType.NULL)
 }

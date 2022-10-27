@@ -19,7 +19,7 @@ data class OpenApiSchemaObject(
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
-    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.OBJECT),
+    override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Any> = emptyList(),
@@ -89,4 +89,6 @@ data class OpenApiSchemaObject(
      * The number of properties on an object can be restricted using the minProperties and maxProperties keywords. Each of these must be a non-negative integer.
      */
     val maxProperties: Int? = null,
-) : OpenApiSchema
+) : OpenApiSchema {
+    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.OBJECT) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
+}
