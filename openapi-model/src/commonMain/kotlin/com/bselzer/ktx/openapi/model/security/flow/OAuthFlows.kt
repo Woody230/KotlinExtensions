@@ -1,5 +1,8 @@
 package com.bselzer.ktx.openapi.model.security.flow
 
+import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+
 data class OAuthFlows(
     /**
      * Configuration for the OAuth Implicit flow
@@ -19,5 +22,7 @@ data class OAuthFlows(
     /**
      * Configuration for the OAuth Authorization Code flow. Previously called accessCode in OpenAPI 2.0.
      */
-    val authorizationCode: AuthorizationCodeOAuthFlow? = null
-)
+    val authorizationCode: AuthorizationCodeOAuthFlow? = null,
+
+    override val extensions: OpenApiExtensions = emptyMap()
+) : OpenApiExtensible
