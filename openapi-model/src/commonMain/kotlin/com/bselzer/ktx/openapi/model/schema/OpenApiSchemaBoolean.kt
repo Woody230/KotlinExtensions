@@ -1,6 +1,11 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.schema
 
-data class OpenApiSchemaComposite(
+import com.bselzer.ktx.openapi.model.OpenApiDescription
+import com.bselzer.ktx.openapi.model.OpenApiExampleValue
+import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
+
+data class OpenApiSchemaBoolean(
     override val example: OpenApiExampleValue? = null,
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
@@ -14,7 +19,7 @@ data class OpenApiSchemaComposite(
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
-    override val types: Set<OpenApiSchemaType> = emptySet(),
+    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.BOOLEAN),
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Any> = emptyList(),

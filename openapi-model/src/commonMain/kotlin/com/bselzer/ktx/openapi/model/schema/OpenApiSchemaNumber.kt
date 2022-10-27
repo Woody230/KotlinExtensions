@@ -1,6 +1,11 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.schema
 
-data class OpenApiSchemaInteger(
+import com.bselzer.ktx.openapi.model.OpenApiDescription
+import com.bselzer.ktx.openapi.model.OpenApiExampleValue
+import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
+
+data class OpenApiSchemaNumber(
     override val example: OpenApiExampleValue? = null,
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
@@ -14,7 +19,7 @@ data class OpenApiSchemaInteger(
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
-    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.INTEGER),
+    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.NUMBER),
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Any> = emptyList(),
@@ -24,25 +29,25 @@ data class OpenApiSchemaInteger(
     /**
      * Numbers can be restricted to a multiple of a given number, using the multipleOf keyword. It may be set to any positive number.
      */
-    val multipleOf: Int? = null,
+    val multipleOf: Double? = null,
 
     /**
      * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
      */
-    val minimum: Int? = null,
+    val minimum: Double? = null,
 
     /**
      * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
      */
-    val exclusiveMinimum: Int? = null,
+    val exclusiveMinimum: Double? = null,
 
     /**
      * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
      */
-    val maximum: Int? = null,
+    val maximum: Double? = null,
 
     /**
      * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
      */
-    val exclusiveMaximum: Int? = null
+    val exclusiveMaximum: Double? = null
 ) : OpenApiSchema

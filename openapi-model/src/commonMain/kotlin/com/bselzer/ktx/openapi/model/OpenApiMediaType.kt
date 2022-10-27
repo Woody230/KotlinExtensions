@@ -1,6 +1,7 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 
 /**
  * Each Media Type Object provides schema and examples for the media type identified by its key.
