@@ -9,13 +9,12 @@ import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
  * The string type is used for strings of text. It may contain Unicode characters.
  */
 data class OpenApiSchemaString(
+    @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
     override val example: OpenApiExampleValue? = null,
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
     override val default: Any? = null,
-    override val readOnly: Boolean? = null,
-    override val writeOnly: Boolean? = null,
     override val deprecated: Boolean? = null,
     override val `$comment`: String? = null,
     override val allOf: List<OpenApiSchema> = emptyList(),

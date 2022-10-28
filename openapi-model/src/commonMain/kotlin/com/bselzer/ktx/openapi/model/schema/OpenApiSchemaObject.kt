@@ -6,13 +6,12 @@ import com.bselzer.ktx.openapi.model.*
  * Objects are the mapping type in JSON. They map “keys” to “values”. In JSON, the “keys” must always be strings. Each of these pairs is conventionally referred to as a “property”.
  */
 data class OpenApiSchemaObject(
+    @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
     override val example: OpenApiExampleValue? = null,
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
     override val default: Any? = null,
-    override val readOnly: Boolean? = null,
-    override val writeOnly: Boolean? = null,
     override val deprecated: Boolean? = null,
     override val `$comment`: String? = null,
     override val allOf: List<OpenApiSchema> = emptyList(),
@@ -25,6 +24,16 @@ data class OpenApiSchemaObject(
     override val enum: List<Any> = emptyList(),
     override val const: Any? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
+
+    /**
+     * Relevant only for Schema "properties" definitions. Declares the property as “read only”. This means that it MAY be sent as part of a response but SHOULD NOT be sent as part of the request. If the property is marked as readOnly being true and is in the required list, the required will take effect on the response only. A property MUST NOT be marked as both readOnly and writeOnly being true. Default value is false.
+     */
+    val readOnly: Boolean = false,
+
+    /**
+     * Relevant only for Schema "properties" definitions. Declares the property as “write only”. Therefore, it MAY be sent as part of a request but SHOULD NOT be sent as part of the response. If the property is marked as writeOnly being true and is in the required list, the required will take effect on the request only. A property MUST NOT be marked as both readOnly and writeOnly being true. Default value is false.
+     */
+    val writeOnly: Boolean = false,
 
     /**
      * Adds support for polymorphism. The discriminator is an object name that is used to differentiate between other schemas which may satisfy the payload description. See Composition and Inheritance for more details.

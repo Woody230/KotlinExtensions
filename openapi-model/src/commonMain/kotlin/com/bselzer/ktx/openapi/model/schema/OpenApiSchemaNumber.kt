@@ -6,13 +6,12 @@ import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
 
 data class OpenApiSchemaNumber(
+    @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
     override val example: OpenApiExampleValue? = null,
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
-    override val default: Any? = null,
-    override val readOnly: Boolean? = null,
-    override val writeOnly: Boolean? = null,
+    override val default: Double? = null,
     override val deprecated: Boolean? = null,
     override val `$comment`: String? = null,
     override val allOf: List<OpenApiSchema> = emptyList(),
@@ -23,7 +22,7 @@ data class OpenApiSchemaNumber(
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Any> = emptyList(),
-    override val const: Any? = null,
+    override val const: Double? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
 
     /**
