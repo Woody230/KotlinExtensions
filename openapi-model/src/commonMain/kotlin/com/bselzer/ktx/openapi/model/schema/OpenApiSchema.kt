@@ -40,7 +40,7 @@ sealed interface OpenApiSchema : OpenApiExtensible {
     /**
      * The deprecated keyword is a boolean that indicates that the instance value the keyword applies to should not be used and may be removed in the future.
      */
-    val deprecated: Boolean?
+    val deprecated: Boolean
 
     /**
      * The $comment keyword is strictly intended for adding comments to a schema. Its value must always be a string. Unlike the annotations title, description, and examples, JSON schema implementations aren’t allowed to attach any meaning or behavior to it whatsoever, and may even strip them at any time.
@@ -90,7 +90,7 @@ sealed interface OpenApiSchema : OpenApiExtensible {
     /**
      * The enum keyword is used to restrict a value to a fixed set of values where each element is unique.
      */
-    val enum: List<Any>
+    val enum: List<Any>?
 
     /**
      * The const keyword is used to restrict a value to a single value.

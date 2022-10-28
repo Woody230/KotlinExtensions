@@ -12,7 +12,7 @@ data class OpenApiSchemaNumber(
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
     override val default: Double? = null,
-    override val deprecated: Boolean? = null,
+    override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
     override val allOf: List<OpenApiSchema> = emptyList(),
     override val anyOf: List<OpenApiSchema> = emptyList(),
@@ -21,7 +21,7 @@ data class OpenApiSchemaNumber(
     override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
-    override val enum: List<Any> = emptyList(),
+    override val enum: List<Double> = emptyList(),
     override val const: Double? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
 

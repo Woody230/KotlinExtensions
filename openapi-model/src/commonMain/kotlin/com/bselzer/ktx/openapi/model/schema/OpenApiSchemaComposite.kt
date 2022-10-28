@@ -12,7 +12,7 @@ data class OpenApiSchemaComposite(
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
     override val default: Any? = null,
-    override val deprecated: Boolean? = null,
+    override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
     override val allOf: List<OpenApiSchema> = emptyList(),
     override val anyOf: List<OpenApiSchema> = emptyList(),
