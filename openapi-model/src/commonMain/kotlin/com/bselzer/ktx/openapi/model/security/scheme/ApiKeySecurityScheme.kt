@@ -5,6 +5,8 @@ import com.bselzer.ktx.openapi.model.OpenApiParameterIn
 import com.bselzer.ktx.openapi.model.OpenApiParameterName
 
 data class ApiKeySecurityScheme(
+    override val description: OpenApiDescription? = null,
+
     /**
      * REQUIRED. The name of the header, query or cookie parameter to be used.
      */
@@ -14,8 +16,6 @@ data class ApiKeySecurityScheme(
      * REQUIRED. The location of the API key. Valid values are "query", "header" or "cookie".
      */
     val `in`: OpenApiParameterIn,
-
-    override val description: OpenApiDescription? = null
 ) : OpenApiSecurityScheme {
     override val type: OpenApiSecuritySchemeType = OpenApiSecuritySchemeType.API_KEY
 }
