@@ -1,7 +1,6 @@
 package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiDiscriminator
-import com.bselzer.ktx.openapi.model.OpenApiPropertyName
 import com.bselzer.ktx.openapi.model.OpenApiReferenceOf
 import com.bselzer.ktx.openapi.model.OpenApiXml
 
