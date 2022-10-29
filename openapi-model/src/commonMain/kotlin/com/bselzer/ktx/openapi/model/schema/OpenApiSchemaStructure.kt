@@ -1,7 +1,6 @@
 package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiReferenceIdentifier
-import com.bselzer.ktx.openapi.model.OpenApiSchema
 
 interface OpenApiSchemaStructure {
     /**

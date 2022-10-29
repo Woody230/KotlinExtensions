@@ -1,7 +1,5 @@
 package com.bselzer.ktx.openapi.model.schema
 
-import com.bselzer.ktx.openapi.model.OpenApiSchema
-
 sealed interface OpenApiSchemaComposition {
     /**
      * Must be valid against all of the subschemas.

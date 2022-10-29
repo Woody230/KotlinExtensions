@@ -74,7 +74,6 @@ data class OpenApiSchemaComposite(
     override val `$id`: OpenApiReferenceIdentifier? = null,
     override val `$anchor`: OpenApiReferenceIdentifier? = null,
     override val `$defs`: Map<OpenApiReferenceIdentifier, OpenApiSchema> = emptyMap()
-) : OpenApiSchemaCore, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Double>,
-    OpenApiSchemaStructure {
+) : OpenApiSchema {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }
