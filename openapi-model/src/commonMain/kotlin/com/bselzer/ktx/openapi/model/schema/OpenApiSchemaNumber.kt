@@ -11,40 +11,24 @@ data class OpenApiSchemaNumber(
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
+    override val readOnly: Boolean = false,
+    override val writeOnly: Boolean = false,
     override val default: Double? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
     override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
-    override val enum: List<Double> = emptyList(),
-    override val const: Double? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
 
-    /**
-     * Numbers can be restricted to a multiple of a given number, using the multipleOf keyword. It may be set to any positive number.
-     */
-    val multipleOf: Double? = null,
+    override val multipleOf: Double? = null,
+    override val minimum: Double? = null,
+    override val exclusiveMinimum: Double? = null,
+    override val maximum: Double? = null,
+    override val exclusiveMaximum: Double? = null,
 
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val minimum: Double? = null,
-
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val exclusiveMinimum: Double? = null,
-
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val maximum: Double? = null,
-
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val exclusiveMaximum: Double? = null
-) : OpenApiSchema, OpenApiSchemaEnum<Double> {
+    override val enum: List<Double> = emptyList(),
+    override val const: Double? = null,
+) : OpenApiSchema, OpenApiSchemaEnum<Double>, OpenApiSchemaNumeric<Double> {
     override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.NUMBER) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
 }

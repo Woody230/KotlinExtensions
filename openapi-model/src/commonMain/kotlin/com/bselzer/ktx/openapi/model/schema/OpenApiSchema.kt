@@ -22,14 +22,24 @@ sealed interface OpenApiSchema : OpenApiExtensible {
     val examples: List<OpenApiExampleValue>
 
     /**
-     * A short description.
+     * A “title” will preferably be short, whereas a “description” will provide a more lengthy explanation about the purpose of the data described by the schema.
      */
     val title: String?
 
     /**
-     * A long description.
+     * A “title” will preferably be short, whereas a “description” will provide a more lengthy explanation about the purpose of the data described by the schema.
      */
     val description: OpenApiDescription?
+
+    /**
+     * readOnly indicates that a value should not be modified.
+     */
+    val readOnly: Boolean
+
+    /**
+     * writeOnly indicates that a value may be set, but will remain hidden.
+     */
+    val writeOnly: Boolean
 
     /**
      * The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, if type is string, then default can be "foo" but cannot be 1.

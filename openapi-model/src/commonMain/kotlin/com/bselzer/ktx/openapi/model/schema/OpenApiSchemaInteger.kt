@@ -11,40 +11,24 @@ data class OpenApiSchemaInteger(
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
+    override val readOnly: Boolean = false,
+    override val writeOnly: Boolean = false,
     override val default: Int? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
     override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
-    override val enum: List<Int> = emptyList(),
-    override val const: Int? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
 
-    /**
-     * Numbers can be restricted to a multiple of a given number, using the multipleOf keyword. It may be set to any positive number.
-     */
-    val multipleOf: Int? = null,
+    override val multipleOf: Int? = null,
+    override val minimum: Int? = null,
+    override val exclusiveMinimum: Int? = null,
+    override val maximum: Int? = null,
+    override val exclusiveMaximum: Int? = null,
 
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val minimum: Int? = null,
-
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val exclusiveMinimum: Int? = null,
-
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val maximum: Int? = null,
-
-    /**
-     * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
-     */
-    val exclusiveMaximum: Int? = null
-) : OpenApiSchema, OpenApiSchemaEnum<Int> {
+    override val enum: List<Int> = emptyList(),
+    override val const: Int? = null,
+) : OpenApiSchema, OpenApiSchemaEnum<Int>, OpenApiSchemaNumeric<Int> {
     override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.INTEGER) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
 }

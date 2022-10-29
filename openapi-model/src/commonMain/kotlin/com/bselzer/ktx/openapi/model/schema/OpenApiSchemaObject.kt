@@ -11,6 +11,8 @@ data class OpenApiSchemaObject(
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
+    override val readOnly: Boolean = false,
+    override val writeOnly: Boolean = false,
     override val default: Any? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
@@ -18,16 +20,6 @@ data class OpenApiSchemaObject(
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
-
-    /**
-     * Relevant only for Schema "properties" definitions. Declares the property as “read only”. This means that it MAY be sent as part of a response but SHOULD NOT be sent as part of the request. If the property is marked as readOnly being true and is in the required list, the required will take effect on the response only. A property MUST NOT be marked as both readOnly and writeOnly being true. Default value is false.
-     */
-    val readOnly: Boolean = false,
-
-    /**
-     * Relevant only for Schema "properties" definitions. Declares the property as “write only”. Therefore, it MAY be sent as part of a request but SHOULD NOT be sent as part of the response. If the property is marked as writeOnly being true and is in the required list, the required will take effect on the request only. A property MUST NOT be marked as both readOnly and writeOnly being true. Default value is false.
-     */
-    val writeOnly: Boolean = false,
 
     /**
      * Adds support for polymorphism. The discriminator is an object name that is used to differentiate between other schemas which may satisfy the payload description. See Composition and Inheritance for more details.

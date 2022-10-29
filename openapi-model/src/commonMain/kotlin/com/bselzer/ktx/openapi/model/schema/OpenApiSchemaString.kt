@@ -14,6 +14,8 @@ data class OpenApiSchemaString(
     override val examples: List<OpenApiExampleValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
+    override val readOnly: Boolean = false,
+    override val writeOnly: Boolean = false,
     override val default: String? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
