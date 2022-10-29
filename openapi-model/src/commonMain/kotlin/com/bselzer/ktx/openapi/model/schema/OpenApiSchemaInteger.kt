@@ -14,10 +14,6 @@ data class OpenApiSchemaInteger(
     override val default: Int? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
-    override val allOf: List<OpenApiSchema> = emptyList(),
-    override val anyOf: List<OpenApiSchema> = emptyList(),
-    override val oneOf: List<OpenApiSchema> = emptyList(),
-    override val not: OpenApiSchema? = null,
     override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
@@ -49,6 +45,6 @@ data class OpenApiSchemaInteger(
      * Ranges of numbers are specified using a combination of the minimum and maximum keywords, (or exclusiveMinimum and exclusiveMaximum for expressing exclusive range).
      */
     val exclusiveMaximum: Int? = null
-) : OpenApiSchema {
+) : OpenApiSchema, OpenApiSchemaEnum<Int> {
     override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.INTEGER) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
 }

@@ -14,16 +14,12 @@ data class OpenApiSchemaBoolean(
     override val default: Boolean? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
-    override val allOf: List<OpenApiSchema> = emptyList(),
-    override val anyOf: List<OpenApiSchema> = emptyList(),
-    override val oneOf: List<OpenApiSchema> = emptyList(),
-    override val not: OpenApiSchema? = null,
     override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val enum: List<Boolean> = emptyList(),
     override val const: Boolean? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
-) : OpenApiSchema {
+) : OpenApiSchema, OpenApiSchemaEnum<Boolean> {
     override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.BOOLEAN) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
 }

@@ -7,7 +7,6 @@ import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 // TODO media https://json-schema.org/understanding-json-schema/reference/non_json_data.html
 // TODO conditionals https://json-schema.org/understanding-json-schema/reference/conditionals.html
-// TODO array https://json-schema.org/understanding-json-schema/
 // TODO complex https://json-schema.org/understanding-json-schema/structuring.html
 // TODO dialect https://json-schema.org/understanding-json-schema/reference/schema.html
 sealed interface OpenApiSchema : OpenApiExtensible {
@@ -48,26 +47,6 @@ sealed interface OpenApiSchema : OpenApiExtensible {
     val `$comment`: String?
 
     /**
-     * Must be valid against all of the subschemas.
-     */
-    val allOf: List<OpenApiSchema>
-
-    /**
-     * Must be valid against any of the subschemas
-     */
-    val anyOf: List<OpenApiSchema>
-
-    /**
-     * Must be valid against exactly one of the subschemas
-     */
-    val oneOf: List<OpenApiSchema>
-
-    /**
-     * Must not be valid against the given schema
-     */
-    val not: OpenApiSchema?
-
-    /**
      * Whether the [OpenApiSchemaType.NULL] type is used.
      */
     val isNullable: Boolean
@@ -86,14 +65,4 @@ sealed interface OpenApiSchema : OpenApiExtensible {
      * Additional external documentation for this schema.
      */
     val externalDocs: OpenApiExternalDocumentation?
-
-    /**
-     * The enum keyword is used to restrict a value to a fixed set of values where each element is unique.
-     */
-    val enum: List<Any>?
-
-    /**
-     * The const keyword is used to restrict a value to a single value.
-     */
-    val const: Any?
 }

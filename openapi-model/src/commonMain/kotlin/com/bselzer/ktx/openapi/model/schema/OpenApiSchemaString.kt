@@ -17,10 +17,6 @@ data class OpenApiSchemaString(
     override val default: String? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
-    override val allOf: List<OpenApiSchema> = emptyList(),
-    override val anyOf: List<OpenApiSchema> = emptyList(),
-    override val oneOf: List<OpenApiSchema> = emptyList(),
-    override val not: OpenApiSchema? = null,
     override val isNullable: Boolean = false,
     override val format: String? = null,
     override val externalDocs: OpenApiExternalDocumentation? = null,
@@ -42,6 +38,6 @@ data class OpenApiSchemaString(
      * The pattern keyword is used to restrict a string to a particular regular expression. The regular expression syntax is the one defined in JavaScript (ECMA 262 specifically) with Unicode support. See [Regular Expressions](https://json-schema.org/understanding-json-schema/reference/regular_expressions.html#regular-expressions) for more information.
      */
     val pattern: String? = null
-) : OpenApiSchema {
+) : OpenApiSchema, OpenApiSchemaEnum<String> {
     override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.STRING) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
 }
