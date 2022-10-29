@@ -60,7 +60,7 @@ sealed interface OpenApiSchemaObject {
     /**
      * The names of properties can be validated against a schema, irrespective of their values. This can be useful if you don’t want to enforce specific properties, but you want to make sure that the names of those properties follow a specific convention. You might, for example, want to enforce that all names are valid ASCII tokens so they can be used as attributes in a particular programming language.
      */
-    val propertyNames: OpenApiSchemaReference
+    val propertyNames: OpenApiSchemaReference?
 
     /**
      * The number of properties on an object can be restricted using the minProperties and maxProperties keywords. Each of these must be a non-negative integer.

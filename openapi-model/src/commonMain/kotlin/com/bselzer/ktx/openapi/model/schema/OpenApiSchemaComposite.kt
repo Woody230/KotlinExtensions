@@ -28,6 +28,9 @@ data class OpenApiSchemaComposite(
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
+    override val `if`: OpenApiSchema? = null,
+    override val then: OpenApiSchema? = null,
+    override val `else`: OpenApiSchema? = null,
 
     // Array
     override val items: OpenApiSchemaReference? = null,
@@ -49,7 +52,7 @@ data class OpenApiSchemaComposite(
     override val required: Set<OpenApiPropertyName> = emptySet(),
     override val dependentRequired: Map<OpenApiPropertyName, Set<OpenApiPropertyName>> = emptyMap(),
     override val dependentSchemas: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
-    override val propertyNames: Map<OpenApiPropertyName, String> = emptyMap(),
+    override val propertyNames: OpenApiSchemaReference? = null,
     override val minProperties: Int? = null,
     override val maxProperties: Int? = null,
 
@@ -66,6 +69,12 @@ data class OpenApiSchemaComposite(
     override val exclusiveMinimum: Double? = null,
     override val maximum: Double? = null,
     override val exclusiveMaximum: Double? = null,
-) : OpenApiSchemaCore, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Double> {
+
+    // Structure
+    override val `$id`: OpenApiReferenceIdentifier? = null,
+    override val `$anchor`: OpenApiReferenceIdentifier? = null,
+    override val `$defs`: Map<OpenApiReferenceIdentifier, OpenApiSchema> = emptyMap()
+) : OpenApiSchemaCore, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Double>,
+    OpenApiSchemaStructure {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }
