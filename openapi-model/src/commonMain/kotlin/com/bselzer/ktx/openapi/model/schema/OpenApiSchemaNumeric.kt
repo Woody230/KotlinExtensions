@@ -1,6 +1,6 @@
 package com.bselzer.ktx.openapi.model.schema
 
-interface OpenApiSchemaNumeric<T : Number> {
+sealed interface OpenApiSchemaNumeric<T : Number> {
     /**
      * Numbers can be restricted to a multiple of a given number, using the multipleOf keyword. It may be set to any positive number.
      */

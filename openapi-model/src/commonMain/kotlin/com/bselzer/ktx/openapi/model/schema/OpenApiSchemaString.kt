@@ -3,7 +3,7 @@ package com.bselzer.ktx.openapi.model.schema
 /**
  * The string type is used for strings of text. It may contain Unicode characters.
  */
-interface OpenApiSchemaString {
+sealed interface OpenApiSchemaString {
     /**
      * The length of a string can be constrained using the minLength and maxLength keywords. For both keywords, the value must be a non-negative number.
      */

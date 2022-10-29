@@ -7,7 +7,7 @@ import com.bselzer.ktx.openapi.model.OpenApiXml
 /**
  * Objects are the mapping type in JSON. They map “keys” to “values”. In JSON, the “keys” must always be strings. Each of these pairs is conventionally referred to as a “property”.
  */
-interface OpenApiSchemaObject {
+sealed interface OpenApiSchemaObject {
     /**
      * Adds support for polymorphism. The discriminator is an object name that is used to differentiate between other schemas which may satisfy the payload description. See Composition and Inheritance for more details.
      */

@@ -2,7 +2,7 @@ package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiSchemaReference
 
-interface OpenApiSchemaArray {
+sealed interface OpenApiSchemaArray {
     /**
      * Set the items keyword to a single schema that will be used to validate all of the items in the array.
      */
