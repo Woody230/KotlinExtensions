@@ -42,21 +42,28 @@ data class OpenApiSchemaComposite(
     // Object
     override val discriminator: OpenApiDiscriminator? = null,
     override val xml: OpenApiXml? = null,
-    override val properties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
-    override val patternProperties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val properties: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val patternProperties: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
     override val additionalProperties: OpenApiReferenceOf<OpenApiSchema>? = null,
     override val unevaluatedProperties: Boolean? = null,
-    override val required: Set<OpenApiParameterName> = emptySet(),
-    override val dependentRequired: Map<OpenApiParameterName, Set<OpenApiParameterName>> = emptyMap(),
-    override val dependentSchemas: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
-    override val propertyNames: Map<OpenApiParameterName, String> = emptyMap(),
+    override val required: Set<OpenApiPropertyName> = emptySet(),
+    override val dependentRequired: Map<OpenApiPropertyName, Set<OpenApiPropertyName>> = emptyMap(),
+    override val dependentSchemas: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val propertyNames: Map<OpenApiPropertyName, String> = emptyMap(),
     override val minProperties: Int? = null,
     override val maxProperties: Int? = null,
 
     // String
     override val minLength: Int? = null,
     override val maxLength: Int? = null,
-    override val pattern: String? = null
-) : OpenApiSchema, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString {
+    override val pattern: String? = null,
+
+    // Numeric
+    override val multipleOf: Double? = null,
+    override val minimum: Double? = null,
+    override val exclusiveMinimum: Double? = null,
+    override val maximum: Double? = null,
+    override val exclusiveMaximum: Double? = null,
+) : OpenApiSchema, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Double> {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }

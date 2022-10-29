@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiDiscriminator
-import com.bselzer.ktx.openapi.model.OpenApiParameterName
+import com.bselzer.ktx.openapi.model.OpenApiPropertyName
 import com.bselzer.ktx.openapi.model.OpenApiReferenceOf
 import com.bselzer.ktx.openapi.model.OpenApiXml
 
@@ -22,12 +22,12 @@ interface OpenApiSchemaObject {
     /**
      * The properties (key-value pairs) on an object are defined using the properties keyword. The value of properties is an object, where each key is the name of a property and each value is a schema used to validate that property. Any property that doesn’t match any of the property names in the properties keyword is ignored by this keyword.
      */
-    val properties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>>
+    val properties: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>>
 
     /**
      * Sometimes you want to say that, given a particular kind of property name, the value should match a particular schema. That’s where patternProperties comes in: it maps regular expressions to schemas. If a property name matches the given regular expression, the property value must validate against the corresponding schema.
      */
-    val patternProperties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>>
+    val patternProperties: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>>
 
     /**
      * The additionalProperties keyword is used to control the handling of extra stuff, that is, properties whose names are not listed in the properties keyword or match any of the regular expressions in the patternProperties keyword. By default any additional properties are allowed.
@@ -46,22 +46,22 @@ interface OpenApiSchemaObject {
      *
      * The required keyword takes an array of zero or more strings. Each of these strings must be unique.
      */
-    val required: Set<OpenApiParameterName>
+    val required: Set<OpenApiPropertyName>
 
     /**
      * The dependentRequired keyword conditionally requires that certain properties must be present if a given property is present in an object.
      */
-    val dependentRequired: Map<OpenApiParameterName, Set<OpenApiParameterName>>
+    val dependentRequired: Map<OpenApiPropertyName, Set<OpenApiPropertyName>>
 
     /**
      * The dependentSchemas keyword conditionally applies a subschema when a given property is present.
      */
-    val dependentSchemas: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>>
+    val dependentSchemas: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>>
 
     /**
      * The names of properties can be validated against a schema, irrespective of their values. This can be useful if you don’t want to enforce specific properties, but you want to make sure that the names of those properties follow a specific convention. You might, for example, want to enforce that all names are valid ASCII tokens so they can be used as attributes in a particular programming language.
      */
-    val propertyNames: Map<OpenApiParameterName, String>
+    val propertyNames: Map<OpenApiPropertyName, String>
 
     /**
      * The number of properties on an object can be restricted using the minProperties and maxProperties keywords. Each of these must be a non-negative integer.
