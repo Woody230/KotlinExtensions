@@ -57,7 +57,7 @@ data class OpenApiComponents(
     /**
      * An object to hold reusable Path Item Object.
      */
-    val pathItems: Map<String, OpenApiReferenceOf<OpenApiPathItem>> = emptyMap(),
+    val pathItems: OpenApiPathItems = emptyMap(),
 
     override val extensions: OpenApiExtensions = emptyMap(),
 ) : OpenApiExtensible

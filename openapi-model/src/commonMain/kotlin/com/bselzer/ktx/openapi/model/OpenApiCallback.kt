@@ -11,7 +11,7 @@ data class OpenApiCallback(
     /**
      * A Path Item Object, or a reference to one, used to define a callback request and expected responses. A [complete example](https://github.com/OAI/OpenAPI-Specification/blob/main/examples/v3.0/callback-example.yaml) is available.
      */
-    val pathItems: Map<String, OpenApiReferenceOf<OpenApiPathItem>> = emptyMap(),
+    val pathItems: OpenApiPathItems = emptyMap(),
 
     override val extensions: OpenApiExtensions = emptyMap()
 ) : OpenApiExtensible

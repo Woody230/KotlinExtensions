@@ -14,3 +14,4 @@ typealias OpenApiLinks = Map<String, OpenApiReferenceOf<OpenApiLink>>
 typealias OpenApiExamples = Map<String, OpenApiReferenceOf<OpenApiExample>>
 typealias OpenApiEncodings = Map<OpenApiEncodingName, OpenApiEncoding>
 typealias OpenApiSchemaReference = OpenApiReferenceOf<OpenApiSchema>
+typealias OpenApiPathItems = Map<String, OpenApiReferenceOf<OpenApiPathItem>>
