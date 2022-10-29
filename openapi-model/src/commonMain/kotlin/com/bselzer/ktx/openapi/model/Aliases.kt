@@ -12,6 +12,6 @@ typealias OpenApiHeaders = Map<String, OpenApiReferenceOf<OpenApiHeader>>
 typealias OpenApiContent = Map<OpenApiMediaTypeName, OpenApiMediaType>
 typealias OpenApiLinks = Map<String, OpenApiReferenceOf<OpenApiLink>>
 typealias OpenApiExamples = Map<String, OpenApiReferenceOf<OpenApiExample>>
-typealias OpenApiEncodings = Map<String, OpenApiEncoding>
+typealias OpenApiEncodings = Map<OpenApiEncodingName, OpenApiEncoding>
 typealias OpenApiSchemaReference = OpenApiReferenceOf<OpenApiSchema>
 typealias OpenApiSchema = OpenApiSchemaComposite

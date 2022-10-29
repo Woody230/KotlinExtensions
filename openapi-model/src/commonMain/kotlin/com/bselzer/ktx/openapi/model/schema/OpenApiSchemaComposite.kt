@@ -57,6 +57,8 @@ data class OpenApiSchemaComposite(
     override val minLength: Int? = null,
     override val maxLength: Int? = null,
     override val pattern: String? = null,
+    override val contentMediaType: OpenApiMediaTypeName? = null,
+    override val contentEncoding: OpenApiEncodingName? = null,
 
     // Numeric
     override val multipleOf: Double? = null,

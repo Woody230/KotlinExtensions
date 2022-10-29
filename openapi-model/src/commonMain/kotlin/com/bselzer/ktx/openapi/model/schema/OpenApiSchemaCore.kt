@@ -5,7 +5,6 @@ import com.bselzer.ktx.openapi.model.OpenApiExampleValue
 import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
-// TODO media https://json-schema.org/understanding-json-schema/reference/non_json_data.html
 // TODO conditionals https://json-schema.org/understanding-json-schema/reference/conditionals.html
 // TODO complex https://json-schema.org/understanding-json-schema/structuring.html
 // TODO dialect https://json-schema.org/understanding-json-schema/reference/schema.html
