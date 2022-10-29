@@ -1,5 +1,6 @@
 package com.bselzer.ktx.openapi.model
 
+import com.bselzer.ktx.openapi.model.parameter.OpenApiParameter
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityRequirement
 

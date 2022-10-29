@@ -1,6 +1,7 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 
 /**
  * he Link object represents a possible design-time link for a response. The presence of a link does not guarantee the caller’s ability to successfully invoke it, rather it provides a known relationship and traversal mechanism between responses and other operations.

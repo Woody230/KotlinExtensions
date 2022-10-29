@@ -1,10 +1,12 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.parameter
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * In order to support common ways of serializing simple parameters, a set of style values are defined.
  */
+@Serializable
 enum class OpenApiParameterStyle {
     /**
      * Path-style parameters defined by RFC6570.

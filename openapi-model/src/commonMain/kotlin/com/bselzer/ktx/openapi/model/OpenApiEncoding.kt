@@ -1,6 +1,7 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
 
 /**
  * A single encoding definition applied to a single schema property.

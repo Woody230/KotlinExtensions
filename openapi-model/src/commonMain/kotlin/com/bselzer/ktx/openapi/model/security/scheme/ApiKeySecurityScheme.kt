@@ -1,8 +1,8 @@
 package com.bselzer.ktx.openapi.model.security.scheme
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
-import com.bselzer.ktx.openapi.model.OpenApiParameterIn
-import com.bselzer.ktx.openapi.model.OpenApiParameterName
+import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterIn
+import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 
 data class ApiKeySecurityScheme(
     override val description: OpenApiDescription? = null,
