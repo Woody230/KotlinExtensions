@@ -1,89 +1,75 @@
 package com.bselzer.ktx.openapi.model.schema
 
-import com.bselzer.ktx.openapi.model.*
+import com.bselzer.ktx.openapi.model.OpenApiDiscriminator
+import com.bselzer.ktx.openapi.model.OpenApiParameterName
+import com.bselzer.ktx.openapi.model.OpenApiReferenceOf
+import com.bselzer.ktx.openapi.model.OpenApiXml
 
 /**
  * Objects are the mapping type in JSON. They map “keys” to “values”. In JSON, the “keys” must always be strings. Each of these pairs is conventionally referred to as a “property”.
  */
-data class OpenApiSchemaObject(
-    @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
-    override val example: OpenApiExampleValue? = null,
-    override val examples: List<OpenApiExampleValue> = emptyList(),
-    override val title: String? = null,
-    override val description: OpenApiDescription? = null,
-    override val readOnly: Boolean = false,
-    override val writeOnly: Boolean = false,
-    override val default: Any? = null,
-    override val deprecated: Boolean = false,
-    override val `$comment`: String? = null,
-    override val isNullable: Boolean = false,
-    override val format: String? = null,
-    override val externalDocs: OpenApiExternalDocumentation? = null,
-    override val extensions: OpenApiExtensions = emptyMap(),
-
+interface OpenApiSchemaObject {
     /**
      * Adds support for polymorphism. The discriminator is an object name that is used to differentiate between other schemas which may satisfy the payload description. See Composition and Inheritance for more details.
      */
-    val discriminator: OpenApiDiscriminator? = null,
+    val discriminator: OpenApiDiscriminator?
 
     /**
      * This MAY be used only on properties schemas. It has no effect on root schemas. Adds additional metadata to describe the XML representation of this property.
      */
-    val xml: OpenApiXml? = null,
+    val xml: OpenApiXml?
 
     /**
      * The properties (key-value pairs) on an object are defined using the properties keyword. The value of properties is an object, where each key is the name of a property and each value is a schema used to validate that property. Any property that doesn’t match any of the property names in the properties keyword is ignored by this keyword.
      */
-    val properties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    val properties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>>
 
     /**
      * Sometimes you want to say that, given a particular kind of property name, the value should match a particular schema. That’s where patternProperties comes in: it maps regular expressions to schemas. If a property name matches the given regular expression, the property value must validate against the corresponding schema.
      */
-    val patternProperties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    val patternProperties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>>
 
     /**
      * The additionalProperties keyword is used to control the handling of extra stuff, that is, properties whose names are not listed in the properties keyword or match any of the regular expressions in the patternProperties keyword. By default any additional properties are allowed.
      *
      * The value of the additionalProperties keyword is a schema that will be used to validate any properties in the instance that are not matched by properties or patternProperties. Setting the additionalProperties schema to false means no additional properties will be allowed.
      */
-    val additionalProperties: OpenApiReferenceOf<OpenApiSchema>? = null,
+    val additionalProperties: OpenApiReferenceOf<OpenApiSchema>?
 
     /**
      * he unevaluatedProperties keyword is similar to additionalProperties except that it can recognize properties declared in subschemas. So, the example from the previous section can be rewritten without the need to redeclare properties.
      */
-    val unevaluatedProperties: Boolean? = null,
+    val unevaluatedProperties: Boolean?
 
     /**
      * By default, the properties defined by the properties keyword are not required. However, one can provide a list of required properties using the required keyword.
      *
      * The required keyword takes an array of zero or more strings. Each of these strings must be unique.
      */
-    val required: Set<OpenApiParameterName> = emptySet(),
+    val required: Set<OpenApiParameterName>
 
     /**
      * The dependentRequired keyword conditionally requires that certain properties must be present if a given property is present in an object.
      */
-    val dependentRequired: Map<OpenApiParameterName, Set<OpenApiParameterName>> = emptyMap(),
+    val dependentRequired: Map<OpenApiParameterName, Set<OpenApiParameterName>>
 
     /**
      * The dependentSchemas keyword conditionally applies a subschema when a given property is present.
      */
-    val dependentSchemas: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    val dependentSchemas: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>>
 
     /**
      * The names of properties can be validated against a schema, irrespective of their values. This can be useful if you don’t want to enforce specific properties, but you want to make sure that the names of those properties follow a specific convention. You might, for example, want to enforce that all names are valid ASCII tokens so they can be used as attributes in a particular programming language.
      */
-    val propertyNames: Map<OpenApiParameterName, String> = emptyMap(),
+    val propertyNames: Map<OpenApiParameterName, String>
 
     /**
      * The number of properties on an object can be restricted using the minProperties and maxProperties keywords. Each of these must be a non-negative integer.
      */
-    val minProperties: Int? = null,
+    val minProperties: Int?
 
     /**
      * The number of properties on an object can be restricted using the minProperties and maxProperties keywords. Each of these must be a non-negative integer.
      */
-    val maxProperties: Int? = null,
-) : OpenApiSchema {
-    override val types: Set<OpenApiSchemaType> = setOf(OpenApiSchemaType.OBJECT) + if (isNullable) setOf(OpenApiSchemaType.NULL) else emptySet()
+    val maxProperties: Int?
 }

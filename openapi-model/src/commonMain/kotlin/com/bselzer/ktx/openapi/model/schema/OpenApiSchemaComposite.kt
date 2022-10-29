@@ -1,11 +1,9 @@
 package com.bselzer.ktx.openapi.model.schema
 
-import com.bselzer.ktx.openapi.model.OpenApiDescription
-import com.bselzer.ktx.openapi.model.OpenApiExampleValue
-import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
+import com.bselzer.ktx.openapi.model.*
 
 data class OpenApiSchemaComposite(
+    // Common
     @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
     override val example: OpenApiExampleValue? = null,
     override val examples: List<OpenApiExampleValue> = emptyList(),
@@ -21,13 +19,44 @@ data class OpenApiSchemaComposite(
     override val externalDocs: OpenApiExternalDocumentation? = null,
     override val extensions: OpenApiExtensions = emptyMap(),
 
+    // Enum
     override val enum: List<Any> = emptyList(),
     override val const: Any? = null,
 
+    // Composition
     override val allOf: List<OpenApiSchema> = emptyList(),
     override val anyOf: List<OpenApiSchema> = emptyList(),
     override val oneOf: List<OpenApiSchema> = emptyList(),
     override val not: OpenApiSchema? = null,
-) : OpenApiSchema, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition {
+
+    // Array
+    override val items: OpenApiReferenceOf<OpenApiSchema>? = null,
+    override val prefixItems: List<OpenApiReferenceOf<OpenApiSchema>> = emptyList(),
+    override val contains: OpenApiReferenceOf<OpenApiSchema>? = null,
+    override val minContains: Int? = null,
+    override val maxContains: Int? = null,
+    override val minItems: Int? = null,
+    override val maxItems: Int? = null,
+    override val uniqueItems: Boolean? = false,
+
+    // Object
+    override val discriminator: OpenApiDiscriminator? = null,
+    override val xml: OpenApiXml? = null,
+    override val properties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val patternProperties: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val additionalProperties: OpenApiReferenceOf<OpenApiSchema>? = null,
+    override val unevaluatedProperties: Boolean? = null,
+    override val required: Set<OpenApiParameterName> = emptySet(),
+    override val dependentRequired: Map<OpenApiParameterName, Set<OpenApiParameterName>> = emptyMap(),
+    override val dependentSchemas: Map<OpenApiParameterName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val propertyNames: Map<OpenApiParameterName, String> = emptyMap(),
+    override val minProperties: Int? = null,
+    override val maxProperties: Int? = null,
+
+    // String
+    override val minLength: Int? = null,
+    override val maxLength: Int? = null,
+    override val pattern: String? = null
+) : OpenApiSchema, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }
