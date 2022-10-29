@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
-import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
+import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaCore
 
 data class OpenApiHeader(
     /**
@@ -47,7 +47,7 @@ data class OpenApiHeader(
      *
      * Mutually exclusive with the [content].
      */
-    val schema: OpenApiReferenceOf<OpenApiSchema>,
+    val schema: OpenApiReferenceOf<OpenApiSchemaCore>,
 
     /**
      * Example of the parameter’s potential value. The example SHOULD match the specified schema and encoding properties if present. The example field is mutually exclusive of the examples field. Furthermore, if referencing a schema that contains an example, the example value SHALL override the example provided by the schema. To represent examples of media types that cannot naturally be represented in JSON or YAML, a string value can contain the example with escaping where necessary.

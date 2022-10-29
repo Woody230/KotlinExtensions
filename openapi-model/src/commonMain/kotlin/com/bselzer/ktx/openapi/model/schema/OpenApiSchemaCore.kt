@@ -9,7 +9,7 @@ import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 // TODO conditionals https://json-schema.org/understanding-json-schema/reference/conditionals.html
 // TODO complex https://json-schema.org/understanding-json-schema/structuring.html
 // TODO dialect https://json-schema.org/understanding-json-schema/reference/schema.html
-sealed interface OpenApiSchema : OpenApiExtensible {
+sealed interface OpenApiSchemaCore : OpenApiExtensible {
     /**
      * A free-form property to include an example of an instance for this schema. To represent examples that cannot be naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
      */

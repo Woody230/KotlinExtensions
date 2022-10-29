@@ -1,5 +1,6 @@
 package com.bselzer.ktx.openapi.model
 
+import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaComposite
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityRequirement
 
 typealias OpenApiParameterList = List<OpenApiReferenceOf<OpenApiParameter>>
@@ -12,3 +13,5 @@ typealias OpenApiContent = Map<OpenApiMediaTypeName, OpenApiMediaType>
 typealias OpenApiLinks = Map<String, OpenApiReferenceOf<OpenApiLink>>
 typealias OpenApiExamples = Map<String, OpenApiReferenceOf<OpenApiExample>>
 typealias OpenApiEncodings = Map<String, OpenApiEncoding>
+typealias OpenApiSchemaReference = OpenApiReferenceOf<OpenApiSchema>
+typealias OpenApiSchema = OpenApiSchemaComposite

@@ -30,9 +30,9 @@ data class OpenApiSchemaComposite(
     override val not: OpenApiSchema? = null,
 
     // Array
-    override val items: OpenApiReferenceOf<OpenApiSchema>? = null,
-    override val prefixItems: List<OpenApiReferenceOf<OpenApiSchema>> = emptyList(),
-    override val contains: OpenApiReferenceOf<OpenApiSchema>? = null,
+    override val items: OpenApiSchemaReference? = null,
+    override val prefixItems: List<OpenApiSchemaReference> = emptyList(),
+    override val contains: OpenApiSchemaReference? = null,
     override val minContains: Int? = null,
     override val maxContains: Int? = null,
     override val minItems: Int? = null,
@@ -42,13 +42,13 @@ data class OpenApiSchemaComposite(
     // Object
     override val discriminator: OpenApiDiscriminator? = null,
     override val xml: OpenApiXml? = null,
-    override val properties: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
-    override val patternProperties: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
-    override val additionalProperties: OpenApiReferenceOf<OpenApiSchema>? = null,
+    override val properties: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
+    override val patternProperties: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
+    override val additionalProperties: OpenApiSchemaReference? = null,
     override val unevaluatedProperties: Boolean? = null,
     override val required: Set<OpenApiPropertyName> = emptySet(),
     override val dependentRequired: Map<OpenApiPropertyName, Set<OpenApiPropertyName>> = emptyMap(),
-    override val dependentSchemas: Map<OpenApiPropertyName, OpenApiReferenceOf<OpenApiSchema>> = emptyMap(),
+    override val dependentSchemas: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
     override val propertyNames: Map<OpenApiPropertyName, String> = emptyMap(),
     override val minProperties: Int? = null,
     override val maxProperties: Int? = null,
@@ -64,6 +64,6 @@ data class OpenApiSchemaComposite(
     override val exclusiveMinimum: Double? = null,
     override val maximum: Double? = null,
     override val exclusiveMaximum: Double? = null,
-) : OpenApiSchema, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Double> {
+) : OpenApiSchemaCore, OpenApiSchemaEnum<Any>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Double> {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }
