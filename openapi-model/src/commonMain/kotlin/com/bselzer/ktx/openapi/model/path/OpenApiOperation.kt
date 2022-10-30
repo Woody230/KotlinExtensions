@@ -1,6 +1,8 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.path
 
+import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.response.OpenApiResponses
 
 /**
  * Describes a single API operation on a path.

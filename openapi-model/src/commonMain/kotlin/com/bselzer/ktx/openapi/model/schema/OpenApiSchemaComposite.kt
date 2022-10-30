@@ -1,6 +1,8 @@
 package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.*
+import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
+import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 
 data class OpenApiSchemaComposite(
     // Common

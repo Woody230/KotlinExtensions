@@ -3,7 +3,9 @@ package com.bselzer.ktx.openapi.model
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameter
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
-import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaCore
+import com.bselzer.ktx.openapi.model.path.OpenApiRequestBody
+import com.bselzer.ktx.openapi.model.response.OpenApiResponse
+import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScheme
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecuritySchemeName
 
@@ -14,7 +16,7 @@ data class OpenApiComponents(
     /**
      * An object to hold reusable Schema Objects.
      */
-    val schemas: Map<String, OpenApiSchemaCore> = emptyMap(),
+    val schemas: Map<String, OpenApiSchema> = emptyMap(),
 
     /**
      * An object to hold reusable Response Objects.

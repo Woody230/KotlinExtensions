@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.schema
 
-import com.bselzer.ktx.openapi.model.OpenApiEncodingName
-import com.bselzer.ktx.openapi.model.OpenApiMediaTypeName
+import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
+import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 
 /**
  * The string type is used for strings of text. It may contain Unicode characters.

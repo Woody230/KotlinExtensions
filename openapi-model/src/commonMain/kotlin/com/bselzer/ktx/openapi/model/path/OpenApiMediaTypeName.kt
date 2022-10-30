@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.path
 
 import kotlin.jvm.JvmInline
 

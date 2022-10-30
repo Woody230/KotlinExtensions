@@ -1,7 +1,11 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.path
 
+import com.bselzer.ktx.openapi.model.OpenApiEncodings
+import com.bselzer.ktx.openapi.model.OpenApiExampleValue
+import com.bselzer.ktx.openapi.model.OpenApiExamples
+import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
-import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaCore
+import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 
 /**
  * Each Media Type Object provides schema and examples for the media type identified by its key.
@@ -10,7 +14,7 @@ data class OpenApiMediaType(
     /**
      * The schema defining the content of the request, response, or parameter.
      */
-    val schema: OpenApiSchemaCore? = null,
+    val schema: OpenApiSchema? = null,
 
     /**
      * Example of the media type. The example object SHOULD be in the correct format as specified by the media type. The example field is mutually exclusive of the examples field. Furthermore, if referencing a schema which contains an example, the example value SHALL override the example provided by the schema.

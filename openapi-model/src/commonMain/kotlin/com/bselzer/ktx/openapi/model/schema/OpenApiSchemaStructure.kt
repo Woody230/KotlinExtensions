@@ -2,7 +2,7 @@ package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiReferenceIdentifier
 
-interface OpenApiSchemaStructure {
+sealed interface OpenApiSchemaStructure {
     /**
      * You can set the base URI by using the $id keyword at the root of the schema. The value of $id is a URI-reference without a fragment that resolves against the Retrieval URI. The resulting URI is the base URI for the schema.
      */

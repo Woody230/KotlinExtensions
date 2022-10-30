@@ -1,5 +1,6 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.response
 
+import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
