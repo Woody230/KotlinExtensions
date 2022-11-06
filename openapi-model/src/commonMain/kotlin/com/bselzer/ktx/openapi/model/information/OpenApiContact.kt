@@ -1,9 +1,9 @@
 package com.bselzer.ktx.openapi.model.information
 
 import com.bselzer.ktx.openapi.model.OpenApiEmail
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiUrl
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
  * Contact information for the exposed API.

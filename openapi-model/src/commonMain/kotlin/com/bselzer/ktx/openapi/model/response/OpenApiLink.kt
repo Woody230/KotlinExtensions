@@ -1,10 +1,6 @@
 package com.bselzer.ktx.openapi.model.response
 
-import com.bselzer.ktx.openapi.model.OpenApiAnyOrRuntimeExpression
-import com.bselzer.ktx.openapi.model.OpenApiDescription
-import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.OpenApiReferenceIdentifier
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 import com.bselzer.ktx.openapi.model.path.OpenApiOperationId
 import com.bselzer.ktx.openapi.model.server.OpenApiServer

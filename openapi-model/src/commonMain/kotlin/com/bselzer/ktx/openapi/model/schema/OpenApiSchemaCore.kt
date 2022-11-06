@@ -2,8 +2,8 @@ package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
 import com.bselzer.ktx.openapi.model.OpenApiExampleValue
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 sealed interface OpenApiSchemaCore : OpenApiExtensible {
     /**

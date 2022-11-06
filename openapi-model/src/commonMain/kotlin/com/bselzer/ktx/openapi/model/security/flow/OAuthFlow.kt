@@ -1,6 +1,6 @@
 package com.bselzer.ktx.openapi.model.security.flow
 
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScope
 
 sealed interface OAuthFlow : OpenApiExtensible {

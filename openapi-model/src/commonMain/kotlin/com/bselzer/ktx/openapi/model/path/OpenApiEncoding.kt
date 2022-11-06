@@ -1,8 +1,8 @@
 package com.bselzer.ktx.openapi.model.path
 
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiHeaders
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
 
 /**

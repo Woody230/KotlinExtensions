@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.schema
 
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
  * A metadata object that allows for more fine-tuned XML model definitions.

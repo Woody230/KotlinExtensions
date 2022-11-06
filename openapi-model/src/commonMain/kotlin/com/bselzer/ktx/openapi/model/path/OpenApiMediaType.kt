@@ -1,10 +1,6 @@
 package com.bselzer.ktx.openapi.model.path
 
-import com.bselzer.ktx.openapi.model.OpenApiEncodings
-import com.bselzer.ktx.openapi.model.OpenApiExampleValue
-import com.bselzer.ktx.openapi.model.OpenApiExamples
-import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 
 /**

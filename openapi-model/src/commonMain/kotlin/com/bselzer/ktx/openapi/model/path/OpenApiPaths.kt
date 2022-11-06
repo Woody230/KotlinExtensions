@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.path
 
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
  * Holds the relative paths to the individual endpoints and their operations. The path is appended to the URL from the Server Object in order to construct the full URL. The Paths MAY be empty, due to Access Control List (ACL) constraints.

@@ -1,7 +1,6 @@
 package com.bselzer.ktx.openapi.model.response
 
 import com.bselzer.ktx.openapi.model.*
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
  * Describes a single response from an API Operation, including design-time, static links to operations based on the response.

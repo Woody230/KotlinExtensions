@@ -1,7 +1,5 @@
 package com.bselzer.ktx.openapi.model
 
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
-
 /**
  * Allows referencing an external resource for extended documentation.
  */

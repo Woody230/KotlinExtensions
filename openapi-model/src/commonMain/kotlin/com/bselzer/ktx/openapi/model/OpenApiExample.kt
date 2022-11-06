@@ -1,7 +1,5 @@
 package com.bselzer.ktx.openapi.model
 
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
-
 data class OpenApiExample(
     /**
      * Short description for the example.

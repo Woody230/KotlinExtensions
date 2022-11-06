@@ -1,8 +1,8 @@
 package com.bselzer.ktx.openapi.model.information
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
  * The object provides metadata about the API. The metadata MAY be used by the clients if needed, and MAY be presented in editing or documentation generation tools for convenience.

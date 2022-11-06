@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.security.flow
 
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 data class OAuthFlows(
     /**

@@ -1,9 +1,9 @@
 package com.bselzer.ktx.openapi.model.server
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiUrl
-import com.bselzer.ktx.openapi.model.base.OpenApiExtensible
 
 /**
  * An object representing a Server.

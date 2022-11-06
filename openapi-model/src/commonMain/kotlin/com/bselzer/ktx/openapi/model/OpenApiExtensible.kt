@@ -1,6 +1,4 @@
-package com.bselzer.ktx.openapi.model.base
-
-import com.bselzer.ktx.openapi.model.OpenApiExtensions
+package com.bselzer.ktx.openapi.model
 
 interface OpenApiExtensible {
     /**
