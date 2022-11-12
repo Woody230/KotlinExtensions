@@ -4,10 +4,15 @@ plugins {
     kotlin("plugin.serialization") version Versions.KOTLIN
 }
 
+// This module has a copy of v0.12.0 https://github.com/Him188/yamlkt with minor modifications to make it usable for multiplatform.
 publishing.publish(
     project = project,
     description = "kotlinx.serialization extensions for Him188.yamlkt"
-)
+) {
+    developer {
+        name.set("Him188")
+    }
+}
 
 android.setup()
 
