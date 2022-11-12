@@ -11,6 +11,6 @@ class CompositeRuntimeExpression(override val value: String) : OpenApiRuntimeExp
     val subExpressions: Sequence<OpenApiRuntimeExpression> = run {
         val groups = Regex("(?<expression>\$[^}]*)").findAll(value).map { match -> match.groups }
         val expressions = groups.mapNotNull { group -> group.firstOrNull()?.value }
-        expressions.map { value -> RuntimeExpressionFactory(value) }
+        expressions.map { value -> RuntimeExpressionFactory(value).expression }
     }
 }
