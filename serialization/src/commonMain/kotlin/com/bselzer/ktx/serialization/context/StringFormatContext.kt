@@ -4,7 +4,7 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.serializer
 
-abstract class StringFormatContext internal constructor(
+abstract class StringFormatContext constructor(
     open val instance: StringFormat,
 ) {
     /**
