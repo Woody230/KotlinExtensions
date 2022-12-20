@@ -2,6 +2,7 @@ package com.bselzer.ktx.serialization.context
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.*
+import kotlin.math.max
 
 sealed class JsonContext(
     override val instance: Json
@@ -40,12 +41,18 @@ sealed class JsonContext(
     }
 
     private fun JsonArray.replaceByIndex(other: JsonArray): JsonArray {
-        val elements = zip(other).map { elements ->
-            if (elements.second is JsonNull) {
-                elements.first
+        val elements = mutableListOf<JsonElement>()
+
+        for (index in 0 until max(size, other.size)) {
+            val otherElement = other.getOrNull(index)
+
+            val element = if (otherElement == null || otherElement is JsonNull) {
+                get(index)
             } else {
-                elements.second
+                otherElement
             }
+
+            elements.add(element)
         }
 
         return JsonArray(elements)
