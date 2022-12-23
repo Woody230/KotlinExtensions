@@ -11,10 +11,10 @@ sealed class JsonContext(
 
     override fun <T> String.decode(deserializer: DeserializationStrategy<T>): T = instance.decodeFromJsonElement(deserializer, JsonPrimitive(this))
 
-    fun JsonElement.merge(other: JsonElement?, arrayHandling: ArrayMergeHandling = ArrayMergeHandling.MERGE): JsonElement = when {
+    fun JsonElement.merge(other: JsonElement?, options: JsonMergeOptions = JsonMergeOptions()): JsonElement = when {
         other is JsonNull || other == null -> this
         this is JsonObject && other is JsonObject -> merge(other)
-        this is JsonArray && other is JsonArray -> merge(other, arrayHandling)
+        this is JsonArray && other is JsonArray -> merge(other, options)
         else -> other
     }
 
@@ -30,7 +30,7 @@ sealed class JsonContext(
         return JsonObject(elements)
     }
 
-    fun JsonArray.merge(other: JsonArray, handling: ArrayMergeHandling = ArrayMergeHandling.MERGE): JsonArray = when (handling) {
+    fun JsonArray.merge(other: JsonArray, options: JsonMergeOptions = JsonMergeOptions()): JsonArray = when (options.arrayHandling) {
         ArrayMergeHandling.CONCAT -> concat(other)
         ArrayMergeHandling.UNION -> union(other)
         ArrayMergeHandling.REPLACE -> other
