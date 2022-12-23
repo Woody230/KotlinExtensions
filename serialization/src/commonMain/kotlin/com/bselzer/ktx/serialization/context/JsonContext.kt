@@ -13,18 +13,18 @@ sealed class JsonContext(
 
     fun JsonElement.merge(other: JsonElement?, options: JsonMergeOptions = JsonMergeOptions()): JsonElement = when {
         other is JsonNull || other == null -> this
-        this is JsonObject && other is JsonObject -> merge(other)
+        this is JsonObject && other is JsonObject -> merge(other, options)
         this is JsonArray && other is JsonArray -> merge(other, options)
         else -> other
     }
 
-    private fun JsonObject.merge(other: JsonObject): JsonObject {
+    private fun JsonObject.merge(other: JsonObject, options: JsonMergeOptions = JsonMergeOptions()): JsonObject {
         val keys = keys + other.keys
         val elements = mutableMapOf<String, JsonElement>()
         for (key in keys) {
             val thisValue = this[key] ?: JsonNull
             val otherValue = other[key]
-            elements[key] = thisValue.merge(otherValue)
+            elements[key] = thisValue.merge(otherValue, options)
         }
 
         return JsonObject(elements)
@@ -34,7 +34,7 @@ sealed class JsonContext(
         ArrayMergeHandling.CONCAT -> concat(other)
         ArrayMergeHandling.UNION -> union(other)
         ArrayMergeHandling.REPLACE -> other
-        ArrayMergeHandling.MERGE -> replaceByIndex(other)
+        ArrayMergeHandling.MERGE -> replaceByIndex(other, options)
     }
 
     private fun JsonArray.concat(other: JsonArray): JsonArray {
@@ -47,13 +47,13 @@ sealed class JsonContext(
         return JsonArray(elements)
     }
 
-    private fun JsonArray.replaceByIndex(other: JsonArray): JsonArray {
+    private fun JsonArray.replaceByIndex(other: JsonArray, options: JsonMergeOptions): JsonArray {
         val elements = mutableListOf<JsonElement>()
 
         for (index in 0 until max(size, other.size)) {
             val thisElement = getOrNull(index) ?: JsonNull
             val otherElement = other.getOrNull(index)
-            val mergedElement = thisElement.merge(otherElement)
+            val mergedElement = thisElement.merge(otherElement, options)
             elements.add(mergedElement)
         }
 
