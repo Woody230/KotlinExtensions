@@ -551,4 +551,306 @@ class JsonMergeTests {
         // Assert
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun mergeMismatchingTypesInArray() {
+        // Arrange
+        val sut = JsonArray(
+            listOf(
+                JsonPrimitive(true),
+                JsonNull,
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    ),
+                ),
+                JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    ),
+                ),
+                JsonPrimitive(1),
+                JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+            )
+        )
+
+        val merge = JsonArray(
+            listOf(
+                JsonPrimitive(1),
+                JsonPrimitive(5),
+                JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    ),
+                ),
+                JsonPrimitive(true),
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    ),
+                ),
+                JsonNull
+            )
+        )
+
+        val expected = JsonArray(
+            listOf(
+                JsonPrimitive(1),
+                JsonPrimitive(5),
+                JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    ),
+                ),
+                JsonPrimitive(true),
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    ),
+                ),
+                JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+            )
+        )
+
+        val options = JsonMergeOptions(
+            arrayHandling = ArrayMergeHandling.MERGE
+        )
+
+        // Act
+        val actual = sut.merge(merge, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeMismatchingTypesInObject() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Property1" to JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                "Property2" to JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                "Property3" to JsonPrimitive(true),
+                "Property4" to JsonPrimitive(true)
+            )
+        )
+
+        val merge = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "Nested" to JsonPrimitive(true)
+                    )
+                ),
+                "Property2" to JsonPrimitive(true),
+                "Property3" to JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                "Property4" to JsonNull
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "Nested" to JsonPrimitive(true)
+                    )
+                ),
+                "Property2" to JsonPrimitive(true),
+                "Property3" to JsonArray(
+                    listOf(
+                        JsonPrimitive(1)
+                    )
+                ),
+                "Property4" to JsonPrimitive(true)
+            )
+        )
+
+        // Act
+        val actual = sut.merge(merge)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeArrayOverwrite_Nested() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Array1" to JsonArray(
+                    listOf(
+                        JsonPrimitive(1),
+                        JsonPrimitive(2),
+                        JsonPrimitive(3)
+                    )
+                ),
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Array1" to JsonArray(
+                    listOf(
+                        JsonPrimitive(4),
+                        JsonPrimitive(5),
+                    )
+                ),
+            )
+        )
+
+        val options = JsonMergeOptions(
+            arrayHandling = ArrayMergeHandling.REPLACE
+        )
+
+        // Act
+        val actual = sut.merge(expected, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeArrayOverwrite_Root() {
+        // Arrange
+        val sut = JsonArray(
+            listOf(
+                JsonPrimitive(1),
+                JsonPrimitive(2),
+                JsonPrimitive(3)
+            )
+        )
+
+        val expected = JsonArray(
+            listOf(
+                JsonPrimitive(4),
+                JsonPrimitive(5),
+            )
+        )
+
+        val options = JsonMergeOptions(
+            arrayHandling = ArrayMergeHandling.REPLACE
+        )
+
+        // Act
+        val actual = sut.merge(expected, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun unionArrays() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Array1" to JsonArray(
+                    listOf(
+                        JsonObject(
+                            mapOf(
+                                "Property1" to JsonPrimitive(1)
+                            )
+                        ),
+                        JsonObject(
+                            mapOf(
+                                "Property1" to JsonPrimitive(1)
+                            )
+                        ),
+                    )
+                ),
+            )
+        )
+
+        val merge = JsonObject(
+            mapOf(
+                "Array1" to JsonArray(
+                    listOf(
+                        JsonObject(
+                            mapOf(
+                                "Property1" to JsonPrimitive(1)
+                            )
+                        ),
+                        JsonObject(
+                            mapOf(
+                                "Property2" to JsonPrimitive(2)
+                            )
+                        ),
+                        JsonObject(
+                            mapOf(
+                                "Property3" to JsonPrimitive(3)
+                            )
+                        )
+                    )
+                ),
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Array1" to JsonArray(
+                    listOf(
+                        JsonObject(
+                            mapOf(
+                                "Property1" to JsonPrimitive(1)
+                            )
+                        ),
+                        JsonObject(
+                            mapOf(
+                                "Property2" to JsonPrimitive(2)
+                            )
+                        ),
+                        JsonObject(
+                            mapOf(
+                                "Property3" to JsonPrimitive(3)
+                            )
+                        )
+                    )
+                ),
+            )
+        )
+
+        val options = JsonMergeOptions(
+            arrayHandling = ArrayMergeHandling.UNION
+        )
+
+        // Act
+        val actual = sut.merge(merge, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
 }
