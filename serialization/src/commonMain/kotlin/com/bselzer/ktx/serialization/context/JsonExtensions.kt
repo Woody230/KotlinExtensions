@@ -47,3 +47,10 @@ fun JsonObject.getLongsOrEmpty(key: String): List<Long> = get(key)?.jsonArray?.t
 fun JsonObject.getFloatsOrEmpty(key: String): List<Float> = get(key)?.jsonArray?.toFloats() ?: emptyList()
 fun JsonObject.getDoublesOrEmpty(key: String): List<Double> = get(key)?.jsonArray?.toDoubles() ?: emptyList()
 fun JsonObject.getBooleansOrEmpty(key: String): List<Boolean> = get(key)?.jsonArray?.toBooleans() ?: emptyList()
+
+fun JsonObject.toContents(): Map<String, String> = mapValues { entry -> entry.value.toContent() }
+fun JsonObject.toInts(): Map<String, Int> = mapValues { entry -> entry.value.toInt() }
+fun JsonObject.toLongs(): Map<String, Long> = mapValues { entry -> entry.value.toLong() }
+fun JsonObject.toFloats(): Map<String, Float> = mapValues { entry -> entry.value.toFloat() }
+fun JsonObject.toDoubles(): Map<String, Double> = mapValues { entry -> entry.value.toDouble() }
+fun JsonObject.toBooleans(): Map<String, Boolean> = mapValues { entry -> entry.value.toBoolean() }
