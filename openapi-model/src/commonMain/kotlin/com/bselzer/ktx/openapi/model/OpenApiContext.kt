@@ -8,8 +8,8 @@ import com.bselzer.ktx.openapi.model.server.OpenApiServer
 import com.bselzer.ktx.openapi.model.server.OpenApiServerVariable
 import com.bselzer.ktx.openapi.model.value.*
 import com.bselzer.ktx.serialization.context.getContent
+import com.bselzer.ktx.serialization.context.getContentListOrEmpty
 import com.bselzer.ktx.serialization.context.getContentOrNull
-import com.bselzer.ktx.serialization.context.getContentsOrEmpty
 import kotlinx.serialization.json.*
 
 object OpenApiContext {
@@ -42,7 +42,7 @@ object OpenApiContext {
     )
 
     fun JsonObject.toOpenApiServerVariable(): OpenApiServerVariable = OpenApiServerVariable(
-        enum = getContentsOrEmpty("enum"),
+        enum = getContentListOrEmpty("enum"),
         default = getContent("default"),
         description = getDescriptionOrNull("description"),
         extensions = getOpenApiExtensions()
