@@ -3,8 +3,8 @@ package com.bselzer.ktx.serialization.context
 import kotlinx.serialization.json.*
 
 fun JsonElement.toPrimitiveOrNull(): JsonPrimitive? = if (this is JsonPrimitive) this else null
-fun JsonElement.toJsonObjectOrNull(): JsonObject? = if (this is JsonObject) this else null
-fun JsonElement.toJsonArrayOrNull(): JsonArray? = if (this is JsonArray) this else null
+fun JsonElement.toObjectOrNull(): JsonObject? = if (this is JsonObject) this else null
+fun JsonElement.toArrayOrNull(): JsonArray? = if (this is JsonArray) this else null
 
 fun JsonObject.getContentOrNull(key: String): String? = get(key)?.toContentOrNull()
 fun JsonObject.getIntOrNull(key: String): Int? = get(key)?.toIntOrNull()
