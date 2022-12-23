@@ -1,5 +1,8 @@
 package com.bselzer.ktx.serialization.context
 
+import com.bselzer.ktx.serialization.merge.ArrayMergeHandling
+import com.bselzer.ktx.serialization.merge.JsonMergeOptions
+import com.bselzer.ktx.serialization.merge.NullMergeHandling
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.*
 import kotlin.math.max
@@ -11,14 +14,27 @@ sealed class JsonContext(
 
     override fun <T> String.decode(deserializer: DeserializationStrategy<T>): T = instance.decodeFromJsonElement(deserializer, JsonPrimitive(this))
 
-    fun JsonElement.merge(other: JsonElement?, options: JsonMergeOptions = JsonMergeOptions()): JsonElement = when {
-        other is JsonNull || other == null -> this
+    fun JsonElement.merge(
+        other: JsonElement?,
+        options: JsonMergeOptions = JsonMergeOptions()
+    ): JsonElement = when {
+        other is JsonNull || other == null -> mergeNull(options)
         this is JsonObject && other is JsonObject -> merge(other, options)
         this is JsonArray && other is JsonArray -> merge(other, options)
         else -> other
     }
 
-    private fun JsonObject.merge(other: JsonObject, options: JsonMergeOptions = JsonMergeOptions()): JsonObject {
+    private fun JsonElement.mergeNull(
+        options: JsonMergeOptions = JsonMergeOptions()
+    ) = when (options.nullHandling) {
+        NullMergeHandling.IGNORE -> this
+        NullMergeHandling.MERGE -> JsonNull
+    }
+
+    fun JsonObject.merge(
+        other: JsonObject,
+        options: JsonMergeOptions = JsonMergeOptions()
+    ): JsonObject {
         val keys = keys + other.keys
         val elements = mutableMapOf<String, JsonElement>()
         for (key in keys) {
@@ -30,7 +46,10 @@ sealed class JsonContext(
         return JsonObject(elements)
     }
 
-    fun JsonArray.merge(other: JsonArray, options: JsonMergeOptions = JsonMergeOptions()): JsonArray = when (options.arrayHandling) {
+    fun JsonArray.merge(
+        other: JsonArray,
+        options: JsonMergeOptions = JsonMergeOptions()
+    ): JsonArray = when (options.arrayHandling) {
         ArrayMergeHandling.CONCAT -> concat(other)
         ArrayMergeHandling.UNION -> union(other)
         ArrayMergeHandling.REPLACE -> other
@@ -47,7 +66,10 @@ sealed class JsonContext(
         return JsonArray(elements)
     }
 
-    private fun JsonArray.replaceByIndex(other: JsonArray, options: JsonMergeOptions): JsonArray {
+    private fun JsonArray.replaceByIndex(
+        other: JsonArray,
+        options: JsonMergeOptions
+    ): JsonArray {
         val elements = mutableListOf<JsonElement>()
 
         for (index in 0 until max(size, other.size)) {

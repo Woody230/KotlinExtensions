@@ -1,6 +1,7 @@
-import com.bselzer.ktx.serialization.context.ArrayMergeHandling
 import com.bselzer.ktx.serialization.context.JsonContext.Default.merge
-import com.bselzer.ktx.serialization.context.JsonMergeOptions
+import com.bselzer.ktx.serialization.merge.ArrayMergeHandling
+import com.bselzer.ktx.serialization.merge.JsonMergeOptions
+import com.bselzer.ktx.serialization.merge.NullMergeHandling
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
@@ -849,6 +850,142 @@ class JsonMergeTests {
 
         // Act
         val actual = sut.merge(merge, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeNull_Ignore() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Property1" to JsonPrimitive("value"),
+                "Property2" to JsonObject(emptyMap()),
+                "Property3" to JsonNull,
+                "Property4" to JsonNull,
+                "Property5" to JsonArray(emptyList())
+            )
+        )
+
+        val merge = JsonObject(
+            mapOf(
+                "Property1" to JsonNull,
+                "Property2" to JsonNull,
+                "Property3" to JsonNull,
+                "Property4" to JsonNull,
+                "Property5" to JsonNull
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonPrimitive("value"),
+                "Property2" to JsonObject(emptyMap()),
+                "Property3" to JsonNull,
+                "Property4" to JsonNull,
+                "Property5" to JsonArray(emptyList())
+            )
+        )
+
+        val options = JsonMergeOptions(
+            nullHandling = NullMergeHandling.IGNORE
+        )
+
+        // Act
+        val actual = sut.merge(merge, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeNull_Merge() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Property1" to JsonPrimitive("value"),
+                "Property2" to JsonObject(emptyMap()),
+                "Property3" to JsonNull,
+                "Property4" to JsonNull,
+                "Property5" to JsonArray(emptyList())
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonNull,
+                "Property2" to JsonNull,
+                "Property3" to JsonNull,
+                "Property4" to JsonNull,
+                "Property5" to JsonNull
+            )
+        )
+
+        val options = JsonMergeOptions(
+            nullHandling = NullMergeHandling.MERGE
+        )
+
+        // Act
+        val actual = sut.merge(expected, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeNull_Merge_WithArray() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Bar" to JsonArray(
+                    listOf(
+                        JsonPrimitive("a"),
+                        JsonPrimitive("b"),
+                        JsonPrimitive("c")
+                    )
+                )
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Bar" to JsonNull
+            )
+        )
+
+        val options = JsonMergeOptions(
+            nullHandling = NullMergeHandling.MERGE
+        )
+
+        // Act
+        val actual = sut.merge(expected, options)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeNull_Merge_WithObject() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Bar" to JsonObject(emptyMap())
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Bar" to JsonNull
+            )
+        )
+
+        val options = JsonMergeOptions(
+            nullHandling = NullMergeHandling.MERGE
+        )
+
+        // Act
+        val actual = sut.merge(expected, options)
 
         // Assert
         assertEquals(expected, actual)
