@@ -187,4 +187,152 @@ class JsonMergeTests {
         // Assert
         assertEquals(sut, actual)
     }
+
+    @Test
+    fun mergeObjectProperty() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Property1" to JsonPrimitive(1),
+            )
+        )
+
+        val merge = JsonObject(
+            mapOf(
+                "Property2" to JsonPrimitive(2)
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonPrimitive(1),
+                "Property2" to JsonPrimitive(2)
+            )
+        )
+
+        // Act
+        val actual = sut.merge(merge)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeChildObject() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty1" to JsonPrimitive(1)
+                    )
+                ),
+            )
+        )
+
+        val merge = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty2" to JsonPrimitive(2)
+                    )
+                ),
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty1" to JsonPrimitive(1),
+                        "SubProperty2" to JsonPrimitive(2)
+                    )
+                )
+            )
+        )
+
+        // Act
+        val actual = sut.merge(merge)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeMismatchedTypesRoot() {
+        // Arrange
+        val sut = JsonArray(
+            listOf(
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    )
+                ),
+                JsonObject(
+                    mapOf(
+                        "Property1" to JsonPrimitive(1)
+                    )
+                ),
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty1" to JsonPrimitive(1)
+                    )
+                ),
+            )
+        )
+
+        // Act
+        val actual = sut.merge(expected)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun mergeMultipleObjects() {
+        // Arrange
+        val sut = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty1" to JsonPrimitive(1)
+                    )
+                ),
+            )
+        )
+
+        val merge = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty2" to JsonPrimitive(2)
+                    )
+                ),
+                "Property2" to JsonPrimitive(2)
+            )
+        )
+
+        val expected = JsonObject(
+            mapOf(
+                "Property1" to JsonObject(
+                    mapOf(
+                        "SubProperty1" to JsonPrimitive(1),
+                        "SubProperty2" to JsonPrimitive(2)
+                    )
+                ),
+                "Property2" to JsonPrimitive(2)
+            )
+        )
+
+        // Act
+        val actual = sut.merge(merge)
+
+        // Assert
+        assertEquals(expected, actual)
+    }
 }

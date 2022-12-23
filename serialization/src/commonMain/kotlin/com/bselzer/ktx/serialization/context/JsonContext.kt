@@ -11,15 +11,22 @@ sealed class JsonContext(
 
     override fun <T> String.decode(deserializer: DeserializationStrategy<T>): T = instance.decodeFromJsonElement(deserializer, JsonPrimitive(this))
 
-    fun JsonElement.merge(other: JsonElement, arrayHandling: ArrayMergeHandling = ArrayMergeHandling.MERGE): JsonElement = when {
+    fun JsonElement.merge(other: JsonElement?, arrayHandling: ArrayMergeHandling = ArrayMergeHandling.MERGE): JsonElement = when {
+        other is JsonNull || other == null -> this
         this is JsonObject && other is JsonObject -> merge(other)
         this is JsonArray && other is JsonArray -> merge(other, arrayHandling)
-        other is JsonNull -> this
         else -> other
     }
 
     private fun JsonObject.merge(other: JsonObject): JsonObject {
-        val elements = plus(other.filterValues { element -> element !is JsonNull })
+        val keys = keys + other.keys
+        val elements = mutableMapOf<String, JsonElement>()
+        for (key in keys) {
+            val thisValue = this[key] ?: JsonNull
+            val otherValue = other[key]
+            elements[key] = thisValue.merge(otherValue)
+        }
+
         return JsonObject(elements)
     }
 
@@ -44,15 +51,10 @@ sealed class JsonContext(
         val elements = mutableListOf<JsonElement>()
 
         for (index in 0 until max(size, other.size)) {
+            val thisElement = getOrNull(index) ?: JsonNull
             val otherElement = other.getOrNull(index)
-
-            val element = if (otherElement == null || otherElement is JsonNull) {
-                get(index)
-            } else {
-                otherElement
-            }
-
-            elements.add(element)
+            val mergedElement = thisElement.merge(otherElement)
+            elements.add(mergedElement)
         }
 
         return JsonArray(elements)
