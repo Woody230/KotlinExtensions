@@ -14,6 +14,7 @@ android.setup()
 kotlin.setup {
     commonMain {
         ktxSerialization()
+        projectSerialization()
     }
     commonTest()
 }
