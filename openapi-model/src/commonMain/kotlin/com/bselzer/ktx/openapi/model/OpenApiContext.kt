@@ -4,43 +4,60 @@ import com.bselzer.ktx.openapi.model.information.OpenApiContact
 import com.bselzer.ktx.openapi.model.information.OpenApiInformation
 import com.bselzer.ktx.openapi.model.information.OpenApiLicense
 import com.bselzer.ktx.openapi.model.schema.OpenApiExtension
+import com.bselzer.ktx.openapi.model.server.OpenApiServer
+import com.bselzer.ktx.openapi.model.server.OpenApiServerVariable
 import com.bselzer.ktx.openapi.model.value.*
-import com.bselzer.ktx.serialization.context.getString
-import com.bselzer.ktx.serialization.context.getStringOrNull
-import com.bselzer.ktx.serialization.context.toJsonObjectOrNull
+import com.bselzer.ktx.serialization.context.getContent
+import com.bselzer.ktx.serialization.context.getContentOrNull
+import com.bselzer.ktx.serialization.context.getContentsOrEmpty
 import kotlinx.serialization.json.*
 
 object OpenApiContext {
-    private fun JsonObject.getOpenApiContactOrNull(key: String): OpenApiContact? = get(key)?.toJsonObjectOrNull()?.toOpenApiContact()
-    private fun JsonObject.getOpenApiLicenseOrNull(key: String): OpenApiLicense? = get(key)?.toJsonObjectOrNull()?.toOpenApiLicense()
+    private fun JsonObject.getOpenApiContactOrNull(key: String): OpenApiContact? = get(key)?.jsonObject?.toOpenApiContact()
+    private fun JsonObject.getOpenApiLicenseOrNull(key: String): OpenApiLicense? = get(key)?.jsonObject?.toOpenApiLicense()
+    private fun JsonObject.getOpenApiServerVariablesOrEmpty(key: String): Map<String, OpenApiServerVariable> = get(key)?.jsonObject
 
     fun JsonObject.toOpenApi(): OpenApi = OpenApi(
-        openapi = getStringOrNull("openapi") ?: "3.1.0",
-        info = jsonObject.toOpenApiInformation()
+        openapi = getContentOrNull("openapi") ?: "3.1.0",
+        info = jsonObject.toOpenApiInformation(),
+        jsonSchemaDialect = getContentOrNull("jsonSchemaDialect") ?: "https://spec.openapis.org/oas/3.1/dialect/base",
+        servers =
     )
 
     fun JsonObject.toOpenApiInformation(): OpenApiInformation = OpenApiInformation(
-        title = getString("title"),
-        summary = getStringOrNull("summary"),
+        title = getContent("title"),
+        summary = getContentOrNull("summary"),
         description = getDescriptionOrNull("description"),
-        termsOfService = getStringOrNull("termsOfService"),
+        termsOfService = getContentOrNull("termsOfService"),
         contact = getOpenApiContactOrNull("contact"),
         license = getOpenApiLicenseOrNull("license"),
-        version = getString("version"),
+        version = getContent("version"),
         extensions = getOpenApiExtensions()
     )
 
+    fun JsonObject.toOpenApiServer(): OpenApiServer = OpenApiServer(
+        url = getUrl("url"),
+        description = getDescriptionOrNull("description"),
+        variables =
+    )
+
+    fun JsonObject.toOpenApiServerVariable(): OpenApiServerVariable = OpenApiServerVariable(
+        enum = getContentsOrEmpty("enum"),
+        default = getContent("default"),
+        description = getDescriptionOrNull("description"),
+        extensions = getOpenApiExtensions()
+    )
 
     fun JsonObject.toOpenApiContact(): OpenApiContact = OpenApiContact(
-        name = getStringOrNull("name"),
+        name = getContentOrNull("name"),
         url = getUrlOrNull("url"),
         email = getEmailOrNull("email"),
         extensions = getOpenApiExtensions()
     )
 
     fun JsonObject.toOpenApiLicense(): OpenApiLicense = OpenApiLicense(
-        name = getString("name"),
-        identifier = getStringOrNull("identifier"),
+        name = getContent("name"),
+        identifier = getContentOrNull("identifier"),
         url = getUrlOrNull("url"),
         extensions = getOpenApiExtensions()
     )
@@ -81,17 +98,22 @@ object OpenApiContext {
     private fun OpenApiValue.toOpenApiExtension() = OpenApiExtension(this)
 
     private fun JsonObject.getEmailOrNull(key: String): OpenApiEmail? {
-        val value = getStringOrNull(key) ?: return null
+        val value = getContentOrNull(key) ?: return null
         return OpenApiEmail(value)
     }
 
+    private fun JsonObject.getUrl(key: String): OpenApiUrl {
+        val value = getContent(key)
+        return OpenApiUrl(value)
+    }
+
     private fun JsonObject.getUrlOrNull(key: String): OpenApiUrl? {
-        val value = getStringOrNull(key) ?: return null
+        val value = getContentOrNull(key) ?: return null
         return OpenApiUrl(value)
     }
 
     private fun JsonObject.getDescriptionOrNull(key: String): OpenApiDescription? {
-        val value = getStringOrNull(key) ?: return null
+        val value = getContentOrNull(key) ?: return null
         return OpenApiDescription(value)
     }
 }
