@@ -6,6 +6,30 @@ fun JsonElement.toPrimitiveOrNull(): JsonPrimitive? = if (this is JsonPrimitive)
 fun JsonElement.toObjectOrNull(): JsonObject? = if (this is JsonObject) this else null
 fun JsonElement.toArrayOrNull(): JsonArray? = if (this is JsonArray) this else null
 
+fun <Value> JsonObject.getObject(key: String, getValue: (JsonObject) -> Value): Value {
+    val jsonObject = getValue(key).jsonObject
+    return getValue(jsonObject)
+}
+
+fun <Value> JsonObject.getObjectOrNull(key: String, getValue: (JsonObject) -> Value): Value? {
+    val jsonObject = get(key)?.jsonObject ?: return null
+    return getValue(jsonObject)
+}
+
+fun <Value> JsonObject.getObjectMapOrEmpty(
+    key: String,
+    getValue: (JsonObject) -> Value
+): Map<String, Value> = getMapOrEmpty(key) { element ->
+    getValue(element.jsonObject)
+}
+
+fun <Value> JsonObject.getObjectListOrEmpty(
+    key: String,
+    getValue: (JsonObject) -> Value
+) = getListOrEmpty(key) { element ->
+    getValue(element.jsonObject)
+}
+
 fun JsonObject.getContentOrNull(key: String): String? = get(key)?.toContentOrNull()
 fun JsonObject.getIntOrNull(key: String): Int? = get(key)?.toIntOrNull()
 fun JsonObject.getLongOrNull(key: String): Long? = get(key)?.toLongOrNull()
@@ -46,7 +70,6 @@ fun <Value> JsonObject.getListOrEmpty(key: String, getValue: (JsonElement) -> Va
     val array = get(key)?.jsonArray ?: return emptyList()
     return array.map(getValue)
 }
-
 fun JsonObject.getContentListOrEmpty(key: String): List<String> = getListOrEmpty(key, JsonElement::toContent)
 fun JsonObject.getIntListOrEmpty(key: String): List<Int> = getListOrEmpty(key, JsonElement::toInt)
 fun JsonObject.getLongListOrEmpty(key: String): List<Long> = getListOrEmpty(key, JsonElement::toLong)
@@ -66,7 +89,6 @@ fun <Value> JsonObject.getMapOrEmpty(key: String, getValue: (JsonElement) -> Val
     val jsonObject = get(key)?.jsonObject ?: return emptyMap()
     return jsonObject.mapValues { entry -> getValue(entry.value) }
 }
-
 fun JsonObject.getContentMapOrEmpty(key: String): Map<String, String> = getMapOrEmpty(key, JsonElement::toContent)
 fun JsonObject.getIntMapOrEmpty(key: String): Map<String, Int> = getMapOrEmpty(key, JsonElement::toInt)
 fun JsonObject.getLongMapOrEmpty(key: String): Map<String, Long> = getMapOrEmpty(key, JsonElement::toLong)

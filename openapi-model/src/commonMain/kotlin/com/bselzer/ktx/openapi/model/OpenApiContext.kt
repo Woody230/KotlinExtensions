@@ -7,21 +7,16 @@ import com.bselzer.ktx.openapi.model.schema.OpenApiExtension
 import com.bselzer.ktx.openapi.model.server.OpenApiServer
 import com.bselzer.ktx.openapi.model.server.OpenApiServerVariable
 import com.bselzer.ktx.openapi.model.value.*
-import com.bselzer.ktx.serialization.context.getContent
-import com.bselzer.ktx.serialization.context.getContentListOrEmpty
-import com.bselzer.ktx.serialization.context.getContentOrNull
+import com.bselzer.ktx.serialization.context.*
 import kotlinx.serialization.json.*
 
 object OpenApiContext {
-    private fun JsonObject.getOpenApiContactOrNull(key: String): OpenApiContact? = get(key)?.jsonObject?.toOpenApiContact()
-    private fun JsonObject.getOpenApiLicenseOrNull(key: String): OpenApiLicense? = get(key)?.jsonObject?.toOpenApiLicense()
-    private fun JsonObject.getOpenApiServerVariablesOrEmpty(key: String): Map<String, OpenApiServerVariable> = get(key)?.jsonObject
 
     fun JsonObject.toOpenApi(): OpenApi = OpenApi(
         openapi = getContentOrNull("openapi") ?: "3.1.0",
-        info = jsonObject.toOpenApiInformation(),
+        info = getObject("info") { it.toOpenApiInformation() },
         jsonSchemaDialect = getContentOrNull("jsonSchemaDialect") ?: "https://spec.openapis.org/oas/3.1/dialect/base",
-        servers =
+        servers = getObjectListOrEmpty("servers") { it.toOpenApiServer() }
     )
 
     fun JsonObject.toOpenApiInformation(): OpenApiInformation = OpenApiInformation(
@@ -29,8 +24,8 @@ object OpenApiContext {
         summary = getContentOrNull("summary"),
         description = getDescriptionOrNull("description"),
         termsOfService = getContentOrNull("termsOfService"),
-        contact = getOpenApiContactOrNull("contact"),
-        license = getOpenApiLicenseOrNull("license"),
+        contact = getObjectOrNull("contact") { it.toOpenApiContact() },
+        license = getObjectOrNull("license") { it.toOpenApiLicense() },
         version = getContent("version"),
         extensions = getOpenApiExtensions()
     )
@@ -38,7 +33,8 @@ object OpenApiContext {
     fun JsonObject.toOpenApiServer(): OpenApiServer = OpenApiServer(
         url = getUrl("url"),
         description = getDescriptionOrNull("description"),
-        variables =
+        variables = getObjectMapOrEmpty("variables") { it.toOpenApiServerVariable() },
+        extensions = getOpenApiExtensions()
     )
 
     fun JsonObject.toOpenApiServerVariable(): OpenApiServerVariable = OpenApiServerVariable(
