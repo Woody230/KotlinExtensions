@@ -14,15 +14,13 @@ import com.bselzer.ktx.openapi.model.response.OpenApiLink
 import com.bselzer.ktx.openapi.model.response.OpenApiResponse
 import com.bselzer.ktx.openapi.model.response.OpenApiResponses
 import com.bselzer.ktx.openapi.model.schema.*
-import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityRequirement
-import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecuritySchemeName
-import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScope
+import com.bselzer.ktx.openapi.model.security.flow.*
+import com.bselzer.ktx.openapi.model.security.scheme.*
 import com.bselzer.ktx.openapi.model.server.OpenApiServer
 import com.bselzer.ktx.openapi.model.server.OpenApiServerVariable
 import com.bselzer.ktx.openapi.model.value.*
 import com.bselzer.ktx.serialization.context.*
 import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
-import com.bselzer.ktx.serialization.context.JsonContext.Default.decodeKeys
 import kotlinx.serialization.json.*
 
 object OpenApiContext {
@@ -34,11 +32,107 @@ object OpenApiContext {
         servers = getObjectListOrEmpty("servers") { it.toOpenApiServer() },
         paths = getObject("paths") { it.toOpenApiPaths() },
         webhooks = getObjectMapOrEmpty("webhooks") { it.toOpenApiPathItemReference() },
-        components =,
+        components = getObjectOrNull("components") { it.toOpenApiComponents() },
         security = getSecurityRequirements("security"),
-        tags =,
+        tags = getObjectListOrEmpty("tags") { it.toOpenApiTag() },
         externalDocs = getExternalDocumentationOrNull("externalDocs"),
         extensions = getOpenApiExtensions(),
+    )
+
+    fun JsonObject.toOpenApiTag(): OpenApiTag = OpenApiTag(
+        name = getContent("name"),
+        description = getDescriptionOrNull("description"),
+        externalDocs = getExternalDocumentationOrNull("externalDocs"),
+        extensions = getOpenApiExtensions()
+    )
+
+    fun JsonObject.toOpenApiComponents(): OpenApiComponents = OpenApiComponents(
+        schemas = getObjectMapOrEmpty("schemas") { it.toOpenApiSchema() },
+        responses = getObjectMapOrEmpty("responses") { it.toOpenApiResponseReference() },
+        parameters = getObjectMapOrEmpty("parameters") { it.toOpenApiParameterReference() }.mapKeys { entry -> OpenApiParameterName(entry.key) },
+        examples = getObjectMapOrEmpty("examples") { it.toOpenApiExampleReference() },
+        requestBodies = getObjectMapOrEmpty("requestBodies") { it.toOpenApiRequestBodyReference() },
+        headers = getObjectMapOrEmpty("headers") { it.toOpenApiHeaderReference() },
+        securitySchemes = getObjectMapOrEmpty("securitySchemes") { it.toOpenApiSecuritySchemeReference() }.mapKeys { entry -> OpenApiSecuritySchemeName(entry.key) },
+        links = getObjectMapOrEmpty("links") { it.toOpenApiLinkReference() },
+        callbacks = getObjectMapOrEmpty("callbacks") { it.toOpenApiCallbackReference() },
+        pathItems = getObjectMapOrEmpty("pathItems") { it.toOpenApiPathItemReference() },
+        extensions = getOpenApiExtensions()
+    )
+
+    fun JsonObject.toOpenApiSecurityScheme(): OpenApiSecurityScheme {
+        val type = getContent("type").decode<OpenApiSecuritySchemeType>()
+        val description = getDescriptionOrNull("description")
+        return when (type) {
+            OpenApiSecuritySchemeType.API_KEY -> ApiKeySecurityScheme(
+                description = description,
+                name = OpenApiParameterName(getContent("name")),
+                `in` = getContent("in").decode()
+            )
+            OpenApiSecuritySchemeType.HTTP -> HttpSecurityScheme(
+                description = description,
+                scheme = getContent("scheme"),
+                bearerFormat = getContentOrNull("bearerFormat")
+            )
+            OpenApiSecuritySchemeType.MUTUAL_TLS -> MutualTlsSecurityScheme(
+                description = description
+            )
+            OpenApiSecuritySchemeType.OAUTH_2 -> OAuth2SecurityScheme(
+                description = description,
+                flows = getObject("flows") { it.toOAuthFlows() }
+            )
+            OpenApiSecuritySchemeType.OPEN_ID_CONNECT -> OpenIdConnectSecurityScheme(
+                description = description,
+                openIdConnectUrl = getUrl("openIdConnectUrl")
+            )
+        }
+    }
+
+    private fun JsonObject.toOpenApiSecuritySchemeReference(): OpenApiReferenceOf<OpenApiSecurityScheme> {
+        if (containsKey("\$ref")) {
+            val reference = toOpenApiReference()
+            return OpenApiReferenceOf(reference)
+        }
+
+        val securityScheme = toOpenApiSecurityScheme()
+        return OpenApiReferenceOf(securityScheme)
+    }
+
+    fun JsonObject.toOAuthFlows(): OAuthFlows = OAuthFlows(
+        implicit = getObjectOrNull("implicit") { it.toImplicitOAuthFlow() },
+        password = getObjectOrNull("password") { it.toPasswordOAuthFlow() },
+        clientCredentials = getObjectOrNull("clientCredentials") { it.toClientCredentialsOAuthFlow() },
+        authorizationCode = getObjectOrNull("authorizationCode") { it.toAuthorizationCodeOAuthFlow() },
+        extensions = getOpenApiExtensions()
+    )
+
+    fun JsonObject.toImplicitOAuthFlow(): ImplicitOAuthFlow = ImplicitOAuthFlow(
+        refreshUrl = getUrlOrNull("refreshUrl"),
+        scopes = getContentMapOrEmpty("scopes").mapKeys { entry -> OpenApiSecurityScope(entry.key) },
+        extensions = getOpenApiExtensions(),
+        authorizationUrl = getUrl("authorizationUrl")
+    )
+
+    fun JsonObject.toPasswordOAuthFlow(): PasswordOAuthFlow = PasswordOAuthFlow(
+        refreshUrl = getUrlOrNull("refreshUrl"),
+        scopes = getContentMapOrEmpty("scopes").mapKeys { entry -> OpenApiSecurityScope(entry.key) },
+        extensions = getOpenApiExtensions(),
+        tokenUrl = getUrl("tokenUrl")
+    )
+
+    fun JsonObject.toClientCredentialsOAuthFlow(): ClientCredentialsOAuthFlow = ClientCredentialsOAuthFlow(
+        refreshUrl = getUrlOrNull("refreshUrl"),
+        scopes = getContentMapOrEmpty("scopes").mapKeys { entry -> OpenApiSecurityScope(entry.key) },
+        extensions = getOpenApiExtensions(),
+        tokenUrl = getUrl("tokenUrl")
+    )
+
+    fun JsonObject.toAuthorizationCodeOAuthFlow(): AuthorizationCodeOAuthFlow = AuthorizationCodeOAuthFlow(
+        refreshUrl = getUrlOrNull("refreshUrl"),
+        scopes = getContentMapOrEmpty("scopes").mapKeys { entry -> OpenApiSecurityScope(entry.key) },
+        extensions = getOpenApiExtensions(),
+        authorizationUrl = getUrl("authorizationUrl"),
+        tokenUrl = getUrl("tokenUrl")
     )
 
     fun JsonObject.toOpenApiInformation(): OpenApiInformation = OpenApiInformation(
@@ -155,7 +249,7 @@ object OpenApiContext {
 
     fun JsonObject.toOpenApiRequestBody(): OpenApiRequestBody = OpenApiRequestBody(
         description = getDescriptionOrNull("description"),
-        content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.decodeKeys(),
+        content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
         required = getBooleanOrFalse("required"),
         extensions = getOpenApiExtensions()
     )
@@ -169,7 +263,7 @@ object OpenApiContext {
     fun JsonObject.toOpenApiResponse(): OpenApiResponse = OpenApiResponse(
         description = OpenApiDescription(getContent("description")),
         headers = getObjectMapOrEmpty("headers") { it.toOpenApiHeaderReference() },
-        content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.decodeKeys(),
+        content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
         links = getObjectMapOrEmpty("links") { it.toOpenApiLinkReference() },
         extensions = getOpenApiExtensions()
     )
@@ -251,7 +345,7 @@ object OpenApiContext {
             schema = getObject("schema") { it.toOpenApiSchemaReference() },
             example = getObject("example") { OpenApiExampleValue(it.toOpenApiValue()) },
             examples = getObjectMapOrEmpty("examples") { it.toOpenApiExampleReference() },
-            content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.decodeKeys(),
+            content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )
     }
@@ -299,13 +393,13 @@ object OpenApiContext {
         uniqueItems = getBooleanOrNull("uniqueItems"),
         discriminator = getObjectOrNull("discriminator") { it.toOpenApiDiscriminator() },
         xml = getObjectOrNull("xml") { it.toOpenApiXml() },
-        properties = getObjectMapOrEmpty("properties") { it.toOpenApiSchemaReference() }.decodeKeys(),
-        patternProperties = getObjectMapOrEmpty("patternProperties") { it.toOpenApiSchemaReference() }.decodeKeys(),
+        properties = getObjectMapOrEmpty("properties") { it.toOpenApiSchemaReference() }.mapKeys { entry -> OpenApiPropertyName(entry.key) },
+        patternProperties = getObjectMapOrEmpty("patternProperties") { it.toOpenApiSchemaReference() }.mapKeys { entry -> OpenApiPropertyName(entry.key) },
         additionalProperties = getObjectOrNull("additionalProperties") { it.toOpenApiSchemaReference() },
         unevaluatedProperties = getBooleanOrNull("unevaluatedProperties"),
         required = getContentListOrEmpty("required").decode<OpenApiPropertyName>().toSet(),
         dependentRequired = getDependentRequired("dependentRequired"),
-        dependentSchemas = getObjectMapOrEmpty("dependentSchemas") { it.toOpenApiSchemaReference() }.decodeKeys(),
+        dependentSchemas = getObjectMapOrEmpty("dependentSchemas") { it.toOpenApiSchemaReference() }.mapKeys { entry -> OpenApiPropertyName(entry.key) },
         propertyNames = getObjectOrNull("propertyNames") { it.toOpenApiSchemaReference() },
         minProperties = getIntOrNull("minProperties"),
         maxProperties = getIntOrNull("maxProperties"),
@@ -321,7 +415,7 @@ object OpenApiContext {
         exclusiveMaximum = getDoubleOrNull("exclusiveMaximum"),
         `$id` = getContentOrNull("\$id")?.let { OpenApiReferenceIdentifier(it) },
         `$anchor` = getContentOrNull("\$anchor")?.let { OpenApiReferenceIdentifier(it) },
-        `$defs` = getObjectMapOrEmpty("\$defs") { it.toOpenApiSchema() }.decodeKeys()
+        `$defs` = getObjectMapOrEmpty("\$defs") { it.toOpenApiSchema() }.mapKeys { entry -> OpenApiReferenceIdentifier(entry.key) }
     )
 
     fun JsonObject.toOpenApiXml(): OpenApiXml = OpenApiXml(
@@ -388,7 +482,7 @@ object OpenApiContext {
         schema = getObjectOrNull("schema") { it.toOpenApiSchema() },
         example = getObject("example") { OpenApiExampleValue(it.toOpenApiValue()) },
         examples = getObjectMapOrEmpty("examples") { it.toOpenApiExampleReference() },
-        encoding = getObjectMapOrEmpty("encoding") { it.toOpenApiEncoding() }.decodeKeys(),
+        encoding = getObjectMapOrEmpty("encoding") { it.toOpenApiEncoding() }.mapKeys { entry -> OpenApiEncodingName(entry.key) },
         extensions = getOpenApiExtensions()
     )
 
@@ -416,7 +510,7 @@ object OpenApiContext {
             schema = getObject("schema") { it.toOpenApiSchemaReference() },
             example = getObject("example") { OpenApiExampleValue(it.toOpenApiValue()) },
             examples = getObjectMapOrEmpty("examples") { it.toOpenApiExampleReference() },
-            content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.decodeKeys(),
+            content = getObjectMapOrEmpty("content") { it.toOpenApiMediaType() }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )
     }
@@ -465,7 +559,7 @@ object OpenApiContext {
     private fun JsonObject.getDependentRequired(key: String): Map<OpenApiPropertyName, Set<OpenApiPropertyName>> {
         val value = get(key) ?: return emptyMap()
         val map = value.jsonObject.toMap { element -> element.toContentList().decode<OpenApiPropertyName>().toSet() }
-        return map.decodeKeys()
+        return map.mapKeys { entry -> OpenApiPropertyName(entry.key) }
     }
 
     private fun JsonObject.getOpenApiValueOrNull(key: String): OpenApiValue? {
