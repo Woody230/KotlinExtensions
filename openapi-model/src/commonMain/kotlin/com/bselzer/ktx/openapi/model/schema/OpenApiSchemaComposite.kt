@@ -3,6 +3,7 @@ package com.bselzer.ktx.openapi.model.schema
 import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
+import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 data class OpenApiSchemaComposite(
     // Common
@@ -13,7 +14,7 @@ data class OpenApiSchemaComposite(
     override val description: OpenApiDescription? = null,
     override val readOnly: Boolean = false,
     override val writeOnly: Boolean = false,
-    override val default: Any? = null,
+    override val default: OpenApiValue? = null,
     override val deprecated: Boolean = false,
     override val `$comment`: String? = null,
     override val types: Set<OpenApiSchemaType> = emptySet(),
@@ -22,8 +23,8 @@ data class OpenApiSchemaComposite(
     override val extensions: OpenApiExtensions = emptyMap(),
 
     // Enum
-    override val enum: List<Any> = emptyList(),
-    override val const: Any? = null,
+    override val enum: List<OpenApiValue> = emptyList(),
+    override val const: OpenApiValue? = null,
 
     // Composition
     override val allOf: List<OpenApiSchema> = emptyList(),
@@ -42,7 +43,7 @@ data class OpenApiSchemaComposite(
     override val maxContains: Int? = null,
     override val minItems: Int? = null,
     override val maxItems: Int? = null,
-    override val uniqueItems: Boolean? = false,
+    override val uniqueItems: Boolean? = null,
 
     // Object
     override val discriminator: OpenApiDiscriminator? = null,
