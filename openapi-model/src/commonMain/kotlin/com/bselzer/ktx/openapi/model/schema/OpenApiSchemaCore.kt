@@ -1,21 +1,21 @@
 package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
-import com.bselzer.ktx.openapi.model.OpenApiExampleValue
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
+import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 sealed interface OpenApiSchemaCore : OpenApiExtensible {
     /**
      * A free-form property to include an example of an instance for this schema. To represent examples that cannot be naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
      */
     @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
-    val example: OpenApiExampleValue?
+    val example: OpenApiValue?
 
     /**
      * A free-form property to include examples of instances for this schema. To represent examples that cannot be naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
      */
-    val examples: List<OpenApiExampleValue>
+    val examples: List<OpenApiValue>
 
     /**
      * A “title” will preferably be short, whereas a “description” will provide a more lengthy explanation about the purpose of the data described by the schema.

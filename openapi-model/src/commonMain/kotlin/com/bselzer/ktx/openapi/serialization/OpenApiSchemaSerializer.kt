@@ -1,6 +1,5 @@
 package com.bselzer.ktx.openapi.serialization
 
-import com.bselzer.ktx.openapi.model.OpenApiExampleValue
 import com.bselzer.ktx.openapi.model.OpenApiReferenceIdentifier
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
@@ -15,8 +14,8 @@ import kotlinx.serialization.json.jsonObject
 
 object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
     override fun JsonObject.deserialize(): OpenApiSchema = OpenApiSchemaComposite(
-        example = get("example")?.let { OpenApiExampleValue(it.toOpenApiValue()) },
-        examples = getListOrEmpty("examples") { OpenApiExampleValue(it.toOpenApiValue()) },
+        example = getElementOrNull("example", OpenApiValueSerializer::deserialize),
+        examples = getListOrEmpty("examples", OpenApiValueSerializer::deserialize),
         title = getContentOrNull("title"),
         description = getDescriptionOrNull("description"),
         readOnly = getBooleanOrFalse("readOnly"),
@@ -28,15 +27,15 @@ object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
         format = getContentOrNull("format"),
         externalDocs = getExternalDocumentationOrNull("externalDocs"),
         extensions = getOpenApiExtensions(),
-        enum = getObjectListOrEmpty("enum") { it.toOpenApiValue() },
-        const = getObjectOrNull("const") { it.toOpenApiValue() },
-        allOf = getObjectListOrEmpty("allOf") { deserialize(it) },
-        anyOf = getObjectListOrEmpty("anyOf") { deserialize(it) },
-        oneOf = getObjectListOrEmpty("oneOf") { deserialize(it) },
-        not = getObjectOrNull("not") { deserialize(it) },
-        `if` = getObjectOrNull("if") { deserialize(it) },
-        then = getObjectOrNull("then") { deserialize(it) },
-        `else` = getObjectOrNull("else") { deserialize(it) },
+        enum = getListOrEmpty("enum", OpenApiValueSerializer::deserialize),
+        const = getElementOrNull("const", OpenApiValueSerializer::deserialize),
+        allOf = getObjectListOrEmpty("allOf", ::deserialize),
+        anyOf = getObjectListOrEmpty("anyOf", ::deserialize),
+        oneOf = getObjectListOrEmpty("oneOf", ::deserialize),
+        not = getObjectOrNull("not", ::deserialize),
+        `if` = getObjectOrNull("if", ::deserialize),
+        then = getObjectOrNull("then", ::deserialize),
+        `else` = getObjectOrNull("else", ::deserialize),
         items = getObjectOrNull("items") { OpenApiReferenceOfSerializer(this@OpenApiSchemaSerializer).deserialize(it) },
         prefixItems = getObjectListOrEmpty("prefixItems") { it.toOpenApiSchemaReference() },
         contains = getObjectOrNull("contains") { it.toOpenApiSchemaReference() },

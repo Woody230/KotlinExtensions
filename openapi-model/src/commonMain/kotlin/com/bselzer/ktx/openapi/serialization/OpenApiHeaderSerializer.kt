@@ -1,6 +1,5 @@
 package com.bselzer.ktx.openapi.serialization
 
-import com.bselzer.ktx.openapi.model.OpenApiExampleValue
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
 import com.bselzer.ktx.openapi.model.path.OpenApiHeader
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
@@ -26,7 +25,7 @@ object OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
             explode = getBooleanOrNull("explode") ?: defaultExplode,
             allowReserved = getBooleanOrFalse("allowReserved"),
             schema = getObject("schema") { it.toOpenApiSchemaReference() },
-            example = getObject("example") { OpenApiExampleValue(it.toOpenApiValue()) },
+            example = getElement("example", OpenApiValueSerializer::deserialize),
             examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer).deserialize(it) },
             content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()

@@ -8,8 +8,8 @@ import com.bselzer.ktx.openapi.model.value.OpenApiValue
 data class OpenApiSchemaComposite(
     // Common
     @Deprecated("The example property has been deprecated in favor of the JSON Schema examples keyword. Use of example is discouraged, and later versions of this specification may remove it.")
-    override val example: OpenApiExampleValue? = null,
-    override val examples: List<OpenApiExampleValue> = emptyList(),
+    override val example: OpenApiValue? = null,
+    override val examples: List<OpenApiValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
     override val readOnly: Boolean = false,

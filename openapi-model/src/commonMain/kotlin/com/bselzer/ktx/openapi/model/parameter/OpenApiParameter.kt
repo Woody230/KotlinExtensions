@@ -2,6 +2,7 @@ package com.bselzer.ktx.openapi.model.parameter
 
 import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
+import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 /**
  * Describes a single operation parameter.
@@ -76,7 +77,7 @@ data class OpenApiParameter(
     /**
      * Example of the parameter’s potential value. The example SHOULD match the specified schema and encoding properties if present. The example field is mutually exclusive of the examples field. Furthermore, if referencing a schema that contains an example, the example value SHALL override the example provided by the schema. To represent examples of media types that cannot naturally be represented in JSON or YAML, a string value can contain the example with escaping where necessary.
      */
-    val example: OpenApiExampleValue? = null,
+    val example: OpenApiValue? = null,
 
     /**
      * Examples of the parameter’s potential value. Each example SHOULD contain a value in the correct format as specified in the parameter encoding. The examples field is mutually exclusive of the example field. Furthermore, if referencing a schema that contains an example, the examples value SHALL override the example provided by the schema

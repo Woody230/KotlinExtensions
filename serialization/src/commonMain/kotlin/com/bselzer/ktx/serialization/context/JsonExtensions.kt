@@ -98,6 +98,16 @@ fun <Value> JsonObject.getObjectOrNull(key: String, getValue: (JsonObject) -> Va
     return getValue(jsonObject)
 }
 
+fun <Value> JsonObject.getElement(key: String, getValue: (JsonElement) -> Value): Value {
+    val jsonElement = getValue(key)
+    return getValue(jsonElement)
+}
+
+fun <Value> JsonObject.getElementOrNull(key: String, getValue: (JsonElement) -> Value): Value? {
+    val jsonElement = get(key) ?: return null
+    return getValue(jsonElement)
+}
+
 fun <Value> JsonObject.getObjectMapOrEmpty(
     key: String,
     getValue: (JsonObject) -> Value

@@ -9,7 +9,7 @@ object OpenApiExampleSerializer : OpenApiObjectSerializer<OpenApiExample>() {
     override fun JsonObject.deserialize(): OpenApiExample = OpenApiExample(
         summary = getContentOrNull("summary"),
         description = getDescriptionOrNull("description"),
-        value = getObjectOrNull("value") { it.toOpenApiValue() },
+        value = getObjectOrNull("value", OpenApiValueSerializer::deserialize),
         externalValue = getContentOrNull("externalValue"),
         extensions = getOpenApiExtensions()
     )
