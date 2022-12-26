@@ -38,7 +38,7 @@ class OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityS
 
     private fun JsonObject.toOAuth2SecurityScheme() = OAuth2SecurityScheme(
         description = getDescriptionOrNull("description"),
-        flows = getObject("flows") { OAuthFlowsSerializer().deserialize(it) }
+        flows = getObject("flows") { OpenApiOAuthFlowsSerializer().deserialize(it) }
     )
 
     private fun JsonObject.toOpenIdConnectSecurityScheme() = OpenIdConnectSecurityScheme(

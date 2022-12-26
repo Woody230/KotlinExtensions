@@ -6,8 +6,8 @@ import com.bselzer.ktx.serialization.context.getContentMapOrEmpty
 import com.bselzer.ktx.serialization.context.getObjectOrNull
 import kotlinx.serialization.json.JsonObject
 
-class OAuthFlowsSerializer : OpenApiObjectSerializer<OAuthFlows>() {
-    override fun JsonObject.deserialize(): OAuthFlows = OAuthFlows(
+class OpenApiOAuthFlowsSerializer : OpenApiObjectSerializer<OpenApiOAuthFlows>() {
+    override fun JsonObject.deserialize(): OpenApiOAuthFlows = OpenApiOAuthFlows(
         implicit = getObjectOrNull("implicit") { it.toImplicitOAuthFlow() },
         password = getObjectOrNull("password") { it.toPasswordOAuthFlow() },
         clientCredentials = getObjectOrNull("clientCredentials") { it.toClientCredentialsOAuthFlow() },

@@ -4,7 +4,7 @@ import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiUrl
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScope
 
-sealed interface OAuthFlow : OpenApiExtensible {
+sealed interface OpenApiOAuthFlow : OpenApiExtensible {
     /**
      * The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS.
      */

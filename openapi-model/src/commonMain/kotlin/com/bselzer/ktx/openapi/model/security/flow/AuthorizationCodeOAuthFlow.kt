@@ -18,4 +18,4 @@ data class AuthorizationCodeOAuthFlow(
      * REQUIRED. The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS.
      */
     val tokenUrl: OpenApiUrl,
-) : OAuthFlow
+) : OpenApiOAuthFlow
