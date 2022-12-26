@@ -1,7 +1,6 @@
 package com.bselzer.ktx.openapi.serialization
 
 import com.bselzer.ktx.openapi.model.*
-import com.bselzer.ktx.openapi.model.schema.OpenApiExtension
 import com.bselzer.ktx.serialization.context.getContent
 import com.bselzer.ktx.serialization.context.getContentOrNull
 import com.bselzer.ktx.serialization.context.getObjectOrNull
@@ -40,9 +39,6 @@ sealed class OpenApiModelSerializer<T> : KSerializer<T> {
 
     protected fun JsonObject.getOpenApiExtensions(): OpenApiExtensions {
         val prefixed = filterKeys { key -> key.startsWith("x-") }
-        return prefixed.mapValues { entry ->
-            val value = OpenApiValueSerializer.deserialize(entry.value)
-            OpenApiExtension(value)
-        }
+        return prefixed.mapValues { entry -> OpenApiValueSerializer.deserialize(entry.value) }
     }
 }

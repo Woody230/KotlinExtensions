@@ -3,13 +3,13 @@ package com.bselzer.ktx.openapi.model
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameter
 import com.bselzer.ktx.openapi.model.path.*
 import com.bselzer.ktx.openapi.model.response.OpenApiLink
-import com.bselzer.ktx.openapi.model.schema.OpenApiExtension
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityRequirement
 import com.bselzer.ktx.openapi.model.server.OpenApiServer
+import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 internal typealias OpenApiParameterList = List<OpenApiReferenceOf<OpenApiParameter>>
-internal typealias OpenApiExtensions = Map<String, OpenApiExtension>
+internal typealias OpenApiExtensions = Map<String, OpenApiValue>
 internal typealias OpenApiCallbacks = Map<String, OpenApiReferenceOf<OpenApiCallback>>
 internal typealias OpenApiSecurityRequirements = List<OpenApiSecurityRequirement>
 internal typealias OpenApiServers = List<OpenApiServer>
