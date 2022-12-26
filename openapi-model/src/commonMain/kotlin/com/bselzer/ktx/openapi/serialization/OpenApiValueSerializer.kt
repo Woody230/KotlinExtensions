@@ -24,11 +24,11 @@ class OpenApiValueSerializer : OpenApiElementSerializer<OpenApiValue>() {
     private fun JsonPrimitive.toOpenApiValue(): OpenApiValue = when {
         this is JsonNull -> OpenApiNull
         isString -> OpenApiString(content) // Need to check isString before the rest to verify we don't have a quoted literal
-        doubleOrNull != null -> OpenApiNumber(double)
-        longOrNull != null -> OpenApiNumber(long)
+        doubleOrNull != null -> OpenApiDouble(double)
+        longOrNull != null -> OpenApiLong(long)
         booleanOrNull != null -> OpenApiBoolean(boolean)
-        intOrNull != null -> OpenApiNumber(int)
-        floatOrNull != null -> OpenApiNumber(float)
+        intOrNull != null -> OpenApiInt(int)
+        floatOrNull != null -> OpenApiFloat(float)
         else -> OpenApiString(content)
     }
 }
