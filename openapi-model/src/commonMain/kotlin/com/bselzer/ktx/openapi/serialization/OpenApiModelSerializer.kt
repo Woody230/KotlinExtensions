@@ -49,12 +49,10 @@ sealed class OpenApiModelSerializer<T> : KSerializer<T> {
     }
 
     protected fun JsonObject.getSecurityRequirements(key: String): OpenApiSecurityRequirements = getObjectListOrEmpty(key) {
-        val names = mapKeys { entry -> OpenApiSecuritySchemeName(entry.key) }.mapValues { entry ->
-            entry.value.jsonArray.map { element ->
-                OpenApiSecurityScope(element.toContent())
-            }
+        val scopes = mapKeys { entry -> OpenApiSecuritySchemeName(entry.key) }.mapValues { entry ->
+            entry.value.jsonArray.toContentList().map(::OpenApiSecurityScope)
         }
 
-        OpenApiSecurityRequirement(names)
+        OpenApiSecurityRequirement(scopes)
     }
 }
