@@ -18,7 +18,7 @@ object OpenApiOperationSerializer : OpenApiObjectSerializer<OpenApiOperation>() 
         responses = getObject("responses", OpenApiResponsesSerializer::deserialize),
         callbacks = getObjectMapOrEmpty("callbacks", OpenApiReferenceOfSerializer(OpenApiCallbackSerializer)::deserialize),
         deprecated = getBooleanOrFalse("deprecated"),
-        security = getSecurityRequirements("security"),
+        security = getObjectListOrEmpty("security", OpenApiSecurityRequirementSerializer::deserialize),
         servers = getObjectListOrEmpty("servers", OpenApiServerSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )

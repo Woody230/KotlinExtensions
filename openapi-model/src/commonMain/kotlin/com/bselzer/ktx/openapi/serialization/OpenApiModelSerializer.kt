@@ -2,13 +2,11 @@ package com.bselzer.ktx.openapi.serialization
 
 import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.schema.OpenApiExtension
-import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityRequirement
-import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecuritySchemeName
-import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScope
-import com.bselzer.ktx.serialization.context.*
+import com.bselzer.ktx.serialization.context.getContent
+import com.bselzer.ktx.serialization.context.getContentOrNull
+import com.bselzer.ktx.serialization.context.getObjectOrNull
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
 
 sealed class OpenApiModelSerializer<T> : KSerializer<T> {
     protected fun JsonObject.getEmailOrNull(key: String): OpenApiEmail? {
@@ -46,13 +44,5 @@ sealed class OpenApiModelSerializer<T> : KSerializer<T> {
             val value = OpenApiValueSerializer.deserialize(entry.value)
             OpenApiExtension(value)
         }
-    }
-
-    protected fun JsonObject.getSecurityRequirements(key: String): OpenApiSecurityRequirements = getObjectListOrEmpty(key) {
-        val scopes = mapKeys { entry -> OpenApiSecuritySchemeName(entry.key) }.mapValues { entry ->
-            entry.value.jsonArray.toContentList().map(::OpenApiSecurityScope)
-        }
-
-        OpenApiSecurityRequirement(scopes)
     }
 }

@@ -13,7 +13,7 @@ object OpenApiSerializer : OpenApiObjectSerializer<OpenApi>() {
         paths = getObject("paths", OpenApiPathsSerializer::deserialize),
         webhooks = getObjectMapOrEmpty("webhooks", OpenApiReferenceOfSerializer(OpenApiPathItemSerializer)::deserialize),
         components = getObjectOrNull("components", OpenApiComponentsSerializer::deserialize),
-        security = getSecurityRequirements("security"),
+        security = getObjectListOrEmpty("security", OpenApiSecurityRequirementSerializer::deserialize),
         tags = getObjectListOrEmpty("tags", OpenApiTagSerializer::deserialize),
         externalDocs = getExternalDocumentationOrNull("externalDocs"),
         extensions = getOpenApiExtensions(),
