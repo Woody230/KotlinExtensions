@@ -6,12 +6,11 @@ import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 import com.bselzer.ktx.serialization.context.*
-import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import kotlinx.serialization.json.JsonObject
 
 object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() {
     override fun JsonObject.deserialize(): OpenApiParameter {
-        val `in`: OpenApiParameterIn = with(JsonContext) { getContent("in").decode() }
+        val `in`: OpenApiParameterIn = getEnum("in")
 
         val defaultRequired = `in` == OpenApiParameterIn.PATH
 
@@ -22,7 +21,7 @@ object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() 
             OpenApiParameterIn.COOKIE -> OpenApiParameterStyle.FORM
         }
 
-        val style = getContentOrNull("style")?.decode() ?: defaultStyle
+        val style = getEnumOrNull("style") ?: defaultStyle
 
         val defaultExplode = when (style) {
             OpenApiParameterStyle.FORM -> true
@@ -30,7 +29,7 @@ object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() 
         }
 
         return OpenApiParameter(
-            name = OpenApiParameterName(getContent("name")),
+            name = getContent("name").let(::OpenApiParameterName),
             `in` = `in`,
             description = getDescriptionOrNull("description"),
             required = getBooleanOrNull("required") ?: defaultRequired,
@@ -39,10 +38,10 @@ object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() 
             style = style,
             explode = getBooleanOrNull("explode") ?: defaultExplode,
             allowReserved = getBooleanOrFalse("allowReserved"),
-            schema = getObject("schema") { it.toOpenApiSchemaReference() },
+            schema = getObject("schema", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
             example = getObject("example", OpenApiValueSerializer::deserialize),
-            examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer).deserialize(it) },
-            content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
+            examples = getObjectMapOrEmpty("examples", OpenApiReferenceOfSerializer(OpenApiExampleSerializer)::deserialize),
+            content = getObjectMapOrEmpty("content", OpenApiMediaTypeSerializer::deserialize).mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )
     }

@@ -12,12 +12,12 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiLinkSerializer : OpenApiObjectSerializer<OpenApiLink>() {
     override fun JsonObject.deserialize(): OpenApiLink = OpenApiLink(
-        operationRef = OpenApiReferenceIdentifier(getContent("operationRef")),
-        operationId = getContentOrNull("operationId")?.let { OpenApiOperationId(it) },
-        parameters = getMapOrEmpty("parameters") { OpenApiValueOrRuntimeExpressionSerializer.deserialize(it) }.mapKeys { entry -> OpenApiParameterName(entry.key) },
-        requestBody = get("requestBody")?.let { OpenApiValueOrRuntimeExpressionSerializer.deserialize(it) },
+        operationRef = getContent("operationRef").let(::OpenApiReferenceIdentifier),
+        operationId = getContentOrNull("operationId")?.let(::OpenApiOperationId),
+        parameters = getMapOrEmpty("parameters", OpenApiValueOrRuntimeExpressionSerializer::deserialize).mapKeys { entry -> OpenApiParameterName(entry.key) },
+        requestBody = get("requestBody")?.let(OpenApiValueOrRuntimeExpressionSerializer::deserialize),
         description = getDescriptionOrNull("description"),
-        server = getObject("server") { OpenApiServerSerializer.deserialize(it) },
+        server = getObject("server", OpenApiServerSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )
 }

@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonObject
 object OpenApiRequestBodySerializer : OpenApiObjectSerializer<OpenApiRequestBody>() {
     override fun JsonObject.deserialize(): OpenApiRequestBody = OpenApiRequestBody(
         description = getDescriptionOrNull("description"),
-        content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
+        content = getObjectMapOrEmpty("content", OpenApiMediaTypeSerializer::deserialize).mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
         required = getBooleanOrFalse("required"),
         extensions = getOpenApiExtensions()
     )

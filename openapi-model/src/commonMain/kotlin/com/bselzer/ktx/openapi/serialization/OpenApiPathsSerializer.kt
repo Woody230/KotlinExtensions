@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiPathsSerializer : OpenApiObjectSerializer<OpenApiPaths>() {
     override fun JsonObject.deserialize(): OpenApiPaths = OpenApiPaths(
-        pathItems = getObjectMapOrEmpty("pathItems") { OpenApiPathItemSerializer.deserialize(it) },
+        pathItems = getObjectMapOrEmpty("pathItems", OpenApiPathItemSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )
 }

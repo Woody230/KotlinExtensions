@@ -2,15 +2,15 @@ package com.bselzer.ktx.openapi.serialization
 
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 import com.bselzer.ktx.openapi.model.security.scheme.*
-import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import com.bselzer.ktx.serialization.context.getContent
 import com.bselzer.ktx.serialization.context.getContentOrNull
+import com.bselzer.ktx.serialization.context.getEnum
 import com.bselzer.ktx.serialization.context.getObject
 import kotlinx.serialization.json.JsonObject
 
 object OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityScheme>() {
     override fun JsonObject.deserialize(): OpenApiSecurityScheme {
-        val type = getContent("type").decode<OpenApiSecuritySchemeType>()
+        val type = getEnum<OpenApiSecuritySchemeType>("type")
         return when (type) {
             OpenApiSecuritySchemeType.API_KEY -> toApiKeySecurityScheme()
             OpenApiSecuritySchemeType.HTTP -> toHttpSecurityScheme()
@@ -22,8 +22,8 @@ object OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurity
 
     private fun JsonObject.toApiKeySecurityScheme() = ApiKeySecurityScheme(
         description = getDescriptionOrNull("description"),
-        name = OpenApiParameterName(getContent("name")),
-        `in` = getContent("in").decode()
+        name = getContent("name").let(::OpenApiParameterName),
+        `in` = getEnum("in")
     )
 
     private fun JsonObject.toHttpSecurityScheme() = HttpSecurityScheme(
@@ -38,7 +38,7 @@ object OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurity
 
     private fun JsonObject.toOAuth2SecurityScheme() = OAuth2SecurityScheme(
         description = getDescriptionOrNull("description"),
-        flows = getObject("flows") { OpenApiOAuthFlowsSerializer.deserialize(it) }
+        flows = getObject("flows", OpenApiOAuthFlowsSerializer::deserialize)
     )
 
     private fun JsonObject.toOpenIdConnectSecurityScheme() = OpenIdConnectSecurityScheme(

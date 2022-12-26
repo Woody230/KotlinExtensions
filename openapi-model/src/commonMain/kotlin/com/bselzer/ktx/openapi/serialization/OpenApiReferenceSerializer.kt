@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiReferenceSerializer : OpenApiObjectSerializer<OpenApiReference>() {
     override fun JsonObject.deserialize(): OpenApiReference = OpenApiReference(
-        `$ref` = OpenApiReferenceIdentifier(getContent("\$ref")),
+        `$ref` = getContent("\$ref").let(::OpenApiReferenceIdentifier),
         summary = getContentOrNull("summary"),
         description = getDescriptionOrNull("description")
     )

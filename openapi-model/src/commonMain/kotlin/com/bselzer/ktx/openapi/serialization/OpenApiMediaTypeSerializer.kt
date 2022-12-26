@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiMediaTypeSerializer : OpenApiObjectSerializer<OpenApiMediaType>() {
     override fun JsonObject.deserialize(): OpenApiMediaType = OpenApiMediaType(
-        schema = getObjectOrNull("schema") { it.toOpenApiSchema() },
+        schema = getObjectOrNull("schema", OpenApiSchemaSerializer::deserialize),
         example = getObject("example", OpenApiValueSerializer::deserialize),
         examples = getObjectMapOrEmpty("examples", OpenApiReferenceOfSerializer(OpenApiExampleSerializer)::deserialize),
         encoding = getObjectMapOrEmpty("encoding", OpenApiEncodingSerializer::deserialize).mapKeys { entry -> OpenApiEncodingName(entry.key) },

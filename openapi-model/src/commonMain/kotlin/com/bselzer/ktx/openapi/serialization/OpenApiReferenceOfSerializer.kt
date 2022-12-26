@@ -6,11 +6,9 @@ import kotlinx.serialization.json.JsonObject
 class OpenApiReferenceOfSerializer<T>(
     private val valueSerializer: OpenApiObjectSerializer<T>
 ) : OpenApiObjectSerializer<OpenApiReferenceOf<T>>() {
-    private val referenceSerializer = OpenApiReferenceSerializer
-
     override fun JsonObject.deserialize(): OpenApiReferenceOf<T> {
         if (containsKey("\$ref")) {
-            val reference = referenceSerializer.deserialize(this)
+            val reference = OpenApiReferenceSerializer.deserialize(this)
             return OpenApiReferenceOf(reference)
         }
 

@@ -4,12 +4,11 @@ import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
 import com.bselzer.ktx.openapi.model.path.OpenApiHeader
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 import com.bselzer.ktx.serialization.context.*
-import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import kotlinx.serialization.json.JsonObject
 
 object OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
     override fun JsonObject.deserialize(): OpenApiHeader {
-        val style = getContentOrNull("style")?.decode() ?: OpenApiParameterStyle.SIMPLE
+        val style = getEnumOrNull("style") ?: OpenApiParameterStyle.SIMPLE
 
         val defaultExplode = when (style) {
             OpenApiParameterStyle.FORM -> true
@@ -24,10 +23,10 @@ object OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
             style = style,
             explode = getBooleanOrNull("explode") ?: defaultExplode,
             allowReserved = getBooleanOrFalse("allowReserved"),
-            schema = getObject("schema") { it.toOpenApiSchemaReference() },
+            schema = getObject("schema", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
             example = getElement("example", OpenApiValueSerializer::deserialize),
-            examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer).deserialize(it) },
-            content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
+            examples = getObjectMapOrEmpty("examples", OpenApiReferenceOfSerializer(OpenApiExampleSerializer)::deserialize),
+            content = getObjectMapOrEmpty("content", OpenApiMediaTypeSerializer::deserialize).mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )
     }

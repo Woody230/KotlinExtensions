@@ -21,12 +21,10 @@ object OpenApiPathItemSerializer : OpenApiObjectSerializer<OpenApiPathItem>() {
         head = getOperationOrNull("head"),
         patch = getOperationOrNull("patch"),
         trace = getOperationOrNull("trace"),
-        servers = getObjectListOrEmpty("servers") { OpenApiServerSerializer.deserialize(it) },
-        parameters = getObjectListOrEmpty("parameters") { OpenApiReferenceOfSerializer(OpenApiParameterSerializer).deserialize(it) },
+        servers = getObjectListOrEmpty("servers", OpenApiServerSerializer::deserialize),
+        parameters = getObjectListOrEmpty("parameters", OpenApiReferenceOfSerializer(OpenApiParameterSerializer)::deserialize),
         extensions = getOpenApiExtensions()
     )
 
-    private fun JsonObject.getOperationOrNull(key: String): OpenApiOperation? = getObjectOrNull(key) {
-        OpenApiOperationSerializer.deserialize(it)
-    }
+    private fun JsonObject.getOperationOrNull(key: String): OpenApiOperation? = getObjectOrNull(key, OpenApiOperationSerializer::deserialize)
 }

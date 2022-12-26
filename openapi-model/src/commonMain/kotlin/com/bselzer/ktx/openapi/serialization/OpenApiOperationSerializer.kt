@@ -8,18 +8,18 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiOperationSerializer : OpenApiObjectSerializer<OpenApiOperation>() {
     override fun JsonObject.deserialize(): OpenApiOperation = OpenApiOperation(
-        tags = getObjectListOrEmpty("tags") { element -> OpenApiTagName(element.toContent()) },
+        tags = getContentListOrEmpty("tags").map(::OpenApiTagName),
         summary = getContentOrNull("summary"),
         description = getDescriptionOrNull("description"),
         externalDocs = getExternalDocumentationOrNull("externalDocs"),
-        operationId = getContentOrNull("operationId")?.let { OpenApiOperationId(it) },
-        parameters = getObjectListOrEmpty("parameters") { OpenApiReferenceOfSerializer(OpenApiParameterSerializer).deserialize(it) },
-        requestBody = getObjectOrNull("requestBody") { OpenApiReferenceOfSerializer(OpenApiRequestBodySerializer).deserialize(it) },
-        responses = getObject("responses") { OpenApiResponsesSerializer.deserialize(it) },
-        callbacks = getObjectMapOrEmpty("callbacks") { OpenApiReferenceOfSerializer(OpenApiCallbackSerializer).deserialize(it) },
+        operationId = getContentOrNull("operationId")?.let(::OpenApiOperationId),
+        parameters = getObjectListOrEmpty("parameters", OpenApiReferenceOfSerializer(OpenApiParameterSerializer)::deserialize),
+        requestBody = getObjectOrNull("requestBody", OpenApiReferenceOfSerializer(OpenApiRequestBodySerializer)::deserialize),
+        responses = getObject("responses", OpenApiResponsesSerializer::deserialize),
+        callbacks = getObjectMapOrEmpty("callbacks", OpenApiReferenceOfSerializer(OpenApiCallbackSerializer)::deserialize),
         deprecated = getBooleanOrFalse("deprecated"),
         security = getSecurityRequirements("security"),
-        servers = getObjectListOrEmpty("servers") { OpenApiServerSerializer.deserialize(it) },
+        servers = getObjectListOrEmpty("servers", OpenApiServerSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )
 }

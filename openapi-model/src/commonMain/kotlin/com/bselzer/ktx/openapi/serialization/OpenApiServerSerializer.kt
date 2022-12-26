@@ -8,7 +8,7 @@ object OpenApiServerSerializer : OpenApiObjectSerializer<OpenApiServer>() {
     override fun JsonObject.deserialize(): OpenApiServer = OpenApiServer(
         url = getUrl("url"),
         description = getDescriptionOrNull("description"),
-        variables = getObjectMapOrEmpty("variables") { OpenApiServerVariableSerializer.deserialize(it) },
+        variables = getObjectMapOrEmpty("variables", OpenApiServerVariableSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )
 }

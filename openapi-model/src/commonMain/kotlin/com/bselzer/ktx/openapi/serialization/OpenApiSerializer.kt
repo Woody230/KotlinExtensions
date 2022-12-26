@@ -7,14 +7,14 @@ import kotlinx.serialization.json.JsonObject
 object OpenApiSerializer : OpenApiObjectSerializer<OpenApi>() {
     override fun JsonObject.deserialize(): OpenApi = OpenApi(
         openapi = getContentOrNull("openapi") ?: "3.1.0",
-        info = getObject("info") { OpenApiInformationSerializer.deserialize(it) },
+        info = getObject("info", OpenApiInformationSerializer::deserialize),
         jsonSchemaDialect = getContentOrNull("jsonSchemaDialect") ?: "https://spec.openapis.org/oas/3.1/dialect/base",
-        servers = getObjectListOrEmpty("servers") { OpenApiServerSerializer.deserialize(it) },
-        paths = getObject("paths") { OpenApiPathsSerializer.deserialize(it) },
-        webhooks = getObjectMapOrEmpty("webhooks") { OpenApiReferenceOfSerializer(OpenApiPathItemSerializer).deserialize(it) },
-        components = getObjectOrNull("components") { OpenApiComponentsSerializer.deserialize(it) },
+        servers = getObjectListOrEmpty("servers", OpenApiServerSerializer::deserialize),
+        paths = getObject("paths", OpenApiPathsSerializer::deserialize),
+        webhooks = getObjectMapOrEmpty("webhooks", OpenApiReferenceOfSerializer(OpenApiPathItemSerializer)::deserialize),
+        components = getObjectOrNull("components", OpenApiComponentsSerializer::deserialize),
         security = getSecurityRequirements("security"),
-        tags = getObjectListOrEmpty("tags") { OpenApiTagSerializer.deserialize(it) },
+        tags = getObjectListOrEmpty("tags", OpenApiTagSerializer::deserialize),
         externalDocs = getExternalDocumentationOrNull("externalDocs"),
         extensions = getOpenApiExtensions(),
     )

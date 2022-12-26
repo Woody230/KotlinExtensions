@@ -8,8 +8,8 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiResponsesSerializer : OpenApiObjectSerializer<OpenApiResponses>() {
     override fun JsonObject.deserialize(): OpenApiResponses = OpenApiResponses(
-        default = getObjectOrNull("default") { OpenApiReferenceOfSerializer(OpenApiResponseSerializer).deserialize(it) },
-        responses = getObjectMapOrEmpty("responses") { OpenApiReferenceOfSerializer(OpenApiResponseSerializer).deserialize(it) }.mapKeys { entry ->
+        default = getObjectOrNull("default", OpenApiReferenceOfSerializer(OpenApiResponseSerializer)::deserialize),
+        responses = getObjectMapOrEmpty("responses", OpenApiReferenceOfSerializer(OpenApiResponseSerializer)::deserialize).mapKeys { entry ->
             OpenApiHttpStatusCode(
                 entry.key
             )
