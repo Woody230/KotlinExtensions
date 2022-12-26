@@ -10,14 +10,14 @@ import com.bselzer.ktx.serialization.context.getMapOrEmpty
 import com.bselzer.ktx.serialization.context.getObject
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiLinkSerializer : OpenApiObjectSerializer<OpenApiLink>() {
+object OpenApiLinkSerializer : OpenApiObjectSerializer<OpenApiLink>() {
     override fun JsonObject.deserialize(): OpenApiLink = OpenApiLink(
         operationRef = OpenApiReferenceIdentifier(getContent("operationRef")),
         operationId = getContentOrNull("operationId")?.let { OpenApiOperationId(it) },
-        parameters = getMapOrEmpty("parameters") { OpenApiValueOrRuntimeExpressionSerializer().deserialize(it) }.mapKeys { entry -> OpenApiParameterName(entry.key) },
-        requestBody = get("requestBody")?.let { OpenApiValueOrRuntimeExpressionSerializer().deserialize(it) },
+        parameters = getMapOrEmpty("parameters") { OpenApiValueOrRuntimeExpressionSerializer.deserialize(it) }.mapKeys { entry -> OpenApiParameterName(entry.key) },
+        requestBody = get("requestBody")?.let { OpenApiValueOrRuntimeExpressionSerializer.deserialize(it) },
         description = getDescriptionOrNull("description"),
-        server = getObject("server") { OpenApiServerSerializer().deserialize(it) },
+        server = getObject("server") { OpenApiServerSerializer.deserialize(it) },
         extensions = getOpenApiExtensions()
     )
 }

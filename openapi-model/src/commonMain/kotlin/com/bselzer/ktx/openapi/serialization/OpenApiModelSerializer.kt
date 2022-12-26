@@ -35,21 +35,21 @@ sealed class OpenApiModelSerializer<T> : KSerializer<T> {
     }
 
     protected fun JsonObject.getExternalDocumentationOrNull(key: String): OpenApiExternalDocumentation? = getObjectOrNull(key) {
-        OpenApiExternalDocumentationSerializer().deserialize(it)
+        OpenApiExternalDocumentationSerializer.deserialize(it)
     }
 
     protected fun JsonObject.getOpenApiExtensions(): OpenApiExtensions {
         val prefixed = filterKeys { key -> key.startsWith("x-") }
         return prefixed.mapValues { entry ->
-            val value = OpenApiValueSerializer().deserialize(entry.value)
+            val value = OpenApiValueSerializer.deserialize(entry.value)
             OpenApiExtension(value)
         }
     }
 
-    protected fun JsonElement.toOpenApiValue(): OpenApiValue = OpenApiValueSerializer().deserialize(this)
-    protected fun JsonObject.toOpenApiSchema(): OpenApiSchema = OpenApiSchemaSerializer().deserialize(this)
+    protected fun JsonElement.toOpenApiValue(): OpenApiValue = OpenApiValueSerializer.deserialize(this)
+    protected fun JsonObject.toOpenApiSchema(): OpenApiSchema = OpenApiSchemaSerializer.deserialize(this)
     protected fun JsonObject.toOpenApiSchemaReference(): OpenApiSchemaReference {
-        val valueSerializer = OpenApiSchemaSerializer()
+        val valueSerializer = OpenApiSchemaSerializer
         return OpenApiReferenceOfSerializer(valueSerializer).deserialize(this)
     }
 

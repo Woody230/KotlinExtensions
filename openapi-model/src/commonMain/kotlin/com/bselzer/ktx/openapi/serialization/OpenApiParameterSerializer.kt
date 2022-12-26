@@ -10,7 +10,7 @@ import com.bselzer.ktx.serialization.context.*
 import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() {
+object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() {
     override fun JsonObject.deserialize(): OpenApiParameter {
         val `in`: OpenApiParameterIn = with(JsonContext) { getContent("in").decode() }
 
@@ -42,8 +42,8 @@ class OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() {
             allowReserved = getBooleanOrFalse("allowReserved"),
             schema = getObject("schema") { it.toOpenApiSchemaReference() },
             example = getObject("example") { OpenApiExampleValue(it.toOpenApiValue()) },
-            examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer()).deserialize(it) },
-            content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer().deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
+            examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer).deserialize(it) },
+            content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )
     }

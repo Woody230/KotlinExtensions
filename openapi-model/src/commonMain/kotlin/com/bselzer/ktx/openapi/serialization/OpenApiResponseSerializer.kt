@@ -7,12 +7,12 @@ import com.bselzer.ktx.serialization.context.getContent
 import com.bselzer.ktx.serialization.context.getObjectMapOrEmpty
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiResponseSerializer : OpenApiObjectSerializer<OpenApiResponse>() {
+object OpenApiResponseSerializer : OpenApiObjectSerializer<OpenApiResponse>() {
     override fun JsonObject.deserialize(): OpenApiResponse = OpenApiResponse(
         description = OpenApiDescription(getContent("description")),
-        headers = getObjectMapOrEmpty("headers") { OpenApiReferenceOfSerializer(OpenApiHeaderSerializer()).deserialize(it) },
-        content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer().deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
-        links = getObjectMapOrEmpty("links") { OpenApiReferenceOfSerializer(OpenApiLinkSerializer()).deserialize(it) },
+        headers = getObjectMapOrEmpty("headers") { OpenApiReferenceOfSerializer(OpenApiHeaderSerializer).deserialize(it) },
+        content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
+        links = getObjectMapOrEmpty("links") { OpenApiReferenceOfSerializer(OpenApiLinkSerializer).deserialize(it) },
         extensions = getOpenApiExtensions()
     )
 }

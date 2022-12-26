@@ -8,7 +8,7 @@ import com.bselzer.ktx.serialization.context.*
 import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
+object OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
     override fun JsonObject.deserialize(): OpenApiHeader {
         val style = getContentOrNull("style")?.decode() ?: OpenApiParameterStyle.SIMPLE
 
@@ -27,8 +27,8 @@ class OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
             allowReserved = getBooleanOrFalse("allowReserved"),
             schema = getObject("schema") { it.toOpenApiSchemaReference() },
             example = getObject("example") { OpenApiExampleValue(it.toOpenApiValue()) },
-            examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer()).deserialize(it) },
-            content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer().deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
+            examples = getObjectMapOrEmpty("examples") { OpenApiReferenceOfSerializer(OpenApiExampleSerializer).deserialize(it) },
+            content = getObjectMapOrEmpty("content") { OpenApiMediaTypeSerializer.deserialize(it) }.mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )
     }

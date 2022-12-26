@@ -13,7 +13,7 @@ import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
-class OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
+object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
     override fun JsonObject.deserialize(): OpenApiSchema = OpenApiSchemaComposite(
         example = get("example")?.let { OpenApiExampleValue(it.toOpenApiValue()) },
         examples = getListOrEmpty("examples") { OpenApiExampleValue(it.toOpenApiValue()) },
@@ -45,8 +45,8 @@ class OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
         minItems = getIntOrNull("minItems"),
         maxItems = getIntOrNull("maxItems"),
         uniqueItems = getBooleanOrNull("uniqueItems"),
-        discriminator = getObjectOrNull("discriminator") { OpenApiDiscriminatorSerializer().deserialize(it) },
-        xml = getObjectOrNull("xml") { OpenApiXmlSerializer().deserialize(it) },
+        discriminator = getObjectOrNull("discriminator") { OpenApiDiscriminatorSerializer.deserialize(it) },
+        xml = getObjectOrNull("xml") { OpenApiXmlSerializer.deserialize(it) },
         properties = getObjectMapOrEmpty("properties") { it.toOpenApiSchemaReference() }.mapKeys { entry -> OpenApiPropertyName(entry.key) },
         patternProperties = getObjectMapOrEmpty("patternProperties") { it.toOpenApiSchemaReference() }.mapKeys { entry -> OpenApiPropertyName(entry.key) },
         additionalProperties = getObjectOrNull("additionalProperties") { it.toOpenApiSchemaReference() },

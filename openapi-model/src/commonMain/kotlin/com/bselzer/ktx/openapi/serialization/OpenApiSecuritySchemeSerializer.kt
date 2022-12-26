@@ -8,7 +8,7 @@ import com.bselzer.ktx.serialization.context.getContentOrNull
 import com.bselzer.ktx.serialization.context.getObject
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityScheme>() {
+object OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityScheme>() {
     override fun JsonObject.deserialize(): OpenApiSecurityScheme {
         val type = getContent("type").decode<OpenApiSecuritySchemeType>()
         return when (type) {
@@ -38,7 +38,7 @@ class OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityS
 
     private fun JsonObject.toOAuth2SecurityScheme() = OAuth2SecurityScheme(
         description = getDescriptionOrNull("description"),
-        flows = getObject("flows") { OpenApiOAuthFlowsSerializer().deserialize(it) }
+        flows = getObject("flows") { OpenApiOAuthFlowsSerializer.deserialize(it) }
     )
 
     private fun JsonObject.toOpenIdConnectSecurityScheme() = OpenIdConnectSecurityScheme(

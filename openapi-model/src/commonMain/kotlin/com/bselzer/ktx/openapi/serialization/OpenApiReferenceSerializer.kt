@@ -6,7 +6,7 @@ import com.bselzer.ktx.serialization.context.getContent
 import com.bselzer.ktx.serialization.context.getContentOrNull
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiReferenceSerializer : OpenApiObjectSerializer<OpenApiReference>() {
+object OpenApiReferenceSerializer : OpenApiObjectSerializer<OpenApiReference>() {
     override fun JsonObject.deserialize(): OpenApiReference = OpenApiReference(
         `$ref` = OpenApiReferenceIdentifier(getContent("\$ref")),
         summary = getContentOrNull("summary"),

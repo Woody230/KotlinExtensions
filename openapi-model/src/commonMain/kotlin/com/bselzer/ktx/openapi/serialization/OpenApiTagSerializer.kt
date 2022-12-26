@@ -4,7 +4,7 @@ import com.bselzer.ktx.openapi.model.OpenApiTag
 import com.bselzer.ktx.serialization.context.getContent
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiTagSerializer : OpenApiObjectSerializer<OpenApiTag>() {
+object OpenApiTagSerializer : OpenApiObjectSerializer<OpenApiTag>() {
     override fun JsonObject.deserialize(): OpenApiTag = OpenApiTag(
         name = getContent("name"),
         description = getDescriptionOrNull("description"),

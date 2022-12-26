@@ -6,10 +6,10 @@ import com.bselzer.ktx.serialization.context.getObjectMapOrEmpty
 import com.bselzer.ktx.serialization.context.getObjectOrNull
 import kotlinx.serialization.json.JsonObject
 
-class OpenApiResponsesSerializer : OpenApiObjectSerializer<OpenApiResponses>() {
+object OpenApiResponsesSerializer : OpenApiObjectSerializer<OpenApiResponses>() {
     override fun JsonObject.deserialize(): OpenApiResponses = OpenApiResponses(
-        default = getObjectOrNull("default") { OpenApiReferenceOfSerializer(OpenApiResponseSerializer()).deserialize(it) },
-        responses = getObjectMapOrEmpty("responses") { OpenApiReferenceOfSerializer(OpenApiResponseSerializer()).deserialize(it) }.mapKeys { entry ->
+        default = getObjectOrNull("default") { OpenApiReferenceOfSerializer(OpenApiResponseSerializer).deserialize(it) },
+        responses = getObjectMapOrEmpty("responses") { OpenApiReferenceOfSerializer(OpenApiResponseSerializer).deserialize(it) }.mapKeys { entry ->
             OpenApiHttpStatusCode(
                 entry.key
             )
