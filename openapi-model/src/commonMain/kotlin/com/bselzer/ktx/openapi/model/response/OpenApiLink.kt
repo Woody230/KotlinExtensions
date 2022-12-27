@@ -1,8 +1,12 @@
 package com.bselzer.ktx.openapi.model.response
 
-import com.bselzer.ktx.openapi.model.*
+import com.bselzer.ktx.openapi.model.OpenApiDescription
+import com.bselzer.ktx.openapi.model.OpenApiExtensible
+import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.model.OpenApiValueOrRuntimeExpression
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 import com.bselzer.ktx.openapi.model.path.OpenApiOperationId
+import com.bselzer.ktx.openapi.model.reference.OpenApiReferencePath
 import com.bselzer.ktx.openapi.model.server.OpenApiServer
 
 /**
@@ -16,7 +20,7 @@ data class OpenApiLink(
     /**
      * A relative or absolute URI reference to an OAS operation. This field is mutually exclusive of the operationId field, and MUST point to an Operation Object. Relative operationRef values MAY be used to locate an existing Operation Object in the OpenAPI definition. See the rules for resolving Relative References.
      */
-    val operationRef: OpenApiReferenceIdentifier,
+    val operationRef: OpenApiReferencePath,
 
     /**
      * The name of an existing, resolvable OAS operation, as defined with a unique operationId. This field is mutually exclusive of the operationRef field.

@@ -1,6 +1,6 @@
 package com.bselzer.ktx.openapi.serialization
 
-import com.bselzer.ktx.openapi.model.OpenApiReferenceOf
+import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
 import kotlinx.serialization.json.JsonObject
 
 class OpenApiReferenceOfSerializer<T>(

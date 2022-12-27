@@ -1,6 +1,7 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.expression.OpenApiRuntimeExpression
+import com.bselzer.ktx.openapi.model.reference.OpenApiReference
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 class OpenApiValueOrRuntimeExpression {

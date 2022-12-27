@@ -1,4 +1,6 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.reference
+
+import com.bselzer.ktx.openapi.model.OpenApiDescription
 
 /**
  * A simple object to allow referencing other components in the OpenAPI document, internally and externally.
@@ -12,7 +14,7 @@ data class OpenApiReference(
     /**
      * REQUIRED. The reference identifier. This MUST be in the form of a URI.
      */
-    val `$ref`: OpenApiReferenceIdentifier,
+    val `$ref`: OpenApiReferencePath,
 
     /**
      * A short summary which by default SHOULD override that of the referenced component. If the referenced object-type does not allow a summary field, then this field has no effect.

@@ -2,6 +2,7 @@ package com.bselzer.ktx.openapi.model.path
 
 import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
+import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
 

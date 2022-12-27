@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.model
+package com.bselzer.ktx.openapi.model.reference
 
 /**
  * A wrapper of a value of type [T] or a reference to the value.

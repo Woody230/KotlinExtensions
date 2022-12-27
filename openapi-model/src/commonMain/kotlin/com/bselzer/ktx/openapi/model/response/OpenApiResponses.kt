@@ -2,7 +2,7 @@ package com.bselzer.ktx.openapi.model.response
 
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.model.OpenApiReferenceOf
+import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
 
 /**
  * A container for the expected responses of an operation. The container maps a HTTP response code to the expected response.
