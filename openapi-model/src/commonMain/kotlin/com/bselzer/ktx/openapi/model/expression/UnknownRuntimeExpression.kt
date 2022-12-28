@@ -3,4 +3,6 @@ package com.bselzer.ktx.openapi.model.expression
 import kotlin.jvm.JvmInline
 
 @JvmInline
-value class UnknownRuntimeExpression(override val value: String) : OpenApiRuntimeExpression
+value class UnknownRuntimeExpression internal constructor(private val expression: String) : OpenApiRuntimeExpression {
+    override fun toString(): String = expression
+}
