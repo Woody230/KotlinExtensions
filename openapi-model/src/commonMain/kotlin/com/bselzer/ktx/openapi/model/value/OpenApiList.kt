@@ -3,7 +3,7 @@ package com.bselzer.ktx.openapi.model.value
 import kotlin.jvm.JvmInline
 
 @JvmInline
-value class OpenApiList(val value: List<OpenApiValue>) : OpenApiValue, List<OpenApiValue> {
+value class OpenApiList(private val value: List<OpenApiValue>) : OpenApiValue, List<OpenApiValue> {
     override val size: Int
         get() = value.size
 
@@ -17,4 +17,6 @@ value class OpenApiList(val value: List<OpenApiValue>) : OpenApiValue, List<Open
     override fun listIterator(): ListIterator<OpenApiValue> = value.listIterator()
     override fun listIterator(index: Int): ListIterator<OpenApiValue> = value.listIterator(index)
     override fun subList(fromIndex: Int, toIndex: Int): List<OpenApiValue> = value.subList(fromIndex, toIndex)
+
+    override fun toString(): String = value.toString()
 }

@@ -17,4 +17,6 @@ value class OpenApiMap(val value: Map<String, OpenApiValue>) : OpenApiValue, Map
     override fun containsValue(value: OpenApiValue): Boolean = this.value.containsValue(value)
     override fun get(key: String): OpenApiValue? = value[key]
     override fun isEmpty(): Boolean = value.isEmpty()
+
+    override fun toString(): String = value.toString()
 }
