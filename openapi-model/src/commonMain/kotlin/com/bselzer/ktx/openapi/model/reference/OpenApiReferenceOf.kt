@@ -1,8 +1,11 @@
 package com.bselzer.ktx.openapi.model.reference
 
+import com.bselzer.ktx.openapi.serialization.OpenApiReferenceOfSerializer
+
 /**
  * A wrapper of a value of type [T] or a reference to the value.
  */
+@kotlinx.serialization.Serializable(OpenApiReferenceOfSerializer::class)
 class OpenApiReferenceOf<T> {
     @PublishedApi
     internal val value: Any?
