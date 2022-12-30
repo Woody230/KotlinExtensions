@@ -2,7 +2,7 @@ package com.bselzer.ktx.openapi.serialization
 
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
-import com.bselzer.ktx.openapi.model.reference.OpenApiReferencePathFactory
+import com.bselzer.ktx.openapi.model.reference.toOpenApiReferencePath
 import com.bselzer.ktx.openapi.model.schema.OpenApiPropertyName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaComposite
@@ -72,9 +72,9 @@ object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
         exclusiveMinimum = getDoubleOrNull("exclusiveMinimum"),
         maximum = getDoubleOrNull("maximum"),
         exclusiveMaximum = getDoubleOrNull("exclusiveMaximum"),
-        `$id` = getContentOrNull("\$id")?.let { OpenApiReferencePathFactory(it).referencePath },
-        `$anchor` = getContentOrNull("\$anchor")?.let { OpenApiReferencePathFactory(it).referencePath },
-        `$defs` = getObjectMapOrEmpty("\$defs", ::deserialize).mapKeys { entry -> OpenApiReferencePathFactory(entry.key).referencePath }
+        `$id` = getContentOrNull("\$id")?.let(String::toOpenApiReferencePath),
+        `$anchor` = getContentOrNull("\$anchor")?.let(String::toOpenApiReferencePath),
+        `$defs` = getObjectMapOrEmpty("\$defs", ::deserialize).mapKeys { entry -> entry.key.toOpenApiReferencePath() }
     )
 
     private fun JsonObject.getDependentRequired(key: String): Map<OpenApiPropertyName, Set<OpenApiPropertyName>> {

@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.expression
 
-class RuntimeExpressionFactory(value: String) {
-    val expression: OpenApiRuntimeExpression = when {
+fun String.toOpenApiRuntimeExpression(): OpenApiRuntimeExpression = let { value ->
+    when {
         value.isBlank() -> UnknownRuntimeExpression(value)
         !value.startsWith('$') -> CompositeRuntimeExpression(value)
         value == UrlRuntimeExpression.toString() -> UrlRuntimeExpression

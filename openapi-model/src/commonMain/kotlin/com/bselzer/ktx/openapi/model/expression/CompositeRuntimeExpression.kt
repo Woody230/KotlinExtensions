@@ -13,7 +13,7 @@ class CompositeRuntimeExpression internal constructor(
     val subExpressions: Sequence<OpenApiRuntimeExpression> = run {
         val groups = Regex("(?<expression>\$[^}]*)").findAll(expression).map { match -> match.groups }
         val expressions = groups.mapNotNull { group -> group.firstOrNull()?.value }
-        expressions.map { value -> RuntimeExpressionFactory(value).expression }
+        expressions.map(String::toOpenApiRuntimeExpression)
     }
 
     override fun toString(): String = expression
