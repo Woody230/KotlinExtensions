@@ -7,7 +7,7 @@ data class OpenApiTag(
     /**
      * REQUIRED. The name of the tag.
      */
-    val name: String,
+    val name: OpenApiTagName,
 
     /**
      * A description for the tag. CommonMark syntax MAY be used for rich text representation.
