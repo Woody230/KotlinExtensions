@@ -2,7 +2,9 @@ package com.bselzer.ktx.openapi.model.security.flow
 
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.serialization.OpenApiOAuthFlowsSerializer
 
+@kotlinx.serialization.Serializable(OpenApiOAuthFlowsSerializer::class)
 data class OpenApiOAuthFlows(
     /**
      * Configuration for the OAuth Implicit flow

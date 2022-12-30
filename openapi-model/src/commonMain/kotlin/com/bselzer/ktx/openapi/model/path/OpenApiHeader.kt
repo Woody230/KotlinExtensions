@@ -5,7 +5,9 @@ import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterStyle
 import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
+import com.bselzer.ktx.openapi.serialization.OpenApiHeaderSerializer
 
+@kotlinx.serialization.Serializable(OpenApiHeaderSerializer::class)
 data class OpenApiHeader(
     /**
      * A brief description of the parameter. This could contain examples of use. CommonMark syntax MAY be used for rich text representation.

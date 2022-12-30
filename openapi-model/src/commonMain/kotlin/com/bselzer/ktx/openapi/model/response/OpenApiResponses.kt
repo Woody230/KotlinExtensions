@@ -3,6 +3,7 @@ package com.bselzer.ktx.openapi.model.response
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
+import com.bselzer.ktx.openapi.serialization.OpenApiResponsesSerializer
 
 /**
  * A container for the expected responses of an operation. The container maps a HTTP response code to the expected response.
@@ -13,6 +14,7 @@ import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
  *
  * The Responses Object MUST contain at least one response code, and if only one response code is provided it SHOULD be the response for a successful operation call.
  */
+@kotlinx.serialization.Serializable(OpenApiResponsesSerializer::class)
 data class OpenApiResponses(
     /**
      * The documentation of responses other than the ones declared for specific HTTP response codes. Use this field to cover undeclared responses.

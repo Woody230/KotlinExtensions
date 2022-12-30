@@ -1,10 +1,12 @@
 package com.bselzer.ktx.openapi.model.response
 
 import com.bselzer.ktx.openapi.model.*
+import com.bselzer.ktx.openapi.serialization.OpenApiResponseSerializer
 
 /**
  * Describes a single response from an API Operation, including design-time, static links to operations based on the response.
  */
+@kotlinx.serialization.Serializable(OpenApiResponseSerializer::class)
 data class OpenApiResponse(
     /**
      * REQUIRED. A description of the response. CommonMark syntax MAY be used for rich text representation.

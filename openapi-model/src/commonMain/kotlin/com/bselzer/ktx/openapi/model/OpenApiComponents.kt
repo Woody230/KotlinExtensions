@@ -8,10 +8,12 @@ import com.bselzer.ktx.openapi.model.response.OpenApiResponse
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScheme
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecuritySchemeName
+import com.bselzer.ktx.openapi.serialization.OpenApiComponentsSerializer
 
 /**
  * Holds a set of reusable objects for different aspects of the OAS. All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
  */
+@kotlinx.serialization.Serializable(OpenApiComponentsSerializer::class)
 data class OpenApiComponents(
     /**
      * An object to hold reusable Schema Objects.

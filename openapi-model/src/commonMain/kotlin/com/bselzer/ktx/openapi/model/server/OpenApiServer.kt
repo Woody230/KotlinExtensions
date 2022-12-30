@@ -4,10 +4,12 @@ import com.bselzer.ktx.openapi.model.OpenApiDescription
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiUrl
+import com.bselzer.ktx.openapi.serialization.OpenApiServerSerializer
 
 /**
  * An object representing a Server.
  */
+@kotlinx.serialization.Serializable(OpenApiServerSerializer::class)
 data class OpenApiServer(
     /**
      * REQUIRED. A URL to the target host. This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the OpenAPI document is being served. Variable substitutions will be made when a variable is named in {brackets}.

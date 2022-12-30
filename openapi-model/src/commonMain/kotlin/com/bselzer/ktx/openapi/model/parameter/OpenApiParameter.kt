@@ -4,12 +4,14 @@ import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
+import com.bselzer.ktx.openapi.serialization.OpenApiParameterSerializer
 
 /**
  * Describes a single operation parameter.
  *
  * A unique parameter is defined by a combination of a name and location
  */
+@kotlinx.serialization.Serializable(OpenApiParameterSerializer::class)
 data class OpenApiParameter(
     /**
      * REQUIRED. The name of the parameter. Parameter names are case sensitive.

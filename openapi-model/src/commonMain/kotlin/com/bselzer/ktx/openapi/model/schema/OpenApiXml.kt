@@ -2,12 +2,14 @@ package com.bselzer.ktx.openapi.model.schema
 
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.serialization.OpenApiXmlSerializer
 
 /**
  * A metadata object that allows for more fine-tuned XML model definitions.
  *
  * When using arrays, XML element names are not inferred (for singular/plural forms) and the name property SHOULD be used to add that information. See examples for expected behavior.
  */
+@kotlinx.serialization.Serializable(OpenApiXmlSerializer::class)
 data class OpenApiXml(
     /**
      * Replaces the name of the element/attribute used for the described schema property. When defined within items, it will affect the name of the individual XML elements within the list. When defined alongside type being array (outside the items), it will affect the wrapping element and only if wrapped is true. If wrapped is false, it will be ignored.

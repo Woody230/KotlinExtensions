@@ -3,10 +3,12 @@ package com.bselzer.ktx.openapi.model.path
 import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
 import com.bselzer.ktx.openapi.model.response.OpenApiResponses
+import com.bselzer.ktx.openapi.serialization.OpenApiOperationSerializer
 
 /**
  * Describes a single API operation on a path.
  */
+@kotlinx.serialization.Serializable(OpenApiOperationSerializer::class)
 data class OpenApiOperation(
     /**
      * A list of tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier.

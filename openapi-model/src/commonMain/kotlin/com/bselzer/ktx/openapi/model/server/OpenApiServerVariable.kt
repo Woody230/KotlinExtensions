@@ -3,10 +3,12 @@ package com.bselzer.ktx.openapi.model.server
 import com.bselzer.ktx.openapi.model.OpenApiDescription
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
+import com.bselzer.ktx.openapi.serialization.OpenApiServerVariableSerializer
 
 /**
  * An object representing a Server Variable for server URL template substitution.
  */
+@kotlinx.serialization.Serializable(OpenApiServerVariableSerializer::class)
 data class OpenApiServerVariable(
     /**
      * An enumeration of string values to be used if the substitution options are from a limited set. The array MUST NOT be empty.

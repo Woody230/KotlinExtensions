@@ -1,6 +1,7 @@
 package com.bselzer.ktx.openapi.model.reference
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
+import com.bselzer.ktx.openapi.serialization.OpenApiReferenceSerializer
 
 /**
  * A simple object to allow referencing other components in the OpenAPI document, internally and externally.
@@ -10,6 +11,7 @@ import com.bselzer.ktx.openapi.model.OpenApiDescription
  * This object cannot be extended with additional properties and any properties added SHALL be ignored.
  * Note that this restriction on additional properties is a difference between Reference Objects and Schema Objects that contain a $ref keyword.
  */
+@kotlinx.serialization.Serializable(OpenApiReferenceSerializer::class)
 data class OpenApiReference(
     /**
      * REQUIRED. The reference identifier. This MUST be in the form of a URI.
