@@ -1,14 +1,16 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.expression.OpenApiRuntimeExpression
-import com.bselzer.ktx.openapi.model.reference.OpenApiReference
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
 import com.bselzer.ktx.openapi.serialization.OpenApiValueOrRuntimeExpressionSerializer
 
 @kotlinx.serialization.Serializable(OpenApiValueOrRuntimeExpressionSerializer::class)
 class OpenApiValueOrRuntimeExpression {
     @PublishedApi
-    internal val value: Any?
+    internal val value: OpenApiValue?
+
+    @PublishedApi
+    internal val expression: OpenApiRuntimeExpression?
 
     /**
      * Initializes a new instance of the [OpenApiValueOrRuntimeExpression] class.
@@ -17,6 +19,7 @@ class OpenApiValueOrRuntimeExpression {
      */
     constructor(value: OpenApiValue) {
         this.value = value
+        this.expression = null
     }
 
     /**
@@ -25,18 +28,21 @@ class OpenApiValueOrRuntimeExpression {
      * @param expression the expression
      */
     constructor(expression: OpenApiRuntimeExpression) {
-        this.value = expression
+        this.value = null
+        this.expression = expression
     }
 
     /**
-     * Resolve the cases where the value is either of type [T], or is a reference.
+     * Resolve the cases where the value is either an [OpenApiValue], or an expression
      */
-    inline fun resolve(
+    fun resolve(
         onValue: (OpenApiValue) -> Unit,
-        onExpression: (OpenApiReference) -> Unit
-    ) = when (value) {
-        is OpenApiValue -> onValue(value)
-        is OpenApiReference -> onExpression(value)
-        else -> {}
+        onExpression: (OpenApiRuntimeExpression) -> Unit
+    ) {
+        if (value != null) {
+            onValue(value)
+        } else if (expression != null) {
+            onExpression(expression)
+        }
     }
 }
