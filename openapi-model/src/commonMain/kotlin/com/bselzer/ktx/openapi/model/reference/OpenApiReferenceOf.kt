@@ -3,40 +3,46 @@ package com.bselzer.ktx.openapi.model.reference
 import com.bselzer.ktx.openapi.serialization.OpenApiReferenceOfSerializer
 
 /**
- * A wrapper of a value of type [T] or a reference to the value.
+ * A wrapper of a value of type [TValue] or a reference to the value.
  */
 @kotlinx.serialization.Serializable(OpenApiReferenceOfSerializer::class)
-class OpenApiReferenceOf<T> {
+class OpenApiReferenceOf<TValue> {
     @PublishedApi
-    internal val value: Any?
+    internal val value: TValue?
+
+    @PublishedApi
+    internal val reference: OpenApiReference?
 
     /**
      * Initializes a new instance of the [OpenApiReferenceOf] class.
      *
      * @param value an actual value
      */
-    constructor(value: T) {
+    constructor(value: TValue) {
         this.value = value
+        this.reference = null
     }
 
     /**
      * Initializes a new instance of the [OpenApiReferenceOf] class.
      *
-     * @param reference a reference to a value of type [T]
+     * @param reference a reference to a value of type [TValue]
      */
     constructor(reference: OpenApiReference) {
-        this.value = reference
+        this.value = null
+        this.reference = reference
     }
 
     /**
-     * Resolve the cases where the value is either of type [T], or is a reference.
+     * Resolve the cases where the value is either of type [TValue], or is a reference.
      */
-    inline fun <reified T> resolve(
-        onValue: (T) -> Unit,
+    fun resolve(
+        onValue: (TValue) -> Unit,
         onReference: (OpenApiReference) -> Unit
-    ) = when (value) {
-        is T -> onValue(value)
-        is OpenApiReference -> onReference(value)
-        else -> {}
+    ) {
+        when {
+            value != null -> onValue(value)
+            reference != null -> onReference(reference)
+        }
     }
 }
