@@ -11,7 +11,7 @@ object OpenApiMediaTypeSerializer : OpenApiObjectSerializer<OpenApiMediaType>() 
     override fun JsonObject.deserialize(): OpenApiMediaType = OpenApiMediaType(
         schema = getObjectOrNull("schema", OpenApiSchemaSerializer::deserialize),
         example = getObject("example", OpenApiValueSerializer::deserialize),
-        examples = getObjectMapOrEmpty("examples", OpenApiReferenceOfSerializer(OpenApiExampleSerializer)::deserialize),
+        examples = getObjectMapOrEmpty("examples", ReferenceOfOpenApiExampleSerializer::deserialize),
         encoding = getObjectMapOrEmpty("encoding", OpenApiEncodingSerializer::deserialize).mapKeys { entry -> OpenApiEncodingName(entry.key) },
         extensions = getOpenApiExtensions()
     )

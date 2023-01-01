@@ -2,7 +2,6 @@ package com.bselzer.ktx.openapi.serialization
 
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
-import com.bselzer.ktx.openapi.model.reference.toOpenApiReferencePath
 import com.bselzer.ktx.openapi.model.schema.OpenApiPropertyName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaComposite
@@ -35,9 +34,9 @@ object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
         `if` = getObjectOrNull("if", ::deserialize),
         then = getObjectOrNull("then", ::deserialize),
         `else` = getObjectOrNull("else", ::deserialize),
-        items = getObjectOrNull("items", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
-        prefixItems = getObjectListOrEmpty("prefixItems", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
-        contains = getObjectOrNull("contains", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
+        items = getObjectOrNull("items", ReferenceOfOpenApiSchemaSerializer::deserialize),
+        prefixItems = getObjectListOrEmpty("prefixItems", ReferenceOfOpenApiSchemaSerializer::deserialize),
+        contains = getObjectOrNull("contains", ReferenceOfOpenApiSchemaSerializer::deserialize),
         minContains = getIntOrNull("minContains"),
         maxContains = getIntOrNull("maxContains"),
         minItems = getIntOrNull("minItems"),
@@ -45,21 +44,21 @@ object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
         uniqueItems = getBooleanOrNull("uniqueItems"),
         discriminator = getObjectOrNull("discriminator", OpenApiDiscriminatorSerializer::deserialize),
         xml = getObjectOrNull("xml", OpenApiXmlSerializer::deserialize),
-        properties = getObjectMapOrEmpty("properties", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize).mapKeys { entry -> OpenApiPropertyName(entry.key) },
+        properties = getObjectMapOrEmpty("properties", ReferenceOfOpenApiSchemaSerializer::deserialize).mapKeys { entry -> OpenApiPropertyName(entry.key) },
         patternProperties = getObjectMapOrEmpty(
             "patternProperties",
-            OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize
+            ReferenceOfOpenApiSchemaSerializer::deserialize
         ).mapKeys { entry -> OpenApiPropertyName(entry.key) },
-        additionalProperties = getObjectOrNull("additionalProperties", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
+        additionalProperties = getObjectOrNull("additionalProperties", ReferenceOfOpenApiSchemaSerializer::deserialize),
         unevaluatedProperties = getBooleanOrNull("unevaluatedProperties"),
         required = getEnumListOrEmpty<OpenApiPropertyName>("required").toSet(),
         dependentRequired = getDependentRequired("dependentRequired"),
-        dependentSchemas = getObjectMapOrEmpty("dependentSchemas", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize).mapKeys { entry ->
+        dependentSchemas = getObjectMapOrEmpty("dependentSchemas", ReferenceOfOpenApiSchemaSerializer::deserialize).mapKeys { entry ->
             OpenApiPropertyName(
                 entry.key
             )
         },
-        propertyNames = getObjectOrNull("propertyNames", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
+        propertyNames = getObjectOrNull("propertyNames", ReferenceOfOpenApiSchemaSerializer::deserialize),
         minProperties = getIntOrNull("minProperties"),
         maxProperties = getIntOrNull("maxProperties"),
         minLength = getIntOrNull("minLength"),
@@ -71,10 +70,7 @@ object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
         minimum = getDoubleOrNull("minimum"),
         exclusiveMinimum = getDoubleOrNull("exclusiveMinimum"),
         maximum = getDoubleOrNull("maximum"),
-        exclusiveMaximum = getDoubleOrNull("exclusiveMaximum"),
-        `$id` = getContentOrNull("\$id")?.let(String::toOpenApiReferencePath),
-        `$anchor` = getContentOrNull("\$anchor")?.let(String::toOpenApiReferencePath),
-        `$defs` = getObjectMapOrEmpty("\$defs", ::deserialize).mapKeys { entry -> entry.key.toOpenApiReferencePath() }
+        exclusiveMaximum = getDoubleOrNull("exclusiveMaximum")
     )
 
     private fun JsonObject.getDependentRequired(key: String): Map<OpenApiPropertyName, Set<OpenApiPropertyName>> {

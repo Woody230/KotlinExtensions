@@ -1,14 +1,12 @@
 package com.bselzer.ktx.openapi.model.path
 
 import com.bselzer.ktx.openapi.model.*
-import com.bselzer.ktx.openapi.model.reference.OpenApiReferenceOf
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiRequestBody
 import com.bselzer.ktx.openapi.model.response.OpenApiResponses
-import com.bselzer.ktx.openapi.serialization.OpenApiOperationSerializer
 
 /**
  * Describes a single API operation on a path.
  */
-@kotlinx.serialization.Serializable(OpenApiOperationSerializer::class)
 data class OpenApiOperation(
     /**
      * A list of tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier.
@@ -43,7 +41,7 @@ data class OpenApiOperation(
     /**
      * The request body applicable for this operation. The requestBody is fully supported in HTTP methods where the HTTP 1.1 specification [RFC7231] has explicitly defined semantics for request bodies. In other cases where the HTTP spec is vague (such as GET, HEAD and DELETE), requestBody is permitted but does not have well-defined semantics and SHOULD be avoided if possible.
      */
-    val requestBody: OpenApiReferenceOf<OpenApiRequestBody>? = null,
+    val requestBody: ReferenceOfOpenApiRequestBody? = null,
 
     /**
      * The list of possible responses as they are returned from executing this operation.

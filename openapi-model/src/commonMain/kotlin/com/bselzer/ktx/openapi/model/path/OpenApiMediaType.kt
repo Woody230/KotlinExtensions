@@ -6,12 +6,10 @@ import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
-import com.bselzer.ktx.openapi.serialization.OpenApiMediaTypeSerializer
 
 /**
  * Each Media Type Object provides schema and examples for the media type identified by its key.
  */
-@kotlinx.serialization.Serializable(OpenApiMediaTypeSerializer::class)
 data class OpenApiMediaType(
     /**
      * The schema defining the content of the request, response, or parameter.

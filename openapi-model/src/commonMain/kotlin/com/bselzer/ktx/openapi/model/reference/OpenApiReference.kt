@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.model.reference
 
 import com.bselzer.ktx.openapi.model.OpenApiDescription
-import com.bselzer.ktx.openapi.serialization.OpenApiReferenceSerializer
+import com.bselzer.ktx.openapi.model.reference.path.OpenApiReferencePath
 
 /**
  * A simple object to allow referencing other components in the OpenAPI document, internally and externally.
@@ -11,12 +11,11 @@ import com.bselzer.ktx.openapi.serialization.OpenApiReferenceSerializer
  * This object cannot be extended with additional properties and any properties added SHALL be ignored.
  * Note that this restriction on additional properties is a difference between Reference Objects and Schema Objects that contain a $ref keyword.
  */
-@kotlinx.serialization.Serializable(OpenApiReferenceSerializer::class)
-data class OpenApiReference(
+data class OpenApiReference<TReferencePath>(
     /**
      * REQUIRED. The reference identifier. This MUST be in the form of a URI.
      */
-    val `$ref`: OpenApiReferencePath,
+    val `$ref`: TReferencePath,
 
     /**
      * A short summary which by default SHOULD override that of the referenced component. If the referenced object-type does not allow a summary field, then this field has no effect.
@@ -27,4 +26,4 @@ data class OpenApiReference(
      * A description which by default SHOULD override that of the referenced component. CommonMark syntax MAY be used for rich text representation. If the referenced object-type does not allow a description field, then this field has no effect.
      */
     val description: OpenApiDescription? = null
-)
+) where TReferencePath : OpenApiReferencePath

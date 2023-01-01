@@ -2,7 +2,6 @@ package com.bselzer.ktx.openapi.serialization
 
 import com.bselzer.ktx.openapi.model.path.OpenApiOperation
 import com.bselzer.ktx.openapi.model.path.OpenApiPathItem
-import com.bselzer.ktx.openapi.model.reference.toOpenApiReferencePath
 import com.bselzer.ktx.serialization.context.getContentOrNull
 import com.bselzer.ktx.serialization.context.getObjectListOrEmpty
 import com.bselzer.ktx.serialization.context.getObjectOrNull
@@ -10,7 +9,7 @@ import kotlinx.serialization.json.JsonObject
 
 object OpenApiPathItemSerializer : OpenApiObjectSerializer<OpenApiPathItem>() {
     override fun JsonObject.deserialize(): OpenApiPathItem = OpenApiPathItem(
-        `$ref` = getContentOrNull("\$ref")?.let(String::toOpenApiReferencePath),
+        `$ref` = getContentOrNull("\$ref")?.let(PathItemReferencePathSerializer::deserialize),
         summary = getContentOrNull("summary"),
         description = getDescriptionOrNull("description"),
         get = getOperationOrNull("get"),
@@ -22,7 +21,7 @@ object OpenApiPathItemSerializer : OpenApiObjectSerializer<OpenApiPathItem>() {
         patch = getOperationOrNull("patch"),
         trace = getOperationOrNull("trace"),
         servers = getObjectListOrEmpty("servers", OpenApiServerSerializer::deserialize),
-        parameters = getObjectListOrEmpty("parameters", OpenApiReferenceOfSerializer(OpenApiParameterSerializer)::deserialize),
+        parameters = getObjectListOrEmpty("parameters", ReferenceOfOpenApiParameterSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )
 

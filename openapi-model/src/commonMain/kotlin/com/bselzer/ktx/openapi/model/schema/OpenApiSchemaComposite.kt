@@ -3,7 +3,6 @@ package com.bselzer.ktx.openapi.model.schema
 import com.bselzer.ktx.openapi.model.*
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
-import com.bselzer.ktx.openapi.model.reference.OpenApiReferencePath
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 data class OpenApiSchemaComposite(
@@ -73,11 +72,6 @@ data class OpenApiSchemaComposite(
     override val exclusiveMinimum: Double? = null,
     override val maximum: Double? = null,
     override val exclusiveMaximum: Double? = null,
-
-    // Structure
-    override val `$id`: OpenApiReferencePath? = null,
-    override val `$anchor`: OpenApiReferencePath? = null,
-    override val `$defs`: Map<OpenApiReferencePath, OpenApiSchema> = emptyMap()
 ) : OpenApiSchema {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }

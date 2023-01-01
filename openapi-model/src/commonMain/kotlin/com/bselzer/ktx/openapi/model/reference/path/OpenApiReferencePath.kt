@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.model.reference
+package com.bselzer.ktx.openapi.model.reference.path
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 /**
  * Represents a path to a component within a document.
  */
-data class OpenApiReferencePath(
+sealed class OpenApiReferencePath(
     /**
      * The path to the document. The location may be local or remote.
      */
@@ -15,7 +15,7 @@ data class OpenApiReferencePath(
     /**
      * The type of component being referenced.
      */
-    val component: OpenApiReferenceComponent,
+    val component: ReferencePathComponent,
 
     /**
      * The name of the component being referenced.

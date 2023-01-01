@@ -11,7 +11,7 @@ object OpenApiSerializer : OpenApiObjectSerializer<OpenApi>() {
         jsonSchemaDialect = getContentOrNull("jsonSchemaDialect") ?: "https://spec.openapis.org/oas/3.1/dialect/base",
         servers = getObjectListOrEmpty("servers", OpenApiServerSerializer::deserialize),
         paths = getObject("paths", OpenApiPathsSerializer::deserialize),
-        webhooks = getObjectMapOrEmpty("webhooks", OpenApiReferenceOfSerializer(OpenApiPathItemSerializer)::deserialize),
+        webhooks = getObjectMapOrEmpty("webhooks", ReferenceOfOpenApiPathItemSerializer::deserialize),
         components = getObjectOrNull("components", OpenApiComponentsSerializer::deserialize),
         security = getObjectListOrEmpty("security", OpenApiSecurityRequirementSerializer::deserialize),
         tags = getObjectListOrEmpty("tags", OpenApiTagSerializer::deserialize),

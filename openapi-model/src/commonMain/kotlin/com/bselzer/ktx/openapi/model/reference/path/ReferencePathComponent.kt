@@ -1,9 +1,9 @@
-package com.bselzer.ktx.openapi.model.reference
+package com.bselzer.ktx.openapi.model.reference.path
 
 import kotlinx.serialization.SerialName
 
 @kotlinx.serialization.Serializable
-enum class OpenApiReferenceComponent {
+enum class ReferencePathComponent {
     @SerialName("schemas")
     SCHEMA,
 

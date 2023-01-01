@@ -2,9 +2,7 @@ package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.expression.OpenApiRuntimeExpression
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
-import com.bselzer.ktx.openapi.serialization.OpenApiValueOrRuntimeExpressionSerializer
 
-@kotlinx.serialization.Serializable(OpenApiValueOrRuntimeExpressionSerializer::class)
 class OpenApiValueOrRuntimeExpression {
     @PublishedApi
     internal val value: OpenApiValue?

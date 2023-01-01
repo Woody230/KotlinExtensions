@@ -6,9 +6,8 @@ import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiValueOrRuntimeExpression
 import com.bselzer.ktx.openapi.model.parameter.OpenApiParameterName
 import com.bselzer.ktx.openapi.model.path.OpenApiOperationId
-import com.bselzer.ktx.openapi.model.reference.OpenApiReferencePath
+import com.bselzer.ktx.openapi.model.reference.path.LinkReferencePath
 import com.bselzer.ktx.openapi.model.server.OpenApiServer
-import com.bselzer.ktx.openapi.serialization.OpenApiLinkSerializer
 
 /**
  * The Link object represents a possible design-time link for a response. The presence of a link does not guarantee the caller’s ability to successfully invoke it, rather it provides a known relationship and traversal mechanism between responses and other operations.
@@ -17,12 +16,11 @@ import com.bselzer.ktx.openapi.serialization.OpenApiLinkSerializer
  *
  * For computing links, and providing instructions to execute them, a runtime expression is used for accessing values in an operation and using them as parameters while invoking the linked operation.
  */
-@kotlinx.serialization.Serializable(OpenApiLinkSerializer::class)
 data class OpenApiLink(
     /**
      * A relative or absolute URI reference to an OAS operation. This field is mutually exclusive of the operationId field, and MUST point to an Operation Object. Relative operationRef values MAY be used to locate an existing Operation Object in the OpenAPI definition. See the rules for resolving Relative References.
      */
-    val operationRef: OpenApiReferencePath,
+    val operationRef: LinkReferencePath,
 
     /**
      * The name of an existing, resolvable OAS operation, as defined with a unique operationId. This field is mutually exclusive of the operationRef field.

@@ -38,9 +38,9 @@ object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() 
             style = style,
             explode = getBooleanOrNull("explode") ?: defaultExplode,
             allowReserved = getBooleanOrFalse("allowReserved"),
-            schema = getObject("schema", OpenApiReferenceOfSerializer(OpenApiSchemaSerializer)::deserialize),
+            schema = getObject("schema", ReferenceOfOpenApiSchemaSerializer::deserialize),
             example = getObject("example", OpenApiValueSerializer::deserialize),
-            examples = getObjectMapOrEmpty("examples", OpenApiReferenceOfSerializer(OpenApiExampleSerializer)::deserialize),
+            examples = getObjectMapOrEmpty("examples", ReferenceOfOpenApiExampleSerializer::deserialize),
             content = getObjectMapOrEmpty("content", OpenApiMediaTypeSerializer::deserialize).mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
             extensions = getOpenApiExtensions()
         )

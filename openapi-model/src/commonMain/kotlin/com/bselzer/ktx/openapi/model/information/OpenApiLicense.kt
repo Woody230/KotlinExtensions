@@ -3,12 +3,10 @@ package com.bselzer.ktx.openapi.model.information
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiUrl
-import com.bselzer.ktx.openapi.serialization.OpenApiLicenseSerializer
 
 /**
  * License information for the exposed API.
  */
-@kotlinx.serialization.Serializable(OpenApiLicenseSerializer::class)
 data class OpenApiLicense(
     /**
      * REQUIRED. The license name used for the API.

@@ -1,17 +1,16 @@
 package com.bselzer.ktx.openapi.model.reference
 
-import com.bselzer.ktx.openapi.serialization.OpenApiReferenceOfSerializer
+import com.bselzer.ktx.openapi.model.reference.path.OpenApiReferencePath
 
 /**
  * A wrapper of a value of type [TValue] or a reference to the value.
  */
-@kotlinx.serialization.Serializable(OpenApiReferenceOfSerializer::class)
-class OpenApiReferenceOf<TValue> {
+sealed class OpenApiReferenceOf<TValue, TReferencePath> where TReferencePath : OpenApiReferencePath {
     @PublishedApi
     internal val value: TValue?
 
     @PublishedApi
-    internal val reference: OpenApiReference?
+    internal val reference: OpenApiReference<TReferencePath>?
 
     /**
      * Initializes a new instance of the [OpenApiReferenceOf] class.
@@ -28,7 +27,7 @@ class OpenApiReferenceOf<TValue> {
      *
      * @param reference a reference to a value of type [TValue]
      */
-    constructor(reference: OpenApiReference) {
+    constructor(reference: OpenApiReference<TReferencePath>) {
         this.value = null
         this.reference = reference
     }
@@ -38,7 +37,7 @@ class OpenApiReferenceOf<TValue> {
      */
     fun resolve(
         onValue: (TValue) -> Unit,
-        onReference: (OpenApiReference) -> Unit
+        onReference: (OpenApiReference<TReferencePath>) -> Unit
     ) {
         when {
             value != null -> onValue(value)

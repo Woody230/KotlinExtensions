@@ -4,9 +4,7 @@ import com.bselzer.ktx.openapi.model.OpenApiContent
 import com.bselzer.ktx.openapi.model.OpenApiDescription
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
-import com.bselzer.ktx.openapi.serialization.OpenApiRequestBodySerializer
 
-@kotlinx.serialization.Serializable(OpenApiRequestBodySerializer::class)
 data class OpenApiRequestBody(
     /**
      * A brief description of the request body. This could contain examples of use. CommonMark syntax MAY be used for rich text representation.

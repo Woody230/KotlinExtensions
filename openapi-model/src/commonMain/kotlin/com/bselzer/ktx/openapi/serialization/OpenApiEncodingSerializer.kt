@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonObject
 object OpenApiEncodingSerializer : OpenApiObjectSerializer<OpenApiEncoding>() {
     override fun JsonObject.deserialize(): OpenApiEncoding = OpenApiEncoding(
         contentType = getContentOrNull("contentType"),
-        headers = getObjectMapOrEmpty("headers", OpenApiReferenceOfSerializer(OpenApiHeaderSerializer)::deserialize),
+        headers = getObjectMapOrEmpty("headers", ReferenceOfOpenApiHeaderSerializer::deserialize),
         style = getEnumOrNull("style"),
         explode = getBooleanOrNull("explode")
     )

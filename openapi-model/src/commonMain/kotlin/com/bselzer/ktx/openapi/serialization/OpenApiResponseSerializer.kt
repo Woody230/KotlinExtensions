@@ -8,9 +8,9 @@ import kotlinx.serialization.json.JsonObject
 object OpenApiResponseSerializer : OpenApiObjectSerializer<OpenApiResponse>() {
     override fun JsonObject.deserialize(): OpenApiResponse = OpenApiResponse(
         description = getDescription("description"),
-        headers = getObjectMapOrEmpty("headers", OpenApiReferenceOfSerializer(OpenApiHeaderSerializer)::deserialize),
+        headers = getObjectMapOrEmpty("headers", ReferenceOfOpenApiHeaderSerializer::deserialize),
         content = getObjectMapOrEmpty("content", OpenApiMediaTypeSerializer::deserialize).mapKeys { entry -> OpenApiMediaTypeName(entry.key) },
-        links = getObjectMapOrEmpty("links", OpenApiReferenceOfSerializer(OpenApiLinkSerializer)::deserialize),
+        links = getObjectMapOrEmpty("links", ReferenceOfOpenApiLinkSerializer::deserialize),
         extensions = getOpenApiExtensions()
     )
 }

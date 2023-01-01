@@ -4,12 +4,10 @@ import com.bselzer.ktx.openapi.model.OpenApiEmail
 import com.bselzer.ktx.openapi.model.OpenApiExtensible
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiUrl
-import com.bselzer.ktx.openapi.serialization.OpenApiContactSerializer
 
 /**
  * Contact information for the exposed API.
  */
-@kotlinx.serialization.Serializable(OpenApiContactSerializer::class)
 data class OpenApiContact(
     /**
      * The identifying name of the contact person/organization.

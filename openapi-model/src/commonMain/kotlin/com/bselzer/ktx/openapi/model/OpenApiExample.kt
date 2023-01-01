@@ -1,9 +1,7 @@
 package com.bselzer.ktx.openapi.model
 
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
-import com.bselzer.ktx.openapi.serialization.OpenApiExampleSerializer
 
-@kotlinx.serialization.Serializable(OpenApiExampleSerializer::class)
 data class OpenApiExample(
     /**
      * Short description for the example.
