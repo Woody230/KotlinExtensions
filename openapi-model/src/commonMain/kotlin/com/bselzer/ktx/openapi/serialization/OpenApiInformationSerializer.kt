@@ -6,7 +6,7 @@ import com.bselzer.ktx.serialization.context.getContentOrNull
 import com.bselzer.ktx.serialization.context.getObjectOrNull
 import kotlinx.serialization.json.JsonObject
 
-object OpenApiInformationSerializer : OpenApiObjectSerializer<OpenApiInformation>() {
+internal object OpenApiInformationSerializer : OpenApiObjectSerializer<OpenApiInformation>() {
     override fun JsonObject.deserialize(): OpenApiInformation = OpenApiInformation(
         title = getContent("title"),
         summary = getContentOrNull("summary"),

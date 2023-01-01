@@ -7,7 +7,7 @@ import com.bselzer.ktx.serialization.context.getObjectListOrEmpty
 import com.bselzer.ktx.serialization.context.getObjectOrNull
 import kotlinx.serialization.json.JsonObject
 
-object OpenApiPathItemSerializer : OpenApiObjectSerializer<OpenApiPathItem>() {
+internal object OpenApiPathItemSerializer : OpenApiObjectSerializer<OpenApiPathItem>() {
     override fun JsonObject.deserialize(): OpenApiPathItem = OpenApiPathItem(
         `$ref` = getContentOrNull("\$ref")?.let(PathItemReferencePathSerializer::deserialize),
         summary = getContentOrNull("summary"),

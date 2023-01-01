@@ -3,7 +3,7 @@ package com.bselzer.ktx.openapi.serialization
 import com.bselzer.ktx.openapi.model.value.*
 import kotlinx.serialization.json.*
 
-object OpenApiValueSerializer : OpenApiElementSerializer<OpenApiValue>() {
+internal object OpenApiValueSerializer : OpenApiElementSerializer<OpenApiValue>() {
     override fun JsonElement.deserialize(): OpenApiValue = when (this) {
         is JsonNull -> OpenApiNull
         is JsonPrimitive -> toOpenApiValue()

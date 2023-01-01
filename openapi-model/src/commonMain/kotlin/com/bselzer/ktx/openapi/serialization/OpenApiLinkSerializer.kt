@@ -9,7 +9,7 @@ import com.bselzer.ktx.serialization.context.getMapOrEmpty
 import com.bselzer.ktx.serialization.context.getObject
 import kotlinx.serialization.json.JsonObject
 
-object OpenApiLinkSerializer : OpenApiObjectSerializer<OpenApiLink>() {
+internal object OpenApiLinkSerializer : OpenApiObjectSerializer<OpenApiLink>() {
     override fun JsonObject.deserialize(): OpenApiLink = OpenApiLink(
         operationRef = getContent("operationRef").let(LinkReferencePathSerializer::deserialize),
         operationId = getContentOrNull("operationId")?.let(::OpenApiOperationId),

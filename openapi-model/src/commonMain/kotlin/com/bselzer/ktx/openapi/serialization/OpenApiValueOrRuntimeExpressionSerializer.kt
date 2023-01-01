@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 
-object OpenApiValueOrRuntimeExpressionSerializer : OpenApiElementSerializer<OpenApiValueOrRuntimeExpression>() {
+internal object OpenApiValueOrRuntimeExpressionSerializer : OpenApiElementSerializer<OpenApiValueOrRuntimeExpression>() {
     override fun JsonElement.deserialize(): OpenApiValueOrRuntimeExpression {
         if (this is JsonPrimitive && isString) {
             val expression = content.toOpenApiRuntimeExpression()

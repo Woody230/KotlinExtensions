@@ -7,7 +7,7 @@ import com.bselzer.ktx.serialization.context.getObjectMapOrEmpty
 import com.bselzer.ktx.serialization.context.getObjectOrNull
 import kotlinx.serialization.json.JsonObject
 
-object OpenApiMediaTypeSerializer : OpenApiObjectSerializer<OpenApiMediaType>() {
+internal object OpenApiMediaTypeSerializer : OpenApiObjectSerializer<OpenApiMediaType>() {
     override fun JsonObject.deserialize(): OpenApiMediaType = OpenApiMediaType(
         schema = getObjectOrNull("schema", OpenApiSchemaSerializer::deserialize),
         example = getObject("example", OpenApiValueSerializer::deserialize),

@@ -6,7 +6,7 @@ import com.bselzer.ktx.serialization.context.getBooleanOrFalse
 import com.bselzer.ktx.serialization.context.getObjectMapOrEmpty
 import kotlinx.serialization.json.JsonObject
 
-object OpenApiRequestBodySerializer : OpenApiObjectSerializer<OpenApiRequestBody>() {
+internal object OpenApiRequestBodySerializer : OpenApiObjectSerializer<OpenApiRequestBody>() {
     override fun JsonObject.deserialize(): OpenApiRequestBody = OpenApiRequestBody(
         description = getDescriptionOrNull("description"),
         content = getObjectMapOrEmpty("content", OpenApiMediaTypeSerializer::deserialize).mapKeys { entry -> OpenApiMediaTypeName(entry.key) },

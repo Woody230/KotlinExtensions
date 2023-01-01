@@ -14,7 +14,7 @@ import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityScheme
 import kotlinx.serialization.json.JsonObject
 
-sealed class OpenApiReferenceOfSerializer<TReferenceOf, TValue, TReferencePath>(
+internal sealed class OpenApiReferenceOfSerializer<TReferenceOf, TValue, TReferencePath>(
     private val valueSerializer: OpenApiObjectSerializer<TValue>,
 ) : OpenApiObjectSerializer<TReferenceOf>() where TReferencePath : OpenApiReferencePath, TReferenceOf : OpenApiReferenceOf<TValue, TReferencePath> {
 

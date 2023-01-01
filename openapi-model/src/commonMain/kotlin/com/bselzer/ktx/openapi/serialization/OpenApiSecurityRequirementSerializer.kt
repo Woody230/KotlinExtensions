@@ -7,7 +7,7 @@ import com.bselzer.ktx.serialization.context.toContentList
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 
-object OpenApiSecurityRequirementSerializer : OpenApiObjectSerializer<OpenApiSecurityRequirement>() {
+internal object OpenApiSecurityRequirementSerializer : OpenApiObjectSerializer<OpenApiSecurityRequirement>() {
     override fun JsonObject.deserialize(): OpenApiSecurityRequirement {
         val withSchemeName = mapKeys { entry -> OpenApiSecuritySchemeName(entry.key) }
         val withScopes = withSchemeName.mapValues { entry ->
