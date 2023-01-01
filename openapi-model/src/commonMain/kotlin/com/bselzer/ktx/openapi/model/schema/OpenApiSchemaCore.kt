@@ -40,7 +40,7 @@ sealed interface OpenApiSchemaCore : OpenApiExtensible {
     /**
      * The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, if type is string, then default can be "foo" but cannot be 1.
      */
-    val default: Any?
+    val default: OpenApiValue?
 
     /**
      * The deprecated keyword is a boolean that indicates that the instance value the keyword applies to should not be used and may be removed in the future.
