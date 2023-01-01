@@ -65,11 +65,11 @@ internal object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>
         pattern = getContentOrNull("pattern"),
         contentMediaType = getContentOrNull("contentMediaType")?.let(::OpenApiMediaTypeName),
         contentEncoding = getContentOrNull("contentEncoding")?.let(::OpenApiEncodingName),
-        multipleOf = getDoubleOrNull("multipleOf"),
-        minimum = getDoubleOrNull("minimum"),
-        exclusiveMinimum = getDoubleOrNull("exclusiveMinimum"),
-        maximum = getDoubleOrNull("maximum"),
-        exclusiveMaximum = getDoubleOrNull("exclusiveMaximum")
+        multipleOf = getNumberOrNull("multipleOf"),
+        minimum = getNumberOrNull("minimum"),
+        exclusiveMinimum = getNumberOrNull("exclusiveMinimum"),
+        maximum = getNumberOrNull("maximum"),
+        exclusiveMaximum = getNumberOrNull("exclusiveMaximum")
     )
 
     private fun JsonObject.getDependentRequired(key: String): Map<OpenApiPropertyName, Set<OpenApiPropertyName>> {

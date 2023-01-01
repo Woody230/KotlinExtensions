@@ -8,6 +8,8 @@ fun JsonElement.toPrimitiveOrNull(): JsonPrimitive? = if (this is JsonPrimitive)
 fun JsonElement.toObjectOrNull(): JsonObject? = if (this is JsonObject) this else null
 fun JsonElement.toArrayOrNull(): JsonArray? = if (this is JsonArray) this else null
 
+fun JsonPrimitive.toNumberOrNull(): Number? = content.toLongOrNull() ?: content.toDoubleOrNull()
+
 inline fun <reified T> JsonObject.getEnum(key: String): T = getContent(key).decode()
 inline fun <reified T> JsonObject.getEnumOrNull(key: String): T? = getContentOrNull(key)?.decode<T>()
 fun JsonObject.getContentOrNull(key: String): String? = get(key)?.toContentOrNull()
@@ -17,6 +19,7 @@ fun JsonObject.getFloatOrNull(key: String): Float? = get(key)?.toFloatOrNull()
 fun JsonObject.getDoubleOrNull(key: String): Double? = get(key)?.toDoubleOrNull()
 fun JsonObject.getBooleanOrNull(key: String): Boolean? = get(key)?.toBooleanOrNull()
 fun JsonObject.getBooleanOrFalse(key: String): Boolean = getBooleanOrNull(key) ?: false
+fun JsonObject.getNumberOrNull(key: String): Number? = get(key)?.toNumberOrNull()
 
 fun JsonObject.getContent(key: String): String = getValue(key).toContent()
 fun JsonObject.getInt(key: String): Int = getValue(key).toInt()
@@ -32,6 +35,7 @@ fun JsonElement.toLongOrNull(): Long? = jsonPrimitive.longOrNull
 fun JsonElement.toFloatOrNull(): Float? = jsonPrimitive.floatOrNull
 fun JsonElement.toDoubleOrNull(): Double? = jsonPrimitive.doubleOrNull
 fun JsonElement.toBooleanOrNull(): Boolean? = jsonPrimitive.booleanOrNull
+fun JsonElement.toNumberOrNull(): Number? = jsonPrimitive.toNumberOrNull()
 
 inline fun <reified T> JsonElement.toEnum(): T = toContent().decode()
 fun JsonElement.toContent(): String = jsonPrimitive.content

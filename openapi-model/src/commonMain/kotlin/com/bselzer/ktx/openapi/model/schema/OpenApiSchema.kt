@@ -70,11 +70,11 @@ data class OpenApiSchema(
     override val contentEncoding: OpenApiEncodingName? = null,
 
     // Numeric
-    override val multipleOf: Double? = null,
-    override val minimum: Double? = null,
-    override val exclusiveMinimum: Double? = null,
-    override val maximum: Double? = null,
-    override val exclusiveMaximum: Double? = null,
+    override val multipleOf: Number? = null,
+    override val minimum: Number? = null,
+    override val exclusiveMinimum: Number? = null,
+    override val maximum: Number? = null,
+    override val exclusiveMaximum: Number? = null,
 ) : OpenApiSchemaCore, OpenApiSchemaEnum<OpenApiValue>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Number> {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
 }
