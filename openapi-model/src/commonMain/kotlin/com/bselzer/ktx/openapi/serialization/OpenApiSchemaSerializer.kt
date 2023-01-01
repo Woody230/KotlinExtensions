@@ -4,14 +4,13 @@ import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 import com.bselzer.ktx.openapi.model.schema.OpenApiPropertyName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
-import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaComposite
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import com.bselzer.ktx.serialization.context.*
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
 internal object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
-    override fun JsonObject.deserialize(): OpenApiSchema = OpenApiSchemaComposite(
+    override fun JsonObject.deserialize(): OpenApiSchema = OpenApiSchema(
         example = getElementOrNull("example", OpenApiValueSerializer::deserialize),
         examples = getListOrEmpty("examples", OpenApiValueSerializer::deserialize),
         title = getContentOrNull("title"),
