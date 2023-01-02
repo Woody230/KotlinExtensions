@@ -19,6 +19,5 @@ internal typealias OpenApiContent = Map<OpenApiMediaTypeName, OpenApiMediaType>
 internal typealias OpenApiLinks = Map<String, ReferenceOfOpenApiLink>
 internal typealias OpenApiExamples = Map<String, ReferenceOfOpenApiExample>
 internal typealias OpenApiEncodings = Map<OpenApiEncodingName, OpenApiEncoding>
-internal typealias OpenApiSchemaReference = ReferenceOfOpenApiSchema
 internal typealias OpenApiPathItems = Map<String, ReferenceOfOpenApiPathItem>
 internal typealias OpenApiTags = List<OpenApiTag>

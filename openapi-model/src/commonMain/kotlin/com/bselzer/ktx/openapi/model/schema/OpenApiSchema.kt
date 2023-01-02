@@ -3,9 +3,9 @@ package com.bselzer.ktx.openapi.model.schema
 import com.bselzer.ktx.openapi.model.OpenApiDescription
 import com.bselzer.ktx.openapi.model.OpenApiExtensions
 import com.bselzer.ktx.openapi.model.OpenApiExternalDocumentation
-import com.bselzer.ktx.openapi.model.OpenApiSchemaReference
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiSchema
 import com.bselzer.ktx.openapi.model.value.OpenApiValue
 
 data class OpenApiSchema(
@@ -39,9 +39,9 @@ data class OpenApiSchema(
     override val `else`: OpenApiSchema? = null,
 
     // Array
-    override val items: OpenApiSchemaReference? = null,
-    override val prefixItems: List<OpenApiSchemaReference> = emptyList(),
-    override val contains: OpenApiSchemaReference? = null,
+    override val items: ReferenceOfOpenApiSchema? = null,
+    override val prefixItems: List<ReferenceOfOpenApiSchema> = emptyList(),
+    override val contains: ReferenceOfOpenApiSchema? = null,
     override val minContains: Int? = null,
     override val maxContains: Int? = null,
     override val minItems: Int? = null,
@@ -51,14 +51,14 @@ data class OpenApiSchema(
     // Object
     override val discriminator: OpenApiDiscriminator? = null,
     override val xml: OpenApiXml? = null,
-    override val properties: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
-    override val patternProperties: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
-    override val additionalProperties: OpenApiSchemaReference? = null,
+    override val properties: Map<OpenApiPropertyName, ReferenceOfOpenApiSchema> = emptyMap(),
+    override val patternProperties: Map<OpenApiPropertyName, ReferenceOfOpenApiSchema> = emptyMap(),
+    override val additionalProperties: ReferenceOfOpenApiSchema? = null,
     override val unevaluatedProperties: Boolean? = null,
     override val required: Set<OpenApiPropertyName> = emptySet(),
     override val dependentRequired: Map<OpenApiPropertyName, Set<OpenApiPropertyName>> = emptyMap(),
-    override val dependentSchemas: Map<OpenApiPropertyName, OpenApiSchemaReference> = emptyMap(),
-    override val propertyNames: OpenApiSchemaReference? = null,
+    override val dependentSchemas: Map<OpenApiPropertyName, ReferenceOfOpenApiSchema> = emptyMap(),
+    override val propertyNames: ReferenceOfOpenApiSchema? = null,
     override val minProperties: Int? = null,
     override val maxProperties: Int? = null,
 
