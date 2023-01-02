@@ -19,23 +19,17 @@ internal open class OpenApiReferencePathSerializer<TReferencePath> : KSerializer
     override fun deserialize(decoder: Decoder): TReferencePath = deserialize(decoder.decodeString())
 
     internal fun deserialize(value: String): TReferencePath {
-        if (!value.contains(localReferencePathStart)) {
-            throw IllegalArgumentException("Local reference path missing in `$this`.")
-        }
+        require(value.contains(localReferencePathStart)) { "Local reference path missing in `$this`." }
 
         // Should only have the component and component name.
         val localReferenceSegments = value.substringAfter(localReferencePathStart, "").split("/")
-        if (localReferenceSegments.size != 2) {
-            throw IllegalArgumentException("Expecting exactly 2 components within the local reference path in `$this`.")
-        }
+        require(localReferenceSegments.size == 2) { "Expecting exactly 2 components within the local reference path in `$this`." }
 
         val component = localReferenceSegments[0].decodeOrNull<ReferencePathComponent>()
-            ?: throw IllegalArgumentException("Local reference path component must be one of `${ReferencePathComponent.values().joinToString()}` in path `$this`.")
+        requireNotNull(component) { "Local reference path component must be one of `${ReferencePathComponent.values().joinToString()}` in path `$this`." }
 
         val componentName = localReferenceSegments[1]
-        if (componentName.isBlank()) {
-            throw IllegalArgumentException("Local reference path component name is not provided in `$this`.")
-        }
+        require(componentName.isNotBlank()) { "Local reference path component name is not provided in `$this`." }
 
         var documentPath: String? = value.substringBefore(localReferencePathStart, "")
         documentPath = documentPath?.ifBlank { null }
