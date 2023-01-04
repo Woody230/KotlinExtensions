@@ -12,6 +12,7 @@ android.setup()
 
 kotlin.setup {
     commonMain {
+        ktxDateTime()
         projectOpenApiModel()
     }
     commonTest()
