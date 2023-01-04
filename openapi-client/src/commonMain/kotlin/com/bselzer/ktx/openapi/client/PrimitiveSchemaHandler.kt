@@ -8,6 +8,8 @@ sealed class PrimitiveSchemaHandler : SchemaHandler {
     abstract val formats: Collection<String?>
     abstract val className: ClassName
 
+    protected abstract fun instantiate(schema: OpenApiSchema): String
+
     override fun canResolve(schema: OpenApiSchema): Boolean {
         fun containsType() = this.types.any(schema.types::contains)
         fun containsFormat() = this.formats.contains(schema.format)
@@ -16,6 +18,7 @@ sealed class PrimitiveSchemaHandler : SchemaHandler {
 
     override fun resolve(schema: OpenApiSchema): SchemaOutput = SchemaOutput(
         className = className,
-        nullable = schema.types.contains(OpenApiSchemaType.NULL)
+        nullable = schema.types.contains(OpenApiSchemaType.NULL),
+        instantiation = instantiate(schema)
     )
 }
