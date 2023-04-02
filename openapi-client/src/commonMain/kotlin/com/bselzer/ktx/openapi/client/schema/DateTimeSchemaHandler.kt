@@ -1,5 +1,6 @@
-package com.bselzer.ktx.openapi.client
+package com.bselzer.ktx.openapi.client.schema
 
+import com.bselzer.ktx.openapi.client.type.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import kotlinx.datetime.Instant
