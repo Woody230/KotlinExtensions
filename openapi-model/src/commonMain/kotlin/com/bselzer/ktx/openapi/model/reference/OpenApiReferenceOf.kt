@@ -35,13 +35,12 @@ sealed class OpenApiReferenceOf<TValue, TReferencePath> where TReferencePath : O
     /**
      * Resolve the cases where the value is either of type [TValue], or is a reference.
      */
-    fun resolve(
-        onValue: (TValue) -> Unit,
-        onReference: (OpenApiReference<TReferencePath>) -> Unit
-    ) {
-        when {
-            value != null -> onValue(value)
-            reference != null -> onReference(reference)
-        }
+    fun <TResult> resolve(
+        onValue: (TValue) -> TResult,
+        onReference: (OpenApiReference<TReferencePath>) -> TResult
+    ): TResult = when {
+        value != null -> onValue(value)
+        reference != null -> onReference(reference)
+        else -> throw NotImplementedError("Expected the value or reference to exist.")
     }
 }

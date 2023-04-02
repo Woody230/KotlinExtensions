@@ -1,9 +1,9 @@
 package com.bselzer.ktx.openapi.client.type
 
-data class ClassName(
-    val packageName: String,
-    val className: String
-) {
+class ClassName(
+    private val packageName: String,
+    private val className: String
+) : TypeName {
     override fun toString(): String = "$packageName.$className"
 
     companion object {
@@ -18,5 +18,8 @@ data class ClassName(
         val DOUBLE: ClassName = ClassName("kotlin", "Double")
         val STRING: ClassName = ClassName("kotlin", "String")
         val NUMBER: ClassName = ClassName("kotlin", "Number")
+
+        val LIST: ClassName = ClassName("kotlin.collections", "List")
+        val MAP: ClassName = ClassName("kotlin.collections", "Map")
     }
 }

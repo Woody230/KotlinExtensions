@@ -1,13 +1,12 @@
 package com.bselzer.ktx.openapi.client.schema
 
-import com.bselzer.ktx.openapi.client.type.ClassName
 import com.bselzer.ktx.openapi.client.type.Serializable
+import com.bselzer.ktx.openapi.client.type.TypeName
 
 data class SchemaOutput(
-    val className: ClassName? = null,
+    val typeName: TypeName,
     val nullable: Boolean,
-    val mutable: Boolean = false,
-    val description: String? = null,
+    val description: String?,
 
     /**
      * The information about the serializer.

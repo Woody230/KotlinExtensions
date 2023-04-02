@@ -1,5 +1,5 @@
 package com.bselzer.ktx.openapi.client.type
 
-data class Serializable(
+class Serializable(
     val className: ClassName
 )
