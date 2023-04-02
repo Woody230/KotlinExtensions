@@ -17,11 +17,15 @@ class ListSchemaHandler(
 
     // TODO maxItems, minItems, ... with setter
     override fun resolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): SchemaOutput {
-        val nestedType = nestedSchemaType(schema, references)
+        fun nestedSchemaType(): TypeName {
+            val nestedSchemaReference = requireNotNull(schema.items) { "Expected a list to have an items schema." }
+            return nestedSchemaType(nestedSchemaReference, references)
+        }
+
         return SchemaOutput(
             typeName = ParameterizedTypeName(
                 root = ClassName.LIST,
-                parameters = listOf(nestedType)
+                parameters = listOf(nestedSchemaType())
             ),
             nullable = schema.isNullable,
             description = schema.description?.toString(),
@@ -30,10 +34,5 @@ class ListSchemaHandler(
                 else -> "listOf()"
             }
         )
-    }
-
-    private fun nestedSchemaType(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): TypeName {
-        val nestedSchemaReference = requireNotNull(schema.items) { "Expected a list to have an items schema." }
-        return nestedSchemaType(nestedSchemaReference, references)
     }
 }

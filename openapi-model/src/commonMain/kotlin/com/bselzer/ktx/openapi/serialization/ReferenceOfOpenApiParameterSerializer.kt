@@ -4,5 +4,5 @@ import com.bselzer.ktx.openapi.model.parameter.OpenApiParameter
 import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiParameter
 import com.bselzer.ktx.openapi.model.reference.path.ParameterReferencePath
 
-internal object ReferenceOfOpenApiParameterSerializer :
+object ReferenceOfOpenApiParameterSerializer :
     OpenApiReferenceOfSerializer<ReferenceOfOpenApiParameter, OpenApiParameter, ParameterReferencePath>(OpenApiParameterSerializer)

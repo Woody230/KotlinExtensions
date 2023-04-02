@@ -6,7 +6,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.serializer
 
-internal sealed class OpenApiElementSerializer<T> : OpenApiModelSerializer<T>() {
+sealed class OpenApiElementSerializer<T> : OpenApiModelSerializer<T>() {
     private val serializer = serializer<JsonElement>()
 
     override val descriptor: SerialDescriptor = serializer.descriptor

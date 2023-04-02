@@ -5,7 +5,7 @@ import com.bselzer.ktx.serialization.context.getContent
 import com.bselzer.ktx.serialization.context.getContentMapOrEmpty
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiDiscriminatorSerializer : OpenApiObjectSerializer<OpenApiDiscriminator>() {
+object OpenApiDiscriminatorSerializer : OpenApiObjectSerializer<OpenApiDiscriminator>() {
     override fun JsonObject.deserialize(): OpenApiDiscriminator = OpenApiDiscriminator(
         propertyName = getContent("propertyName"),
         mapping = getContentMapOrEmpty("mapping").mapValues { entry -> SchemaReferencePathSerializer.deserialize(entry.value) },

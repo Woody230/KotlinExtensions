@@ -6,7 +6,7 @@ import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecuritySchemeName
 import com.bselzer.ktx.serialization.context.getObjectMapOrEmpty
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiComponentsSerializer : OpenApiObjectSerializer<OpenApiComponents>() {
+object OpenApiComponentsSerializer : OpenApiObjectSerializer<OpenApiComponents>() {
     override fun JsonObject.deserialize(): OpenApiComponents = OpenApiComponents(
         schemas = getObjectMapOrEmpty("schemas", OpenApiSchemaSerializer::deserialize),
         responses = getObjectMapOrEmpty("responses", ReferenceOfOpenApiResponseSerializer::deserialize),

@@ -8,7 +8,7 @@ import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 import com.bselzer.ktx.serialization.context.*
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() {
+object OpenApiParameterSerializer : OpenApiObjectSerializer<OpenApiParameter>() {
     override fun JsonObject.deserialize(): OpenApiParameter {
         val `in`: OpenApiParameterIn = getEnum("in")
 

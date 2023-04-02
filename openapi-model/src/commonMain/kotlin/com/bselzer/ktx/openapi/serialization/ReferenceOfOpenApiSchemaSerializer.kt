@@ -4,4 +4,4 @@ import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiSchema
 import com.bselzer.ktx.openapi.model.reference.path.SchemaReferencePath
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 
-internal object ReferenceOfOpenApiSchemaSerializer : OpenApiReferenceOfSerializer<ReferenceOfOpenApiSchema, OpenApiSchema, SchemaReferencePath>(OpenApiSchemaSerializer)
+object ReferenceOfOpenApiSchemaSerializer : OpenApiReferenceOfSerializer<ReferenceOfOpenApiSchema, OpenApiSchema, SchemaReferencePath>(OpenApiSchemaSerializer)

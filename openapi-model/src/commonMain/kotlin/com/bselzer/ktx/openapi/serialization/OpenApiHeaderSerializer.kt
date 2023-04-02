@@ -6,7 +6,7 @@ import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
 import com.bselzer.ktx.serialization.context.*
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
+object OpenApiHeaderSerializer : OpenApiObjectSerializer<OpenApiHeader>() {
     override fun JsonObject.deserialize(): OpenApiHeader {
         val style = getEnumOrNull("style") ?: OpenApiParameterStyle.SIMPLE
 

@@ -8,7 +8,7 @@ import com.bselzer.ktx.serialization.context.getEnum
 import com.bselzer.ktx.serialization.context.getObject
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityScheme>() {
+object OpenApiSecuritySchemeSerializer : OpenApiObjectSerializer<OpenApiSecurityScheme>() {
     override fun JsonObject.deserialize(): OpenApiSecurityScheme {
         val type = getEnum<OpenApiSecuritySchemeType>("type")
         return when (type) {

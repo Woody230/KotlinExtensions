@@ -5,7 +5,7 @@ import com.bselzer.ktx.serialization.context.getBooleanOrFalse
 import com.bselzer.ktx.serialization.context.getContentOrNull
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiXmlSerializer : OpenApiObjectSerializer<OpenApiXml>() {
+object OpenApiXmlSerializer : OpenApiObjectSerializer<OpenApiXml>() {
     override fun JsonObject.deserialize(): OpenApiXml = OpenApiXml(
         name = getContentOrNull("name"),
         namespace = getContentOrNull("namespace"),

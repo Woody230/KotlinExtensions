@@ -4,4 +4,4 @@ import com.bselzer.ktx.openapi.model.path.OpenApiHeader
 import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiHeader
 import com.bselzer.ktx.openapi.model.reference.path.HeaderReferencePath
 
-internal object ReferenceOfOpenApiHeaderSerializer : OpenApiReferenceOfSerializer<ReferenceOfOpenApiHeader, OpenApiHeader, HeaderReferencePath>(OpenApiHeaderSerializer)
+object ReferenceOfOpenApiHeaderSerializer : OpenApiReferenceOfSerializer<ReferenceOfOpenApiHeader, OpenApiHeader, HeaderReferencePath>(OpenApiHeaderSerializer)

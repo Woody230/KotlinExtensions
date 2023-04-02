@@ -6,7 +6,7 @@ import com.bselzer.ktx.openapi.model.path.OpenApiOperationId
 import com.bselzer.ktx.serialization.context.*
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiOperationSerializer : OpenApiObjectSerializer<OpenApiOperation>() {
+object OpenApiOperationSerializer : OpenApiObjectSerializer<OpenApiOperation>() {
     override fun JsonObject.deserialize(): OpenApiOperation = OpenApiOperation(
         tags = getContentListOrEmpty("tags").map(::OpenApiTagName),
         summary = getContentOrNull("summary"),

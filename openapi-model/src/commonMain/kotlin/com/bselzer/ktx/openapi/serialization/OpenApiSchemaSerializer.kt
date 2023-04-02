@@ -9,7 +9,7 @@ import com.bselzer.ktx.serialization.context.*
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
-internal object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
+object OpenApiSchemaSerializer : OpenApiObjectSerializer<OpenApiSchema>() {
     override fun JsonObject.deserialize(): OpenApiSchema = OpenApiSchema(
         example = getElementOrNull("example", OpenApiValueSerializer::deserialize),
         examples = getListOrEmpty("examples", OpenApiValueSerializer::deserialize),

@@ -4,7 +4,7 @@ import com.bselzer.ktx.openapi.model.server.OpenApiServer
 import com.bselzer.ktx.serialization.context.getObjectMapOrEmpty
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiServerSerializer : OpenApiObjectSerializer<OpenApiServer>() {
+object OpenApiServerSerializer : OpenApiObjectSerializer<OpenApiServer>() {
     override fun JsonObject.deserialize(): OpenApiServer = OpenApiServer(
         url = getUrl("url"),
         description = getDescriptionOrNull("description"),

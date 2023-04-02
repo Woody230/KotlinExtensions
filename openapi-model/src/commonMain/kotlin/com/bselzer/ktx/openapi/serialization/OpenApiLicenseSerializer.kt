@@ -5,7 +5,7 @@ import com.bselzer.ktx.serialization.context.getContent
 import com.bselzer.ktx.serialization.context.getContentOrNull
 import kotlinx.serialization.json.JsonObject
 
-internal object OpenApiLicenseSerializer : OpenApiObjectSerializer<OpenApiLicense>() {
+object OpenApiLicenseSerializer : OpenApiObjectSerializer<OpenApiLicense>() {
     override fun JsonObject.deserialize(): OpenApiLicense = OpenApiLicense(
         name = getContent("name"),
         identifier = getContentOrNull("identifier"),
