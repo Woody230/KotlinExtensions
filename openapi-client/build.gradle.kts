@@ -16,4 +16,7 @@ kotlin.setup {
         projectOpenApiModel()
     }
     commonTest()
+    jvmMain {
+        poet()
+    }
 }

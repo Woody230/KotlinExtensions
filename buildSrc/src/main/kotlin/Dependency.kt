@@ -7,6 +7,7 @@ import Versions.KTOR
 import Versions.KTX_DATETIME
 import Versions.KTX_SERIALIZATION
 import Versions.NAPIER
+import Versions.POET
 import Versions.RESOURCE
 import Versions.SETTINGS
 import Versions.XML
@@ -29,6 +30,7 @@ object Versions {
     const val RESOURCE = "0.19.0"
     const val COMPOSE = "1.1.0"
     const val KOTLIN = "1.6.10"
+    const val POET = "1.12.0"
 }
 
 object Metadata {
@@ -56,6 +58,7 @@ fun KotlinDependencyHandler.multiplatformSettings() {
     api("com.russhwolf:multiplatform-settings:$SETTINGS")
     api("com.russhwolf:multiplatform-settings-coroutines:$SETTINGS")
 }
+fun KotlinDependencyHandler.poet() = api("com.squareup:kotlinpoet:$POET")
 
 fun KotlinDependencyHandler.xmlSerialization() = api("io.github.pdvrieze.xmlutil:serialization:$XML")
 
