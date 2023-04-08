@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.schema
+package com.bselzer.ktx.openapi.client.property
 
 import com.bselzer.ktx.openapi.client.type.Serializable
 import com.bselzer.ktx.openapi.client.type.TypeName

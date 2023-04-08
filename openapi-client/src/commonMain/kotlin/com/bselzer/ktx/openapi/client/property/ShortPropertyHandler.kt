@@ -1,15 +1,15 @@
-package com.bselzer.ktx.openapi.client.schema
+package com.bselzer.ktx.openapi.client.property
 
 import com.bselzer.ktx.openapi.client.type.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class BytePropertyHandler(
-    private val default: Byte = 0,
-    private val nullDefault: Byte? = null,
+class ShortPropertyHandler(
+    private val default: Short = 0,
+    private val nullDefault: Short? = null
 ) : PrimitivePropertyHandler() {
-    override val className: ClassName = ClassName.BYTE
-    override val formats: Collection<String?> = setOf("byte")
+    override val className: ClassName = ClassName.SHORT
+    override val formats: Collection<String?> = setOf("short")
     override val types: Collection<OpenApiSchemaType> = setOf(OpenApiSchemaType.INTEGER)
     override fun instantiate(schema: OpenApiSchema): String = when {
         schema.isNullable -> nullDefault?.toString() ?: "null"
