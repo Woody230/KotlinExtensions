@@ -14,6 +14,7 @@ kotlin.setup {
     commonMain {
         ktxDateTime()
         projectOpenApiModel()
+        projectValue()
     }
     commonTest()
     jvmMain {

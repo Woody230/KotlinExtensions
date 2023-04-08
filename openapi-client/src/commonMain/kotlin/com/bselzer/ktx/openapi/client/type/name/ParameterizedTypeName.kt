@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.type
+package com.bselzer.ktx.openapi.client.type.name
 
 class ParameterizedTypeName(
     internal val root: ClassName,

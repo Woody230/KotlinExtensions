@@ -1,9 +1,9 @@
 package com.bselzer.ktx.openapi.client.property
 
 import com.bselzer.ktx.openapi.client.internal.ExtensionConstants
-import com.bselzer.ktx.openapi.client.type.ClassName
-import com.bselzer.ktx.openapi.client.type.ParameterizedTypeName
-import com.bselzer.ktx.openapi.client.type.TypeName
+import com.bselzer.ktx.openapi.client.type.name.ClassName
+import com.bselzer.ktx.openapi.client.type.name.ParameterizedTypeName
+import com.bselzer.ktx.openapi.client.type.name.TypeName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import com.bselzer.ktx.openapi.model.value.OpenApiMap

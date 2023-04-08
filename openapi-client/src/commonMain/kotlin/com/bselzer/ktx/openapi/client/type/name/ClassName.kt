@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.type
+package com.bselzer.ktx.openapi.client.type.name
 
 class ClassName(
     internal val packageName: String,
