@@ -1,8 +1,8 @@
 package com.bselzer.ktx.openapi.client.type
 
 class ParameterizedTypeName(
-    private val root: ClassName,
-    private val parameters: List<TypeName>
+    internal val root: ClassName,
+    internal val parameters: List<TypeName>
 ) : TypeName {
     override fun toString(): String = buildString {
         append(root)

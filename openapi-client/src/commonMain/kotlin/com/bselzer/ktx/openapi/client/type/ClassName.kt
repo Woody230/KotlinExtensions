@@ -1,8 +1,8 @@
 package com.bselzer.ktx.openapi.client.type
 
 class ClassName(
-    private val packageName: String,
-    private val className: String
+    internal val packageName: String,
+    internal val className: String
 ) : TypeName {
     override fun toString(): String = "$packageName.$className"
 
@@ -21,5 +21,7 @@ class ClassName(
 
         val LIST: ClassName = ClassName("kotlin.collections", "List")
         val MAP: ClassName = ClassName("kotlin.collections", "Map")
+
+        internal val SERIALIZABLE: ClassName = ClassName("kotlinx.serialization", "Serializable")
     }
 }
