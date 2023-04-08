@@ -5,10 +5,10 @@ import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import kotlinx.datetime.Instant
 
-class DateTimeSchemaHandler(
+class DateTimePropertyHandler(
     private val default: Instant = Instant.DISTANT_PAST,
     private val nullDefault: Instant? = null
-) : PrimitiveSchemaHandler() {
+) : PrimitivePropertyHandler() {
     override val className: ClassName = ClassName("kotlinx.datetime", "Instant")
     override val formats: Collection<String?> = setOf("date-time")
     override val types: Collection<OpenApiSchemaType> = setOf(OpenApiSchemaType.STRING)

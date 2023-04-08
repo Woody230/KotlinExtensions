@@ -11,16 +11,16 @@ import com.bselzer.ktx.openapi.serialization.ReferenceOfOpenApiSchemaSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 
-class MapSchemaHandler(
-    schemaResolver: SchemaResolver
-) : NestedSchemaHandler(schemaResolver) {
+class MapPropertyHandler(
+    propertyHandlerResolver: PropertyHandlerResolver
+) : NestedPropertyHandler(propertyHandlerResolver) {
     override fun canResolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): Boolean {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null
         return hasType && hasNestedSchema
     }
 
-    override fun resolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): SchemaOutput {
+    override fun resolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): PropertyOutput {
         fun keySchemaType(): TypeName {
             // If the extension is not present, then the base assumption is that keys must be Strings.
             // If the extension is present, then assume that the key's value is a schema or a reference to a schema.
@@ -38,7 +38,7 @@ class MapSchemaHandler(
             return nestedSchemaType(nestedSchemaReference, references)
         }
 
-        return SchemaOutput(
+        return PropertyOutput(
             typeName = ParameterizedTypeName(
                 root = ClassName.MAP,
                 parameters = listOf(keySchemaType(), valueSchemaType())

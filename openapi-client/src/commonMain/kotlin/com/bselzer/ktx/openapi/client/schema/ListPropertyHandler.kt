@@ -6,9 +6,9 @@ import com.bselzer.ktx.openapi.client.type.TypeName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class ListSchemaHandler(
-    schemaResolver: SchemaResolver
-) : NestedSchemaHandler(schemaResolver) {
+class ListPropertyHandler(
+    propertyHandlerResolver: PropertyHandlerResolver
+) : NestedPropertyHandler(propertyHandlerResolver) {
     override fun canResolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): Boolean {
         val hasType = schema.types.contains(OpenApiSchemaType.ARRAY)
         val hasNestedSchema = schema.items != null
@@ -16,13 +16,13 @@ class ListSchemaHandler(
     }
 
     // TODO maxItems, minItems, ... with setter
-    override fun resolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): SchemaOutput {
+    override fun resolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): PropertyOutput {
         fun nestedSchemaType(): TypeName {
             val nestedSchemaReference = requireNotNull(schema.items) { "Expected a list to have an items schema." }
             return nestedSchemaType(nestedSchemaReference, references)
         }
 
-        return SchemaOutput(
+        return PropertyOutput(
             typeName = ParameterizedTypeName(
                 root = ClassName.LIST,
                 parameters = listOf(nestedSchemaType())

@@ -3,7 +3,7 @@ package com.bselzer.ktx.openapi.client.schema
 import com.bselzer.ktx.openapi.client.type.Serializable
 import com.bselzer.ktx.openapi.client.type.TypeName
 
-data class SchemaOutput(
+data class PropertyOutput(
     val typeName: TypeName,
     val nullable: Boolean,
     val description: String?,
