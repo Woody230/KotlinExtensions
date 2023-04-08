@@ -15,10 +15,10 @@ data class OpenApiSchema(
     override val examples: List<OpenApiValue> = emptyList(),
     override val title: String? = null,
     override val description: OpenApiDescription? = null,
-    override val readOnly: Boolean = false,
-    override val writeOnly: Boolean = false,
+    override val readOnly: Boolean? = null,
+    override val writeOnly: Boolean? = null,
     override val default: OpenApiValue? = null,
-    override val deprecated: Boolean = false,
+    override val deprecated: Boolean? = null,
     override val `$comment`: String? = null,
     override val types: Set<OpenApiSchemaType> = emptySet(),
     override val format: String? = null,
@@ -77,4 +77,78 @@ data class OpenApiSchema(
     override val exclusiveMaximum: Number? = null,
 ) : OpenApiSchemaCore, OpenApiSchemaEnum<OpenApiValue>, OpenApiSchemaComposition, OpenApiSchemaArray, OpenApiSchemaObject, OpenApiSchemaString, OpenApiSchemaNumeric<Number> {
     override val isNullable: Boolean = types.contains(OpenApiSchemaType.NULL)
+
+    /**
+     * Returns a new schema that is a combination of this schema and the given [other] schema.
+     *
+     * [other] presentation's null or inherit properties are replaced with the non-null properties of this schema.
+     * Another way to think of it is that the "missing" properties of the [other] presentation are filled by the properties of this schema
+     */
+    fun merge(other: OpenApiSchema) = copy(
+        // Common
+        example = other.example ?: this.example,
+        examples = other.examples + this.examples,
+        title = other.title ?: this.title,
+        description = other.description ?: this.description,
+        readOnly = other.readOnly ?: this.readOnly,
+        writeOnly = other.writeOnly ?: this.writeOnly,
+        default = other.default ?: this.default,
+        deprecated = other.deprecated ?: this.deprecated,
+        `$comment` = other.`$comment` ?: this.`$comment`,
+        types = other.types + this.types,
+        format = other.format ?: this.format,
+        externalDocs = other.externalDocs ?: this.externalDocs,
+        extensions = other.extensions + this.extensions,
+
+        // Enum
+        enum = other.enum + this.enum,
+        const = other.const ?: this.const,
+
+        // Composition
+        allOf = other.allOf + this.allOf,
+        anyOf = other.anyOf + this.anyOf,
+        oneOf = other.oneOf + this.oneOf,
+        not = other.not ?: this.not,
+        `if` = other.`if` ?: this.`if`,
+        then = other.then ?: this.then,
+        `else` = other.`else` ?: this.`else`,
+
+        // Array
+        items = other.items ?: this.items,
+        prefixItems = other.prefixItems + this.prefixItems,
+        contains = other.contains ?: this.contains,
+        minContains = other.minContains ?: this.minContains,
+        maxContains = other.maxContains ?: this.maxContains,
+        minItems = other.minItems ?: this.minItems,
+        maxItems = other.maxItems ?: this.maxItems,
+        uniqueItems = other.uniqueItems ?: this.uniqueItems,
+
+        // Object
+        discriminator = other.discriminator ?: this.discriminator,
+        xml = other.xml ?: this.xml,
+        properties = other.properties + this.properties,
+        patternProperties = other.patternProperties + this.patternProperties,
+        additionalProperties = other.additionalProperties ?: this.additionalProperties,
+        unevaluatedProperties = other.unevaluatedProperties ?: this.unevaluatedProperties,
+        required = other.required + this.required,
+        dependentRequired = other.dependentRequired + this.dependentRequired,
+        dependentSchemas = other.dependentSchemas + this.dependentSchemas,
+        propertyNames = other.propertyNames ?: this.propertyNames,
+        minProperties = other.minProperties ?: this.minProperties,
+        maxProperties = other.maxProperties ?: this.maxProperties,
+
+        // String
+        minLength = other.minLength ?: this.minLength,
+        maxLength = other.maxLength ?: this.maxLength,
+        pattern = other.pattern ?: this.pattern,
+        contentMediaType = other.contentMediaType ?: this.contentMediaType,
+        contentEncoding = other.contentEncoding ?: this.contentEncoding,
+
+        // Numeric
+        multipleOf = other.multipleOf ?: this.multipleOf,
+        minimum = other.minimum ?: this.minimum,
+        exclusiveMinimum = other.exclusiveMinimum ?: this.exclusiveMinimum,
+        maximum = other.maximum ?: this.maximum,
+        exclusiveMaximum = other.exclusiveMaximum ?: this.exclusiveMaximum
+    )
 }

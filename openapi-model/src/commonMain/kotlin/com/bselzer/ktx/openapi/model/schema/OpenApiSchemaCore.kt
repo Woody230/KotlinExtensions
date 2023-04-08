@@ -30,12 +30,12 @@ sealed interface OpenApiSchemaCore : OpenApiExtensible {
     /**
      * readOnly indicates that a value should not be modified.
      */
-    val readOnly: Boolean
+    val readOnly: Boolean?
 
     /**
      * writeOnly indicates that a value may be set, but will remain hidden.
      */
-    val writeOnly: Boolean
+    val writeOnly: Boolean?
 
     /**
      * The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, if type is string, then default can be "foo" but cannot be 1.
@@ -45,7 +45,7 @@ sealed interface OpenApiSchemaCore : OpenApiExtensible {
     /**
      * The deprecated keyword is a boolean that indicates that the instance value the keyword applies to should not be used and may be removed in the future.
      */
-    val deprecated: Boolean
+    val deprecated: Boolean?
 
     /**
      * The $comment keyword is strictly intended for adding comments to a schema. Its value must always be a string. Unlike the annotations title, description, and examples, JSON schema implementations aren’t allowed to attach any meaning or behavior to it whatsoever, and may even strip them at any time.
