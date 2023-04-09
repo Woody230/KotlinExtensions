@@ -1,6 +1,6 @@
-package com.bselzer.ktx.openapi.client.property
+package com.bselzer.ktx.openapi.client.model.property
 
-import com.bselzer.ktx.openapi.client.type.name.Serializable
+import com.bselzer.ktx.openapi.client.model.annotation.Serializable
 import com.bselzer.ktx.openapi.client.type.name.TypeName
 
 class PropertyOutput(

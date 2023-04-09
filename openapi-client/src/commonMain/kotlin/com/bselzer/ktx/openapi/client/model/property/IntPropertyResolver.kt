@@ -1,13 +1,13 @@
-package com.bselzer.ktx.openapi.client.property
+package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.openapi.client.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class IntPropertyHandler(
+class IntPropertyResolver(
     private val default: Int = 0,
     private val nullDefault: Int? = null
-) : PrimitivePropertyHandler() {
+) : PrimitivePropertyResolver() {
     override val className: ClassName = ClassName.INT
     override val formats: Collection<String?> = setOf(null, "int32")
     override val types: Collection<OpenApiSchemaType> = setOf(OpenApiSchemaType.INTEGER)

@@ -1,14 +1,14 @@
-package com.bselzer.ktx.openapi.client.property
+package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.openapi.client.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import kotlinx.datetime.Instant
 
-class DateTimePropertyHandler(
+class DateTimePropertyResolver(
     private val default: Instant = Instant.DISTANT_PAST,
     private val nullDefault: Instant? = null
-) : PrimitivePropertyHandler() {
+) : PrimitivePropertyResolver() {
     override val className: ClassName = ClassName("kotlinx.datetime", "Instant")
     override val formats: Collection<String?> = setOf("date-time")
     override val types: Collection<OpenApiSchemaType> = setOf(OpenApiSchemaType.STRING)

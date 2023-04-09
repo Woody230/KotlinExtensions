@@ -2,9 +2,9 @@ package com.bselzer.ktx.openapi.client
 
 import com.bselzer.ktx.openapi.client.internal.toPoetClassName
 import com.bselzer.ktx.openapi.client.internal.toPoetTypeName
-import com.bselzer.ktx.openapi.client.property.PropertyOutput
+import com.bselzer.ktx.openapi.client.model.annotation.Serializable
+import com.bselzer.ktx.openapi.client.model.property.PropertyOutput
 import com.bselzer.ktx.openapi.client.type.name.ClassName
-import com.bselzer.ktx.openapi.client.type.name.Serializable
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.PropertySpec
 

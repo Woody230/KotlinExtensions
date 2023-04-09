@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.property
+package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.openapi.client.internal.ExtensionConstants
 import com.bselzer.ktx.openapi.client.type.name.ClassName
@@ -11,9 +11,9 @@ import com.bselzer.ktx.openapi.serialization.ReferenceOfOpenApiSchemaSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 
-class MapPropertyHandler(
-    propertyHandlerResolver: PropertyHandlerResolver
-) : NestedPropertyHandler(propertyHandlerResolver) {
+class MapPropertyResolver(
+    resolvers: PropertyResolvers
+) : NestedPropertyResolver(resolvers) {
     override fun canResolve(schema: OpenApiSchema, references: Map<String, OpenApiSchema>): Boolean {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null

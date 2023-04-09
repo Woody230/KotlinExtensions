@@ -1,10 +1,10 @@
-package com.bselzer.ktx.openapi.client.property
+package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.openapi.client.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-sealed class PrimitivePropertyHandler : PropertyHandler {
+sealed class PrimitivePropertyResolver : PropertyResolver {
     protected abstract val types: Collection<OpenApiSchemaType>
     protected abstract val formats: Collection<String?>
     internal abstract val className: ClassName

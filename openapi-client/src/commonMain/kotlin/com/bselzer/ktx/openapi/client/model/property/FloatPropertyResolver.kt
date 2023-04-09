@@ -1,13 +1,13 @@
-package com.bselzer.ktx.openapi.client.property
+package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.openapi.client.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class FloatPropertyHandler(
+class FloatPropertyResolver(
     private val default: Float = 0f,
     private val nullDefault: Float? = null
-) : PrimitivePropertyHandler() {
+) : PrimitivePropertyResolver() {
     override val className: ClassName = ClassName.FLOAT
     override val formats: Collection<String?> = setOf("float")
     override val types: Collection<OpenApiSchemaType> = setOf(OpenApiSchemaType.NUMBER)
