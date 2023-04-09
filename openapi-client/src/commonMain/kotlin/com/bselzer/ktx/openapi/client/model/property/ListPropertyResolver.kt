@@ -1,8 +1,8 @@
 package com.bselzer.ktx.openapi.client.model.property
 
-import com.bselzer.ktx.openapi.client.type.name.ClassName
-import com.bselzer.ktx.openapi.client.type.name.ParameterizedTypeName
-import com.bselzer.ktx.openapi.client.type.name.TypeName
+import com.bselzer.ktx.codegen.model.type.ClassName
+import com.bselzer.ktx.codegen.model.type.ParameterizedTypeName
+import com.bselzer.ktx.codegen.model.type.TypeName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 

@@ -1,6 +1,6 @@
-package com.bselzer.ktx.openapi.client.model.annotation
+package com.bselzer.ktx.codegen.model.annotation
 
-import com.bselzer.ktx.openapi.client.type.name.ClassName
+import com.bselzer.ktx.codegen.model.type.ClassName
 
 class Serializable(
     val serializerClassName: ClassName

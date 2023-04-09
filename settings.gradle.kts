@@ -9,6 +9,7 @@ pluginManagement {
 rootProject.name = "KotlinExtensions"
 include("aboutlibraries")
 include("base64")
+include("codegen-model")
 include("comparator")
 include("compose-aboutlibraries")
 include("compose-accompanist")

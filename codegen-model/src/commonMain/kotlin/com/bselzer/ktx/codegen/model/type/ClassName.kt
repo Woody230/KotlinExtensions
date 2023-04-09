@@ -1,8 +1,8 @@
-package com.bselzer.ktx.openapi.client.type.name
+package com.bselzer.ktx.codegen.model.type
 
 class ClassName(
-    internal val packageName: String,
-    internal val className: String
+    val packageName: String,
+    val className: String
 ) : TypeName {
     override fun toString(): String = "$packageName.$className"
 
