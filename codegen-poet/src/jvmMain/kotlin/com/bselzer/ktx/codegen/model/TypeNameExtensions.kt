@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.extension
+package com.bselzer.ktx.codegen.model
 
 import com.bselzer.ktx.codegen.model.type.ClassName
 import com.bselzer.ktx.codegen.model.type.ParameterizedTypeName

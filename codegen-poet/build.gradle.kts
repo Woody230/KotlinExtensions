@@ -1,22 +1,21 @@
 plugins {
-    kotlin("multiplatform")
     id("com.android.library")
+    kotlin("multiplatform")
 }
 
 publishing.publish(
     project = project,
-    description = "OpenApi client model generation."
+    description = "Code generation using Square's kotlinpoet."
 )
 
 android.setup()
 
 kotlin.setup {
     commonMain {
-        ktxDateTime()
-        projectOpenApiModel()
         projectCodeGenModel()
-        projectCodeGenPoet()
-        projectValue()
     }
     commonTest()
+    jvmMain {
+        poet()
+    }
 }

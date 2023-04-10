@@ -1,6 +1,7 @@
 package com.bselzer.ktx.openapi.client
 
-import com.bselzer.ktx.openapi.client.extension.toPoetTypeName
+import com.bselzer.ktx.codegen.generator.AnnotationSpec
+import com.bselzer.ktx.codegen.model.toPoetTypeName
 import com.bselzer.ktx.openapi.client.model.property.PropertyOutput
 import com.squareup.kotlinpoet.PropertySpec
 

@@ -10,6 +10,7 @@ rootProject.name = "KotlinExtensions"
 include("aboutlibraries")
 include("base64")
 include("codegen-model")
+include("codegen-poet")
 include("comparator")
 include("compose-aboutlibraries")
 include("compose-accompanist")

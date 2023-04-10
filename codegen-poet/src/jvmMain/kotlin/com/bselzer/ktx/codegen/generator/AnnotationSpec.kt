@@ -1,7 +1,7 @@
-package com.bselzer.ktx.openapi.client
+package com.bselzer.ktx.codegen.generator
 
 import com.bselzer.ktx.codegen.model.annotation.Annotation
-import com.bselzer.ktx.openapi.client.extension.toPoetClassName
+import com.bselzer.ktx.codegen.model.toPoetClassName
 
 class AnnotationSpec(
     private val annotation: Annotation
