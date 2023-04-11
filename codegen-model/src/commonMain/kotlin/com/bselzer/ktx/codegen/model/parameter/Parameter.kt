@@ -9,4 +9,5 @@ interface Parameter {
     val typeName: TypeName
     val documentation: Documentation?
     val annotations: Collection<Annotation>
+    val modifiers: Set<ParameterModifier>
 }
