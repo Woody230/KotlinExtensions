@@ -3,7 +3,7 @@ package com.bselzer.ktx.codegen.generator
 import com.bselzer.ktx.codegen.model.parameter.Parameter
 import com.bselzer.ktx.codegen.model.parameter.ParameterModifier
 import com.bselzer.ktx.codegen.model.parameter.toPoetModifier
-import com.bselzer.ktx.codegen.model.toPoetTypeName
+import com.bselzer.ktx.codegen.model.type.toPoetTypeName
 import com.squareup.kotlinpoet.ParameterSpec
 
 class ParameterGenerator(

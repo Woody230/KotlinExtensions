@@ -1,8 +1,5 @@
-package com.bselzer.ktx.codegen.model
+package com.bselzer.ktx.codegen.model.type
 
-import com.bselzer.ktx.codegen.model.type.ClassName
-import com.bselzer.ktx.codegen.model.type.ParameterizedTypeName
-import com.bselzer.ktx.codegen.model.type.TypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 
 fun TypeName.toPoetTypeName(): com.squareup.kotlinpoet.TypeName = when (this) {

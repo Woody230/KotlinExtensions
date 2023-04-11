@@ -1,8 +1,8 @@
 package com.bselzer.ktx.codegen.generator
 
 import com.bselzer.ktx.codegen.model.property.Property
-import com.bselzer.ktx.codegen.model.toPoetTypeName
 import com.bselzer.ktx.codegen.model.type.TypeName
+import com.bselzer.ktx.codegen.model.type.toPoetTypeName
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
 import com.squareup.kotlinpoet.PropertySpec
 
