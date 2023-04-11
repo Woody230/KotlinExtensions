@@ -17,6 +17,7 @@ class ParameterGenerator(
             addAnnotations(annotations)
             addModifiers(modifiers)
             parameter.documentation?.let { documentation -> addKdoc(documentation.toString()) }
+            parameter.defaultValue?.let { default -> defaultValue(default.toString()) }
         }.build()
     }
 }
