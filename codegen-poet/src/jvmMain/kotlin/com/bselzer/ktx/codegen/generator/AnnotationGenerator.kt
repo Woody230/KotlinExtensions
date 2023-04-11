@@ -3,7 +3,7 @@ package com.bselzer.ktx.codegen.generator
 import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.toPoetClassName
 
-class AnnotationSpec(
+class AnnotationGenerator(
     private val annotation: Annotation
 ) {
     fun build(): com.squareup.kotlinpoet.AnnotationSpec {
