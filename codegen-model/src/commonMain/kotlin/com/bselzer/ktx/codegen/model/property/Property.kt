@@ -17,4 +17,6 @@ interface Property {
     val delegated: CodeBlock?
     val getter: Function?
     val setter: Function?
+    val receiver: TypeName?
+    val contextReceivers: Collection<TypeName>
 }
