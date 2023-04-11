@@ -8,9 +8,11 @@ class FunctionGenerator(
 ) {
     fun build(): FunSpec {
         val annotations = function.annotations.map(::AnnotationGenerator).map(AnnotationGenerator::build)
+        val parameters = function.parameters.map(::ParameterGenerator).map(ParameterGenerator::build)
         return FunSpec.builder(function.name).apply {
             function.documentation?.let { documentation -> addKdoc(documentation.toString()) }
             addAnnotations(annotations)
+            addParameters(parameters)
         }.build()
     }
 }
