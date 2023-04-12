@@ -5,6 +5,7 @@ import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
 import com.bselzer.ktx.codegen.model.type.TypeName
+import com.bselzer.ktx.codegen.model.type.TypeVariableName
 
 interface Property {
     val typeName: TypeName
@@ -19,4 +20,5 @@ interface Property {
     val setter: Function?
     val receiver: TypeName?
     val contextReceivers: Collection<TypeName>
+    val typeVariables: Collection<TypeVariableName>
 }

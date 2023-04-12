@@ -1,6 +1,6 @@
 package com.bselzer.ktx.codegen.model.type
 
-class ParameterizedTypeName(
+data class ParameterizedTypeName(
     val root: ClassName,
     val parameters: List<TypeName>
 ) : TypeName {

@@ -1,10 +1,19 @@
 package com.bselzer.ktx.codegen.model.type
 
-class ClassName(
+data class ClassName(
     val packageName: String,
-    val className: String
+    val className: String,
+    val nullable: Boolean = false
 ) : TypeName {
-    override fun toString(): String = "$packageName.$className"
+    override fun toString(): String = buildString {
+        append(packageName)
+        append('.')
+        append(className)
+
+        if (nullable) {
+            append('?')
+        }
+    }
 
     companion object {
         val ANY: ClassName = ClassName("kotlin", "Any")
