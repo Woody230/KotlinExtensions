@@ -9,4 +9,5 @@ interface Function {
     val documentation: Documentation?
     val annotations: Collection<Annotation>
     val parameters: Collection<Parameter>
+    val modifiers: Collection<FunctionModifier>
 }
