@@ -26,6 +26,7 @@ class FunctionGenerator(
             addModifiers(modifiers)
             addTypeVariables(typeVariables)
             contextReceivers(contextReceivers)
+            addCode(function.body.toString())
 
             function.documentation?.let { documentation -> addKdoc(documentation.toString()) }
             function.receiver?.let { receiver -> receiver(receiver.toPoetTypeName()) }
