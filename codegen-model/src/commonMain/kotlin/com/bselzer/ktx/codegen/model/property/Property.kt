@@ -10,7 +10,6 @@ import com.bselzer.ktx.codegen.model.type.TypeVariableName
 interface Property {
     val typeName: TypeName
     val name: String
-    val nullable: Boolean
     val mutable: Boolean
     val description: Documentation?
     val annotations: Collection<Annotation>
@@ -21,4 +20,5 @@ interface Property {
     val receiver: TypeName?
     val contextReceivers: Collection<TypeName>
     val typeVariables: Collection<TypeVariableName>
+    val modifiers: Collection<PropertyModifier>
 }

@@ -1,6 +1,8 @@
 package com.bselzer.ktx.codegen.generator
 
 import com.bselzer.ktx.codegen.model.property.Property
+import com.bselzer.ktx.codegen.model.property.PropertyModifier
+import com.bselzer.ktx.codegen.model.property.toPoetModifier
 import com.bselzer.ktx.codegen.model.type.TypeName
 import com.bselzer.ktx.codegen.model.type.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.toPoetTypeName
@@ -13,16 +15,18 @@ class PropertyGenerator(
 ) {
     @OptIn(ExperimentalKotlinPoetApi::class)
     fun build(): PropertySpec {
-        val type = property.typeName.toPoetTypeName().copy(nullable = property.nullable)
+        val type = property.typeName.toPoetTypeName()
         val annotations = property.annotations.map(::AnnotationGenerator).map(AnnotationGenerator::build)
         val contextReceivers = property.contextReceivers.map(TypeName::toPoetTypeName)
         val typeVariables = property.typeVariables.map(TypeVariableName::toPoetTypeVariableName)
+        val modifiers = property.modifiers.map(PropertyModifier::toPoetModifier)
         return PropertySpec.builder(property.name, type).apply {
             mutable(property.mutable)
             addAnnotations(annotations)
             receiver(property.receiver?.toPoetTypeName())
             contextReceivers(contextReceivers)
             addTypeVariables(typeVariables)
+            addModifiers(modifiers)
 
             property.description?.let { description -> addKdoc(description.toString()) }
             property.delegated?.let { delegated -> delegate(delegated.toString()) }
