@@ -23,11 +23,11 @@ class PropertyGenerator(
         return PropertySpec.builder(property.name, type).apply {
             mutable(property.mutable)
             addAnnotations(annotations)
-            receiver(property.receiver?.toPoetTypeName())
             contextReceivers(contextReceivers)
             addTypeVariables(typeVariables)
             addModifiers(modifiers)
 
+            property.receiver?.let { receiver -> receiver(receiver.toPoetTypeName()) }
             property.description?.let { description -> addKdoc(description.toString()) }
             property.delegated?.let { delegated -> delegate(delegated.toString()) }
             property.initializer?.let { init -> initializer(init.toString()) }
