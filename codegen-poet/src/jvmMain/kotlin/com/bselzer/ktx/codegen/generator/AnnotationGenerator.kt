@@ -1,8 +1,8 @@
 package com.bselzer.ktx.codegen.generator
 
 import com.bselzer.ktx.codegen.model.annotation.Annotation
-import com.bselzer.ktx.codegen.model.annotation.toPoetSiteTarget
-import com.bselzer.ktx.codegen.model.type.toPoetClassName
+import com.bselzer.ktx.codegen.model.extensions.toPoetClassName
+import com.bselzer.ktx.codegen.model.extensions.toPoetSiteTarget
 import com.squareup.kotlinpoet.AnnotationSpec
 
 interface AnnotationGenerator {

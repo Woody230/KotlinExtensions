@@ -1,5 +1,6 @@
-package com.bselzer.ktx.codegen.model.type.alias
+package com.bselzer.ktx.codegen.model.extensions
 
+import com.bselzer.ktx.codegen.model.type.alias.TypeAliasModifier
 import com.squareup.kotlinpoet.KModifier
 
 fun TypeAliasModifier.toPoetModifier(): KModifier = when (this) {

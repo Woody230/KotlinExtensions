@@ -1,5 +1,6 @@
-package com.bselzer.ktx.codegen.model.property
+package com.bselzer.ktx.codegen.model.extensions
 
+import com.bselzer.ktx.codegen.model.property.PropertyModifier
 import com.squareup.kotlinpoet.KModifier
 
 fun PropertyModifier.toPoetModifier(): KModifier = when (this) {

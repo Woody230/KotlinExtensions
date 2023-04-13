@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.type
+package com.bselzer.ktx.codegen.model.extensions
 
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName

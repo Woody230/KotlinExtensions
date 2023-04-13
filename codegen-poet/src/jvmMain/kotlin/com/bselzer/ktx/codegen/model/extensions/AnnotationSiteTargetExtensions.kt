@@ -1,5 +1,6 @@
-package com.bselzer.ktx.codegen.model.annotation
+package com.bselzer.ktx.codegen.model.extensions
 
+import com.bselzer.ktx.codegen.model.annotation.AnnotationSiteTarget
 import com.squareup.kotlinpoet.AnnotationSpec
 
 fun AnnotationSiteTarget.toPoetSiteTarget(): AnnotationSpec.UseSiteTarget = when (this) {

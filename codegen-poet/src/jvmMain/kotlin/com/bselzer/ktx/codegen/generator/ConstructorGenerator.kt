@@ -2,12 +2,12 @@ package com.bselzer.ktx.codegen.generator
 
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.constructor.Constructor
+import com.bselzer.ktx.codegen.model.constructor.ConstructorModifier
 import com.bselzer.ktx.codegen.model.constructor.ConstructorReference
 import com.bselzer.ktx.codegen.model.constructor.ConstructorReferenceType
-import com.bselzer.ktx.codegen.model.function.FunctionModifier
-import com.bselzer.ktx.codegen.model.function.toPoetModifier
+import com.bselzer.ktx.codegen.model.extensions.toPoetModifier
+import com.bselzer.ktx.codegen.model.extensions.toPoetTypeVariableName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
-import com.bselzer.ktx.codegen.model.type.toPoetTypeVariableName
 import com.squareup.kotlinpoet.FunSpec
 
 interface ConstructorGenerator {
@@ -25,7 +25,7 @@ interface ConstructorGenerator {
 
             val annotations = function.annotations.map(AnnotationGenerator::build)
             val parameters = function.parameters.map(ParameterGenerator::build)
-            val modifiers = function.modifiers.map(FunctionModifier::toPoetModifier)
+            val modifiers = function.modifiers.map(ConstructorModifier::toPoetModifier)
             val typeVariables = function.typeVariables.map(TypeVariableName::toPoetTypeVariableName)
             return FunSpec.constructorBuilder().apply {
                 addAnnotations(annotations)
