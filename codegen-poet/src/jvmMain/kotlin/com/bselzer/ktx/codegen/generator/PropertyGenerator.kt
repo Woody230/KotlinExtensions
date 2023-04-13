@@ -16,7 +16,7 @@ interface PropertyGenerator {
     companion object : PropertyGenerator {
         @OptIn(ExperimentalKotlinPoetApi::class)
         override fun build(property: Property): PropertySpec {
-            val type = property.typeName.toPoetTypeName()
+            val type = property.type.toPoetTypeName()
             val annotations = property.annotations.map(AnnotationGenerator::build)
             val contextReceivers = property.contextReceivers.map(TypeName::toPoetTypeName)
             val typeVariables = property.typeVariables.map(TypeVariableName::toPoetTypeVariableName)

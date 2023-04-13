@@ -8,7 +8,7 @@ import com.bselzer.ktx.codegen.model.type.TypeName
 import com.bselzer.ktx.codegen.model.type.TypeVariableName
 
 interface Property {
-    val typeName: TypeName
+    val type: TypeName
     val name: String
     val mutable: Boolean
     val description: Documentation?

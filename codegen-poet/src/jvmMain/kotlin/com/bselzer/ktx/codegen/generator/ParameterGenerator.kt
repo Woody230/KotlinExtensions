@@ -11,7 +11,7 @@ interface ParameterGenerator {
 
     companion object : ParameterGenerator {
         override fun build(parameter: Parameter): ParameterSpec {
-            val type = parameter.typeName.toPoetTypeName()
+            val type = parameter.type.toPoetTypeName()
             val annotations = parameter.annotations.map(AnnotationGenerator::build)
             val modifiers = parameter.modifiers.map(ParameterModifier::toPoetModifier)
             return ParameterSpec.builder(parameter.name, type).apply {

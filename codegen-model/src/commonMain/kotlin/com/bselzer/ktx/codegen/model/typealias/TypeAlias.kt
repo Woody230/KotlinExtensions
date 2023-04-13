@@ -1,15 +1,15 @@
-package com.bselzer.ktx.codegen.model.parameter
+package com.bselzer.ktx.codegen.model.`typealias`
 
 import com.bselzer.ktx.codegen.model.annotation.Annotation
-import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.type.TypeName
+import com.bselzer.ktx.codegen.model.type.TypeVariableName
 
-interface Parameter {
+interface TypeAlias {
     val name: String
     val type: TypeName
     val documentation: Documentation?
     val annotations: Collection<Annotation>
-    val modifiers: Set<ParameterModifier>
-    val defaultValue: CodeBlock?
+    val modifiers: Collection<TypeAliasModifier>
+    val typeVariables: Collection<TypeVariableName>
 }
