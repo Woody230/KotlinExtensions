@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.`typealias`
+package com.bselzer.ktx.codegen.model.type.alias
 
 import com.squareup.kotlinpoet.KModifier
 

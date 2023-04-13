@@ -1,11 +1,11 @@
 package com.bselzer.ktx.codegen.generator
 
+import com.bselzer.ktx.codegen.model.type.alias.TypeAlias
+import com.bselzer.ktx.codegen.model.type.alias.TypeAliasModifier
+import com.bselzer.ktx.codegen.model.type.alias.toPoetModifier
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.toPoetTypeName
 import com.bselzer.ktx.codegen.model.type.toPoetTypeVariableName
-import com.bselzer.ktx.codegen.model.`typealias`.TypeAlias
-import com.bselzer.ktx.codegen.model.`typealias`.TypeAliasModifier
-import com.bselzer.ktx.codegen.model.`typealias`.toPoetModifier
 import com.squareup.kotlinpoet.TypeAliasSpec
 
 interface TypeAliasGenerator {

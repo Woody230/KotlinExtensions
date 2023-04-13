@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.`typealias`
+package com.bselzer.ktx.codegen.model.type.alias
 
 import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.documentation.Documentation
