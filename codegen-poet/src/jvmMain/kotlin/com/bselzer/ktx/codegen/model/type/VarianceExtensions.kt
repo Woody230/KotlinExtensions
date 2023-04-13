@@ -1,5 +1,6 @@
 package com.bselzer.ktx.codegen.model.type
 
+import com.bselzer.ktx.codegen.model.type.name.Variance
 import com.squareup.kotlinpoet.KModifier
 
 fun Variance.toPoetModifier(): KModifier = when (this) {

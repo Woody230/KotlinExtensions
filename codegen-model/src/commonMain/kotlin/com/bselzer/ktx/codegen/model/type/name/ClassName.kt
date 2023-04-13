@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.type
+package com.bselzer.ktx.codegen.model.type.name
 
 data class ClassName(
     val packageName: String,

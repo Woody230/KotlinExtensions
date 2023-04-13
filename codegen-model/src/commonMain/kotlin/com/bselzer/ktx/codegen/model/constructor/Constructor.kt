@@ -5,7 +5,7 @@ import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.FunctionModifier
 import com.bselzer.ktx.codegen.model.parameter.Parameter
-import com.bselzer.ktx.codegen.model.type.TypeVariableName
+import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 
 interface Constructor {
     val documentation: Documentation?

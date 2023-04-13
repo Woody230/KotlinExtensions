@@ -3,8 +3,8 @@ package com.bselzer.ktx.codegen.generator
 import com.bselzer.ktx.codegen.model.function.Function
 import com.bselzer.ktx.codegen.model.function.FunctionModifier
 import com.bselzer.ktx.codegen.model.function.toPoetModifier
-import com.bselzer.ktx.codegen.model.type.TypeName
-import com.bselzer.ktx.codegen.model.type.TypeVariableName
+import com.bselzer.ktx.codegen.model.type.name.TypeName
+import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.toPoetTypeName
 import com.bselzer.ktx.codegen.model.type.toPoetTypeVariableName
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi

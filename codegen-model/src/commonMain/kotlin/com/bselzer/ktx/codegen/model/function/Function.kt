@@ -4,8 +4,8 @@ import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.parameter.Parameter
-import com.bselzer.ktx.codegen.model.type.TypeName
-import com.bselzer.ktx.codegen.model.type.TypeVariableName
+import com.bselzer.ktx.codegen.model.type.name.TypeName
+import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 
 interface Function {
     val name: String

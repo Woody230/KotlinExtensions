@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.codegen.model.annotation.Serializable
-import com.bselzer.ktx.codegen.model.type.TypeName
+import com.bselzer.ktx.codegen.model.type.name.TypeName
 
 class PropertyOutput(
     val typeName: TypeName,

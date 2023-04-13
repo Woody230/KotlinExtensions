@@ -6,7 +6,7 @@ import com.bselzer.ktx.codegen.model.constructor.ConstructorReference
 import com.bselzer.ktx.codegen.model.constructor.ConstructorReferenceType
 import com.bselzer.ktx.codegen.model.function.FunctionModifier
 import com.bselzer.ktx.codegen.model.function.toPoetModifier
-import com.bselzer.ktx.codegen.model.type.TypeVariableName
+import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.toPoetTypeVariableName
 import com.squareup.kotlinpoet.FunSpec
 
