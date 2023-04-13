@@ -12,7 +12,7 @@ interface Function {
     val documentation: Documentation?
     val annotations: Collection<Annotation>
     val parameters: Collection<Parameter>
-    val modifiers: Collection<FunctionModifier>
+    val modifiers: Set<FunctionModifier>
     val typeVariables: Collection<TypeVariableName>
     val receiver: TypeName?
     val contextReceivers: Collection<TypeName>

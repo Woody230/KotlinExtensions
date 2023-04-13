@@ -10,6 +10,6 @@ interface TypeAlias {
     val type: TypeName
     val documentation: Documentation?
     val annotations: Collection<Annotation>
-    val modifiers: Collection<TypeAliasModifier>
+    val modifiers: Set<TypeAliasModifier>
     val typeVariables: Collection<TypeVariableName>
 }

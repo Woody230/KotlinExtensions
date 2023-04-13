@@ -20,5 +20,5 @@ interface Property {
     val receiver: TypeName?
     val contextReceivers: Collection<TypeName>
     val typeVariables: Collection<TypeVariableName>
-    val modifiers: Collection<PropertyModifier>
+    val modifiers: Set<PropertyModifier>
 }

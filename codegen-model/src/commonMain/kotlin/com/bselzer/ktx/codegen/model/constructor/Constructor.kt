@@ -11,7 +11,7 @@ interface Constructor {
     val documentation: Documentation?
     val annotations: Collection<Annotation>
     val parameters: Collection<Parameter>
-    val modifiers: Collection<FunctionModifier>
+    val modifiers: Set<FunctionModifier>
     val typeVariables: Collection<TypeVariableName>
     val body: CodeBlock
     val reference: ConstructorReference?
