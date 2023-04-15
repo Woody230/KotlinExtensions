@@ -24,6 +24,10 @@ interface SourceFileGenerator {
             return FileSpec.builder(sourceFile.packageName, sourceFile.name).apply {
                 sourceFile.documentation?.let { documentation -> addFileComment(documentation.toString()) }
 
+                typeAliases.forEach { typeAlias -> addTypeAlias(typeAlias) }
+                properties.forEach { property -> addProperty(property) }
+                functions.forEach { function -> addFunction(function) }
+
                 annotations.forEach { annotation -> addAnnotation(annotation) }
                 annotationClasses.forEach { annotationClass -> addType(annotationClass) }
                 dataClasses.forEach { dataClass -> addType(dataClass) }
@@ -33,9 +37,6 @@ interface SourceFileGenerator {
                 functionalInterfaces.forEach { functionalInterface -> addType(functionalInterface) }
                 interfaces.forEach { `interface` -> addType(`interface`) }
                 objects.forEach { `object` -> addType(`object`) }
-                functions.forEach { function -> addFunction(function) }
-                properties.forEach { property -> addProperty(property) }
-                typeAliases.forEach { typeAlias -> addTypeAlias(typeAlias) }
 
                 sourceFile.imports.forEach { import ->
                     val alias = import.alias
