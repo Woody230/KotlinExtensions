@@ -6,15 +6,13 @@ import com.bselzer.ktx.codegen.model.constructor.ConstructorModifier
 import com.bselzer.ktx.codegen.model.constructor.ConstructorReference
 import com.bselzer.ktx.codegen.model.constructor.ConstructorReferenceType
 import com.bselzer.ktx.codegen.model.extensions.toPoetModifier
-import com.bselzer.ktx.codegen.model.extensions.toPoetTypeVariableName
-import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.squareup.kotlinpoet.FunSpec
 
 interface ConstructorGenerator {
-    fun build(function: Constructor): FunSpec
+    fun build(constructor: Constructor): FunSpec
 
     companion object : ConstructorGenerator {
-        override fun build(function: Constructor): FunSpec {
+        override fun build(constructor: Constructor): FunSpec {
             fun FunSpec.Builder.callReference(reference: ConstructorReference) {
                 val arguments = reference.arguments.map(CodeBlock::toString).toTypedArray()
                 when (reference.type) {
@@ -23,19 +21,14 @@ interface ConstructorGenerator {
                 }
             }
 
-            val annotations = function.annotations.map(AnnotationGenerator::build)
-            val parameters = function.parameters.map(ParameterGenerator::build)
-            val modifiers = function.modifiers.map(ConstructorModifier::toPoetModifier)
-            val typeVariables = function.typeVariables.map(TypeVariableName::toPoetTypeVariableName)
+            val parameters = constructor.parameters.map(ParameterGenerator::build)
+            val modifiers = constructor.modifiers.map(ConstructorModifier::toPoetModifier)
             return FunSpec.constructorBuilder().apply {
-                addAnnotations(annotations)
                 addParameters(parameters)
                 addModifiers(modifiers)
-                addTypeVariables(typeVariables)
-                addCode(function.body.toString())
+                constructor.body?.let { body -> addCode(body.toString()) }
 
-                function.documentation?.let { documentation -> addKdoc(documentation.toString()) }
-                function.reference?.let(::callReference)
+                constructor.reference?.let(::callReference)
             }.build()
         }
     }

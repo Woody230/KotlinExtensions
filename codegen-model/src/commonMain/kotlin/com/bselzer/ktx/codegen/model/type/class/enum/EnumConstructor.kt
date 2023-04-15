@@ -1,11 +1,9 @@
-package com.bselzer.ktx.codegen.model.constructor
+package com.bselzer.ktx.codegen.model.type.`class`.enum
 
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.parameter.Parameter
 
-interface Constructor {
+interface EnumConstructor {
     val parameters: Collection<Parameter>
-    val modifiers: Set<ConstructorModifier>
     val body: CodeBlock?
-    val reference: ConstructorReference?
 }
