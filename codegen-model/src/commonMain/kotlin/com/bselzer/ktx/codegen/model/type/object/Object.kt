@@ -5,8 +5,6 @@ import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
 import com.bselzer.ktx.codegen.model.property.Property
-import com.bselzer.ktx.codegen.model.type.DelegableSuperInterface
-import com.bselzer.ktx.codegen.model.type.SuperClass
 import com.bselzer.ktx.codegen.model.type.`class`.Class
 import com.bselzer.ktx.codegen.model.type.`class`.annotation.AnnotationClass
 import com.bselzer.ktx.codegen.model.type.`class`.data.DataClass
@@ -14,6 +12,8 @@ import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumClass
 import com.bselzer.ktx.codegen.model.type.`class`.value.ValueClass
 import com.bselzer.ktx.codegen.model.type.`interface`.Interface
 import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInterface
+import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
+import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 
 interface Object {
     val documentation: Documentation?

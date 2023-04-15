@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.type
+package com.bselzer.ktx.codegen.model.type.`super`.`interface`
 
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 

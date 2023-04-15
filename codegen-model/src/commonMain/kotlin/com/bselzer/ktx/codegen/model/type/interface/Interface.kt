@@ -4,7 +4,6 @@ import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
 import com.bselzer.ktx.codegen.model.property.Property
-import com.bselzer.ktx.codegen.model.type.SuperInterface
 import com.bselzer.ktx.codegen.model.type.`class`.Class
 import com.bselzer.ktx.codegen.model.type.`class`.annotation.AnnotationClass
 import com.bselzer.ktx.codegen.model.type.`class`.data.DataClass
@@ -14,6 +13,7 @@ import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInter
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
+import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 
 interface Interface {
     val documentation: Documentation?
