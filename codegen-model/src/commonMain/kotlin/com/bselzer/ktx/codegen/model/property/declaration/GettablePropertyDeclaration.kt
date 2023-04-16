@@ -6,6 +6,6 @@ import com.bselzer.ktx.codegen.model.function.Function
 data class GettablePropertyDeclaration(
     val getter: Function,
     val initializer: CodeBlock? = null
-) : PropertyDeclaration {
+) : AccessorPropertyDelegation {
     override val mutable: Boolean = false
 }

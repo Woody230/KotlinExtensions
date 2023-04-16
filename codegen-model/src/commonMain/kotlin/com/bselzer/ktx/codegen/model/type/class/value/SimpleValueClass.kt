@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
-import com.bselzer.ktx.codegen.model.property.Property
+import com.bselzer.ktx.codegen.model.property.AccessorProperty
 import com.bselzer.ktx.codegen.model.type.`class`.Class
 import com.bselzer.ktx.codegen.model.type.`class`.annotation.AnnotationClass
 import com.bselzer.ktx.codegen.model.type.`class`.data.DataClass
@@ -20,9 +20,7 @@ data class SimpleValueClass(
     override val name: String,
     override val primaryConstructor: ValueClassConstructor,
     override val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
-
-    // TODO only properties with getter/setter or delegate
-    override val properties: Collection<Property> = emptyList(),
+    override val properties: Collection<AccessorProperty> = emptyList(),
     override val functions: Collection<Function> = emptyList(),
     override val documentation: Documentation? = null,
     override val annotations: Collection<Annotation> = emptyList(),
