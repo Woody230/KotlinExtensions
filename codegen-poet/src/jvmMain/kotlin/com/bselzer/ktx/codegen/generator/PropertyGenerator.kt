@@ -29,7 +29,7 @@ interface PropertyGenerator {
                 addModifiers(modifiers)
 
                 property.receiver?.let { receiver -> receiver(receiver.toPoetTypeName()) }
-                property.description?.let { description -> addKdoc(description.toString()) }
+                property.documentation?.let { description -> addKdoc(description.toString()) }
                 property.delegated?.let { delegated -> delegate(delegated.toString()) }
                 property.initializer?.let { init -> initializer(init.toString()) }
                 property.getter?.let { get -> getter(FunctionGenerator.build(get)) }

@@ -11,7 +11,7 @@ interface Property {
     val type: TypeName
     val name: String
     val mutable: Boolean
-    val description: Documentation?
+    val documentation: Documentation?
     val annotations: Collection<Annotation>
     val initializer: CodeBlock?
     val delegated: CodeBlock?
