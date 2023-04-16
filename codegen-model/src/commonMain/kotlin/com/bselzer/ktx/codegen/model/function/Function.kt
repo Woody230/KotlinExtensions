@@ -17,5 +17,5 @@ interface Function {
     val receiver: TypeName?
     val contextReceivers: Collection<TypeName>
     val returns: TypeName?
-    val body: CodeBlock
+    val body: CodeBlock?
 }

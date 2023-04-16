@@ -24,7 +24,7 @@ interface DataClass {
     val name: String
     val modifiers: Set<DataClassModifier>
     val typeVariables: Collection<TypeVariableName>
-    val primaryConstructor: Constructor?
+    val primaryConstructor: Constructor
     val superClass: SuperClass?
     val superInterfaces: Collection<DelegableSuperInterface>
     val properties: Collection<Property>

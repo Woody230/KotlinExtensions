@@ -22,7 +22,7 @@ interface ValueClass {
     val name: String
     val modifiers: Set<ValueClassModifier>
     val typeVariables: Collection<TypeVariableName>
-    val primaryConstructor: ValueClassConstructor?
+    val primaryConstructor: ValueClassConstructor
     val superInterfaces: Collection<DelegableSuperInterface>
     val properties: Collection<Property>
     val initializer: CodeBlock?
