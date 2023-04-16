@@ -8,12 +8,12 @@ import com.bselzer.ktx.codegen.model.extensions.addDataClasses
 import com.bselzer.ktx.codegen.model.extensions.addDocumentation
 import com.bselzer.ktx.codegen.model.extensions.addEnumClasses
 import com.bselzer.ktx.codegen.model.extensions.addEnumConstants
-import com.bselzer.ktx.codegen.model.extensions.addEnumConstructor
 import com.bselzer.ktx.codegen.model.extensions.addFunctionalInterfaces
 import com.bselzer.ktx.codegen.model.extensions.addFunctions
 import com.bselzer.ktx.codegen.model.extensions.addInitializer
 import com.bselzer.ktx.codegen.model.extensions.addInterfaces
 import com.bselzer.ktx.codegen.model.extensions.addObjects
+import com.bselzer.ktx.codegen.model.extensions.addPrimaryConstructor
 import com.bselzer.ktx.codegen.model.extensions.addProperties
 import com.bselzer.ktx.codegen.model.extensions.addSuperInterfaces
 import com.bselzer.ktx.codegen.model.extensions.addValueClasses
@@ -33,7 +33,7 @@ interface EnumClassGenerator {
                 addAnnotations(enumClass.annotations)
                 addModifiers(modifiers)
                 addEnumConstants(enumClass.constants)
-                addEnumConstructor(enumClass.primaryConstructor)
+                addPrimaryConstructor(enumClass.primaryConstructor)
                 addSuperInterfaces(enumClass.superInterfaces)
                 addProperties(enumClass.properties)
                 addInitializer(enumClass.initializer)

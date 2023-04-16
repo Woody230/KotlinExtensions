@@ -18,7 +18,7 @@ import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 data class SimpleEnumClass(
     override val name: String,
     override val constants: Collection<EnumConstant>,
-    override val primaryConstructor: EnumConstructor? = null,
+    override val primaryConstructor: EnumClassConstructor? = null,
     override val superInterfaces: Collection<SuperInterface>,
     override val properties: Collection<Property>,
     override val functions: Collection<Function>,

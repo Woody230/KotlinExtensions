@@ -16,18 +16,14 @@ import com.bselzer.ktx.codegen.generator.ValueClassGenerator
 import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.constructor.Constructor
-import com.bselzer.ktx.codegen.model.constructor.ConstructorModifier
-import com.bselzer.ktx.codegen.model.constructor.reference.ConstructorReference
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
-import com.bselzer.ktx.codegen.model.parameter.Parameter
 import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.type.`class`.Class
 import com.bselzer.ktx.codegen.model.type.`class`.annotation.AnnotationClass
 import com.bselzer.ktx.codegen.model.type.`class`.data.DataClass
 import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumClass
 import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumConstant
-import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumConstructor
 import com.bselzer.ktx.codegen.model.type.`class`.value.ValueClass
 import com.bselzer.ktx.codegen.model.type.`interface`.Interface
 import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInterface
@@ -167,21 +163,6 @@ internal fun TypeSpec.Builder.addTypeVariables(typeVariables: Collection<TypeVar
     for (typeVariable in typeVariables.map(TypeVariableName::toPoetTypeVariableName)) {
         addTypeVariable(typeVariable)
     }
-}
-
-internal fun TypeSpec.Builder.addEnumConstructor(enumConstructor: EnumConstructor?) {
-    if (enumConstructor == null) {
-        return
-    }
-
-    val constructor = object : Constructor {
-        override val parameters: Collection<Parameter> = enumConstructor.parameters
-        override val modifiers: Set<ConstructorModifier> = emptySet()
-        override val body: CodeBlock? = enumConstructor.body
-        override val reference: ConstructorReference? = null
-    }
-
-    primaryConstructor(ConstructorGenerator.build(constructor))
 }
 
 internal fun TypeSpec.Builder.addEnumConstants(enumConstants: Collection<EnumConstant>) {

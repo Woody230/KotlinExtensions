@@ -21,7 +21,7 @@ interface EnumClass {
     val name: String
     val modifiers: Set<EnumClassModifier>
     val constants: Collection<EnumConstant>
-    val primaryConstructor: EnumConstructor?
+    val primaryConstructor: EnumClassConstructor?
     val superInterfaces: Collection<SuperInterface>
     val properties: Collection<Property>
     val initializer: CodeBlock?
