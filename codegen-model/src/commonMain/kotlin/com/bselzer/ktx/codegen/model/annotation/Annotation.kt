@@ -5,5 +5,5 @@ import com.bselzer.ktx.codegen.model.type.name.ClassName
 interface Annotation {
     val siteTarget: AnnotationSiteTarget?
     val className: ClassName
-    val members: List<AnnotationMember>
+    val members: Collection<AnnotationMember>
 }

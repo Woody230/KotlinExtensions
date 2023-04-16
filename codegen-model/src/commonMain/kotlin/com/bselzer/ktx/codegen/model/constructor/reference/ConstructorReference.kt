@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.constructor
+package com.bselzer.ktx.codegen.model.constructor.reference
 
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 

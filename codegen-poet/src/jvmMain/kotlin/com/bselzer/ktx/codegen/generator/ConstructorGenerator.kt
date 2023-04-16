@@ -3,8 +3,8 @@ package com.bselzer.ktx.codegen.generator
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.constructor.Constructor
 import com.bselzer.ktx.codegen.model.constructor.ConstructorModifier
-import com.bselzer.ktx.codegen.model.constructor.ConstructorReference
-import com.bselzer.ktx.codegen.model.constructor.ConstructorReferenceType
+import com.bselzer.ktx.codegen.model.constructor.reference.ConstructorReference
+import com.bselzer.ktx.codegen.model.constructor.reference.ConstructorReferenceType
 import com.bselzer.ktx.codegen.model.extensions.toPoetModifier
 import com.squareup.kotlinpoet.FunSpec
 

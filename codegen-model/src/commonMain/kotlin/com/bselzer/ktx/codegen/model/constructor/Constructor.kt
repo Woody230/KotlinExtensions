@@ -1,6 +1,7 @@
 package com.bselzer.ktx.codegen.model.constructor
 
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
+import com.bselzer.ktx.codegen.model.constructor.reference.ConstructorReference
 import com.bselzer.ktx.codegen.model.parameter.Parameter
 
 interface Constructor {
