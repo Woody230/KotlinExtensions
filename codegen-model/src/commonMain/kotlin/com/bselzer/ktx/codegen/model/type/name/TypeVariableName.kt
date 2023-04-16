@@ -5,6 +5,4 @@ data class TypeVariableName(
     val bounds: Collection<TypeName>,
     val variance: Variance?,
     val reified: Boolean,
-) : TypeName {
-    override fun toString(): String = name
-}
+) : TypeName
