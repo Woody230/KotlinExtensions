@@ -5,6 +5,11 @@ import com.bselzer.ktx.codegen.model.extensions.toPoetTypeName
 import com.bselzer.ktx.codegen.model.extensions.toPoetTypeVariableName
 import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.property.PropertyModifier
+import com.bselzer.ktx.codegen.model.property.declaration.DelegatedPropertyDeclaration
+import com.bselzer.ktx.codegen.model.property.declaration.GettablePropertyDeclaration
+import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDeclaration
+import com.bselzer.ktx.codegen.model.property.declaration.PropertyDeclaration
+import com.bselzer.ktx.codegen.model.property.declaration.SettablePropertyDeclaration
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
@@ -22,7 +27,6 @@ interface PropertyGenerator {
             val typeVariables = property.typeVariables.map(TypeVariableName::toPoetTypeVariableName)
             val modifiers = property.modifiers.map(PropertyModifier::toPoetModifier)
             return PropertySpec.builder(property.name, type).apply {
-                mutable(property.mutable)
                 addAnnotations(annotations)
                 contextReceivers(contextReceivers)
                 addTypeVariables(typeVariables)
@@ -30,11 +34,39 @@ interface PropertyGenerator {
 
                 property.receiver?.let { receiver -> receiver(receiver.toPoetTypeName()) }
                 property.documentation?.let { description -> addKdoc(description.toString()) }
-                property.delegated?.let { delegated -> delegate(delegated.toString()) }
-                property.initializer?.let { init -> initializer(init.toString()) }
-                property.getter?.let { get -> getter(FunctionGenerator.build(get)) }
-                property.setter?.let { set -> setter(FunctionGenerator.build(set)) }
+                addDeclaration(property.declaration)
             }.build()
+        }
+
+        private fun PropertySpec.Builder.addDeclaration(declaration: PropertyDeclaration?) {
+            if (declaration == null) {
+                return
+            }
+
+            mutable(declaration.mutable)
+
+            when (declaration) {
+                is DelegatedPropertyDeclaration -> {
+                    delegate(declaration.delegate.toString())
+                }
+
+                is GettablePropertyDeclaration -> {
+                    declaration.initializer?.let { initializer(it.toString()) }
+                    getter(FunctionGenerator.build(declaration.getter))
+                }
+
+                is InitializedPropertyDeclaration -> {
+                    initializer(declaration.initializer.toString())
+                }
+
+                is SettablePropertyDeclaration -> {
+                    declaration.initializer?.let { initializer(it.toString()) }
+                    getter(FunctionGenerator.build(declaration.getter))
+                    setter(FunctionGenerator.build(declaration.setter))
+                }
+
+                else -> throw NotImplementedError("Unknown property declaration: $declaration")
+            }
         }
     }
 }
