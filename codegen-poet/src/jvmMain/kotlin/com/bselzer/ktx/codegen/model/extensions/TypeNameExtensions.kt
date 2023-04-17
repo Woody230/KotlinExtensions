@@ -2,21 +2,20 @@ package com.bselzer.ktx.codegen.model.extensions
 
 import com.bselzer.ktx.codegen.generator.ParameterGenerator
 import com.bselzer.ktx.codegen.model.type.name.ClassName
-import com.bselzer.ktx.codegen.model.type.name.FunctionTypeName
+import com.bselzer.ktx.codegen.model.type.name.LambdaTypeName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.name.Variance
 import com.bselzer.ktx.codegen.model.type.name.WildcardTypeName
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
-import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 
 fun TypeName.toPoetTypeName(): com.squareup.kotlinpoet.TypeName = when (this) {
     is ClassName -> toPoetClassName()
     is ParameterizedTypeName -> toPoetParameterizedTypeName()
     is TypeVariableName -> toPoetTypeVariableName()
-    is FunctionTypeName -> toPoetLambdaTypeName()
+    is LambdaTypeName -> toPoetLambdaTypeName()
     is WildcardTypeName -> toPoetWildcardTypeName()
     else -> throw NotImplementedError("Type name not supported: $this")
 }
@@ -38,12 +37,12 @@ fun TypeVariableName.toPoetTypeVariableName(): com.squareup.kotlinpoet.TypeVaria
 }
 
 @OptIn(ExperimentalKotlinPoetApi::class)
-fun FunctionTypeName.toPoetLambdaTypeName(): LambdaTypeName {
+fun LambdaTypeName.toPoetLambdaTypeName(): com.squareup.kotlinpoet.LambdaTypeName {
     val receiver = receiver?.toPoetTypeName()
     val parameters = parameters.map(ParameterGenerator::build)
     val returns = returns?.toPoetTypeName() ?: com.squareup.kotlinpoet.UNIT
     val contextReceivers = contextReceivers.map(TypeName::toPoetTypeName)
-    return LambdaTypeName.get(receiver, parameters, returns, contextReceivers)
+    return com.squareup.kotlinpoet.LambdaTypeName.get(receiver, parameters, returns, contextReceivers)
 }
 
 fun WildcardTypeName.toPoetWildcardTypeName(): com.squareup.kotlinpoet.WildcardTypeName = when (variance) {
