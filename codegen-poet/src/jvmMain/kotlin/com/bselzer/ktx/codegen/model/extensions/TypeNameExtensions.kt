@@ -6,6 +6,8 @@ import com.bselzer.ktx.codegen.model.type.name.FunctionTypeName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
+import com.bselzer.ktx.codegen.model.type.name.Variance
+import com.bselzer.ktx.codegen.model.type.name.WildcardTypeName
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -15,6 +17,7 @@ fun TypeName.toPoetTypeName(): com.squareup.kotlinpoet.TypeName = when (this) {
     is ParameterizedTypeName -> toPoetParameterizedTypeName()
     is TypeVariableName -> toPoetTypeVariableName()
     is FunctionTypeName -> toPoetLambdaTypeName()
+    is WildcardTypeName -> toPoetWildcardTypeName()
     else -> throw NotImplementedError("Type name not supported: $this")
 }
 
@@ -41,4 +44,9 @@ fun FunctionTypeName.toPoetLambdaTypeName(): LambdaTypeName {
     val returns = returns?.toPoetTypeName() ?: com.squareup.kotlinpoet.UNIT
     val contextReceivers = contextReceivers.map(TypeName::toPoetTypeName)
     return LambdaTypeName.get(receiver, parameters, returns, contextReceivers)
+}
+
+fun WildcardTypeName.toPoetWildcardTypeName(): com.squareup.kotlinpoet.WildcardTypeName = when (variance) {
+    Variance.IN -> com.squareup.kotlinpoet.WildcardTypeName.consumerOf(type.toPoetTypeName())
+    Variance.OUT -> com.squareup.kotlinpoet.WildcardTypeName.producerOf(type.toPoetTypeName())
 }
