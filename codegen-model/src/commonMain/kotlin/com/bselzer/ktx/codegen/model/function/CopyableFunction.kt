@@ -7,7 +7,7 @@ import com.bselzer.ktx.codegen.model.parameter.Parameter
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 
-data class SimpleFunction(
+data class CopyableFunction(
     override val name: String,
     override val parameters: Collection<Parameter> = emptyList(),
     override val returns: TypeName? = null,
