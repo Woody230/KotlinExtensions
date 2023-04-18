@@ -15,7 +15,7 @@ open class ListPropertyResolver(
     override fun canResolve(input: PropertyInput): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.ARRAY)
         val hasNestedSchema = schema.items != null
-        return hasType && hasNestedSchema
+        return super.canResolve(input) && hasType && hasNestedSchema
     }
 
     // TODO maxItems, minItems, ... with setter

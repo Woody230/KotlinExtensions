@@ -20,7 +20,7 @@ open class MapPropertyResolver(
     override fun canResolve(input: PropertyInput): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null
-        return hasType && hasNestedSchema
+        return super.canResolve(input) && hasType && hasNestedSchema
     }
 
     override fun resolve(input: PropertyInput): CopyableProperty = with(input) {
