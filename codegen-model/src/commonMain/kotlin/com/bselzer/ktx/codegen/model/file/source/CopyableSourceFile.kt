@@ -15,7 +15,7 @@ import com.bselzer.ktx.codegen.model.type.`interface`.Interface
 import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInterface
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 
-data class SimpleSourceFile(
+data class CopyableSourceFile(
     override val name: String,
     override val packageName: String,
     override val documentation: Documentation? = null,

@@ -6,7 +6,7 @@ import com.bselzer.ktx.codegen.model.property.declaration.PropertyDeclaration
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 
-data class SimpleProperty(
+data class CopyableParameter(
     override val type: TypeName,
     override val name: String,
     override val documentation: Documentation? = null,

@@ -8,7 +8,7 @@ import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 
-data class SimpleAnonymousClass(
+data class CopyableAnonymousClass(
     override val superClass: SuperClass?,
     override val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
     override val initializer: CodeBlock? = null,

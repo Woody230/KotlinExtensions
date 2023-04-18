@@ -12,7 +12,7 @@ import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInter
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 
-data class SimpleAnnotationClass(
+data class CopyableAnnotationClass(
     override val name: String,
     override val primaryConstructor: Constructor? = null,
     override val documentation: Documentation? = null,

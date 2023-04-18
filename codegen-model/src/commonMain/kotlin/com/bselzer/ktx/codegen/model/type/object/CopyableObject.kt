@@ -1,4 +1,4 @@
-package com.bselzer.ktx.codegen.model.type.`class`.enum
+package com.bselzer.ktx.codegen.model.type.`object`
 
 import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
@@ -8,26 +8,24 @@ import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.type.`class`.Class
 import com.bselzer.ktx.codegen.model.type.`class`.annotation.AnnotationClass
 import com.bselzer.ktx.codegen.model.type.`class`.data.DataClass
+import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumClass
 import com.bselzer.ktx.codegen.model.type.`class`.value.ValueClass
 import com.bselzer.ktx.codegen.model.type.`interface`.Interface
 import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInterface
-import com.bselzer.ktx.codegen.model.type.`object`.Object
-import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
-import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
+import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
+import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 
-data class SimpleEnumClass(
+data class CopyableObject(
     override val name: String,
-    override val constants: Collection<EnumConstant>,
-    override val primaryConstructor: EnumClassConstructor? = null,
-    override val superInterfaces: Collection<SuperInterface>,
-    override val properties: Collection<Property>,
-    override val functions: Collection<Function>,
+    override val superClass: SuperClass? = null,
+    override val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    override val properties: Collection<Property> = emptyList(),
+    override val functions: Collection<Function> = emptyList(),
     override val documentation: Documentation? = null,
     override val annotations: Collection<Annotation> = emptyList(),
-    override val modifiers: Set<EnumClassModifier> = setOf(),
+    override val modifiers: Set<ObjectModifier> = emptySet(),
     override val initializer: CodeBlock? = null,
     override val objects: Collection<Object> = emptyList(),
-    override val companionObject: CompanionObject? = null,
     override val classes: Collection<Class> = emptyList(),
     override val valueClasses: Collection<ValueClass> = emptyList(),
     override val enumClasses: Collection<EnumClass> = emptyList(),
@@ -35,4 +33,4 @@ data class SimpleEnumClass(
     override val annotationClasses: Collection<AnnotationClass> = emptyList(),
     override val interfaces: Collection<Interface> = emptyList(),
     override val functionalInterfaces: Collection<FunctionalInterface> = emptyList()
-) : EnumClass
+) : Object
