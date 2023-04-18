@@ -2,7 +2,6 @@ package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiSchema
-import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 
 sealed class NestedPropertyResolver(
     private val resolvers: PropertyResolvers
@@ -14,11 +13,7 @@ sealed class NestedPropertyResolver(
         )
         requireNotNull(nestedSchema) { "Unable to resolve the reference to the nested schema." }
 
-        val nestedInput = object : PropertyInput {
-            override val schema: OpenApiSchema = nestedSchema
-            override val references: Map<String, OpenApiSchema> = input.references
-            override val name: String = input.name
-        }
+        val nestedInput = input.copy(schema = nestedSchema)
         val nestedOutput = resolvers.resolver(nestedInput).resolve(nestedInput)
         return nestedOutput.type
     }
