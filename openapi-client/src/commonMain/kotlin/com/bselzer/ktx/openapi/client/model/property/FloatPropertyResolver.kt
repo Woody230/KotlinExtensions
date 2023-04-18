@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class FloatPropertyResolver(
+open class FloatPropertyResolver(
     private val default: Float = 0f,
     private val nullDefault: Float? = null
 ) : PrimitivePropertyResolver() {

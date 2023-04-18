@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class DoublePropertyResolver(
+open class DoublePropertyResolver(
     private val default: Double = 0.0,
     private val nullDefault: Double? = null,
 ) : PrimitivePropertyResolver() {

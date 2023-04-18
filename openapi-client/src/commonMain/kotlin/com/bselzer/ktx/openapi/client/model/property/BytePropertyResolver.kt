@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class BytePropertyResolver(
+open class BytePropertyResolver(
     private val default: Byte = 0,
     private val nullDefault: Byte? = null,
 ) : PrimitivePropertyResolver() {

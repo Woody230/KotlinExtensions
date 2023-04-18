@@ -5,7 +5,7 @@ import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import kotlinx.datetime.Instant
 
-class DateTimePropertyResolver(
+open class DateTimePropertyResolver(
     private val default: Instant = Instant.DISTANT_PAST,
     private val nullDefault: Instant? = null
 ) : PrimitivePropertyResolver() {

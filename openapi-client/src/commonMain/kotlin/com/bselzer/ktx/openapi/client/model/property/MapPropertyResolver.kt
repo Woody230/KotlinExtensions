@@ -14,7 +14,7 @@ import com.bselzer.ktx.openapi.serialization.ReferenceOfOpenApiSchemaSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 
-class MapPropertyResolver(
+open class MapPropertyResolver(
     resolvers: PropertyResolvers
 ) : NestedPropertyResolver(resolvers) {
     override fun canResolve(input: PropertyInput): Boolean = with(input) {

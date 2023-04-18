@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class ShortPropertyResolver(
+open class ShortPropertyResolver(
     private val default: Short = 0,
     private val nullDefault: Short? = null
 ) : PrimitivePropertyResolver() {

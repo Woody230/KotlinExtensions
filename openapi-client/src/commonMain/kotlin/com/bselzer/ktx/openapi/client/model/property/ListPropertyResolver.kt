@@ -9,7 +9,7 @@ import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
-class ListPropertyResolver(
+open class ListPropertyResolver(
     resolvers: PropertyResolvers
 ) : NestedPropertyResolver(resolvers) {
     override fun canResolve(input: PropertyInput): Boolean = with(input) {
