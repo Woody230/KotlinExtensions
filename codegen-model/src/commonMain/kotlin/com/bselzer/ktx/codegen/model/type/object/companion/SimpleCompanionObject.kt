@@ -20,7 +20,7 @@ data class SimpleCompanionObject(
     override val name: String,
     override val superClass: SuperClass? = null,
     override val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
-    override val properties: Collection<Property>,
+    override val properties: Collection<Property> = emptyList(),
     override val functions: Collection<Function> = emptyList(),
     override val documentation: Documentation? = null,
     override val annotations: Collection<Annotation> = emptyList(),
