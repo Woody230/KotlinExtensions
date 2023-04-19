@@ -9,10 +9,8 @@ import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.openapi.client.internal.ExtensionConstants
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
-import com.bselzer.ktx.openapi.model.value.OpenApiMap
 import com.bselzer.ktx.openapi.serialization.ReferenceOfOpenApiSchemaSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 
 open class MapPropertyResolver(
     private val keyResolver: PropertyResolver,
@@ -28,13 +26,10 @@ open class MapPropertyResolver(
     override fun resolve(input: PropertyInput): CopyableProperty = with(input) {
         fun keySchemaType(): TypeName {
             // If the extension is not present, then the base assumption is that keys must be Strings.
-            // If the extension is present, then assume that the key's value is a schema or a reference to a schema.
             val extension = schema.extensions[ExtensionConstants.KEY] ?: return ClassName.STRING
-            require(extension is OpenApiMap) { "Expected the key to be in the form of an OpenApiMap." }
 
-            // TODO model to be included in generation when it is a schema and not just a reference
-            val serialized = Json.encodeToJsonElement(extension.value)
-            val nestedSchemaReference = Json.decodeFromJsonElement(ReferenceOfOpenApiSchemaSerializer, serialized)
+            // If the extension is present, then assume that the key's value is a schema or a reference to a schema.
+            val nestedSchemaReference = Json.decodeFromJsonElement(ReferenceOfOpenApiSchemaSerializer, extension)
             return nestedProperty(nestedSchemaReference, input).type
         }
 

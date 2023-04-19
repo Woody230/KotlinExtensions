@@ -4,13 +4,18 @@ import com.bselzer.ktx.openapi.model.path.OpenApiEncoding
 import com.bselzer.ktx.openapi.model.path.OpenApiEncodingName
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaType
 import com.bselzer.ktx.openapi.model.path.OpenApiMediaTypeName
-import com.bselzer.ktx.openapi.model.reference.*
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiCallback
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiExample
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiHeader
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiLink
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiParameter
+import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiPathItem
 import com.bselzer.ktx.openapi.model.security.scheme.OpenApiSecurityRequirement
 import com.bselzer.ktx.openapi.model.server.OpenApiServer
-import com.bselzer.ktx.openapi.model.value.OpenApiValue
+import kotlinx.serialization.json.JsonElement
 
 internal typealias OpenApiParameterList = List<ReferenceOfOpenApiParameter>
-internal typealias OpenApiExtensions = Map<String, OpenApiValue>
+internal typealias OpenApiExtensions = Map<String, JsonElement>
 internal typealias OpenApiCallbacks = Map<String, ReferenceOfOpenApiCallback>
 internal typealias OpenApiSecurityRequirements = List<OpenApiSecurityRequirement>
 internal typealias OpenApiServers = List<OpenApiServer>
