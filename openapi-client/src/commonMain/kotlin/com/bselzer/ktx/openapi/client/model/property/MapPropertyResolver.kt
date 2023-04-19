@@ -15,12 +15,14 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 
 open class MapPropertyResolver(
-    nestedResolver: PropertyResolver
-) : NestedPropertyResolver(nestedResolver) {
+    private val keyResolver: PropertyResolver,
+    private val valueResolver: PropertyResolver
+) : NestedPropertyResolver() {
     override fun canResolve(input: PropertyInput): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null
-        return super.canResolve(input) && hasType && hasNestedSchema
+        val canNestedResolve = keyResolver.canResolve(input) && valueResolver.canResolve(input)
+        return hasType && hasNestedSchema && canNestedResolve
     }
 
     override fun resolve(input: PropertyInput): CopyableProperty = with(input) {
@@ -33,12 +35,12 @@ open class MapPropertyResolver(
             // TODO model to be included in generation when it is a schema and not just a reference
             val serialized = Json.encodeToJsonElement(extension.value)
             val nestedSchemaReference = Json.decodeFromJsonElement(ReferenceOfOpenApiSchemaSerializer, serialized)
-            return nestedSchemaType(nestedSchemaReference, input)
+            return nestedProperty(nestedSchemaReference, input).type
         }
 
         fun valueSchemaType(): TypeName {
             val nestedSchemaReference = requireNotNull(schema.additionalProperties) { "Expected a map to have an additionalProperties schema." }
-            return nestedSchemaType(nestedSchemaReference, input)
+            return nestedProperty(nestedSchemaReference, input).type
         }
 
         return CopyableProperty(
