@@ -15,8 +15,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 
 open class MapPropertyResolver(
-    resolvers: PropertyResolvers
-) : NestedPropertyResolver(resolvers) {
+    nestedResolver: PropertyResolver
+) : NestedPropertyResolver(nestedResolver) {
     override fun canResolve(input: PropertyInput): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null

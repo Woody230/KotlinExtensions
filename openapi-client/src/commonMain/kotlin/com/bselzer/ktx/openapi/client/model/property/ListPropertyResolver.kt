@@ -10,8 +10,8 @@ import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
 open class ListPropertyResolver(
-    resolvers: PropertyResolvers
-) : NestedPropertyResolver(resolvers) {
+    nestedResolver: PropertyResolver
+) : NestedPropertyResolver(nestedResolver) {
     override fun canResolve(input: PropertyInput): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.ARRAY)
         val hasNestedSchema = schema.items != null
