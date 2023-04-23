@@ -7,6 +7,6 @@ data class SettablePropertyDeclaration(
     val getter: Function,
     val setter: Function,
     val initializer: CodeBlock? = null
-) : AccessorPropertyDelegation {
+) : PropertyDeclaration {
     override val mutable: Boolean = true
 }

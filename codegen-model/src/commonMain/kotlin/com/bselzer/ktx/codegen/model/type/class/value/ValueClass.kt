@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
-import com.bselzer.ktx.codegen.model.property.AccessorProperty
+import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.type.`class`.Class
 import com.bselzer.ktx.codegen.model.type.`class`.annotation.AnnotationClass
 import com.bselzer.ktx.codegen.model.type.`class`.data.DataClass
@@ -20,7 +20,7 @@ data class ValueClass(
     val name: String,
     val primaryConstructor: ValueClassConstructor,
     val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
-    val properties: Collection<AccessorProperty> = emptyList(),
+    val properties: Collection<Property> = emptyList(),
     val functions: Collection<Function> = emptyList(),
     val documentation: Documentation? = null,
     val annotations: Collection<Annotation> = emptyList(),

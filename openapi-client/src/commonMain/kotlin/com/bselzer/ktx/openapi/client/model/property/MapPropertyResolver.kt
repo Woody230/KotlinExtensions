@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.codegen.model.extensions.toCodeBlock
-import com.bselzer.ktx.codegen.model.property.CopyableProperty
+import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDeclaration
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
@@ -23,7 +23,7 @@ open class MapPropertyResolver(
         return hasType && hasNestedSchema && canNestedResolve
     }
 
-    override fun resolve(input: PropertyContext): CopyableProperty = with(input) {
+    override fun resolve(input: PropertyContext): Property = with(input) {
         fun keySchemaType(): TypeName {
             // If the extension is not present, then the base assumption is that keys must be Strings.
             val extension = schema.extensions[ExtensionConstants.KEY] ?: return ClassName.STRING
@@ -38,7 +38,7 @@ open class MapPropertyResolver(
             return nestedProperty(nestedSchemaReference, input).type
         }
 
-        return CopyableProperty(
+        return Property(
             type = ParameterizedTypeName(
                 root = ClassName.MAP.copy(nullable = schema.isNullable),
                 parameters = listOf(keySchemaType(), valueSchemaType())

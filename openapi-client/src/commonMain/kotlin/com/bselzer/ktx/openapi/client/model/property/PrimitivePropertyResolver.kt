@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.codegen.model.extensions.toCodeBlock
-import com.bselzer.ktx.codegen.model.property.CopyableProperty
+import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDeclaration
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
@@ -21,8 +21,8 @@ sealed class PrimitivePropertyResolver : PropertyResolver {
         return containsType() && containsFormat()
     }
 
-    override fun resolve(input: PropertyContext): CopyableProperty = with(input) {
-        CopyableProperty(
+    override fun resolve(input: PropertyContext): Property = with(input) {
+        Property(
             type = className.copy(nullable = schema.isNullable),
             name = input.name,
             documentation = schema.description?.toDocumentation(),

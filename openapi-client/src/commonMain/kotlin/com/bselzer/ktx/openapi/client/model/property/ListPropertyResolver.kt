@@ -1,7 +1,7 @@
 package com.bselzer.ktx.openapi.client.model.property
 
 import com.bselzer.ktx.codegen.model.extensions.toCodeBlock
-import com.bselzer.ktx.codegen.model.property.CopyableProperty
+import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDeclaration
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
@@ -19,13 +19,13 @@ open class ListPropertyResolver(
     }
 
     // TODO maxItems, minItems, ... with setter
-    override fun resolve(input: PropertyContext): CopyableProperty {
+    override fun resolve(input: PropertyContext): Property {
         fun valueSchemaType(): TypeName {
             val nestedSchemaReference = requireNotNull(input.schema.items) { "Expected a list to have an items schema." }
             return nestedProperty(nestedSchemaReference, input).type
         }
 
-        return CopyableProperty(
+        return Property(
             type = ParameterizedTypeName(
                 root = ClassName.LIST.copy(nullable = input.schema.isNullable),
                 parameters = listOf(valueSchemaType())
