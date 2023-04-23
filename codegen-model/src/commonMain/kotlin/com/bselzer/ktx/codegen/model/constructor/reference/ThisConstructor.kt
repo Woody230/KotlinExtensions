@@ -6,4 +6,6 @@ class ThisConstructor(
     override val arguments: Collection<CodeBlock>
 ) : ConstructorReference {
     override val type: ConstructorReferenceType = ConstructorReferenceType.THIS
+
+    override fun toString(): String = "this(${arguments.joinToString { "*" }})"
 }

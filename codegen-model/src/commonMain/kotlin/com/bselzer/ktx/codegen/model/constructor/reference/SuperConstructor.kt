@@ -6,4 +6,6 @@ class SuperConstructor(
     override val arguments: Collection<CodeBlock>
 ) : ConstructorReference {
     override val type: ConstructorReferenceType = ConstructorReferenceType.SUPER
+
+    override fun toString(): String = "super(${arguments.joinToString { "*" }})"
 }
