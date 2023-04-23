@@ -12,14 +12,14 @@ import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 open class ListPropertyResolver(
     private val valueResolver: PropertyResolver
 ) : NestedPropertyResolver() {
-    override fun canResolve(input: PropertyInput): Boolean = with(input) {
+    override fun canResolve(input: PropertyContext): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.ARRAY)
         val hasNestedSchema = schema.items != null
         return valueResolver.canResolve(input) && hasType && hasNestedSchema
     }
 
     // TODO maxItems, minItems, ... with setter
-    override fun resolve(input: PropertyInput): CopyableProperty {
+    override fun resolve(input: PropertyContext): CopyableProperty {
         fun valueSchemaType(): TypeName {
             val nestedSchemaReference = requireNotNull(input.schema.items) { "Expected a list to have an items schema." }
             return nestedProperty(nestedSchemaReference, input).type

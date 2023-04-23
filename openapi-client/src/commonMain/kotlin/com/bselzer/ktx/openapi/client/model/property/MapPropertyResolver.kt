@@ -16,14 +16,14 @@ open class MapPropertyResolver(
     private val keyResolver: PropertyResolver,
     private val valueResolver: PropertyResolver
 ) : NestedPropertyResolver() {
-    override fun canResolve(input: PropertyInput): Boolean = with(input) {
+    override fun canResolve(input: PropertyContext): Boolean = with(input) {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null
         val canNestedResolve = keyResolver.canResolve(input) && valueResolver.canResolve(input)
         return hasType && hasNestedSchema && canNestedResolve
     }
 
-    override fun resolve(input: PropertyInput): CopyableProperty = with(input) {
+    override fun resolve(input: PropertyContext): CopyableProperty = with(input) {
         fun keySchemaType(): TypeName {
             // If the extension is not present, then the base assumption is that keys must be Strings.
             val extension = schema.extensions[ExtensionConstants.KEY] ?: return ClassName.STRING

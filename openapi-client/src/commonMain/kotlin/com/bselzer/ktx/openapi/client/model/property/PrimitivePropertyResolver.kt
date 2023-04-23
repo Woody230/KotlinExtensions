@@ -15,13 +15,13 @@ sealed class PrimitivePropertyResolver : PropertyResolver {
 
     protected abstract fun instantiate(schema: OpenApiSchema): String
 
-    override fun canResolve(input: PropertyInput): Boolean = with(input) {
+    override fun canResolve(input: PropertyContext): Boolean = with(input) {
         fun containsType() = types.any(schema.types::contains)
         fun containsFormat() = formats.contains(schema.format)
         return containsType() && containsFormat()
     }
 
-    override fun resolve(input: PropertyInput): CopyableProperty = with(input) {
+    override fun resolve(input: PropertyContext): CopyableProperty = with(input) {
         CopyableProperty(
             type = className.copy(nullable = schema.isNullable),
             name = input.name,

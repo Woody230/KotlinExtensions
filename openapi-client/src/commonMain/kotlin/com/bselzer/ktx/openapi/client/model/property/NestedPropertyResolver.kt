@@ -4,7 +4,7 @@ import com.bselzer.ktx.codegen.model.property.CopyableProperty
 import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiSchema
 
 sealed class NestedPropertyResolver : PropertyResolver {
-    internal fun PropertyResolver.nestedProperty(nestedSchemaReference: ReferenceOfOpenApiSchema, input: PropertyInput): CopyableProperty {
+    internal fun PropertyResolver.nestedProperty(nestedSchemaReference: ReferenceOfOpenApiSchema, input: PropertyContext): CopyableProperty {
         val nestedSchema = nestedSchemaReference.resolve(
             onValue = { nestedSchema -> nestedSchema },
             onReference = { reference -> input.references[reference.`$ref`.componentName] }
