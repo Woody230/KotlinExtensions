@@ -15,21 +15,23 @@ import com.bselzer.ktx.codegen.model.type.`interface`.Interface
 import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInterface
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 
-interface SourceFile {
-    val name: String
-    val packageName: String
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val annotationClasses: Collection<AnnotationClass>
-    val dataClasses: Collection<DataClass>
-    val enumClasses: Collection<EnumClass>
-    val valueClasses: Collection<ValueClass>
-    val classes: Collection<Class>
-    val functionalInterfaces: Collection<FunctionalInterface>
-    val interfaces: Collection<Interface>
-    val objects: Collection<Object>
-    val functions: Collection<Function>
-    val properties: Collection<Property>
-    val typeAliases: Collection<TypeAlias>
-    val imports: Collection<Import>
+data class SourceFile(
+    val name: String,
+    val packageName: String,
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+    val annotationClasses: Collection<AnnotationClass> = emptyList(),
+    val dataClasses: Collection<DataClass> = emptyList(),
+    val enumClasses: Collection<EnumClass> = emptyList(),
+    val valueClasses: Collection<ValueClass> = emptyList(),
+    val classes: Collection<Class> = emptyList(),
+    val functionalInterfaces: Collection<FunctionalInterface> = emptyList(),
+    val interfaces: Collection<Interface> = emptyList(),
+    val objects: Collection<Object> = emptyList(),
+    val functions: Collection<Function> = emptyList(),
+    val properties: Collection<Property> = emptyList(),
+    val typeAliases: Collection<TypeAlias> = emptyList(),
+    val imports: Collection<Import> = emptyList()
+) {
+    override fun toString(): String = name
 }

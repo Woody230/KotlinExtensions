@@ -8,12 +8,12 @@ import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 
-interface AnonymousClass {
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val superClass: SuperClass?
-    val superInterfaces: Collection<DelegableSuperInterface>
-    val initializer: CodeBlock?
-    val properties: Collection<Property>
-    val functions: Collection<Function>
-}
+data class AnonymousClass(
+    val superClass: SuperClass?,
+    val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    val initializer: CodeBlock? = null,
+    val properties: Collection<Property> = emptyList(),
+    val functions: Collection<Function> = emptyList(),
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+)

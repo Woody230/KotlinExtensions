@@ -15,22 +15,24 @@ import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 
-interface FunctionalInterface {
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val name: String
-    val modifiers: Set<FunctionalInterfaceModifier>
-    val typeVariables: Collection<TypeVariableName>
-    val properties: Collection<Property>
-    val superInterfaces: Collection<SuperInterface>
-    val functions: Collection<Function>
-    val objects: Collection<Object>
-    val companionObject: CompanionObject?
-    val classes: Collection<Class>
-    val valueClasses: Collection<ValueClass>
-    val enumClasses: Collection<EnumClass>
-    val dataClasses: Collection<DataClass>
-    val annotationClasses: Collection<AnnotationClass>
-    val interfaces: Collection<Interface>
-    val functionalInterfaces: Collection<FunctionalInterface>
+data class FunctionalInterface(
+    val name: String,
+    val superInterfaces: Collection<SuperInterface> = emptyList(),
+    val properties: Collection<Property> = emptyList(),
+    val functions: Collection<Function> = emptyList(),
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+    val modifiers: Set<FunctionalInterfaceModifier> = emptySet(),
+    val typeVariables: Collection<TypeVariableName> = emptyList(),
+    val objects: Collection<Object> = emptyList(),
+    val companionObject: CompanionObject? = null,
+    val classes: Collection<Class> = emptyList(),
+    val valueClasses: Collection<ValueClass> = emptyList(),
+    val enumClasses: Collection<EnumClass> = emptyList(),
+    val dataClasses: Collection<DataClass> = emptyList(),
+    val annotationClasses: Collection<AnnotationClass> = emptyList(),
+    val interfaces: Collection<Interface> = emptyList(),
+    val functionalInterfaces: Collection<FunctionalInterface> = emptyList()
+) {
+    override fun toString(): String = name
 }

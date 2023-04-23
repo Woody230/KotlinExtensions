@@ -7,15 +7,17 @@ import com.bselzer.ktx.codegen.model.parameter.Parameter
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 
-interface Function {
-    val name: String
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val parameters: Collection<Parameter>
-    val modifiers: Set<FunctionModifier>
-    val typeVariables: Collection<TypeVariableName>
-    val receiver: TypeName?
-    val contextReceivers: Collection<TypeName>
-    val returns: TypeName?
-    val body: CodeBlock?
+data class Function(
+    val name: String,
+    val parameters: Collection<Parameter> = emptyList(),
+    val returns: TypeName? = null,
+    val body: CodeBlock? = null,
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+    val modifiers: Set<FunctionModifier> = emptySet(),
+    val typeVariables: Collection<TypeVariableName> = emptyList(),
+    val receiver: TypeName? = null,
+    val contextReceivers: Collection<TypeName> = emptyList()
+) {
+    override fun toString(): String = name
 }

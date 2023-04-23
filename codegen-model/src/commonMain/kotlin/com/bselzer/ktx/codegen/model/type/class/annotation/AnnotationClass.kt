@@ -12,19 +12,21 @@ import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInter
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 
-interface AnnotationClass {
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val name: String
-    val modifiers: Set<AnnotationClassModifier>
-    val primaryConstructor: Constructor?
-    val objects: Collection<Object>
-    val companionObject: CompanionObject?
-    val classes: Collection<Class>
-    val valueClasses: Collection<ValueClass>
-    val enumClasses: Collection<EnumClass>
-    val dataClasses: Collection<DataClass>
-    val annotationClasses: Collection<AnnotationClass>
-    val interfaces: Collection<Interface>
-    val functionalInterfaces: Collection<FunctionalInterface>
+data class AnnotationClass(
+    val name: String,
+    val primaryConstructor: Constructor? = null,
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+    val modifiers: Set<AnnotationClassModifier> = setOf(),
+    val objects: Collection<Object> = emptyList(),
+    val companionObject: CompanionObject? = null,
+    val classes: Collection<Class> = emptyList(),
+    val valueClasses: Collection<ValueClass> = emptyList(),
+    val enumClasses: Collection<EnumClass> = emptyList(),
+    val dataClasses: Collection<DataClass> = emptyList(),
+    val annotationClasses: Collection<AnnotationClass> = emptyList(),
+    val interfaces: Collection<Interface> = emptyList(),
+    val functionalInterfaces: Collection<FunctionalInterface> = emptyList()
+) {
+    override fun toString(): String = name
 }

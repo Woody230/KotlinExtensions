@@ -16,24 +16,24 @@ import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 
-interface ValueClass {
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val name: String
-    val modifiers: Set<ValueClassModifier>
-    val typeVariables: Collection<TypeVariableName>
-    val primaryConstructor: ValueClassConstructor
-    val superInterfaces: Collection<DelegableSuperInterface>
-    val properties: Collection<AccessorProperty>
-    val initializer: CodeBlock?
-    val functions: Collection<Function>
-    val objects: Collection<Object>
-    val companionObject: CompanionObject?
-    val classes: Collection<Class>
-    val valueClasses: Collection<ValueClass>
-    val enumClasses: Collection<EnumClass>
-    val dataClasses: Collection<DataClass>
-    val annotationClasses: Collection<AnnotationClass>
-    val interfaces: Collection<Interface>
-    val functionalInterfaces: Collection<FunctionalInterface>
-}
+data class ValueClass(
+    val name: String,
+    val primaryConstructor: ValueClassConstructor,
+    val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    val properties: Collection<AccessorProperty> = emptyList(),
+    val functions: Collection<Function> = emptyList(),
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+    val modifiers: Set<ValueClassModifier> = emptySet(),
+    val typeVariables: Collection<TypeVariableName> = emptyList(),
+    val initializer: CodeBlock? = null,
+    val objects: Collection<Object> = emptyList(),
+    val companionObject: CompanionObject? = null,
+    val classes: Collection<Class> = emptyList(),
+    val valueClasses: Collection<ValueClass> = emptyList(),
+    val enumClasses: Collection<EnumClass> = emptyList(),
+    val dataClasses: Collection<DataClass> = emptyList(),
+    val annotationClasses: Collection<AnnotationClass> = emptyList(),
+    val interfaces: Collection<Interface> = emptyList(),
+    val functionalInterfaces: Collection<FunctionalInterface> = emptyList()
+)

@@ -18,25 +18,27 @@ import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 
-interface DataClass {
-    val documentation: Documentation?
-    val annotations: Collection<Annotation>
-    val name: String
-    val modifiers: Set<DataClassModifier>
-    val typeVariables: Collection<TypeVariableName>
-    val primaryConstructor: Constructor
-    val superClass: SuperClass?
-    val superInterfaces: Collection<DelegableSuperInterface>
-    val properties: Collection<Property>
-    val initializer: CodeBlock?
-    val functions: Collection<Function>
-    val objects: Collection<Object>
-    val companionObject: CompanionObject?
-    val classes: Collection<Class>
-    val valueClasses: Collection<ValueClass>
-    val enumClasses: Collection<EnumClass>
-    val dataClasses: Collection<DataClass>
-    val annotationClasses: Collection<AnnotationClass>
-    val interfaces: Collection<Interface>
-    val functionalInterfaces: Collection<FunctionalInterface>
+data class DataClass(
+    val name: String,
+    val primaryConstructor: Constructor,
+    val superClass: SuperClass? = null,
+    val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    val properties: Collection<Property> = emptyList(),
+    val functions: Collection<Function> = emptyList(),
+    val documentation: Documentation? = null,
+    val annotations: Collection<Annotation> = emptyList(),
+    val modifiers: Set<DataClassModifier> = setOf(),
+    val typeVariables: Collection<TypeVariableName> = emptyList(),
+    val initializer: CodeBlock? = null,
+    val objects: Collection<Object> = emptyList(),
+    val companionObject: CompanionObject? = null,
+    val classes: Collection<Class> = emptyList(),
+    val valueClasses: Collection<ValueClass> = emptyList(),
+    val enumClasses: Collection<EnumClass> = emptyList(),
+    val dataClasses: Collection<DataClass> = emptyList(),
+    val annotationClasses: Collection<AnnotationClass> = emptyList(),
+    val interfaces: Collection<Interface> = emptyList(),
+    val functionalInterfaces: Collection<FunctionalInterface> = emptyList()
+) {
+    override fun toString(): String = name
 }
