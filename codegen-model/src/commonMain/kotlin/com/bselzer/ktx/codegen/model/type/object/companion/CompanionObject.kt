@@ -14,12 +14,12 @@ import com.bselzer.ktx.codegen.model.type.`interface`.Interface
 import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInterface
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
-import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
+import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 
 data class CompanionObject(
     val name: String,
     val superClass: SuperClass? = null,
-    val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    val superInterfaces: Collection<SuperInterface> = emptyList(),
     val properties: Collection<Property> = emptyList(),
     val functions: Collection<Function> = emptyList(),
     val documentation: Documentation? = null,

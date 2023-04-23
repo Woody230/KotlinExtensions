@@ -16,13 +16,13 @@ import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
-import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
+import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 
 data class DataClass(
     val name: String,
     val primaryConstructor: Constructor,
     val superClass: SuperClass? = null,
-    val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    val superInterfaces: Collection<SuperInterface> = emptyList(),
     val properties: Collection<Property> = emptyList(),
     val functions: Collection<Function> = emptyList(),
     val documentation: Documentation? = null,

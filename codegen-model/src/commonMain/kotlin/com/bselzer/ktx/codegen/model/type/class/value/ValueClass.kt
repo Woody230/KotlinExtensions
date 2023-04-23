@@ -2,6 +2,7 @@ package com.bselzer.ktx.codegen.model.type.`class`.value
 
 import com.bselzer.ktx.codegen.model.annotation.Annotation
 import com.bselzer.ktx.codegen.model.codeblock.CodeBlock
+import com.bselzer.ktx.codegen.model.constructor.Constructor
 import com.bselzer.ktx.codegen.model.documentation.Documentation
 import com.bselzer.ktx.codegen.model.function.Function
 import com.bselzer.ktx.codegen.model.property.Property
@@ -14,12 +15,12 @@ import com.bselzer.ktx.codegen.model.type.`interface`.functional.FunctionalInter
 import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
-import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
+import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 
 data class ValueClass(
     val name: String,
-    val primaryConstructor: ValueClassConstructor,
-    val superInterfaces: Collection<DelegableSuperInterface> = emptyList(),
+    val primaryConstructor: Constructor,
+    val superInterfaces: Collection<SuperInterface> = emptyList(),
     val properties: Collection<Property> = emptyList(),
     val functions: Collection<Function> = emptyList(),
     val documentation: Documentation? = null,

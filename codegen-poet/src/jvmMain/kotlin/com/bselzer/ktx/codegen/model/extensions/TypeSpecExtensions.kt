@@ -31,7 +31,6 @@ import com.bselzer.ktx.codegen.model.type.name.TypeVariableName
 import com.bselzer.ktx.codegen.model.type.`object`.Object
 import com.bselzer.ktx.codegen.model.type.`object`.companion.CompanionObject
 import com.bselzer.ktx.codegen.model.type.`super`.`class`.SuperClass
-import com.bselzer.ktx.codegen.model.type.`super`.`interface`.DelegableSuperInterface
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
 import com.squareup.kotlinpoet.TypeSpec
 
@@ -43,11 +42,11 @@ internal fun TypeSpec.Builder.addSuperInterfaces(superInterfaces: Collection<Sup
 
 internal fun TypeSpec.Builder.addSuperInterface(superInterface: SuperInterface) {
     val type = superInterface.type.toPoetTypeName()
-    val delegate = if (superInterface is DelegableSuperInterface) superInterface.delegate else null
+    val delegate = superInterface.delegate?.toString()
     if (delegate == null) {
         addSuperinterface(type)
     } else {
-        addSuperinterface(type, delegate.toString())
+        addSuperinterface(type, delegate)
     }
 }
 
