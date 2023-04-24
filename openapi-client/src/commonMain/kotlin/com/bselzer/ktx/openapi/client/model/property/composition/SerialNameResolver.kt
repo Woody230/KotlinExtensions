@@ -5,6 +5,7 @@ import com.bselzer.ktx.codegen.model.property.Property
 
 class SerialNameResolver : PropertyCompositionResolver {
     override fun canResolve(context: PropertyCompositionContext): Boolean {
+        // TODO if already applied, do not add another
         return context.schema.title != null
     }
 

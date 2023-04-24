@@ -2,7 +2,24 @@ package com.bselzer.ktx.serialization.context
 
 import com.bselzer.ktx.serialization.context.JsonContext.Default.decode
 import com.bselzer.ktx.serialization.context.JsonContext.Default.decodeValues
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.double
+import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.float
+import kotlinx.serialization.json.floatOrNull
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
+import kotlinx.serialization.json.longOrNull
 
 fun JsonElement.toPrimitiveOrNull(): JsonPrimitive? = if (this is JsonPrimitive) this else null
 fun JsonElement.toObjectOrNull(): JsonObject? = if (this is JsonObject) this else null
@@ -28,6 +45,7 @@ fun JsonObject.getFloat(key: String): Float = getValue(key).toFloat()
 fun JsonObject.getDouble(key: String): Double = getValue(key).toDouble()
 fun JsonObject.getBoolean(key: String): Boolean = getValue(key).toBoolean()
 
+// TODO explicit json primitive/array/object checks (to not throw)
 inline fun <reified T> JsonElement.toEnumOrNull(): T? = toContentOrNull()?.decode<T>()
 fun JsonElement.toContentOrNull(): String? = jsonPrimitive.contentOrNull
 fun JsonElement.toIntOrNull(): Int? = jsonPrimitive.intOrNull

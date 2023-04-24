@@ -16,9 +16,9 @@ sealed class PrimitivePropertyResolver : PropertyResolver {
     protected abstract fun instantiate(schema: OpenApiSchema): String
 
     override fun canResolve(context: PropertyContext): Boolean = with(context) {
-        fun containsType() = types.any(schema.types::contains)
-        fun containsFormat() = formats.contains(schema.format)
-        return containsType() && containsFormat()
+        val containsType = types.any(schema.types::contains)
+        val containsFormat = formats.contains(schema.format)
+        return containsType && containsFormat
     }
 
     override fun resolve(context: PropertyContext): Property = with(context) {
