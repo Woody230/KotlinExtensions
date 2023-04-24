@@ -10,7 +10,7 @@ import com.bselzer.ktx.openapi.model.value.OpenApiString
 /**
  * Resolves an enumeration declared by the const property.
  */
-class EnumConstantResolver : EnumResolver {
+class ConstantEnumResolver : EnumResolver {
     override fun canResolve(context: EnumContext): Boolean = with(context) {
         schema.constants().any()
     }
