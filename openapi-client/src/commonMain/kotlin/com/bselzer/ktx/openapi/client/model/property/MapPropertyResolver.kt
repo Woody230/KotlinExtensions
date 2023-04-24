@@ -7,6 +7,7 @@ import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeName
 import com.bselzer.ktx.openapi.client.internal.ExtensionConstants
+import com.bselzer.ktx.openapi.client.model.extensions.annotations
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 import com.bselzer.ktx.openapi.serialization.ReferenceOfOpenApiSchemaSerializer
@@ -43,7 +44,7 @@ open class MapPropertyResolver(
                 root = ClassName.MAP.copy(nullable = schema.isNullable),
                 parameters = listOf(keySchemaType(), valueSchemaType())
             ),
-            name = context.name,
+            name = name,
             documentation = schema.description?.toDocumentation(),
             declaration = InitializedPropertyDeclaration(
                 mutable = false,
@@ -52,7 +53,7 @@ open class MapPropertyResolver(
                     else -> "mapOf()"
                 }.toCodeBlock()
             ),
-            annotations = extensionAnnotations(context)
+            annotations = schema.annotations()
         )
     }
 }

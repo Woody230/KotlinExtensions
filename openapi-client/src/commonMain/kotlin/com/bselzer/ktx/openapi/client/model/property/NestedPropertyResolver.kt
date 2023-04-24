@@ -3,7 +3,7 @@ package com.bselzer.ktx.openapi.client.model.property
 import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.openapi.model.reference.ReferenceOfOpenApiSchema
 
-sealed class NestedPropertyResolver : BasePropertyResolver() {
+sealed class NestedPropertyResolver : PropertyResolver {
     internal fun PropertyResolver.nestedProperty(nestedSchemaReference: ReferenceOfOpenApiSchema, input: PropertyContext): Property {
         val nestedSchema = nestedSchemaReference.resolve(
             onValue = { nestedSchema -> nestedSchema },

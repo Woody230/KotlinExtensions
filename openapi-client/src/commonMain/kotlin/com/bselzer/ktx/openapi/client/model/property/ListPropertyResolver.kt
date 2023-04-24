@@ -6,6 +6,7 @@ import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDec
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeName
+import com.bselzer.ktx.openapi.client.model.extensions.annotations
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
@@ -19,27 +20,27 @@ open class ListPropertyResolver(
     }
 
     // TODO maxItems, minItems, ... with setter
-    override fun resolve(context: PropertyContext): Property {
+    override fun resolve(context: PropertyContext): Property = with(context) {
         fun valueSchemaType(): TypeName {
-            val nestedSchemaReference = requireNotNull(context.schema.items) { "Expected a list to have an items schema." }
+            val nestedSchemaReference = requireNotNull(schema.items) { "Expected a list to have an items schema." }
             return nestedProperty(nestedSchemaReference, context).type
         }
 
         return Property(
             type = ParameterizedTypeName(
-                root = ClassName.LIST.copy(nullable = context.schema.isNullable),
+                root = ClassName.LIST.copy(nullable = schema.isNullable),
                 parameters = listOf(valueSchemaType())
             ),
-            name = context.name,
-            documentation = context.schema.description?.toDocumentation(),
+            name = name,
+            documentation = schema.description?.toDocumentation(),
             declaration = InitializedPropertyDeclaration(
                 mutable = false,
                 initializer = when {
-                    context.schema.isNullable -> "null"
+                    schema.isNullable -> "null"
                     else -> "listOf()"
                 }.toCodeBlock()
             ),
-            annotations = extensionAnnotations(context)
+            annotations = schema.annotations()
         )
     }
 }
