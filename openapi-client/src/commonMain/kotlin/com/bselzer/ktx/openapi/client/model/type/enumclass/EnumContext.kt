@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.model.type.enum
+package com.bselzer.ktx.openapi.client.model.type.enumclass
 
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 

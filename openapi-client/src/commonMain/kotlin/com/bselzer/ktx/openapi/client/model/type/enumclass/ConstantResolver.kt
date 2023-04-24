@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.model.type.enum
+package com.bselzer.ktx.openapi.client.model.type.enumclass
 
 import com.bselzer.ktx.codegen.model.annotation.SerialName
 import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumClass
@@ -10,7 +10,7 @@ import com.bselzer.ktx.openapi.model.value.OpenApiString
 /**
  * Resolves an enumeration declared by the const property.
  */
-class ConstantEnumResolver : EnumResolver {
+class ConstantResolver : EnumClassResolver {
     override fun canResolve(context: EnumContext): Boolean = with(context) {
         schema.constants().any()
     }

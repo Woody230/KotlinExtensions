@@ -10,5 +10,7 @@ data class Constructor(
     val body: CodeBlock? = null,
     val reference: ConstructorReference? = null
 ) {
+    constructor(parameter: Parameter) : this(listOf(parameter))
+
     override fun toString(): String = "constructor(${parameters.joinToString { "*" }})"
 }
