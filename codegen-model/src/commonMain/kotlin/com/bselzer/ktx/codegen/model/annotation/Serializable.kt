@@ -10,6 +10,4 @@ class Serializable(
     override val members: List<AnnotationMember> = listOf(
         AnnotationMember("with", "$serializerClassName::class")
     )
-
-    override val siteTarget: AnnotationSiteTarget? = null
 }
