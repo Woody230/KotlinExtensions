@@ -6,7 +6,6 @@ import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDec
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.name.ParameterizedTypeName
 import com.bselzer.ktx.codegen.model.type.name.TypeName
-import com.bselzer.ktx.openapi.client.model.extensions.annotations
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 
@@ -39,8 +38,7 @@ open class ListPropertyResolver(
                     schema.isNullable -> "null"
                     else -> "listOf()"
                 }.toCodeBlock()
-            ),
-            annotations = schema.annotations()
+            )
         )
     }
 }

@@ -4,7 +4,6 @@ import com.bselzer.ktx.codegen.model.extensions.toCodeBlock
 import com.bselzer.ktx.codegen.model.property.Property
 import com.bselzer.ktx.codegen.model.property.declaration.InitializedPropertyDeclaration
 import com.bselzer.ktx.codegen.model.type.name.ClassName
-import com.bselzer.ktx.openapi.client.model.extensions.annotations
 import com.bselzer.ktx.openapi.client.model.extensions.toDocumentation
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
@@ -28,7 +27,6 @@ sealed class PrimitivePropertyResolver : PropertyResolver {
             name = name,
             documentation = schema.description?.toDocumentation(),
             declaration = InitializedPropertyDeclaration(mutable = false, initializer = instantiate(schema).toCodeBlock()),
-            annotations = schema.annotations()
         )
     }
 }
