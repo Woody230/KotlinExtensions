@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.model.enumeration
+package com.bselzer.ktx.openapi.client.model.enum
 
 import com.bselzer.ktx.codegen.model.annotation.SerialName
 import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumClass
