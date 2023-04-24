@@ -12,33 +12,34 @@ import com.bselzer.ktx.openapi.model.schema.OpenApiSchemaType
 open class ListPropertyResolver(
     private val valueResolver: PropertyResolver
 ) : NestedPropertyResolver() {
-    override fun canResolve(input: PropertyContext): Boolean = with(input) {
+    override fun canResolve(context: PropertyContext): Boolean = with(context) {
         val hasType = schema.types.contains(OpenApiSchemaType.ARRAY)
         val hasNestedSchema = schema.items != null
-        return valueResolver.canResolve(input) && hasType && hasNestedSchema
+        return valueResolver.canResolve(context) && hasType && hasNestedSchema
     }
 
     // TODO maxItems, minItems, ... with setter
-    override fun resolve(input: PropertyContext): Property {
+    override fun resolve(context: PropertyContext): Property {
         fun valueSchemaType(): TypeName {
-            val nestedSchemaReference = requireNotNull(input.schema.items) { "Expected a list to have an items schema." }
-            return nestedProperty(nestedSchemaReference, input).type
+            val nestedSchemaReference = requireNotNull(context.schema.items) { "Expected a list to have an items schema." }
+            return nestedProperty(nestedSchemaReference, context).type
         }
 
         return Property(
             type = ParameterizedTypeName(
-                root = ClassName.LIST.copy(nullable = input.schema.isNullable),
+                root = ClassName.LIST.copy(nullable = context.schema.isNullable),
                 parameters = listOf(valueSchemaType())
             ),
-            name = input.name,
-            documentation = input.schema.description?.toDocumentation(),
+            name = context.name,
+            documentation = context.schema.description?.toDocumentation(),
             declaration = InitializedPropertyDeclaration(
                 mutable = false,
                 initializer = when {
-                    input.schema.isNullable -> "null"
+                    context.schema.isNullable -> "null"
                     else -> "listOf()"
                 }.toCodeBlock()
-            )
+            ),
+            annotations = extensionAnnotations(context)
         )
     }
 }

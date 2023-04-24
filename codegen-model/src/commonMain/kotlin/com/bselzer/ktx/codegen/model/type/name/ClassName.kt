@@ -32,5 +32,6 @@ data class ClassName(
         val MAP: ClassName = ClassName("kotlin.collections", "Map")
 
         internal val SERIALIZABLE: ClassName = ClassName("kotlinx.serialization", "Serializable")
+        internal val SERIAL_NAME: ClassName = ClassName("kotlinx.serialization", "SerialName")
     }
 }

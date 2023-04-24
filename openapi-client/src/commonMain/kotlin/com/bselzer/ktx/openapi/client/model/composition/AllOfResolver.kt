@@ -3,11 +3,11 @@ package com.bselzer.ktx.openapi.client.model.composition
 import com.bselzer.ktx.openapi.model.schema.OpenApiSchema
 
 class AllOfResolver : CompositionResolver {
-    override fun canResolve(input: CompositionContext): Boolean = with(input) {
+    override fun canResolve(context: CompositionContext): Boolean = with(context) {
         schema.allOf.any()
     }
 
-    override fun resolve(input: CompositionContext): OpenApiSchema = with(input) {
+    override fun resolve(context: CompositionContext): OpenApiSchema = with(context) {
         schema.allOf.fold(schema, OpenApiSchema::merge)
     }
 }

@@ -16,26 +16,26 @@ open class MapPropertyResolver(
     private val keyResolver: PropertyResolver,
     private val valueResolver: PropertyResolver
 ) : NestedPropertyResolver() {
-    override fun canResolve(input: PropertyContext): Boolean = with(input) {
+    override fun canResolve(context: PropertyContext): Boolean = with(context) {
         val hasType = schema.types.contains(OpenApiSchemaType.OBJECT)
         val hasNestedSchema = schema.additionalProperties != null
-        val canNestedResolve = keyResolver.canResolve(input) && valueResolver.canResolve(input)
+        val canNestedResolve = keyResolver.canResolve(context) && valueResolver.canResolve(context)
         return hasType && hasNestedSchema && canNestedResolve
     }
 
-    override fun resolve(input: PropertyContext): Property = with(input) {
+    override fun resolve(context: PropertyContext): Property = with(context) {
         fun keySchemaType(): TypeName {
             // If the extension is not present, then the base assumption is that keys must be Strings.
             val extension = schema.extensions[ExtensionConstants.KEY] ?: return ClassName.STRING
 
             // If the extension is present, then assume that the key's value is a schema or a reference to a schema.
             val nestedSchemaReference = Json.decodeFromJsonElement(ReferenceOfOpenApiSchemaSerializer, extension)
-            return nestedProperty(nestedSchemaReference, input).type
+            return nestedProperty(nestedSchemaReference, context).type
         }
 
         fun valueSchemaType(): TypeName {
             val nestedSchemaReference = requireNotNull(schema.additionalProperties) { "Expected a map to have an additionalProperties schema." }
-            return nestedProperty(nestedSchemaReference, input).type
+            return nestedProperty(nestedSchemaReference, context).type
         }
 
         return Property(
@@ -43,7 +43,7 @@ open class MapPropertyResolver(
                 root = ClassName.MAP.copy(nullable = schema.isNullable),
                 parameters = listOf(keySchemaType(), valueSchemaType())
             ),
-            name = input.name,
+            name = context.name,
             documentation = schema.description?.toDocumentation(),
             declaration = InitializedPropertyDeclaration(
                 mutable = false,
@@ -51,7 +51,8 @@ open class MapPropertyResolver(
                     schema.isNullable -> "null"
                     else -> "mapOf()"
                 }.toCodeBlock()
-            )
+            ),
+            annotations = extensionAnnotations(context)
         )
     }
 }
