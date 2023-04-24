@@ -1,4 +1,4 @@
-package com.bselzer.ktx.openapi.client.model.enum
+package com.bselzer.ktx.openapi.client.model.type.enum
 
 import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumClass
 import com.bselzer.ktx.codegen.model.type.`class`.enum.EnumConstant
