@@ -13,6 +13,6 @@ open class FloatPropertyResolver(
     override val types: Collection<OpenApiSchemaType> = setOf(OpenApiSchemaType.NUMBER)
     override fun instantiate(schema: OpenApiSchema): String = when {
         schema.isNullable -> nullDefault?.toString() ?: "null"
-        else -> default.toString()
+        else -> "${default}f"
     }
 }

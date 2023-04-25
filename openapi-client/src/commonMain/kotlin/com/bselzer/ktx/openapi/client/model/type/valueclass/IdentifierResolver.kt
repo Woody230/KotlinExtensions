@@ -5,6 +5,7 @@ import com.bselzer.ktx.codegen.model.constructor.Constructor
 import com.bselzer.ktx.codegen.model.extensions.toCodeBlock
 import com.bselzer.ktx.codegen.model.function.Function
 import com.bselzer.ktx.codegen.model.parameter.Parameter
+import com.bselzer.ktx.codegen.model.parameter.ParameterModifier
 import com.bselzer.ktx.codegen.model.type.`class`.value.ValueClass
 import com.bselzer.ktx.codegen.model.type.name.ClassName
 import com.bselzer.ktx.codegen.model.type.`super`.`interface`.SuperInterface
@@ -40,7 +41,8 @@ sealed class IdentifierResolver : ValueClassResolver {
                 Parameter(
                     type = value,
                     name = "value",
-                    defaultValue = defaultValue
+                    defaultValue = defaultValue,
+                    modifiers = setOf(ParameterModifier.OVERRIDE)
                 )
             ),
             superInterfaces = listOf(
