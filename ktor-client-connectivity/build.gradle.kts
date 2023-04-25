@@ -5,7 +5,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Client side Ktor extensions."
+    description = "Determine what connection capabilities exist using Ktor."
 )
 
 android.setup()
@@ -17,6 +17,7 @@ dependencies {
 kotlin.setup {
     commonMain {
         ktorClient()
+        projectIntent()
     }
     commonTest {
         coroutine()

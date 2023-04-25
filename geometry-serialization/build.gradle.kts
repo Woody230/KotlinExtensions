@@ -17,5 +17,6 @@ kotlin.setup {
         projectGeometry()
     }
     commonTest()
+    androidTest()
     jvmTest()
 }

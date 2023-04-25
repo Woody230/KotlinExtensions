@@ -349,14 +349,13 @@ The fully intact documentation can be found in [commit 0f310b317920fbbea56d5dc81
 
 ## ktor-client
 Client side [Ktor](https://ktor.io/docs/getting-started-ktor-client.html) extensions.
+* `GenericTypeInfo` for enforcing the type of the reified usage of TypeInfo creation.
 
-* `KtorConnectivityManager` for determining if an active connection is able to be established.
+## ktor-client-connectivity
+* `Connectivity` for determining if an active connection is able to be established
 
 ## logging
 Logging wrapper around [Napier](https://github.com/AAkira/Napier).
-
-## molecule
-A copy of [Molecule](https://github.com/cashapp/molecule) v0.2.0 with multiplatform capability.
 
 ## resource
 [moko-resources](https://github.com/icerockdev/moko-resources) extensions.

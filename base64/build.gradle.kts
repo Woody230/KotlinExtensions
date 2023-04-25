@@ -19,5 +19,6 @@ kotlin.setup {
         projectFunction()
     }
     commonTest()
+    androidTest()
     jvmTest()
 }

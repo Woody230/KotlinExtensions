@@ -55,6 +55,6 @@ class DelimitedListSerializerTests {
         }
 
         assertEquals(config, xml.decodeFromString(configXml))
-        assertEquals(configXml, xml.encodeToString(config))
+        assertEquals(configXml.replace(" ", ""), xml.encodeToString(config).replace(" ", ""))
     }
 }

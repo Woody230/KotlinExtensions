@@ -17,5 +17,6 @@ kotlin.setup {
         projectLogging()
     }
     commonTest()
+    androidTest()
     jvmTest()
 }
