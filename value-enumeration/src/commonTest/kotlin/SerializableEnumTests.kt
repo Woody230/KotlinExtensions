@@ -1,4 +1,4 @@
-import com.bselzer.ktx.value.enumeration.StringEnum
+import com.bselzer.ktx.value.enumeration.SerializableEnum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class StringEnumTests {
+class SerializableEnumTests {
     @Serializable
     private enum class TestEnum {
         @SerialName("Foo")
@@ -25,7 +25,7 @@ class StringEnumTests {
         val input = "\"Foo\""
 
         // Act
-        val wrapper = Json.decodeFromString<StringEnum<TestEnum>>(input)
+        val wrapper = Json.decodeFromString<SerializableEnum<TestEnum>>(input)
         val enum = wrapper.toEnum()
 
         // Assert
@@ -39,7 +39,7 @@ class StringEnumTests {
         val input = "\"Fizz\""
 
         // Act
-        val wrapper = Json.decodeFromString<StringEnum<TestEnum>>(input)
+        val wrapper = Json.decodeFromString<SerializableEnum<TestEnum>>(input)
         val exception = runCatching { wrapper.toEnum() }.exceptionOrNull()
 
         // Assert
@@ -53,7 +53,7 @@ class StringEnumTests {
         val input = "\"Foo\""
 
         // Act
-        val wrapper = Json.decodeFromString<StringEnum<TestEnum>>(input)
+        val wrapper = Json.decodeFromString<SerializableEnum<TestEnum>>(input)
         val enum = wrapper.toEnumOrNull()
 
         // Assert
@@ -67,7 +67,7 @@ class StringEnumTests {
         val input = "\"Fizz\""
 
         // Act
-        val wrapper = Json.decodeFromString<StringEnum<TestEnum>>(input)
+        val wrapper = Json.decodeFromString<SerializableEnum<TestEnum>>(input)
         val enum = wrapper.toEnumOrNull()
 
         // Assert
@@ -78,7 +78,7 @@ class StringEnumTests {
     @Test
     fun serialize() {
         // Arrange
-        val enum = StringEnum("Foo", serializer<TestEnum>())
+        val enum = SerializableEnum("Foo", serializer<TestEnum>())
 
         // Act
         val output = Json.encodeToString(enum)

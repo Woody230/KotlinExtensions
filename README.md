@@ -421,28 +421,38 @@ fun lastRefresh(settings: SuspendSettings): Setting<Instant> {
 These wrappers must provide an instance of `SuspendSettings`, a key, and a default value to use when the preference is not set. 
 When calling get() or observe(), this default value will be used as the default instead of null.
 
-| Method | Purpose |
-| --- | --- |
-| get | Gets the value of the preference or the default value if it does not exist. |
-| getOrNull | Gets the value of the preference or null if it does not exist. |
-| set | Sets the value of preference and notifies observers about the change. |
-| remove | Removes the value of the preference and notifies observers about the change. |
-| exists | Used to determine if the preference has been initialized. |
-| initialize | Only sets a value if the preference has not been set. |
-| observe | Creates a callback flow that listens to preference changes. Uses the default value if the preference does not exist. |
-| observeOrNull | Creates a callback flow that listens to preference changes. Uses null if the preference does not exist. |
+| Method        | Purpose                                                                                                              |
+|---------------|----------------------------------------------------------------------------------------------------------------------|
+| get           | Gets the value of the preference or the default value if it does not exist.                                          |
+| getOrNull     | Gets the value of the preference or null if it does not exist.                                                       |
+| set           | Sets the value of preference and notifies observers about the change.                                                |
+| remove        | Removes the value of the preference and notifies observers about the change.                                         |
+| exists        | Used to determine if the preference has been initialized.                                                            |
+| initialize    | Only sets a value if the preference has not been set.                                                                |
+| observe       | Creates a callback flow that listens to preference changes. Uses the default value if the preference does not exist. |
+| observeOrNull | Creates a callback flow that listens to preference changes. Uses null if the preference does not exist.              |
 
-## value
-[Value classes](https://kotlinlang.org/docs/inline-classes.html) for an `Identifier` wrapping a Byte, Boolean, Double, Float, Int, Long, Short, or String. The `Identifiable` interface can be used to specify an `Identifier` id.
+## value-enumeration
+
+[Value classes](https://kotlinlang.org/docs/inline-classes.html) for wrapping an enumeration.
+The `SerializableEnum` class:
+
+* Holds the original string provided during deserialization.
+* Provides the convenience of conversion methods to the intended enumeration without the consequence of being forced to fail.
+
+## value-identifier
+
+[Value classes](https://kotlinlang.org/docs/inline-classes.html) for an `Identifier` wrapping a Byte, Boolean, Double, Float, Int, Long, Short, or String.
+The `Identifiable` interface can be used to specify an `Identifier` id.
 
 ```kotlin
 @JvmInline
 value class LuckId(override val value: String = "") : StringIdentifier {
-    override fun toString(): String = value
+  override fun toString(): String = value
 }
 
 data class AccountLuck(
-    override val id: LuckId = LuckId(),
-    val value: Int = 0
+  override val id: LuckId = LuckId(),
+  val value: Int = 0
 ) : Identifiable<LuckId, String>
 ```
