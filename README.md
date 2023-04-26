@@ -435,10 +435,10 @@ When calling get() or observe(), this default value will be used as the default 
 ## value-enumeration
 
 [Value classes](https://kotlinlang.org/docs/inline-classes.html) for wrapping an enumeration.
-The `SerializableEnum` class:
+The `StringEnum` class:
 
 * Holds the original string provided during deserialization.
-* Provides the convenience of conversion methods to the intended enumeration without the consequence of being forced to fail.
+* Provides the convenience of conversion methods to the intended enumeration without the consequence of being forced to fail, especially with leniency enabled.
 
 ## value-identifier
 
