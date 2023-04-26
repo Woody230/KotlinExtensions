@@ -13,7 +13,7 @@ android.setup()
 kotlin.setup {
     commonMain {
         kodeinDb()
-        projectValue()
+        projectValueIdentifier()
     }
     commonTest()
 }

@@ -5,7 +5,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Value class extensions."
+    description = "Value class wrappers for identifiers."
 )
 
 android.setup()
