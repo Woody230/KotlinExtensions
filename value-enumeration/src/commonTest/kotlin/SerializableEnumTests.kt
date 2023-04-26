@@ -16,8 +16,16 @@ class SerializableEnumTests {
         @SerialName("Foo")
         A,
 
+        @SerialName("1")
         B
     }
+
+    @Serializable
+    private data class TestClass(
+        val wrapper: SerializableEnum<TestEnum>
+    )
+
+    private val lenientJson = Json { isLenient = true }
 
     @Test
     fun deserialize_WithValidEnum_ToEnum() {
@@ -31,6 +39,20 @@ class SerializableEnumTests {
         // Assert
         assertEquals(TestEnum.A, enum)
         assertEquals("Foo", wrapper.toString())
+    }
+
+    @Test
+    fun deserialize_WithNumeric_ToEnum() {
+        // Arrange
+        val input = "{ \"wrapper\": 1 }"
+
+        // Act
+        val wrapper = lenientJson.decodeFromString<TestClass>(input).wrapper
+        val enum = wrapper.toEnum()
+
+        // Assert
+        assertEquals(TestEnum.B, enum)
+        assertEquals("1", wrapper.toString())
     }
 
     @Test
