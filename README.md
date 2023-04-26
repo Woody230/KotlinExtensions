@@ -342,22 +342,28 @@ The fully intact documentation can be found in [commit 0f310b317920fbbea56d5dc81
 * `IdentifiableMetadataExtractor` for `Identifiable` objects from the [value](#value) module to use the identifier's value as the metadata.
 * `IdentifierValueConverter` for using an `Identifier.value` as a Value if it is for an Int, Long, or String.
 * `DBTransaction` for managing reading and writing a batch to a `DB` instance
-    * clear() extension method for deleting all models of a given type
-    * findByReferenceId() and findByIds() extension methods for finding all `Identifiable` models based on given ids
-    * getById() extension method for finding an `Identifiable` model with a given id or requesting it if it does not exist
-    * putMissingById() extension method for finding all `Identifiable` models based on given ids and then requesting those missing to be put into the `DB`
+  * clear() extension method for deleting all models of a given type
+  * findByReferenceId() and findByIds() extension methods for finding all `Identifiable` models based on given ids
+  * getById() extension method for finding an `Identifiable` model with a given id or requesting it if it does not exist
+  * putMissingById() extension method for finding all `Identifiable` models based on given ids and then requesting those missing to be put into the `DB`
 
 ## ktor-client
+
 Client side [Ktor](https://ktor.io/docs/getting-started-ktor-client.html) extensions.
+
 * `GenericTypeInfo` for enforcing the type of the reified usage of TypeInfo creation.
+* `UrlOptions` can be used to merge url based options and to replace path parameters.
 
 ## ktor-client-connectivity
+
 * `Connectivity` for determining if an active connection is able to be established
 
 ## logging
+
 Logging wrapper around [Napier](https://github.com/AAkira/Napier).
 
 ## resource
+
 [moko-resources](https://github.com/icerockdev/moko-resources) extensions.
 
 * AssetReader to read the text content associated with a moko-resource asset.
