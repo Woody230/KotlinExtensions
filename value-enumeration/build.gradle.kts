@@ -6,17 +6,17 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "multiplatform-settings extensions"
+    description = "Value class wrappers for enumerations."
 )
 
 android.setup()
 
 kotlin.setup {
     commonMain {
-        ktxSerialization()
-        coroutine()
-        multiplatformSettings()
         projectValueIdentifier()
+        projectSerialization()
     }
     commonTest()
+    androidTest()
+    jvmTest()
 }

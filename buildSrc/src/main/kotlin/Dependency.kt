@@ -34,7 +34,7 @@ object Versions {
 object Metadata {
     const val GROUP_ID = "io.github.woody230"
     const val SUBGROUP_ID = "ktx"
-    const val VERSION = "5.1.0"
+    const val VERSION = "5.2.0"
     const val JVM_TARGET = "1.8"
 }
 
@@ -92,7 +92,8 @@ fun KotlinDependencyHandler.projectKodeinDb() = api(project(":kodein-db"))
 fun KotlinDependencyHandler.projectResource() = api(project(":resource"))
 fun KotlinDependencyHandler.projectIntent() = api(project(":intent"))
 fun KotlinDependencyHandler.projectLogging() = implementation(project(":logging"))
-fun KotlinDependencyHandler.projectValue() = api(project(":value"))
+fun KotlinDependencyHandler.projectValueIdentifier() = api(project(":value-identifier"))
 fun KotlinDependencyHandler.projectIntl() = api(project(":intl"))
 fun KotlinDependencyHandler.projectImageModel() = api(project(":image-model"))
 fun KotlinDependencyHandler.projectGeometry() = api(project(":geometry"))
+fun KotlinDependencyHandler.projectSerialization() = api(project(":serialization"))

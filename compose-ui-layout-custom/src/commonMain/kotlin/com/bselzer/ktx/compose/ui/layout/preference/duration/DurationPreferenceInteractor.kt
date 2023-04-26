@@ -42,6 +42,7 @@ data class DurationPreferenceInteractor(
      */
     val amountRange: IntRange = 1..Int.MAX_VALUE,
 
+    // TODO enum entries https://kotlinlang.org/docs/whatsnew1820.html#a-modern-and-performant-replacement-of-the-enum-class-values-function
     /**
      * The selectable [DurationUnit] types.
      */
