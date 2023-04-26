@@ -26,6 +26,8 @@ package com.bselzer.ktx.base64
  * @see <a href="https://github.com/jershell/kbase64">kbase64 by jershell</a>
  */
 
+// TODO stdlib https://kotlinlang.org/docs/whatsnew1820.html#support-for-base64-encoding
+
 /**
  * The 64 characters available in the alphabet for encoding.
  */
