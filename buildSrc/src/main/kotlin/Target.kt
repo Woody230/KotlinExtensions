@@ -93,11 +93,10 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
  * Sets up Android.
  */
 fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {}) {
-    compileSdk = 31
+    compileSdk = 33
     sourceSets.getByName("main").manifest.srcFile(manifestPath)
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
