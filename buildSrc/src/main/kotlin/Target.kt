@@ -1,3 +1,4 @@
+import Metadata.JVM_TARGET
 import Versions.ANDROID_COMPOSE
 import Versions.ANDROID_TEST_JUNIT
 import Versions.ANDROID_TEST_CORE
@@ -144,4 +145,5 @@ private fun KotlinMultiplatformExtension.targets() {
 fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {}) {
     targets()
     sourceSets(this.sourceSets)
+    jvmToolchain(JVM_TARGET.toInt())
 }
