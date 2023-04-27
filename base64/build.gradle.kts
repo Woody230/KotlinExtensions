@@ -12,7 +12,9 @@ android.setup()
 
 kotlin.setup {
     commonMain()
-    commonTest()
+    commonTest {
+        projectFunction()
+    }
     androidUnitTest()
     jvmTest()
 }
