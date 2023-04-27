@@ -1,6 +1,7 @@
 package com.bselzer.ktx.serialization.serializer
 
 import com.bselzer.ktx.geometry.dimension.bi.Dimension2D
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
@@ -17,7 +18,8 @@ class Dimension2DSerializer : KSerializer<Dimension2D> {
      */
     private val serializer = ListSerializer(Double.serializer())
 
-    override val descriptor: SerialDescriptor = serializer.descriptor
+    @OptIn(ExperimentalSerializationApi::class)
+    override val descriptor: SerialDescriptor = SerialDescriptor(Dimension2D::class.qualifiedName!!, serializer.descriptor)
 
     override fun deserialize(decoder: Decoder): Dimension2D = deserialize(serializer.deserialize(decoder))
 

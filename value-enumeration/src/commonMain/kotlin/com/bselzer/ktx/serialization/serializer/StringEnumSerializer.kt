@@ -9,7 +9,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 class StringEnumSerializer<T>(private val enumSerializer: KSerializer<T>) : KSerializer<StringEnum<T>> where T : Enum<T> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("StringEnum", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(StringEnum::class.qualifiedName!!, PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): StringEnum<T> = StringEnum(decoder.decodeString(), enumSerializer)
 

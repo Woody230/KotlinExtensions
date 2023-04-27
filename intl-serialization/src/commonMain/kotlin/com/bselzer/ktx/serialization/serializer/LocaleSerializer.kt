@@ -12,7 +12,7 @@ import kotlinx.serialization.encoding.Encoder
  * A serializer for [Locale] using a string representation.
  */
 class LocaleSerializer : KSerializer<Locale> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Locale", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(Locale::class.qualifiedName!!, PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Locale = Locale(decoder.decodeString())
 

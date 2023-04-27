@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 open class RegexPatternSerializer: KSerializer<Regex> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Regex", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(Regex::class.qualifiedName!!, PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Regex = Regex(decoder.decodeString())
 
