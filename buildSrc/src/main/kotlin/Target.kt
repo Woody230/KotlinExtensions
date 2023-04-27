@@ -73,8 +73,8 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidMain(block: KotlinDepende
 /**
  * Sets up Android test dependencies.
  */
-fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDependencyHandler.() -> Unit = {}) {
-    getByName("androidTest") {
+fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDependencyHandler.() -> Unit = {}) {
+    getByName("androidUnitTest") {
         dependencies {
             implementation(kotlin("test-junit"))
             implementation("androidx.test.ext:junit:$ANDROID_TEST_JUNIT")
@@ -82,22 +82,6 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDepende
             implementation("androidx.test:runner:$ANDROID_TEST_RUNNER")
             implementation("androidx.test:rules:$ANDROID_TEST_RULES")
             implementation("org.robolectric:robolectric:$ROBOLECTRIC")
-            block(this)
-        }
-    }
-}
-
-/**
- * Sets up Android test dependencies with Compose.
- */
-fun NamedDomainObjectContainer<KotlinSourceSet>.androidTestWithCompose(block: KotlinDependencyHandler.() -> Unit = {}) {
-    getByName("androidTest") {
-        dependencies {
-            implementation(kotlin("test-junit"))
-            implementation("androidx.test.ext:junit:$ANDROID_TEST_JUNIT")
-            implementation("androidx.test:core:$ANDROID_TEST_CORE")
-            implementation("androidx.test:runner:$ANDROID_TEST_RUNNER")
-            implementation("androidx.test:rules:$ANDROID_TEST_RULES")
             implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
             implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
             block(this)

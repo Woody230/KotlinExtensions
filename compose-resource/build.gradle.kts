@@ -18,6 +18,6 @@ kotlin.setup {
         projectComposeUiIntl()
     }
     commonTest()
-    androidTestWithCompose()
+    androidUnitTest()
     jvmTest()
 }

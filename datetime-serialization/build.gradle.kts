@@ -17,6 +17,6 @@ kotlin.setup {
         projectDateTime()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

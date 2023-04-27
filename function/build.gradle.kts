@@ -17,6 +17,6 @@ kotlin.setup {
     }
     jvmMain()
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

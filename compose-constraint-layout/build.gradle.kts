@@ -33,5 +33,5 @@ kotlin.setup {
         ktxDateTime()
     }
     commonTest()
-    androidTestWithCompose()
+    androidUnitTest()
 }

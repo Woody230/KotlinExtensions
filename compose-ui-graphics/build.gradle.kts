@@ -17,6 +17,6 @@ kotlin.setup {
         material()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

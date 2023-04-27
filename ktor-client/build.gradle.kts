@@ -22,7 +22,7 @@ kotlin.setup {
         coroutine()
         ktorMockEngine()
     }
-    androidTest {
+    androidUnitTest {
         ktorOkHttpEngine()
     }
     jvmTest {

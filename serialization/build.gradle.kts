@@ -19,6 +19,6 @@ kotlin.setup {
     commonTest {
         xmlSerialization()
     }
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

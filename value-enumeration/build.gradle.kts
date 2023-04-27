@@ -17,6 +17,6 @@ kotlin.setup {
         projectSerialization()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

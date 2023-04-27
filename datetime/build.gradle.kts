@@ -26,6 +26,6 @@ kotlin.setup {
     commonTest {
         projectIntl()
     }
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }
