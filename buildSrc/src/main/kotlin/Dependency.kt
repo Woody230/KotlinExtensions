@@ -13,28 +13,31 @@ import Versions.XML
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 object Versions {
-    const val KTX_DATETIME = "0.3.2"
-    const val KTX_SERIALIZATION = "1.3.2"
-    const val CORE = "1.7.0"
-    const val ANDROID_TEST = "1.1.0"
-    const val ROBOLECTRIC = "4.6.1"
+    const val KTX_DATETIME = "0.4.0"
+    const val KTX_SERIALIZATION = "1.5.0"
+    const val CORE = "1.10.0"
+    const val ANDROID_TEST_CORE = "1.5.0"
+    const val ANDROID_TEST_JUNIT = "1.1.5"
+    const val ANDROID_TEST_RUNNER = "1.5.2"
+    const val ANDROID_TEST_RULES = "1.5.0"
+    const val ROBOLECTRIC = "4.10"
     const val KODEIN_DB = "0.9.0-beta"
-    const val SETTINGS = "0.8.1"
-    const val COROUTINE = "1.6.1"
-    const val NAPIER = "2.4.0"
-    const val ABOUT_LIBRARIES = "10.0.0"
-    const val KTOR = "2.0.1"
-    const val ANDROID_COMPOSE = "1.1.1"
-    const val XML = "0.84.0"
-    const val RESOURCE = "0.19.0"
-    const val COMPOSE = "1.1.0"
-    const val KOTLIN = "1.6.10"
+    const val SETTINGS = "1.0.0"
+    const val COROUTINE = "1.6.4"
+    const val NAPIER = "2.6.1"
+    const val ABOUT_LIBRARIES = "10.6.2"
+    const val KTOR = "2.3.0"
+    const val ANDROID_COMPOSE = "1.4.2"
+    const val XML = "0.85.0"
+    const val RESOURCE = "0.22.0"
+    const val COMPOSE = "1.4.0"
+    const val KOTLIN = "1.8.20"
 }
 
 object Metadata {
     const val GROUP_ID = "io.github.woody230"
     const val SUBGROUP_ID = "ktx"
-    const val VERSION = "5.2.0"
+    const val VERSION = "5.3.0"
     const val JVM_TARGET = "1.8"
 }
 

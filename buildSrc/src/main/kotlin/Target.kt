@@ -1,5 +1,8 @@
 import Versions.ANDROID_COMPOSE
-import Versions.ANDROID_TEST
+import Versions.ANDROID_TEST_JUNIT
+import Versions.ANDROID_TEST_CORE
+import Versions.ANDROID_TEST_RUNNER
+import Versions.ANDROID_TEST_RULES
 import Versions.ROBOLECTRIC
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
@@ -74,10 +77,10 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTest(block: KotlinDepende
     getByName("androidTest") {
         dependencies {
             implementation(kotlin("test-junit"))
-            implementation("androidx.test.ext:junit:$ANDROID_TEST")
-            implementation("androidx.test:core:$ANDROID_TEST")
-            implementation("androidx.test:runner:$ANDROID_TEST")
-            implementation("androidx.test:rules:$ANDROID_TEST")
+            implementation("androidx.test.ext:junit:$ANDROID_TEST_JUNIT")
+            implementation("androidx.test:core:$ANDROID_TEST_CORE")
+            implementation("androidx.test:runner:$ANDROID_TEST_RUNNER")
+            implementation("androidx.test:rules:$ANDROID_TEST_RULES")
             implementation("org.robolectric:robolectric:$ROBOLECTRIC")
             block(this)
         }
@@ -91,10 +94,10 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidTestWithCompose(block: Ko
     getByName("androidTest") {
         dependencies {
             implementation(kotlin("test-junit"))
-            implementation("androidx.test.ext:junit:$ANDROID_TEST")
-            implementation("androidx.test:core:$ANDROID_TEST")
-            implementation("androidx.test:runner:$ANDROID_TEST")
-            implementation("androidx.test:rules:$ANDROID_TEST")
+            implementation("androidx.test.ext:junit:$ANDROID_TEST_JUNIT")
+            implementation("androidx.test:core:$ANDROID_TEST_CORE")
+            implementation("androidx.test:runner:$ANDROID_TEST_RUNNER")
+            implementation("androidx.test:rules:$ANDROID_TEST_RULES")
             implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
             implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
             block(this)
