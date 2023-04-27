@@ -1,5 +1,3 @@
-package com.bselzer.ktx.function
-
 import com.bselzer.ktx.function.objects.validEnumValues
 import kotlin.test.Test
 import kotlin.test.assertEquals

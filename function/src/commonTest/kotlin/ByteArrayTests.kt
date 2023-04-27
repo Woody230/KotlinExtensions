@@ -1,5 +1,3 @@
-package com.bselzer.ktx.function
-
 import com.bselzer.ktx.function.collection.toByteArray
 import com.bselzer.ktx.function.collection.toInt
 import com.bselzer.ktx.function.collection.toShort

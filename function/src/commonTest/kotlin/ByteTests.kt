@@ -1,5 +1,3 @@
-package com.bselzer.ktx.function
-
 import com.bselzer.ktx.function.objects.toBits
 import com.bselzer.ktx.function.objects.toByte
 import kotlin.test.Test

@@ -1,7 +1,9 @@
-package com.bselzer.ktx.function
-
 import com.bselzer.ktx.function.collection.removeFirst
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertIs
 
 class ArrayDequeTests
 {
