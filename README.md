@@ -35,19 +35,23 @@ val string = bytes.encodeBase64ToString()
 ```
 
 ## comparator
-* Nullable string comparator. 
+
+* Nullable string comparator.
 * User friendly string and enum comparators.
 
-## Jetbrains/Jetpack Compose
-[Jetbrains Compose](https://github.com/JetBrains/compose-jb) is the compose version used by this project to support both Android and the JVM.
+## Jetpack Compose/Compose Multiplatform
+
+[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) is the compose version used by this project to support both Android and the JVM.
 
 New to Compose?
+
 * [Guidelines](https://github.com/androidx/androidx/blob/androidx-main/compose/docs/compose-api-guidelines.md)
-* [Jetbrains Compose Getting Started](https://github.com/JetBrains/compose-jb/tree/master/tutorials/Getting_Started)
+* [Compose Multiplatform Tutorials](https://github.com/JetBrains/compose-multiplatform/tree/master/tutorials)
 * [Jetpack Compose Tutorial](https://developer.android.com/jetpack/compose/tutorial)
 
 ## compose-aboutlibraries
-[Compose-jb](https://github.com/JetBrains/compose-jb) composable for [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
+
+[compose-multiplatform](https://github.com/JetBrains/compose-multiplatform) composable for [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
 
 ```kotlin
 @Composable
@@ -129,7 +133,8 @@ val text = MyResources.strings.my_resource.textInteractor()
 * `ColorSerializer` for storing the [Hex](#hex) associated with a `androidx.compose.ui.graphics.Color`
 
 ## compose-settings
-[Setting](#settings) to [compose-jb](https://github.com/JetBrains/compose-jb) state converters.
+
+[Setting](#settings) to [compose-multiplatform](https://github.com/JetBrains/compose-multiplatform) state converters.
 
 ```kotlin
 @Composable

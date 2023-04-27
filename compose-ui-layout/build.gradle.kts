@@ -6,7 +6,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Base extensions for laying out Jetbrains Compose UI."
+    description = "Base extensions for laying out Compose Multiplatform UI."
 )
 
 android.setupWithCompose()

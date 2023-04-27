@@ -7,7 +7,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "kotlinx.serialization extension for Jetbrains Compose classes"
+    description = "kotlinx.serialization extension for Compose Multiplatform classes"
 )
 
 android.setupWithCompose()
