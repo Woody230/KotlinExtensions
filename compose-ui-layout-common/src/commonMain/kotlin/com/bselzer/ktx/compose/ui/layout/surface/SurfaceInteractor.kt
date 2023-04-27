@@ -13,11 +13,6 @@ data class SurfaceInteractor(
     val onClick: (() -> Unit)? = null,
 
     /**
-     * Semantic / accessibility label for the onClick action
-     */
-    val onClickLabel: String? = null,
-
-    /**
      * Controls the enabled state of the Surface. When false, this Surface will not be clickable
      */
     val enabled: Boolean = true,

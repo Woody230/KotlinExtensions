@@ -33,16 +33,13 @@ class SurfaceProjector(
             Surface(
                 onClick = interactor.onClick,
                 modifier = combinedModifier,
+                enabled = interactor.enabled,
                 shape = presenter.shape,
                 color = presenter.color,
                 contentColor = presenter.contentColor,
                 border = presenter.border,
                 elevation = presenter.elevation,
                 interactionSource = interactionSource,
-                indication = presenter.indication,
-                enabled = interactor.enabled,
-                onClickLabel = interactor.onClickLabel,
-                role = presenter.role,
                 content = content
             )
         }
