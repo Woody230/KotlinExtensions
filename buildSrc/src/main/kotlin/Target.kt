@@ -3,6 +3,7 @@ import Versions.ANDROID_TEST_JUNIT
 import Versions.ANDROID_TEST_CORE
 import Versions.ANDROID_TEST_RUNNER
 import Versions.ANDROID_TEST_RULES
+import Versions.COMPOSE_COMPILER
 import Versions.ROBOLECTRIC
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
@@ -92,16 +93,15 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
 /**
  * Sets up Android.
  */
-fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {}) {
+fun LibraryExtension.setup(block: LibraryExtension.() -> Unit = {}) {
     compileSdk = 33
-    sourceSets.getByName("main").manifest.srcFile(manifestPath)
     defaultConfig {
         minSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     publishing {
         multipleVariants {
@@ -116,11 +116,16 @@ fun LibraryExtension.setup(manifestPath: String = "src/androidMain/AndroidManife
 /**
  * Sets up Android with Compose.
  */
-fun LibraryExtension.setupWithCompose(manifestPath: String = "src/androidMain/AndroidManifest.xml", block: LibraryExtension.() -> Unit = {}) {
+fun LibraryExtension.setupWithCompose(block: LibraryExtension.() -> Unit = {}) {
     buildFeatures {
         compose = true
     }
-    setup(manifestPath, block)
+    composeOptions {
+        // https://mvnrepository.com/artifact/org.jetbrains.compose.compiler/compiler
+        // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
+        kotlinCompilerExtensionVersion = COMPOSE_COMPILER
+    }
+    setup(block)
 }
 
 /**

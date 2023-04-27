@@ -31,6 +31,7 @@ object Versions {
     const val XML = "0.85.0"
     const val RESOURCE = "0.22.0"
     const val COMPOSE = "1.4.0"
+    const val COMPOSE_COMPILER = "1.4.5"
     const val KOTLIN = "1.8.20"
 }
 
@@ -38,7 +39,7 @@ object Metadata {
     const val GROUP_ID = "io.github.woody230"
     const val SUBGROUP_ID = "ktx"
     const val VERSION = "5.3.0"
-    const val JVM_TARGET = "1.8"
+    const val JVM_TARGET = "11"
 }
 
 object LocalProperty {
