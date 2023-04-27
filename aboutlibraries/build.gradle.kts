@@ -8,7 +8,7 @@ publishing.publish(
     description = "AboutLibraries extensions."
 )
 
-android.setupWithCompose()
+android.setup()
 
 kotlin.setup {
     commonMain {
