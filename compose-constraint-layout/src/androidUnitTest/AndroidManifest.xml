@@ -14,17 +14,16 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.bselzer.ktx.compose.constraintlayout">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:debuggable="false"
         tools:ignore="HardcodedDebugMode"
         tools:replace="android:debuggable">
 
-        <activity
-            android:name="androidx.activity.ComponentActivity" />
-        <uses-library android:name="android.test.runner"
+        <activity android:name="androidx.activity.ComponentActivity" />
+        <uses-library
+            android:name="android.test.runner"
             android:required="false" />
     </application>
 </manifest>
