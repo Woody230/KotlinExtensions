@@ -8,7 +8,7 @@ publishing.publish(
     description = "Client side Ktor extensions."
 )
 
-android.setup()
+android.setup(project)
 
 dependencies {
     testImplementation(project(mapOf("path" to ":intent")))

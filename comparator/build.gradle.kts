@@ -8,7 +8,7 @@ publishing.publish(
     description = "Object comparators."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

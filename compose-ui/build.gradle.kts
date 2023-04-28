@@ -9,7 +9,7 @@ publishing.publish(
     description = "Extensions for Compose Multiplatform UI."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

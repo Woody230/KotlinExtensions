@@ -8,7 +8,7 @@ publishing.publish(
     description = "Logging wrapper around Napier."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

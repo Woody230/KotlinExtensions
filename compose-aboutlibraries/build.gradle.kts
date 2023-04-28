@@ -9,7 +9,7 @@ publishing.publish(
     description = "Composable implementation of AboutLibraries using Compose Multiplatform."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

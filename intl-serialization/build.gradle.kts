@@ -8,7 +8,7 @@ publishing.publish(
     description = "kotlinx.serialization for internationalization"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

@@ -9,7 +9,7 @@ publishing.publish(
     description = "Custom composable implementations for Compose Multiplatform."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

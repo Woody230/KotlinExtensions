@@ -8,7 +8,7 @@ publishing.publish(
     description = "Based on Android intents."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

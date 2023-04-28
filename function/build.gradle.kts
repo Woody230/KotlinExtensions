@@ -8,7 +8,7 @@ publishing.publish(
     description = "General Kotlin standard library extensions."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain()

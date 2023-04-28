@@ -8,7 +8,7 @@ publishing.publish(
     description = "Determine what connection capabilities exist using Ktor."
 )
 
-android.setup()
+android.setup(project)
 
 dependencies {
     testImplementation(project(mapOf("path" to ":intent")))

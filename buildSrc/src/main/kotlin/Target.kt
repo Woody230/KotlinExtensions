@@ -1,4 +1,6 @@
+import Metadata.GROUP_ID
 import Metadata.JVM_TARGET
+import Metadata.SUBGROUP_ID
 import Versions.ANDROID_COMPOSE
 import Versions.ANDROID_TEST_JUNIT
 import Versions.ANDROID_TEST_CORE
@@ -9,6 +11,7 @@ import Versions.ROBOLECTRIC
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -94,7 +97,8 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
 /**
  * Sets up Android.
  */
-fun LibraryExtension.setup(block: LibraryExtension.() -> Unit = {}) {
+fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit = {}) {
+    namespace = "${GROUP_ID}.${SUBGROUP_ID}.${project.name}".replace("-", ".")
     compileSdk = 33
     defaultConfig {
         minSdk = 21
@@ -117,7 +121,7 @@ fun LibraryExtension.setup(block: LibraryExtension.() -> Unit = {}) {
 /**
  * Sets up Android with Compose.
  */
-fun LibraryExtension.setupWithCompose(block: LibraryExtension.() -> Unit = {}) {
+fun LibraryExtension.setupWithCompose(project: Project, block: LibraryExtension.() -> Unit = {}) {
     buildFeatures {
         compose = true
     }
@@ -126,7 +130,7 @@ fun LibraryExtension.setupWithCompose(block: LibraryExtension.() -> Unit = {}) {
         // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
         kotlinCompilerExtensionVersion = COMPOSE_COMPILER
     }
-    setup(block)
+    setup(project, block)
 }
 
 /**

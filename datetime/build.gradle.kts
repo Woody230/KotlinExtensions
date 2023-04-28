@@ -8,7 +8,7 @@ publishing.publish(
     description = "kotlinx.datetime extensions"
 )
 
-android.setup {
+android.setup(project) {
     compileOptions {
         // DateTimeFormatter requires API level 26+ otherwise
         isCoreLibraryDesugaringEnabled = true

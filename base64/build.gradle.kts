@@ -8,7 +8,7 @@ publishing.publish(
     description = "Extensions for base64 encoding and decoding between strings and byte arrays."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain()

@@ -9,7 +9,7 @@ publishing.publish(
     description = "Compose Multiplatform internationalization."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

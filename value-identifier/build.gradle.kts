@@ -8,7 +8,7 @@ publishing.publish(
     description = "Value class wrappers for identifiers."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain()

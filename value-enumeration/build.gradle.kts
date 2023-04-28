@@ -9,7 +9,7 @@ publishing.publish(
     description = "Value class wrappers for enumerations."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

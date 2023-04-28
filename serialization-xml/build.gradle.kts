@@ -9,7 +9,7 @@ publishing.publish(
     description = "kotlinx.serialization extensions for pdvrieze.xmlutil"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

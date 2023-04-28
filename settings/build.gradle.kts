@@ -9,7 +9,7 @@ publishing.publish(
     description = "multiplatform-settings extensions"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

@@ -10,7 +10,7 @@ publishing.publish(
     description = "kotlinx.serialization extension for Compose Multiplatform classes"
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

@@ -9,7 +9,7 @@ publishing.publish(
     description = "multiplatform-settings extensions for Compose Multiplatform classes"
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

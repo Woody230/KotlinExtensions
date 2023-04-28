@@ -9,7 +9,7 @@ publishing.publish(
     description = "Wrappers for strings and images using the compose and resource modules."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

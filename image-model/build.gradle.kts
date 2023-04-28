@@ -9,7 +9,7 @@ publishing.publish(
     description = "Image models."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {
