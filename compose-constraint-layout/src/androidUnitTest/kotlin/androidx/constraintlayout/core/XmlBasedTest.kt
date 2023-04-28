@@ -60,8 +60,7 @@ class XmlBasedTest(var file: String) {
             return if (v == "END") "RIGHT" else v
         }
 
-        //        String dirName = System.getProperty("user.dir") + File.separator+".."+File.separator+".."+File.separator+".."
-//                +File.separator+"constraintLayout"+File.separator+"core"+File.separator+"src"+File.separator+"test"+File.separator+"resources"+File.separator;
+        // NOTE: hardcoded relative directory
         private val dir: String
             private get() = System.getProperty("user.dir") + "/src/androidUnitTest/resources/"
 
