@@ -30,9 +30,9 @@ object Versions {
     const val ANDROID_COMPOSE = "1.4.2"
     const val XML = "0.85.0"
     const val RESOURCE = "0.22.0"
-    const val COMPOSE = "1.4.0"
-    const val COMPOSE_COMPILER = "1.4.5"
-    const val KOTLIN = "1.8.20"
+    const val COMPOSE = "1.3.1"
+    const val COMPOSE_COMPILER = "1.4.2"
+    const val KOTLIN = "1.8.10"
 }
 
 object Metadata {

@@ -27,7 +27,7 @@ implementation("io.github.woody230.ktx:$Module:$Version")
 Extensions for [AboutLibraries](https://github.com/mikepenz/AboutLibraries). See [compose-aboutlibraries](#compose-aboutlibraries) for the associated composable.
 
 ## base64
-Extensions for base64 encoding and decoding between strings and byte arrays.
+Base64 encoding and decoding between strings and byte arrays using v0.0.1 of [kbase64](https://github.com/jershell/kbase64).
 
 ```kotlin
 val bytes = "AdsnAAA=".decodeBase64ToByteArray()
