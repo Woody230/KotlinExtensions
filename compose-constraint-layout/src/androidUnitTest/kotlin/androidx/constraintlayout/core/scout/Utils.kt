@@ -16,7 +16,7 @@
 package androidx.constraintlayout.core.scout
 
 import java.text.DecimalFormat
-import java.util.*
+import java.util.Arrays
 
 /**
  * Simple Utilities used by the Inference system

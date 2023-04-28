@@ -8,6 +8,7 @@ import Versions.ANDROID_TEST_RUNNER
 import Versions.ANDROID_TEST_RULES
 import Versions.COMPOSE_COMPILER
 import Versions.ROBOLECTRIC
+import Versions.KOTLIN
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
@@ -89,6 +90,7 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
             implementation("org.robolectric:robolectric:$ROBOLECTRIC")
             implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
             implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
+            implementation("org.jetbrains.kotlin:kotlin-reflect:$KOTLIN")
             block(this)
         }
     }
@@ -113,6 +115,13 @@ fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit 
             allVariants()
             withSourcesJar()
             withJavadocJar()
+        }
+    }
+    testOptions {
+        unitTests {
+            androidResources {
+                isIncludeAndroidResources = true
+            }
         }
     }
     block(this)

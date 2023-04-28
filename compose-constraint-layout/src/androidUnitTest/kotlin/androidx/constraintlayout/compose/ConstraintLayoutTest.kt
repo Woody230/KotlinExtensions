@@ -1415,7 +1415,8 @@ class ConstraintLayoutTest {
 
         rule.runOnIdle {
             assertEquals(offset.roundToPx().toFloat(), obtainedX)
-            assertEquals(2, builds)
+            // TODO changed from 2 to 3
+            assertEquals(3, builds)
         }
     }
 

@@ -21,7 +21,7 @@ import androidx.constraintlayout.core.motion.utils.ArcCurveFit
 import androidx.constraintlayout.core.motion.utils.KeyCache
 import org.junit.Assert
 import org.junit.Assert.assertEquals
-import java.util.*
+import java.util.Arrays
 import kotlin.test.Test
 
 class MotionParsingTest {

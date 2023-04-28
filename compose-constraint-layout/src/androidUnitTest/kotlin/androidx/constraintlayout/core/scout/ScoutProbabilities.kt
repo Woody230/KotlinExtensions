@@ -15,7 +15,7 @@
  */
 package androidx.constraintlayout.core.scout
 
-import java.util.*
+import java.util.Arrays
 
 /**
  * Inference Probability tables

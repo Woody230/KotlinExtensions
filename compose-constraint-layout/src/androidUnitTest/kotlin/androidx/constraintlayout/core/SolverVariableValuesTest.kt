@@ -16,7 +16,7 @@
 package androidx.constraintlayout.core
 
 import org.junit.Assert
-import java.util.*
+import java.util.Random
 import kotlin.test.Test
 
 class SolverVariableValuesTest {

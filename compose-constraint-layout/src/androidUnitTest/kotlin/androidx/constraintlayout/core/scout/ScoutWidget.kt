@@ -19,7 +19,7 @@ import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.Guideline
 import androidx.constraintlayout.core.widgets.WidgetContainer
-import java.util.*
+import java.util.Arrays
 
 /**
  * Main Wrapper class for Constraint Widgets
@@ -137,6 +137,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
             Direction.WEST -> return x
             Direction.EAST -> return x + width
             Direction.BASE -> return mBaseLine
+            else -> {}
         }
         return mBaseLine
     }
@@ -807,6 +808,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                 Direction.WEST -> return ConstraintAnchor.Type.LEFT
                 Direction.EAST -> return ConstraintAnchor.Type.RIGHT
                 Direction.BASE -> return ConstraintAnchor.Type.BASELINE
+                else -> {}
             }
             return ConstraintAnchor.Type.NONE
         }
@@ -826,6 +828,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
             when (direction1) {
                 Direction.NORTH, Direction.WEST -> return getPos(widget1, direction1) - getPos(widget2, direction2)
                 Direction.SOUTH, Direction.EAST -> return getPos(widget2, direction2) - getPos(widget1, direction1)
+                else -> {}
             }
             return 0
         }
@@ -842,6 +845,7 @@ class ScoutWidget(constraintWidget: ConstraintWidget, parent: ScoutWidget?) : Co
                 Direction.SOUTH -> return widget!!.y + widget.height
                 Direction.WEST -> return widget!!.x
                 Direction.EAST -> return widget!!.x + widget.width
+                else -> {}
             }
             return 0
         }

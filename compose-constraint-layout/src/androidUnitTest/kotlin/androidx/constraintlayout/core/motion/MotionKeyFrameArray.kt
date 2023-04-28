@@ -17,7 +17,7 @@ package androidx.constraintlayout.core.motion
 
 import androidx.constraintlayout.core.motion.utils.KeyFrameArray.CustomArray
 import org.junit.Assert
-import java.util.*
+import java.util.Random
 import kotlin.test.Test
 
 class MotionKeyFrameArray {

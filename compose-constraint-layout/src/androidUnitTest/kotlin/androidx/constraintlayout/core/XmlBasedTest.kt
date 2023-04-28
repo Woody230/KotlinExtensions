@@ -63,10 +63,9 @@ class XmlBasedTest(var file: String) {
         //        String dirName = System.getProperty("user.dir") + File.separator+".."+File.separator+".."+File.separator+".."
 //                +File.separator+"constraintLayout"+File.separator+"core"+File.separator+"src"+File.separator+"test"+File.separator+"resources"+File.separator;
         private val dir: String
-            private get() =//        String dirName = System.getProperty("user.dir") + File.separator+".."+File.separator+".."+File.separator+".."
-//                +File.separator+"constraintLayout"+File.separator+"core"+File.separator+"src"+File.separator+"test"+File.separator+"resources"+File.separator;
-                System.getProperty("user.dir") + "/src/test/resources/"
+            private get() = System.getProperty("user.dir") + "/src/androidUnitTest/resources/"
 
+        @JvmStatic
         @Parameterized.Parameters
         fun genListOfName(): Array<Array<Any?>> {
             val dirName: String = XmlBasedTest.Companion.dir

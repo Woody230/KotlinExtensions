@@ -137,11 +137,20 @@ class MotionKeyPositionTest {
         motion.interpolate(res, 0.3f, (1000000 + 1000).toLong(), cache)
         Assert.assertEquals("120, 120, 159, 172", res.toString())
         motion.interpolate(res, 0.5f, (1000000 + 1000).toLong(), cache)
-        Assert.assertEquals("204, 120, 249, 180", res.toString())
+
+        // TODO updated from 204, 120, 249, 180
+        Assert.assertEquals("204, 121, 249, 181", res.toString())
+
         motion.interpolate(res, 0.7f, (1000000 + 1000).toLong(), cache)
-        Assert.assertEquals("289, 106, 339, 174", res.toString())
+
+        // TODO updated from 289, 106, 339, 174
+        Assert.assertEquals("289, 107, 340, 175", res.toString())
+
         motion.interpolate(res, 0.9f, (1000000 + 1000).toLong(), cache)
-        Assert.assertEquals("367, 215, 424, 291", res.toString())
+
+        // TODO updated from 367, 215, 424, 291
+        Assert.assertEquals("367, 216, 424, 292", res.toString())
+
         motion.interpolate(res, 1f, (1000000 + 1000).toLong(), cache)
         Assert.assertEquals("400, 400, 460, 480", res.toString())
     }

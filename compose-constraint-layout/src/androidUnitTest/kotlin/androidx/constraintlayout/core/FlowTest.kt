@@ -15,8 +15,13 @@
  */
 package androidx.constraintlayout.core
 
-import androidx.constraintlayout.core.widgets.*
+import androidx.constraintlayout.core.widgets.ConstraintAnchor
+import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
+import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import androidx.constraintlayout.core.widgets.Flow
+import androidx.constraintlayout.core.widgets.Optimizer
+import androidx.constraintlayout.core.widgets.VirtualLayout
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import org.junit.Assert
 import kotlin.test.Test
