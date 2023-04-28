@@ -5,7 +5,7 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Base64 encoding and decoding between strings and byte arrays using v0.0.1 of kbase64."
+    description = "Extensions for base64 encoding and decoding between strings and byte arrays."
 )
 
 android.setup()
