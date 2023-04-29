@@ -102,7 +102,7 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
  * Sets up Android.
  */
 fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit = {}) {
-    namespace = "${NAMESPACE_ID}.${project.name}".replace("-", ".")
+    namespace = "${NAMESPACE_ID}.${SUBGROUP_ID}.${project.name}".replace("-", ".")
     compileSdk = 33
     defaultConfig {
         minSdk = 21
