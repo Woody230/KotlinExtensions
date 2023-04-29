@@ -8,13 +8,13 @@ publishing.publish(
     description = "kotlinx.datetime extensions"
 )
 
-android.setup {
+android.setup(project) {
     compileOptions {
         // DateTimeFormatter requires API level 26+ otherwise
         isCoreLibraryDesugaringEnabled = true
     }
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.0")
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
     }
 }
 
@@ -26,6 +26,6 @@ kotlin.setup {
     commonTest {
         projectIntl()
     }
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

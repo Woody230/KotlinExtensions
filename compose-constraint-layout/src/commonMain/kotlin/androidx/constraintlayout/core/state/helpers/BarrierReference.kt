@@ -66,6 +66,8 @@ class BarrierReference(state: State?) : HelperReference(state!!, State.Helper.BA
             State.Direction.BOTTOM -> {
                 direction = Barrier.BOTTOM
             }
+
+            else -> {}
         }
         mBarrierWidget!!.barrierType = direction
         mBarrierWidget!!.margin = mMargin

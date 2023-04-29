@@ -8,13 +8,13 @@ publishing.publish(
     description = "Based on Android intents."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {
         projectLogging()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

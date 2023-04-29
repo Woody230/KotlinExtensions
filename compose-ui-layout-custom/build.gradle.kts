@@ -6,10 +6,10 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Custom composable implementations for Jetbrains Compose."
+    description = "Custom composable implementations for Compose Multiplatform."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

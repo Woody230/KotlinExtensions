@@ -8,7 +8,7 @@ publishing.publish(
     description = "Fetching image content via Ktor."
 )
 
-android.setupWithCompose()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

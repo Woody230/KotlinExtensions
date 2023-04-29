@@ -8,7 +8,7 @@ publishing.publish(
     description = "Storing image content via Kodein-DB."
 )
 
-android.setupWithCompose()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

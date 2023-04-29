@@ -14,8 +14,9 @@ import kotlinx.serialization.json.jsonPrimitive
  */
 open class DelimitedListSerializer<T>(
     private val serializer: KSerializer<T>,
-    private val delimiter: String = "|"
 ) : KSerializer<List<T>> {
+    protected open val delimiter: String = "|"
+
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("DelimitedList", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): List<T> = with(JsonContext) {

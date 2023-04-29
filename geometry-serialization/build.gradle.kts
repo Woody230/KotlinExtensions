@@ -9,7 +9,7 @@ publishing.publish(
     description = "kotlinx.serialization for two and three dimensional geometrical objects."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {
@@ -17,6 +17,6 @@ kotlin.setup {
         projectGeometry()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

@@ -7,10 +7,10 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "kotlinx.serialization extension for Jetbrains Compose classes"
+    description = "kotlinx.serialization extension for Compose Multiplatform classes"
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {
@@ -18,6 +18,6 @@ kotlin.setup {
         ktxSerialization()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

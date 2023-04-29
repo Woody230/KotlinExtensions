@@ -121,7 +121,7 @@ fun descriptionSubtitlePresenter() = TextPresenter(
 `androidx.compose.material.AlertDialog`
 
 Note that currently there is no common AlertDialog in compose.
-* [No Access to DropDownMenu or AlertDialog in common source set #762](https://github.com/JetBrains/compose-jb/issues/762).
+* [No Access to DropDownMenu or AlertDialog in common source set #762](https://github.com/JetBrains/compose-multiplatform/issues/762).
 * [compose-mpp](https://github.com/atsushieno/compose-mpp) for more information.
 
 ```kotlin
@@ -163,9 +163,9 @@ fun Dialog(shouldEnablePositive: Boolean) = AlertDialogProjector(
         }
 
     }
-).Projection(
-    // Two types of dialogs exist currently: a standard AlertDialog provided by Jetbrains Compose and a mimicked AlertDialog using ConstraintLayout
-    // The constrained version is more appealing for single choice selections since the the title will be flung along with the items.
+    ).Projection(
+        // Two types of dialogs exist currently: a standard AlertDialog provided by Compose Multiplatform and a mimicked AlertDialog using ConstraintLayout
+        // The constrained version is more appealing for single choice selections since the the title will be flung along with the items.
     // It is best to use the standard version when able to. The constrained version may be removed in the future. 
     constrained = true
 ) {
@@ -313,7 +313,8 @@ fun deleteComponent() = DrawerComponentInteractor(
 `androidx.compose.material.DropdownMenu`
 
 Note that currently there is no common DropdownMenu in compose.
-* [No Access to DropDownMenu or AlertDialog in common source set #762](https://github.com/JetBrains/compose-jb/issues/762).
+
+* [No Access to DropDownMenu or AlertDialog in common source set #762](https://github.com/JetBrains/compose-multiplatform/issues/762).
 * [compose-mpp](https://github.com/atsushieno/compose-mpp) for more information.
 
 ```kotlin

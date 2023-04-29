@@ -6,10 +6,10 @@ plugins {
 
 publishing.publish(
     project = project,
-    description = "Base extensions for laying out Jetbrains Compose UI."
+    description = "Base extensions for laying out Compose Multiplatform UI."
 )
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {
@@ -18,6 +18,6 @@ kotlin.setup {
         projectComposeUi()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

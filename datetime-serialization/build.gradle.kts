@@ -9,7 +9,7 @@ publishing.publish(
     description = "kotlinx.serialization for kotlinx.datetime"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {
@@ -17,6 +17,6 @@ kotlin.setup {
         projectDateTime()
     }
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

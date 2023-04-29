@@ -33,16 +33,13 @@ class CardProjector(
             Card(
                 onClick = interactor.onClick,
                 modifier = combinedModifier,
+                enabled = interactor.enabled,
                 shape = presenter.shape,
                 backgroundColor = presenter.backgroundColor,
                 contentColor = presenter.contentColor,
                 border = presenter.border,
                 elevation = presenter.elevation,
                 interactionSource = interactionSource,
-                indication = presenter.indication,
-                enabled = interactor.enabled,
-                onClickLabel = interactor.onClickLabel,
-                role = presenter.role,
                 content = content
             )
         }

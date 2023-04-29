@@ -2,13 +2,13 @@ package com.bselzer.ktx.serialization.serializer
 
 import com.bselzer.ktx.geometry.dimension.bi.polygon.Polygon
 import com.bselzer.ktx.geometry.dimension.bi.position.Point2D
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlin.jvm.JvmName
 
 /**
  * A generic serializer for serializing polygons.
@@ -19,7 +19,11 @@ abstract class PolygonSerializer<TPolygon : Polygon> : KSerializer<TPolygon> {
      */
     private val serializer = ListSerializer(ListSerializer(Double.serializer()))
 
-    override val descriptor: SerialDescriptor = serializer.descriptor
+    abstract val serialName: String
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override val descriptor: SerialDescriptor
+        get() = SerialDescriptor(serialName, serializer.descriptor)
 
     override fun deserialize(decoder: Decoder): TPolygon = deserialize(serializer.deserialize(decoder))
 

@@ -18,7 +18,7 @@ publishing.publish(
     }
 }
 
-android.setupWithCompose()
+android.setupWithCompose(project)
 
 kotlin.setup {
     commonMain {

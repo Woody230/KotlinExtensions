@@ -50,26 +50,22 @@ private val decodingTable = intArrayOf(
 /**
  * @return the byte array with base64 encoding
  */
-fun ByteArray.encodeBase64(): ByteArray
-{
+fun ByteArray.encodeBase64(): ByteArray {
     val output = mutableListOf<Byte>()
     var padding = 0
     var position = 0
-    while (position < this.size)
-    {
+    while (position < this.size) {
         var b = this[position].toInt() and 0xFF shl 16 and 0xFFFFFF
         if (position + 1 < this.size) b = b or (this[position + 1].toInt() and 0xFF shl 8) else padding++
         if (position + 2 < this.size) b = b or (this[position + 2].toInt() and 0xFF) else padding++
-        for (i in 0 until 4 - padding)
-        {
+        for (i in 0 until 4 - padding) {
             val c = b and 0xFC0000 shr 18
             output.add(encodingAlphabet[c].code.toByte())
             b = b shl 6
         }
         position += 3
     }
-    for (i in 0 until padding)
-    {
+    for (i in 0 until padding) {
         output.add('='.code.toByte())
     }
     return output.toByteArray()
@@ -78,41 +74,33 @@ fun ByteArray.encodeBase64(): ByteArray
 /**
  * @return the byte array without base encoding
  */
-fun ByteArray.decodeBase64(): ByteArray
-{
+fun ByteArray.decodeBase64(): ByteArray {
     val table = decodingTable
 
     val output = mutableListOf<Int>()
     var position = 0
-    while (position < this.size)
-    {
+    while (position < this.size) {
         var b: Int
-        if (table[this[position].toInt()] != -1)
-        {
+        if (table[this[position].toInt()] != -1) {
             b = table[this[position].toInt()] and 0xFF shl 18
-        } else
-        {
+        } else {
             position++
             continue
         }
         var count = 0
-        if (position + 1 < this.size && table[this[position + 1].toInt()] != -1)
-        {
+        if (position + 1 < this.size && table[this[position + 1].toInt()] != -1) {
             b = b or (table[this[position + 1].toInt()] and 0xFF shl 12)
             count++
         }
-        if (position + 2 < this.size && table[this[position + 2].toInt()] != -1)
-        {
+        if (position + 2 < this.size && table[this[position + 2].toInt()] != -1) {
             b = b or (table[this[position + 2].toInt()] and 0xFF shl 6)
             count++
         }
-        if (position + 3 < this.size && table[this[position + 3].toInt()] != -1)
-        {
+        if (position + 3 < this.size && table[this[position + 3].toInt()] != -1) {
             b = b or (table[this[position + 3].toInt()] and 0xFF)
             count++
         }
-        while (count > 0)
-        {
+        while (count > 0) {
             val c = b and 0xFF0000 shr 16
             output.add(c.toChar().code)
             b = b shl 8
@@ -126,39 +114,34 @@ fun ByteArray.decodeBase64(): ByteArray
 /**
  * @return the string without base64 encoding
  */
-fun String.decodeBase64(): String
-{
+fun String.decodeBase64(): String {
     return this.encodeToByteArray().decodeBase64().decodeToString()
 }
 
 /**
  * @return the string with base64 encoding
  */
-fun String.encodeBase64(): String
-{
+fun String.encodeBase64(): String {
     return this.encodeToByteArray().encodeBase64().decodeToString()
 }
 
 /**
  * @return a byte array from a base64 encoded string
  */
-fun String.decodeBase64ToByteArray(): ByteArray
-{
+fun String.decodeBase64ToByteArray(): ByteArray {
     return this.encodeToByteArray().decodeBase64()
 }
 
 /**
  * @return a string from a base64 encoded byte array
  */
-fun ByteArray.decodeBase64ToString(): String
-{
+fun ByteArray.decodeBase64ToString(): String {
     return this.decodeBase64().decodeToString()
 }
 
 /**
  * @return a string with base64 encoding
  */
-fun ByteArray.encodeBase64ToString(): String
-{
+fun ByteArray.encodeBase64ToString(): String {
     return this.encodeBase64().decodeToString()
 }

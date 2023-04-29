@@ -20,7 +20,7 @@ publishing.publish(
     description = "moko-resources extensions"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

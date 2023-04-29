@@ -9,7 +9,7 @@ publishing.publish(
     description = "kotlinx.serialization extensions"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {
@@ -19,6 +19,6 @@ kotlin.setup {
     commonTest {
         xmlSerialization()
     }
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

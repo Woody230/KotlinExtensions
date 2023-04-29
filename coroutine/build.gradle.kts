@@ -8,7 +8,7 @@ publishing.publish(
     description = "coroutine extensions"
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain {

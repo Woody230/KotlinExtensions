@@ -8,11 +8,11 @@ publishing.publish(
     description = "Two and three dimensional geometrical objects."
 )
 
-android.setup()
+android.setup(project)
 
 kotlin.setup {
     commonMain()
     commonTest()
-    androidTest()
+    androidUnitTest()
     jvmTest()
 }

@@ -1,15 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.surface
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Indication
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.merge.ComposeMerger
@@ -42,20 +39,7 @@ data class SurfacePresenter(
     /**
      * The z-coordinate at which to place this Surface. This controls the size of the shadow below the Surface.
      */
-    val elevation: Dp = ComposeMerger.dp.default,
-
-    /**
-     *  The type of user interface element.
-     *  Accessibility services might use this to describe the element or do customizations.
-     *  For example, if the Surface acts as a button, you should pass the Role.Button
-     */
-    val role: Role? = ComposeMerger.role.default,
-
-    /**
-     * Indication to be shown when surface is pressed.
-     * By default, indication from LocalIndication will be used. Pass null to show no indication, or current value from LocalIndication to show theme default
-     */
-    val indication: Indication? = ComposeMerger.indication.default
+    val elevation: Dp = ComposeMerger.dp.default
 ) : Presenter<SurfacePresenter>(modifier) {
     companion object {
         @Stable
@@ -68,9 +52,7 @@ data class SurfacePresenter(
         color = ComposeMerger.color.safeMerge(color, other.color),
         contentColor = ComposeMerger.color.safeMerge(contentColor, other.contentColor),
         border = ComposeMerger.borderStroke.nullMerge(border, other.border),
-        elevation = ComposeMerger.dp.safeMerge(elevation, other.elevation),
-        role = ComposeMerger.role.nullMerge(role, other.role),
-        indication = ComposeMerger.indication.nullMerge(indication, other.indication)
+        elevation = ComposeMerger.dp.safeMerge(elevation, other.elevation)
     )
 
     @Composable
@@ -78,9 +60,7 @@ data class SurfacePresenter(
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colors.surface,
         border = null,
-        elevation = 0.dp,
-        indication = LocalIndication.current,
-        role = null
+        elevation = 0.dp
     ).merge(this).run {
         if (ComposeMerger.color.isDefault(contentColor)) {
             copy(contentColor = contentColorFor(color))

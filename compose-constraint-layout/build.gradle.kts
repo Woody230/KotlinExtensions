@@ -14,7 +14,7 @@ publishing.publish(
     }
 }
 
-android.setupWithCompose {
+android.setupWithCompose(project) {
     packagingOptions {
         resources.pickFirsts.apply {
             add("META-INF/AL2.0")
@@ -33,5 +33,5 @@ kotlin.setup {
         ktxDateTime()
     }
     commonTest()
-    androidTestWithCompose()
+    androidUnitTest()
 }

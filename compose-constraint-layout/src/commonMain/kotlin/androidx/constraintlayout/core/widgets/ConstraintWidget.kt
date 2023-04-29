@@ -24,7 +24,6 @@ import androidx.constraintlayout.core.widgets.analyzer.HorizontalWidgetRun
 import androidx.constraintlayout.core.widgets.analyzer.VerticalWidgetRun
 import androidx.constraintlayout.core.widgets.analyzer.WidgetRun
 import androidx.constraintlayout.utility.Utils.radians
-import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -1267,6 +1266,7 @@ open class ConstraintWidget {
                 mBaseline!!.mGoneMargin = goneMargin
             }
             ConstraintAnchor.Type.CENTER, ConstraintAnchor.Type.CENTER_X, ConstraintAnchor.Type.CENTER_Y, ConstraintAnchor.Type.NONE -> {}
+            else -> {}
         }
     }
 

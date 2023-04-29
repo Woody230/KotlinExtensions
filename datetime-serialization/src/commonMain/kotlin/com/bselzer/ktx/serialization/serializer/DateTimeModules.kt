@@ -5,6 +5,6 @@ import kotlinx.serialization.modules.contextual
 
 object DateTimeModules {
     val ALL: SerializersModule = SerializersModule {
-        contextual(DurationSerializer())
+        contextual(LenientDurationSerializer())
     }
 }
