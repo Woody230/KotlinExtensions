@@ -1,6 +1,8 @@
+import Metadata
 import Metadata.GROUP_ID
 import Metadata.JVM_TARGET
 import Metadata.SUBGROUP_ID
+import Metadata.NAMESPACE_ID
 import Versions.ANDROID_COMPOSE
 import Versions.ANDROID_TEST_JUNIT
 import Versions.ANDROID_TEST_CORE
@@ -100,7 +102,7 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
  * Sets up Android.
  */
 fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit = {}) {
-    namespace = "${GROUP_ID}.${SUBGROUP_ID}.${project.name}".replace("-", ".")
+    namespace = "${NAMESPACE_ID}.${project.name}".replace("-", ".")
     compileSdk = 33
     defaultConfig {
         minSdk = 21
