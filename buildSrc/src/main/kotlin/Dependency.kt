@@ -39,7 +39,7 @@ object Metadata {
     const val GROUP_ID = "io.github.woody230"
     const val SUBGROUP_ID = "ktx"
     const val NAMESPACE_ID = "com.bselzer"
-    const val VERSION = "5.3.0"
+    const val VERSION = "5.3.1"
     const val JVM_TARGET = "11"
 }
 
