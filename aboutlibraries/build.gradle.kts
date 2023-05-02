@@ -12,7 +12,7 @@ android.setup(project)
 
 kotlin.setup {
     commonMain {
-        aboutLibraries()
+        api(libs.bundles.common)
+        api(libs.about.libraries)
     }
-    commonTest()
 }

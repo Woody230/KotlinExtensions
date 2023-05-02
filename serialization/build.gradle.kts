@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
 publishing.publish(
@@ -13,12 +13,20 @@ android.setup(project)
 
 kotlin.setup {
     commonMain {
-        ktxSerialization()
+        api(libs.bundles.common)
+
+        // TODO move JsonContext to a serialization-json and use core instead
+        api(libs.ktx.serialization.json)
         projectLogging()
     }
     commonTest {
-        xmlSerialization()
+        implementation(libs.bundles.common.test)
+        implementation(libs.xml.serialization)
     }
-    androidUnitTest()
-    jvmTest()
+    androidUnitTest {
+        implementation(libs.bundles.android.unit.test)
+    }
+    jvmTest {
+        implementation(libs.bundles.jvm.test)
+    }
 }

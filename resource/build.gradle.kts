@@ -1,12 +1,12 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("dev.icerock.mobile.multiplatform-resources") version Versions.RESOURCE
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.moko.resources)
 }
 
 buildscript {
     dependencies {
-        classpath("dev.icerock.moko:resources-generator:${Versions.RESOURCE}")
+        classpath(libs.moko.resources.generator)
     }
 }
 
@@ -24,10 +24,9 @@ android.setup(project)
 
 kotlin.setup {
     commonMain {
-        resources()
-        ktxDateTime()
+        api(libs.bundles.common)
+        api(libs.moko.resources)
         projectIntent()
         projectIntl()
     }
-    commonTest()
 }

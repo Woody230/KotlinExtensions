@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
 }
 
 publishing.publish(
@@ -14,18 +14,24 @@ android.setup(project) {
         isCoreLibraryDesugaringEnabled = true
     }
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+        coreLibraryDesugaring(libs.android.desugar)
     }
 }
 
 kotlin.setup {
     commonMain {
-        ktxDateTime()
-        coroutine()
+        api(libs.bundles.common)
+        api(libs.ktx.datetime)
+        api(libs.ktx.coroutines)
     }
     commonTest {
+        implementation(libs.bundles.common.test)
         projectIntl()
     }
-    androidUnitTest()
-    jvmTest()
+    androidUnitTest {
+        implementation(libs.bundles.android.unit.test)
+    }
+    jvmTest {
+        implementation(libs.bundles.jvm.test)
+    }
 }

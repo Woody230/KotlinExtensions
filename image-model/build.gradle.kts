@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
 publishing.publish(
@@ -13,7 +13,7 @@ android.setup(project)
 
 kotlin.setup {
     commonMain {
-        ktxSerialization()
+        api(libs.bundles.common)
+        api(libs.ktx.serialization.core)
     }
-    commonTest()
 }

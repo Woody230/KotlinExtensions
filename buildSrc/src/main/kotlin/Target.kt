@@ -3,14 +3,7 @@ import Metadata.GROUP_ID
 import Metadata.JVM_TARGET
 import Metadata.SUBGROUP_ID
 import Metadata.NAMESPACE_ID
-import Versions.ANDROID_COMPOSE
-import Versions.ANDROID_TEST_JUNIT
-import Versions.ANDROID_TEST_CORE
-import Versions.ANDROID_TEST_RUNNER
-import Versions.ANDROID_TEST_RULES
 import Versions.COMPOSE_COMPILER
-import Versions.ROBOLECTRIC
-import Versions.KOTLIN
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
@@ -25,7 +18,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 fun NamedDomainObjectContainer<KotlinSourceSet>.commonMain(block: KotlinDependencyHandler.() -> Unit = {}) {
     getByName("commonMain") {
         dependencies {
-            implementation(kotlin("stdlib-common"))
             block(this)
         }
     }
@@ -37,8 +29,6 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.commonMain(block: KotlinDependen
 fun NamedDomainObjectContainer<KotlinSourceSet>.commonTest(block: KotlinDependencyHandler.() -> Unit = {}) {
     getByName("commonTest") {
         dependencies {
-            implementation(kotlin("test-common"))
-            implementation(kotlin("test-annotations-common"))
             block(this)
         }
     }
@@ -61,7 +51,6 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.jvmMain(block: KotlinDependencyH
 fun NamedDomainObjectContainer<KotlinSourceSet>.jvmTest(block: KotlinDependencyHandler.() -> Unit = {}) {
     getByName("jvmTest") {
         dependencies {
-            implementation(kotlin("test-junit"))
             block(this)
         }
     }
@@ -84,15 +73,6 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidMain(block: KotlinDepende
 fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDependencyHandler.() -> Unit = {}) {
     getByName("androidUnitTest") {
         dependencies {
-            implementation(kotlin("test-junit"))
-            implementation("androidx.test.ext:junit:$ANDROID_TEST_JUNIT")
-            implementation("androidx.test:core:$ANDROID_TEST_CORE")
-            implementation("androidx.test:runner:$ANDROID_TEST_RUNNER")
-            implementation("androidx.test:rules:$ANDROID_TEST_RULES")
-            implementation("org.robolectric:robolectric:$ROBOLECTRIC")
-            implementation("androidx.compose.ui:ui-test:$ANDROID_COMPOSE")
-            implementation("androidx.compose.ui:ui-test-junit4:$ANDROID_COMPOSE")
-            implementation("org.jetbrains.kotlin:kotlin-reflect:$KOTLIN")
             block(this)
         }
     }
@@ -141,6 +121,7 @@ fun LibraryExtension.setupWithCompose(project: Project, block: LibraryExtension.
         // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
         kotlinCompilerExtensionVersion = COMPOSE_COMPILER
     }
+
     setup(project, block)
 }
 

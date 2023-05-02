@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    id("org.jetbrains.compose") version Versions.COMPOSE
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
+    alias(libs.plugins.compose)
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
@@ -25,13 +25,17 @@ android.setupWithCompose(project) {
 
 kotlin.setup {
     commonMain {
-        runtime()
-        ui()
-        uiUtil()
-        material()
-        foundation()
-        ktxDateTime()
+        api(libs.bundles.common)
+        api(libs.bundles.compose)
+        api(libs.ktx.datetime)
     }
-    commonTest()
-    androidUnitTest()
+    commonTest {
+        implementation(libs.bundles.common.test)
+    }
+    androidUnitTest {
+        implementation(libs.bundles.android.unit.test)
+    }
+    jvmTest {
+        implementation(libs.bundles.jvm.test)
+    }
 }

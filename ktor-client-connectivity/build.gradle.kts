@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
 }
 
 publishing.publish(
@@ -16,17 +16,21 @@ dependencies {
 
 kotlin.setup {
     commonMain {
-        ktorClient()
+        api(libs.bundles.common)
+        api(libs.ktor.client)
         projectIntent()
     }
     commonTest {
-        coroutine()
-        ktorMockEngine()
+        implementation(libs.bundles.common.test)
+        implementation(libs.ktx.coroutines)
+        implementation(libs.ktor.client.mock)
     }
     androidUnitTest {
-        ktorOkHttpEngine()
+        implementation(libs.bundles.android.unit.test)
+        implementation(libs.ktor.client.okhttp)
     }
     jvmTest {
-        ktorOkHttpEngine()
+        implementation(libs.bundles.jvm.test)
+        implementation(libs.ktor.client.okhttp)
     }
 }

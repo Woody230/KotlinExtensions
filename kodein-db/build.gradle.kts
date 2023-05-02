@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.multiplatform.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
 }
 
 publishing.publish(
@@ -12,8 +12,8 @@ android.setup(project)
 
 kotlin.setup {
     commonMain {
-        kodeinDb()
+        api(libs.bundles.common)
+        api(libs.kodein.db)
         projectValueIdentifier()
     }
-    commonTest()
 }
