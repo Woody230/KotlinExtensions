@@ -11,6 +11,7 @@ multiplatform-settings = "1.0.0"
 [libraries]
 about-libraries = { group = "com.mikepenz", name = "aboutlibraries-core", version = "10.6.2" }
 android-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.0.3" }
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version = "8.0.0" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.10.0" }
 androidx-test-compose-ui = { group = "androidx.compose.ui", name = "ui-test", version.ref = "androidx-compose" }
 androidx-test-compose-ui-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-compose" }
@@ -23,6 +24,7 @@ compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", v
 compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "multiplatform-compose" }
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 kodein-db = { group = "org.kodein.db", name = "kodein-db-api", version = "0.9.0-beta" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test-common", version.ref = "kotlin" }
