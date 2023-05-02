@@ -1,9 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
-object Versions {
-    const val COMPOSE_COMPILER = "1.4.2"
-}
-
 object Metadata {
     const val GROUP_ID = "io.github.woody230"
     const val SUBGROUP_ID = "ktx"

@@ -14,7 +14,9 @@ publishing.publish(
     }
 }
 
-android.setupWithCompose(project) {
+android.setup(project) {
+    setupCompose(libs.versions.multiplatform.compose.compiler)
+
     packaging {
         resources.pickFirsts.apply {
             add("META-INF/AL2.0")

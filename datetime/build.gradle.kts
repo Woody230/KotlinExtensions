@@ -9,13 +9,8 @@ publishing.publish(
 )
 
 android.setup(project) {
-    compileOptions {
-        // DateTimeFormatter requires API level 26+ otherwise
-        isCoreLibraryDesugaringEnabled = true
-    }
-    dependencies {
-        coreLibraryDesugaring(libs.android.desugar)
-    }
+    // DateTimeFormatter requires API level 26+ otherwise
+    setupDesugaring(project, libs.android.desugar)
 }
 
 kotlin.setup {

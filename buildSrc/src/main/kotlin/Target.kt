@@ -1,13 +1,13 @@
-import Metadata
-import Metadata.GROUP_ID
 import Metadata.JVM_TARGET
 import Metadata.SUBGROUP_ID
 import Metadata.NAMESPACE_ID
-import Versions.COMPOSE_COMPILER
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
+import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -112,17 +112,24 @@ fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit 
 /**
  * Sets up Android with Compose.
  */
-fun LibraryExtension.setupWithCompose(project: Project, block: LibraryExtension.() -> Unit = {}) {
+fun LibraryExtension.setupCompose(compilerVersion: Provider<String>) {
     buildFeatures {
         compose = true
     }
     composeOptions {
         // https://mvnrepository.com/artifact/org.jetbrains.compose.compiler/compiler
         // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
-        kotlinCompilerExtensionVersion = COMPOSE_COMPILER
+        kotlinCompilerExtensionVersion = compilerVersion.get()
     }
+}
 
-    setup(project, block)
+fun LibraryExtension.setupDesugaring(project: Project, dependency: Provider<MinimalExternalModuleDependency>) {
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+    project.dependencies {
+        add("coreLibraryDesugaring", dependency)
+    }
 }
 
 /**
