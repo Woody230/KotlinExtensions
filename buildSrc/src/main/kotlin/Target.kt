@@ -1,4 +1,5 @@
 import Metadata.COMPILE_SDK
+import Metadata.JAVA_VERSION
 import Metadata.JVM_TARGET
 import Metadata.MIN_SDK
 import Metadata.SUBGROUP_ID
@@ -91,8 +92,8 @@ fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JAVA_VERSION
+        targetCompatibility = JAVA_VERSION
     }
     publishing {
         multipleVariants {
