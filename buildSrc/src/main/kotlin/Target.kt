@@ -1,4 +1,6 @@
+import Metadata.COMPILE_SDK
 import Metadata.JVM_TARGET
+import Metadata.MIN_SDK
 import Metadata.SUBGROUP_ID
 import Metadata.NAMESPACE_ID
 import com.android.build.gradle.LibraryExtension
@@ -83,9 +85,9 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
  */
 fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit = {}) {
     namespace = "${NAMESPACE_ID}.${SUBGROUP_ID}.${project.name}".replace("-", ".")
-    compileSdk = 33
+    compileSdk = COMPILE_SDK
     defaultConfig {
-        minSdk = 21
+        minSdk = MIN_SDK
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
