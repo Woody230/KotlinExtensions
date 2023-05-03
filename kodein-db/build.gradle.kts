@@ -14,6 +14,6 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.kodein.db)
-        projectValueIdentifier()
+        api(projects.valueIdentifier)
     }
 }

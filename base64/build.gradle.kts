@@ -20,7 +20,7 @@ kotlin.setup {
     }
     commonTest {
         implementation(libs.bundles.common.test)
-        projectFunction()
+        implementation(projects.function)
     }
     androidUnitTest {
         implementation(libs.bundles.android.unit.test)

@@ -16,6 +16,6 @@ android.setup(project) {
 kotlin.setup {
     commonMain {
         api(libs.bundles.common)
-        projectComposeUiGraphics()
+        api(projects.composeUiGraphics)
     }
 }

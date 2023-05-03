@@ -18,6 +18,6 @@ kotlin.setup {
         api(libs.ktx.coroutines)
         api(libs.settings)
         api(libs.settings.coroutines)
-        projectValueIdentifier()
+        api(projects.valueIdentifier)
     }
 }

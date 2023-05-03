@@ -15,7 +15,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktx.serialization.core)
-        projectDateTime()
+        api(projects.datetime)
     }
     commonTest {
         implementation(libs.bundles.common.test)

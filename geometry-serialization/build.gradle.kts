@@ -15,7 +15,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktx.serialization.core)
-        projectGeometry()
+        api(projects.geometry)
     }
     commonTest {
         implementation(libs.bundles.common.test)

@@ -18,7 +18,7 @@ kotlin.setup {
         api(libs.bundles.common)
         api(libs.compose.material)
         api(libs.compose.foundation)
-        projectComposeUi()
+        api(projects.composeUi)
     }
     commonTest {
         implementation(libs.bundles.common.test)

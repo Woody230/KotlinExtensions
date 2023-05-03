@@ -17,7 +17,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktx.coroutines)
-        projectSettings()
-        projectComposeUiGraphics()
+        api(projects.settings)
+        api(projects.composeUiGraphics)
     }
 }

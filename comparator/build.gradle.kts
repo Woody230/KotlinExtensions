@@ -13,7 +13,15 @@ android.setup(project)
 kotlin.setup {
     commonMain {
         api(libs.bundles.common)
-        projectFunction()
+        api(projects.function)
     }
-    commonTest()
+    commonTest {
+        implementation(libs.bundles.common.test)
+    }
+    androidUnitTest {
+        implementation(libs.bundles.android.unit.test)
+    }
+    jvmTest {
+        implementation(libs.bundles.jvm.test)
+    }
 }

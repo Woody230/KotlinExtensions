@@ -14,8 +14,7 @@ android.setup(project)
 kotlin.setup {
     commonMain {
         api(libs.bundles.common)
-        projectValueIdentifier()
-        projectSerialization()
+        api(projects.serialization)
     }
     commonTest {
         implementation(libs.bundles.common.test)

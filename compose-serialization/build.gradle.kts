@@ -18,7 +18,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktx.serialization.core)
-        projectComposeUiGraphics()
+        api(projects.composeUiGraphics)
     }
     commonTest {
         implementation(libs.bundles.common.test)

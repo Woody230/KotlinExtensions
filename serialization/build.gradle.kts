@@ -17,7 +17,8 @@ kotlin.setup {
 
         // TODO move JsonContext to a serialization-json and use core instead
         api(libs.ktx.serialization.json)
-        projectLogging()
+
+        implementation(projects.logging)
     }
     commonTest {
         implementation(libs.bundles.common.test)

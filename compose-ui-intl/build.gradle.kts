@@ -17,6 +17,6 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.compose.ui)
-        projectIntl()
+        api(projects.intl)
     }
 }

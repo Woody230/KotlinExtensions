@@ -13,7 +13,7 @@ android.setup(project)
 kotlin.setup {
     commonMain {
         api(libs.bundles.common)
-        projectLogging()
+        implementation(projects.logging)
     }
     commonTest {
         implementation(libs.bundles.common.test)

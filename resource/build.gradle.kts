@@ -26,7 +26,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.moko.resources)
-        projectIntent()
-        projectIntl()
+        implementation(projects.intent)
+        api(projects.intl)
     }
 }

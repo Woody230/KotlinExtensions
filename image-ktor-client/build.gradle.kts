@@ -14,7 +14,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktor.client)
-        projectLogging()
-        projectImageModel()
+        implementation(projects.logging)
+        api(projects.imageModel)
     }
 }

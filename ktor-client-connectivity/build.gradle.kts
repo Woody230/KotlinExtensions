@@ -18,7 +18,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktor.client)
-        projectIntent()
+        implementation(projects.intent)
     }
     commonTest {
         implementation(libs.bundles.common.test)

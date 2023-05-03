@@ -15,6 +15,6 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.ktx.serialization.core)
-        projectIntl()
+        api(projects.intl)
     }
 }

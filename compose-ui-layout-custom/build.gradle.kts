@@ -16,6 +16,7 @@ android.setup(project) {
 kotlin.setup {
     commonMain {
         api(libs.bundles.common)
-        projectComposeUiLayoutCommon()
+        api(projects.composeUiLayoutCommon)
+        implementation(projects.function)
     }
 }

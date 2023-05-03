@@ -15,7 +15,7 @@ kotlin.setup {
     commonMain {
         api(libs.bundles.common)
         api(libs.xml.serialization)
-        projectLogging()
+        implementation(projects.logging)
     }
     commonTest {
         implementation(libs.bundles.common.test)

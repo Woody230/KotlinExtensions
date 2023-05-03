@@ -21,7 +21,7 @@ kotlin.setup {
     }
     commonTest {
         implementation(libs.bundles.common.test)
-        projectIntl()
+        implementation(projects.intl)
     }
     androidUnitTest {
         implementation(libs.bundles.android.unit.test)

@@ -13,7 +13,7 @@ android.setup(project)
 kotlin.setup {
     commonMain {
         api(libs.bundles.common)
-        projectKodeinDb()
-        projectImageModel()
+        api(projects.kodeinDb)
+        api(projects.imageModel)
     }
 }
