@@ -58,7 +58,7 @@ settings = ["settings", "settings-coroutines"]
 # TODO can't NOT provide a version and use alias for plugins already in the classpath https://github.com/gradle/gradle/issues/17968
 [plugins]
 android-library = { id = "com.android.library" }
-multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
 compose = { id = "org.jetbrains.compose", version.ref = "multiplatform-compose" }
 ktx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
