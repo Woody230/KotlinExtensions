@@ -14,6 +14,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import java.io.File
 
 /**
  * Sets up common dependencies.
@@ -126,6 +127,13 @@ fun LibraryExtension.setupDesugaring(project: Project, dependency: Provider<Mini
     project.dependencies {
         add("coreLibraryDesugaring", dependency)
     }
+}
+
+fun LibraryExtension.setupMokoResources(project: Project) = with(sourceSets.getByName("main")) {
+    // TODO temporary srcDir inclusion https://github.com/icerockdev/moko-resources/issues/353
+    val buildDir = project.buildDir
+    assets.srcDir(File(buildDir, "generated/moko/androidMain/assets"))
+    res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
 }
 
 /**

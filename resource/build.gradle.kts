@@ -19,11 +19,7 @@ multiplatformResources {
 publish(description = "moko-resources extensions")
 
 android.setup(project) {
-    // TODO temporary srcDir inclusion https://github.com/icerockdev/moko-resources/issues/353
-    sourceSets["main"].apply {
-        assets.srcDir(File(buildDir, "generated/moko/androidMain/assets"))
-        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
-    }
+    setupMokoResources(project)
 }
 
 kotlin.setup {
