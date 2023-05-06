@@ -9,3 +9,12 @@ allprojects {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
+
+subprojects {
+    // TODO temporarily explicitly declare dependency
+    tasks.whenTaskAdded {
+        if (name == "generateMRandroidMain") {
+            tasks.withType<org.gradle.jvm.tasks.Jar>().forEach { task -> task.dependsOn(this) }
+        }
+    }
+}

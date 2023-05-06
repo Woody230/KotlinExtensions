@@ -16,11 +16,6 @@ multiplatformResources {
     multiplatformResourcesClassName = "KtxResources"
 }
 
-// TODO temporarily explicitly declare dependency
-tasks.withType<org.gradle.jvm.tasks.Jar> {
-    dependsOn("generateMRandroidMain")
-}
-
 publish(description = "moko-resources extensions")
 
 android.setup(project) {
