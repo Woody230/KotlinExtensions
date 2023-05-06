@@ -21,14 +21,6 @@ tasks.withType<org.gradle.jvm.tasks.Jar> {
     dependsOn("generateMRandroidMain")
 }
 
-tasks.whenTaskAdded {
-    if (this !is org.gradle.jvm.tasks.Jar) {
-        return@whenTaskAdded
-    }
-
-    dependsOn("generateMRandroidMain")
-}
-
 publish(description = "moko-resources extensions")
 
 android.setup(project) {
