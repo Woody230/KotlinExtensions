@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.ktx.serialization)
     id(libs.plugins.vanniktech.publish.get().pluginId)
+    alias(libs.plugins.dokka)
 }
 
 publish(

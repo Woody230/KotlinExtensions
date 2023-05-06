@@ -55,7 +55,7 @@ fun Project.publish(
 }
 
 private fun MavenPublishBaseExtension.configureMultiplatform() {
-    val jar = JavadocJar.Empty()
+    val jar = JavadocJar.Dokka("dokkaHtml")
     val platform = KotlinMultiplatform(javadocJar = jar)
     configure(platform)
 }

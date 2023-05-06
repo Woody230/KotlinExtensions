@@ -3,6 +3,7 @@ plugins {
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
     id(libs.plugins.vanniktech.publish.get().pluginId)
+    alias(libs.plugins.dokka)
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.

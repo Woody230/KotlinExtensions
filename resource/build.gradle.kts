@@ -3,6 +3,7 @@ plugins {
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.moko.resources)
     id(libs.plugins.vanniktech.publish.get().pluginId)
+    alias(libs.plugins.dokka)
 }
 
 buildscript {
@@ -29,4 +30,9 @@ kotlin.setup {
         implementation(projects.intent)
         api(projects.intl)
     }
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().forEach { task ->
+    task.dependsOn("generateMRandroidMain")
+    task.dependsOn("generateMRjvmMain")
 }
