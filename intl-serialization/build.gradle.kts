@@ -2,10 +2,10 @@ plugins {
     id(libs.plugins.multiplatform.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.ktx.serialization)
+    id(libs.plugins.publish.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
+publish(
     description = "kotlinx.serialization for internationalization"
 )
 

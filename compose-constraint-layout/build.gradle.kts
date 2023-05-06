@@ -2,18 +2,17 @@ plugins {
     id(libs.plugins.multiplatform.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
+    id(libs.plugins.publish.get().pluginId)
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
-publishing.publish(
-    project = project,
+publish(
     description = "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability."
 ) {
     developer {
         name.set("The Android Open Source Project")
     }
 }
-
 android.setup(project) {
     setupCompose(libs.versions.multiplatform.compose.compiler)
 

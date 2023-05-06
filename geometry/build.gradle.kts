@@ -1,10 +1,10 @@
 plugins {
     id(libs.plugins.multiplatform.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
+    id(libs.plugins.publish.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
+publish(
     description = "Two and three dimensional geometrical objects."
 )
 

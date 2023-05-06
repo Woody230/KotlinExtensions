@@ -3,10 +3,10 @@ plugins {
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
     alias(libs.plugins.ktx.serialization)
+    id(libs.plugins.publish.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
+publish(
     description = "kotlinx.serialization extension for Compose Multiplatform classes"
 )
 

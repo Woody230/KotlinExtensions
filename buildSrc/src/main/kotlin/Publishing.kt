@@ -1,3 +1,11 @@
+import Metadata.GROUP_ID
+import Metadata.SUBGROUP_ID
+import Metadata.VERSION
+import com.vanniktech.maven.publish.AndroidMultiVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.publish.PublishingExtension
@@ -6,84 +14,77 @@ import org.gradle.api.publish.maven.MavenPomDeveloperSpec
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
 
-/**
- * Sets up the pom.xml that gets created using the maven-publish plugin.
- *
- * @see <a href="https://docs.gradle.org/current/userguide/publishing_customization.html">gradle</a>
- * @see <a href="https://maven.apache.org/pom.html">pom.xml</a>
- */
-fun PublishingExtension.publish(
+private object LocalProperty {
+    const val SONATYPE_USERNAME = "sonatype.username"
+    const val SONATYPE_PASSWORD = "sonatype.password"
+    const val SIGNING_KEY_ID = "signing.keyId"
+    const val SIGNING_KEY = "signing.key"
+    const val SIGNING_PASSWORD = "signing.password"
+}
+
+private object ExtraProperty {
+    const val MAVEN_CENTRAL_USERNAME = "mavenCentralUsername"
+    const val MAVEN_CENTRAL_PASSWORD = "mavenCentralPassword"
+    const val SIGNING_KEY_ID = "signingInMemoryKeyId"
+    const val SIGNING_KEY = "signingInMemoryKey"
+    const val SIGNING_PASSWORD = "signingInMemoryKeyPassword"
+}
+
+fun Project.publish(
+    description: String,
+    devs: MavenPomDeveloperSpec.() -> Unit = {}
+) = with(extensions.getByType<MavenPublishBaseExtension>()) {
+    setupGradleProperties()
+
+    coordinates("$GROUP_ID.$SUBGROUP_ID", name, VERSION)
+    pom {
+        configure(project, description, devs)
+    }
+
+    configureMultiplatform()
+    publish()
+
+    if (hasLocalProperties(LocalProperty.SIGNING_KEY, LocalProperty.SIGNING_PASSWORD)) {
+        signAllPublications()
+    }
+}
+
+private fun MavenPublishBaseExtension.configureMultiplatform() {
+    val jar = JavadocJar.Empty()
+    val platform = KotlinMultiplatform(javadocJar = jar)
+    configure(platform)
+}
+
+private fun MavenPublishBaseExtension.publish() = publishToMavenCentral(
+    host = SonatypeHost.S01,
+    automaticRelease = false
+)
+
+private fun MavenPom.configure(
     project: Project,
     description: String,
     devs: MavenPomDeveloperSpec.() -> Unit = {}
-) = project.afterEvaluate {
-    val releaseType = releaseType(Metadata.VERSION)
-    repositories {
-        maven {
-            name = "sonatype"
-            url(releaseType)
-            signing(project)
-        }
-    }
-
-    publications.withType<MavenPublication>().configureEach {
-        artifact(project.extra.get("jar"))
-
-        pom {
-            this@pom.name.set("${Metadata.SUBGROUP_ID}-${project.name}")
-            this@pom.description.set(description)
-            licenses()
-            developers(devs = devs)
-            scm()
-        }
-    }
+) {
+    this.name.set("${Metadata.SUBGROUP_ID}-${project.name}")
+    this.description.set(description)
+    licenses()
+    developers(devs = devs)
+    scm()
 }
 
-private enum class ReleaseType {
-    RELEASE,
-    SNAPSHOT;
+private fun Project.setupGradleProperties() = with(extraProperties) {
+    set(ExtraProperty.MAVEN_CENTRAL_USERNAME, localPropertyOrNull(LocalProperty.SONATYPE_USERNAME))
+    set(ExtraProperty.MAVEN_CENTRAL_PASSWORD, localPropertyOrNull(LocalProperty.SONATYPE_PASSWORD))
 
-    fun isRelease(): Boolean = this == RELEASE
-}
-
-/**
- * If the version matches semantic versioning then assume it to be a release build. Otherwise consider it a snapshot.
- */
-private fun releaseType(version: String): ReleaseType {
-    val isRelease = Regex("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\$").matches(version)
-    return if (isRelease) ReleaseType.RELEASE else ReleaseType.SNAPSHOT
-}
-
-private fun MavenArtifactRepository.url(releaseType: ReleaseType) {
-    val url = when (releaseType.isRelease()) {
-        true -> "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-        false -> "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-    }
-
-    setUrl(url)
-}
-
-private fun MavenArtifactRepository.signing(project: Project) {
-    credentials {
-        username = project.localPropertyOrNull(LocalProperty.SONATYPE_USERNAME)
-        password = project.localPropertyOrNull(LocalProperty.SONATYPE_PASSWORD)
-    }
-
-    project.afterEvaluate {
-        if (hasLocalProperties(LocalProperty.SIGNING_KEY, LocalProperty.SIGNING_PASSWORD)) {
-            extensions.findByType<SigningExtension>()?.apply {
-                val publishing = project.extensions.findByType<PublishingExtension>() ?: return@apply
-                val keyId = localProperty(LocalProperty.SIGNING_KEY_ID)
-                val key = localPropertyFileText(LocalProperty.SIGNING_KEY)
-                val password = localProperty(LocalProperty.SIGNING_PASSWORD)
-
-                useInMemoryPgpKeys(keyId, key, password)
-                sign(publishing.publications)
-            }
-        }
+    if (hasLocalProperties(LocalProperty.SIGNING_KEY, LocalProperty.SIGNING_PASSWORD)) {
+        set(ExtraProperty.SIGNING_KEY_ID, localProperty(LocalProperty.SIGNING_KEY_ID))
+        set(ExtraProperty.SIGNING_KEY, localPropertyFileText(LocalProperty.SIGNING_KEY))
+        set(ExtraProperty.SIGNING_PASSWORD, localProperty(LocalProperty.SIGNING_PASSWORD))
     }
 }
 

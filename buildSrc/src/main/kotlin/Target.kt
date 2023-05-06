@@ -95,13 +95,6 @@ fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit 
         sourceCompatibility = JAVA_VERSION
         targetCompatibility = JAVA_VERSION
     }
-    publishing {
-        multipleVariants {
-            allVariants()
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
     testOptions {
         unitTests {
             androidResources {

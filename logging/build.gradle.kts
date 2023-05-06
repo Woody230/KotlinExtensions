@@ -1,10 +1,10 @@
 plugins {
     id(libs.plugins.multiplatform.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
+    id(libs.plugins.publish.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
+publish(
     description = "Logging wrapper around Napier."
 )
 
@@ -12,6 +12,6 @@ android.setup(project)
 
 kotlin.setup {
     commonMain {
-        api(libs.napier)
+        implementation(libs.napier)
     }
 }

@@ -1,10 +1,10 @@
 plugins {
     id(libs.plugins.multiplatform.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
+    id(libs.plugins.publish.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
+publish(
     description = "Extensions for base64 encoding and decoding between strings and byte arrays."
 ) {
     developer {
