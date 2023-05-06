@@ -2,7 +2,7 @@ plugins {
     id(libs.plugins.multiplatform.get().pluginId)
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
-    id(libs.plugins.publish.get().pluginId)
+    id(libs.plugins.vanniktech.publish.get().pluginId)
 }
 
 publish(

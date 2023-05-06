@@ -3,7 +3,7 @@ plugins {
     id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
     alias(libs.plugins.ktx.serialization)
-    id(libs.plugins.publish.get().pluginId)
+    id(libs.plugins.vanniktech.publish.get().pluginId)
 }
 
 publish(
