@@ -1,11 +1,5 @@
 plugins {
-    alias(libs.plugins.moko.resources)
-}
-
-buildscript {
-    dependencies {
-        classpath(libs.moko.resources.generator)
-    }
+    id(libs.plugins.woody230.moko.get().pluginId)
 }
 
 multiplatformResources {

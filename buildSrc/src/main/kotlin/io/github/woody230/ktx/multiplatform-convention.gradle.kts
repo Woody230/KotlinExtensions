@@ -1,14 +1,13 @@
 package io.github.woody230.ktx
 
 import Metadata.JVM_TARGET
-import gradle.kotlin.dsl.accessors._1c8707824c48c16ed0a1f292cf6be26b.kotlin
 import libs
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
+// TODO can't access libs from precompiled scripts https://github.com/gradle/gradle/issues/15383
 plugins {
-    // TODO can't access libs from precompiled scripts https://github.com/gradle/gradle/issues/15383
     id("org.jetbrains.kotlin.multiplatform")
 }
 

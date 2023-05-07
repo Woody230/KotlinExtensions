@@ -44,6 +44,7 @@ ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-c
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko-resources" }
 moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources" }
+moko-resources-gradle-plugin = { group = "dev.icerock.mobile.multiplatform-resources", name = "dev.icerock.mobile.multiplatform-resources.gradle.plugin", version.ref = "moko-resources" }
 napier = { group = "io.github.aakira", name = "napier", version = "2.6.1" }
 vanniktech-publish-gradle-plugin = { group = "com.vanniktech", name = "gradle-maven-publish-plugin", version.ref = "vanniktech-publish" }
 robolectric = { group = "org.robolectric", name = "robolectric", version = "4.10" }
@@ -69,4 +70,5 @@ moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.re
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
 vanniktech-publish = { id = "com.vanniktech.maven.publish.base", version.ref = "vanniktech-publish" }
 woody230-android = { id = "io.github.woody230.ktx.android-convention" }
+woody230-moko = { id = "io.github.woody230.ktx.moko-resources-convention" }
 woody230-multiplatform = { id = "io.github.woody230.ktx.multiplatform-convention" }
