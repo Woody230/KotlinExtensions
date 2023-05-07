@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
-
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = Metadata.JVM_TARGET
 }
@@ -20,24 +18,22 @@ subprojects {
     apply(plugin = librariesForLibs.plugins.vanniktech.publish.get().pluginId)
     apply(plugin = librariesForLibs.plugins.dokka.get().pluginId)
 
-    val multiplatform = kotlinExtension as org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+    val multiplatform = project.extensions.getByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()
     multiplatform.jvm()
     multiplatform.android { publishLibraryVariants("release", "debug") }
-
-    kotlinExtension.sourceSets.getByName("commonMain").dependencies {
-        api(librariesForLibs.bundles.common)
-    }
-
-    kotlinExtension.sourceSets.getByName("commonTest").dependencies {
-        implementation(librariesForLibs.bundles.common.test)
-    }
-
-    kotlinExtension.sourceSets.getByName("androidUnitTest").dependencies {
-        implementation(librariesForLibs.bundles.android.unit.test)
-    }
-
-    kotlinExtension.sourceSets.getByName("jvmTest").dependencies {
-        implementation(librariesForLibs.bundles.jvm.test)
+    multiplatform.sourceSets.apply {
+        getByName("commonMain").dependencies {
+            api(librariesForLibs.bundles.common)
+        }
+        getByName("commonTest").dependencies {
+            implementation(librariesForLibs.bundles.common.test)
+        }
+        getByName("androidUnitTest").dependencies {
+            implementation(librariesForLibs.bundles.android.unit.test)
+        }
+        getByName("jvmTest").dependencies {
+            implementation(librariesForLibs.bundles.jvm.test)
+        }
     }
 
     // TODO temporarily explicitly declare dependency
