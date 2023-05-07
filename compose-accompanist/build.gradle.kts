@@ -1,9 +1,5 @@
 plugins {
-    id(libs.plugins.multiplatform.get().pluginId)
-    id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
-    id(libs.plugins.vanniktech.publish.get().pluginId)
-    alias(libs.plugins.dokka)
 }
 
 // This module is a copy of modules within Google's Accompanist project with minor modifications to make it usable for multiplatform.
@@ -25,7 +21,6 @@ android.setup(project) {
 
 kotlin.setup {
     commonMain {
-        api(libs.bundles.common)
         api(libs.bundles.compose)
         implementation(libs.napier)
     }

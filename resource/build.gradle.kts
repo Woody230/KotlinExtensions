@@ -1,9 +1,5 @@
 plugins {
-    id(libs.plugins.multiplatform.get().pluginId)
-    id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.moko.resources)
-    id(libs.plugins.vanniktech.publish.get().pluginId)
-    alias(libs.plugins.dokka)
 }
 
 buildscript {
@@ -25,7 +21,6 @@ android.setup(project) {
 
 kotlin.setup {
     commonMain {
-        api(libs.bundles.common)
         api(libs.moko.resources)
         implementation(projects.intent)
         api(projects.intl)

@@ -1,9 +1,5 @@
 plugins {
-    id(libs.plugins.multiplatform.get().pluginId)
-    id(libs.plugins.android.library.get().pluginId)
     alias(libs.plugins.compose)
-    id(libs.plugins.vanniktech.publish.get().pluginId)
-    alias(libs.plugins.dokka)
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
@@ -27,17 +23,7 @@ android.setup(project) {
 
 kotlin.setup {
     commonMain {
-        api(libs.bundles.common)
         api(libs.bundles.compose)
         api(libs.ktx.datetime)
-    }
-    commonTest {
-        implementation(libs.bundles.common.test)
-    }
-    androidUnitTest {
-        implementation(libs.bundles.android.unit.test)
-    }
-    jvmTest {
-        implementation(libs.bundles.jvm.test)
     }
 }

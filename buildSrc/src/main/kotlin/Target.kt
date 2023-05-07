@@ -137,20 +137,9 @@ fun LibraryExtension.setupMokoResources(project: Project) = with(sourceSets.getB
 }
 
 /**
- * Sets up Kotlin multiplatform targets.
- */
-private fun KotlinMultiplatformExtension.targets() {
-    jvm()
-    android {
-        publishLibraryVariants("release", "debug")
-    }
-}
-
-/**
  * Sets up Kotlin multiplatform.
  */
 fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {}) {
-    targets()
     sourceSets(this.sourceSets)
     jvmToolchain(JVM_TARGET.toInt())
 }
