@@ -1,10 +1,9 @@
-import Metadata.COMPILE_SDK
-import Metadata.JAVA_VERSION
+package io.github.woody230.ktx
+
 import Metadata.JVM_TARGET
-import Metadata.MIN_SDK
-import Metadata.NAMESPACE_ID
-import Metadata.SUBGROUP_ID
-import org.gradle.accessors.dm.LibrariesForLibs
+import gradle.kotlin.dsl.accessors._1c8707824c48c16ed0a1f292cf6be26b.kotlin
+import libs
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
@@ -14,7 +13,7 @@ plugins {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = Metadata.JVM_TARGET
+    kotlinOptions.jvmTarget = JVM_TARGET
 }
 
 with (kotlin) {
