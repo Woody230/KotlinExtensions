@@ -1,7 +1,6 @@
 package io.github.woody230.ktx
 
 import Metadata.JVM_TARGET
-import libs
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet

@@ -1,3 +1,5 @@
+package io.github.woody230.ktx
+
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
