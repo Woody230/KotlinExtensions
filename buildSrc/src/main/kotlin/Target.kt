@@ -86,23 +86,6 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
  * Sets up Android.
  */
 fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit = {}) {
-    namespace = "${NAMESPACE_ID}.${SUBGROUP_ID}.${project.name}".replace("-", ".")
-    compileSdk = COMPILE_SDK
-    defaultConfig {
-        minSdk = MIN_SDK
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JAVA_VERSION
-        targetCompatibility = JAVA_VERSION
-    }
-    testOptions {
-        unitTests {
-            androidResources {
-                isIncludeAndroidResources = true
-            }
-        }
-    }
     block(this)
 }
 
@@ -141,5 +124,4 @@ fun LibraryExtension.setupMokoResources(project: Project) = with(sourceSets.getB
  */
 fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {}) {
     sourceSets(this.sourceSets)
-    jvmToolchain(JVM_TARGET.toInt())
 }

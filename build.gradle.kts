@@ -1,7 +1,3 @@
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = Metadata.JVM_TARGET
-}
-
 allprojects {
     repositories {
         google()
@@ -10,31 +6,12 @@ allprojects {
     }
 }
 
-// TODO extension libs does not exist => use variable before subprojects https://github.com/gradle/gradle/issues/18237
-val librariesForLibs = libs
+// TODO must use root project: extension libs does not exist https://github.com/gradle/gradle/issues/18237
 subprojects {
-    apply(plugin = librariesForLibs.plugins.android.library.get().pluginId)
-    apply(plugin = librariesForLibs.plugins.multiplatform.get().pluginId)
-    apply(plugin = librariesForLibs.plugins.vanniktech.publish.get().pluginId)
-    apply(plugin = librariesForLibs.plugins.dokka.get().pluginId)
-
-    val multiplatform = project.extensions.getByType<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension>()
-    multiplatform.jvm()
-    multiplatform.android { publishLibraryVariants("release", "debug") }
-    multiplatform.sourceSets.apply {
-        getByName("commonMain").dependencies {
-            api(librariesForLibs.bundles.common)
-        }
-        getByName("commonTest").dependencies {
-            implementation(librariesForLibs.bundles.common.test)
-        }
-        getByName("androidUnitTest").dependencies {
-            implementation(librariesForLibs.bundles.android.unit.test)
-        }
-        getByName("jvmTest").dependencies {
-            implementation(librariesForLibs.bundles.jvm.test)
-        }
-    }
+    apply(plugin = rootProject.libs.plugins.woody230.android.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.woody230.multiplatform.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.vanniktech.publish.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
 
     // TODO temporarily explicitly declare dependency
     tasks.whenTaskAdded {
