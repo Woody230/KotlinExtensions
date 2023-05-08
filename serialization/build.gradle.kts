@@ -1,10 +1,14 @@
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+
 plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-publishConvention.description.set("kotlinx.serialization extensions")
+publishConvention {
+    description.set("kotlinx.serialization extensions")
+}
 
-kotlin.sourceSets.apply {
+kotlinMultiplatformDependencies {
     commonMain {
         // TODO move JsonContext to a serialization-json and use core instead
         api(libs.ktx.serialization.json)

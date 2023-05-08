@@ -1,5 +1,11 @@
-publishConvention.description.set("AboutLibraries extensions")
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
 
-kotlin.sourceSets.commonMain {
-    api(libs.about.libraries)
+publishConvention {
+    description.set("AboutLibraries extensions")
+}
+
+kotlinMultiplatformDependencies {
+    commonMain {
+        api(libs.about.libraries)
+    }
 }

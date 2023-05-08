@@ -1,5 +1,11 @@
-publishConvention.description.set("Logging wrapper around Napier.")
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
 
-kotlin.sourceSets.commonMain {
-    implementation(libs.napier)
+publishConvention {
+    description.set("Logging wrapper around Napier.")
+}
+
+kotlinMultiplatformDependencies {
+    commonMain {
+        implementation(libs.napier)
+    }
 }

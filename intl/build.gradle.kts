@@ -1,1 +1,3 @@
-publishConvention.description.set("Internationalization.")
+publishConvention {
+    description.set("Internationalization.")
+}

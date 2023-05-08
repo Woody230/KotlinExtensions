@@ -1,10 +1,14 @@
-publishConvention.description.set("Determine what connection capabilities exist using Ktor.")
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+
+publishConvention {
+    description.set("Determine what connection capabilities exist using Ktor.")
+}
 
 dependencies {
     testImplementation(project(mapOf("path" to ":intent")))
 }
 
-kotlin.sourceSets.apply {
+kotlinMultiplatformDependencies {
     commonMain {
         api(libs.ktor.client)
         implementation(projects.intent)

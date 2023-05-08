@@ -1,1 +1,3 @@
-publishConvention.description.set("Two and three dimensional geometrical objects.")
+publishConvention {
+    description.set("Two and three dimensional geometrical objects.")
+}

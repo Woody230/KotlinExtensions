@@ -1,10 +1,16 @@
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+
 plugins {
     alias(libs.plugins.compose)
 }
 
-publishConvention.description.set("Compose Multiplatform internationalization.")
+publishConvention {
+    description.set("Compose Multiplatform internationalization.")
+}
 
-kotlin.sourceSets.commonMain {
-    api(libs.compose.ui)
-    api(projects.intl)
+kotlinMultiplatformDependencies {
+    commonMain {
+        api(libs.compose.ui)
+        api(projects.intl)
+    }
 }

@@ -1,5 +1,11 @@
-publishConvention.description.set("Object comparators.")
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
 
-kotlin.sourceSets.commonMain {
-    implementation(projects.function)
+publishConvention {
+    description.set("Object comparators.")
+}
+
+kotlinMultiplatformDependencies {
+    commonMain {
+        implementation(projects.function)
+    }
 }

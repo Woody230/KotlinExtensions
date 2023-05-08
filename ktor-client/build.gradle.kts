@@ -1,10 +1,14 @@
-publishConvention.description.set("Client side Ktor extensions.")
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+
+publishConvention {
+    description.set("Client side Ktor extensions.")
+}
 
 dependencies {
     testImplementation(project(mapOf("path" to ":intent")))
 }
 
-kotlin.sourceSets.apply {
+kotlinMultiplatformDependencies {
     commonMain {
         api(libs.ktor.client)
     }

@@ -1,5 +1,11 @@
-publishConvention.description.set("General Kotlin standard library extensions.")
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
 
-kotlin.sourceSets.androidMain {
-    api(libs.androidx.core.ktx)
+publishConvention {
+    description.set("General Kotlin standard library extensions.")
+}
+
+kotlinMultiplatformDependencies {
+    androidMain {
+        api(libs.androidx.core.ktx)
+    }
 }

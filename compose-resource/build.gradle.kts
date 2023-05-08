@@ -1,11 +1,17 @@
+import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+
 plugins {
     alias(libs.plugins.compose)
 }
 
-publishConvention.description.set("Wrappers for strings and images using the compose and resource modules.")
+publishConvention {
+    description.set("Wrappers for strings and images using the compose and resource modules.")
+}
 
-kotlin.sourceSets.commonMain {
-    api(projects.resource)
-    api(projects.composeUiLayoutCommon)
-    api(projects.composeUiIntl)
+kotlinMultiplatformDependencies {
+    commonMain {
+        api(projects.resource)
+        api(projects.composeUiLayoutCommon)
+        api(projects.composeUiIntl)
+    }
 }
