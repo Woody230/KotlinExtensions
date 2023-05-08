@@ -28,6 +28,17 @@ private object ExtraProperty {
 interface PublishExtension {
     val description: Property<String>
     val devs: Property<MavenPomDeveloperSpec.() -> Unit>
+
+    /**
+     * Adds a developer to the [MavenPomDeveloperSpec].
+     */
+    fun developer(configure: MavenPomDeveloper.() -> Unit) {
+        val current = devs.get()
+        devs.set {
+            current()
+            developer(configure)
+        }
+    }
 }
 
 // TODO can't access libs from precompiled scripts https://github.com/gradle/gradle/issues/15383
