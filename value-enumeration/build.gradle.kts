@@ -2,14 +2,8 @@ plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-publish(
-    description = "Value class wrappers for enumerations."
-)
+publishConvention.description.set("Value class wrappers for enumerations.")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        api(projects.serialization)
-    }
+kotlin.sourceSets.commonMain {
+    api(projects.serialization)
 }

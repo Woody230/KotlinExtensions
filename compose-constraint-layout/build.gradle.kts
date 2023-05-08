@@ -3,27 +3,16 @@ plugins {
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
-publish(
-    description = "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability."
-) {
-    developer {
-        name.set("The Android Open Source Project")
-    }
-}
-android.setup(project) {
-    setupCompose(libs.versions.multiplatform.compose.compiler)
-
-    packaging {
-        resources.pickFirsts.apply {
-            add("META-INF/AL2.0")
-            add("META-INF/LGPL2.1")
+publishConvention.apply {
+    description.set("A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.")
+    devs.set {
+        developer {
+            name.set("The Android Open Source Project")
         }
     }
 }
 
-kotlin.setup {
-    commonMain {
-        api(libs.bundles.compose)
-        api(libs.ktx.datetime)
-    }
+kotlin.sourceSets.commonMain {
+    api(libs.bundles.compose)
+    api(libs.ktx.datetime)
 }

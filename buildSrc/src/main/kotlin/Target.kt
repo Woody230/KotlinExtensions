@@ -1,11 +1,4 @@
-import Metadata.COMPILE_SDK
-import Metadata.JAVA_VERSION
-import Metadata.JVM_TARGET
-import Metadata.MIN_SDK
-import Metadata.SUBGROUP_ID
-import Metadata.NAMESPACE_ID
 import com.android.build.gradle.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
@@ -80,48 +73,4 @@ fun NamedDomainObjectContainer<KotlinSourceSet>.androidUnitTest(block: KotlinDep
             block(this)
         }
     }
-}
-
-/**
- * Sets up Android.
- */
-fun LibraryExtension.setup(project: Project, block: LibraryExtension.() -> Unit = {}) {
-    block(this)
-}
-
-/**
- * Sets up Android with Compose.
- */
-fun LibraryExtension.setupCompose(compilerVersion: Provider<String>) {
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        // https://mvnrepository.com/artifact/org.jetbrains.compose.compiler/compiler
-        // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
-        kotlinCompilerExtensionVersion = compilerVersion.get()
-    }
-}
-
-fun LibraryExtension.setupDesugaring(project: Project, dependency: Provider<MinimalExternalModuleDependency>) {
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
-    project.dependencies {
-        add("coreLibraryDesugaring", dependency)
-    }
-}
-
-fun LibraryExtension.setupMokoResources(project: Project) = with(sourceSets.getByName("main")) {
-    // TODO temporary srcDir inclusion https://github.com/icerockdev/moko-resources/issues/353
-    val buildDir = project.buildDir
-    assets.srcDir(File(buildDir, "generated/moko/androidMain/assets"))
-    res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
-}
-
-/**
- * Sets up Kotlin multiplatform.
- */
-fun KotlinMultiplatformExtension.setup(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>.() -> Unit = {}) {
-    sourceSets(this.sourceSets)
 }

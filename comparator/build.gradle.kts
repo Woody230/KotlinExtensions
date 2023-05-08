@@ -1,11 +1,5 @@
-publish(
-    description = "Object comparators."
-)
+publishConvention.description.set("Object comparators.")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        implementation(projects.function)
-    }
+kotlin.sourceSets.commonMain {
+    implementation(projects.function)
 }

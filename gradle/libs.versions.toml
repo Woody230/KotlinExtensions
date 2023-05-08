@@ -70,5 +70,7 @@ moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.re
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
 vanniktech-publish = { id = "com.vanniktech.maven.publish.base", version.ref = "vanniktech-publish" }
 woody230-android = { id = "io.github.woody230.ktx.android-convention" }
+woody230-android-desugar = { id = "io.github.woody230.ktx.android-desugar-convention" }
 woody230-moko = { id = "io.github.woody230.ktx.moko-resources-convention" }
 woody230-multiplatform = { id = "io.github.woody230.ktx.multiplatform-convention" }
+woody230-publish = { id = "io.github.woody230.ktx.publish-convention" }

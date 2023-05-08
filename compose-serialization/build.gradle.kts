@@ -3,15 +3,9 @@ plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-publish(
-    description = "kotlinx.serialization extension for Compose Multiplatform classes"
-)
+publishConvention.description.set("kotlinx.serialization extension for Compose Multiplatform classes")
 
-android.setup(project) {
-    setupCompose(libs.versions.multiplatform.compose.compiler)
-}
-
-kotlin.setup {
+kotlin.sourceSets.apply {
     commonMain {
         api(libs.ktx.serialization.core)
         api(projects.composeUiGraphics)

@@ -1,11 +1,5 @@
-publish(
-    description = "General Kotlin standard library extensions."
-)
+publishConvention.description.set("General Kotlin standard library extensions.")
 
-android.setup(project)
-
-kotlin.setup {
-    androidMain {
-        api(libs.androidx.core.ktx)
-    }
+kotlin.sourceSets.androidMain {
+    api(libs.androidx.core.ktx)
 }

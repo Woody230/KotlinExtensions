@@ -1,13 +1,11 @@
-publish(
-    description = "kotlinx.datetime extensions"
-)
-
-android.setup(project) {
+plugins {
     // DateTimeFormatter requires API level 26+ otherwise
-    setupDesugaring(project, libs.android.desugar)
+    id(libs.plugins.woody230.android.desugar.get().pluginId)
 }
 
-kotlin.setup {
+publishConvention.description.set("kotlinx.datetime extensions")
+
+kotlin.sourceSets.apply {
     commonMain {
         api(libs.ktx.datetime)
         api(libs.ktx.coroutines)

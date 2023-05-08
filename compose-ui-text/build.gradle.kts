@@ -2,16 +2,8 @@ plugins {
     alias(libs.plugins.compose)
 }
 
-publish(
-    description = "Text extensions for Compose Multiplatform."
-)
+publishConvention.description.set("Text extensions for Compose Multiplatform.")
 
-android.setup(project) {
-    setupCompose(libs.versions.multiplatform.compose.compiler)
-}
-
-kotlin.setup {
-    commonMain {
-        api(projects.composeUiGraphics)
-    }
+kotlin.sourceSets.commonMain {
+    api(projects.composeUiGraphics)
 }

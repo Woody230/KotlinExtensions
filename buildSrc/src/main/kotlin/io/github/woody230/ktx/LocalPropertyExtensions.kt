@@ -1,3 +1,5 @@
+package io.github.woody230.ktx
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.gradle.api.Project
 

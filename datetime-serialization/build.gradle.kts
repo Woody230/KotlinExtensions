@@ -2,13 +2,9 @@ plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-publish(
-    description = "kotlinx.serialization for kotlinx.datetime"
-)
+publishConvention.description.set("kotlinx.serialization for kotlinx.datetime")
 
-android.setup(project)
-
-kotlin.setup {
+kotlin.sourceSets.apply {
     commonMain {
         api(libs.ktx.serialization.core)
         api(projects.datetime)

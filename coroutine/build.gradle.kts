@@ -1,11 +1,5 @@
-publish(
-    description = "coroutine extensions"
-)
+publishConvention.description.set("coroutine extensions")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        api(libs.ktx.coroutines)
-    }
+kotlin.sourceSets.commonMain {
+    api(libs.ktx.coroutines)
 }

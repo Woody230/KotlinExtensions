@@ -7,21 +7,10 @@ multiplatformResources {
     multiplatformResourcesClassName = "KtxResources"
 }
 
-publish(description = "moko-resources extensions")
+publishConvention.description.set("moko-resources extensions")
 
-android.setup(project) {
-    setupMokoResources(project)
-}
-
-kotlin.setup {
-    commonMain {
-        api(libs.moko.resources)
-        implementation(projects.intent)
-        api(projects.intl)
-    }
-}
-
-tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().forEach { task ->
-    task.dependsOn("generateMRandroidMain")
-    task.dependsOn("generateMRjvmMain")
+kotlin.sourceSets.commonMain {
+    api(libs.moko.resources)
+    implementation(projects.intent)
+    api(projects.intl)
 }

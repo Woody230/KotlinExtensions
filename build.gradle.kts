@@ -8,8 +8,7 @@ allprojects {
 
 // TODO must use root project: extension libs does not exist https://github.com/gradle/gradle/issues/18237
 subprojects {
-    apply(plugin = rootProject.libs.plugins.woody230.android.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.woody230.android.asProvider().get().pluginId)
     apply(plugin = rootProject.libs.plugins.woody230.multiplatform.get().pluginId)
-    apply(plugin = rootProject.libs.plugins.vanniktech.publish.get().pluginId)
-    apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.woody230.publish.get().pluginId)
 }

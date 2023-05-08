@@ -1,14 +1,10 @@
-publish(
-    description = "Client side Ktor extensions."
-)
-
-android.setup(project)
+publishConvention.description.set("Client side Ktor extensions.")
 
 dependencies {
     testImplementation(project(mapOf("path" to ":intent")))
 }
 
-kotlin.setup {
+kotlin.sourceSets.apply {
     commonMain {
         api(libs.ktor.client)
     }

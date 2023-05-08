@@ -1,7 +1,1 @@
-publish(
-    description = "Internationalization."
-)
-
-android.setup(project)
-
-kotlin.setup()
+publishConvention.description.set("Internationalization.")

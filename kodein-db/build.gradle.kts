@@ -1,12 +1,6 @@
-publish(
-    description = "Kodein-DB extensions."
-)
+publishConvention.description.set("Kodein-DB extensions.")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        api(libs.kodein.db)
-        api(projects.valueIdentifier)
-    }
+kotlin.sourceSets.commonMain {
+    api(libs.kodein.db)
+    api(projects.valueIdentifier)
 }

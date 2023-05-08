@@ -1,7 +1,1 @@
-publish(
-    description = "Value class wrappers for identifiers."
-)
-
-android.setup(project)
-
-kotlin.setup()
+publishConvention.description.set("Value class wrappers for identifiers.")

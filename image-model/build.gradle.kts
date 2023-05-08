@@ -2,14 +2,8 @@ plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-publish(
-    description = "Image models."
-)
+publishConvention.description.set("Image models.")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        api(libs.ktx.serialization.core)
-    }
+kotlin.sourceSets.commonMain {
+    api(libs.ktx.serialization.core)
 }

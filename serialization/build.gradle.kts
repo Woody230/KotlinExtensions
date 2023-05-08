@@ -2,13 +2,9 @@ plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-publish(
-    description = "kotlinx.serialization extensions"
-)
+publishConvention.description.set("kotlinx.serialization extensions")
 
-android.setup(project)
-
-kotlin.setup {
+kotlin.sourceSets.apply {
     commonMain {
         // TODO move JsonContext to a serialization-json and use core instead
         api(libs.ktx.serialization.json)

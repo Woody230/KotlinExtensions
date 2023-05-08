@@ -1,11 +1,5 @@
-publish(
-    description = "Logging wrapper around Napier."
-)
+publishConvention.description.set("Logging wrapper around Napier.")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        implementation(libs.napier)
-    }
+kotlin.sourceSets.commonMain {
+    implementation(libs.napier)
 }

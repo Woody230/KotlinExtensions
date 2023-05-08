@@ -1,3 +1,5 @@
+package io.github.woody230.ktx
+
 import org.gradle.api.JavaVersion
 
 object Metadata {

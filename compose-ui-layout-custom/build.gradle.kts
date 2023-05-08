@@ -2,17 +2,9 @@ plugins {
     alias(libs.plugins.compose)
 }
 
-publish(
-    description = "Custom composable implementations for Compose Multiplatform."
-)
+publishConvention.description.set("Custom composable implementations for Compose Multiplatform.")
 
-android.setup(project) {
-    setupCompose(libs.versions.multiplatform.compose.compiler)
-}
-
-kotlin.setup {
-    commonMain {
-        api(projects.composeUiLayoutCommon)
-        implementation(projects.function)
-    }
+kotlin.sourceSets.commonMain {
+    api(projects.composeUiLayoutCommon)
+    implementation(projects.function)
 }

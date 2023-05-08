@@ -1,11 +1,5 @@
-publish(
-    description = "AboutLibraries extensions."
-)
+publishConvention.description.set("AboutLibraries extensions")
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        api(libs.about.libraries)
-    }
+kotlin.sourceSets.commonMain {
+    api(libs.about.libraries)
 }

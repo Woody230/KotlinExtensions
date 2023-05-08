@@ -1,11 +1,4 @@
-publish(
-    description = "Based on Android intents."
-)
-
-android.setup(project)
-
-kotlin.setup {
-    commonMain {
-        implementation(projects.logging)
-    }
+publishConvention.description.set("Based on Android intents.")
+kotlin.sourceSets.commonMain {
+    implementation(projects.logging)
 }

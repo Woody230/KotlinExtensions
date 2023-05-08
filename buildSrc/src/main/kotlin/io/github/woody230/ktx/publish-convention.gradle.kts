@@ -1,22 +1,12 @@
-import Metadata.GROUP_ID
-import Metadata.SUBGROUP_ID
-import Metadata.VERSION
-import com.vanniktech.maven.publish.AndroidMultiVariantLibrary
+package io.github.woody230.ktx
+
+import io.github.woody230.ktx.Metadata.GROUP_ID
+import io.github.woody230.ktx.Metadata.SUBGROUP_ID
+import io.github.woody230.ktx.Metadata.VERSION
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
-import org.gradle.api.Project
-import org.gradle.api.artifacts.repositories.MavenArtifactRepository
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPom
-import org.gradle.api.publish.maven.MavenPomDeveloperSpec
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.extra
-import org.gradle.kotlin.dsl.findByType
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.SigningExtension
 import org.jetbrains.kotlin.gradle.plugin.extraProperties
 
 private object LocalProperty {
@@ -35,37 +25,51 @@ private object ExtraProperty {
     const val SIGNING_PASSWORD = "signingInMemoryKeyPassword"
 }
 
-fun Project.publish(
-    description: String,
-    devs: MavenPomDeveloperSpec.() -> Unit = {}
-) = with(extensions.getByType<MavenPublishBaseExtension>()) {
-    setupGradleProperties()
+interface PublishExtension {
+    val description: Property<String>
+    val devs: Property<MavenPomDeveloperSpec.() -> Unit>
+}
 
-    coordinates("$GROUP_ID.$SUBGROUP_ID", name, VERSION)
-    pom {
-        configure(project, description, devs)
-    }
+// TODO can't access libs from precompiled scripts https://github.com/gradle/gradle/issues/15383
+plugins {
+    id("com.vanniktech.maven.publish.base")
+    id("org.jetbrains.dokka")
+}
 
-    configureMultiplatform()
-    publish()
+val extension = extensions.create<PublishExtension>("publishExtension")
+extension.devs.convention { }
 
-    if (hasLocalProperties(LocalProperty.SIGNING_KEY, LocalProperty.SIGNING_PASSWORD)) {
-        signAllPublications()
+afterEvaluate {
+    val extension = extensions.getByType<PublishExtension>()
+    with(extensions.getByType<MavenPublishBaseExtension>()) {
+        setupGradleProperties()
+
+        coordinates("$GROUP_ID.$SUBGROUP_ID", name, VERSION)
+        pom {
+            configure(project, extension.description.get(), extension.devs.get())
+        }
+
+        configureMultiplatform()
+        publish()
+
+        if (hasLocalProperties(LocalProperty.SIGNING_KEY, LocalProperty.SIGNING_PASSWORD)) {
+            signAllPublications()
+        }
     }
 }
 
-private fun MavenPublishBaseExtension.configureMultiplatform() {
+fun MavenPublishBaseExtension.configureMultiplatform() {
     val jar = JavadocJar.Dokka("dokkaHtml")
     val platform = KotlinMultiplatform(javadocJar = jar)
     configure(platform)
 }
 
-private fun MavenPublishBaseExtension.publish() = publishToMavenCentral(
+fun MavenPublishBaseExtension.publish() = publishToMavenCentral(
     host = SonatypeHost.S01,
     automaticRelease = false
 )
 
-private fun MavenPom.configure(
+fun MavenPom.configure(
     project: Project,
     description: String,
     devs: MavenPomDeveloperSpec.() -> Unit = {}
@@ -77,7 +81,7 @@ private fun MavenPom.configure(
     scm()
 }
 
-private fun Project.setupGradleProperties() = with(extraProperties) {
+fun Project.setupGradleProperties() = with(extraProperties) {
     set(ExtraProperty.MAVEN_CENTRAL_USERNAME, localPropertyOrNull(LocalProperty.SONATYPE_USERNAME))
     set(ExtraProperty.MAVEN_CENTRAL_PASSWORD, localPropertyOrNull(LocalProperty.SONATYPE_PASSWORD))
 
@@ -88,7 +92,7 @@ private fun Project.setupGradleProperties() = with(extraProperties) {
     }
 }
 
-private fun MavenPom.licenses() = licenses {
+fun MavenPom.licenses() = licenses {
     license {
         this.name.set("The Apache Software License, Version 2.0")
         url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
@@ -96,7 +100,7 @@ private fun MavenPom.licenses() = licenses {
     }
 }
 
-private fun MavenPom.developers(devs: MavenPomDeveloperSpec.() -> Unit = {}) = developers {
+fun MavenPom.developers(devs: MavenPomDeveloperSpec.() -> Unit = {}) = developers {
     devs()
     developer {
         id.set("Woody230")
@@ -105,7 +109,7 @@ private fun MavenPom.developers(devs: MavenPomDeveloperSpec.() -> Unit = {}) = d
     }
 }
 
-private fun MavenPom.scm() {
+fun MavenPom.scm() {
     val repo = "https://github.com/Woody230/KotlinExtensions"
     url.set(repo)
     scm { url.set(repo) }
