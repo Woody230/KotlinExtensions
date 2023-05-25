@@ -3,6 +3,7 @@ import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDepende
 plugins {
     id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
     id(libs.plugins.woody230.gradle.multiplatform.compose.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.multiplatform.compose.test.get().pluginId)
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
