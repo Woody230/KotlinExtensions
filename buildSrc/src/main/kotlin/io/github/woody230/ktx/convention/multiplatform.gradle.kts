@@ -1,8 +1,6 @@
 package io.github.woody230.ktx.convention
 
-import com.bselzer.gradle.internal.android.library.plugin.androidLibraryExtension
 import com.bselzer.gradle.internal.maven.publish.plugin.Licensing
-import com.bselzer.gradle.internal.multiplatform.publish.plugin.multiplatformPublishExtension
 import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 import org.gradle.kotlin.dsl.apply
 
