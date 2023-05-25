@@ -1,39 +1,24 @@
 [versions]
-androidx-compose = "1.4.2"
-dokka = "1.8.10"
 kodein-db = "0.9.0-beta"
 kotlin = "1.8.10"
 ktor = "2.3.0"
 ktx-serialization = "1.5.0"
 moko-resources = "0.22.0"
 multiplatform-compose = "1.3.1"
-multiplatform-compose-compiler = "1.4.2"
 multiplatform-settings = "1.0.0"
-vanniktech-publish = "0.25.2"
+woody230-ktx = "5.4.0"
+woody230-gradle = "1.0.0"
 
 [libraries]
-about-libraries = { group = "com.mikepenz", name = "aboutlibraries-core", version = "10.6.2" }
-android-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.0.3" }
-android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version = "8.0.0" }
+aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version = "10.6.2" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.10.0" }
-androidx-test-compose-ui = { group = "androidx.compose.ui", name = "ui-test", version.ref = "androidx-compose" }
-androidx-test-compose-ui-junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-compose" }
-androidx-test-core = { group = "androidx.test", name = "core", version = "1.5.0" }
-androidx-test-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
-androidx-test-runner = { group = "androidx.test", name = "runner", version = "1.5.2" }
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
 compose-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "multiplatform-compose" }
 compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "multiplatform-compose" }
 compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "multiplatform-compose" }
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
-dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
 kodein-db = { group = "org.kodein.db", name = "kodein-db-api", version.ref = "kodein-db" }
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test-common", version.ref = "kotlin" }
-kotlin-test-annotations = { group = "org.jetbrains.kotlin", name = "kotlin-test-annotations-common", version.ref = "kotlin" }
-kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
@@ -43,34 +28,32 @@ ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-seri
 ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.6.4" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko-resources" }
-moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources" }
-moko-resources-gradle-plugin = { group = "dev.icerock.mobile.multiplatform-resources", name = "dev.icerock.mobile.multiplatform-resources.gradle.plugin", version.ref = "moko-resources" }
 napier = { group = "io.github.aakira", name = "napier", version = "2.6.1" }
-vanniktech-publish-gradle-plugin = { group = "com.vanniktech", name = "gradle-maven-publish-plugin", version.ref = "vanniktech-publish" }
-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.10" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
 xml-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version = "0.85.0" }
+woody230-gradle-android-desugar-plugin = { group = "io.github.woody230.gradle.internal", name = "android-desugar-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-android-plugin = { group = "io.github.woody230.gradle.internal", name = "android-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-moko-resources-plugin = { group = "io.github.woody230.gradle.internal", name = "moko-resources-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-compose-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-compose-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-compose-test-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-compose-test-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-publish-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-publish-plugin", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-test-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-test-plugin", version.ref = "woody230-gradle" }
 
 [bundles]
-android-unit-test = ["kotlin-test-junit", "androidx-test-core", "androidx-test-junit", "androidx-test-runner", "robolectric", "kotlin-reflect", "androidx-test-compose-ui", "androidx-test-compose-ui-junit"]
-common = ["kotlin-stdlib"]
-common-test = ["kotlin-test", "kotlin-test-annotations"]
 compose = ["compose-foundation", "compose-material", "compose-runtime", "compose-ui", "compose-ui-util"]
-jvm-test = ["kotlin-test-junit", "kotlin-reflect"]
 settings = ["settings", "settings-coroutines"]
 
 # TODO can't NOT provide a version and use alias for plugins already in the classpath https://github.com/gradle/gradle/issues/17968
 [plugins]
-android-library = { id = "com.android.library" }
-compose = { id = "org.jetbrains.compose", version.ref = "multiplatform-compose" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 ktx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }
-multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
-vanniktech-publish = { id = "com.vanniktech.maven.publish.base", version.ref = "vanniktech-publish" }
-woody230-android = { id = "io.github.woody230.ktx.android-convention" }
-woody230-android-desugar = { id = "io.github.woody230.ktx.android-desugar-convention" }
-woody230-moko = { id = "io.github.woody230.ktx.moko-resources-convention" }
-woody230-multiplatform = { id = "io.github.woody230.ktx.multiplatform-convention" }
-woody230-publish = { id = "io.github.woody230.ktx.publish-convention" }
+woody230-gradle-android-desugar = { id = "io.github.woody230.gradle.internal.android-desugar", version.ref = "woody230-gradle" }
+woody230-gradle-android-library = { id = "io.github.woody230.gradle.internal.android-library", version.ref = "woody230-gradle" }
+woody230-gradle-moko-resources = { id = "io.github.woody230.gradle.internal.moko-resources", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-compose = { id = "io.github.woody230.gradle.internal.multiplatform-compose", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-compose-test = { id = "io.github.woody230.gradle.internal.multiplatform-compose-test", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform = { id = "io.github.woody230.gradle.internal.multiplatform", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-publish = { id = "io.github.woody230.gradle.internal.multiplatform-publish", version.ref = "woody230-gradle" }
+woody230-gradle-multiplatform-test = { id = "io.github.woody230.gradle.internal.multiplatform-test", version.ref = "woody230-gradle" }
+woody230-convention-multiplatform = { id = "io.github.woody230.ktx.convention.multiplatform", version.ref = "woody230-ktx" }

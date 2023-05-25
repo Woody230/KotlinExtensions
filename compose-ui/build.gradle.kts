@@ -1,14 +1,15 @@
-import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
 plugins {
-    alias(libs.plugins.compose)
+    id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.multiplatform.compose.asProvider().get().pluginId)
 }
 
-publishConvention {
+multiplatformPublishExtension {
     description.set("Extensions for Compose Multiplatform UI.")
 }
 
-kotlinMultiplatformDependencies {
+multiplatformDependencies {
     commonMain {
         api(libs.compose.ui)
     }

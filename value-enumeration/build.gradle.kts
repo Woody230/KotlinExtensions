@@ -1,14 +1,15 @@
-import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
 plugins {
+    id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
     alias(libs.plugins.ktx.serialization)
 }
 
-publishConvention {
+multiplatformPublishExtension {
     description.set("Value class wrappers for enumerations.")
 }
 
-kotlinMultiplatformDependencies {
+multiplatformDependencies {
     commonMain {
         api(projects.serialization)
     }

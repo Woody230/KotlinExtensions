@@ -1,10 +1,14 @@
-import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
-publishConvention {
+plugins {
+    id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
+}
+
+multiplatformPublishExtension {
     description.set("Storing image content via Kodein-DB.")
 }
 
-kotlinMultiplatformDependencies {
+multiplatformDependencies {
     commonMain {
         api(projects.kodeinDb)
         api(projects.imageModel)

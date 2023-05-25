@@ -1,10 +1,14 @@
-import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
-publishConvention {
+plugins {
+    id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
+}
+
+multiplatformPublishExtension {
     description.set("Object comparators.")
 }
 
-kotlinMultiplatformDependencies {
+multiplatformDependencies {
     commonMain {
         implementation(projects.function)
     }

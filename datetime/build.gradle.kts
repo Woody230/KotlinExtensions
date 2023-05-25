@@ -1,15 +1,17 @@
-import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
 plugins {
+    id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
+
     // DateTimeFormatter requires API level 26+ otherwise
-    id(libs.plugins.woody230.android.desugar.get().pluginId)
+    id(libs.plugins.woody230.gradle.android.desugar.get().pluginId)
 }
 
-publishConvention {
+multiplatformPublishExtension {
     description.set("kotlinx.datetime extensions")
 }
 
-kotlinMultiplatformDependencies {
+multiplatformDependencies {
     commonMain {
         api(libs.ktx.datetime)
         api(libs.ktx.coroutines)

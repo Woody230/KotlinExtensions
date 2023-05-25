@@ -1,7 +1,8 @@
-import io.github.woody230.gradle.kotlin.multiplatform.kotlinMultiplatformDependencies
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
 plugins {
-    id(libs.plugins.woody230.moko.get().pluginId)
+    id(libs.plugins.woody230.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.moko.resources.get().pluginId)
 }
 
 multiplatformResources {
@@ -9,11 +10,11 @@ multiplatformResources {
     multiplatformResourcesClassName = "KtxResources"
 }
 
-publishConvention {
+multiplatformPublishExtension {
     description.set("moko-resources extensions")
 }
 
-kotlinMultiplatformDependencies {
+multiplatformDependencies {
     commonMain {
         api(libs.moko.resources)
         implementation(projects.intent)
