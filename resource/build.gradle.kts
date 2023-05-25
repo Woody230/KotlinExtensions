@@ -2,7 +2,7 @@ import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDepende
 
 plugins {
     id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
-    id(libs.plugins.woody230.gradle.moko.resources.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
 }
 
 multiplatformResources {

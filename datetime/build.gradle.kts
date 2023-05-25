@@ -4,7 +4,7 @@ plugins {
     id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 
     // DateTimeFormatter requires API level 26+ otherwise
-    id(libs.plugins.woody230.gradle.android.desugar.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
 }
 
 multiplatformPublishExtension {
