@@ -1,31 +1,22 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+
+    // DateTimeFormatter requires API level 26+ otherwise
+    id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.datetime extensions"
-)
-
-android.setup(project) {
-    compileOptions {
-        // DateTimeFormatter requires API level 26+ otherwise
-        isCoreLibraryDesugaringEnabled = true
-    }
-    dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
-    }
+multiplatformPublishExtension {
+    description.set("kotlinx.datetime extensions")
 }
 
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktxDateTime()
-        coroutine()
+        api(libs.ktx.datetime)
+        api(libs.ktx.coroutines)
     }
     commonTest {
-        projectIntl()
+        implementation(projects.intl)
     }
-    androidUnitTest()
-    jvmTest()
 }

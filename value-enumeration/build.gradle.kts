@@ -1,22 +1,16 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "Value class wrappers for enumerations."
-)
+multiplatformPublishExtension {
+    description.set("Value class wrappers for enumerations.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        projectValueIdentifier()
-        projectSerialization()
+        api(projects.serialization)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
 }

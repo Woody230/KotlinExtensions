@@ -1,31 +1,29 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Client side Ktor extensions."
-)
-
-android.setup(project)
+multiplatformPublishExtension {
+    description.set("Client side Ktor extensions.")
+}
 
 dependencies {
     testImplementation(project(mapOf("path" to ":intent")))
 }
 
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktorClient()
+        api(libs.ktor.client)
     }
     commonTest {
-        coroutine()
-        ktorMockEngine()
+        implementation(libs.ktx.coroutines)
+        implementation(libs.ktor.client.mock)
     }
     androidUnitTest {
-        ktorOkHttpEngine()
+        implementation(libs.ktor.client.okhttp)
     }
     jvmTest {
-        ktorOkHttpEngine()
+        implementation(libs.ktor.client.okhttp)
     }
 }

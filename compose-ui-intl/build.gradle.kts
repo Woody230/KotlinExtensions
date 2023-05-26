@@ -1,20 +1,18 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    id("org.jetbrains.compose") version Versions.COMPOSE
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Compose Multiplatform internationalization."
-)
+multiplatformPublishExtension {
+    description.set("Compose Multiplatform internationalization.")
+}
 
-android.setupWithCompose(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ui()
-        projectIntl()
+        api(libs.compose.ui)
+        api(projects.intl)
     }
-    commonTest()
 }

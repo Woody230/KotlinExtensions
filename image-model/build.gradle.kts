@@ -1,19 +1,16 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "Image models."
-)
+multiplatformPublishExtension {
+    description.set("Image models.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktxSerialization()
+        api(libs.ktx.serialization.core)
     }
-    commonTest()
 }

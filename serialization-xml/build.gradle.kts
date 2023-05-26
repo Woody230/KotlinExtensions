@@ -1,22 +1,17 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.serialization extensions for pdvrieze.xmlutil"
-)
+multiplatformPublishExtension {
+    description.set("kotlinx.serialization extensions for pdvrieze.xmlutil")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        xmlSerialization()
-        projectLogging()
+        api(libs.xml.serialization)
+        implementation(projects.logging)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
 }

@@ -1,22 +1,20 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.serialization for kotlinx.datetime"
-)
+multiplatformPublishExtension {
+    description.set("kotlinx.serialization for kotlinx.datetime")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktxSerialization()
-        projectDateTime()
+        api(libs.ktx.serialization.core)
+        api(projects.datetime)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
+    commonTest {
+        implementation(libs.ktx.serialization.json)
+    }
 }

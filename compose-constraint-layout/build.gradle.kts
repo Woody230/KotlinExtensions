@@ -1,37 +1,22 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    id("org.jetbrains.compose") version Versions.COMPOSE
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
 }
 
 // This module is a copy of https://github.com/androidx/constraintlayout with minor modifications to make it usable for multiplatform.
-publishing.publish(
-    project = project,
-    description = "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability."
-) {
+multiplatformPublishExtension {
+    description.set("A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.")
     developer {
         name.set("The Android Open Source Project")
     }
 }
 
-android.setupWithCompose(project) {
-    packagingOptions {
-        resources.pickFirsts.apply {
-            add("META-INF/AL2.0")
-            add("META-INF/LGPL2.1")
-        }
-    }
-}
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        runtime()
-        ui()
-        uiUtil()
-        material()
-        foundation()
-        ktxDateTime()
+        api(libs.bundles.compose)
+        api(libs.ktx.datetime)
     }
-    commonTest()
-    androidUnitTest()
 }

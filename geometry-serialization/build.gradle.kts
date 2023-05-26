@@ -1,22 +1,20 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.serialization for two and three dimensional geometrical objects."
-)
+multiplatformPublishExtension {
+    description.set("kotlinx.serialization for two and three dimensional geometrical objects.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktxSerialization()
-        projectGeometry()
+        api(libs.ktx.serialization.core)
+        api(projects.geometry)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
+    commonTest {
+        implementation(libs.ktx.serialization.json)
+    }
 }

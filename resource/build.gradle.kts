@@ -1,13 +1,8 @@
-plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("dev.icerock.mobile.multiplatform-resources") version Versions.RESOURCE
-}
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
-buildscript {
-    dependencies {
-        classpath("dev.icerock.moko:resources-generator:${Versions.RESOURCE}")
-    }
+plugins {
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
 }
 
 multiplatformResources {
@@ -15,19 +10,14 @@ multiplatformResources {
     multiplatformResourcesClassName = "KtxResources"
 }
 
-publishing.publish(
-    project = project,
-    description = "moko-resources extensions"
-)
+multiplatformPublishExtension {
+    description.set("moko-resources extensions")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        resources()
-        ktxDateTime()
-        projectIntent()
-        projectIntl()
+        api(libs.moko.resources)
+        implementation(projects.intent)
+        api(projects.intl)
     }
-    commonTest()
 }

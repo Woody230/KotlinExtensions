@@ -1,20 +1,15 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Based on Android intents."
-)
+multiplatformPublishExtension {
+    description.set("Based on Android intents.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        projectLogging()
+        implementation(projects.logging)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
 }

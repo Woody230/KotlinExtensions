@@ -1,19 +1,16 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Storing image content via Kodein-DB."
-)
+multiplatformPublishExtension {
+    description.set("Storing image content via Kodein-DB.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        projectKodeinDb()
-        projectImageModel()
+        api(projects.kodeinDb)
+        api(projects.imageModel)
     }
-    commonTest()
 }

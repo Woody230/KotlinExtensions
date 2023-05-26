@@ -1,23 +1,19 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
-    id("org.jetbrains.compose") version Versions.COMPOSE
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Wrappers for strings and images using the compose and resource modules."
-)
+multiplatformPublishExtension {
+    description.set("Wrappers for strings and images using the compose and resource modules.")
+}
 
-android.setupWithCompose(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        projectResource()
-        projectComposeUiLayoutCommon()
-        projectComposeUiIntl()
+        api(projects.resource)
+        api(projects.composeUiLayoutCommon)
+        api(projects.composeUiIntl)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
 }

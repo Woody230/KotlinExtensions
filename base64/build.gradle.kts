@@ -1,24 +1,18 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Extensions for base64 encoding and decoding between strings and byte arrays."
-) {
+multiplatformPublishExtension {
+    description.set("Extensions for base64 encoding and decoding between strings and byte arrays.")
     developer {
         name.set("jershell")
     }
 }
 
-android.setup(project)
-
-kotlin.setup {
-    commonMain()
+multiplatformDependencies {
     commonTest {
-        projectFunction()
+        implementation(projects.function)
     }
-    androidUnitTest()
-    jvmTest()
 }

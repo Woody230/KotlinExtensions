@@ -1,19 +1,17 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.serialization for internationalization"
-)
+multiplatformPublishExtension {
+    description.set("kotlinx.serialization for internationalization")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktxSerialization()
-        projectIntl()
+        api(libs.ktx.serialization.core)
+        api(projects.intl)
     }
-    commonTest()
 }

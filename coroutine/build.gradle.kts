@@ -1,18 +1,15 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "coroutine extensions"
-)
+multiplatformPublishExtension {
+    description.set("coroutine extensions")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        coroutine()
+        api(libs.ktx.coroutines)
     }
-    commonTest()
 }

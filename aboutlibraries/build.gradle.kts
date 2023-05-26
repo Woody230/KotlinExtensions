@@ -1,18 +1,15 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "AboutLibraries extensions."
-)
+multiplatformPublishExtension {
+    description.set("AboutLibraries extensions")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        aboutLibraries()
+        api(libs.aboutlibraries.core)
     }
-    commonTest()
 }

@@ -1,23 +1,22 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose") version Versions.COMPOSE
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.serialization extension for Compose Multiplatform classes"
-)
+multiplatformPublishExtension {
+    description.set("kotlinx.serialization extension for Compose Multiplatform classes")
+}
 
-android.setupWithCompose(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        projectComposeUiGraphics()
-        ktxSerialization()
+        api(libs.ktx.serialization.core)
+        api(projects.composeUiGraphics)
     }
-    commonTest()
-    androidUnitTest()
-    jvmTest()
+    commonTest {
+        implementation(libs.ktx.serialization.json)
+    }
 }

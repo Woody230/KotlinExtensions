@@ -1,24 +1,22 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization") version Versions.KOTLIN
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
+    alias(libs.plugins.ktx.serialization)
 }
 
-publishing.publish(
-    project = project,
-    description = "kotlinx.serialization extensions"
-)
+multiplatformPublishExtension {
+    description.set("kotlinx.serialization extensions")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktxSerialization()
-        projectLogging()
+        // TODO move JsonContext to a serialization-json and use core instead
+        api(libs.ktx.serialization.json)
+
+        implementation(projects.logging)
     }
     commonTest {
-        xmlSerialization()
+        implementation(libs.xml.serialization)
     }
-    androidUnitTest()
-    jvmTest()
 }

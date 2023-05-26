@@ -1,16 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Value class wrappers for identifiers."
-)
-
-android.setup(project)
-
-kotlin.setup {
-    commonMain()
-    commonTest()
+multiplatformPublishExtension {
+    description.set("Value class wrappers for identifiers.")
 }

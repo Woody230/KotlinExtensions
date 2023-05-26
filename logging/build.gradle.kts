@@ -1,18 +1,15 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Logging wrapper around Napier."
-)
+multiplatformPublishExtension {
+    description.set("Logging wrapper around Napier.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        napier()
+        implementation(libs.napier)
     }
-    commonTest()
 }

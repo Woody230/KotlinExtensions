@@ -1,20 +1,17 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
+
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Fetching image content via Ktor."
-)
+multiplatformPublishExtension {
+    description.set("Fetching image content via Ktor.")
+}
 
-android.setup(project)
-
-kotlin.setup {
+multiplatformDependencies {
     commonMain {
-        ktorClient()
-        projectLogging()
-        projectImageModel()
+        api(libs.ktor.client)
+        implementation(projects.logging)
+        api(projects.imageModel)
     }
-    commonTest()
 }

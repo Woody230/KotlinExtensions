@@ -1,18 +1,7 @@
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
 }
 
-publishing.publish(
-    project = project,
-    description = "Two and three dimensional geometrical objects."
-)
-
-android.setup(project)
-
-kotlin.setup {
-    commonMain()
-    commonTest()
-    androidUnitTest()
-    jvmTest()
+multiplatformPublishExtension {
+    description.set("Two and three dimensional geometrical objects.")
 }
