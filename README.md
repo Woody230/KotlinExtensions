@@ -386,11 +386,12 @@ Resources are generated with the name `KtxResources`:
 val days = KtxResources.strings.days
 ```
 
-## serialization
-[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) extensions.
+## serialization-core
+[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) core extensions.
 
-* `DelimitedListSerializer` for converting a delimited string into a list.
-* `JsonContext` for enum conversion of strings, collections of strings, or maps with string keys. This will convert based on the `@SerialName` associated with the enum, which is different from the [function](#function) conversion that would compare the name of the enum instead.
+* Base `StringFormatContext`:
+ * Enum conversion of strings, collections of strings, or maps with string keys. 
+   * This will convert based on the `@SerialName` associated with the enum, which is different from the [function](#function) conversion that would compare the name of the enum instead.
 
 ```kotlin
 enum class LegendName {
@@ -403,6 +404,14 @@ with(JsonContext) {
     val nullableLegend: LegendName? = "Legend2".decodeOrNull() // Null
 }
 ```
+
+* IntegerSerializer for lenient integer parsing as a string or numeric
+
+## serialization-json
+[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) json extensions.
+
+* `JsonContext` which extends from `StringFormatContext`
+* `DelimitedListSerializer` for converting a delimited string into a list.
 
 ## serialization-xml
 [xmlutil](https://github.com/pdvrieze/xmlutil) extensions.
