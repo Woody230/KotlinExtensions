@@ -6,11 +6,16 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("Value class wrappers for enumerations.")
+    description.set("kotlinx.serialization json extensions")
 }
 
 multiplatformDependencies {
     commonMain {
-        api(libs.ktx.serialization.core)
+        api(projects.serializationCore)
+        api(libs.ktx.serialization.json)
+        implementation(projects.logging)
+    }
+    commonTest {
+        implementation(libs.xml.serialization)
     }
 }
