@@ -11,6 +11,6 @@ multiplatformPublishExtension {
 
 multiplatformDependencies {
     commonMain {
-        api(libs.ktx.serialization.core)
+        api(projects.serializationJson)
     }
 }

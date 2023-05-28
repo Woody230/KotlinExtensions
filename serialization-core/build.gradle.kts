@@ -6,17 +6,16 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("kotlinx.serialization extensions")
+    description.set("kotlinx.serialization core extensions")
 }
 
 multiplatformDependencies {
     commonMain {
-        // TODO move JsonContext to a serialization-json and use core instead
-        api(libs.ktx.serialization.json)
-
+        api(libs.ktx.serialization.core)
         implementation(projects.logging)
     }
     commonTest {
-        implementation(libs.xml.serialization)
+        implementation(projects.serializationJson)
+        implementation(projects.serializationXml)
     }
 }

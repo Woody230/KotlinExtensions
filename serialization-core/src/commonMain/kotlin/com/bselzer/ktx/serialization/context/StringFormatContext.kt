@@ -4,8 +4,9 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.serializer
 
-abstract class StringFormatContext internal constructor(
-    open val instance: StringFormat,
+abstract class StringFormatContext constructor(
+    @PublishedApi
+    internal val instance: StringFormat,
 ) {
     /**
      * Decodes the string as if it is a literally encoded value.
