@@ -45,7 +45,6 @@ fun JsonObject.getFloat(key: String): Float = getValue(key).toFloat()
 fun JsonObject.getDouble(key: String): Double = getValue(key).toDouble()
 fun JsonObject.getBoolean(key: String): Boolean = getValue(key).toBoolean()
 
-// TODO explicit json primitive/array/object checks (to not throw)
 inline fun <reified T> JsonElement.toEnumOrNull(): T? = toContentOrNull()?.decode<T>()
 fun JsonElement.toContentOrNull(): String? = toPrimitiveOrNull()?.contentOrNull
 fun JsonElement.toIntOrNull(): Int? = toPrimitiveOrNull()?.intOrNull
