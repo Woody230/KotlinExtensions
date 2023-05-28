@@ -6,13 +6,12 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("kotlinx.serialization extensions for pdvrieze.xmlutil")
+    description.set("kotlinx.serialization extensions for Him188's yamlkt")
 }
 
 multiplatformDependencies {
     commonMain {
         api(projects.serializationCore)
-        api(libs.xml.serialization)
-        implementation(projects.logging)
+        api(libs.yaml.serialization)
     }
 }

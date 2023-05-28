@@ -13,9 +13,8 @@ multiplatformDependencies {
     commonMain {
         api(projects.serializationCore)
         api(libs.ktx.serialization.json)
-        implementation(projects.logging)
     }
     commonTest {
-        implementation(libs.xml.serialization)
+        implementation(projects.serializationXml)
     }
 }
