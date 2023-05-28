@@ -410,12 +410,18 @@ with(JsonContext) {
 ## serialization-json
 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) json extensions.
 
-* `JsonContext` which extends from `StringFormatContext`
+* `JsonContext` which extends from [StringFormatContext](#serialization-core)
 * `DelimitedListSerializer` for converting a delimited string into a list.
 
 ## serialization-xml
 [xmlutil](https://github.com/pdvrieze/xmlutil) extensions.
+
 * `LoggingUnknownChildHandler` for XML deserialization that will log the failed deserialization of a child not defined in your object instead of throwing an exception
+
+## serialization-yaml
+[yamlkt](https://github.com/Him188/yamlkt) extensions
+
+* `YamlContext` which extends from [StringFormatContext](#serialization-core)
 
 ## settings
 Async wrapper of primitive and serializable [multiplatform-settings](https://github.com/russhwolf/multiplatform-settings) settings.
