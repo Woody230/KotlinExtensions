@@ -425,6 +425,7 @@ with(JsonContext) {
 ## serialization-xml
 [xmlutil](https://github.com/pdvrieze/xmlutil) extensions.
 
+* `XmlContext` which extends from [StringFormatContext](#serialization-core)
 * `LoggingUnknownChildHandler` for XML deserialization that will log the failed deserialization of a child not defined in your object instead of throwing an exception
 
 ## serialization-yaml
