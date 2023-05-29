@@ -420,6 +420,7 @@ with(JsonContext) {
 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) json extensions.
 
 * `JsonContext` which extends from [StringFormatContext](#serialization-core)
+  * Supports merging `JsonElement`s.
 * `DelimitedListSerializer` for converting a delimited string into a list.
 
 ## serialization-xml
@@ -432,6 +433,7 @@ with(JsonContext) {
 [yamlkt](https://github.com/Him188/yamlkt) extensions
 
 * `YamlContext` which extends from [StringFormatContext](#serialization-core)
+  * Supports merging `YamlElement`s.
 
 ## settings
 Async wrapper of primitive and serializable [multiplatform-settings](https://github.com/russhwolf/multiplatform-settings) settings.
