@@ -2,7 +2,7 @@ package com.bselzer.ktx.serialization.merge
 
 enum class ArrayMergeHandling {
     /**
-     * Adds the elements.
+     * Appends the elements.
      */
     CONCAT,
 

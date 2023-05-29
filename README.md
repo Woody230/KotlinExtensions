@@ -405,6 +405,15 @@ with(JsonContext) {
 }
 ```
 
+* Array merging:
+  * Concat: Appends the elements.
+  * Union: Skips elements that already exist.
+  * Replace: Replaces the existing array with a new array.
+  * Merge: Replaces the elements within the same index.
+* Null merging:
+  * Ignore
+  * Merge
+
 * IntegerSerializer for lenient integer parsing as a string or numeric
 
 ## serialization-json
