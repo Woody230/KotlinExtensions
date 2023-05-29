@@ -24,8 +24,8 @@ class EnumTests {
         val map2 = mapOf("A" to "4", "C" to "7")
 
         // Act
-        val output1 = with(YamlContext) { map1.decodeKeys<TestEnum, Int>() }
-        val output2 = with(YamlContext) { map2.decodeKeys<TestEnum, String>() }
+        val output1 = with(YamlContext) { map1.decodeKeysOrEmpty<TestEnum, Int>() }
+        val output2 = with(YamlContext) { map2.decodeKeysOrEmpty<TestEnum, String>() }
 
         // Assert
         assertEquals(3, output1.count())
