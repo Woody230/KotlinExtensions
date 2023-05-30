@@ -12,7 +12,7 @@ open class XmlContext(
 ) : StringFormatContext(instance) {
     companion object Default : XmlContext(XML.defaultInstance)
 
-    internal data class Wrapper<T>(
+    internal class Wrapper<T>(
         @XmlValue
         val value: T
     )
