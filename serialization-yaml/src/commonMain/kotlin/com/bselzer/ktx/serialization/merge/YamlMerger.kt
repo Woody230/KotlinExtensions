@@ -6,11 +6,9 @@ import net.mamoe.yamlkt.YamlMap
 import net.mamoe.yamlkt.YamlNull
 import kotlin.math.max
 
-open class YamlMerger(
-    val options: YamlMergeOptions
+class YamlMerger(
+    private val options: YamlMergeOptions
 ) {
-    companion object Default : YamlMerger(YamlMergeOptions.Default)
-
     fun YamlElement.merge(
         other: YamlElement?,
     ): YamlElement = when {

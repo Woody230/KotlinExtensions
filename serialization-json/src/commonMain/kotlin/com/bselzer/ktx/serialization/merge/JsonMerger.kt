@@ -6,11 +6,9 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlin.math.max
 
-open class JsonMerger(
-    val options: JsonMergeOptions
+class JsonMerger(
+    private val options: JsonMergeOptions
 ) {
-    companion object Default : JsonMerger(JsonMergeOptions.Default)
-
     fun JsonElement.merge(
         other: JsonElement?,
     ): JsonElement = when {
