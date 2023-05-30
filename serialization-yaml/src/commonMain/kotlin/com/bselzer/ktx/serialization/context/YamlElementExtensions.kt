@@ -14,6 +14,8 @@ fun YamlElement.toJsonElement(): JsonElement = when (this) {
 
             // Use the specific constructors if applicable so that isString is set appropriately.
             content.toBooleanStrictOrNull() != null -> JsonPrimitive(content.toBooleanStrict())
+
+            // If there is no decimal, then prefer to store in a long.
             content.all(Char::isDigit) && content.toLongOrNull() != null -> JsonPrimitive(content.toLong())
             content.toDoubleOrNull() != null -> JsonPrimitive(content.toDouble())
 
