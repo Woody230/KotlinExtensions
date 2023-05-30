@@ -9,7 +9,7 @@ import net.mamoe.yamlkt.YamlList
 import net.mamoe.yamlkt.YamlMap
 
 open class YamlContext(
-    val instance: Yaml
+    override val instance: Yaml
 ) : StringFormatContext(instance) {
     companion object Default : YamlContext(Yaml)
 

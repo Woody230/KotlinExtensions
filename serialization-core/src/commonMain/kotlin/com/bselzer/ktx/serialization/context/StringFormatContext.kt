@@ -5,8 +5,7 @@ import kotlinx.serialization.StringFormat
 import kotlinx.serialization.serializer
 
 abstract class StringFormatContext constructor(
-    @PublishedApi
-    internal val instance: StringFormat,
+    open val instance: StringFormat,
 ) {
     /**
      * Decodes the string as if it is a literally encoded value.

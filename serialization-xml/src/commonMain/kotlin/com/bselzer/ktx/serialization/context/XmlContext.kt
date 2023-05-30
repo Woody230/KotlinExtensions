@@ -8,7 +8,7 @@ import nl.adaptivity.xmlutil.serialization.XML
 import nl.adaptivity.xmlutil.serialization.XmlValue
 
 open class XmlContext(
-    val instance: XML
+    override val instance: XML
 ) : StringFormatContext(instance) {
     companion object Default : XmlContext(XML.defaultInstance)
 

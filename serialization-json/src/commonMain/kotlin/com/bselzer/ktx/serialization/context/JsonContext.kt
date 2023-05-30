@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
 open class JsonContext(
-    val instance: Json
+    override val instance: Json
 ) : StringFormatContext(instance) {
     companion object Default : JsonContext(Json)
 
