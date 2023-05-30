@@ -12,6 +12,7 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(projects.serializationCore)
+        api(projects.serializationJson)
         api(libs.yaml.serialization)
     }
 }
