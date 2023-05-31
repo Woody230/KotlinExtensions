@@ -435,6 +435,9 @@ with(JsonContext) {
 * `YamlContext` which extends from [StringFormatContext](#serialization-core)
   * Supports merging `YamlElement`s.
 
+## serialization-yaml-json-conversion
+Extensions for converting a YamlElement from [yamlkt](https://github.com/Him188/yamlkt) to a JsonElement from [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) and vice versa.
+
 ## settings
 Async wrapper of primitive and serializable [multiplatform-settings](https://github.com/russhwolf/multiplatform-settings) settings.
 
