@@ -11,6 +11,7 @@ multiplatformPublishExtension {
 
 multiplatformDependencies {
     commonMain {
+        api(projects.serializationCore)
         api(libs.xml.serialization)
         implementation(projects.logging)
     }

@@ -6,11 +6,12 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("Value class wrappers for enumerations.")
+    description.set("kotlinx.serialization extensions for Him188's yamlkt")
 }
 
 multiplatformDependencies {
     commonMain {
-        api(projects.serializationJson)
+        api(projects.serializationCore)
+        api(libs.yaml.serialization)
     }
 }

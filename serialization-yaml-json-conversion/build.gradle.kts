@@ -6,11 +6,12 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("Value class wrappers for enumerations.")
+    description.set("kotlinx.serialization extensions for converting a YamlElement to a JsonElement and vice versa")
 }
 
 multiplatformDependencies {
     commonMain {
         api(projects.serializationJson)
+        api(projects.serializationYaml)
     }
 }

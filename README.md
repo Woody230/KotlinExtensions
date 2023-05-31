@@ -386,11 +386,12 @@ Resources are generated with the name `KtxResources`:
 val days = KtxResources.strings.days
 ```
 
-## serialization
-[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) extensions.
+## serialization-core
+[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) core extensions.
 
-* `DelimitedListSerializer` for converting a delimited string into a list.
-* `JsonContext` for enum conversion of strings, collections of strings, or maps with string keys. This will convert based on the `@SerialName` associated with the enum, which is different from the [function](#function) conversion that would compare the name of the enum instead.
+* Base `StringFormatContext`:
+ * Enum conversion of strings, collections of strings, or maps with string keys. 
+   * This will convert based on the `@SerialName` associated with the enum, which is different from the [function](#function) conversion that would compare the name of the enum instead.
 
 ```kotlin
 enum class LegendName {
@@ -404,9 +405,38 @@ with(JsonContext) {
 }
 ```
 
+* Array merging:
+  * Concat: Appends the elements.
+  * Union: Skips elements that already exist.
+  * Replace: Replaces the existing array with a new array.
+  * Merge: Replaces the elements within the same index.
+* Null merging:
+  * Ignore
+  * Merge
+
+* IntegerSerializer for lenient integer parsing as a string or numeric
+
+## serialization-json
+[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) json extensions.
+
+* `JsonContext` which extends from [StringFormatContext](#serialization-core)
+  * Supports merging `JsonElement`s.
+* `DelimitedListSerializer` for converting a delimited string into a list.
+
 ## serialization-xml
 [xmlutil](https://github.com/pdvrieze/xmlutil) extensions.
+
+* `XmlContext` which extends from [StringFormatContext](#serialization-core)
 * `LoggingUnknownChildHandler` for XML deserialization that will log the failed deserialization of a child not defined in your object instead of throwing an exception
+
+## serialization-yaml
+[yamlkt](https://github.com/Him188/yamlkt) extensions
+
+* `YamlContext` which extends from [StringFormatContext](#serialization-core)
+  * Supports merging `YamlElement`s.
+
+## serialization-yaml-json-conversion
+Extensions for converting a YamlElement from [yamlkt](https://github.com/Him188/yamlkt) to a JsonElement from [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) and vice versa.
 
 ## settings
 Async wrapper of primitive and serializable [multiplatform-settings](https://github.com/russhwolf/multiplatform-settings) settings.
