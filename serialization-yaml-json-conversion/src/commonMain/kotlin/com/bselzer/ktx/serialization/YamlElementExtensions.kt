@@ -1,4 +1,4 @@
-package com.bselzer.ktx.serialization.context
+package com.bselzer.ktx.serialization
 
 import kotlinx.serialization.json.*
 import net.mamoe.yamlkt.*

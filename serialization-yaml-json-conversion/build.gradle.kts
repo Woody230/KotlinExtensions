@@ -6,12 +6,12 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("kotlinx.serialization extensions for Him188's yamlkt")
+    description.set("kotlinx.serialization extensions for converting a YamlElement to a JsonElement and vice versa")
 }
 
 multiplatformDependencies {
     commonMain {
-        api(projects.serializationCore)
-        api(libs.yaml.serialization)
+        api(projects.serializationJson)
+        api(projects.serializationYaml)
     }
 }

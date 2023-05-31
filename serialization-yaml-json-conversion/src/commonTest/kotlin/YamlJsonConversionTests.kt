@@ -1,5 +1,5 @@
-import com.bselzer.ktx.serialization.context.toJsonElement
-import com.bselzer.ktx.serialization.context.toYamlElement
+import com.bselzer.ktx.serialization.toJsonElement
+import com.bselzer.ktx.serialization.toYamlElement
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
