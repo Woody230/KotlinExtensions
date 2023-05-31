@@ -8,27 +8,32 @@ import net.mamoe.yamlkt.*
  */
 fun YamlElement.toJsonElement(): JsonElement = when (this) {
     is YamlNull -> JsonNull
-    is YamlLiteral -> literalContentOrNull.let { content ->
-        when {
-            content == null -> JsonNull
+    is YamlLiteral -> toJsonPrimitive()
+    is YamlList -> toJsonArray()
+    is YamlMap -> toJsonObject()
+}
 
-            // Use the specific constructors if applicable so that isString is set appropriately.
-            content.toBooleanStrictOrNull() != null -> JsonPrimitive(content.toBooleanStrict())
+fun YamlLiteral.toJsonPrimitive(): JsonPrimitive = when {
+    // Use the specific constructors if applicable so that isString is set appropriately.
+    content.toBooleanStrictOrNull() != null -> JsonPrimitive(content.toBooleanStrict())
 
-            // If there is no decimal, then prefer to store in a long.
-            content.all(Char::isDigit) && content.toLongOrNull() != null -> JsonPrimitive(content.toLong())
-            content.toDoubleOrNull() != null -> JsonPrimitive(content.toDouble())
+    // If there is no decimal, then prefer to store in a long.
+    content.all(Char::isDigit) && content.toLongOrNull() != null -> JsonPrimitive(content.toLong())
+    content.toDoubleOrNull() != null -> JsonPrimitive(content.toDouble())
 
-            else -> JsonPrimitive(content)
-        }
-    }
+    else -> JsonPrimitive(content)
+}
 
-    is YamlList -> JsonArray(content.map { it.toJsonElement() })
-    is YamlMap -> content.let { content ->
-        @Suppress("unchecked_cast")
-        val stringKeys = content.mapKeys { entry -> entry.key.literalContentOrNull }.filterKeys { key -> key != null } as Map<String, YamlElement>
-        JsonObject(stringKeys.mapValues { entry -> entry.value.toJsonElement() })
-    }
+fun YamlList.toJsonArray(): JsonArray {
+    val elements = content.map(YamlElement::toJsonElement)
+    return JsonArray(elements)
+}
+
+fun YamlMap.toJsonObject(): JsonObject {
+    @Suppress("unchecked_cast")
+    val stringKeys = content.mapKeys { entry -> entry.key.literalContentOrNull }.filterKeys { key -> key != null } as Map<String, YamlElement>
+    val elementValues = stringKeys.mapValues { entry -> entry.value.toJsonElement() }
+    return JsonObject(elementValues)
 }
 
 /**
@@ -36,7 +41,20 @@ fun YamlElement.toJsonElement(): JsonElement = when (this) {
  */
 fun JsonElement.toYamlElement(): YamlElement = when (this) {
     is JsonNull -> YamlNull
-    is JsonPrimitive -> YamlLiteral(content)
-    is JsonArray -> YamlList(map { it.toYamlElement() })
-    is JsonObject -> YamlMap(mapKeys { entry -> YamlPrimitive(entry.key) }.mapValues { entry -> entry.value.toYamlElement() })
+    is JsonPrimitive -> toYamlLiteral()
+    is JsonArray -> toYamlList()
+    is JsonObject -> toYamlMap()
+}
+
+fun JsonPrimitive.toYamlLiteral(): YamlLiteral = YamlLiteral(content)
+
+fun JsonArray.toYamlList(): YamlList {
+    val elements = map(JsonElement::toYamlElement)
+    return YamlList(elements)
+}
+
+fun JsonObject.toYamlMap(): YamlMap {
+    val stringKeys = mapKeys { entry -> YamlPrimitive(entry.key) }
+    val elementValues = stringKeys.mapValues { entry -> entry.value.toYamlElement() }
+    return YamlMap(elementValues)
 }
