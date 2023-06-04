@@ -6,3 +6,7 @@ plugins {
     id("io.github.woody230.gradle.internal.multiplatform-compose")
     id("io.github.woody230.gradle.internal.multiplatform-compose-test")
 }
+
+multiplatformPublishExtension {
+    coordinates.module.set("compose-$name")
+}
