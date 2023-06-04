@@ -16,8 +16,6 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.woody230.gradle.internal.multiplatform.compose.plugin)
-        classpath(libs.woody230.gradle.internal.multiplatform.compose.test.plugin)
         classpath(libs.ktx.serialization.plugin)
     }
 }

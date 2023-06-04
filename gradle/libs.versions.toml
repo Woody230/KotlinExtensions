@@ -64,4 +64,5 @@ woody230-gradle-internal-multiplatform-compose-test = { id = "io.github.woody230
 woody230-gradle-internal-multiplatform = { id = "io.github.woody230.gradle.internal.multiplatform", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-publish = { id = "io.github.woody230.gradle.internal.multiplatform-publish", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-test = { id = "io.github.woody230.gradle.internal.multiplatform-test", version.ref = "woody230-gradle" }
+woody230-ktx-convention-compose = { id = "io.github.woody230.ktx.convention.compose", version.ref = "woody230-ktx" }
 woody230-ktx-convention-multiplatform = { id = "io.github.woody230.ktx.convention.multiplatform", version.ref = "woody230-ktx" }
