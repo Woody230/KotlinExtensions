@@ -1,17 +1,12 @@
 pluginManagement {
     repositories {
-        google()
         gradlePluginPortal()
+        google()
         mavenCentral()
         mavenLocal()
     }
 }
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
 
-rootProject.name = "convention-plugins"
+plugins {
+    id("io.github.woody230.gradle.internal.bundled") version "1.1.0"
+}

@@ -22,11 +22,3 @@ dependencies {
     // TODO can't access libs from precompiled scripts https://github.com/gradle/gradle/issues/15383
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
-
-tasks.register("publishBuildToMavenCentralRepository") {
-    // Nothing needs to be published.
-}
-
-tasks.register("publishBuildToMavenLocal") {
-    // Nothing needs to be published.
-}
