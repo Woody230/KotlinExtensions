@@ -11,7 +11,6 @@ plugins {
     id("io.github.woody230.gradle.internal.bundled") version "1.1.0"
 }
 
-rootProject.name = "compose"
 include("aboutlibraries")
 include("accompanist")
 include("constraint-layout")

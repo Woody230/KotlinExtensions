@@ -2,13 +2,6 @@ plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-    mavenLocal()
-}
-
 dependencies {
     implementation(libs.woody230.gradle.internal.android.desugar.plugin)
     implementation(libs.woody230.gradle.internal.android.plugin)
