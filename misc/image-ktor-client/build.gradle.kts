@@ -11,7 +11,7 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(libs.ktor.client)
-        implementation(projects.logging)
+        implementation(libs.woody230.ktx.logging)
         api(projects.imageModel)
     }
 }

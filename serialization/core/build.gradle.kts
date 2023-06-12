@@ -1,8 +1,7 @@
 import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
 plugins {
-    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
-    alias(libs.plugins.ktx.serialization)
+    id(libs.plugins.woody230.ktx.convention.serialization.get().pluginId)
 }
 
 multiplatformPublishExtension {
@@ -12,10 +11,10 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(libs.ktx.serialization.core)
-        implementation(projects.logging)
+        implementation(libs.woody230.ktx.logging)
     }
     commonTest {
-        implementation(projects.serializationJson)
-        implementation(projects.serializationXml)
+        implementation(projects.json)
+        implementation(projects.xml)
     }
 }

@@ -1,8 +1,7 @@
 import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 
 plugins {
-    id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
-    alias(libs.plugins.ktx.serialization)
+    id(libs.plugins.woody230.ktx.convention.serialization.get().pluginId)
 }
 
 multiplatformPublishExtension {
@@ -11,7 +10,7 @@ multiplatformPublishExtension {
 
 multiplatformDependencies {
     commonMain {
-        api(projects.serializationJson)
-        api(projects.serializationYaml)
+        api(projects.json)
+        api(projects.yaml)
     }
 }

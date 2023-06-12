@@ -10,6 +10,6 @@ multiplatformPublishExtension {
 
 multiplatformDependencies {
     commonMain {
-        implementation(projects.logging)
+        implementation(libs.woody230.ktx.logging)
     }
 }

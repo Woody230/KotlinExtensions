@@ -14,6 +14,16 @@ plugins {
 }
 
 includeBuild("convention-plugins")
+includeBuild("common") {
+    substituteModulesUsingProjects(
+        "io.github.woody230.ktx:logging" to ":logging"
+    )
+}
+includeBuild("serialization") {
+    substituteModulesUsingProjects(
+        "io.github.woody230.ktx:serialization-json" to ":json"
+    )
+}
 includeBuild("misc") {
     substituteModulesUsingProjects(
         "io.github.woody230.ktx:aboutlibraries" to ":aboutlibraries",
