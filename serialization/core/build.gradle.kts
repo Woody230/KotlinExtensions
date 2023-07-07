@@ -13,8 +13,4 @@ multiplatformDependencies {
         api(libs.ktx.serialization.core)
         implementation(libs.woody230.ktx.logging)
     }
-    commonTest {
-        implementation(projects.json)
-        implementation(projects.xml)
-    }
 }
