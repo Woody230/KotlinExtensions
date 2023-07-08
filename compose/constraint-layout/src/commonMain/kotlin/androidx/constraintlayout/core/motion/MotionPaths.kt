@@ -20,13 +20,7 @@ import androidx.constraintlayout.core.motion.utils.Easing
 import androidx.constraintlayout.core.motion.utils.Easing.Companion.getInterpolator
 import androidx.constraintlayout.utility.Utils.degrees
 import androidx.constraintlayout.utility.Utils.radians
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.hypot
-import kotlin.math.min
-import kotlin.math.sin
+import kotlin.math.*
 
 /**
  * This is used to capture and play back path of the layout.

@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core
 
+import kotlin.jvm.JvmField
+
 /**
  * Represents a given variable used in the [linear expression solver][LinearSystem].
  */

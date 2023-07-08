@@ -20,6 +20,7 @@ import androidx.constraintlayout.core.motion.utils.FloatRect
 import androidx.constraintlayout.core.motion.utils.SplineSet
 import androidx.constraintlayout.core.motion.utils.TypedValues.Companion.TYPE_FRAME_POSITION
 import androidx.constraintlayout.core.motion.utils.TypedValues.PositionType
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.hypot
 

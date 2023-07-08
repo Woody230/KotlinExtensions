@@ -17,6 +17,7 @@ package androidx.constraintlayout.core.state.helpers
 
 import androidx.constraintlayout.core.state.HelperReference
 import androidx.constraintlayout.core.state.State
+import kotlin.jvm.JvmField
 
 open class ChainReference(state: State?, type: State.Helper?) : HelperReference(state!!, type!!) {
     var bias = 0.5f

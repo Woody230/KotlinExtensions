@@ -16,11 +16,7 @@
 package androidx.constraintlayout.core.motion.utils
 
 import androidx.constraintlayout.utility.Utils.radians
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.hypot
-import kotlin.math.sin
+import kotlin.math.*
 
 /**
  * This provides provides a curve fit system that stitches the x,y path together with

@@ -21,11 +21,7 @@ import androidx.constraintlayout.core.motion.MotionWidget
 import androidx.constraintlayout.core.motion.utils.KeyFrameArray.CustomArray
 import androidx.constraintlayout.core.motion.utils.KeyFrameArray.CustomVar
 import androidx.constraintlayout.utility.Utils.signum
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.sin
+import kotlin.math.*
 
 /**
  * This engine allows manipulation of attributes by wave shapes oscillating in time

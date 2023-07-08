@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core.parser
 
+import kotlin.jvm.JvmStatic
+
 class CLNumber : CLElement {
     var value = Float.NaN
 

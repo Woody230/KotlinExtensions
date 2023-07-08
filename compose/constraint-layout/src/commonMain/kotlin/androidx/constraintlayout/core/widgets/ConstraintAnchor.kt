@@ -19,6 +19,8 @@ import androidx.constraintlayout.core.Cache
 import androidx.constraintlayout.core.SolverVariable
 import androidx.constraintlayout.core.widgets.analyzer.Grouping.findDependents
 import androidx.constraintlayout.core.widgets.analyzer.WidgetGroup
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmOverloads
 
 /**
  * Model a constraint relation. Widgets contains anchors, and a constraint relation between

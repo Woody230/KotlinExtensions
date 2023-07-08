@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core.widgets.analyzer
 
+import kotlin.jvm.JvmField
+
 open class DimensionDependency(run: WidgetRun?) : DependencyNode(run!!) {
     @JvmField
     var wrapValue = 0

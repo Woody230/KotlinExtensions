@@ -16,6 +16,7 @@
 package androidx.constraintlayout.core.motion
 
 import androidx.constraintlayout.utility.Utils.pow
+import kotlin.jvm.JvmField
 
 /*
  * Copyright (C) 2017 The Android Open Source Project

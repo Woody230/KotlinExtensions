@@ -15,14 +15,9 @@
  */
 package androidx.constraintlayout.core.widgets.analyzer
 
-import androidx.constraintlayout.core.widgets.Barrier
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
+import androidx.constraintlayout.core.widgets.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.core.widgets.Flow
-import androidx.constraintlayout.core.widgets.Guideline
-import androidx.constraintlayout.core.widgets.HelperWidget
+import kotlin.jvm.JvmStatic
 
 /**
  * Implements a simple grouping mechanism, to group interdependent widgets together.

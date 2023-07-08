@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core.parser
 
+import kotlin.jvm.JvmStatic
+
 class CLObject(content: CharArray?) : CLContainer(content!!), Iterable<CLKey?> {
     override fun toJSON(): String {
         val json = StringBuilder("$debugName{ ")

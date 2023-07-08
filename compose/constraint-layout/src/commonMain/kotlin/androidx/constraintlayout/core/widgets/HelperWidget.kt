@@ -17,6 +17,7 @@ package androidx.constraintlayout.core.widgets
 
 import androidx.constraintlayout.core.widgets.analyzer.Grouping.findDependents
 import androidx.constraintlayout.core.widgets.analyzer.WidgetGroup
+import kotlin.jvm.JvmField
 
 /**
  * HelperWidget class

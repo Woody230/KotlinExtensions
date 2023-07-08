@@ -15,6 +15,8 @@
  */
 package org.json
 
+import kotlin.jvm.JvmOverloads
+
 // Note: this class was written without inspecting the non-free org.Json sourcecode.
 /**
  * A modifiable set of name/value mappings. Names are unique, non-null strings.

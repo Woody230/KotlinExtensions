@@ -18,6 +18,7 @@ package androidx.constraintlayout.core.widgets.analyzer
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
+import kotlin.jvm.JvmField
 import kotlin.math.max
 import kotlin.math.min
 

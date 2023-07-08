@@ -18,6 +18,8 @@ package androidx.constraintlayout.core
 import androidx.constraintlayout.core.widgets.Chain
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmStatic
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin

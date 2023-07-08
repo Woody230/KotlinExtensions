@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core
 
+import kotlin.jvm.JvmField
+
 /**
  * Cache for common objects
  */

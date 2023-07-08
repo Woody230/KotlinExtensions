@@ -18,6 +18,7 @@ package androidx.constraintlayout.core.motion.key
 import androidx.constraintlayout.core.motion.CustomVariable
 import androidx.constraintlayout.core.motion.utils.SplineSet
 import androidx.constraintlayout.core.motion.utils.TypedValues
+import kotlin.jvm.JvmField
 
 /**
  * Base class in an element in a KeyFrame

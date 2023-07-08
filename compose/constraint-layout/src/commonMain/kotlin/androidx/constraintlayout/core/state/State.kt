@@ -15,12 +15,7 @@
  */
 package androidx.constraintlayout.core.state
 
-import androidx.constraintlayout.core.state.helpers.AlignHorizontallyReference
-import androidx.constraintlayout.core.state.helpers.AlignVerticallyReference
-import androidx.constraintlayout.core.state.helpers.BarrierReference
-import androidx.constraintlayout.core.state.helpers.GuidelineReference
-import androidx.constraintlayout.core.state.helpers.HorizontalChainReference
-import androidx.constraintlayout.core.state.helpers.VerticalChainReference
+import androidx.constraintlayout.core.state.helpers.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
 

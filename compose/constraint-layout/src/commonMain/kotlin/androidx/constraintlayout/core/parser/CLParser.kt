@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core.parser
 
+import kotlin.jvm.JvmField
+
 class CLParser(private val mContent: String) {
     private var hasComment = false
     private var lineNumber = 0

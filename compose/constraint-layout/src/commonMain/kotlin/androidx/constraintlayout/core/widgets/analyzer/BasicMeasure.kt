@@ -16,16 +16,10 @@
 package androidx.constraintlayout.core.widgets.analyzer
 
 import androidx.constraintlayout.core.LinearSystem
-import androidx.constraintlayout.core.widgets.Barrier
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
+import androidx.constraintlayout.core.widgets.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.core.widgets.Guideline
-import androidx.constraintlayout.core.widgets.Helper
-import androidx.constraintlayout.core.widgets.Optimizer
-import androidx.constraintlayout.core.widgets.VirtualLayout
 import kotlinx.datetime.Clock
+import kotlin.jvm.JvmField
 import kotlin.math.max
 import kotlin.math.min
 

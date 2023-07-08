@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core.widgets.analyzer
 
+import kotlin.jvm.JvmField
+
 open class DependencyNode(var run: WidgetRun) : Dependency {
     @JvmField
     var updateDelegate: Dependency? = null

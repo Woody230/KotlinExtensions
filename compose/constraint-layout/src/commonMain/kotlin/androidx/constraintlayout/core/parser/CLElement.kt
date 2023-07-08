@@ -15,6 +15,9 @@
  */
 package androidx.constraintlayout.core.parser
 
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmStatic
+
 open class CLElement(private val mContent: CharArray) {
     /**
      * The character index this element was started on

@@ -1,6 +1,7 @@
 package com.bselzer.ktx.compose.ui.graphics.color
 
 import androidx.compose.ui.graphics.Color
+import kotlin.jvm.JvmInline
 
 /**
  * Value wrapper of a hexadecimal representation of a [Color].

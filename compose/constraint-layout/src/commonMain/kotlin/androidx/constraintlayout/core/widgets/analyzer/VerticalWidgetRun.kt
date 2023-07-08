@@ -18,6 +18,7 @@ package androidx.constraintlayout.core.widgets.analyzer
 import androidx.constraintlayout.core.widgets.ConstraintAnchor
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.Helper
+import kotlin.jvm.JvmField
 
 class VerticalWidgetRun(widget: ConstraintWidget?) : WidgetRun(widget!!) {
     @JvmField

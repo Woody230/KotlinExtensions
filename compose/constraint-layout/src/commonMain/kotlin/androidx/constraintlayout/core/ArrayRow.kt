@@ -15,6 +15,8 @@
  */
 package androidx.constraintlayout.core
 
+import kotlin.jvm.JvmField
+
 open class ArrayRow : LinearSystem.Row {
     override var key: SolverVariable? = null
     @JvmField

@@ -21,6 +21,7 @@ import org.json.Json.toDouble
 import org.json.Json.toInteger
 import org.json.Json.toLong
 import org.json.Json.typeMismatch
+import kotlin.jvm.JvmOverloads
 
 // Note: this class was written without inspecting the non-free org.Json sourcecode.
 /**

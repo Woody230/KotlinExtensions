@@ -18,6 +18,7 @@ package androidx.constraintlayout.core.widgets
 import androidx.constraintlayout.core.LinearSystem
 import androidx.constraintlayout.core.SolverVariable
 import androidx.constraintlayout.core.widgets.analyzer.Direct.solveChain
+import kotlin.jvm.JvmStatic
 
 /**
  * Chain management and constraints creation

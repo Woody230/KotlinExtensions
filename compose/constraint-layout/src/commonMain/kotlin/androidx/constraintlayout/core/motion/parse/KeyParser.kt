@@ -20,6 +20,7 @@ import androidx.constraintlayout.core.motion.utils.TypedValues
 import androidx.constraintlayout.core.parser.CLKey
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
+import kotlin.jvm.JvmStatic
 
 object KeyParser {
     private fun parse(str: String, table: Ids, dtype: DataType): TypedBundle {

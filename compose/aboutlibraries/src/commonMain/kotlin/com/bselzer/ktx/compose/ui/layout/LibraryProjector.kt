@@ -28,6 +28,7 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
+import com.bselzer.ktx.resource.strings.localized
 import com.mikepenz.aboutlibraries.entity.Library
 import dev.icerock.moko.resources.desc.desc
 
