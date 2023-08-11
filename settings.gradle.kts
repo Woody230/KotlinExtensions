@@ -10,7 +10,7 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.woody230.gradle.internal.bundled") version "1.1.0"
+    id("io.github.woody230.gradle.internal.bundled") version "1.2.0"
 }
 
 includeBuild("convention-plugins")
