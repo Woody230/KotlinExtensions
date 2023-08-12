@@ -7,7 +7,7 @@ moko-resources = "0.22.0"
 multiplatform-compose = "1.4.1"
 multiplatform-settings = "1.0.0"
 woody230-gradle = "1.2.0"
-woody230-ktx = "5.7.0"
+woody230-ktx = "6.0.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version = "10.6.2" }
