@@ -6,8 +6,8 @@ ktx-serialization = "1.5.0"
 moko-resources = "0.22.0"
 multiplatform-compose = "1.4.1"
 multiplatform-settings = "1.0.0"
-woody230-gradle = "1.1.0"
-woody230-ktx = "5.6.0"
+woody230-gradle = "1.2.0"
+woody230-ktx = "5.7.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version = "10.6.2" }
@@ -26,6 +26,7 @@ ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref =
 ktx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.0" }
 ktx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "ktx-serialization" }
 ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktx-serialization" }
+ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
 ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.6.4" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko-resources" }
@@ -42,6 +43,13 @@ woody230-gradle-internal-multiplatform-compose-test-plugin = { group = "io.githu
 woody230-gradle-internal-multiplatform-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-publish-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-publish-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-test-plugin = { group = "io.github.woody230.gradle.internal", name = "multiplatform-test-plugin", version.ref = "woody230-gradle" }
+woody230-ktx-aboutlibraries = { group = "io.github.woody230.ktx", name = "aboutlibraries", version.ref = "woody230-ktx" }
+woody230-ktx-function = { group = "io.github.woody230.ktx", name = "function", version.ref = "woody230-ktx" }
+woody230-ktx-intl = { group = "io.github.woody230.ktx", name = "intl", version.ref = "woody230-ktx" }
+woody230-ktx-logging = { group = "io.github.woody230.ktx", name = "logging", version.ref = "woody230-ktx" }
+woody230-ktx-serialization-json = { group = "io.github.woody230.ktx", name = "serialization-json", version.ref = "woody230-ktx" }
+woody230-ktx-resource = { group = "io.github.woody230.ktx", name = "resource", version.ref = "woody230-ktx" }
+woody230-ktx-settings = { group = "io.github.woody230.ktx", name = "settings", version.ref = "woody230-ktx" }
 
 [bundles]
 compose = ["compose-foundation", "compose-material", "compose-runtime", "compose-ui", "compose-ui-util"]
@@ -58,4 +66,6 @@ woody230-gradle-internal-multiplatform-compose-test = { id = "io.github.woody230
 woody230-gradle-internal-multiplatform = { id = "io.github.woody230.gradle.internal.multiplatform", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-publish = { id = "io.github.woody230.gradle.internal.multiplatform-publish", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-test = { id = "io.github.woody230.gradle.internal.multiplatform-test", version.ref = "woody230-gradle" }
+woody230-ktx-convention-compose = { id = "io.github.woody230.ktx.convention.compose", version.ref = "woody230-ktx" }
 woody230-ktx-convention-multiplatform = { id = "io.github.woody230.ktx.convention.multiplatform", version.ref = "woody230-ktx" }
+woody230-ktx-convention-serialization = { id = "io.github.woody230.ktx.convention.serialization", version.ref = "woody230-ktx" }

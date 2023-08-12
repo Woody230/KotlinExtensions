@@ -1,60 +1,36 @@
+import com.bselzer.gradle.function.settings.substituteModulesUsingProjects
+
 pluginManagement {
     repositories {
-        google()
         gradlePluginPortal()
+        google()
         mavenCentral()
         mavenLocal()
     }
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.4.0")
+    id("io.github.woody230.gradle.internal.bundled") version "1.2.0"
 }
 
-// TODO feature preview https://docs.gradle.org/8.1.1/userguide/declaring_dependencies.html#sec:type-safe-project-accessors
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "KotlinExtensions"
-include("aboutlibraries")
-include("base64")
-include("comparator")
-include("compose-aboutlibraries")
-include("compose-accompanist")
-include("compose-constraint-layout")
-include("compose-resource")
-include("compose-serialization")
-include("compose-settings")
-include("compose-ui")
-include("compose-ui-intl")
-include("compose-ui-geometry")
-include("compose-ui-graphics")
-include("compose-ui-layout")
-include("compose-ui-layout-common")
-include("compose-ui-layout-custom")
-include("compose-ui-text")
-include("compose-ui-unit")
-include("coroutine")
-include("datetime")
-include("datetime-serialization")
-include("function")
-include("geometry")
-include("geometry-serialization")
-include("image-kodein-db")
-include("image-ktor-client")
-include("image-model")
-include("intent")
-include("intl")
-include("intl-serialization")
-include("kodein-db")
-include("ktor-client")
-include("ktor-client-connectivity")
-include("logging")
-include("resource")
-include("serialization-core")
-include("serialization-json")
-include("serialization-xml")
-include("serialization-yaml")
-include("serialization-yaml-json-conversion")
-include("settings")
-include("value-enumeration")
-include("value-identifier")
+includeBuild("convention-plugins")
+includeBuild("common") {
+    substituteModulesUsingProjects(
+        "io.github.woody230.ktx:logging" to ":logging"
+    )
+}
+includeBuild("serialization") {
+    substituteModulesUsingProjects(
+        "io.github.woody230.ktx:serialization-json" to ":json"
+    )
+}
+includeBuild("misc") {
+    substituteModulesUsingProjects(
+        "io.github.woody230.ktx:aboutlibraries" to ":aboutlibraries",
+        "io.github.woody230.ktx:function" to ":function",
+        "io.github.woody230.ktx:intl" to ":intl",
+        "io.github.woody230.ktx:resource" to ":resource",
+        "io.github.woody230.ktx:settings" to ":settings"
+    )
+}
+includeBuild("compose")
