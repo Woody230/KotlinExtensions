@@ -2,6 +2,7 @@
 <resources>
     <string name="about_app">Acerca de la Aplicación</string>
     <string name="about">Acerca de</string>
+    <string name="available">Disponible</string>
     <string name="blue">Azul</string>
     <string name="cache_clear">Borró la caché.</string>
     <string name="cache">Caché</string>
@@ -52,6 +53,7 @@
     <string name="statistics">Estadísticas</string>
     <string name="theme">Tema</string>
     <string name="token">La clave API</string>
+    <string name="unavailable">Indisponible</string>
     <string name="unknown">Desconocido</string>
     <string name="up">Arriba</string>
     <string name="version_code">Código de Versión</string>
