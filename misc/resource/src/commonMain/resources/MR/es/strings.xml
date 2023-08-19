@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="api_status">Estado de la API</string>
     <string name="about_app">Acerca de la Aplicación</string>
     <string name="about">Acerca de</string>
+    <string name="available">Disponible</string>
     <string name="blue">Azul</string>
     <string name="cache_clear">Borró la caché.</string>
     <string name="cache">Caché</string>
@@ -15,6 +17,7 @@
     <string name="details">Detalles</string>
     <string name="developer">Desarrollador</string>
     <string name="disabled">Desactivado</string>
+    <string name="dismiss">Cerrar</string>
     <string name="down">Abajo</string>
     <string name="email">Correo electrónico</string>
     <string name="enabled">Activado</string>
@@ -52,6 +55,7 @@
     <string name="statistics">Estadísticas</string>
     <string name="theme">Tema</string>
     <string name="token">La clave API</string>
+    <string name="unavailable">Indisponible</string>
     <string name="unknown">Desconocido</string>
     <string name="up">Arriba</string>
     <string name="version_code">Código de Versión</string>
