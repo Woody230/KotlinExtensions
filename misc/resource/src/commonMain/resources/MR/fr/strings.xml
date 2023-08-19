@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="api_status">État de l’API</string>
     <string name="about_app">À propos de l’Application</string>
     <string name="about">À propos de</string>
     <string name="available">Disponible</string>
