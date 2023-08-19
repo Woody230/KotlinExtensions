@@ -16,6 +16,7 @@
     <string name="details">Détails</string>
     <string name="developer">Développeur</string>
     <string name="disabled">Désactivé</string>
+    <string name="dismiss">Ignorer</string>
     <string name="down">Vers le bas</string>
     <string name="email">Adresse courriel</string>
     <string name="enabled">Activé</string>
