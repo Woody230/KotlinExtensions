@@ -6,8 +6,8 @@ plugins {
 }
 
 multiplatformResources {
-    resourcesPackage = "com.bselzer.ktx.resource"
-    resourcesClassName = "KtxResources"
+    resourcesPackage.set("com.bselzer.ktx.resource")
+    resourcesClassName.set("KtxResources")
 }
 
 multiplatformPublishExtension {
