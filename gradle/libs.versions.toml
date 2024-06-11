@@ -29,7 +29,6 @@ ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-seri
 ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
 ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.8.0" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
-moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko-resources" }
 napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
@@ -58,6 +57,7 @@ settings = ["settings", "settings-coroutines"]
 # TODO can't NOT provide a version and use alias for plugins already in the classpath https://github.com/gradle/gradle/issues/17968
 [plugins]
 ktx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }
 woody230-gradle-internal-android-desugar = { id = "io.github.woody230.gradle.internal.android-desugar", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-library = { id = "io.github.woody230.gradle.internal.android-library", version.ref = "woody230-gradle" }
 woody230-gradle-internal-moko-resources = { id = "io.github.woody230.gradle.internal.moko-resources", version.ref = "woody230-gradle" }
