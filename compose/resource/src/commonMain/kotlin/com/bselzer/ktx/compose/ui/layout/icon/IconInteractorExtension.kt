@@ -1,6 +1,9 @@
 package com.bselzer.ktx.compose.ui.layout.icon
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.state.ToggleableState
@@ -40,7 +43,7 @@ fun downIconInteractor() = IconInteractor(
  */
 @Composable
 fun leftIconInteractor() = IconInteractor(
-    painter = Icons.Filled.KeyboardArrowLeft.painter(),
+    painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft.painter(),
     contentDescription = KtxResources.strings.left.localized(),
 )
 
@@ -49,7 +52,7 @@ fun leftIconInteractor() = IconInteractor(
  */
 @Composable
 fun rightIconInteractor() = IconInteractor(
-    painter = Icons.Filled.KeyboardArrowRight.painter(),
+    painter = Icons.AutoMirrored.Filled.KeyboardArrowRight.painter(),
     contentDescription = KtxResources.strings.right.localized(),
 )
 
@@ -69,7 +72,7 @@ fun dropdownIconInteractor() = IconInteractor(
  */
 @Composable
 fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
-    painter = if (isExpanded) Icons.Filled.KeyboardArrowDown.painter() else Icons.Filled.KeyboardArrowRight.painter(),
+    painter = if (isExpanded) Icons.Filled.KeyboardArrowDown.painter() else Icons.AutoMirrored.Filled.KeyboardArrowRight.painter(),
     contentDescription = run {
         val resource = if (isExpanded) KtxResources.strings.expand else KtxResources.strings.condense
         resource.localized()
@@ -81,7 +84,7 @@ fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
  */
 @Composable
 fun upNavigationIconInteractor() = IconInteractor(
-    painter = Icons.Filled.ArrowBack.painter(),
+    painter = Icons.AutoMirrored.Filled.ArrowBack.painter(),
     contentDescription = KtxResources.strings.up.localized(),
 )
 
