@@ -61,9 +61,11 @@ moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.re
 woody230-gradle-internal-android-desugar = { id = "io.github.woody230.gradle.internal.android-desugar", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-library = { id = "io.github.woody230.gradle.internal.android-library", version.ref = "woody230-gradle" }
 woody230-gradle-internal-moko-resources = { id = "io.github.woody230.gradle.internal.moko-resources", version.ref = "woody230-gradle" }
+woody230-gradle-internal-multiplatform-android-target = { id = "io.github.woody230.gradle.internal.multiplatform.android.target", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-compose = { id = "io.github.woody230.gradle.internal.multiplatform-compose", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-compose-test = { id = "io.github.woody230.gradle.internal.multiplatform-compose-test", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform = { id = "io.github.woody230.gradle.internal.multiplatform", version.ref = "woody230-gradle" }
+woody230-gradle-internal-multiplatform-jvm-target = { id = "io.github.woody230.gradle.internal.multiplatform.jvm.target", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-publish = { id = "io.github.woody230.gradle.internal.multiplatform-publish", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-test = { id = "io.github.woody230.gradle.internal.multiplatform-test", version.ref = "woody230-gradle" }
 woody230-ktx-convention-compose = { id = "io.github.woody230.ktx.convention.compose", version.ref = "woody230-ktx" }
