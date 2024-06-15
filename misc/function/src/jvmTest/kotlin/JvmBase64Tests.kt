@@ -1,5 +1,5 @@
-import com.bselzer.ktx.function.collection.decodeBase64ToByteArray
 import com.bselzer.ktx.function.collection.encodeBase64ToString
+import com.bselzer.ktx.function.objects.decodeBase64ToByteArray
 import org.junit.Assert.assertArrayEquals
 import java.util.Base64
 import kotlin.random.Random

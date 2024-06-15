@@ -1,6 +1,6 @@
-import com.bselzer.ktx.function.collection.decodeBase64ToByteArray
 import com.bselzer.ktx.function.collection.encodeBase64ToString
 import com.bselzer.ktx.function.collection.toByteArray
+import com.bselzer.ktx.function.objects.decodeBase64ToByteArray
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

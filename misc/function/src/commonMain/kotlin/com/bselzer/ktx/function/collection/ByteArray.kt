@@ -90,18 +90,3 @@ fun ByteArray.encodeBase64(): ByteArray = Base64.encodeToByteArray(this)
  */
 fun ByteArray.encodeBase64ToString(): String = this.encodeBase64().decodeToString()
 
-/**
- * Decodes symbols using base64.
- */
-fun String.decodeBase64(): String = this.encodeToByteArray().decodeBase64().decodeToString()
-
-/**
- * Encodes symbols using base64.
- */
-fun String.encodeBase64(): String = this.encodeToByteArray().encodeBase64().decodeToString()
-
-/**
- * Decodes symbols using base64.
- */
-fun String.decodeBase64ToByteArray(): ByteArray = this.encodeToByteArray().decodeBase64()
-

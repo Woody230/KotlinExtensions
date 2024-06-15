@@ -1,5 +1,7 @@
 package com.bselzer.ktx.function.objects
 
+import com.bselzer.ktx.function.collection.decodeBase64
+import com.bselzer.ktx.function.collection.encodeBase64
 import kotlin.reflect.KClass
 
 /**
@@ -29,3 +31,18 @@ fun KClass<*>.userFriendly(): String {
 }
 
 fun String.capitalize(): String = replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+
+/**
+ * Decodes symbols using base64.
+ */
+fun String.decodeBase64(): String = this.encodeToByteArray().decodeBase64().decodeToString()
+
+/**
+ * Encodes symbols using base64.
+ */
+fun String.encodeBase64(): String = this.encodeToByteArray().encodeBase64().decodeToString()
+
+/**
+ * Decodes symbols using base64.
+ */
+fun String.decodeBase64ToByteArray(): ByteArray = this.encodeToByteArray().decodeBase64()
