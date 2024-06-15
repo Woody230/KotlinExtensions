@@ -1,14 +1,15 @@
 package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.bselzer.ktx.compose.ui.layout.dialog.Dialog
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector

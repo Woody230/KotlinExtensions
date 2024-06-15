@@ -10,6 +10,8 @@ import org.gradle.kotlin.dsl.apply
 plugins {
     id("io.github.woody230.gradle.internal.android-library")
     id("io.github.woody230.gradle.internal.multiplatform")
+    id("io.github.woody230.gradle.internal.multiplatform-android-target")
+    id("io.github.woody230.gradle.internal.multiplatform-jvm-target")
     id("io.github.woody230.gradle.internal.multiplatform-test")
     id("io.github.woody230.gradle.internal.multiplatform-publish")
 }

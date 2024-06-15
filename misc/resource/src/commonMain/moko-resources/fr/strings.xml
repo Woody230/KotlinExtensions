@@ -9,6 +9,7 @@
     <string name="cache">Cache</string>
     <string name="cancel">Annuler</string>
     <string name="color">Couleur</string>
+    <string name="condense">Condenser</string>
     <string name="contact">Contacter</string>
     <string name="contract">Abréger</string>
     <string name="dark">Sombre</string>
@@ -22,6 +23,10 @@
     <string name="email">Adresse courriel</string>
     <string name="enabled">Activé</string>
     <string name="expand">Agrandir</string>
+
+    <!-- TODO translatable -->
+    <string name="github">GitHub</string>
+
     <string name="gray">Gris</string>
     <string name="green">Vert</string>
     <string name="hours">Heures</string>
@@ -30,6 +35,13 @@
     <string name="legal_notice">Avis Légaux</string>
     <string name="licenses">Licences</string>
     <string name="light">Lumière</string>
+
+    <!-- TODO translatable attribute -->
+    <string name="locale_de">Deutsch</string>
+    <string name="locale_en">English</string>
+    <string name="locale_es">Español</string>
+    <string name="locale_fr">Français</string>
+
     <string name="menu">Menu</string>
     <string name="microseconds">Microsecondes</string>
     <string name="migration">Migration</string>

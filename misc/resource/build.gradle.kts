@@ -2,12 +2,12 @@ import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDepende
 
 plugins {
     id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
+    id(libs.plugins.moko.resources.get().pluginId)
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.bselzer.ktx.resource"
-    multiplatformResourcesClassName = "KtxResources"
+    resourcesPackage.set("com.bselzer.ktx.resource")
+    resourcesClassName.set("KtxResources")
 }
 
 multiplatformPublishExtension {
