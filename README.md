@@ -26,14 +26,6 @@ implementation("io.github.woody230.ktx:$Module:$Version")
 ## aboutlibraries
 Extensions for [AboutLibraries](https://github.com/mikepenz/AboutLibraries). See [compose-aboutlibraries](#compose-aboutlibraries) for the associated composable.
 
-## base64
-Base64 encoding and decoding between strings and byte arrays using v0.0.1 of [kbase64](https://github.com/jershell/kbase64).
-
-```kotlin
-val bytes = "AdsnAAA=".decodeBase64ToByteArray()
-val string = bytes.encodeBase64ToString()
-```
-
 ## comparator
 
 * Nullable string comparator.
@@ -261,6 +253,9 @@ val items: Array<Position> = buildArray {
     add(Position.FIRST)
     add(Position.SECOND)
 }
+
+val bytes = "AdsnAAA=".decodeBase64ToByteArray()
+val string = bytes.encodeBase64ToString()
 ```
 
 ## geometry

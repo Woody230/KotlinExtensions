@@ -12,7 +12,6 @@ plugins {
 }
 
 include("aboutlibraries")
-include("base64")
 include("comparator")
 include("coroutine")
 include("datetime")
