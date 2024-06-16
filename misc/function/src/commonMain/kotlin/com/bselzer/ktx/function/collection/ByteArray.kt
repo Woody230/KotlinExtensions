@@ -1,5 +1,8 @@
 package com.bselzer.ktx.function.collection
 
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
+
 /**
  * @return the integer as a byte array in little endian format
  */
@@ -64,3 +67,26 @@ fun Int.toByteArray(take: Int, capacity: Int): ByteArray
     // Fill the remaining slots with zero.
     return bytes.fill(capacity) { 0 }.toByteArray()
 }
+
+/**
+ * Decodes symbols using base64.
+ */
+@OptIn(ExperimentalEncodingApi::class)
+fun ByteArray.decodeBase64(): ByteArray = Base64.decode(this)
+
+/**
+ * Decodes symbols using base64.
+ */
+fun ByteArray.decodeBase64ToString(): String = this.decodeBase64().decodeToString()
+
+/**
+ * Encodes symbols using base64.
+ */
+@OptIn(ExperimentalEncodingApi::class)
+fun ByteArray.encodeBase64(): ByteArray = Base64.encodeToByteArray(this)
+
+/**
+ * Encodes symbols using base64.
+ */
+fun ByteArray.encodeBase64ToString(): String = this.encodeBase64().decodeToString()
+
