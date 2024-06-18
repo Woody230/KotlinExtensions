@@ -29,6 +29,7 @@ ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-seri
 ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
 ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.8.1" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
+moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources"}
 napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
