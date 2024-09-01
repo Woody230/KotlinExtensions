@@ -1,13 +1,14 @@
 [versions]
 kodein-db = "0.9.0-beta"
 kotlin = "2.0.0"
+kotlin-dsl = "4.5.0"
 ktor = "2.3.11"
 ktx-serialization = "1.7.1"
-moko-resources = "0.24.0"
+moko-resources = "0.24.1"
 multiplatform-compose = "1.6.11"
 multiplatform-settings = "1.1.1"
-woody230-gradle = "1.4.0"
-woody230-ktx = "6.4.0"
+woody230-gradle = "1.5.0"
+woody230-ktx = "6.5.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version = "11.2.1" }
@@ -19,6 +20,7 @@ compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "m
 compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-preview", version.ref = "multiplatform-compose" }
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 kodein-db = { group = "org.kodein.db", name = "kodein-db-api", version.ref = "kodein-db" }
+kotlin-dsl-plugin = { group = "org.gradle.kotlin", name = "gradle-kotlin-dsl-plugins", version.ref = "kotlin-dsl" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
@@ -29,7 +31,7 @@ ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-seri
 ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
 ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.8.1" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
-moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources"}
+moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources" }
 napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }

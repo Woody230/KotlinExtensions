@@ -29,7 +29,7 @@ fun Bitmap.changeColor(color: Int): Bitmap
  */
 fun Bitmap.overlay(foreground: Bitmap): Bitmap
 {
-    val overlay = Bitmap.createBitmap(this.width, this.height, this.config)
+    val overlay = Bitmap.createBitmap(this.width, this.height, this.config ?: Bitmap.Config.ARGB_8888)
 
     Canvas(overlay).apply {
         // Draw the background.
