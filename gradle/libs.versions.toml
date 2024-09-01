@@ -1,8 +1,9 @@
 [versions]
+aboutlibraries = "11.2.3"
 kodein-db = "0.9.0-beta"
 kotlin = "2.0.0"
 kotlin-dsl = "4.5.0"
-ktor = "2.3.11"
+ktor = "2.3.12"
 ktx-serialization = "1.7.1"
 moko-resources = "0.24.1"
 multiplatform-compose = "1.6.11"
@@ -11,7 +12,7 @@ woody230-gradle = "1.5.0"
 woody230-ktx = "6.5.0"
 
 [libraries]
-aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version = "11.2.1" }
+aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutlibraries" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
 compose-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "multiplatform-compose" }
@@ -25,7 +26,7 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common",
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
-ktx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.6.0" }
+ktx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.6.1" }
 ktx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "ktx-serialization" }
 ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktx-serialization" }
 ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
