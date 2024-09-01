@@ -1,6 +1,7 @@
 [versions]
 kodein-db = "0.9.0-beta"
 kotlin = "1.9.22"
+kotlin-dsl = "4.3.0"
 ktor = "2.3.9"
 ktx-serialization = "1.6.3"
 moko-resources = "0.24.1"
@@ -19,6 +20,7 @@ compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "m
 compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-preview", version.ref = "multiplatform-compose" }
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 kodein-db = { group = "org.kodein.db", name = "kodein-db-api", version.ref = "kodein-db" }
+kotlin-dsl-plugin = { group = "org.gradle.kotlin", name = "gradle-kotlin-dsl-plugins", version.ref = "kotlin-dsl" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
