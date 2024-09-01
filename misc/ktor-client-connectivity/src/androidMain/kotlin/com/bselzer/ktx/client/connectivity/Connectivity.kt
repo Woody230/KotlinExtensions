@@ -10,6 +10,8 @@ actual class Connectivity actual constructor(
     internal var configuration: ConnectivityConfiguration,
     internal var httpClient: HttpClient
 ) : AndroidIntent(), ConnectivityManager {
+    constructor(): this(ConnectivityConfiguration(), HttpClient())
+
     private lateinit var ktor: KtorConnectivityManager
 
     override fun onCreate(): Boolean {
