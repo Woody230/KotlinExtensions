@@ -4,7 +4,9 @@ kodein-db = "0.9.0-beta"
 kotlin = "2.0.0"
 kotlin-dsl = "4.5.0"
 ktor = "2.3.12"
-ktx-serialization = "1.7.1"
+
+# TODO incorrect kotlin version being found on 1.7.X https://github.com/Kotlin/kotlinx.serialization/issues/2804
+ktx-serialization = "1.6.3"
 moko-resources = "0.24.1"
 multiplatform-compose = "1.6.11"
 multiplatform-settings = "1.1.1"
