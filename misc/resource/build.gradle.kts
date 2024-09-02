@@ -2,21 +2,15 @@ import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDepende
 
 plugins {
     id(libs.plugins.woody230.ktx.convention.multiplatform.get().pluginId)
-    id(libs.plugins.moko.resources.get().pluginId)
-}
-
-multiplatformResources {
-    resourcesPackage.set("com.bselzer.ktx.resource")
-    resourcesClassName.set("KtxResources")
 }
 
 multiplatformPublishExtension {
-    description.set("moko-resources extensions")
+    description.set("Kotlin Multiplatform resource extensions")
 }
 
 multiplatformDependencies {
     commonMain {
-        api(libs.moko.resources)
+        api(libs.compose.resources)
         implementation(projects.intent)
         api(projects.intl)
     }

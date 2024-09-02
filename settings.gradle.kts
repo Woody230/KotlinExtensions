@@ -29,7 +29,6 @@ includeBuild("misc") {
         "io.github.woody230.ktx:aboutlibraries" to ":aboutlibraries",
         "io.github.woody230.ktx:function" to ":function",
         "io.github.woody230.ktx:intl" to ":intl",
-        "io.github.woody230.ktx:resource" to ":resource",
         "io.github.woody230.ktx:settings" to ":settings"
     )
 }

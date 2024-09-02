@@ -11,7 +11,7 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(libs.woody230.ktx.aboutlibraries)
-        api(projects.resource)
+        api(projects.compose.resource)
         api(projects.uiLayoutCustom)
     }
 }
