@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(libs.ktx.serialization.plugin)
+    implementation(libs.moko.resources.generator)
     implementation(libs.woody230.gradle.internal.android.desugar.plugin)
     implementation(libs.woody230.gradle.internal.android.plugin)
     implementation(libs.woody230.gradle.internal.multiplatform.compose.plugin)
