@@ -105,7 +105,7 @@ class ConnectivityTests {
         }
 
         val configuration = ConnectivityConfiguration(
-            timeout = HttpTimeout.HttpTimeoutCapabilityConfiguration(
+            timeout = HttpTimeoutConfig(
                 requestTimeoutMillis = 1
             )
         )

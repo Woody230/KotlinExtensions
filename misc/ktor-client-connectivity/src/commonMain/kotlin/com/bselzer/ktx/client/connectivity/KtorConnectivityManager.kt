@@ -19,7 +19,7 @@ class KtorConnectivityManager(
      */
     override suspend fun isActive(): Boolean = try {
         val response = httpClient.head(configuration.url) {
-            setCapability(HttpTimeout, configuration.timeout)
+            setCapability(HttpTimeoutCapability, configuration.timeout)
         }
 
         // If status code validation is not enabled, then it is assumed that just making the connection within the timeout period is enough.

@@ -17,7 +17,7 @@ data class ConnectivityConfiguration(
     /**
      * The request timeout.
      */
-    val timeout: HttpTimeout.HttpTimeoutCapabilityConfiguration = HttpTimeout.HttpTimeoutCapabilityConfiguration(
+    val timeout: HttpTimeoutConfig = HttpTimeoutConfig(
         requestTimeoutMillis = defaultTimeout,
         connectTimeoutMillis = defaultTimeout,
         socketTimeoutMillis = defaultTimeout
