@@ -1,21 +1,19 @@
 [versions]
 aboutlibraries = "11.2.3"
 kodein-db = "0.9.0-beta"
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 kotlin-dsl = "4.5.0"
-ktor = "2.3.12"
-
-# TODO incorrect kotlin version being found on 1.7.X https://github.com/Kotlin/kotlinx.serialization/issues/2804
-ktx-serialization = "1.6.3"
-moko-resources = "0.24.1"
+ktor = "3.0.1"
+ktx-serialization = "1.7.3"
+moko-resources = "0.24.3"
 multiplatform-compose = "1.6.11"
 multiplatform-settings = "1.1.1"
-woody230-gradle = "1.5.0"
-woody230-ktx = "6.5.0"
+woody230-gradle = "1.6.0"
+woody230-ktx = "6.6.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutlibraries" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
 compose-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "multiplatform-compose" }
 compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "multiplatform-compose" }
@@ -32,13 +30,13 @@ ktx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", ver
 ktx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "ktx-serialization" }
 ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktx-serialization" }
 ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
-ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.8.1" }
+ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.9.0" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources" }
 napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
-xml-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version = "0.90.1" }
+xml-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version = "0.90.3" }
 yaml-serialization = { group = "net.mamoe.yamlkt", name = "yamlkt", version = "0.13.0" }
 woody230-gradle-internal-android-desugar-plugin = { group = "io.github.woody230.gradle.internal", name = "android-desugar-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-plugin = { group = "io.github.woody230.gradle.internal", name = "android-plugin", version.ref = "woody230-gradle" }
