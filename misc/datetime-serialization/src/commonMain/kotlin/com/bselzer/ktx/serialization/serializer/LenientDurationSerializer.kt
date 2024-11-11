@@ -12,7 +12,7 @@ import kotlin.time.Duration
  * A serializer for [Duration] with lenient deserialization using the [Duration.parse] method.
  */
 class LenientDurationSerializer : KSerializer<Duration> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(Duration::class.qualifiedName!!, PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(LenientDurationSerializer::class.qualifiedName!!, PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Duration = Duration.parse(decoder.decodeString())
 
