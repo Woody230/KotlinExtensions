@@ -14,7 +14,7 @@ import kotlin.time.DurationUnit
  * A serializer for seconds in the form of a [Duration]
  */
 class SecondDurationSerializer : KSerializer<Duration> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(Duration::class.qualifiedName!!, PrimitiveKind.DOUBLE)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(SecondDurationSerializer::class.qualifiedName!!, PrimitiveKind.DOUBLE)
 
     override fun deserialize(decoder: Decoder): Duration = decoder.decodeDouble().seconds
 

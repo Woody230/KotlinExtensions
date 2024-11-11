@@ -46,7 +46,9 @@ abstract class SettingWrapper<T>(protected val settings: SuspendSettings, overri
      */
     final override suspend fun set(value: T) {
         put(value)
-        listeners.forEach { listener -> listener.callback() }
+
+        // Avoid concurrent modification exception with toList
+        listeners.toList().forEach { listener -> listener.callback() }
     }
 
     /**
@@ -54,7 +56,9 @@ abstract class SettingWrapper<T>(protected val settings: SuspendSettings, overri
      */
     final override suspend fun remove() {
         settings.remove(key)
-        listeners.forEach { listener -> listener.callback() }
+
+        // Avoid concurrent modification exception with toList
+        listeners.toList().forEach { listener -> listener.callback() }
     }
 
     /**
