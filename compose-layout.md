@@ -235,7 +235,7 @@ fun Image(url: String, contentDescription: String, useProgressIndicator: Boolean
     modifier = Modifier.size(100.dp)
 )
 
-fun getBytes(url: String) {
+suspend fun getBytes(url: String) {
     TODO()
 }
 ```
