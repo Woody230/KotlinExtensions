@@ -5,8 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import com.bselzer.ktx.compose.ui.asImageBitmap
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorProjector
@@ -44,27 +42,7 @@ class AsyncImageProjector(
         val url = interactor.url
         produceState<AsyncImageResult>(initialValue = AsyncImageResult.Loading, key1 = url) {
             value = withContext(Dispatchers.Default) {
-                val image = interactor.getImage(url)
-
-                // Ignore empty bytes which will cause exceptions when trying to create a bitmap.
-                val content = if (image?.isNotEmpty() == true) image else null
-                val bitmap = content?.let {
-                    try {
-                        // TODO transformations
-                        content.asImageBitmap()
-                    } catch (ex: Exception) {
-                        null
-                    }
-                }
-
-                val painter = bitmap?.let {
-                    BitmapPainter(
-                        image = bitmap,
-                        srcOffset = interactor.srcOffset,
-                        filterQuality = interactor.filterQuality
-                    )
-                }
-
+                val painter = interactor.getImage(url)
                 if (painter == null) {
                     AsyncImageResult.Failed
                 } else {

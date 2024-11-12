@@ -1,7 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.image.async
 
-import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
@@ -23,20 +22,9 @@ data class AsyncImageInteractor(
     val contentDescription: String?,
 
     /**
-     * Optional offset relative to image used to draw a subsection of the ImageBitmap. By default this uses the origin of image
-     */
-    val srcOffset: IntOffset = IntOffset.Zero,
-
-    /**
-     * Sampling algorithm applied to the image when it is scaled and drawn into the destination.
-     * The default is FilterQuality.Low which scales using a bilinear sampling algorithm
-     */
-    val filterQuality: FilterQuality = FilterQuality.Low,
-
-    /**
      * The delegate for retrieving the image from the [url].
      */
-    val getImage: suspend (String) -> ByteArray?,
+    val getImage: suspend (String) -> Painter?,
 
     /**
      * The [ImageInteractor] to display when the [url] is being loaded.
