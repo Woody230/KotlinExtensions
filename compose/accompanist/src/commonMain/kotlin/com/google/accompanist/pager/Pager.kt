@@ -329,7 +329,7 @@ private class ConsumeFlingNestedScrollConnection(
     ): Offset = when (source) {
         // We can consume all resting fling scrolls so that they don't propagate up to the
         // Pager
-        NestedScrollSource.Fling -> available.consume(consumeHorizontal, consumeVertical)
+        NestedScrollSource.SideEffect -> available.consume(consumeHorizontal, consumeVertical)
         else -> Offset.Zero
     }
 
