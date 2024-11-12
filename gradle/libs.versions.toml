@@ -4,12 +4,12 @@ kodein-db = "0.9.0-beta"
 kotlin = "2.0.21"
 kotlin-dsl = "4.5.0"
 ktor = "3.0.1"
-ktx-serialization = "1.6.3"
+ktx-serialization = "1.7.3"
 moko-resources = "0.24.3"
-multiplatform-compose = "1.6.11"
+multiplatform-compose = "1.7.0"
 multiplatform-settings = "1.1.1"
 woody230-gradle = "1.6.0"
-woody230-ktx = "6.6.0"
+woody230-ktx = "7.0.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutlibraries" }
