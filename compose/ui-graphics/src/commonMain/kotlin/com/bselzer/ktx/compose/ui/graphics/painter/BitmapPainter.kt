@@ -17,7 +17,7 @@ fun ByteArray?.toPainterOrNull(
      * The default is FilterQuality.Low which scales using a bilinear sampling algorithm
      */
     filterQuality: FilterQuality = FilterQuality.Low,
-): Painter? {
+): BitmapPainter? {
     // Ignore empty bytes which will cause exceptions when trying to create a bitmap.
     val content = if (this?.isNotEmpty() == true) this else null
     val bitmap = content?.let {
