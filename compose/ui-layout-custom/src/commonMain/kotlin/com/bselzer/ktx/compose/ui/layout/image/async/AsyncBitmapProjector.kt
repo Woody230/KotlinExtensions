@@ -21,7 +21,11 @@ class AsyncBitmapProjector(
         val url = interactor.url
         produceState<AsyncImageResult>(initialValue = AsyncImageResult.Loading, key1 = url) {
             value = withContext(Dispatchers.Default) {
-                val painter = interactor.getImage(url).toPainterOrNull()
+                val painter = interactor.getImage(url).toPainterOrNull(
+                    srcOffset = interactor.srcOffset,
+                    filterQuality = interactor.filterQuality
+                )
+
                 if (painter == null) {
                     AsyncImageResult.Failed
                 } else {
