@@ -13,5 +13,6 @@ multiplatformDependencies {
         api(libs.compose.material)
         api(libs.compose.foundation)
         api(projects.ui)
+        api(projects.uiGraphics)
     }
 }

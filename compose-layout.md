@@ -224,10 +224,10 @@ Able to display a loading image or progress bar while in progress and/or a failu
 
 ```kotlin
 @Composable
-fun Image(url: String, contentDescription: String, useProgressIndicator: Boolean) = AsyncImageProjector(
-    interactor = AsyncImageInteractor(
+fun Image(url: String, contentDescription: String, useProgressIndicator: Boolean) = AsyncBitmapProjector(
+    interactor = AsyncBitmapInteractor(
       url = url,
-      getImage = { url -> getBytes(url).toPainterOrNull() },
+      getImage = { url -> getBytes(url) },
       contentDescription = contentDescription,
       loadingProgress = if (useProgressIndicator) ProgressIndicatorInteractor.Default else null
     ),
