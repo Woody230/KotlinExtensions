@@ -3,25 +3,45 @@ package com.bselzer.ktx.compose.ui.text
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.*
 
 /**
- * Appends the [text] with a hyperlinked [style] with a [tag] annotation.
+ * Appends the [hypertext] with a hyperlinked [style].
  *
- * @param text the hyperlink text
- * @param tag the annotation tag
- * @param hyperlink the hyperlink as an annotation
- * @param style the style of the [text] to convert to a hyperlink format
+ * @param hypertext the text representing the hyperlink
+ * @param hyperlink the hyperlink
+ * @param style the style of the [hypertext] to convert to a hyperlink format
+ * @param listener interaction listener triggered when user interacts with this link.
+ *      When clicking on the text to which this annotation
+ *      is attached, the app will try to open the url using [androidx.compose.ui.platform.UriHandler].
+ *      However, if [listener] is provided, its [listener.onClick]
+ *      method will be called instead and so you need to then handle opening url manually (for
+ *      example by calling [androidx.compose.ui.platform.UriHandler]).
  */
 @Composable
-fun AnnotatedString.Builder.hyperlink(text: String, tag: String, hyperlink: String = text, style: TextStyle = LocalTextStyle.current) =
-    withStyle(style = style.toSpanStyle().hyperlink()) {
-        pushStringAnnotation(tag, hyperlink)
-        append(text)
-        pop()
+fun AnnotatedString.Builder.withHyperlink(
+    hypertext: String,
+    hyperlink: String = hypertext,
+    style: TextStyle = LocalTextStyle.current,
+    listener: HyperlinkListener? = null
+) {
+    val annotation = LinkAnnotation.Url(
+        url = hyperlink,
+        styles = TextLinkStyles(
+            style = style.toSpanStyle().hyperlink()
+        ),
+        linkInteractionListener = when (listener) {
+            null -> null
+            else -> {
+                { listener.onClick(hyperlink) }
+            }
+        }
+    )
+
+    withLink(annotation) {
+        append(hypertext)
     }
+}
 
 /**
  * Appends the [text] with the [style] in the given [color].

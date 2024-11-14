@@ -267,26 +267,6 @@ Three dimensional objects include a 3D point.
 ## geometry-serialization
 Serializers for two and three dimensional geometrical objects using [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization).
 
-## image-ktor-client
-* Image fetching using [Ktor](https://ktor.io/docs/welcome.html).
-* See the [AsyncImageProjector](compose-layout.md#asyncimage) composable for displaying the content
-
-```kotlin
-val client = ImageClient()
-val content: ByteArray = client.getImage("https://assets.gw2dat.com/1459697.png").content
-```
-
-## image-kodein-db
-[Kodein-DB](https://github.com/Kodein-Framework/Kodein-DB) extensions for images.
-
-## image-model
-```kotlin
-data class Image(
-    val url: String,
-    val content: ByteArray
-)
-```
-
 ## intent
 Based on Android [intents](https://developer.android.com/guide/components/intents-filters). Currently supports browser opening and mailto.
 

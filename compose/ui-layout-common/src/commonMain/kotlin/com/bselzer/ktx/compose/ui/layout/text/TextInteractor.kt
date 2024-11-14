@@ -22,11 +22,6 @@ data class TextInteractor(
     val onTextLayout: (TextLayoutResult) -> Unit = {},
 
     /**
-     * Callback that is executed when users click the text. This callback is called with clicked character's offset and text value.
-     */
-    val onClickOffset: ((Int, AnnotatedString) -> Unit)? = null,
-
-    /**
      * A map store composables that replaces certain ranges of the text.
      * It's used to insert composables into text layout. Check InlineTextContent for more information.
      */

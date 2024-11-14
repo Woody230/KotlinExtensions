@@ -2,21 +2,15 @@ package com.bselzer.ktx.compose.ui.layout.image.async
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import com.bselzer.ktx.compose.ui.asImageBitmap
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
-class AsyncImageProjector(
+abstract class AsyncImageProjector(
     interactor: AsyncImageInteractor,
-    presenter: AsyncImagePresenter = AsyncImagePresenter.Default
+    presenter: AsyncImagePresenter
 ) : Projector<AsyncImageInteractor, AsyncImagePresenter>(interactor, presenter) {
     @Composable
     fun Projection(
@@ -25,7 +19,7 @@ class AsyncImageProjector(
         Box(
             modifier = combinedModifier,
         ) {
-            when (val result = produceResult(interactor).value) {
+            when (val result = getResult()) {
                 is AsyncImageResult.Loading -> {
                     LoadingImage(interactor, presenter)
                 }
@@ -40,63 +34,34 @@ class AsyncImageProjector(
     }
 
     @Composable
-    private fun produceResult(interactor: AsyncImageInteractor): State<AsyncImageResult> = run {
-        val url = interactor.url
-        produceState<AsyncImageResult>(initialValue = AsyncImageResult.Loading, key1 = url) {
-            value = withContext(Dispatchers.Default) {
-                val image = interactor.getImage(url)
-
-                // Ignore empty bytes which will cause exceptions when trying to create a bitmap.
-                val content = if (image?.isNotEmpty() == true) image else null
-                val bitmap = content?.let {
-                    try {
-                        // TODO transformations
-                        content.asImageBitmap()
-                    } catch (ex: Exception) {
-                        null
-                    }
-                }
-
-                val painter = bitmap?.let {
-                    BitmapPainter(
-                        image = bitmap,
-                        srcOffset = interactor.srcOffset,
-                        filterQuality = interactor.filterQuality
-                    )
-                }
-
-                if (painter == null) {
-                    AsyncImageResult.Failed
-                } else {
-                    AsyncImageResult.Success(painter)
-                }
-            }
-        }
-    }
+    protected abstract fun getResult(): AsyncImageResult
 
     @Composable
-    private fun LoadingImage(interactor: AsyncImageInteractor, presenter: AsyncImagePresenter) = when {
-        interactor.loadingImage != null -> {
+    private fun LoadingImage(interactor: AsyncImageInteractor, presenter: AsyncImagePresenter) {
+        val loadingImage = interactor.loadingImage
+        if (loadingImage != null) {
             ImageProjector(
-                interactor = interactor.loadingImage,
+                interactor = loadingImage,
                 presenter = presenter.image
             ).Projection()
+            return
         }
-        interactor.loadingProgress != null -> {
+
+        val loadingProgress = interactor.loadingProgress
+        if (loadingProgress != null) {
             ProgressIndicatorProjector(
-                interactor = interactor.loadingProgress,
+                interactor = loadingProgress,
                 presenter = presenter.progress
             ).Projection()
         }
-        else -> {}
     }
 
     @Composable
     private fun FailedImage(interactor: AsyncImageInteractor, presenter: AsyncImagePresenter) {
         // Default to nothing if an image is not provided.
-        if (interactor.failedImage != null) {
+        interactor.failedImage?.let { failedImage ->
             ImageProjector(
-                interactor = interactor.failedImage,
+                interactor = failedImage,
                 presenter = presenter.image
             ).Projection()
         }
