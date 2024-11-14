@@ -68,7 +68,7 @@ data class ButtonPresenter(
     @Composable
     fun localized(type: ButtonType) = when (type) {
         ButtonType.OUTLINED -> outlinedButtonPresenter()
-        ButtonType.TEXT -> textButtonPresentater()
+        ButtonType.TEXT -> textButtonPresenter()
         else -> containedButtonPresenter()
     }.merge(this)
 }
@@ -110,7 +110,7 @@ fun outlinedButtonPresenter(): ButtonPresenter = ButtonPresenter(
  * In cards, text buttons help maintain an emphasis on card content.
  */
 @Composable
-fun textButtonPresentater(): ButtonPresenter = ButtonPresenter(
+fun textButtonPresenter(): ButtonPresenter = ButtonPresenter(
     elevation = null,
     shape = MaterialTheme.shapes.small,
     border = null,
