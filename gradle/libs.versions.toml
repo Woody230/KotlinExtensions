@@ -1,6 +1,5 @@
 [versions]
 aboutlibraries = "11.2.3"
-kodein-db = "0.9.0-beta"
 kotlin = "2.0.21"
 kotlin-dsl = "4.5.0"
 ktor = "3.0.1"
@@ -9,7 +8,7 @@ moko-resources = "0.24.3"
 multiplatform-compose = "1.7.1"
 multiplatform-settings = "1.1.1"
 woody230-gradle = "1.7.0"
-woody230-ktx = "7.0.0"
+woody230-ktx = "8.0.0"
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutlibraries" }
@@ -20,7 +19,6 @@ compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", v
 compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "multiplatform-compose" }
 compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-preview", version.ref = "multiplatform-compose" }
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
-kodein-db = { group = "org.kodein.db", name = "kodein-db-api", version.ref = "kodein-db" }
 kotlin-dsl-plugin = { group = "org.gradle.kotlin", name = "gradle-kotlin-dsl-plugins", version.ref = "kotlin-dsl" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
