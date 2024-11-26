@@ -33,4 +33,5 @@ includeBuild("misc") {
         "io.github.woody230.ktx:settings" to ":settings"
     )
 }
+includeBuild("store")
 includeBuild("compose")
