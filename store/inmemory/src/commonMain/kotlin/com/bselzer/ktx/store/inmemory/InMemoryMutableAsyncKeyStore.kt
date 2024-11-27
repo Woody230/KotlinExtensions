@@ -1,7 +1,7 @@
 package com.bselzer.ktx.store.inmemory
 
-import com.bselzer.ktx.store.core.MutableAsyncKeyStore
-import com.bselzer.ktx.store.core.MutableAsyncKeyStore.MutableEntry as MutableEntry
+import com.bselzer.ktx.store.core.async.MutableAsyncKeyStore
+import com.bselzer.ktx.store.core.async.MutableAsyncKeyStore.MutableEntry as MutableEntry
 
 class InMemoryMutableAsyncKeyStore<Key, Model>: MutableAsyncKeyStore<Key, Model> {
     private val map = mutableMapOf<Key, Model>()

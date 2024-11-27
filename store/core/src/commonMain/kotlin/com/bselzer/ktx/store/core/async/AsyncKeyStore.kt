@@ -1,4 +1,4 @@
-package com.bselzer.ktx.store.core
+package com.bselzer.ktx.store.core.async
 
 interface AsyncKeyStore<Key, Model> {
     suspend fun getKeys(): Set<Key>

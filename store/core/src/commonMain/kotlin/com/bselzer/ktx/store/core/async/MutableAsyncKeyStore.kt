@@ -1,4 +1,4 @@
-package com.bselzer.ktx.store.core
+package com.bselzer.ktx.store.core.async
 
 interface MutableAsyncKeyStore<Key, Model>: AsyncKeyStore<Key, Model> {
     suspend fun set(key: Key, model: Model)
