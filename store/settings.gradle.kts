@@ -12,3 +12,4 @@ plugins {
 }
 
 include("core")
+include("inmemory")
