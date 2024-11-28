@@ -5,11 +5,15 @@ plugins {
 }
 
 multiplatformPublishExtension {
-    description.set("In memory data store.")
+    description.set("Data store using SQLite.")
 }
 
 multiplatformDependencies {
     commonMain {
         api(projects.core)
+
+        // https://github.com/sqldelight/sqldelight/issues/1333
+        // Can't change visibility of the generated code, so it must be in a separate module.
+        implementation(projects.sqliteDb)
     }
 }

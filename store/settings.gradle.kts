@@ -13,3 +13,5 @@ plugins {
 
 include("core")
 include("inmemory")
+include("sqlite")
+include("sqlite-db")

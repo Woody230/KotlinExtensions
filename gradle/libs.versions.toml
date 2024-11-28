@@ -7,6 +7,7 @@ ktx-serialization = "1.6.3"
 moko-resources = "0.24.3"
 multiplatform-compose = "1.7.1"
 multiplatform-settings = "1.1.1"
+sqldelight = "2.0.2"
 woody230-gradle = "1.7.0"
 woody230-ktx = "8.0.0"
 
@@ -34,6 +35,10 @@ moko-resources-generator = { group = "dev.icerock.moko", name = "resources-gener
 napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
+sqldelight-adapters = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
+sqldelight-android = { group = "app.cash.sqldelight", name="android-driver", version.ref = "sqldelight" }
+sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+sqldelight-plugin = { group = "app.cash.sqldelight", name = "app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
 xml-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version = "0.90.3" }
 yaml-serialization = { group = "net.mamoe.yamlkt", name = "yamlkt", version = "0.13.0" }
 woody230-gradle-internal-android-desugar-plugin = { group = "io.github.woody230.gradle.internal", name = "android-desugar-plugin", version.ref = "woody230-gradle" }
@@ -59,6 +64,7 @@ settings = ["settings", "settings-coroutines"]
 [plugins]
 ktx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }
+sqldelight = { id="app.cash.sqldelight", version.ref = "sqldelight" }
 woody230-gradle-internal-android-desugar = { id = "io.github.woody230.gradle.internal.android-desugar", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-library = { id = "io.github.woody230.gradle.internal.android-library", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-android-target = { id = "io.github.woody230.gradle.internal.multiplatform.android.target", version.ref = "woody230-gradle" }
