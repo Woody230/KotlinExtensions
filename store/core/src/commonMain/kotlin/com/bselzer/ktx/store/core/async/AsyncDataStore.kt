@@ -1,6 +1,6 @@
 package com.bselzer.ktx.store.core.async
 
-interface AsyncKeyStore<Key, Model> {
+interface AsyncDataStore<Key, Model> {
     suspend fun getKeys(): Set<Key>
     suspend fun getEntries(): Set<Entry<Key, Model>>
     suspend fun getAll(): Collection<Model>

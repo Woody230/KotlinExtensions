@@ -1,9 +1,9 @@
 package com.bselzer.ktx.store.inmemory
 
-import com.bselzer.ktx.store.core.async.MutableAsyncKeyStore
-import com.bselzer.ktx.store.core.async.MutableAsyncKeyStore.MutableEntry as MutableEntry
+import com.bselzer.ktx.store.core.async.MutableAsyncDataStore
+import com.bselzer.ktx.store.core.async.MutableAsyncDataStore.MutableEntry as MutableEntry
 
-class InMemoryMutableAsyncKeyStore<Key, Model>: MutableAsyncKeyStore<Key, Model> {
+class InMemoryMutableAsyncDataStore<Key, Model>: MutableAsyncDataStore<Key, Model> {
     private val map = mutableMapOf<Key, Model>()
 
     override suspend fun getKeys(): Set<Key> = map.keys
