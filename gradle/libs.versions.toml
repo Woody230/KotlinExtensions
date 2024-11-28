@@ -36,7 +36,8 @@ napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
 settings-coroutines = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "multiplatform-settings" }
 sqldelight-adapters = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
-sqldelight-android = { group = "app.cash.sqldelight", name="android-driver", version.ref = "sqldelight" }
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight"}
 sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
 sqldelight-plugin = { group = "app.cash.sqldelight", name = "app.cash.sqldelight.gradle.plugin", version.ref = "sqldelight"}
 xml-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version = "0.90.3" }

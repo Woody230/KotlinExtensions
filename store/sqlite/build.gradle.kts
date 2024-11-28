@@ -12,6 +12,8 @@ multiplatformDependencies {
     commonMain {
         api(projects.core)
 
+        implementation(libs.sqldelight.coroutines)
+
         // https://github.com/sqldelight/sqldelight/issues/1333
         // Can't change visibility of the generated code, so it must be in a separate module.
         implementation(projects.sqliteDb)
