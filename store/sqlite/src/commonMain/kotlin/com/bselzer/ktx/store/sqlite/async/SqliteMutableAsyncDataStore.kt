@@ -2,8 +2,11 @@ package com.bselzer.ktx.store.sqlite.async
 
 import com.bselzer.ktx.store.core.async.MutableAsyncDataStore
 import com.bselzer.ktx.store.core.async.MutableAsyncDataStore.MutableEntry
-import com.bselzer.ktx.store.sqlite.Model.Tag
-import com.bselzer.ktx.store.sqlite.ModelQueries
+import com.bselzer.ktx.store.sqlite.db.Model as DbModel
+import com.bselzer.ktx.store.sqlite.db.Model.Tag
+import com.bselzer.ktx.store.sqlite.db.ModelQueries
+import com.bselzer.ktx.store.sqlite.encoding.KeyEncoder
+import com.bselzer.ktx.store.sqlite.encoding.ModelEncoder
 
 class SqliteMutableAsyncDataStore<Key, Model> internal constructor(
     private val tag: Tag,
@@ -40,11 +43,13 @@ class SqliteMutableAsyncDataStore<Key, Model> internal constructor(
     }
 
     override suspend fun set(key: Key, model: Model) {
-        queries.insertOrReplace(com.bselzer.ktx.store.sqlite.Model(
-            Key = keyEncoder.encode(key),
-            Content = modelEncoder.encode(model),
-            Tag = tag
-        ))
+        queries.insertOrReplace(
+            DbModel(
+                Key = keyEncoder.encode(key),
+                Content = modelEncoder.encode(model),
+                Tag = tag
+            )
+        )
     }
 
     override suspend fun remove(key: Key) {

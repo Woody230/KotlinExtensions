@@ -21,7 +21,7 @@ multiplatformDependencies {
 sqldelight {
     databases {
         create("DataStoreDatabase") {
-            packageName = "com.bselzer.ktx.store.sqlite"
+            packageName = "com.bselzer.ktx.store.sqlite.db"
         }
     }
 }

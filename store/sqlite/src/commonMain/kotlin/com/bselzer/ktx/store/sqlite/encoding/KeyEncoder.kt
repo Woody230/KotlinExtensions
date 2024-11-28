@@ -1,4 +1,4 @@
-package com.bselzer.ktx.store.sqlite.async
+package com.bselzer.ktx.store.sqlite.encoding
 
 interface KeyEncoder<Key> {
     fun decode(value: String): Key

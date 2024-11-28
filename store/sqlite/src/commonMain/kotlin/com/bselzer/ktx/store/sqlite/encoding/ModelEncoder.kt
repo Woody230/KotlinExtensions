@@ -1,4 +1,4 @@
-package com.bselzer.ktx.store.sqlite.async
+package com.bselzer.ktx.store.sqlite.encoding
 
 interface ModelEncoder<Model> {
     fun decode(value: String): Model
