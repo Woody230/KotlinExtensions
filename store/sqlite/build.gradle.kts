@@ -18,4 +18,10 @@ multiplatformDependencies {
         // Can't change visibility of the generated code, so it must be in a separate module.
         implementation(projects.sqliteDb)
     }
+    androidMain {
+        implementation(libs.sqldelight.android)
+    }
+    jvmMain {
+        implementation(libs.sqldelight.jvm)
+    }
 }

@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
-class SqliteDataStore<Key, Model> internal constructor(
+class SqliteAsyncDataStore<Key, Model> internal constructor(
     private val tag: Tag,
     private val keyEncoder: KeyToStringEncoder<Key>,
     private val modelEncoder: ModelToStringEncoder<Model>,
