@@ -10,16 +10,16 @@ import com.bselzer.ktx.store.core.async.ObservableDataStore
 import com.bselzer.ktx.store.sqlite.db.Model as DbModel
 import com.bselzer.ktx.store.sqlite.db.Model.Tag
 import com.bselzer.ktx.store.sqlite.db.ModelQueries
-import com.bselzer.ktx.store.sqlite.encoding.KeyEncoder
-import com.bselzer.ktx.store.sqlite.encoding.ModelEncoder
+import com.bselzer.ktx.store.sqlite.encoding.KeyToStringEncoder
+import com.bselzer.ktx.store.sqlite.encoding.ModelToStringEncoder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
 class SqliteDataStore<Key, Model> internal constructor(
     private val tag: Tag,
-    private val keyEncoder: KeyEncoder<Key>,
-    private val modelEncoder: ModelEncoder<Model>,
+    private val keyEncoder: KeyToStringEncoder<Key>,
+    private val modelEncoder: ModelToStringEncoder<Model>,
     private val queries: ModelQueries
 ): MutableAsyncDataStore<Key, Model>, ObservableDataStore<Key, Model> {
     override suspend fun getKeys(): Set<Key> {
