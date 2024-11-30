@@ -45,9 +45,9 @@ internal class SqlDelightAsyncDataStore<Key, Model>(
     override suspend fun set(key: Key, model: Model) {
         queries.insertOrReplace(
             DbModel(
-                Key = keyEncoder.encode(key),
-                Content = modelEncoder.encode(model),
-                Tag = tag
+                key = keyEncoder.encode(key),
+                content = modelEncoder.encode(model),
+                tag = tag
             )
         )
     }
@@ -85,18 +85,18 @@ internal class SqlDelightAsyncDataStore<Key, Model>(
     private fun List<DbModel>.mapEntries(): Set<SqliteEntry<Key, Model>> {
         val entries = map { dbModel ->
             SqliteEntry(
-                key = keyEncoder.decode(dbModel.Key),
-                model = modelEncoder.decode(dbModel.Content)
+                key = keyEncoder.decode(dbModel.key),
+                model = modelEncoder.decode(dbModel.content)
             )
         }
 
         return entries.toSet()
     }
 
-    private fun List<DbModel>.mapModels() = map { dbModel -> modelEncoder.decode(dbModel.Content) }
+    private fun List<DbModel>.mapModels() = map { dbModel -> modelEncoder.decode(dbModel.content) }
 
     private fun DbModel?.toModelOrNull(): Model? {
-        val content = this?.Content ?: return null
+        val content = this?.content ?: return null
         return modelEncoder.decode(content)
     }
 
