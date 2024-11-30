@@ -1,0 +1,38 @@
+CREATE TABLE IF NOT EXISTS Model (
+    key TEXT PRIMARY KEY NOT NULL,
+    content TEXT NOT NULL,
+    tag TEXT AS VALUE NOT NULL
+);
+
+CREATE INDEX model_tag ON Model(tag);
+CREATE INDEX model_tag_key ON Model(tag, key);
+
+selectKeysByTag:
+SELECT key FROM Model
+WHERE tag = :tag;
+
+selectByTag:
+SELECT * FROM Model
+WHERE tag = :tag;
+
+selectByTagAndKey:
+SELECT * FROM Model
+WHERE tag = :tag
+AND key = :key
+LIMIT 1;
+
+deleteByTagAndKey:
+DELETE FROM Model
+WHERE tag = :tag
+AND key = :key;
+
+deleteByTag:
+DELETE FROM Model
+WHERE tag = :tag;
+
+insertOrReplace:
+REPLACE INTO Model(
+    key,
+    content,
+    tag
+) VALUES :model;
