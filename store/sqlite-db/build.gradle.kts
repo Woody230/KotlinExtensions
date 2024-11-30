@@ -11,6 +11,7 @@ sqldelight {
     databases {
         create("DataStoreDatabase") {
             packageName = "com.bselzer.ktx.store.sqlite.db"
+            generateAsync = true
         }
     }
 }

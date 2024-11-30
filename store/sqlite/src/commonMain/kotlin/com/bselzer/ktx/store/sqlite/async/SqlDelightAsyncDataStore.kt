@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
-internal class SqlDelightAsyncDataStore<Key, Model> constructor(
+internal class SqlDelightAsyncDataStore<Key, Model>(
     private val tag: Tag,
     private val keyEncoder: KeyToStringEncoder<Key>,
     private val modelEncoder: ModelToStringEncoder<Model>,

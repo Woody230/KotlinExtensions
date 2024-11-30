@@ -7,12 +7,12 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import java.io.File
 
 actual class SqlitePlatformContext {
-    internal actual fun createDriver(schema: SqlSchema<QueryResult.Value<Unit>>, file: SqliteFileContext): SqlDriver {
+    internal actual fun createDriver(schema: SqlSchema<QueryResult.AsyncValue<Unit>>, file: SqliteFileContext): SqlDriver {
         val path = File(file.directory, file.name).absolutePath
         return JdbcSqliteDriver("jdbc:sqlite:${path}")
     }
 
-    internal actual fun createInMemoryDriver(schema: SqlSchema<QueryResult.Value<Unit>>): SqlDriver {
+    internal actual fun createInMemoryDriver(schema: SqlSchema<QueryResult.AsyncValue<Unit>>): SqlDriver {
         return JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     }
 }
