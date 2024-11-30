@@ -11,4 +11,8 @@ actual class SqlitePlatformContext {
         val path = File(file.directory, file.name).absolutePath
         return JdbcSqliteDriver("jdbc:sqlite:${path}")
     }
+
+    internal actual fun createInMemoryDriver(schema: SqlSchema<QueryResult.Value<Unit>>): SqlDriver {
+        return JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+    }
 }

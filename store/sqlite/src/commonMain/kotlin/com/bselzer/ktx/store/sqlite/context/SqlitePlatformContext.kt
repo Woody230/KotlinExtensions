@@ -6,4 +6,5 @@ import app.cash.sqldelight.db.SqlSchema
 
 expect class SqlitePlatformContext {
     internal fun createDriver(schema: SqlSchema<QueryResult.Value<Unit>>, file: SqliteFileContext): SqlDriver
+    internal fun createInMemoryDriver(schema: SqlSchema<QueryResult.Value<Unit>>): SqlDriver
 }

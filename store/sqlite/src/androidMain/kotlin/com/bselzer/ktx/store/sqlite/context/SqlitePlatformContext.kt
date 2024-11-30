@@ -14,4 +14,8 @@ actual class SqlitePlatformContext(
         val path = File(file.directory, file.name).absolutePath
         return AndroidSqliteDriver(schema, context, name = path)
     }
+
+    internal actual fun createInMemoryDriver(schema: SqlSchema<QueryResult.Value<Unit>>): SqlDriver {
+       return AndroidSqliteDriver(schema, context, name = null)
+    }
 }
