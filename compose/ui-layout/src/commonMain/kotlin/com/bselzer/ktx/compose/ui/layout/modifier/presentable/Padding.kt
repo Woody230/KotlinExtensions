@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.modifier.presentable
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Stable
@@ -63,5 +64,11 @@ data class ModularPadding(
 enum class PaddingType {
     RELATIVE,
     ABSOLUTE
+}
+
+data class ModularPaddingValues(
+    val values: PaddingValues
+) : Padding {
+    override val modifier: Modifier = Modifier.padding(values)
 }
 

@@ -1,8 +1,10 @@
 package com.bselzer.ktx.compose.ui.layout.appbar.top
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.appbar.action.Actions
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonProjector
 import com.bselzer.ktx.compose.ui.layout.project.Projector
@@ -21,6 +23,7 @@ class TopAppBarProjector(
         val navigationProjector = interactor.navigation?.let { IconButtonProjector(it, presenter.icon) }
 
         TopAppBar(
+            windowInsets = interactor.windowInsets ?: WindowInsets(0.dp),
             title = { titleProjector.Projection() },
             modifier = combinedModifier,
             navigationIcon = navigationProjector?.let { navigation -> { navigation.Projection() } },

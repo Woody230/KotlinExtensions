@@ -1,10 +1,12 @@
 package com.bselzer.ktx.compose.ui.layout.scaffold
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.ui.layout.appbar.bottom.BottomAppBarProjector
 import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarProjector
 import com.bselzer.ktx.compose.ui.layout.drawer.LocalDrawerState
@@ -44,6 +46,7 @@ class ScaffoldProjector(
         // Consequently, we must provide the drawer components explicitly by localizing the presenter right now.
         val drawer = presenter.drawer.localized()
         Scaffold(
+            contentWindowInsets = interactor.contentWindowInsets ?: WindowInsets(0.dp),
             modifier = combinedModifier,
             scaffoldState = rememberScaffoldState(
                 drawerState = interactor.drawer?.state ?: ModalDrawerInteractor.Default.state,
