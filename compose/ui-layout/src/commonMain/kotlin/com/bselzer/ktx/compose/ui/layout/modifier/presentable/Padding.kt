@@ -61,14 +61,14 @@ data class ModularPadding(
     }
 }
 
+enum class PaddingType {
+    RELATIVE,
+    ABSOLUTE
+}
+
 data class ModularPaddingValues(
     val values: PaddingValues
 ) : Padding {
     override val modifier: Modifier = Modifier.padding(values)
-}
-
-enum class PaddingType {
-    RELATIVE,
-    ABSOLUTE
 }
 
