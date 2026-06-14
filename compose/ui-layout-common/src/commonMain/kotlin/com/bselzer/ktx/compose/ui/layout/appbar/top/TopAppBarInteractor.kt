@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.appbar.top
 
+import androidx.compose.foundation.layout.WindowInsets
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
@@ -27,4 +28,9 @@ data class TopAppBarInteractor(
      * The [Interactor] for the dropdown icon.
      */
     val dropdown: IconInteractor? = null,
+
+    /**
+     * A window insets that the app bar will respect. Recommended value can be found in AppBarDefaults.topAppBarWindowInsets.
+     */
+    val windowInsets: WindowInsets? = null
 ) : Interactor(modifier)

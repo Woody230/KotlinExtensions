@@ -34,6 +34,7 @@ class BottomAppBarProjector(
         modifier: Modifier = Modifier
     ) = contextualize(modifier) { combinedModifier, interactor, presenter ->
         BottomAppBar(
+            windowInsets = interactor.windowInsets ?: WindowInsets(0.dp),
             modifier = combinedModifier,
             backgroundColor = presenter.backgroundColor,
             contentColor = presenter.contentColor,
