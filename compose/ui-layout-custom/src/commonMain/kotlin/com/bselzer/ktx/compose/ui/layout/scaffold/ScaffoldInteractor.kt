@@ -1,5 +1,6 @@
 package com.bselzer.ktx.compose.ui.layout.scaffold
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import com.bselzer.ktx.compose.ui.layout.appbar.bottom.BottomAppBarInteractor
@@ -40,6 +41,11 @@ data class ScaffoldInteractor(
      * The [Interactor] for the floating action button.
      */
     val floatingActionButton: FloatingActionButtonInteractor? = null,
+
+    /**
+     * The window insets to be passed to content slot via PaddingValues params. Scaffold will take the insets into account from the top/bottom only if the topBar/ bottomBar are not present, as the scaffold expect topBar/bottomBar to handle insets instead. Any insets consumed by other insets padding modifiers or consumeWindowInsets on a parent layout will be excluded from contentWindowInsets.
+     */
+    val contentWindowInsets: WindowInsets? = null
 ) : Interactor(modifier) {
     companion object {
         @Stable
