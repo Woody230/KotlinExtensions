@@ -15,12 +15,15 @@ aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", ve
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.19.0" }
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
 compose-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "multiplatform-compose" }
+# TODO https://kotlinlang.org/docs/multiplatform/whats-new-compose-180.html#implicit-dependency-on-material-icons-core-removed
+compose-material-icons = { group = "org.jetbrains.compose.material", name = "material-icons-core", version = "1.7.3" }
 compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "multiplatform-compose" }
 compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "multiplatform-compose" }
 compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-preview", version.ref = "multiplatform-compose" }
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 kotlin-dsl-plugin = { group = "org.gradle.kotlin", name = "gradle-kotlin-dsl-plugins", version.ref = "kotlin-dsl" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-common", version.ref = "kotlin" }
+ktx-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }

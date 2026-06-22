@@ -10,7 +10,7 @@ multiplatformPublishExtension {
 
 multiplatformDependencies {
     commonMain {
-        api(libs.compose.material)
+        api(libs.compose.material.asProvider())
         api(libs.compose.foundation)
         api(projects.ui)
         api(projects.uiGraphics)
