@@ -8,10 +8,6 @@ multiplatformPublishExtension {
     description.set("Determine what connection capabilities exist using Ktor.")
 }
 
-dependencies {
-    testImplementation(project(mapOf("path" to ":intent")))
-}
-
 multiplatformDependencies {
     commonMain {
         api(libs.ktor.client)
@@ -21,7 +17,7 @@ multiplatformDependencies {
         implementation(libs.ktx.coroutines)
         implementation(libs.ktor.client.mock)
     }
-    androidUnitTest {
+    androidHostTest {
         implementation(libs.ktor.client.okhttp)
     }
     jvmTest {

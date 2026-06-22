@@ -8,7 +8,7 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.woody230.gradle.internal.bundled") version "1.7.0"
+    id("io.github.woody230.gradle.internal.bundled") version "2.0.0"
 }
 
 include("aboutlibraries")
