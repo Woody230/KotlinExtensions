@@ -1,6 +1,6 @@
 import com.bselzer.ktx.datetime.format.FormatStyle
 import com.bselzer.ktx.datetime.format.FormatStyleDateTimeFormatter
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals

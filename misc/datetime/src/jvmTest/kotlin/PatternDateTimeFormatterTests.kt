@@ -1,7 +1,7 @@
 import com.bselzer.ktx.datetime.format.PatternDateTimeFormatter
 import com.bselzer.ktx.intl.DefaultLocale
 import com.bselzer.ktx.intl.Localizer
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
