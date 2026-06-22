@@ -4,7 +4,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -18,7 +17,7 @@ import kotlin.time.Duration.Companion.seconds
  * @param delay the amount of time to wait before emitting a new value
  * @return the flow of remaining amount of time
  */
-fun Clock.countdown(startTime: Instant, duration: Duration, delay: Duration = 1.seconds): Flow<Duration> = flow {
+fun kotlin.time.Clock.countdown(startTime: Instant, duration: Duration, delay: Duration = 1.seconds): Flow<Duration> = flow {
     while (true) {
         val remaining = duration - now().minus(startTime)
 

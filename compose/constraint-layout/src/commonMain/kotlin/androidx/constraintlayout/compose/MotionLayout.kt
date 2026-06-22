@@ -439,6 +439,7 @@ interface MotionScene {
     fun getForcedDrawDebug(): MotionLayoutDebugFlags
 }
 
+@PublishedApi
 internal class JSONMotionScene(content: String) : EditableJSONLayout(content),
     MotionScene {
 

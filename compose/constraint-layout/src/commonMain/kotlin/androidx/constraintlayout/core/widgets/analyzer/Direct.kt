@@ -18,7 +18,6 @@ package androidx.constraintlayout.core.widgets.analyzer
 import androidx.constraintlayout.core.LinearSystem
 import androidx.constraintlayout.core.widgets.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import kotlinx.datetime.Clock
 import kotlin.jvm.JvmStatic
 import kotlin.math.max
 import kotlin.math.min
@@ -54,7 +53,7 @@ object Direct {
         vcount = 0
         var time: Long = 0
         if (DEBUG) {
-            time = Clock.System.now().epochSeconds
+            time = kotlin.time.Clock.System.now().epochSeconds
             println("#### SOLVING PASS (horiz $horizontal, vert $vertical) ####")
         }
         layout.resetFinalResolution()
@@ -244,7 +243,7 @@ object Direct {
             }
         }
         if (DEBUG) {
-            time = Clock.System.now().epochSeconds - time
+            time = kotlin.time.Clock.System.now().epochSeconds - time
             println("\n*** THROUGH WITH DIRECT PASS in $time ns ***\n")
             println("hcount: " + hcount + " vcount: " + vcount)
         }

@@ -28,7 +28,6 @@ import androidx.constraintlayout.core.motion.utils.TypedValues.PositionType
 import androidx.constraintlayout.core.motion.utils.TypedValues.TransitionType
 import androidx.constraintlayout.core.widgets.ConstraintWidget
 import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import kotlinx.datetime.Clock
 
 class Transition : TypedValues {
     var keyPositions = HashMap<Int, HashMap<String?, KeyPosition>>()
@@ -349,11 +348,11 @@ class Transition : TypedValues {
             if (true || parentHeight != myParentHeight || parentWidth != myParentWidth) {
                 myParentHeight = parentHeight
                 myParentWidth = parentWidth
-                motionControl.setup(parentWidth, parentHeight, 1f, Clock.System.now().epochSeconds)
+                motionControl.setup(parentWidth, parentHeight, 1f, kotlin.time.Clock.System.now().epochSeconds)
             }
             WidgetFrame.interpolate(parentWidth, parentHeight, interpolated, start, end, transition!!, progress)
             interpolated.interpolatedPos = progress
-            motionControl.interpolate(motionWidgetInterpolated, progress, Clock.System.now().epochSeconds, myKeyCache)
+            motionControl.interpolate(motionWidgetInterpolated, progress, kotlin.time.Clock.System.now().epochSeconds, myKeyCache)
         }
 
         init {

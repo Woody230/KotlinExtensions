@@ -18,7 +18,6 @@ package androidx.constraintlayout.core.widgets.analyzer
 import androidx.constraintlayout.core.LinearSystem
 import androidx.constraintlayout.core.widgets.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import kotlinx.datetime.Clock
 import kotlin.jvm.JvmField
 import kotlin.math.max
 import kotlin.math.min
@@ -100,7 +99,7 @@ class BasicMeasure(private val constraintWidgetContainer: ConstraintWidgetContai
     private fun solveLinearSystem(layout: ConstraintWidgetContainer, reason: String, pass: Int, w: Int, h: Int) {
         var startLayout: Long = 0
         if (LinearSystem.MEASURE) {
-            startLayout = Clock.System.now().epochSeconds
+            startLayout = kotlin.time.Clock.System.now().epochSeconds
         }
         val minWidth = layout.minWidth
         val minHeight = layout.minHeight
@@ -117,7 +116,7 @@ class BasicMeasure(private val constraintWidgetContainer: ConstraintWidgetContai
         constraintWidgetContainer.layout()
         layout.mMetrics?.let {
             if (LinearSystem.MEASURE) {
-                val endLayout = Clock.System.now().epochSeconds
+                val endLayout = kotlin.time.Clock.System.now().epochSeconds
                 it.measuresLayoutDuration += endLayout - startLayout
             }
         }
@@ -234,7 +233,7 @@ class BasicMeasure(private val constraintWidgetContainer: ConstraintWidgetContai
                 measureChildren(layout)
             }
             if (LinearSystem.MEASURE) {
-                layoutTime = Clock.System.now().epochSeconds
+                layoutTime = kotlin.time.Clock.System.now().epochSeconds
             }
             updateHierarchy(layout)
 
@@ -371,7 +370,7 @@ class BasicMeasure(private val constraintWidgetContainer: ConstraintWidgetContai
             layout.optimizationLevel = optimizations
         }
         if (LinearSystem.MEASURE) {
-            layoutTime = Clock.System.now().epochSeconds - layoutTime
+            layoutTime = kotlin.time.Clock.System.now().epochSeconds - layoutTime
         }
         return layoutTime
     }

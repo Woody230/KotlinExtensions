@@ -49,11 +49,9 @@ import androidx.constraintlayout.core.parser.CLObject
 import androidx.constraintlayout.core.parser.CLParser
 import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.constraintlayout.core.state.*
-import androidx.constraintlayout.core.state.Dimension.*
 import androidx.constraintlayout.core.state.Dimension.Companion.SPREAD_DIMENSION
 import androidx.constraintlayout.core.state.Dimension.Companion.WRAP_DIMENSION
 import androidx.constraintlayout.core.widgets.*
-import androidx.constraintlayout.core.widgets.ConstraintWidget.*
 import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_SPREAD
 import androidx.constraintlayout.core.widgets.ConstraintWidget.Companion.MATCH_CONSTRAINT_WRAP
 import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour.*
@@ -61,7 +59,6 @@ import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.TRY_GIVEN_DIMENSIONS
 import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure.Measure.Companion.USE_GIVEN_DIMENSIONS
 import kotlinx.coroutines.channels.Channel
-import kotlinx.datetime.Clock
 
 /**
  * Layout that positions its children according to the constraints between them.
@@ -667,7 +664,7 @@ internal abstract class EditableJSONLayout(content: String) :
     private var updateFlag: MutableState<Long>? = null
     private var layoutInformationMode: LayoutInfoFlags = LayoutInfoFlags.BOUNDS
     private var layoutInformation = ""
-    private var last = Clock.System.now().epochSeconds
+    private var last = kotlin.time.Clock.System.now().epochSeconds
     private var debugName : String? = null
 
     private var currentContent = content
@@ -761,7 +758,7 @@ internal abstract class EditableJSONLayout(content: String) :
     }
 
     override fun setLayoutInformation(information: String) {
-        last = Clock.System.now().epochSeconds
+        last = kotlin.time.Clock.System.now().epochSeconds
         layoutInformation = information
     }
 
