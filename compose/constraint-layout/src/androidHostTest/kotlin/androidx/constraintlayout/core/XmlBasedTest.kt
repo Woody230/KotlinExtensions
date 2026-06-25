@@ -441,9 +441,9 @@ class XmlBasedTest(var file: String) {
                             val attrName = constraintKeys[i]
                             val attrValue = widgetConstraints[attrName]
                             val sp = attrName.substring("layout_constraint".length).split("_to".toRegex()).toTypedArray()
-                            val fromString: String = XmlBasedTest.Companion.rtl(sp[0].toUpperCase())
+                            val fromString: String = XmlBasedTest.Companion.rtl(sp[0].uppercase())
                             val from = ConstraintAnchor.Type.valueOf(fromString)
-                            val toString: String = XmlBasedTest.Companion.rtl(sp[1].substring(0, sp[1].length - 2).toUpperCase())
+                            val toString: String = XmlBasedTest.Companion.rtl(sp[1].substring(0, sp[1].length - 2).uppercase())
                             val to = ConstraintAnchor.Type.valueOf(toString)
                             val side = from.ordinal - 1
                             if (connect[side] == null) {
@@ -459,7 +459,7 @@ class XmlBasedTest(var file: String) {
                         for (i in goneMargins.indices) {
                             val attrName = goneMargins[i]
                             val attrValue = widgetGoneMargins[attrName]
-                            val marginSide: String = XmlBasedTest.Companion.rtl(attrName.substring("layout_goneMargin".length).toUpperCase())
+                            val marginSide: String = XmlBasedTest.Companion.rtl(attrName.substring("layout_goneMargin".length).uppercase())
                             val marginType = ConstraintAnchor.Type.valueOf(marginSide)
                             val side = marginType.ordinal - 1
                             if (connect[side] == null) {
@@ -473,7 +473,7 @@ class XmlBasedTest(var file: String) {
                             val attrName = margins[i]
                             val attrValue = widgetMargins[attrName]
                             // System.out.println("margin [" + attrName + "] by [" + attrValue +"]");
-                            val marginSide: String = XmlBasedTest.Companion.rtl(attrName.substring("layout_margin".length).toUpperCase())
+                            val marginSide: String = XmlBasedTest.Companion.rtl(attrName.substring("layout_margin".length).uppercase())
                             val marginType = ConstraintAnchor.Type.valueOf(marginSide)
                             val side = marginType.ordinal - 1
                             if (connect[side] == null) {
