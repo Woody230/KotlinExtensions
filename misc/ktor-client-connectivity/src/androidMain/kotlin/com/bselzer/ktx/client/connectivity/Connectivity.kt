@@ -29,11 +29,8 @@ actual class Connectivity actual constructor(
      * The network capabilities associated with the active network for Marshmallow and up.
      */
     private val networkCapabilities: NetworkCapabilities?
-        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        } else {
-            connectivityManager.allNetworks.firstNotNullOfOrNull { network -> connectivityManager.getNetworkCapabilities(network) }
-        }
+        get() = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
 
     override suspend fun isActive(): Boolean {
         // If the validated capability exists then a connection is known to have been established.

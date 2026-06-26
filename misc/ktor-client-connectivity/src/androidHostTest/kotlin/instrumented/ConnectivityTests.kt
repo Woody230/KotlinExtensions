@@ -45,19 +45,6 @@ class ConnectivityTests {
     }
 
     /**
-     * Verifies that a connection is able to be established.
-     */
-    @Test
-    @Config(sdk = [Build.VERSION_CODES.LOLLIPOP_MR1])
-    fun isActive_BelowMarshmallow() {
-        // Act
-        val result = runBlocking { connectivity.isActive() }
-
-        // Assert
-        assertTrue(result)
-    }
-
-    /**
      * Verifies that when a connection is not able to be established then the connection is not considered active.
      */
     @Test
