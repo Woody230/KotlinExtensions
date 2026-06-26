@@ -62,7 +62,7 @@ class XmlBasedTest(var file: String) {
 
         // NOTE: hardcoded relative directory
         private val dir: String
-            private get() = System.getProperty("user.dir") + "/src/androidUnitTest/resources/"
+            private get() = System.getProperty("user.dir") + "/src/androidHostTest/resources/"
 
         @JvmStatic
         @Parameterized.Parameters
