@@ -1,7 +1,7 @@
 [versions]
 aboutlibraries = "14.2.1"
 kotlin = "2.4.0"
-kotlin-dsl = "6.5.7"
+kotlin-dsl = "6.6.4"
 ktor = "3.5.0"
 ktx-serialization = "1.11.0"
 moko-resources = "0.26.4"
