@@ -14,7 +14,7 @@ multiplatformDependencies {
         implementation(projects.intent)
     }
     commonTest {
-        implementation(libs.ktx.coroutines)
+        implementation(libs.ktx.coroutines.core)
         implementation(libs.ktor.client.mock)
     }
     androidHostTest {

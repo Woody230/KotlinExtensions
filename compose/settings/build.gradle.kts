@@ -10,7 +10,7 @@ multiplatformPublishExtension {
 
 multiplatformDependencies {
     commonMain {
-        api(libs.ktx.coroutines)
+        api(libs.ktx.coroutines.core)
         api(libs.woody230.ktx.settings)
         api(projects.uiGraphics)
     }

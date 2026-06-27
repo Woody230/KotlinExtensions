@@ -14,7 +14,7 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(libs.ktx.datetime)
-        api(libs.ktx.coroutines)
+        api(libs.ktx.coroutines.core)
     }
     commonTest {
         implementation(projects.intl)

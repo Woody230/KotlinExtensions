@@ -1,5 +1,6 @@
 [versions]
 aboutlibraries = "14.2.1"
+coroutine = "1.11.0"
 kotlin = "2.4.0"
 kotlin-dsl = "6.6.4"
 ktor = "3.5.0"
@@ -31,7 +32,7 @@ ktx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", ver
 ktx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "ktx-serialization" }
 ktx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "ktx-serialization" }
 ktx-serialization-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
-ktx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.11.0" }
+ktx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 moko-resources-generator = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko-resources" }
 napier = { group = "io.github.aakira", name = "napier", version = "2.7.1" }
