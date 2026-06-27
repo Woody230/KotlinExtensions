@@ -1,4 +1,4 @@
-package com.bselzer.ktx.resource.images
+package com.bselzer.ktx.compose.resource.images
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.BitmapPainter

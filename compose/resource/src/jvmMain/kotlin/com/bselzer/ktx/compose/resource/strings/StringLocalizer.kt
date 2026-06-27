@@ -1,6 +1,7 @@
-package com.bselzer.ktx.resource.strings
+package com.bselzer.ktx.compose.resource.strings
 
 import androidx.compose.runtime.Composable
+import com.bselzer.ktx.compose.resource.strings.BaseSystemStringLocalizer
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import dev.icerock.moko.resources.desc.CompositionStringDesc
 import dev.icerock.moko.resources.desc.PluralFormattedStringDesc

@@ -14,7 +14,7 @@ interface Presentable<Model> : Mergeable<Model> where Model : Presentable<Model>
     val modifier: PresentableModifier // TODO should modifiers be segregated between presentable and interactable rather than just using Modifier directly?
 
     /**
-     * Creates a localized version of this presentation.
+     * Creates a localized version of this presentation from a composable context.
      */
     @Composable
     fun localized(): Model // TODO add composition local usage?

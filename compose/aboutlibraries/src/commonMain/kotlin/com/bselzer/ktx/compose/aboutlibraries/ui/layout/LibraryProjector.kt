@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout
+package com.bselzer.ktx.compose.aboutlibraries.ui.layout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.aboutlibraries.author
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
 import com.bselzer.ktx.compose.ui.layout.alertdialog.uniText
@@ -28,7 +29,6 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.resource.strings.localized
 import com.mikepenz.aboutlibraries.entity.Library
 import dev.icerock.moko.resources.desc.desc
 
@@ -69,7 +69,7 @@ class LibraryProjector(
         ) {
             val text = if (license == null) KtxResources.strings.no_license_found.desc() else (license.licenseContent ?: "").desc()
             TextProjector(
-                interactor = text.localized().textInteractor(),
+                interactor = text.toLocalizedString().textInteractor(),
                 presenter = dialogBody
             ).Projection(
                 modifier = Modifier.verticalScroll(rememberScrollState())

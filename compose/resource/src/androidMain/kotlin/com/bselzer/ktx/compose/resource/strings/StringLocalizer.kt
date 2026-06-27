@@ -1,4 +1,4 @@
-package com.bselzer.ktx.resource.strings
+package com.bselzer.ktx.compose.resource.strings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext

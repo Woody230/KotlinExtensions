@@ -2,7 +2,7 @@ package com.bselzer.ktx.compose.ui.layout.alertdialog
 
 import androidx.compose.runtime.Composable
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 /**
  * Enables the negative button with dismissal text.
@@ -13,7 +13,7 @@ import com.bselzer.ktx.resource.strings.localized
  */
 @Composable
 fun AlertDialogInteractor.Builder.triText() = apply {
-    neutralText = KtxResources.strings.reset.localized()
+    neutralText = KtxResources.strings.reset.toLocalizedString()
     biText()
 }
 
@@ -24,7 +24,7 @@ fun AlertDialogInteractor.Builder.triText() = apply {
  */
 @Composable
 fun AlertDialogInteractor.Builder.biText() = apply {
-    negativeText = KtxResources.strings.cancel.localized()
+    negativeText = KtxResources.strings.cancel.toLocalizedString()
     uniText()
 }
 
@@ -33,5 +33,5 @@ fun AlertDialogInteractor.Builder.biText() = apply {
  */
 @Composable
 fun AlertDialogInteractor.Builder.uniText() = apply {
-    positiveText = KtxResources.strings.ok.localized()
+    positiveText = KtxResources.strings.ok.toLocalizedString()
 }

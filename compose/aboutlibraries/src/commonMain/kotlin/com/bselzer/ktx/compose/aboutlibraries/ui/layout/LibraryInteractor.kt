@@ -1,4 +1,4 @@
-package com.bselzer.ktx.compose.ui.layout
+package com.bselzer.ktx.compose.aboutlibraries.ui.layout
 
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.InteractableModifier
 import com.bselzer.ktx.compose.ui.layout.project.Interactor
