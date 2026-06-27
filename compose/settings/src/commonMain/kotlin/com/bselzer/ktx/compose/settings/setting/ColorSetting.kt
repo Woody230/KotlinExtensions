@@ -1,9 +1,10 @@
-package com.bselzer.ktx.settings.setting
+package com.bselzer.ktx.compose.settings.setting
 
 import androidx.compose.ui.graphics.Color
-import com.bselzer.ktx.settings.model.getColor
-import com.bselzer.ktx.settings.model.getColorOrNull
-import com.bselzer.ktx.settings.model.putColor
+import com.bselzer.ktx.compose.settings.model.getColor
+import com.bselzer.ktx.compose.settings.model.getColorOrNull
+import com.bselzer.ktx.compose.settings.model.putColor
+import com.bselzer.ktx.settings.setting.SettingWrapper
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.SuspendSettings

@@ -1,4 +1,4 @@
-package com.bselzer.ktx.settings.model
+package com.bselzer.ktx.compose.settings.model
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.ktx.compose.ui.graphics.color.Hex

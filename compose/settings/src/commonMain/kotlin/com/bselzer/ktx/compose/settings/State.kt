@@ -1,4 +1,4 @@
-package com.bselzer.ktx.settings
+package com.bselzer.ktx.compose.settings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
