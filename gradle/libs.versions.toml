@@ -10,7 +10,7 @@ multiplatform-compose = "1.11.1"
 multiplatform-settings = "1.3.0"
 panuszewski-typesafe-conventions = "0.11.1" # NOTE need to manually update settings.gradle.kts
 woody230-gradle = "2.0.0" # NOTE need to manually update settings.gradle.kts
-woody230-ktx = "9.0.0" # NOTE version of this project
+woody230-ktx = "9.0.1" # NOTE version of this project
 
 [libraries]
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutlibraries" }
