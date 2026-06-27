@@ -1,9 +1,17 @@
 package io.github.woody230.ktx.convention
 
-// TODO can't access libs from precompiled scripts https://github.com/gradle/gradle/issues/15383
+import com.bselzer.gradle.internal.android.kotlin.multiplatform.library.plugin.multiplatformAndroidLibraryExtension
+import libs
+
 plugins {
+    // TODO https://github.com/radoslaw-panuszewski/typesafe-conventions-gradle-plugin/issues/82
     id("io.github.woody230.ktx.convention.multiplatform")
-    id("org.jetbrains.kotlin.plugin.serialization")
+
+    alias(libs.plugins.ktx.serialization)
+}
+
+multiplatformAndroidLibraryExtension {
+    namespace.module.set("serialization.$name")
 }
 
 multiplatformPublishExtension {
