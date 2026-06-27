@@ -97,7 +97,7 @@ Wrappers for strings and images for the [compose](#compose) module using the [re
 Conversion of image moko-resources:
 ```kotlin
 val painter = MyResources.images.my_resource.painter()
-val localized = MyResources.strings.my_resource.localized()
+val localized = MyResources.strings.my_resource.toLocalizedString()
 ```
 
 Standardized AlertDialog buttons:

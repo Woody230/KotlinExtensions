@@ -12,7 +12,7 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(libs.ktx.serialization.json)
-        api(libs.ktx.coroutines)
+        api(libs.ktx.coroutines.core)
         api(libs.settings)
         api(libs.settings.coroutines)
         api(projects.valueIdentifier)

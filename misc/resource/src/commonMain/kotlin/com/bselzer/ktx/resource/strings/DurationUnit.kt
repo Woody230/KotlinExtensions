@@ -16,5 +16,4 @@ fun DurationUnit.stringResource(): StringResource = when (this) {
     MINUTES -> KtxResources.strings.minutes
     HOURS -> KtxResources.strings.hours
     DAYS -> KtxResources.strings.days
-    else -> throw NotImplementedError("A resource does not exist for DurationUnit $this")
 }

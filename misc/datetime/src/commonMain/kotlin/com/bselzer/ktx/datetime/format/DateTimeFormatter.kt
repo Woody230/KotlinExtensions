@@ -1,6 +1,6 @@
 package com.bselzer.ktx.datetime.format
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 interface DateTimeFormatter {
     fun format(instant: Instant): String

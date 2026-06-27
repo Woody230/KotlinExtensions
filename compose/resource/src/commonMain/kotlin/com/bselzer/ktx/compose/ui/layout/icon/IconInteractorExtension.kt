@@ -8,8 +8,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.state.ToggleableState
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 /**
  * Creates an interactor for indicating the deletion of an element.
@@ -17,7 +17,7 @@ import com.bselzer.ktx.resource.strings.localized
 @Composable
 fun deleteIconInteractor() = IconInteractor(
     painter = Icons.Filled.Delete.painter(),
-    contentDescription = KtxResources.strings.delete.localized(),
+    contentDescription = KtxResources.strings.delete.toLocalizedString(),
 )
 
 /**
@@ -26,7 +26,7 @@ fun deleteIconInteractor() = IconInteractor(
 @Composable
 fun upIconInteractor() = IconInteractor(
     painter = Icons.Filled.KeyboardArrowUp.painter(),
-    contentDescription = KtxResources.strings.up.localized(),
+    contentDescription = KtxResources.strings.up.toLocalizedString(),
 )
 
 /**
@@ -35,7 +35,7 @@ fun upIconInteractor() = IconInteractor(
 @Composable
 fun downIconInteractor() = IconInteractor(
     painter = Icons.Filled.KeyboardArrowDown.painter(),
-    contentDescription = KtxResources.strings.down.localized(),
+    contentDescription = KtxResources.strings.down.toLocalizedString(),
 )
 
 /**
@@ -44,7 +44,7 @@ fun downIconInteractor() = IconInteractor(
 @Composable
 fun leftIconInteractor() = IconInteractor(
     painter = Icons.AutoMirrored.Filled.KeyboardArrowLeft.painter(),
-    contentDescription = KtxResources.strings.left.localized(),
+    contentDescription = KtxResources.strings.left.toLocalizedString(),
 )
 
 /**
@@ -53,7 +53,7 @@ fun leftIconInteractor() = IconInteractor(
 @Composable
 fun rightIconInteractor() = IconInteractor(
     painter = Icons.AutoMirrored.Filled.KeyboardArrowRight.painter(),
-    contentDescription = KtxResources.strings.right.localized(),
+    contentDescription = KtxResources.strings.right.toLocalizedString(),
 )
 
 /**
@@ -62,7 +62,7 @@ fun rightIconInteractor() = IconInteractor(
 @Composable
 fun dropdownIconInteractor() = IconInteractor(
     painter = Icons.Filled.MoreVert.painter(),
-    contentDescription = KtxResources.strings.more_options.localized(),
+    contentDescription = KtxResources.strings.more_options.toLocalizedString(),
 )
 
 /**
@@ -75,7 +75,7 @@ fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
     painter = if (isExpanded) Icons.Filled.KeyboardArrowDown.painter() else Icons.AutoMirrored.Filled.KeyboardArrowRight.painter(),
     contentDescription = run {
         val resource = if (isExpanded) KtxResources.strings.expand else KtxResources.strings.condense
-        resource.localized()
+        resource.toLocalizedString()
     }
 )
 
@@ -85,7 +85,7 @@ fun expansionIconInteractor(isExpanded: Boolean) = IconInteractor(
 @Composable
 fun upNavigationIconInteractor() = IconInteractor(
     painter = Icons.AutoMirrored.Filled.ArrowBack.painter(),
-    contentDescription = KtxResources.strings.up.localized(),
+    contentDescription = KtxResources.strings.up.toLocalizedString(),
 )
 
 /**
@@ -94,7 +94,7 @@ fun upNavigationIconInteractor() = IconInteractor(
 @Composable
 fun drawerNavigationIconInteractor() = IconInteractor(
     painter = Icons.Filled.Menu.painter(),
-    contentDescription = KtxResources.strings.menu.localized(),
+    contentDescription = KtxResources.strings.menu.toLocalizedString()
 )
 
 /**
@@ -103,7 +103,7 @@ fun drawerNavigationIconInteractor() = IconInteractor(
 @Composable
 fun refreshIconInteractor() = IconInteractor(
     painter = Icons.Filled.Refresh.painter(),
-    contentDescription = KtxResources.strings.refresh.localized(),
+    contentDescription = KtxResources.strings.refresh.toLocalizedString()
 )
 
 /**
@@ -112,7 +112,7 @@ fun refreshIconInteractor() = IconInteractor(
 @Composable
 fun cachedIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_cached.painter(),
-    contentDescription = KtxResources.strings.cache.localized()
+    contentDescription = KtxResources.strings.cache.toLocalizedString()
 )
 
 /**
@@ -121,7 +121,7 @@ fun cachedIconInteractor() = IconInteractor(
 @Composable
 fun settingsIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_settings.painter(),
-    contentDescription = KtxResources.strings.settings.localized()
+    contentDescription = KtxResources.strings.settings.toLocalizedString()
 )
 
 /**
@@ -130,7 +130,7 @@ fun settingsIconInteractor() = IconInteractor(
 @Composable
 fun zoomInMapIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_zoom_in_map.painter(),
-    contentDescription = KtxResources.strings.zoom_in.localized()
+    contentDescription = KtxResources.strings.zoom_in.toLocalizedString()
 )
 
 /**
@@ -139,7 +139,7 @@ fun zoomInMapIconInteractor() = IconInteractor(
 @Composable
 fun zoomOutMapIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_zoom_out_map.painter(),
-    contentDescription = KtxResources.strings.zoom_out.localized()
+    contentDescription = KtxResources.strings.zoom_out.toLocalizedString()
 )
 
 /**
@@ -148,7 +148,7 @@ fun zoomOutMapIconInteractor() = IconInteractor(
 @Composable
 fun licenseIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_policy.painter(),
-    contentDescription = KtxResources.strings.licenses.localized()
+    contentDescription = KtxResources.strings.licenses.toLocalizedString()
 )
 
 /**
@@ -157,7 +157,7 @@ fun licenseIconInteractor() = IconInteractor(
 @Composable
 fun aboutAppIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_info.painter(),
-    contentDescription = KtxResources.strings.about_app.localized()
+    contentDescription = KtxResources.strings.about_app.toLocalizedString()
 )
 
 /**
@@ -174,7 +174,7 @@ fun triStateCheckboxIconInteractor(state: ToggleableState) = IconInteractor(
         ToggleableState.Indeterminate -> KtxResources.strings.partially_selected
         ToggleableState.Off -> KtxResources.strings.not_selected
         ToggleableState.On -> KtxResources.strings.selected
-    }.localized()
+    }.toLocalizedString()
 )
 
 /**
@@ -183,7 +183,7 @@ fun triStateCheckboxIconInteractor(state: ToggleableState) = IconInteractor(
 @Composable
 fun languageIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_language.painter(),
-    contentDescription = KtxResources.strings.language.localized()
+    contentDescription = KtxResources.strings.language.toLocalizedString()
 )
 
 /**
@@ -192,5 +192,5 @@ fun languageIconInteractor() = IconInteractor(
 @Composable
 fun colorPickerIconInteractor() = IconInteractor(
     painter = KtxResources.images.ic_color_lens.painter(),
-    contentDescription = KtxResources.strings.color.localized()
+    contentDescription = KtxResources.strings.color.toLocalizedString()
 )

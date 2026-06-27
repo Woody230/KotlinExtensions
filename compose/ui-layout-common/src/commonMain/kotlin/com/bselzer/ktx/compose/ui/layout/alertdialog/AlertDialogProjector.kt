@@ -8,8 +8,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayout
+import com.bselzer.ktx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.layout.project.Projector
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.compose.ui.layout.text.TextProjector

@@ -11,6 +11,7 @@ multiplatformPublishExtension {
 multiplatformDependencies {
     commonMain {
         api(libs.woody230.ktx.resource)
+        api(libs.compose.material.icons)
         api(projects.uiLayoutCommon)
         api(projects.uiIntl)
     }
