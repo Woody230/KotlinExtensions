@@ -1,9 +1,9 @@
 [versions]
-aboutlibraries = "14.2.1"
+aboutlibraries = "15.0.2"
 coroutine = "1.11.0"
 kotlin = "2.4.0"
 kotlin-dsl = "6.6.4"
-ktor = "3.5.0"
+ktor = "3.5.1"
 ktx-serialization = "1.11.0"
 moko-resources = "0.26.4"
 multiplatform-compose = "1.11.1"
