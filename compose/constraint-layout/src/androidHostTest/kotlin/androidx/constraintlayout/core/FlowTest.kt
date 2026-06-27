@@ -19,7 +19,7 @@ import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintAnchor
 import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
 import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.core.widgets.Flow
+import com.bselzer.ktx.constraintlayout.core.widgets.Flow
 import com.bselzer.ktx.constraintlayout.core.widgets.Optimizer
 import com.bselzer.ktx.constraintlayout.core.widgets.VirtualLayout
 import com.bselzer.ktx.constraintlayout.core.widgets.analyzer.BasicMeasure

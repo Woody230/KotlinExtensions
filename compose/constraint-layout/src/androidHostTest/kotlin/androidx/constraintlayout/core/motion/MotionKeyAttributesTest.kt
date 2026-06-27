@@ -15,17 +15,19 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
-import androidx.constraintlayout.core.motion.utils.ArcCurveFit
-import androidx.constraintlayout.core.motion.utils.KeyCache
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_ROTATION_X
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_ROTATION_Y
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_ROTATION_Z
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_SCALE_X
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_SCALE_Y
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_TRANSLATION_X
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_TRANSLATION_Y
-import androidx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_TRANSLATION_Z
+import com.bselzer.ktx.constraintlayout.core.motion.Motion
+import com.bselzer.ktx.constraintlayout.core.motion.MotionWidget
+import com.bselzer.ktx.constraintlayout.core.motion.key.MotionKeyAttributes
+import com.bselzer.ktx.constraintlayout.core.motion.utils.ArcCurveFit
+import com.bselzer.ktx.constraintlayout.core.motion.utils.KeyCache
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_ROTATION_X
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_ROTATION_Y
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_ROTATION_Z
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_SCALE_X
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_SCALE_Y
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_TRANSLATION_X
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_TRANSLATION_Y
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues.AttributesType.Companion.TYPE_TRANSLATION_Z
 import org.junit.Assert
 import kotlin.test.Test
 

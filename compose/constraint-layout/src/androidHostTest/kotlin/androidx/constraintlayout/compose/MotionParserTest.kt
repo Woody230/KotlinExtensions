@@ -25,8 +25,8 @@ import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.core.parser.CLParser
-import androidx.constraintlayout.core.parser.CLParsingException
+import com.bselzer.ktx.constraintlayout.core.parser.CLParser
+import com.bselzer.ktx.constraintlayout.core.parser.CLParsingException
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
@@ -71,7 +71,7 @@ internal class MotionParserTest {
     @Test
     fun testTransitionParseFailsSilently() {
         // We don't want applications to hard-crash when the parser sees an error
-        var coreTransition = androidx.constraintlayout.core.state.Transition()
+        var coreTransition = com.bselzer.ktx.constraintlayout.core.state.Transition()
         val transitionContent = """
             {
               from: "start",
@@ -89,7 +89,7 @@ internal class MotionParserTest {
         assertFailsWith<CLParsingException> {
             parseTransition(CLParser.parse(transitionContent), coreTransition)
         }
-        coreTransition = androidx.constraintlayout.core.state.Transition()
+        coreTransition = com.bselzer.ktx.constraintlayout.core.state.Transition()
         rule.setContent {
             val transition = Transition(content = transitionContent)
             MotionLayout(

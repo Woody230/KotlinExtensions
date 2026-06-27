@@ -15,8 +15,8 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.utils.*
-import androidx.constraintlayout.core.motion.utils.Easing.Companion.getInterpolator
+import com.bselzer.ktx.constraintlayout.core.motion.utils.*
+import com.bselzer.ktx.constraintlayout.core.motion.utils.Easing.Companion.getInterpolator
 import com.bselzer.ktx.constraintlayout.core.motion.utils.HyperSpline
 import com.bselzer.ktx.constraintlayout.core.motion.utils.StopLogicEngine
 import org.junit.Assert

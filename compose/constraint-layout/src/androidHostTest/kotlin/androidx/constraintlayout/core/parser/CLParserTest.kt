@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core.parser
 
+import com.bselzer.ktx.constraintlayout.core.parser.*
 import org.junit.Assert
 import kotlin.test.Test
 

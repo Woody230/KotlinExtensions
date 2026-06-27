@@ -15,8 +15,8 @@
  */
 package androidx.constraintlayout.core
 
-import androidx.constraintlayout.core.state.Dimension
-import androidx.constraintlayout.core.state.State
+import com.bselzer.ktx.constraintlayout.core.state.Dimension
+import com.bselzer.ktx.constraintlayout.core.state.State
 import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
 import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
 import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidgetContainer

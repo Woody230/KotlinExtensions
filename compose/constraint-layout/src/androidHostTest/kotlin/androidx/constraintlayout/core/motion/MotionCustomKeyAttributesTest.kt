@@ -15,10 +15,12 @@
  */
 package androidx.constraintlayout.core.motion
 
-import androidx.constraintlayout.core.motion.key.MotionKeyAttributes
-import androidx.constraintlayout.core.motion.utils.ArcCurveFit
-import androidx.constraintlayout.core.motion.utils.KeyCache
-import androidx.constraintlayout.core.motion.utils.TypedValues
+import com.bselzer.ktx.constraintlayout.core.motion.Motion
+import com.bselzer.ktx.constraintlayout.core.motion.MotionWidget
+import com.bselzer.ktx.constraintlayout.core.motion.key.MotionKeyAttributes
+import com.bselzer.ktx.constraintlayout.core.motion.utils.ArcCurveFit
+import com.bselzer.ktx.constraintlayout.core.motion.utils.KeyCache
+import com.bselzer.ktx.constraintlayout.core.motion.utils.TypedValues
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import java.text.DecimalFormat
