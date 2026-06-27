@@ -15,6 +15,10 @@
  */
 package androidx.constraintlayout.core
 
+import com.bselzer.ktx.constraintlayout.core.ArrayRow
+import com.bselzer.ktx.constraintlayout.core.Cache
+import com.bselzer.ktx.constraintlayout.core.SolverVariable
+import com.bselzer.ktx.constraintlayout.core.SolverVariableValues
 import org.junit.Assert
 import java.util.Random
 import kotlin.test.Test

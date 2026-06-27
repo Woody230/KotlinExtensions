@@ -15,12 +15,13 @@
  */
 package androidx.constraintlayout.core
 
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
-import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.core.widgets.Guideline
-import androidx.constraintlayout.core.widgets.Optimizer
+import com.bselzer.ktx.constraintlayout.core.LinearSystem
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintAnchor
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import com.bselzer.ktx.constraintlayout.core.widgets.Guideline
+import com.bselzer.ktx.constraintlayout.core.widgets.Optimizer
 import org.junit.Assert
 import org.junit.Before
 import kotlin.test.Test

@@ -15,6 +15,9 @@
  */
 package androidx.constraintlayout.core
 
+import com.bselzer.ktx.constraintlayout.core.LinearSystem
+import com.bselzer.ktx.constraintlayout.core.SolverVariable
+
 /**
  * EquationVariable is used to represent a variable in a [LinearEquation]
  */
@@ -30,15 +33,15 @@ class EquationVariable {
     var amount: Amount? = null
 
     /**
-     * Accessor for the [SolverVariable]
-     * @return the [SolverVariable]
+     * Accessor for the [com.bselzer.ktx.constraintlayout.core.SolverVariable]
+     * @return the [com.bselzer.ktx.constraintlayout.core.SolverVariable]
      */
     var solverVariable: SolverVariable? = null
         private set
 
     /**
      * Base constructor
-     * @param system the [linear system][LinearSystem] this equation variable belongs to
+     * @param system the [linear system][com.bselzer.ktx.constraintlayout.core.LinearSystem] this equation variable belongs to
      * @param amount the amount associated with this variable
      * @param name the variable name
      * @param type the variable type

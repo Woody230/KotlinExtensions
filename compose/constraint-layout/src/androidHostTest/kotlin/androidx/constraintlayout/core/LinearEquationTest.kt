@@ -15,6 +15,7 @@
  */
 package androidx.constraintlayout.core
 
+import com.bselzer.ktx.constraintlayout.core.LinearSystem
 import org.junit.Assert
 import org.junit.Before
 import kotlin.test.Test

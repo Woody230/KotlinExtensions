@@ -17,11 +17,11 @@ package androidx.constraintlayout.core
 
 import androidx.constraintlayout.core.state.Dimension
 import androidx.constraintlayout.core.state.State
-import androidx.constraintlayout.core.widgets.ConstraintWidget
-import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
-import androidx.constraintlayout.core.widgets.Optimizer
-import androidx.constraintlayout.core.widgets.analyzer.BasicMeasure
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import com.bselzer.ktx.constraintlayout.core.widgets.Optimizer
+import com.bselzer.ktx.constraintlayout.core.widgets.analyzer.BasicMeasure
 import org.junit.Assert
 import kotlin.test.Test
 

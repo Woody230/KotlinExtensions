@@ -15,6 +15,10 @@
  */
 package androidx.constraintlayout.core
 
+import com.bselzer.ktx.constraintlayout.core.ArrayRow
+import com.bselzer.ktx.constraintlayout.core.LinearSystem
+import com.bselzer.ktx.constraintlayout.core.SolverVariable
+
 /**
  * LinearEquation is used to represent the linear equations fed into the solver.<br></br>
  * A linear equation can be an equality or an inequation (left term  or  to the right term).<br></br>
@@ -107,8 +111,8 @@ class LinearEquation {
     }
 
     /**
-     * Remove [EquationVariable] pointing to [SolverVariable]
-     * @param v the [SolverVariable] we want to remove from the equation
+     * Remove [EquationVariable] pointing to [com.bselzer.ktx.constraintlayout.core.SolverVariable]
+     * @param v the [com.bselzer.ktx.constraintlayout.core.SolverVariable] we want to remove from the equation
      */
     fun remove(v: SolverVariable) {
         var ev = find(v, mLeftSide)

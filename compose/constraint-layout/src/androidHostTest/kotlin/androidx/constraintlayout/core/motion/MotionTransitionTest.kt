@@ -16,9 +16,9 @@
 package androidx.constraintlayout.core.motion
 
 import androidx.constraintlayout.core.state.Transition
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintAnchor
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import org.junit.Assert
 import kotlin.test.Test
 

@@ -15,10 +15,10 @@
  */
 package androidx.constraintlayout.core.scout
 
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
-import androidx.constraintlayout.core.widgets.Guideline
-import androidx.constraintlayout.core.widgets.WidgetContainer
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintAnchor
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
+import com.bselzer.ktx.constraintlayout.core.widgets.Guideline
+import com.bselzer.ktx.constraintlayout.core.widgets.WidgetContainer
 import java.util.Arrays
 
 /**

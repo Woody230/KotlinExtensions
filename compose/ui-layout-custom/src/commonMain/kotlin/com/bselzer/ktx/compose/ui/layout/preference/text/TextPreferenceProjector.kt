@@ -3,10 +3,10 @@ package com.bselzer.ktx.compose.ui.layout.preference.text
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.constraintlayout.compose.ConstrainedLayoutReference
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintLayoutScope
-import androidx.constraintlayout.compose.Dimension
+import com.bselzer.ktx.constraintlayout.compose.ConstrainedLayoutReference
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayout
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayoutScope
+import com.bselzer.ktx.constraintlayout.compose.Dimension
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceConstants
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceProjector.Companion.PreferenceImage

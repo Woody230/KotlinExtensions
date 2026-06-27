@@ -30,6 +30,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayout
+import com.bselzer.ktx.constraintlayout.compose.ConstraintSet
+import com.bselzer.ktx.constraintlayout.compose.DesignInfoDataKey
+import com.bselzer.ktx.constraintlayout.compose.DesignInfoProvider
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.*
@@ -190,24 +194,27 @@ internal class TestRule(rule: ComposeContentTestRule) : ComposeContentTestRule b
                     val (box1, box2, box3) = createRefs()
                     val guideline = createGuidelineFromStart(fraction = 0.5f)
                     val barrier = createEndBarrier(box1, box2)
-                    Box(modifier = Modifier
-                        .size(if (recomposed) 10.dp else 5.dp) // Recompose part of the content
-                        .constrainAs(box1) {
-                            top.linkTo(parent.top)
-                            end.linkTo(guideline)
-                        })
-                    Box(modifier = Modifier
-                        .size(10.dp)
-                        .constrainAs(box2) {
-                            top.linkTo(box1.bottom)
-                            start.linkTo(guideline)
-                        })
-                    Box(modifier = Modifier
-                        .size(10.dp)
-                        .constrainAs(box3) {
-                            top.linkTo(box2.bottom)
-                            start.linkTo(barrier)
-                        })
+                    Box(
+                        modifier = Modifier
+                            .size(if (recomposed) 10.dp else 5.dp) // Recompose part of the content
+                            .constrainAs(box1) {
+                                top.linkTo(parent.top)
+                                end.linkTo(guideline)
+                            })
+                    Box(
+                        modifier = Modifier
+                            .size(10.dp)
+                            .constrainAs(box2) {
+                                top.linkTo(box1.bottom)
+                                start.linkTo(guideline)
+                            })
+                    Box(
+                        modifier = Modifier
+                            .size(10.dp)
+                            .constrainAs(box3) {
+                                top.linkTo(box2.bottom)
+                                start.linkTo(barrier)
+                            })
                 }
             }
         }

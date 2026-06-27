@@ -15,10 +15,10 @@
  */
 package androidx.constraintlayout.core
 
-import androidx.constraintlayout.core.widgets.ConstraintAnchor
-import androidx.constraintlayout.core.widgets.ConstraintWidget
-import androidx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
-import androidx.constraintlayout.core.widgets.ConstraintWidgetContainer
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintAnchor
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidget.DimensionBehaviour
+import com.bselzer.ktx.constraintlayout.core.widgets.ConstraintWidgetContainer
 import org.junit.Assert
 
 /**

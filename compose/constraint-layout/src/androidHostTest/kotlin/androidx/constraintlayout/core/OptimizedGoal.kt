@@ -15,6 +15,10 @@
  */
 package androidx.constraintlayout.core
 
+import com.bselzer.ktx.constraintlayout.core.ArrayLinkedVariables
+import com.bselzer.ktx.constraintlayout.core.LinearSystem
+import com.bselzer.ktx.constraintlayout.core.SolverVariable
+
 /**
  * Represents a goal to minimize
  */

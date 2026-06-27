@@ -30,6 +30,11 @@ import androidx.constraintlayout.core.parser.CLParsingException
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.bselzer.ktx.constraintlayout.compose.ConstraintSet
+import com.bselzer.ktx.constraintlayout.compose.ExperimentalMotionApi
+import com.bselzer.ktx.constraintlayout.compose.MotionLayout
+import com.bselzer.ktx.constraintlayout.compose.Transition
+import com.bselzer.ktx.constraintlayout.compose.parseTransition
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

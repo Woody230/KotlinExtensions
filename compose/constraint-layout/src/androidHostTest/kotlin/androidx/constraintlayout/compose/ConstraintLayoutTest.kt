@@ -32,6 +32,12 @@ import androidx.compose.ui.unit.*
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.bselzer.ktx.constraintlayout.compose.ChainStyle
+import com.bselzer.ktx.constraintlayout.compose.ConstrainScope
+import com.bselzer.ktx.constraintlayout.compose.ConstrainedLayoutReference
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayout
+import com.bselzer.ktx.constraintlayout.compose.ConstraintSet
+import com.bselzer.ktx.constraintlayout.compose.Dimension
 import org.junit.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -1027,7 +1033,7 @@ class ConstraintLayoutTest {
                             start.linkTo(parent.start)
                         }
                         .onGloballyPositioned {
-                            Assert.assertEquals(0f, it.positionInParent().x)
+                            assertEquals(0f, it.positionInParent().x)
                         }
                 )
             }
@@ -1058,8 +1064,8 @@ class ConstraintLayoutTest {
                             top.linkTo(topGuideline)
                         }
                         .onGloballyPositioned {
-                            Assert.assertEquals(20f, it.boundsInParent().left)
-                            Assert.assertEquals(20f, it.boundsInParent().top)
+                            assertEquals(20f, it.boundsInParent().left)
+                            assertEquals(20f, it.boundsInParent().top)
                         }
                 )
                 Box(
@@ -1070,8 +1076,8 @@ class ConstraintLayoutTest {
                             bottom.linkTo(bottomGuideline)
                         }
                         .onGloballyPositioned {
-                            Assert.assertEquals(80f, it.boundsInParent().right)
-                            Assert.assertEquals(80f, it.boundsInParent().bottom)
+                            assertEquals(80f, it.boundsInParent().right)
+                            assertEquals(80f, it.boundsInParent().bottom)
                         }
                 )
             }
@@ -1343,7 +1349,8 @@ class ConstraintLayoutTest {
                 Box(
                     Modifier
                         .size(box1Size.toDp())
-                        .layoutId("box1"))
+                        .layoutId("box1")
+                )
                 Box(
                     Modifier
                         .layoutId("box2")
@@ -1470,7 +1477,8 @@ class ConstraintLayoutTest {
                 Box(
                     Modifier
                         .size(box1Size.toDp())
-                        .layoutId("box1"))
+                        .layoutId("box1")
+                )
                 Box(
                     Modifier
                         .layoutId("box2")

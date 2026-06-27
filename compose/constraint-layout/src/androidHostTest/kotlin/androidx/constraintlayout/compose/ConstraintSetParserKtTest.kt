@@ -16,7 +16,8 @@
 
 package androidx.constraintlayout.compose
 
-import androidx.constraintlayout.core.state.Transition
+import com.bselzer.ktx.constraintlayout.compose.Transition
+import com.bselzer.ktx.constraintlayout.compose.parseJSON
 import org.intellij.lang.annotations.Language
 import kotlin.test.Test
 
